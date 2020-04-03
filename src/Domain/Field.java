@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Field implements Asset {
 
+    private String id;
     private String location;
     private int capacity;
     private Team team;
@@ -48,5 +49,10 @@ public class Field implements Asset {
      */
     public List<Game> getGames() {
         return games;
+    }
+
+    @Override
+    public String getName() {
+        return id;
     }
 }

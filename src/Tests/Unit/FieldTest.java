@@ -25,4 +25,8 @@ public class FieldTest implements Domain.Asset {
 
     }
 
+    @Override
+    public String getName() {
+        return null;
+    }
 }
