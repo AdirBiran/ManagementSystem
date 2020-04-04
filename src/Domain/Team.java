@@ -16,6 +16,8 @@ public class Team {
     private Budget budget;
     private List<Game> games;
     private Field field;
+    private boolean active;
+    private boolean permanentlyClosed; //closed by admin and cannot open again
 
     public Team()
     {
@@ -26,95 +28,68 @@ public class Team {
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 
-    /**
-     *
-     * @return
-     */
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getName() {
         return name;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getWins() {
         return wins;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getLosses() {
         return losses;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getDraws() {
         return draws;
     }
 
-    /**
-     *
-     * @return
-     */
     public PersonalPage getPage() {
         return page;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<TeamOwner> getTeamOwners() {
         return teamOwners;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<TeamManager> getTeamManagers() {
         return teamManagers;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<Player> getPlayers() {
         return players;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<Coach> getCoaches() {
         return coaches;
     }
 
-    /**
-     *
-     * @return
-     */
     public Budget getBudget() {
         return budget;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<Game> getGames() {
         return games;
     }
 
     public Field getField() {
         return field;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isPermanentlyClosed() {
+        return permanentlyClosed;
+    }
+
+    public void setPermanentlyClosed(boolean permanentlyClosed) {
+        this.permanentlyClosed = permanentlyClosed;
     }
 }

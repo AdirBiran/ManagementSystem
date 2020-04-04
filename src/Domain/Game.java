@@ -1,5 +1,7 @@
 package Domain;
 
+import Service.Notifications;
+
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +18,8 @@ public class Game {
     private List<Referee> sideReferees; // between 2 and 6, check type of referee
     private Team hostTeam; // check type of team
     private Team guestTeam; // check type of team
+    private List<Fan> fansForAlerts; //list of fans that signed up to receive game alerts
+    private Notifications notifications;
 
     public Game()
     {
@@ -24,85 +28,78 @@ public class Game {
 
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
-
     /**
      *
-     * @return
+     * @param fan - signed up for game alerts
+     * @return true- if the fan is added to list to receive game alerts
      */
+    public boolean addFanForNotifications(Fan fan) {
+        if(!fansForAlerts.contains(fan)) {
+            fansForAlerts.add(fan);
+            return true;
+        }
+        return false;
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public Date getDate() {
         return date;
     }
 
-    /**
-     *
-     * @return
-     */
+    public void setDate(Date date) {
+        this.date = date;
+        notifications.refereeAlertsChangeDate(this,date);
+
+    }
+
     public Time getTime() {
         return time;
     }
 
-    /**
-     *
-     * @return
-     */
+    public void setTime(Time time) {
+        this.time = time;
+        notifications.refereeAlertsChangeDate(this, time);
+    }
+
     public int hostScore() {
         return hostScore;
     }
 
-    /**
-     *
-     * @return
-     */
     public int guestScore() {
         return guestScore;
     }
 
-    /**
-     *
-     * @return
-     */
     public Field getField() {
         return field;
     }
 
-    /**
-     *
-     * @return
-     */
+    public void setField(Field field) {
+        this.field = field;
+        notifications.refereeAlertsChangeGameLocation(this, field);
+    }
+
     public List<Event> getEvents() {
         return events;
     }
 
-    /**
-     *
-     * @return
-     */
     public Referee getMainReferee() {
         return mainReferee;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<Referee> getSideReferees() {
         return sideReferees;
     }
 
-    /**
-     *
-     * @return
-     */
     public Team getHostTeam() {
         return hostTeam;
     }
 
-    /**
-     *
-     * @return
-     */
     public Team getGuestTeam() {
         return guestTeam;
     }
+
+
+
+
+
 }

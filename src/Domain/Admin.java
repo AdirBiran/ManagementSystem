@@ -1,17 +1,18 @@
 package Domain;
 
+import Service.Notifications;
+
 import java.util.List;
 
 public class Admin extends User {
 
     private List<Complaint> allComplaints; // needs to be synchronized with all users' complaints
+    private Notifications notifications;
 
     public Admin()
     {
-        System.out.println("Test");
+        notifications = new Notifications();
     }
-
-
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 
@@ -21,7 +22,12 @@ public class Admin extends User {
      */
     public void deleteTeam(Team team)
     {
-
+        if(!team.isPermanentlyClosed()){
+            team.setActive(false);
+            team.setPermanentlyClosed(true);
+            notifications.openORcloseTeam("permanently Closed", team , true);
+            System.out.println("Done successfully");
+        }
     }
 
     /**
@@ -59,10 +65,7 @@ public class Admin extends User {
 
     }
 
-    /**
-     *
-     * @return
-     */
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public List<Complaint> getAllComplaints() {
         return allComplaints;
     }

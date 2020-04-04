@@ -1,17 +1,20 @@
 package Domain;
 
+import Service.Notifications;
+
 public class TeamOwner extends Manager {
 
     private Team team;
+    private boolean closedTeam;
+    private Notifications notifications;
 
     public TeamOwner()
     {
-
+        notifications = new Notifications();
     }
 
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
 
     /**
      *
@@ -34,7 +37,26 @@ public class TeamOwner extends Manager {
      */
     public void closeTeam()
     {
-
+        if(team.isActive() && !team.isPermanentlyClosed()){
+            team.setActive(false);
+            //removing team member privileges
+            closedTeam=true;
+            notifications.openORcloseTeam("closed", team, false);
+            //past activity saved
+            System.out.println("Done successfully");
+        }
+    }
+    /**
+     *
+     */
+    public void openTeam(){
+        if(!team.isActive() && isClosedTeam() &&!team.isPermanentlyClosed()){
+            team.setActive(true);
+            closedTeam=false;
+            notifications.openORcloseTeam("opened", team, false);
+            //re-configure permissions for team member
+            System.out.println("Done successfully");
+        }
     }
 
     /**
@@ -44,12 +66,12 @@ public class TeamOwner extends Manager {
     {
 
     }
-
-    /**
-     *
-     * @return
-     */
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public Team getTeam() {
         return team;
+    }
+
+    public boolean isClosedTeam() {
+        return closedTeam;
     }
 }
