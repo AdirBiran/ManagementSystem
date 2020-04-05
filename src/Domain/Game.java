@@ -1,6 +1,8 @@
 package Domain;
 
-import Service.Notifications;
+import Presentation.Fan;
+import Presentation.Referee;
+import Service.NotificationSystem;
 
 import java.sql.Time;
 import java.util.Date;
@@ -19,7 +21,8 @@ public class Game {
     private Team hostTeam; // check type of team
     private Team guestTeam; // check type of team
     private List<Fan> fansForAlerts; //list of fans that signed up to receive game alerts
-    private Notifications notifications;
+    private NotificationSystem notifications;
+    private EventReport eventReport;
 
     public Game()
     {

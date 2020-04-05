@@ -1,7 +1,8 @@
 package Tests.Unit;
+import Presentation.User;
 import org.junit.Test;
 
-public class RefereeTest extends Domain.User {
+public class RefereeTest extends User {
 
 
     @Test

@@ -52,7 +52,13 @@ public class Field implements Asset {
     }
 
     @Override
-    public String getName() {
+    public String getID() {
         return id;
     }
+
+    @Override
+    public double getPrice() {
+        return 0;
+    }
+
 }

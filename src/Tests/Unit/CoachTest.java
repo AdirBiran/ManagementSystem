@@ -1,7 +1,8 @@
 package Tests.Unit;
+import Presentation.HasAPage;
 import org.junit.Test;
 
-public class CoachTest extends Domain.HasAPage implements Domain.Asset {
+public class CoachTest extends HasAPage implements Domain.Asset {
 
     @Test
     public void getTraining() {
@@ -23,4 +24,8 @@ public class CoachTest extends Domain.HasAPage implements Domain.Asset {
 
     }
 
+    @Override
+    public double getPrice() {
+        return 0;
+    }
 }

@@ -1,44 +1,52 @@
-package Tests.Unit;
-import Presentation.User;
-import org.junit.Test;
+package Presentation;
 
-public class UnionRepresentativeTest extends User {
+public class UnionRepresentative extends User {
 
-
-    @Test
+    /**
+     *
+     */
     public void configureLeague()
     {
 
     }
 
-    @Test
+    /**
+     *
+     */
     public void appointReferee()
     {
 
     }
 
-    @Test
+    /**
+     *
+     */
     public void assignRefToLeague()
     {
 
     }
 
-    @Test
+    /**
+     *
+     */
     public void changePolicy()
     {
 
     }
 
-    @Test
+    /**
+     *
+     */
     public void assignGames()
     {
 
     }
 
-    @Test
+    /**
+     *
+     */
     public void manageFinenes()
     {
 
     }
-
 }

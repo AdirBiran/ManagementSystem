@@ -26,7 +26,12 @@ public class FieldTest implements Domain.Asset {
     }
 
     @Override
-    public String getName() {
+    public String getID() {
         return null;
+    }
+
+    @Override
+    public double getPrice() {
+        return 0;
     }
 }

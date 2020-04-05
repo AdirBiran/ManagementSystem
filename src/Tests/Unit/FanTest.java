@@ -1,9 +1,10 @@
 package Tests.Unit;
+import Presentation.User;
 import org.junit.Test;
 
 
 
-public class FanTest extends Domain.User {
+public class FanTest extends User {
 
     @Test
     public void followPage()
