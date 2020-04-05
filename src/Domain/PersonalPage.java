@@ -3,6 +3,11 @@ package Domain;
 public class PersonalPage {
 
     private String data;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
 
     public PersonalPage()
     {

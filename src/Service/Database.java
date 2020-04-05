@@ -13,12 +13,14 @@ public class Database //maybe generalize with interface?
     private HashMap<String,User> usersInDatabase; // - <userId,User>
     private HashMap<String,Asset> assetsInDatabase;// - <asset.name, Asset>
     private HashMap<String, Game> gamesInDatabase; // - <game.id, Game>
+    private HashMap<String, PersonalPage> pagesInDatabase;
 
     public Database() {
         userNamesAndPasswords = new HashMap<>();
         usersInDatabase = new HashMap<>();
         assetsInDatabase = new HashMap<>();
         gamesInDatabase = new HashMap<>();
+        pagesInDatabase = new HashMap<>();
     }
     /*
     this function gets a name of an asset and returns a pointer to the object of this asset
@@ -42,6 +44,13 @@ public class Database //maybe generalize with interface?
     */
     public Game getGame(String gameId){
         return (Game)search("Game", gameId);
+    }
+    /*
+    this function gets a userId and return its personalPage if exists
+    if page not exists the function returns null
+     */
+    public PersonalPage getPge(String userId){
+        return (PersonalPage)search("Page", userId);
     }
     /*
     this function returns all games in database
@@ -94,6 +103,16 @@ public class Database //maybe generalize with interface?
         if(gamesInDatabase.containsKey(game.toString()))
             return false;
         gamesInDatabase.put(game.toString(), game);
+        return true;
+    }
+    /*
+    this function adds a new personal page to the database according to the user id
+     */
+    public boolean addPage(PersonalPage page){
+        String userId = page.getUserId();
+        if(pagesInDatabase.containsKey(userId))
+            return false;
+        pagesInDatabase.put(userId, page);
         return true;
     }
     /*
@@ -202,6 +221,13 @@ public class Database //maybe generalize with interface?
                     for(String gameId:gamesInDatabase.keySet()){
                         if(searchWord.equals(gameId))
                             return gamesInDatabase.get(gameId);
+                    }
+                    break;
+                }
+                case("Page"):{
+                    for(String userId:pagesInDatabase.keySet()){
+                        if(searchWord.equals(userId))
+                            return pagesInDatabase.get(userId);
                     }
                     break;
                 }
