@@ -45,7 +45,7 @@ public class UnionRepresentative extends User {
     /**
      *
      */
-    public void manageFinenes()
+    public void manageFinance()
     {
 
     }

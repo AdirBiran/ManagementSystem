@@ -8,7 +8,8 @@ public class LeagueInSeason {
     private GameAssignmentPolicy assignmentPolicy;
     private ScorePolicy scorePolicy;
     private List<ScoreTableRecord> scoreTabel;
-    private HashMap<Season, League> leaguesInSeason;
+    private League league;
+    private Season season;
 
     public LeagueInSeason()
     {
@@ -35,12 +36,12 @@ public class LeagueInSeason {
         return scorePolicy;
     }
 
-    /**
-     *
-     * @return
-     */
-    public HashMap<Season, League> getLeaguesInSeason() {
-        return leaguesInSeason;
+    public League getLeague() {
+        return league;
+    }
+
+    public Season getSeason() {
+        return season;
     }
 
     /**

@@ -5,7 +5,7 @@ import java.util.List;
 public class Season {
 
     private int year;
-    private List<League> leagues;
+    private List<LeagueInSeason> league;
 
     public Season()
     {
@@ -24,11 +24,7 @@ public class Season {
         return year;
     }
 
-    /**
-     *
-     * @return
-     */
-    public List<League> getLeagues() {
-        return leagues;
+    public List<LeagueInSeason> getLeague() {
+        return league;
     }
 }
