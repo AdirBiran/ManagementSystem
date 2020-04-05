@@ -1,6 +1,10 @@
 package Domain;
 
+import Presentation.*;
+import com.sun.media.jfxmediaimpl.platform.ios.IOSMediaPlayer;
+
 import java.util.List;
+import java.util.LinkedList;
 
 public class Team {
 
@@ -19,12 +23,65 @@ public class Team {
     private boolean active;
     private boolean permanentlyClosed; //closed by admin and cannot open again
 
-    public Team()
-    {
-
+    public Team(String name, PersonalPage page, List<TeamOwner> teamOwners, List<Player> players, List<Coach> coaches, Budget budget, Field field) {
+        this.name = name;
+        this.page = page;
+        if(teamOwners==null||teamOwners.size()<1)
+            throw new RuntimeException("not enough TeamOwners");
+        this.teamOwners = teamOwners;
+        if(players==null||players.size()<11)
+            throw new RuntimeException("not enough Players");
+        this.players = players;
+        if(coaches==null||coaches.size()<1)
+            throw new RuntimeException("not enough Coaches");
+        this.coaches = coaches;
+        this.budget = budget;
+        this.field = field;
+        this.wins=0;
+        this.losses=0;
+        this.draws=0;
+        this.teamManagers=new LinkedList<>();
+        this.games = new LinkedList<>();
+        this.active = true;
+        this.permanentlyClosed = false;
     }
 
+    public void addAWin(int wins) {
+        this.wins ++;
+    }
 
+    public void addALoss(int losses) {
+        this.losses ++;
+    }
+
+    public void addADraw(int draws) {
+        this.draws ++;
+    }
+
+    public void addTeamOwner(TeamOwner teamOwner) {
+        if(!teamOwners.contains(teamOwner))
+            this.teamOwners.add(teamOwner);
+    }
+
+    public void addTeamManager(TeamManager teamManager) {
+        if(!teamManagers.contains(teamManager))
+            this.teamManagers.add(teamManager);
+    }
+
+    public void addPlayer(Player player) {
+        if(!players.contains(player))
+            this.players.add(player);
+    }
+
+    public void addCoach(Coach coach) {
+        if(!coaches.contains(coach))
+            this.coaches.add(coach);
+    }
+
+    public void addGame(Game game) {
+        if(!games.contains(game))
+        this.games.add(game);
+    }
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 

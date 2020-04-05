@@ -22,13 +22,15 @@ public class Event {
     private double minuteInGame;
     private String description;
     private Game game;
-    private League league;
 
-    public Event()
-    {
-
+    public Event(EventType type, Date date, Time time, double minuteInGame, String description, Game game) {
+        this.type = type;
+        this.date = date;
+        this.time = time;
+        this.minuteInGame = minuteInGame;
+        this.description = description;
+        this.game = game;
     }
-
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
@@ -81,12 +83,5 @@ public class Event {
         return game;
     }
 
-    /**
-     *
-     * @return
-     */
-    public League getLeague() {
-        return league;
-    }
 
 }

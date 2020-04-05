@@ -1,7 +1,8 @@
 package Tests.Unit;
+import Presentation.HasAPage;
 import org.junit.Test;
 
-public class PlayerTest extends Domain.HasAPage implements Domain.Asset {
+public class PlayerTest  {
 
     @Test
     public void getBirthDate() {

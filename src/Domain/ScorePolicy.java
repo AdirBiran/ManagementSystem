@@ -1,12 +1,8 @@
 package Domain;
 
-public abstract class ScorePolicy {
+public interface ScorePolicy {
 
-    /**
-     *
-     */
-    public void calculateScore()
-    {
 
-    }
+    void calculateScore();
+
 }

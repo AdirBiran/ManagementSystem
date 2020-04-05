@@ -1,13 +1,8 @@
 package Domain;
 
-public abstract class GameAssignmentPolicy {
+public interface GameAssignmentPolicy {
 
-    /**
-     *
-     */
-    public void assignGames()
-    {
+     void assignGames();
 
-    }
 
 }

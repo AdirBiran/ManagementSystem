@@ -1,17 +1,17 @@
 package Domain;
 
 import java.util.List;
+import java.util.LinkedList;
 
 public class Season {
 
     private int year;
-    private List<LeagueInSeason> league;
+    private List<LeagueInSeason> leagueInSeasons;
 
-    public Season()
-    {
-
+    public Season(int year) {
+        this.year = year;
+        leagueInSeasons = new LinkedList<>();
     }
-
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
@@ -24,7 +24,10 @@ public class Season {
         return year;
     }
 
-    public List<LeagueInSeason> getLeague() {
-        return league;
+    public List<LeagueInSeason> getLeagueInSeasons() {
+        return leagueInSeasons;
+    }
+    public void addLeagueInSeason(LeagueInSeason leagueInSeason){
+        leagueInSeasons.add(leagueInSeason);
     }
 }

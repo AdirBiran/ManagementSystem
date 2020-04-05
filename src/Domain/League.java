@@ -1,29 +1,29 @@
 package Domain;
 
 import java.util.List;
+import java.util.LinkedList;
 
 public class League {
 
     private String name;
     private String level;
-    private List<Game> games;
-    private List<LeagueInSeason> season;
+    private List<LeagueInSeason> leagueInSeasons;
 
-    public League(String name, String level, List<Game> games) {
+    /*
+    create each league once and for every season add new leagueInSeason
+     */
+    public League(String name, String level) {
         this.name = name;
         this.level = level;
-        this.games = games;
+        leagueInSeasons = new LinkedList<>();
     }
-
-    public League()
-    {
-
-    }
-
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 
+    public void addLeagueInSeason(LeagueInSeason leagueInSeason){
+        leagueInSeasons.add(leagueInSeason);
+    }
     /**
      *
       * @return
@@ -44,11 +44,8 @@ public class League {
      *
      * @return
      */
-    public List<Game> getGames() {
-        return games;
-    }
 
-    public List<LeagueInSeason> getSeason() {
-        return season;
+    public List<LeagueInSeason> getLeagueInSeasons() {
+        return leagueInSeasons;
     }
 }
