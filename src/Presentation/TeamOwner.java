@@ -33,6 +33,7 @@ public class TeamOwner extends Manager {
     /**
      *
      */
+    /*
     public void closeTeam()
     {
         if(team.isActive() && !team.isPermanentlyClosed()){
@@ -43,10 +44,10 @@ public class TeamOwner extends Manager {
             //past activity saved
             System.out.println("Done successfully");
         }
-    }
+    }*/
     /**
      *
-     */
+     *//*
     public void openTeam(){
         if(!team.isActive() && isClosedTeam() &&!team.isPermanentlyClosed()){
             team.setActive(true);
@@ -55,7 +56,7 @@ public class TeamOwner extends Manager {
             //re-configure permissions for team member
             System.out.println("Done successfully");
         }
-    }
+    }*/
 
     /**
      *

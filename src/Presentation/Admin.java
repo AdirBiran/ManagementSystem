@@ -1,7 +1,6 @@
 package Presentation;
 
 import Domain.Complaint;
-import Domain.Team;
 import Service.NotificationSystem;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class Admin extends User {
     /**
      *
      * @param team
-     */
+     *//*
     public void deleteTeam(Team team)
     {
         if(!team.isPermanentlyClosed()){
@@ -30,7 +29,7 @@ public class Admin extends User {
             notifications.openORcloseTeam("permanently Closed", team , true);
             System.out.println("Done successfully");
         }
-    }
+    }*/
 
     /**
      *
