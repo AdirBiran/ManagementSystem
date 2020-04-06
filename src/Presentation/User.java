@@ -1,14 +1,21 @@
 package Presentation;
 
 import java.util.List;
+import java.util.LinkedList;
 
 public abstract class User extends Guest {
 
-    protected String name;
     protected String ID; //unique id for system
+    protected String name;
     protected String mail;
-    protected String password;
     protected List<String> messageBox; //object of notification
+
+    public User(String name,String ID , String mail) {
+        this.name = name;
+        this.ID = ID;
+        this.mail = mail;
+        this.messageBox = new LinkedList<>();
+    }
 
     /**
      *
@@ -42,11 +49,4 @@ public abstract class User extends Guest {
         return ID;
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getPassword() {
-        return password;
-    }
 }

@@ -2,7 +2,7 @@ package Tests.Unit;
 import Presentation.Manager;
 import org.junit.Test;
 
-public class TeamOwnerTest extends Manager {
+public class TeamOwnerTest {
 
     @Test
     public void appointment()

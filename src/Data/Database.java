@@ -111,7 +111,7 @@ public class Database //maybe generalize with interface? //for now red layer
     this function adds a new personal page to the database according to the user id
      */
     public boolean addPage(PersonalPage page){
-        String userId = page.getUserId();
+        String userId = page.getId();
         if(pagesInDatabase.containsKey(userId))
             return false;
         pagesInDatabase.put(userId, page);

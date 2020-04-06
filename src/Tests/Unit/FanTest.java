@@ -4,7 +4,7 @@ import org.junit.Test;
 
 
 
-public class FanTest extends User {
+public class FanTest {
 
     @Test
     public void followPage()

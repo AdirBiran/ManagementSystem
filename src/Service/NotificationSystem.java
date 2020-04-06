@@ -5,12 +5,12 @@ import Presentation.*;
 
 public class NotificationSystem {
 
-    private GameManagemnet gameManagemnet;
+    private GameManagement gameManagement;
     private RefereeManagement refereeManagement;
     private FootballManagementSystem system;
 
-    public NotificationSystem(GameManagemnet gameManagemnet, RefereeManagement refereeManagement, FootballManagementSystem system) {
-        this.gameManagemnet = gameManagemnet;
+    public NotificationSystem(GameManagement gameManagement, RefereeManagement refereeManagement, FootballManagementSystem system) {
+        this.gameManagement = gameManagement;
         this.refereeManagement = refereeManagement;
         this.system = system;
     }
@@ -20,11 +20,11 @@ public class NotificationSystem {
      * @param fan - want to get alerts for the game
      * @param game -fan will receive alerts for this game
      */
-    public boolean registrationForGameAlerts(Fan fan, Game game){
+    /*public boolean registrationForGameAlerts(Fan fan, Game game){
         if(game.addFanForNotifications(fan))
             return true;
         return false;
-    }
+    }*/
 
     /**
      *

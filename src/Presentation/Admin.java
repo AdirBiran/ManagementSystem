@@ -7,13 +7,13 @@ import java.util.List;
 
 public class Admin extends User {
 
-    private List<Complaint> allComplaints; // needs to be synchronized with all users' complaints
-    private NotificationSystem notifications;
 
-    public Admin()
-    {
 
+    public Admin(String name, String ID, String mail) {
+        super(name, ID, mail);
     }
+
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 
@@ -26,7 +26,7 @@ public class Admin extends User {
         if(!team.isPermanentlyClosed()){
             team.setActive(false);
             team.setPermanentlyClosed(true);
-            notifications.openORcloseTeam("permanently Closed", team , true);
+            //notifications.openORcloseTeam("permanently Closed", team , true);
             System.out.println("Done successfully");
         }
     }*/
@@ -67,7 +67,5 @@ public class Admin extends User {
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
-    public List<Complaint> getAllComplaints() {
-        return allComplaints;
-    }
+
 }

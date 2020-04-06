@@ -1,15 +1,18 @@
 package Presentation;
 
 import Domain.Team;
-import Service.NotificationSystem;
+import java.util.List;
 
 public class TeamOwner extends Manager {
 
-    private Team team;
-    private boolean closedTeam;
-    private NotificationSystem notifications;
+    private List<Team> teams;
 
-    public TeamOwner() { }
+    public TeamOwner(String name, String ID, String mail, List<Team> teams) {
+        super(name, ID, mail);
+        if(teams.size()<1)
+            throw new RuntimeException("not enough teams to create TeamOwner");
+        this.teams = teams;
+    }
 
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
@@ -33,30 +36,15 @@ public class TeamOwner extends Manager {
     /**
      *
      */
-    /*
-    public void closeTeam()
-    {
-        if(team.isActive() && !team.isPermanentlyClosed()){
-            team.setActive(false);
-            //removing team member privileges
-            closedTeam=true;
-            notifications.openORcloseTeam("closed", team, false);
-            //past activity saved
-            System.out.println("Done successfully");
-        }
-    }*/
+    public void closeTeam(){
+
+    }
     /**
      *
-     *//*
+     */
     public void openTeam(){
-        if(!team.isActive() && isClosedTeam() &&!team.isPermanentlyClosed()){
-            team.setActive(true);
-            closedTeam=false;
-            notifications.openORcloseTeam("opened", team, false);
-            //re-configure permissions for team member
-            System.out.println("Done successfully");
-        }
-    }*/
+
+     }
 
     /**
      *
@@ -66,11 +54,8 @@ public class TeamOwner extends Manager {
 
     }
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
-    public Team getTeam() {
-        return team;
+    public List<Team> getTeam() {
+        return teams;
     }
 
-    public boolean isClosedTeam() {
-        return closedTeam;
-    }
 }

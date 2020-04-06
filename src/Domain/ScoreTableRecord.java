@@ -5,11 +5,10 @@ public class ScoreTableRecord
     private Team team;
     private int totalScore;
 
-    public ScoreTableRecord()
-    {
-
+    public ScoreTableRecord(Team team, int totalScore) {
+        this.team = team;
+        this.totalScore = totalScore;
     }
-
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 

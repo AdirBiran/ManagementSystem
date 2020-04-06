@@ -13,24 +13,24 @@ public class Fan extends User {
     private String address;
     private List<Complaint> complaints;
     private List<PersonalPage> pages;
-    private NotificationSystem notifications;
 
-    public Fan(String addr)
-    {
-        address = addr;
+    public Fan(String name, String ID, String mail, String address) {
+        super(name, ID, mail);
+        this.address = address;
         complaints = new LinkedList<>();
         pages = new LinkedList<>();
     }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     /**
      * use case - registration for game alerts- after choose games for alerts
      */
-    public void registrationForGameAlerts(LinkedList <Game> games){
+    /*public void registrationForGameAlerts(LinkedList <Game> games){
         for(Game game: games) {
             if (!notifications.registrationForGameAlerts(this, game))
                 System.out.println("Registration failed:" + game.toString());
         }
-    }
+    }*/
     /**
      *
      * @param page

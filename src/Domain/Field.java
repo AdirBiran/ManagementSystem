@@ -1,6 +1,7 @@
 package Domain;
 
 import java.util.List;
+import java.util.LinkedList;
 
 public class Field implements Asset {
 
@@ -10,9 +11,12 @@ public class Field implements Asset {
     private Team team;
     private List<Game> games;
 
-    public Field()
-    {
-
+    public Field(String id, String location, int capacity, Team team) {
+        this.id = id;
+        this.location = location;
+        this.capacity = capacity;
+        this.team = team;
+        this.games = new LinkedList<>();
     }
 
 

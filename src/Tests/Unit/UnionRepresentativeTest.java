@@ -2,7 +2,7 @@ package Tests.Unit;
 import Presentation.User;
 import org.junit.Test;
 
-public class UnionRepresentativeTest extends User {
+public class UnionRepresentativeTest  {
 
 
     @Test

@@ -4,18 +4,20 @@ import Domain.Asset;
 import Domain.PersonalPage;
 import Domain.Team;
 
+import java.util.List;
+
 public class Coach extends HasAPage implements Asset {
 
     private String training;
     private String role;
-    private PersonalPage page;
     private Team team;
 
-    public Coach()
-    {
-
+    public Coach(String name, String ID, String mail, PersonalPage page, String training, String role, Team team) {
+        super(name, ID, mail, page);
+        this.training = training;
+        this.role = role;
+        this.team = team;
     }
-
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 

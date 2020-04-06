@@ -13,11 +13,13 @@ public class Complaint {
     private boolean isActive;
     private Fan fanComplained;
 
-    public Complaint()
-    {
-
+    public Complaint(Date date, Time time, String description, Fan fanComplained) {
+        this.date = date;
+        this.time = time;
+        this.description = description;
+        this.fanComplained = fanComplained;
+        isActive = true;
     }
-
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
@@ -50,7 +52,7 @@ public class Complaint {
      *
      * @return
      */
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
@@ -60,5 +62,12 @@ public class Complaint {
      */
     public Fan getFanComplained() {
         return fanComplained;
+    }
+
+    /**
+     * this function turns a complaint not active
+     */
+    public void deactivate(){
+        isActive = false;
     }
 }
