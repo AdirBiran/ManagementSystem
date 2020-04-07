@@ -6,12 +6,14 @@ import java.util.List;
 public class TeamOwner extends Manager {
 
     private List<Team> teams;
+    private boolean isClosedTeam;
 
     public TeamOwner(String name, String ID, String mail, List<Team> teams) {
         super(name, ID, mail);
         if(teams.size()<1)
             throw new RuntimeException("not enough teams to create TeamOwner");
         this.teams = teams;
+        this.isClosedTeam= false;
     }
 
 
@@ -58,4 +60,11 @@ public class TeamOwner extends Manager {
         return teams;
     }
 
+    public boolean isClosedTeam() {
+        return isClosedTeam;
+    }
+
+    public void setClosedTeam(boolean closed) {
+        isClosedTeam = closed;
+    }
 }

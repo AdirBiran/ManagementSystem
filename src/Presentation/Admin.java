@@ -1,13 +1,8 @@
 package Presentation;
 
-import Domain.Complaint;
-import Service.NotificationSystem;
-
-import java.util.List;
+import Domain.Team;
 
 public class Admin extends User {
-
-
 
     public Admin(String name, String ID, String mail) {
         super(name, ID, mail);
@@ -15,21 +10,14 @@ public class Admin extends User {
 
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
-
     /**
      *
      * @param team
-     *//*
+     */
     public void deleteTeam(Team team)
     {
-        if(!team.isPermanentlyClosed()){
-            team.setActive(false);
-            team.setPermanentlyClosed(true);
-            //notifications.openORcloseTeam("permanently Closed", team , true);
-            System.out.println("Done successfully");
-        }
-    }*/
+
+    }
 
     /**
      *

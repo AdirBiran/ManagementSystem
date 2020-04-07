@@ -3,11 +3,10 @@ package Domain;
 import Presentation.Fan;
 import Presentation.Referee;
 
-
 import java.sql.Time;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.LinkedList;
 
 public class Game {
 
@@ -20,10 +19,11 @@ public class Game {
     private List<Referee> sideReferees; // between 2 and 6, check type of referee
     private Team hostTeam; // check type of team
     private Team guestTeam; // check type of team
-    private List<Fan> fansForAlerts; //list of fans that signed up to receive game alerts
+    private HashMap<Fan, Notice> fansForAlerts; //list of fans that signed up to receive game alerts
     private EventReport eventReport;
 
-    public Game(Date date, Time time, Field field, Referee mainReferee, List<Referee> sideReferees, Team hostTeam, Team guestTeam) {
+    public Game(Date date, Time time, Field field, Referee mainReferee, List<Referee> sideReferees,
+                Team hostTeam, Team guestTeam) {
         this.date = date;
         this.time = time;
         this.field = field;
@@ -36,21 +36,19 @@ public class Game {
         eventReport = new EventReport(this);
         hostScore=0;
         guestScore=0;
-        fansForAlerts = new LinkedList<>();
+        fansForAlerts = new HashMap<>();
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     /**
      *
      * @param fan - signed up for game alerts
+     * @param notice- how to get the alerts
      * @return true- if the fan is added to list to receive game alerts
      */
-    public boolean addFanForNotifications(Fan fan) {
-        if(!fansForAlerts.contains(fan)) {
-            fansForAlerts.add(fan);
-            return true;
-        }
-        return false;
+    public void addFanForNotifications(Fan fan, Notice notice) {
+        if(fansForAlerts.get(fan)==null)
+            fansForAlerts.put(fan, notice);
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
@@ -58,21 +56,11 @@ public class Game {
         return date;
     }
 
-    /*public void setDate(Date date) {
-        this.date = date;
-        notifications.refereeAlertsChangeDate(this,date);
-
-    }*/
-
     public Time getTime() {
         return time;
     }
-/*
-    public void setTime(Time time) {
-        this.time = time;
-        notifications.refereeAlertsChangeDate(this, time);
-    }
-*/
+
+
     public int hostScore() {
         return hostScore;
     }
@@ -84,11 +72,6 @@ public class Game {
     public Field getField() {
         return field;
     }
-/*
-    public void setField(Field field) {
-        this.field = field;
-        notifications.refereeAlertsChangeGameLocation(this, field);
-    }*/
 
     public Referee getMainReferee() {
         return mainReferee;
@@ -105,9 +88,5 @@ public class Game {
     public Team getGuestTeam() {
         return guestTeam;
     }
-
-
-
-
 
 }
