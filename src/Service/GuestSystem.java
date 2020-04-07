@@ -4,11 +4,10 @@ import Domain.Searcher;
 import Presentation.FootballManagementSystem;
 
 public class GuestSystem {
-    private FootballManagementSystem system;
+
     private Searcher searcher;
 
-    public GuestSystem(FootballManagementSystem system, Searcher searcher) {
-        this.system = system;
+    public GuestSystem( Searcher searcher) {
         this.searcher = searcher;
     }
 

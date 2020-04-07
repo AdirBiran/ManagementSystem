@@ -46,7 +46,7 @@ public class TeamOwner extends Manager {
      */
     public void openTeam(){
 
-     }
+    }
 
     /**
      *

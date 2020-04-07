@@ -1,20 +1,18 @@
 package Service;
 
 import Domain.EventReportManagement;
-import Domain.GameManagement;
+import Domain.LeagueAndGameManagement;
 import Domain.RefereeManagement;
-import Presentation.FootballManagementSystem;
 
 public class RefereeSystem {
 
-    private FootballManagementSystem system;
-    private GameManagement gameManagement;
+
+    private LeagueAndGameManagement leagueAndGameManagement;
     private RefereeManagement refereeManagement;
     private EventReportManagement eventReportManagement;
 
-    public RefereeSystem(FootballManagementSystem system, GameManagement gameManagement, RefereeManagement refereeManagement, EventReportManagement eventReportManagement) {
-        this.system = system;
-        this.gameManagement = gameManagement;
+    public RefereeSystem(LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement, EventReportManagement eventReportManagement) {
+        this.leagueAndGameManagement = leagueAndGameManagement;
         this.refereeManagement = refereeManagement;
         this.eventReportManagement = eventReportManagement;
 

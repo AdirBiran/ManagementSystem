@@ -2,6 +2,7 @@ package Domain;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class League {
 
@@ -47,5 +48,19 @@ public class League {
 
     public List<LeagueInSeason> getLeagueInSeasons() {
         return leagueInSeasons;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof League)) return false;
+        League league = (League) o;
+        return Objects.equals(getName(), league.getName()) &&
+                Objects.equals(getLevel(), league.getLevel());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getLevel());
     }
 }

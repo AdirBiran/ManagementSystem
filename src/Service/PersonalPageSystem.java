@@ -5,10 +5,8 @@ import Presentation.FootballManagementSystem;
 
 public class PersonalPageSystem {
     private PersonalPageManagement personalPageManagement;
-    private FootballManagementSystem system;
 
-    public PersonalPageSystem(PersonalPageManagement personalPageManagement, FootballManagementSystem system) {
+    public PersonalPageSystem(PersonalPageManagement personalPageManagement) {
         this.personalPageManagement = personalPageManagement;
-        this.system = system;
     }
 }

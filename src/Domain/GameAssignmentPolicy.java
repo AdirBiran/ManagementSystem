@@ -1,8 +1,12 @@
 package Domain;
 
+
+import java.util.List;
+import java.util.Date;
+
 public interface GameAssignmentPolicy {
 
-     void assignGames();
+     List<Game> assignGames(List<Team> teams, List<Date> dates, LeagueInSeason league);
 
 
 }
