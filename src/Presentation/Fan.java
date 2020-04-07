@@ -1,10 +1,7 @@
 package Presentation;
 
 import Domain.Complaint;
-import Domain.Game;
 import Domain.PersonalPage;
-import Service.NotificationSystem;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,14 +20,11 @@ public class Fan extends User {
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     /**
-     * use case - registration for game alerts- after choose games for alerts
+     * registration for game alerts- In menu of fan
      */
-    /*public void registrationForGameAlerts(LinkedList <Game> games){
-        for(Game game: games) {
-            if (!notifications.registrationForGameAlerts(this, game))
-                System.out.println("Registration failed:" + game.toString());
-        }
-    }*/
+    public void registrationForGameAlerts(){
+        //notificationSystem.registrationForGameAlerts(this, listOfGames, notice)
+    }
     /**
      *
      * @param page

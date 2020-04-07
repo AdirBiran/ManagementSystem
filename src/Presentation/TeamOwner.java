@@ -6,12 +6,14 @@ import java.util.List;
 public class TeamOwner extends Manager {
 
     private List<Team> teams;
+    private boolean isClosedTeam;
 
     public TeamOwner(String name, String ID, String mail, List<Team> teams) {
         super(name, ID, mail);
         if(teams.size()<1)
             throw new RuntimeException("not enough teams to create TeamOwner");
         this.teams = teams;
+        this.isClosedTeam= false;
     }
 
 
@@ -36,29 +38,15 @@ public class TeamOwner extends Manager {
     /**
      *
      */
-    /*public void closeTeam()
-    {
-        if(team.isActive() && !team.isPermanentlyClosed()){
-            team.setActive(false);
-            //removing team member privileges
-            closedTeam=true;
-            notifications.openORcloseTeam("closed", team, false);
-            //past activity saved
-            System.out.println("Done successfully");
-        }
-    }*/
+    public void closeTeam(){
+
+    }
     /**
      *
      */
-    /*public void openTeam(){
-        if(!team.isActive() && isClosedTeam() &&!team.isPermanentlyClosed()){
-            team.setActive(true);
-            closedTeam=false;
-            notifications.openORcloseTeam("opened", team, false);
-            //re-configure permissions for team member
-            System.out.println("Done successfully");
-        }
-    }*/
+    public void openTeam(){
+
+     }
 
     /**
      *
@@ -72,4 +60,11 @@ public class TeamOwner extends Manager {
         return teams;
     }
 
+    public boolean isClosedTeam() {
+        return isClosedTeam;
+    }
+
+    public void setClosedTeam(boolean closed) {
+        isClosedTeam = closed;
+    }
 }

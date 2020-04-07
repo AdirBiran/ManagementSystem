@@ -1,18 +1,21 @@
 package Domain;
 
 import Data.Database;
-import Service.RefereeSystem;
-import Service.UserSystem;
+import Presentation.Fan;
+
+import java.util.List;
 
 public class GameManagement {
 
     private Database database;
-    private UserSystem userSystem;
-    private RefereeSystem refereeSystem;
 
-    public GameManagement(Database database, UserSystem userSystem, RefereeSystem refereeSystem) {
+    public GameManagement(Database database) {
         this.database = database;
-        this.userSystem = userSystem;
-        this.refereeSystem = refereeSystem;
+    }
+
+    public void registrationForGameAlerts(Fan fan, List<Game> games, Notice notice) {
+        for(Game game : games){
+            game.addFanForNotifications(fan, notice);
+        }
     }
 }

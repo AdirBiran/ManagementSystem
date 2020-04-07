@@ -1,5 +1,7 @@
 package Presentation;
 
+import Domain.Notice;
+
 import java.util.List;
 import java.util.LinkedList;
 
@@ -8,7 +10,7 @@ public abstract class User extends Guest {
     protected String ID; //unique id for system
     protected String name;
     protected String mail;
-    protected List<String> messageBox; //object of notification
+    protected List<Notice> messageBox;
 
     public User(String name,String ID , String mail) {
         this.name = name;
@@ -33,20 +35,17 @@ public abstract class User extends Guest {
 
     }
 
-    /**
-     *
-     * @return
-     */
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getName() {
         return name;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getID() {
         return ID;
     }
 
+    public void addMessage(Notice notice){
+        if(messageBox!=null)
+            messageBox.add(notice);
+    }
 }
