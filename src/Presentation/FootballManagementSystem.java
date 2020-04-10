@@ -24,7 +24,7 @@ public class FootballManagementSystem {
         //***service***//
         AssetSystem assetSystem = new AssetSystem(assetManagement);
         FinanceTransactionsSystem financeTransactionsSystem = new FinanceTransactionsSystem(financeTransactionsManagement);
-        GuestSystem guestSystem = new GuestSystem(searcher);
+        GuestSystem guestSystem = new GuestSystem(searcher, userManagement);
         NotificationSystem notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement);
         PersonalPageSystem personalPageSystem = new PersonalPageSystem(personalPageManagement);
         RefereeSystem refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
@@ -33,7 +33,7 @@ public class FootballManagementSystem {
         UserSystem userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement);
         //***presentation***//
         int id = IdGenerator.getNewId();
-        Admin systemAdmin = new Admin("adminush", "ua" + id, "example@gmail.com");
+        Admin systemAdmin = new Admin("adminush","", "ua" + id, "example@gmail.com");
         userSystem.addUser("ua" + id, "Adminush1", systemAdmin);
 
     }

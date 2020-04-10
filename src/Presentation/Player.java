@@ -12,12 +12,12 @@ public class Player extends HasAPage implements Asset {
     private String role;
     private List<Team> teams; // at least one
 
-    public Player(String name, String ID, String mail, PersonalPage page, Date birthDate, String role, List<Team> teams) {
-        super(name, ID, mail, page);
+    public Player(String firstName,String lastName, String ID, String mail, PersonalPage page, Date birthDate, String role, List<Team> teams) {
+        super(firstName,lastName, ID, mail, page);
         this.birthDate = birthDate;
         this.role = role;
-        if(teams==null||teams.size()<1)
-            throw new RuntimeException("not enough teams for the player");
+        //if(teams==null||teams.size()<1)
+          //  throw new RuntimeException("not enough teams for the player");
         this.teams = teams;
     }
 
@@ -59,5 +59,11 @@ public class Player extends HasAPage implements Asset {
     @Override
     public double getPrice() {
         return 0;
+    }
+
+    public boolean addTeam(Team team){
+        if(teams.contains(team)) return false;
+        teams.add(team);
+        return true;
     }
 }

@@ -8,8 +8,8 @@ public class TeamOwner extends Manager {
     private List<Team> teams;
     private boolean isClosedTeam;
 
-    public TeamOwner(String name, String ID, String mail, List<Team> teams) {
-        super(name, ID, mail);
+    public TeamOwner(String firstName,String lastName, String ID, String mail, List<Team> teams) {
+        super(firstName,lastName, ID, mail);
         if(teams.size()<1)
             throw new RuntimeException("not enough teams to create TeamOwner");
         this.teams = teams;

@@ -7,15 +7,15 @@ import java.util.Date;
 
 public class Complaint {
 
-    private Date date;
-    private Time time;
+    private Date date;//also shows time
+    //private Time time;
     private String description;
     private boolean isActive;
     private Fan fanComplained;
 
-    public Complaint(Date date, Time time, String description, Fan fanComplained) {
+    public Complaint(Date date, String description, Fan fanComplained) {
         this.date = date;
-        this.time = time;
+        //this.time = time;
         this.description = description;
         this.fanComplained = fanComplained;
         isActive = true;
@@ -32,13 +32,6 @@ public class Complaint {
         return date;
     }
 
-    /**
-     *
-     * @return
-     */
-    public Time getTime() {
-        return time;
-    }
 
     /**
      *

@@ -19,8 +19,19 @@ public class Field implements Asset {
         this.games = new LinkedList<>();
     }
 
+    public void setTeam(Team team) {
+        this.team = team;
+    }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+    @Override
+    public String toString() {
+        return "Field{" +
+                "id='" + id + '\'' +
+                ", location='" + location + '\'' +
+                ", capacity=" + capacity +
+                '}';
+    }
+// ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 
     /**

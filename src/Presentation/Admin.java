@@ -4,8 +4,8 @@ import Domain.Team;
 
 public class Admin extends User {
 
-    public Admin(String name, String ID, String mail) {
-        super(name, ID, mail);
+    public Admin(String firstName,String lastName, String ID, String mail) {
+        super(firstName,lastName, ID, mail);
     }
 
 

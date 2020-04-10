@@ -41,6 +41,17 @@ public class Game {
         fansForAlerts = new HashMap<>();
     }
 
+    @Override
+    public String toString() {
+        return "Game{" +
+                "id='" + id + '\'' +
+                ", date=" + date +
+                ", time=" + time +
+                ", hostTeam=" + hostTeam +
+                ", guestTeam=" + guestTeam +
+                '}';
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     /**
      *

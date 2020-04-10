@@ -63,4 +63,12 @@ public class League {
     public int hashCode() {
         return Objects.hash(getName(), getLevel());
     }
+
+    @Override
+    public String toString() {
+        return "League{" +
+                "name='" + name + '\'' +
+                ", level='" + level + '\'' +
+                '}';
+    }
 }

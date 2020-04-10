@@ -2,8 +2,8 @@ package Presentation;
 
 public class UnionRepresentative extends User {
 
-    public UnionRepresentative(String name, String ID, String mail) {
-        super(name, ID, mail);
+    public UnionRepresentative(String firstName, String lastName, String ID, String mail) {
+        super(firstName, lastName, ID, mail);
     }
 
     /**

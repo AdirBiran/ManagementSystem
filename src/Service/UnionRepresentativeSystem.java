@@ -29,9 +29,9 @@ public class UnionRepresentativeSystem {
     public boolean configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, List<Game> games){
         return leagueAndGameManagement.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy,scorePolicy,games);
     }
-    public boolean appointReferee(String name, String ID, String mail, String training)
+    public boolean appointReferee(String firstName,String lastName, String ID, String mail, String training)
     {
-        return refereeManagement.appointReferee(name, ID, mail, training);
+        return refereeManagement.appointReferee(firstName,lastName, ID, mail, training);
     }
 
     public boolean assignRefToLeague(LeagueInSeason league, Referee referee)

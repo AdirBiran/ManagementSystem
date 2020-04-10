@@ -30,4 +30,11 @@ public class Season {
     public void addLeagueInSeason(LeagueInSeason leagueInSeason){
         leagueInSeasons.add(leagueInSeason);
     }
+
+    @Override
+    public String toString() {
+        return "Season{" +
+                "year=" + year +
+                '}';
+    }
 }

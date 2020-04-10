@@ -13,10 +13,20 @@ public class PersonalPage {
         this.id = id;
         this.data = data;
         this.user = user;
+        user.setPage(this);
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
+
+    @Override
+    public String toString() {
+        return "PersonalPage{" +
+                "id='" + id + '\'' +
+                ", data='" + data + '\'' +
+                ", user=" + user +
+                '}';
+    }
 
     public String getId() {
         return id;

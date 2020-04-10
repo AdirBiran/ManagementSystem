@@ -8,15 +8,17 @@ import java.util.LinkedList;
 public abstract class User extends Guest {
 
     protected String ID; //unique id for system
+    protected String firstName;
+    protected String lastName;
     protected String name;
     protected String mail;
     protected List<Notice> messageBox;
     protected boolean isActive;
 
 
-
-    public User(String name, String ID , String mail) {
-        this.name = name;
+    public User(String firstName,String lastName, String ID , String mail) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.ID = ID;
         this.mail = mail;
         this.messageBox = new LinkedList<>();
@@ -33,6 +35,15 @@ public abstract class User extends Guest {
         return isActive;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "ID='" + ID + '\'' +
+                ", name='" + name + '\'' +
+                ", isActive=" + isActive +
+                '}';
+    }
+
     /**
      *
      */
@@ -44,7 +55,7 @@ public abstract class User extends Guest {
     /**
      *
      */
-    public void editDetails()
+    public void editDetails(String firstName, String lastName)
     {
 
     }

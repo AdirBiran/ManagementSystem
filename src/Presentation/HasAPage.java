@@ -9,8 +9,8 @@ public abstract class HasAPage extends User {
 
     protected PersonalPage page;
 
-    public HasAPage(String name, String ID, String mail, PersonalPage page) {
-        super(name, ID, mail);
+    public HasAPage(String firstName,String lastName,String ID, String mail, PersonalPage page) {
+        super(firstName,lastName, ID, mail);
         this.page = page;
     }
 
@@ -22,4 +22,7 @@ public abstract class HasAPage extends User {
 
     }
 
+    public void setPage(PersonalPage personalPage){
+        page = personalPage;
+    }
 }

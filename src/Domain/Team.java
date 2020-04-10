@@ -6,8 +6,9 @@ import com.sun.media.jfxmediaimpl.platform.ios.IOSMediaPlayer;
 import java.util.List;
 import java.util.LinkedList;
 
-public class Team {
+public class Team implements Asset{
 
+    private String id;
     private String name;
     private int wins;
     private int losses;
@@ -23,11 +24,12 @@ public class Team {
     private boolean active;
     private boolean permanentlyClosed; //closed by admin and cannot open again
 
-    public Team(String name, PersonalPage page, List<TeamOwner> teamOwners, List<Player> players, List<Coach> coaches, Budget budget, Field field) {
+    public Team(String id,String name, PersonalPage page, List<TeamOwner> teamOwners, List<Player> players, List<Coach> coaches, Field field) {
+        this.id = id;
         this.name = name;
         this.page = page;
-        if(teamOwners==null||teamOwners.size()<1)
-            throw new RuntimeException("not enough TeamOwners");
+        //if(teamOwners==null||teamOwners.size()<1)
+         //   throw new RuntimeException("not enough TeamOwners");
         this.teamOwners = teamOwners;
         if(players==null||players.size()<11)
             throw new RuntimeException("not enough Players");
@@ -35,7 +37,7 @@ public class Team {
         if(coaches==null||coaches.size()<1)
             throw new RuntimeException("not enough Coaches");
         this.coaches = coaches;
-        this.budget = budget;
+        this.budget = new Budget(this);
         this.field = field;
         this.wins=0;
         this.losses=0;
@@ -44,6 +46,16 @@ public class Team {
         this.games = new LinkedList<>();
         this.active = true;
         this.permanentlyClosed = false;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", active=" + active +
+                ", permanentlyClosed=" + permanentlyClosed +
+                '}';
     }
 
     public void addAWin(int wins) {
@@ -148,5 +160,15 @@ public class Team {
 
     public void setPermanentlyClosed(boolean permanentlyClosed) {
         this.permanentlyClosed = permanentlyClosed;
+    }
+
+    @Override
+    public String getID() {
+        return id;
+    }
+
+    @Override
+    public double getPrice() {
+        return 0;
     }
 }

@@ -1,9 +1,11 @@
 package Service;
 
 import Domain.*;
-import Presentation.Admin;
-import Presentation.FootballManagementSystem;
-import Presentation.User;
+import Presentation.*;
+
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
 
 public class UserSystem extends GuestSystem{
 
@@ -12,26 +14,31 @@ public class UserSystem extends GuestSystem{
     private PersonalPageManagement personalPageManagement;
     private UserManagement userManagement;
 
-    public UserSystem(Searcher searcher, ComplaintManager complaintManger,
-                      EditPersonalInfo editPersonalInfo, PersonalPageManagement personalPageManagement,UserManagement userManagement) {
-        super(searcher);
+    public UserSystem(Searcher searcher, ComplaintManager complaintManger, EditPersonalInfo editPersonalInfo,
+                      PersonalPageManagement personalPageManagement,UserManagement userManagement) {
+        super(searcher, userManagement);
         this.complaintManger = complaintManger;
         this.editPersonalInfo = editPersonalInfo;
         this.personalPageManagement = personalPageManagement;
-        this.userManagement = userManagement;
     }
 
-    public void viewSearchHistory(){
+    public List<String> viewSearchHistory(Fan fan){
+        return searcher.viewSearchHistory(fan);
+    }
+    public Guest logOut(){
+        return new Guest();
 
     }
-    public void logOut(){
+    public void viewPersonalDetails(User user){
+        user.toString(); // toString by user!?!?
 
     }
-    public void viewPersonalDetails(){
-
+    public void editPersonalDetails(User user, String password, String firstName, String lastName, String phone,
+                                    String address){
+        userManagement.editPersonalDetails(user, firstName, lastName, phone, address,  password);
     }
-    public void editPersonalDetails(){
-
+    public void addComplaint(Fan fan, String description){
+        complaintManger.addComplaintToSystem(fan, description);
     }
     /*
     this function adds a new user to the system
