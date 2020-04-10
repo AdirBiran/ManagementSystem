@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Calendar;
+import java.util.HashSet;
 
 
 public class Database //maybe generalize with interface? //for now red layer
@@ -15,7 +16,9 @@ public class Database //maybe generalize with interface? //for now red layer
     private HashMap<String,User> usersInDatabase; // - <userId,User>
     private HashMap<String,Asset> assetsInDatabase;// - <asset.name, Asset>
     private HashMap<String, Game> gamesInDatabase; // - <game.id, Game>
-    private HashMap<String, PersonalPage> pagesInDatabase;
+    private HashMap<String, PersonalPage> pagesInDatabase;//-<userId, PersonalPage>
+    private HashSet<League> leagues;
+    private HashSet<Season> seasons;
 
     public Database() {
         userNamesAndPasswords = new HashMap<>();
@@ -23,7 +26,25 @@ public class Database //maybe generalize with interface? //for now red layer
         assetsInDatabase = new HashMap<>();
         gamesInDatabase = new HashMap<>();
         pagesInDatabase = new HashMap<>();
+        leagues = new HashSet<>();
+        seasons = new HashSet<>();
     }
+
+    public boolean addLeague(League league) {
+        if(!leagues.contains(league)){
+            leagues.add(league);
+            return true;
+        }
+        return false;
+    }
+    public boolean addSeason(Season season) {
+        if(!seasons.contains(season)){
+            seasons.add(season);
+            return true;
+        }
+        return false;
+    }
+
     /*
     this function gets a name of an asset and returns a pointer to the object of this asset
     for example input: "Blumfield stadium" - the output will be a pointer to Blumfield stadium object or Null if it doesn't exists
@@ -58,7 +79,7 @@ public class Database //maybe generalize with interface? //for now red layer
     this function returns all games in database
      */
     public LinkedList<Game> getAllGames(){
-        return new LinkedList(gamesInDatabase.values());
+        return new LinkedList<>(gamesInDatabase.values());
     }
     /*
     this function returns a list of all future games
@@ -89,7 +110,7 @@ public class Database //maybe generalize with interface? //for now red layer
     returns false if the user already exists
      */
     public boolean addUser(String userId, String password, User user){
-        if(!usersInDatabase.containsKey(userId)){
+        if(!usersInDatabase.containsKey(userId)&& user.isActive()){
             //use some hash to encrypt the password?
             userNamesAndPasswords.put(userId, password);
             usersInDatabase.put(userId, user);
@@ -122,7 +143,7 @@ public class Database //maybe generalize with interface? //for now red layer
     returns true if this is the correct credentials and false otherwise
      */
     public boolean authenticationCheck(String userId, String password){
-        if(usersInDatabase.containsKey(userId)){
+        if(usersInDatabase.containsKey(userId)&& usersInDatabase.get(userId).isActive()){
             //use some hash to encrypt the the given password to compare it with the one we have
             String passwordInSystem = userNamesAndPasswords.get(userId);
             return passwordInSystem.equals(password);
@@ -140,7 +161,7 @@ public class Database //maybe generalize with interface? //for now red layer
         switch(userType){
             case("Admin"):{
                 for(User user : usersInDatabase.values()){
-                    if(user instanceof Admin)
+                    if(user instanceof Admin &&user.isActive())
                         listOfUsers.add(user);
                 }
                 return listOfUsers;
@@ -148,7 +169,7 @@ public class Database //maybe generalize with interface? //for now red layer
             }
             case("Coach"):{
                 for(User user : usersInDatabase.values()){
-                    if(user instanceof Coach)
+                    if(user instanceof Coach &&user.isActive())
                         listOfUsers.add(user);
                 }
                 return listOfUsers;
@@ -156,7 +177,7 @@ public class Database //maybe generalize with interface? //for now red layer
             }
             case("Fan"):{
                 for(User user : usersInDatabase.values()){
-                    if(user instanceof Fan)
+                    if(user instanceof Fan &&user.isActive())
                         listOfUsers.add(user);
                 }
                 return listOfUsers;
@@ -164,35 +185,35 @@ public class Database //maybe generalize with interface? //for now red layer
             }
             case("Player"):{
                 for(User user : usersInDatabase.values()){
-                    if(user instanceof Player)
+                    if(user instanceof Player &&user.isActive())
                         listOfUsers.add(user);
                 }
                 return listOfUsers;
             }
             case("Referee"):{
                 for(User user : usersInDatabase.values()){
-                    if(user instanceof Referee)
+                    if(user instanceof Referee &&user.isActive())
                         listOfUsers.add(user);
                 }
                 return listOfUsers;
             }
             case("TeamManager"):{
                 for(User user : usersInDatabase.values()){
-                    if(user instanceof TeamManager)
+                    if(user instanceof TeamManager &&user.isActive())
                         listOfUsers.add(user);
                 }
                 return listOfUsers;
             }
             case("TeamOwner"):{
                 for(User user : usersInDatabase.values()){
-                    if(user instanceof TeamOwner)
+                    if(user instanceof TeamOwner &&user.isActive())
                         listOfUsers.add(user);
                 }
                 return listOfUsers;
             }
             case("UnionRepresentative"):{
                 for(User user : usersInDatabase.values()){
-                    if(user instanceof UnionRepresentative)
+                    if(user instanceof UnionRepresentative &&user.isActive())
                         listOfUsers.add(user);
                 }
                 return listOfUsers;
@@ -214,7 +235,8 @@ public class Database //maybe generalize with interface? //for now red layer
                 case("User"):{
                     for(String userId : usersInDatabase.keySet()) {
                         if (searchWord.equals(userId)) {
-                            return usersInDatabase.get(searchWord);
+                            if(usersInDatabase.get(searchWord).isActive())
+                                return usersInDatabase.get(searchWord);
                         }
                     }
                     break;
@@ -233,6 +255,20 @@ public class Database //maybe generalize with interface? //for now red layer
                     }
                     break;
                 }
+                case("League"):{
+                    for(League league:leagues){
+                        if(searchWord.equals(league.getName()))
+                            return league;
+                    }
+                }
+                case("Season"):{
+                    String year="";
+                    for(Season season:seasons){
+                        year =""+season.getYear();
+                        if(searchWord.equals(year))
+                            return season;
+                    }
+                }
                 case("Password"):{
                     //think about it
                     break;
@@ -247,4 +283,18 @@ public class Database //maybe generalize with interface? //for now red layer
         return userNamesAndPasswords;
     }
 
+    public void removeUser(String userId) {
+        User user = usersInDatabase.get(userId);
+        if(user!=null){
+            user.deactivate();
+        }
+    }
+
+    public League getLeague(String nameOfLeague) {
+        return (League)search("League", nameOfLeague);
+    }
+
+    public Season getSeason(String yearOfSeason) {
+        return (Season)search("Season", yearOfSeason);
+    }
 }

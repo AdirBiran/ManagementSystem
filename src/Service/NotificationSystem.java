@@ -9,16 +9,14 @@ import java.util.List;
 
 public class NotificationSystem {
 
-    private GameManagement gameManagement;
+    private LeagueAndGameManagement leagueAndGameManagement;
     private RefereeManagement refereeManagement;
     private AssetManagement assetManagement;
-    private FootballManagementSystem system;
 
-    public NotificationSystem(GameManagement gameManagement, RefereeManagement refereeManagement,
-                              AssetManagement assetManagement, FootballManagementSystem system) {
-        this.gameManagement = gameManagement;
+    public NotificationSystem(LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement,
+                              AssetManagement assetManagement) {
+        this.leagueAndGameManagement = leagueAndGameManagement;
         this.refereeManagement = refereeManagement;
-        this.system = system;
         this.assetManagement = assetManagement;
     }
 
@@ -29,7 +27,7 @@ public class NotificationSystem {
      * @param notice -how to get the alerts
      */
     public void registrationForGameAlerts(Fan fan, List<Game> games, Notice notice){
-        gameManagement.registrationForGameAlerts(fan, games, notice);
+        leagueAndGameManagement.registrationForGameAlerts(fan, games, notice);
     }
 
     /**

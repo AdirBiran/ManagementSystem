@@ -36,6 +36,17 @@ public class Checker {
         return true;
 
     }
+    public static boolean isValidPassword(String password){
+        if(!isValid(password))return false;
+        boolean hasUpperCase = false, hasLowerCase= false, hasNumber= false;
+        for (int i = 0; i <password.length() ; i++) {
+            char c = password.charAt(i);
+            if(c>='a'&&c<='z') hasLowerCase=true;
+            if(c>='A'&&c<='Z') hasUpperCase = true;
+            if(c>='0'&&c<='9') hasNumber = true;
+        }
+        return hasLowerCase&&hasUpperCase&&hasNumber;
+    }
 
     /**
      *

@@ -6,10 +6,10 @@ import Presentation.FootballManagementSystem;
 public class SearchSystem {
 
     private Searcher searcher;
-    private FootballManagementSystem system;
 
-    public SearchSystem(Searcher searcher, FootballManagementSystem system) {
+
+    public SearchSystem(Searcher searcher) {
         this.searcher = searcher;
-        this.system = system;
+
     }
 }

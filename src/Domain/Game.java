@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Game {
 
+    private String id;
     private Date date;
     private Time time;
     private int hostScore;
@@ -22,8 +23,9 @@ public class Game {
     private HashMap<Fan, Notice> fansForAlerts; //list of fans that signed up to receive game alerts
     private EventReport eventReport;
 
-    public Game(Date date, Time time, Field field, Referee mainReferee, List<Referee> sideReferees,
+    public Game(String id, Date date, Time time, Field field, Referee mainReferee, List<Referee> sideReferees,
                 Team hostTeam, Team guestTeam) {
+        this.id = id;
         this.date = date;
         this.time = time;
         this.field = field;
@@ -49,6 +51,10 @@ public class Game {
     public void addFanForNotifications(Fan fan, Notice notice) {
         if(fansForAlerts.get(fan)==null)
             fansForAlerts.put(fan, notice);
+    }
+
+    public String getId() {
+        return id;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++

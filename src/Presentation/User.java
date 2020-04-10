@@ -11,12 +11,26 @@ public abstract class User extends Guest {
     protected String name;
     protected String mail;
     protected List<Notice> messageBox;
+    protected boolean isActive;
 
-    public User(String name,String ID , String mail) {
+
+
+    public User(String name, String ID , String mail) {
         this.name = name;
         this.ID = ID;
         this.mail = mail;
         this.messageBox = new LinkedList<>();
+        this.isActive = true;
+    }
+    public void deactivate() {
+        isActive = false;
+    }
+    public void activate() {
+        isActive = true;
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 
     /**

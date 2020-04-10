@@ -1,22 +1,24 @@
 package Service;
 
-import Domain.ComplaintManager;
-import Domain.EditPersonalInfo;
-import Domain.Searcher;
+import Domain.*;
+import Presentation.Admin;
 import Presentation.FootballManagementSystem;
+import Presentation.User;
 
 public class UserSystem extends GuestSystem{
 
     private ComplaintManager complaintManger;
     private EditPersonalInfo editPersonalInfo;
-    private PersonalPageSystem personalPageSystem;
+    private PersonalPageManagement personalPageManagement;
+    private UserManagement userManagement;
 
-    public UserSystem(FootballManagementSystem system, Searcher searcher, ComplaintManager complaintManger,
-                      EditPersonalInfo editPersonalInfo, PersonalPageSystem personalPageSystem) {
-        super(system, searcher);
+    public UserSystem(Searcher searcher, ComplaintManager complaintManger,
+                      EditPersonalInfo editPersonalInfo, PersonalPageManagement personalPageManagement,UserManagement userManagement) {
+        super(searcher);
         this.complaintManger = complaintManger;
         this.editPersonalInfo = editPersonalInfo;
-        this.personalPageSystem = personalPageSystem;
+        this.personalPageManagement = personalPageManagement;
+        this.userManagement = userManagement;
     }
 
     public void viewSearchHistory(){
@@ -30,5 +32,11 @@ public class UserSystem extends GuestSystem{
     }
     public void editPersonalDetails(){
 
+    }
+    /*
+    this function adds a new user to the system
+     */
+    public void addUser(String id, String password, User user) {
+        userManagement.addUser(id, password, user);
     }
 }
