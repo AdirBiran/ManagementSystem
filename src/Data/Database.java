@@ -74,7 +74,7 @@ public class Database //maybe generalize with interface? //for now red layer
     this function gets a userId and return its personalPage if exists
     if page not exists the function returns null
      */
-    public PersonalPage getPge(String userId){
+    public PersonalPage getPage(String userId){
         return (PersonalPage)search("Page", userId);
     }
     /*
@@ -352,8 +352,8 @@ public class Database //maybe generalize with interface? //for now red layer
         System.out.println(database.getAsset(""));//expected : null
         System.out.println(database.getGame(game.getId()));//expected : game
         System.out.println(database.getGame(""));//expected : null
-        System.out.println(database.getPge(hapoelsPage.getId()));//expected : hapoelsPage
-        System.out.println(database.getPge(""));//expected : null
+        System.out.println(database.getPage(hapoelsPage.getId()));//expected : hapoelsPage
+        System.out.println(database.getPage(""));//expected : null
         System.out.println(database.getSeason("2019"));//expected : season 2019
         System.out.println(database.getLeague("Alufot"));//expected : Alufot
         System.out.println(database.getSeason("2020"));//expected : null
