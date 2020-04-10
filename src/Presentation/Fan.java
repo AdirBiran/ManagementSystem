@@ -28,7 +28,6 @@ public class Fan extends User {
      * registration for game alerts- In menu of fan
      */
     public void registrationForGameAlerts(){
-        //notificationSystem.registrationForGameAlerts(this, listOfGames, notice)
     }
     /**
      *
