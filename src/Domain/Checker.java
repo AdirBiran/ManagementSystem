@@ -36,6 +36,7 @@ public class Checker {
         return true;
 
     }
+
     public static boolean isValidPassword(String password){
         if(!isValid(password))return false;
         boolean hasUpperCase = false, hasLowerCase= false, hasNumber= false;
