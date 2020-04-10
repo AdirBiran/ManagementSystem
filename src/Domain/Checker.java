@@ -7,14 +7,12 @@ public class Checker {
      * @param obj
      * @return
      */
-    public static boolean isValid(Object obj)
-    {
+    public static boolean isValid(Object obj) {
         if (!passNull(obj))
             return false;
 
-        if (obj instanceof String)
-        {
-            String objString = (String)obj;
+        if (obj instanceof String) {
+            String objString = (String) obj;
 
             if (!passEmptyString(objString))
                 return false;
@@ -27,8 +25,7 @@ public class Checker {
 
         }
 
-        if (obj instanceof Integer || obj instanceof Double)
-        {
+        if (obj instanceof Integer || obj instanceof Double) {
             if (!passNegativeNumber(obj))
                 return false;
         }
