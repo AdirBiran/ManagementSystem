@@ -11,8 +11,8 @@ public class Field implements Asset {
     private Team team;
     private List<Game> games;
 
-    public Field(String id, String location, int capacity, Team team) {
-        this.id = id;
+    public Field(String location, int capacity, Team team) {
+        this.id = "Filed"+IdGenerator.getNewId();
         this.location = location;
         this.capacity = capacity;
         this.team = team;

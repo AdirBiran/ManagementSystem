@@ -109,7 +109,8 @@ public class Database //maybe generalize with interface? //for now red layer
             for(Player player:((Team)asset).getPlayers()){
                 if(!usersInDatabase.containsKey(player.getID())&&!assetsInDatabase.containsKey(player.getID())){
                     addAsset(player);
-                    addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
+                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
+                    addUser(player.getID(),"Aa1234",player);
                 }
             }
         }
@@ -317,27 +318,27 @@ public class Database //maybe generalize with interface? //for now red layer
         System.out.println(database.addSeason(season));// expected : true
         System.out.println(database.addLeague(league));// expected : false
         System.out.println(database.addSeason(season));// expected : false
-        User admin = new Admin("Admin","Ush", "1", "example@gmail.com");
-        User unionRep = new UnionRepresentative("Natzig", "Ush", "2", "");
-        System.out.println(database.addUser("1", "aA1aA1", admin));//expected : true
-        System.out.println(database.addUser("2", "aA1aA1", unionRep));//expected : true maybe false
-        System.out.println(database.addUser("1", "aA1aA1", admin));//expected : false
-        System.out.println(database.authenticationCheck("1", "aA1aA1"));//expected : true
-        System.out.println(database.authenticationCheck("1", "aA1bA1"));//expected : false
+        User admin = new Admin("Admin","Ush", "example@gmail.com");
+        User unionRep = new UnionRepresentative("Natzig", "Ush", "");
+        System.out.println(database.addUser(admin.getID(), "aA1aA1", admin));//expected : true
+        System.out.println(database.addUser(unionRep.getID(), "aA1aA1", unionRep));//expected : true maybe false
+        System.out.println(database.addUser(admin.getID(), "aA1aA1", admin));//expected : false
+        System.out.println(database.authenticationCheck(admin.getID(), "aA1aA1"));//expected : true
+        System.out.println(database.authenticationCheck(admin.getID(), "aA1bA1"));//expected : false
         List<TeamOwner> owners1 = new LinkedList<>();
-        Field field1 = new Field("F"+IdGenerator.getNewId(), "jerusalem", 550, null);
-        Team hapoel = new Team("T"+IdGenerator.getNewId(),"Hapoel", null, owners1, createPlayers(), createCoaches(),field1);
+        Field field1 = new Field("jerusalem", 550, null);
+        Team hapoel = new Team("Hapoel", null, owners1, createPlayers(), createCoaches(),field1);
         field1.setTeam(hapoel);
         List<Team> teams = new LinkedList<>();
         teams.add(hapoel);
-        TeamOwner owner = new TeamOwner("Team","Owner", "TO"+IdGenerator.getNewId(), "",teams);
+        TeamOwner owner = new TeamOwner("Team","Owner", "",teams);
         hapoel.getTeamOwners().add(owner);
         System.out.println(database.addAsset(field1));//expected : true
         System.out.println(database.addAsset(hapoel));//expected : true
-        PersonalPage hapoelsPage = new PersonalPage("PP"+IdGenerator.getNewId(),"",hapoel.getPlayers().get(0));
+        PersonalPage hapoelsPage = new PersonalPage("",hapoel.getPlayers().get(0));
         System.out.println(database.addPage(hapoelsPage));//expected : true
-        Field field2 = new Field("F"+IdGenerator.getNewId(), "TelAviv", 550, null);
-        Team macabi = new Team ("T"+IdGenerator.getNewId(), "Macabi", null,owners1, createPlayers(),createCoaches(),field2);
+        Field field2 = new Field( "TelAviv", 550, null);
+        Team macabi = new Team ( "Macabi", null,owners1, createPlayers(),createCoaches(),field2);
         System.out.println(database.addAsset(macabi));//expected : true
         System.out.println(database.addAsset(field2));//expected : true
         Game game = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25),new Time(20,0,0), field1, mainReferee(), sideReferees(),hapoel, macabi);
@@ -368,32 +369,32 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    private static List<Referee> sideReferees() {
+    public static List<Referee> sideReferees() {
         List<Referee> refs = new LinkedList<>();
         Referee referee;
         for (int i = 0; i <3 ; i++) {
-            referee = new Referee("ref"+i,"", "R"+IdGenerator.getNewId(), "", "side");
+            referee = new Referee("ref"+i,"", "", "side");
             refs.add(referee);
         }
         return refs;
     }
 
-    private static Referee mainReferee() {
-        return new Referee("referee", "","R"+IdGenerator.getNewId(), "", "talented");
+    public static Referee mainReferee() {
+        return new Referee("referee", "", "", "talented");
     }
 
-    private static List<Coach> createCoaches() {
-        Coach coach = new Coach("coach1", "","C"+IdGenerator.getNewId(), "", null, "", "main", null);
+    public static List<Coach> createCoaches() {
+        Coach coach = new Coach("coach1", "", "", null, "", "main", null);
         List<Coach> coaches = new LinkedList<>();
         coaches.add(coach);
         return coaches;
     }
 
 
-    private static List<Player> createPlayers() {
+    public static List<Player> createPlayers() {
         List<Player> players = new LinkedList<>();
         for (int i = 0; i <12 ; i++) {
-            players.add(new Player("player"+i, "","P"+IdGenerator.getNewId(), "", null, new Date (1999,1,1),"role"+i,new LinkedList<Team>()));
+            players.add(new Player("player"+i, "", "", null, new Date (1999,1,1),"role"+i,new LinkedList<Team>()));
         }
         return players;
     }

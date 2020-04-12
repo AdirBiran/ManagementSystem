@@ -20,41 +20,55 @@ public class NotificationSystem {
         this.assetManagement = assetManagement;
     }
 
-    /**
-     * registration for game alerts
-     * @param fan - want to get alerts for the games
-     * @param games -fan will receive alerts for this games
-     * @param notice -how to get the alerts
+    /*
+    Fan registration for alerts for games you've selected
      */
-    public void registrationForGameAlerts(Fan fan, List<Game> games, Notice notice){
-        leagueAndGameManagement.registrationForGameAlerts(fan, games, notice);
+    public boolean registrationForGameAlerts(Fan fan, List<Game> games, ReceiveAlerts receive){
+        return leagueAndGameManagement.registrationForGameAlerts(fan, games, receive);
     }
-
-    /**
-     * @param team- team to close/closed permanently or open
+    /*
+    When a team is closed / permanently closed or reopened, alerts are sent accordingly
      */
-    public void openORcloseTeam(String option, Team team, boolean permanently){
-        assetManagement.sendNotification(option, team, permanently);
+    public boolean openORCloseTeam(String option, Team team, boolean permanently){
+        return assetManagement.alertBudgetException(option, team, permanently);
     }
-
+    /*
+    Send alerts to the referee when there is a change in game date
+     */
     public void refereeAlertsChangeDate(Game game, Date newDate){
         String msg = "The game: "+game.toString()+" have new date: "+newDate;
         refereeManagement.sendNotification(game, msg);
     }
-    public void refereeAlertsChangeDate(Game game, Time newTime){
+    /*
+    Send alerts to the referee when there is a change in game time
+     */
+    public void refereeAlertsChangeTime(Game game, Time newTime){
         String msg= "The game: "+game.toString()+" have new time: "+newTime;
         refereeManagement.sendNotification(game, msg);
     }
+    /*
+    Send alerts to the referee when there is a change in game location
+     */
     public  void refereeAlertsChangeGameLocation(Game game, Field field){
         String msg= "The game: "+game.toString()+" change location: "+field.getLocation();
         refereeManagement.sendNotification(game, msg);
     }
-    public void exceededBuget(Budget budget){
-        String msg = "There is an exception to the budget, the budget is "+budget.getBalance();
-        assetManagement.sendNotification(msg);
+    /*
+    Send notifications to union representatives when a team exceeds the budget
+     */
+    public void exceededBudget(Team team){
+        String msg = "Exception in the team budget"+team.getName()+", the budget is "+team.getBudget().getBalance();
+        assetManagement.alertBudgetException(msg);
     }
-    public void UserRemovalNotification(User user){
-        user.addMessage(new Notice(true, "Your subscription has been removed"));
+    /*
+    Send a notification to the user when the administrator removes it
+     */
+    public boolean UserRemovalNotification(User user){
+        if(!user.isActive()) {
+            user.addMessage(new Notice(true, "Your subscription has been removed"));
+            return true;
+        }
+        return false;
     }
 
 }

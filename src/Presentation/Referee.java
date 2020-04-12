@@ -10,8 +10,8 @@ public class Referee extends User {
     private String training;
     private List<Game> games;
 
-    public Referee(String firstName,String lastName, String ID, String mail, String training) {
-        super(firstName,lastName, ID, mail);
+    public Referee(String firstName,String lastName, String mail, String training) {
+        super(firstName,lastName, "R", mail);
         this.training = training;
         this.games = new LinkedList<>();
     }

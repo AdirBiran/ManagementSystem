@@ -12,8 +12,8 @@ public class Player extends HasAPage implements Asset {
     private String role;
     private List<Team> teams; // at least one
 
-    public Player(String firstName,String lastName, String ID, String mail, PersonalPage page, Date birthDate, String role, List<Team> teams) {
-        super(firstName,lastName, ID, mail, page);
+    public Player(String firstName,String lastName, String mail, PersonalPage page, Date birthDate, String role, List<Team> teams) {
+        super(firstName,lastName, "P", mail, page);
         this.birthDate = birthDate;
         this.role = role;
         //if(teams==null||teams.size()<1)

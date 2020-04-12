@@ -9,8 +9,8 @@ public class PersonalPage {
     private String data;
     private HasAPage user;
 
-    public PersonalPage(String id, String data, HasAPage user) {
-        this.id = id;
+    public PersonalPage(String data, HasAPage user) {
+        this.id = "PP"+IdGenerator.getNewId();
         this.data = data;
         this.user = user;
         user.setPage(this);

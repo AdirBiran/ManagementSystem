@@ -12,18 +12,24 @@ public class Searcher {
     public Searcher(Database database) {
         this.database = database;
     }
+    /*
 
+     */
     public void searchInfo(Guest g, String wordToSearch) {
         if(g instanceof Fan){
             ((Fan) g).addToSearchHistory(wordToSearch);
         }
         //search info about wordToSearch
     }
+    /*
 
+     */
     public void viewInfoAbout(String viewAbout) {
         //what display to user??
     }
-
+    /*
+    View fan search history
+    */
     public List<String> viewSearchHistory(Fan fan) {
         return fan.getSearchHistory();
     }

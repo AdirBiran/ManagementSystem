@@ -3,10 +3,6 @@ package Domain;
 import Data.Database;
 import Presentation.Referee;
 
-import java.security.SecureRandom;
-import java.util.stream.Collectors;
-import java.util.*;
-
 public class RefereeManagement {
 
     private Database database;
@@ -15,6 +11,9 @@ public class RefereeManagement {
         this.database = database;
     }
 
+    /*
+    Send alerts to the referee when there is a changes in game
+    */
     public void sendNotification(Game game, String msg) {
         for(Referee sideRef : game.getSideReferees())
             sideRef.addMessage(new Notice(true, msg));
@@ -22,10 +21,11 @@ public class RefereeManagement {
     }
 
     public boolean appointReferee(String firstName, String lastName, String id, String mail, String training) {
-        Referee referee = new Referee(firstName,lastName, id, mail, training);
-        String randomInitialPassword = PasswordGenerator.generateRandPassword(6);
+        Referee referee = new Referee(firstName,lastName, mail, training);
+        //String randomInitialPassword = PasswordGenerator.generateRandPassword(6);
+        String randomInitialPassword = "Ac1234";
         //send referee mail to approve?
-        return database.addUser(id, randomInitialPassword, referee);
+        return database.addUser(referee.getID(), randomInitialPassword, referee);
     }
 
 }

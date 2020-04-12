@@ -20,7 +20,7 @@ public class Game {
     private List<Referee> sideReferees; // between 2 and 6, check type of referee
     private Team hostTeam; // check type of team
     private Team guestTeam; // check type of team
-    private HashMap<Fan, Notice> fansForAlerts; //list of fans that signed up to receive game alerts
+    private HashMap<Fan, ReceiveAlerts> fansForAlerts; //list of fans that signed up to receive game alerts
     private EventReport eventReport;
 
     public Game(String id, Date date, Time time, Field field, Referee mainReferee, List<Referee> sideReferees,
@@ -56,12 +56,15 @@ public class Game {
     /**
      *
      * @param fan - signed up for game alerts
-     * @param notice- how to get the alerts
+     * @param receiveAlerts- how to get the alerts
      * @return true- if the fan is added to list to receive game alerts
      */
-    public void addFanForNotifications(Fan fan, Notice notice) {
-        if(fansForAlerts.get(fan)==null)
-            fansForAlerts.put(fan, notice);
+    public boolean addFanForNotifications(Fan fan, ReceiveAlerts receiveAlerts) {
+        if(fansForAlerts.get(fan)==null) {
+            fansForAlerts.put(fan, receiveAlerts);
+            return true;
+        }
+        return false;
     }
 
     public String getId() {
