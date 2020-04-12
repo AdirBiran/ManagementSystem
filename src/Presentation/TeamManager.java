@@ -9,8 +9,8 @@ public class TeamManager extends Manager implements Asset {
 
     private Team team;
 
-    public TeamManager(String firstName,String lastName, String ID, String mail, Team team) {
-        super(firstName,lastName, ID, mail);
+    public TeamManager(String firstName,String lastName , String mail, Team team) {
+        super(firstName,lastName, "TM", mail);
         this.team = team;
     }
 

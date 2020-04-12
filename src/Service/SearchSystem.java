@@ -1,7 +1,6 @@
 package Service;
 
 import Domain.Searcher;
-import Presentation.FootballManagementSystem;
 
 public class SearchSystem {
 

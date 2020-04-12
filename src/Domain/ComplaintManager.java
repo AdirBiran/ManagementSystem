@@ -12,6 +12,9 @@ public class ComplaintManager {
         this.database = database;
     }
 
+    /*
+    user adds a complaint to the system
+     */
     public void addComplaintToSystem(Fan fan, String description) {
         Complaint complaint = new Complaint(new Date(), description, fan);
         database.addComplaint(complaint);

@@ -24,8 +24,8 @@ public class Team implements Asset{
     private boolean active;
     private boolean permanentlyClosed; //closed by admin and cannot open again
 
-    public Team(String id,String name, PersonalPage page, List<TeamOwner> teamOwners, List<Player> players, List<Coach> coaches, Field field) {
-        this.id = id;
+    public Team(String name, PersonalPage page, List<TeamOwner> teamOwners, List<Player> players, List<Coach> coaches, Field field) {
+        this.id = "T"+IdGenerator.getNewId();
         this.name = name;
         this.page = page;
         //if(teamOwners==null||teamOwners.size()<1)

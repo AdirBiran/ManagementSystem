@@ -2,15 +2,17 @@ package Service;
 
 import Domain.FinanceTransactionsManagement;
 import Domain.Team;
-import Presentation.FootballManagementSystem;
 import Presentation.TeamOwner;
 
 public class FinanceTransactionsSystem
 {
     private FinanceTransactionsManagement financeTransactionsManagement;
+    private NotificationSystem notificationSystem;
 
-    public FinanceTransactionsSystem(FinanceTransactionsManagement financeTransactionsManagement) {
+    public FinanceTransactionsSystem(FinanceTransactionsManagement financeTransactionsManagement,
+                                     NotificationSystem notificationSystem) {
         this.financeTransactionsManagement = financeTransactionsManagement;
+        this.notificationSystem = notificationSystem;
     }
 
     /*
@@ -19,7 +21,11 @@ public class FinanceTransactionsSystem
     public boolean reportNewIncome(TeamOwner teamOwner, Team team, double income){
         if(!team.getTeamOwners().contains(teamOwner))
             return false;
-        return financeTransactionsManagement.reportNewIncome(team.getBudget(),income);
+        if(!financeTransactionsManagement.reportNewIncome(team.getBudget(),income)) {
+            notificationSystem.exceededBudget(team);
+            return false;
+        }
+        return true;
     }
     /*
     this function allows a Team Owner to add new expanse to his team budget
@@ -27,7 +33,11 @@ public class FinanceTransactionsSystem
     public boolean reportNewExpanse(TeamOwner teamOwner, Team team, double expanse){
         if(!team.getTeamOwners().contains(teamOwner))
             return false;
-        return financeTransactionsManagement.reportNewExpanse(team.getBudget(), expanse);
+        if(!financeTransactionsManagement.reportNewExpanse(team.getBudget(), expanse)) {
+            notificationSystem.exceededBudget(team);
+            return false;
+        }
+        return true;
     }
 
     public double getBalance(Team team){

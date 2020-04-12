@@ -13,9 +13,9 @@ public class Fan extends User {
     private List<PersonalPage> pages;
     private List<String> searchHistory;
 
-    public Fan(String mail, String password, String firstName, String lastName,
-               String phone, String address, String ID) {
-        super(firstName, lastName, ID, mail);
+    public Fan(String mail, String firstName, String lastName,
+               String phone, String address) {
+        super(firstName, lastName,"F", mail);
         this.address = address;
         this.phone = phone;
         complaints = new LinkedList<>();
@@ -57,6 +57,7 @@ public class Fan extends User {
         super.editDetails(firstName, lastName);
         this.address = address;
         this.phone = phone;
+
     }
 
 

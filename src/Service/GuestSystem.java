@@ -15,6 +15,9 @@ public class GuestSystem {
         this.userManagement = userManagement;
     }
 
+    /*
+    Guest registration for the system
+     */
     public boolean registrationToSystem(String mail, String password, String firstName, String lastName,
                                         String phone, String address){
         if(userManagement.registrationToSystem(mail, password, firstName, lastName, phone, address))
@@ -22,27 +25,24 @@ public class GuestSystem {
         return false;
     }
 
-    /**
-     * @param mail- Email login to system
-     * @param password- password for the same user
-     * @return if exists return connected user
+    /*
+     * User login to system
+     * if exists return connected user
      * if the password is invalid or there is no such email in the system return null
      */
     public User logIn(String mail, String password){
         return userManagement.logInUserToSystem(mail, password);
     }
 
-    /**
-     *
-     * @param g - the guest in the system
-     * @param wordToSearch - a word for searching information in the system
+    /*
+    Search results in a system
      */
     public void search(Guest g, String wordToSearch){
         searcher.searchInfo(g, wordToSearch);
 
     }
-    /**
-     * @param viewAbout- the guest chooses what to watch - teams, players, coaches, leagues and more
+    /*
+    the guest chooses what to watch - teams, players, coaches, leagues and more
      */
     public void viewInformation(String viewAbout){
         searcher.viewInfoAbout(viewAbout);

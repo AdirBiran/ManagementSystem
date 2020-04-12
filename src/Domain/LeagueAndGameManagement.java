@@ -3,7 +3,6 @@ package Domain;
 import Data.Database;
 import Presentation.Fan;
 import Presentation.Referee;
-
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +14,15 @@ public class LeagueAndGameManagement {
         this.database = database;
     }
 
-    public void registrationForGameAlerts(Fan fan, List<Game> games, Notice notice) {
+    /*
+    Fan registration for alerts for games you've selected
+     */
+    public boolean registrationForGameAlerts(Fan fan, List<Game> games, ReceiveAlerts receiveAlerts) {
         for(Game game : games){
-            game.addFanForNotifications(fan, notice);
+            if(!game.addFanForNotifications(fan, receiveAlerts))
+                return false;
         }
+        return true;
     }
 
     public boolean configureNewLeague(String name, String level) {

@@ -12,8 +12,8 @@ public class Coach extends HasAPage implements Asset {
     private String role;
     private Team team;
 
-    public Coach(String firstName,String lastName,String ID, String mail, PersonalPage page, String training, String role, Team team) {
-        super(firstName,lastName, ID, mail, page);
+    public Coach(String firstName,String lastName, String mail, PersonalPage page, String training, String role, Team team) {
+        super(firstName,lastName, "C", mail, page);
         this.training = training;
         this.role = role;
         this.team = team;
