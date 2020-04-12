@@ -20,6 +20,7 @@ public class Database //maybe generalize with interface? //for now red layer
     private HashSet<League> leagues;
     private HashSet<Season> seasons;
     private HashSet<Complaint> complaints;
+    private HashMap<String, Team> teams;
 
     public Database() {
         userNamesAndPasswords = new HashMap<>();
@@ -30,6 +31,7 @@ public class Database //maybe generalize with interface? //for now red layer
         leagues = new HashSet<>();
         seasons = new HashSet<>();
         complaints = new HashSet<>();
+        teams = new HashMap<>();
     }
 
     public boolean addLeague(League league) {
@@ -45,6 +47,43 @@ public class Database //maybe generalize with interface? //for now red layer
             return true;
         }
         return false;
+    }
+
+    public boolean addTeam(Team team){
+        if(!teams.containsKey(team.getID())){
+            teams.put(team.getID(), team);
+            for(Player player:team.getPlayers()){
+                if(!usersInDatabase.containsKey(player.getID())){
+                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
+                    addUser(player.getID(),"Aa1234",player);
+                }
+            }
+            for(Coach coach:team.getCoaches()){
+                if(!usersInDatabase.containsKey(coach.getID())){
+                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
+                    addUser(coach.getID(),"Aa1234",coach);
+                }
+            }
+            for(TeamOwner teamOwner:team.getTeamOwners()){
+                if(!usersInDatabase.containsKey(teamOwner.getID())){
+                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
+                    addUser(teamOwner.getID(),"Aa1234",teamOwner);
+                }
+            }
+            for(TeamManager teamManager:team.getTeamManagers()){
+                if(!usersInDatabase.containsKey(teamManager.getID())){
+                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
+                    addUser(teamManager.getID(),"Aa1234",teamManager);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+    public Team getTeam(String teamId){
+        return (Team)search("Team", teamId);
     }
 
     /*
@@ -105,15 +144,7 @@ public class Database //maybe generalize with interface? //for now red layer
             return false;
         }
         assetsInDatabase.put(assetName, asset);
-        if(asset instanceof Team){
-            for(Player player:((Team)asset).getPlayers()){
-                if(!usersInDatabase.containsKey(player.getID())&&!assetsInDatabase.containsKey(player.getID())){
-                    addAsset(player);
-                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
-                    addUser(player.getID(),"Aa1234",player);
-                }
-            }
-        }
+
         return true;
     }
     /*
@@ -125,6 +156,9 @@ public class Database //maybe generalize with interface? //for now red layer
             //use some hash to encrypt the password?
             userNamesAndPasswords.put(userId, password);
             usersInDatabase.put(userId, user);
+            if(user instanceof Asset && !assetsInDatabase.containsKey(user.getID())){
+                assetsInDatabase.put(user.getID(), (Asset)user);
+            }
             return true;
         }
         return false;
@@ -137,6 +171,12 @@ public class Database //maybe generalize with interface? //for now red layer
         if(gamesInDatabase.containsKey(game.getId()))
             return false;
         gamesInDatabase.put(game.getId(), game);
+        addUser(game.getMainReferee().getID(), "Aa1234", game.getMainReferee());
+        for(Referee ref : game.getSideReferees()){
+                addUser(ref.getID(), "Aa1234", ref);
+        }
+        addTeam(game.getGuestTeam());
+        addTeam(game.getHostTeam());
         return true;
     }
     /*
@@ -280,6 +320,12 @@ public class Database //maybe generalize with interface? //for now red layer
                             return season;
                     }
                 }
+                case("Team"):{
+                    for(Team team:teams.values()){
+                        if(searchWord.equals(team.getID()))
+                            return team;
+                    }
+                }
                 case("Password"):{
                     //think about it
                     break;
@@ -325,24 +371,22 @@ public class Database //maybe generalize with interface? //for now red layer
         System.out.println(database.addUser(admin.getID(), "aA1aA1", admin));//expected : false
         System.out.println(database.authenticationCheck(admin.getID(), "aA1aA1"));//expected : true
         System.out.println(database.authenticationCheck(admin.getID(), "aA1bA1"));//expected : false
+        TeamOwner owner = new TeamOwner("Team","Owner", "");
         List<TeamOwner> owners1 = new LinkedList<>();
-        Field field1 = new Field("jerusalem", 550, null);
+        owners1.add(owner);
+        Field field1 = new Field("jerusalem", 550);
         Team hapoel = new Team("Hapoel", null, owners1, createPlayers(), createCoaches(),field1);
-        field1.setTeam(hapoel);
-        List<Team> teams = new LinkedList<>();
-        teams.add(hapoel);
-        TeamOwner owner = new TeamOwner("Team","Owner", "",teams);
-        hapoel.getTeamOwners().add(owner);
+
         System.out.println(database.addAsset(field1));//expected : true
-        System.out.println(database.addAsset(hapoel));//expected : true
+        System.out.println(database.addTeam(hapoel));//expected : true
         PersonalPage hapoelsPage = new PersonalPage("",hapoel.getPlayers().get(0));
         System.out.println(database.addPage(hapoelsPage));//expected : true
-        Field field2 = new Field( "TelAviv", 550, null);
+        Field field2 = new Field( "TelAviv", 550);
         Team macabi = new Team ( "Macabi", null,owners1, createPlayers(),createCoaches(),field2);
-        System.out.println(database.addAsset(macabi));//expected : true
+        System.out.println(database.addTeam(macabi));//expected : true
         System.out.println(database.addAsset(field2));//expected : true
-        Game game = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25),new Time(20,0,0), field1, mainReferee(), sideReferees(),hapoel, macabi);
-        Game game2 = new Game("G"+IdGenerator.getNewId(),new Date(119,4,25),new Time(20,0,0), field1, mainReferee(), sideReferees(),hapoel, macabi);
+        Game game = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoel, macabi);
+        Game game2 = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoel, macabi);
         System.out.println(database.addGame(game));//expected : true
         System.out.println(database.addGame(game2));//expected : true
         System.out.println(database.getUser("1"));//expected : admin
@@ -384,7 +428,7 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static List<Coach> createCoaches() {
-        Coach coach = new Coach("coach1", "", "", null, "", "main", null);
+        Coach coach = new Coach("coach1", "", "", null, "", "main");
         List<Coach> coaches = new LinkedList<>();
         coaches.add(coach);
         return coaches;
@@ -394,7 +438,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static List<Player> createPlayers() {
         List<Player> players = new LinkedList<>();
         for (int i = 0; i <12 ; i++) {
-            players.add(new Player("player"+i, "", "", null, new Date (1999,1,1),"role"+i,new LinkedList<Team>()));
+            players.add(new Player("player"+i, "", "", null, new Date (1999,1,1),"role"+i));
         }
         return players;
     }

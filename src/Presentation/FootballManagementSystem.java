@@ -42,24 +42,22 @@ public class FootballManagementSystem {
         userSystem.addUser(systemAdmin.getID(), "Adminush1", systemAdmin);
 
         //**UnitTests!-NotificationSystem**//
+        TeamOwner owner = new TeamOwner("Team","Owner", "a@gmail.com");
         List<TeamOwner> owners = new LinkedList<>();
-        Field field = new Field( "jerusalem", 550, null);
+        owners.add(owner);
+        Field field = new Field( "jerusalem", 550);
         Team hapoel = new Team("Hapoel", null, owners, database.createPlayers(), database.createCoaches(),field);
-        field.setTeam(hapoel);
-        List<Team> teams = new LinkedList<>();
-        teams.add(hapoel);
-        TeamOwner owner = new TeamOwner("Team","Owner", "a@gmail.com",teams);
-        hapoel.getTeamOwners().add(owner);
+
         database.addAsset(field);
-        database.addAsset(hapoel);
+        database.addTeam(hapoel);
         PersonalPage hapoelsPage = new PersonalPage("",hapoel.getPlayers().get(0));
         database.addPage(hapoelsPage);//expected : true
-        Field field2 = new Field( "TelAviv", 550, null);
+        Field field2 = new Field( "TelAviv", 550);
         Team macabi = new Team ("Macabi", null,owners, database.createPlayers(),database.createCoaches(),field2);
-        database.addAsset(macabi);
+        database.addTeam(macabi);
         database.addAsset(field2);
-        Game game = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25),new Time(20,0,0), field, database.mainReferee(), database.sideReferees(),hapoel, macabi);
-        Game game2 = new Game("G"+IdGenerator.getNewId(),new Date(119,4,25),new Time(20,0,0), field, database.mainReferee(), database.sideReferees(),hapoel, macabi);
+        Game game = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25, 20,0,0), field, database.mainReferee(), database.sideReferees(),hapoel, macabi);
+        Game game2 = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25, 20,0,0), field, database.mainReferee(), database.sideReferees(),hapoel, macabi);
         database.addGame(game);
         database.addGame(game2);
 
@@ -74,7 +72,7 @@ public class FootballManagementSystem {
         hapoel.setActive(false);
         System.out.println(notificationSystem.openORCloseTeam("closed", hapoel, true)); //expected : true
         notificationSystem.refereeAlertsChangeDate(game, game.getDate());
-        notificationSystem.refereeAlertsChangeTime(game, game.getTime());
+        //notificationSystem.refereeAlertsChangeTime(game, game.getTime());
         notificationSystem.refereeAlertsChangeGameLocation(game, game.getField());
         System.out.println(notificationSystem.UserRemovalNotification(fan));//expected : false
         fan.deactivate();

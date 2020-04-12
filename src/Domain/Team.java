@@ -1,12 +1,11 @@
 package Domain;
 
 import Presentation.*;
-import com.sun.media.jfxmediaimpl.platform.ios.IOSMediaPlayer;
 
 import java.util.List;
 import java.util.LinkedList;
 
-public class Team implements Asset{
+public class Team{
 
     private String id;
     private String name;
@@ -28,17 +27,22 @@ public class Team implements Asset{
         this.id = "T"+IdGenerator.getNewId();
         this.name = name;
         this.page = page;
-        //if(teamOwners==null||teamOwners.size()<1)
-         //   throw new RuntimeException("not enough TeamOwners");
+
+        if(teamOwners==null||teamOwners.size()<1)
+           throw new RuntimeException("not enough TeamOwners");
         this.teamOwners = teamOwners;
+        linkTeamOwner();
         if(players==null||players.size()<11)
             throw new RuntimeException("not enough Players");
         this.players = players;
+        linkPlayers();
         if(coaches==null||coaches.size()<1)
             throw new RuntimeException("not enough Coaches");
         this.coaches = coaches;
+        linkCoaches();
         this.budget = new Budget(this);
         this.field = field;
+        linkField();
         this.wins=0;
         this.losses=0;
         this.draws=0;
@@ -46,6 +50,28 @@ public class Team implements Asset{
         this.games = new LinkedList<>();
         this.active = true;
         this.permanentlyClosed = false;
+    }
+
+    private void linkField() {
+        field.setTeam(this);
+    }
+
+    private void linkCoaches() {
+        for(Coach coach :coaches){
+            coach.addTeam(this);
+        }
+    }
+
+    private void linkPlayers() {
+        for(Player player :players){
+            player.addTeam(this);
+        }
+    }
+
+    private void linkTeamOwner() {
+        for(TeamOwner to:teamOwners){
+            to.addTeam(this);
+        }
     }
 
     @Override
@@ -162,12 +188,12 @@ public class Team implements Asset{
         this.permanentlyClosed = permanentlyClosed;
     }
 
-    @Override
+
     public String getID() {
         return id;
     }
 
-    @Override
+
     public double getPrice() {
         return 0;
     }

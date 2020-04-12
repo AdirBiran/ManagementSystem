@@ -12,11 +12,11 @@ public class Coach extends HasAPage implements Asset {
     private String role;
     private Team team;
 
-    public Coach(String firstName,String lastName, String mail, PersonalPage page, String training, String role, Team team) {
+    public Coach(String firstName,String lastName, String mail, PersonalPage page, String training, String role) {
         super(firstName,lastName, "C", mail, page);
         this.training = training;
         this.role = role;
-        this.team = team;
+        this.team = null;
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
@@ -56,5 +56,9 @@ public class Coach extends HasAPage implements Asset {
     @Override
     public double getPrice() {
         return 0;
+    }
+
+    public void addTeam(Team team){
+        this.team = team;
     }
 }

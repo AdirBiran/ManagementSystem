@@ -2,6 +2,7 @@ package Domain;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Season {
 
@@ -36,5 +37,18 @@ public class Season {
         return "Season{" +
                 "year=" + year +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Season)) return false;
+        Season season = (Season) o;
+        return getYear() == season.getYear();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getYear());
     }
 }

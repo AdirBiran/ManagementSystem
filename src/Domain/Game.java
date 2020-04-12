@@ -12,7 +12,6 @@ public class Game {
 
     private String id;
     private Date date;
-    private Time time;
     private int hostScore;
     private int guestScore;
     private Field field;
@@ -23,11 +22,10 @@ public class Game {
     private HashMap<Fan, ReceiveAlerts> fansForAlerts; //list of fans that signed up to receive game alerts
     private EventReport eventReport;
 
-    public Game(String id, Date date, Time time, Field field, Referee mainReferee, List<Referee> sideReferees,
+    public Game(String id, Date date, Field field, Referee mainReferee, List<Referee> sideReferees,
                 Team hostTeam, Team guestTeam) {
         this.id = id;
         this.date = date;
-        this.time = time;
         this.field = field;
         this.mainReferee = mainReferee;
         if(sideReferees==null||sideReferees.size()<2)
@@ -46,7 +44,6 @@ public class Game {
         return "Game{" +
                 "id='" + id + '\'' +
                 ", date=" + date +
-                ", time=" + time +
                 ", hostTeam=" + hostTeam +
                 ", guestTeam=" + guestTeam +
                 '}';
@@ -74,10 +71,6 @@ public class Game {
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public Date getDate() {
         return date;
-    }
-
-    public Time getTime() {
-        return time;
     }
 
 

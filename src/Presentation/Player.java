@@ -5,6 +5,7 @@ import Domain.PersonalPage;
 import Domain.Team;
 import java.util.Date;
 import java.util.List;
+import java.util.LinkedList;
 
 public class Player extends HasAPage implements Asset {
 
@@ -12,13 +13,11 @@ public class Player extends HasAPage implements Asset {
     private String role;
     private List<Team> teams; // at least one
 
-    public Player(String firstName,String lastName, String mail, PersonalPage page, Date birthDate, String role, List<Team> teams) {
+    public Player(String firstName,String lastName, String mail, PersonalPage page, Date birthDate, String role) {
         super(firstName,lastName, "P", mail, page);
         this.birthDate = birthDate;
         this.role = role;
-        //if(teams==null||teams.size()<1)
-          //  throw new RuntimeException("not enough teams for the player");
-        this.teams = teams;
+        this.teams = new LinkedList<>();
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++

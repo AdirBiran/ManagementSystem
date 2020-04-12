@@ -1,30 +1,35 @@
 package Presentation;
 
+import Domain.IdGenerator;
 import Domain.Team;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.LinkedList;
 
 public class TeamOwner extends Manager {
 
     private List<Team> teams;
     private HashMap<Team, Boolean> isClosedTeam;
 
-    public TeamOwner(String firstName,String lastName, String mail, List<Team> teams) {
+    public TeamOwner(String firstName,String lastName, String mail) {
         super(firstName,lastName, "TO", mail);
-        if(teams.size()<1)
-            throw new RuntimeException("not enough teams to create TeamOwner");
-        this.teams = teams;
+        this.teams = new LinkedList<>();
         this.isClosedTeam = new HashMap<>();
-        if(teams!=null){
-            for (Team t : teams)
-                isClosedTeam.put(t, false);
-        }
+
     }
 
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+
+    public void addTeam(Team team) {
+       if(!teams.contains(team)){
+           teams.add(team);
+           isClosedTeam.put(team, false);
+       }
+
+    }
 
     /**
      *

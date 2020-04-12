@@ -15,11 +15,17 @@ public abstract class User extends Guest {
     protected List<Notice> messageBox;
     protected boolean isActive;
 
-
+    /**
+     * constructor for user
+     * @param firstName
+     * @param lastName
+     * @param ID - only first letter of user id... we add the number to it
+     * @param mail
+     */
     public User(String firstName, String lastName, String ID, String mail) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.ID = ID+ IdGenerator.getNewId();
+        this.ID = ID + IdGenerator.getNewId();
         this.mail = mail;
         this.messageBox = new LinkedList<>();
         this.isActive = true;

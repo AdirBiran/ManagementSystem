@@ -17,7 +17,7 @@ public class PlayTwiceWithEachTeamPolicy implements GameAssignmentPolicy {
         List<Referee> referees = league.getReferees();
         if(referees.size()<3) throw new RuntimeException("not enough referees available to assign games");
         Game game;
-        Time time;
+
         Referee mainRef;
         List<Referee> sideRefs;
         int gameId;
@@ -27,8 +27,7 @@ public class PlayTwiceWithEachTeamPolicy implements GameAssignmentPolicy {
                     mainRef = getMainReferee(referees);
                     sideRefs = getSideReferees(referees,mainRef);
                     gameId = IdGenerator.getNewId();
-                    time = new Time(20,0,0);
-                    game = new Game("g"+gameId,getDateFromList(dates),time, team1.getField(), mainRef,sideRefs, team1,team2);
+                    game = new Game("g"+gameId,getDateFromList(dates), team1.getField(), mainRef,sideRefs, team1,team2);
                     games.add(game);
                 }
             }
