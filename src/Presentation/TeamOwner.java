@@ -139,6 +139,49 @@ public class TeamOwner extends Manager {
     public void removeAppointmentTeamOwner(Asset asset, Team team)
     {
 
+        removeTeamOwner(asset , team);
+
+        /**remove Appointments of team owner*/
+        removeAppointmentsByLoop((TeamOwner) asset , team);
+
+    }
+
+    private void removeTeamOwner(Asset asset, Team team){
+        String assetId = asset.getID();
+
+        if(team.isActive()){
+            if(appointmentAssetsInTeams.get(team).containsKey(assetId)){
+                team.removeTeamOwner((TeamOwner) asset);
+                appointmentAssetsInTeams.get(team).remove(assetId);
+
+                /**
+                 * if the User is no longer part of something in the system
+                 * the user become not active
+                 * */
+                if(((TeamOwner) asset).amountOfTeams == 0){
+                    asset.deactivate();
+                }
+            }
+        }
+    }
+
+    private void removeAppointmentsByLoop(TeamOwner teamOwner , Team team){
+
+        if(!teamOwner.appointmentAssetsInTeams.isEmpty()){
+
+            List<Asset> assets = new LinkedList<>();
+            assets.addAll(teamOwner.appointmentAssetsInTeams.get(team).values());
+            for (Asset asset:assets) {
+                if(asset instanceof TeamOwner){
+                    removeTeamOwner(asset , team);
+                    teamOwner.appointmentAssetsInTeams.get(team).remove(asset.getID());
+                }
+                else if(asset instanceof TeamManager){
+                    removeTeamManager(asset , team);
+                    teamOwner.appointmentAssetsInTeams.get(team).remove(asset.getID());
+                }
+            }
+        }
     }
 
 
@@ -147,7 +190,28 @@ public class TeamOwner extends Manager {
      */
     public void removeAppointmentTeamManager(Asset asset, Team team)
     {
+        removeTeamManager(asset , team);
 
+        //maybe add more stuff here
+    }
+
+    private void removeTeamManager(Asset asset, Team team){
+        String assetId = asset.getID();
+
+        if(team.isActive()){
+            if(appointmentAssetsInTeams.get(team).containsKey(assetId)){
+                team.removeTeamManager((TeamManager) asset);
+                appointmentAssetsInTeams.get(team).remove(assetId);
+
+                /**
+                 * if the User is no longer part of something in the system
+                 * the user become not active
+                 * */
+                if(((TeamManager) asset).amountOfTeams == 0){
+                    asset.deactivate();
+                }
+            }
+        }
     }
 
 
