@@ -54,4 +54,25 @@ public class UserSystem extends GuestSystem{
     public void addUser(String id, String password, User user) {
         userManagement.addUser(id, password, user);
     }
+
+    /*
+    Remove user
+     */
+    public void removeUser(String userId){
+        userManagement.removeUser(userId);
+    }
+
+    /*
+    this function adds a new asset to the system
+     */
+    public void addAsset(Asset asset){
+        userManagement.addAsset(asset);
+    }
+
+    /*
+    Remove user
+     */
+    public void removeAsset(String assetId){
+        userManagement.removeAsset(assetId);
+    }
 }

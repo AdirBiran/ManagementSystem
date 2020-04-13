@@ -10,6 +10,7 @@ public class Field implements Asset {
     private int capacity;
     private Team team;
     private List<Game> games;
+    protected boolean isActive;
 
     public Field(String location, int capacity) {
         this.id = "Filed"+IdGenerator.getNewId();
@@ -68,6 +69,11 @@ public class Field implements Asset {
     @Override
     public String getID() {
         return id;
+    }
+
+    @Override
+    public void deactivate() {
+        isActive = false;
     }
 
     @Override

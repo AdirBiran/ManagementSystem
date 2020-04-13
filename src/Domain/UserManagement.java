@@ -25,6 +25,18 @@ public class UserManagement//for admins
         database.removeUser(userId);
     }
     /*
+    *this function adds a new asset to the system
+    * */
+    public void addAsset(Asset asset){
+        database.addAsset(asset);
+    }
+    /*
+       Remove asset
+        */
+    public void removeAsset(String assetId){
+        database.removeAsset(assetId);
+    }
+    /*
      * User login to system
      */
     public User logInUserToSystem(String mail, String password) {

@@ -139,11 +139,11 @@ public class Database //maybe generalize with interface? //for now red layer
     returns false if the asset already exists
      */
     public boolean addAsset(Asset asset){
-        String assetName = asset.getID();
-        if(assetsInDatabase.containsKey(assetName)){
+        String assetID = asset.getID();
+        if(assetsInDatabase.containsKey(assetID)){
             return false;
         }
-        assetsInDatabase.put(assetName, asset);
+        assetsInDatabase.put(assetID, asset);
 
         return true;
     }
@@ -341,6 +341,16 @@ public class Database //maybe generalize with interface? //for now red layer
         User user = usersInDatabase.get(userId);
         if(user!=null){
             user.deactivate();
+        }
+    }
+
+    /*
+    *
+    * */
+    public void removeAsset(String assetId) {
+        Asset asset = assetsInDatabase.get(assetId);
+        if(asset!=null){
+            asset.deactivate();
         }
     }
 
