@@ -4,6 +4,7 @@ import Domain.Asset;
 import Domain.Field;
 import Domain.IdGenerator;
 import Domain.Team;
+import Service.UserSystem;
 
 import java.util.*;
 
@@ -11,42 +12,25 @@ public class TeamOwner extends Manager {
 
     private List<Team> teams;
     private HashMap<Team, Boolean> isClosedTeam;
-    private HashMap<String, Asset> appointmentAssets;
+    //private HashMap<String, Asset> appointmentAssets;
+    private HashMap<Team,HashMap<String,Asset>> appointmentAssetsInTeams;
 
 
     public TeamOwner(String firstName,String lastName, String mail) {
         super(firstName,lastName, "TO", mail);
         this.teams = new LinkedList<>();
         this.isClosedTeam = new HashMap<>();
-        this.appointmentAssets = new HashMap<>();
+        //this.appointmentAssets = new HashMap<>();
+        this.appointmentAssetsInTeams = new HashMap<>();
 
     }
 
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-    public void addTeam(Team team) {
-       if(!teams.contains(team)){
-           teams.add(team);
-           isClosedTeam.put(team, false);
-       }
-
-    }
-
-    /**
-     * Appointment an assets
-     */
-    public void appointment(Asset asset, Team team)
-    {
-        String assetId = asset.getID();
-        if(!appointmentAssets.containsKey(assetId)){
-            appointmentAssets.put(assetId,asset);
-        }
+    public void addAsset(Asset asset , Team team){
 
         if(asset instanceof User){
-            if(asset instanceof TeamOwner){
-                team.addTeamOwner((TeamOwner) asset);
-            }
             if(asset instanceof TeamManager){
                 team.addTeamManager((TeamManager) asset);
             }
@@ -57,43 +41,115 @@ public class TeamOwner extends Manager {
                 team.addCoach((Coach) asset);
             }
         }
+
         /**
          * Need to decide what happen if the team has a Field
          * */
         if(asset instanceof Field){
-            //team.getField()
+            team.getFields().add((Field) asset);
         }
+    }
+
+    public void removeAsset(Asset asset , Team team){
+        if(asset instanceof User){
+            if(asset instanceof TeamManager){
+                team.removeTeamManager((TeamManager) asset);
+            }
+            if(asset instanceof Player){
+                team.removePlayer((Player) asset);
+            }
+            if(asset instanceof Coach){
+                team.removeCoach((Coach) asset);
+            }
+        }
+
+        /**
+         * Need to decide what happen if the team has a Field
+         * */
+        if(asset instanceof Field){
+            team.getFields().remove(asset);
+        }
+    }
+
+    public void addTeam(Team team) {
+       if(!teams.contains(team)){
+           teams.add(team);
+           isClosedTeam.put(team, false);
+
+           //not sure about this
+           appointmentAssetsInTeams.put(team,new HashMap<>());
+       }
 
     }
 
-    /**
-     * remove Appointment of assets
-     */
-    public void removeAppointment(Asset asset)
-    {
-        String assetId = asset.getID();
-        if(appointmentAssets.containsKey(assetId)) {
-            //remove asset from appointment list.
-            appointmentAssets.remove(assetId);
 
-            if (asset instanceof TeamOwner) {
-                removeTeamOwnerAppointment((TeamOwner) asset);
+    public void appointmentTeamOwner(Asset asset, Team team){
+
+        String assetId = asset.getID();
+
+        /*
+         * if the new asset is part of the team, but the rule change
+         * */
+        if(team.isActive()) {
+            if (!appointmentAssetsInTeams.get(team).containsKey(assetId)) {
+                if (asset instanceof TeamManager || asset instanceof Player
+                        || asset instanceof Coach) {
+
+                    //if the team owner is not already exist
+                    if(!team.getTeamOwners().contains(asset)) {
+                        team.addTeamOwner((TeamOwner) asset);
+                        appointmentAssetsInTeams.get(team).put(assetId,asset);
+                    }
+
+                }
+
             }
         }
     }
 
+    public void appointmentTeamManager(Asset asset, Team team){
+
+        String assetId = asset.getID();
+
+        /*
+         * if the new asset is part of the team, but the rule change
+         * */
+        if(team.isActive()) {
+            if (!appointmentAssetsInTeams.get(team).containsKey(assetId)) {
+                if (asset instanceof Player || asset instanceof Coach) {
+
+                    //if the team manager is not already exist
+                    if(!team.getTeamManagers().contains(asset)) {
+                        team.addTeamManager((TeamManager) asset);
+                        appointmentAssetsInTeams.get(team).put(assetId,asset);
+                    }
+
+                }
+
+            }
+        }
+    }
+
+
+
+
     /**
      * remove Team Owner Appointment
      */
-    public void removeTeamOwnerAppointment(TeamOwner teamOwner){
-        ArrayList<Asset> teamOwnerAppointment = new ArrayList<>();
-        teamOwnerAppointment.addAll(teamOwner.appointmentAssets.values());
-
-        for (Asset asset:teamOwnerAppointment) {
-                teamOwner.removeAppointment(asset);
-        }
+    public void removeAppointmentTeamOwner(Asset asset, Team team)
+    {
 
     }
+
+
+    /**
+     * remove Team Manager Appointment
+     */
+    public void removeAppointmentTeamManager(Asset asset, Team team)
+    {
+
+    }
+
 
     /**
      *
@@ -128,7 +184,4 @@ public class TeamOwner extends Manager {
         isClosedTeam.replace(team, true);
     }
 
-    public HashMap<String,Asset> getAppointmentAssets(){
-        return appointmentAssets;
-    }
 }

@@ -19,7 +19,7 @@ public class Team{
     private List<Coach> coaches; // at least one
     private Budget budget;
     private List<Game> games;
-    private Field field;
+    private List<Field> fields;
     private boolean active;
     private boolean permanentlyClosed; //closed by admin and cannot open again
 
@@ -41,7 +41,8 @@ public class Team{
         this.coaches = coaches;
         linkCoaches();
         this.budget = new Budget(this);
-        this.field = field;
+        this.fields = new LinkedList<>();
+        fields.add(field);
         linkField();
         this.wins=0;
         this.losses=0;
@@ -53,7 +54,10 @@ public class Team{
     }
 
     private void linkField() {
-        field.setTeam(this);
+        for(Field field :fields){
+            field.setTeam(this);
+        }
+
     }
 
     private void linkCoaches() {
@@ -99,29 +103,69 @@ public class Team{
     public void addTeamOwner(TeamOwner teamOwner) {
         if(!teamOwners.contains(teamOwner)) {
             this.teamOwners.add(teamOwner);
-            teamOwner.addOneToAmountOfTeams();
+            teamOwner.setAmountOfTeams(1);
         }
     }
 
     public void addTeamManager(TeamManager teamManager) {
-        if(!teamManagers.contains(teamManager))
+        if(!teamManagers.contains(teamManager)) {
             this.teamManagers.add(teamManager);
+            teamManager.setAmountOfTeams(1);
+        }
     }
 
     public void addPlayer(Player player) {
-        if(!players.contains(player))
+        if(!players.contains(player)) {
             this.players.add(player);
+            player.setAmountOfTeams(1);
+        }
     }
 
     public void addCoach(Coach coach) {
-        if(!coaches.contains(coach))
+        if(!coaches.contains(coach)) {
             this.coaches.add(coach);
+            coach.setAmountOfTeams(1);
+        }
     }
 
     public void addGame(Game game) {
         if(!games.contains(game))
         this.games.add(game);
     }
+
+
+
+    /**remove**/
+
+    public void removeTeamOwner(TeamOwner teamOwner) {
+        if(teamOwners.contains(teamOwner)) {
+            this.teamOwners.remove(teamOwner);
+            teamOwner.setAmountOfTeams(-1);
+        }
+    }
+
+    public void removeTeamManager(TeamManager teamManager) {
+        if(teamManagers.contains(teamManager)) {
+            this.teamManagers.remove(teamManager);
+            teamManager.setAmountOfTeams(-1);
+        }
+    }
+
+    public void removePlayer(Player player) {
+        if(players.contains(player)) {
+            this.players.remove(player);
+            player.setAmountOfTeams(-1);
+        }
+    }
+
+    public void removeCoach(Coach coach) {
+        if(coaches.contains(coach)) {
+            this.coaches.remove(coach);
+            coach.setAmountOfTeams(-1);
+        }
+    }
+
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 
@@ -170,8 +214,8 @@ public class Team{
         return games;
     }
 
-    public Field getField() {
-        return field;
+    public List<Field> getFields() {
+        return fields;
     }
 
     public boolean isActive() {

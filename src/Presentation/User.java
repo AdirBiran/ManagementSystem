@@ -87,7 +87,7 @@ public abstract class User extends Guest {
     public int getAmountOfTeams(){
         return amountOfTeams;
     }
-    public void addOneToAmountOfTeams(){
-        this.amountOfTeams=this.amountOfTeams+1;
+    public void setAmountOfTeams(int number){
+        this.amountOfTeams=this.amountOfTeams+number;
     }
 }
