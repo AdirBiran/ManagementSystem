@@ -97,8 +97,10 @@ public class Team{
     }
 
     public void addTeamOwner(TeamOwner teamOwner) {
-        if(!teamOwners.contains(teamOwner))
+        if(!teamOwners.contains(teamOwner)) {
             this.teamOwners.add(teamOwner);
+            teamOwner.addOneToAmountOfTeams();
+        }
     }
 
     public void addTeamManager(TeamManager teamManager) {

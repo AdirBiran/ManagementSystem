@@ -24,6 +24,14 @@ public class UserManagement//for admins
     public void removeUser(String userId){
         database.removeUser(userId);
     }
+
+    /*
+     this function update a user in the system
+     */
+    public void updateUser(String userId){
+    User user = database.getUser(userId);
+
+}
     /*
     *this function adds a new asset to the system
     * */
@@ -36,6 +44,17 @@ public class UserManagement//for admins
     public void removeAsset(String assetId){
         database.removeAsset(assetId);
     }
+
+    /*
+    this function update a asset in the system
+    */
+    public void updateAsset(String assetId, String action) {
+        Asset asset = database.getAsset(assetId);
+        if(action.equals("Some_Action")){
+            //do the action
+        }
+    }
+
     /*
      * User login to system
      */
