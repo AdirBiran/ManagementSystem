@@ -5,6 +5,7 @@ import Domain.*;
 import Service.*;
 
 import java.sql.Time;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,6 +41,72 @@ public class FootballManagementSystem {
         int id = IdGenerator.getNewId();
         Admin systemAdmin = new Admin("adminush","", "example@gmail.com");
         userSystem.addUser(systemAdmin.getID(), "Adminush1", systemAdmin);
+
+
+
+        /**-----------DORON TESTS--------------*/
+
+        TeamOwner teamOwner = new TeamOwner("Doron" , "Shamai" , "shamai.doron@gmail.com");
+        TeamOwner teamOwner2 = new TeamOwner("Saly" , "Shamai" , "shamai.doron@gmail.com");
+
+        TeamManager teamManager = new TeamManager("Yotam" , "Oren" , "yotamoren@gmail.com",null);
+
+        List<TeamOwner> teamOwnerList = new LinkedList<>();
+        teamOwnerList.add(teamOwner);
+
+        Date date = new Date();
+        Player player1 = new Player("1","1","1",null, date,"1");
+        Player player2 = new Player("2","2","1",null, date,"1");
+        Player player3 = new Player("3","3","1",null, date,"1");
+        Player player4 = new Player("4","4","1",null, date,"1");
+        Player player5 = new Player("5","5","1",null, date,"1");
+        Player player6 = new Player("6","6","1",null, date,"1");
+        Player player7 = new Player("7","7","1",null, date,"1");
+        Player player8 = new Player("8","8","1",null, date,"1");
+        Player player9 = new Player("9","9","1",null, date,"1");
+        Player player10 = new Player("10","10","1",null, date,"1");
+        Player player11 = new Player("11","11","1",null, date,"1");
+
+        List<Player> playerList = new LinkedList<>();
+        playerList.add(player1);
+        playerList.add(player2);
+        playerList.add(player3);
+        playerList.add(player4);
+        playerList.add(player5);
+        playerList.add(player6);
+        playerList.add(player7);
+        playerList.add(player8);
+        playerList.add(player9);
+        playerList.add(player10);
+        playerList.add(player11);
+
+        Coach coach = new Coach("coach", "1" ,"1", null,"master" , "1");
+
+        List<Coach> coachList = new LinkedList<>();
+        coachList.add(coach);
+
+        Field field1 = new Field("Tel Aviv" , 10);
+
+        Team team = new Team("Lidoy" , null ,teamOwnerList,playerList,coachList,field1 );
+        teamOwner.appointmentTeamManager(teamManager ,team);
+
+        userSystem.appointmentTeamManager(teamOwner,teamManager,team);
+        userSystem.appointmentTeamOwner(teamOwner,teamOwner2,team);
+
+        /**TEAM OWNER TRY TO REMOVE APPOINTMENT
+         * THOSE APPOINTMENTS IS NOT HIS APPOINTMENTS
+         * */
+        userSystem.removeAppointmentTeamOwner(teamOwner2,teamOwner,team);
+        userSystem.removeAppointmentTeamManager(teamOwner2,teamManager,team);
+
+        /**TEAM OWNER TRY TO REMOVE APPOINTMENT
+         * THOSE APPOINTMENTS IS HIS APPOINTMENTS
+         * */
+        userSystem.removeAppointmentTeamOwner(teamOwner , teamOwner2,team);
+
+
+        /**-----------DORON TESTS--------------*/
+
 
         //**UnitTests!-NotificationSystem**//
         TeamOwner owner = new TeamOwner("Team","Owner", "a@gmail.com");

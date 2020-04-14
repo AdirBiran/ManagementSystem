@@ -12,15 +12,13 @@ public class TeamOwner extends Manager {
 
     private List<Team> teams;
     private HashMap<Team, Boolean> isClosedTeam;
-    //private HashMap<String, Asset> appointmentAssets;
-    private HashMap<Team,HashMap<String,Asset>> appointmentAssetsInTeams;
+    private HashMap<Team,HashMap<String,User>> appointmentAssetsInTeams;
 
 
     public TeamOwner(String firstName,String lastName, String mail) {
         super(firstName,lastName, "TO", mail);
         this.teams = new LinkedList<>();
         this.isClosedTeam = new HashMap<>();
-        //this.appointmentAssets = new HashMap<>();
         this.appointmentAssetsInTeams = new HashMap<>();
 
     }
@@ -28,9 +26,9 @@ public class TeamOwner extends Manager {
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-    public void addAsset(Asset asset , Team team){
+    public void addExistAsset(Asset asset , Team team){
 
-        if(asset instanceof User){
+       /* if(asset instanceof User){
             if(asset instanceof TeamManager){
                 team.addTeamManager((TeamManager) asset);
             }
@@ -42,16 +40,22 @@ public class TeamOwner extends Manager {
             }
         }
 
-        /**
+        *//**
          * Need to decide what happen if the team has a Field
-         * */
+         * *//*
         if(asset instanceof Field){
             team.getFields().add((Field) asset);
-        }
+        }*/
+    }
+
+    public void addNewAsset(){
+        /**String typeOfUser
+         * if the teamOwner wants to create new assets
+         * */
     }
 
     public void removeAsset(Asset asset , Team team){
-        if(asset instanceof User){
+        /*if(asset instanceof User){
             if(asset instanceof TeamManager){
                 team.removeTeamManager((TeamManager) asset);
             }
@@ -63,12 +67,12 @@ public class TeamOwner extends Manager {
             }
         }
 
-        /**
+        *//**
          * Need to decide what happen if the team has a Field
-         * */
+         * *//*
         if(asset instanceof Field){
             team.getFields().remove(asset);
-        }
+        }*/
     }
 
     public void addTeam(Team team) {
@@ -85,11 +89,11 @@ public class TeamOwner extends Manager {
 
     public void appointmentTeamOwner(Asset asset, Team team){
 
-        String assetId = asset.getID();
+       /* String assetId = asset.getID();
 
-        /*
+        *//*
          * if the new asset is part of the team, but the rule change
-         * */
+         * *//*
         if(team.isActive()) {
             if (!appointmentAssetsInTeams.get(team).containsKey(assetId)) {
                 if (asset instanceof TeamManager || asset instanceof Player
@@ -104,16 +108,17 @@ public class TeamOwner extends Manager {
                 }
 
             }
-        }
+        }*/
     }
 
     public void appointmentTeamManager(Asset asset, Team team){
 
-        String assetId = asset.getID();
 
-        /*
+       /* String assetId = asset.getID();
+
+        *//*
          * if the new asset is part of the team, but the rule change
-         * */
+         * *//*
         if(team.isActive()) {
             if (!appointmentAssetsInTeams.get(team).containsKey(assetId)) {
                 if (asset instanceof Player || asset instanceof Coach) {
@@ -127,26 +132,24 @@ public class TeamOwner extends Manager {
                 }
 
             }
-        }
+        }*/
     }
-
 
 
 
     /**
      * remove Team Owner Appointment
      */
-    public void removeAppointmentTeamOwner(Asset asset, Team team)
-    {
+    public void removeAppointmentTeamOwner(Asset asset, Team team) {
 
-        removeTeamOwner(asset , team);
+        /*removeTeamOwner(asset , team);
 
-        /**remove Appointments of team owner*/
-        removeAppointmentsByLoop((TeamOwner) asset , team);
+        *//**remove Appointments of team owner*//*
+        removeAppointmentsByLoop((TeamOwner) asset , team);*/
 
     }
 
-    private void removeTeamOwner(Asset asset, Team team){
+    /*private void removeTeamOwner(Asset asset, Team team){
         String assetId = asset.getID();
 
         if(team.isActive()){
@@ -154,18 +157,18 @@ public class TeamOwner extends Manager {
                 team.removeTeamOwner((TeamOwner) asset);
                 appointmentAssetsInTeams.get(team).remove(assetId);
 
-                /**
+                *//**
                  * if the User is no longer part of something in the system
                  * the user become not active
-                 * */
+                 * *//*
                 if(((TeamOwner) asset).amountOfTeams == 0){
                     asset.deactivate();
                 }
             }
         }
     }
-
-    private void removeAppointmentsByLoop(TeamOwner teamOwner , Team team){
+*/
+    /*private void removeAppointmentsByLoop(TeamOwner teamOwner , Team team){
 
         if(!teamOwner.appointmentAssetsInTeams.isEmpty()){
 
@@ -174,6 +177,8 @@ public class TeamOwner extends Manager {
             for (Asset asset:assets) {
                 if(asset instanceof TeamOwner){
                     removeTeamOwner(asset , team);
+                    //maybe need to put here the public function:
+                    // removeAppointmentTeamOwner , because we removed teamOwner
                     teamOwner.appointmentAssetsInTeams.get(team).remove(asset.getID());
                 }
                 else if(asset instanceof TeamManager){
@@ -182,7 +187,7 @@ public class TeamOwner extends Manager {
                 }
             }
         }
-    }
+    }*/
 
 
     /**
@@ -190,12 +195,12 @@ public class TeamOwner extends Manager {
      */
     public void removeAppointmentTeamManager(Asset asset, Team team)
     {
-        removeTeamManager(asset , team);
+       /* removeTeamManager(asset , team);
 
-        //maybe add more stuff here
+        //maybe add more stuff here*/
     }
 
-    private void removeTeamManager(Asset asset, Team team){
+   /* private void removeTeamManager(Asset asset, Team team){
         String assetId = asset.getID();
 
         if(team.isActive()){
@@ -203,16 +208,16 @@ public class TeamOwner extends Manager {
                 team.removeTeamManager((TeamManager) asset);
                 appointmentAssetsInTeams.get(team).remove(assetId);
 
-                /**
+                *//**
                  * if the User is no longer part of something in the system
                  * the user become not active
-                 * */
+                 * *//*
                 if(((TeamManager) asset).amountOfTeams == 0){
                     asset.deactivate();
                 }
             }
         }
-    }
+    }*/
 
 
     /**
@@ -248,4 +253,12 @@ public class TeamOwner extends Manager {
         isClosedTeam.replace(team, true);
     }
 
+
+    public HashMap<String, User> getAppointmentAssetsInTeams(Team team) {
+        if(!appointmentAssetsInTeams.isEmpty()) {
+            return appointmentAssetsInTeams.get(team);
+        }else{
+            return null;
+        }
+    }
 }

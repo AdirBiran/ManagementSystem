@@ -65,14 +65,30 @@ public class UserSystem extends GuestSystem{
     /*
     this function adds a new asset to the system
      */
-    public void addAsset(Asset asset){
-        userManagement.addAsset(asset);
+    public void addAsset(Asset asset , Team team){
+
+        userManagement.addAsset(asset , team);
     }
 
     /*
-    Remove user
+    Remove Asset
      */
-    public void removeAsset(String assetId){
-        userManagement.removeAsset(assetId);
+    public void removeAsset(Asset asset , Team team){
+        userManagement.removeAsset(asset ,team);
     }
+
+    public void appointmentTeamOwner(TeamOwner teamOwner ,User user, Team team){
+        userManagement.appointmentTeamOwner(teamOwner, user, team);
+    }
+    public void appointmentTeamManager(TeamOwner teamOwner, User user, Team team){
+        userManagement.appointmentTeamManager(teamOwner, user, team);
+    }
+    public void removeAppointmentTeamOwner(TeamOwner teamOwner, User user, Team team){
+        userManagement.removeAppointmentTeamOwner(teamOwner, user, team);
+    }
+    public void removeAppointmentTeamManager(TeamOwner teamOwner,User user, Team team){
+        userManagement.removeAppointmentTeamManager(teamOwner, user, team);
+    }
+
+
 }

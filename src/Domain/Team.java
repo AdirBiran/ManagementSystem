@@ -214,8 +214,14 @@ public class Team{
         return games;
     }
 
+    /**/
     public List<Field> getFields() {
         return fields;
+    }
+
+    /**LIAT--GET ONE FIELD*/
+    public Field getField() {
+        return fields.get(0);
     }
 
     public boolean isActive() {
