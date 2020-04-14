@@ -48,6 +48,7 @@ public class FootballManagementSystem {
 
         TeamOwner teamOwner = new TeamOwner("Doron" , "Shamai" , "shamai.doron@gmail.com");
         TeamOwner teamOwner2 = new TeamOwner("Saly" , "Shamai" , "shamai.doron@gmail.com");
+        TeamOwner teamOwner3 = new TeamOwner("Saly" , "Shamai" , "shamai.doron@gmail.com");
 
         TeamManager teamManager = new TeamManager("Yotam" , "Oren" , "yotamoren@gmail.com",null);
 
@@ -92,6 +93,7 @@ public class FootballManagementSystem {
 
         userSystem.appointmentTeamManager(teamOwner,teamManager,team);
         userSystem.appointmentTeamOwner(teamOwner,teamOwner2,team);
+        userSystem.appointmentTeamOwner(teamOwner2,teamOwner3,team);
 
         /**TEAM OWNER TRY TO REMOVE APPOINTMENT
          * THOSE APPOINTMENTS IS NOT HIS APPOINTMENTS

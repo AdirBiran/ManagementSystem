@@ -261,4 +261,8 @@ public class TeamOwner extends Manager {
             return null;
         }
     }
+
+    public void setAppointmentAssetsInTeams(Team team){
+        appointmentAssetsInTeams.put(team,new HashMap<>());
+    }
 }

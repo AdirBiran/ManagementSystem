@@ -136,46 +136,45 @@ public class UserManagement//for admins
          * if the new asset is part of the team, but the rule change
          * */
         if(team.isActive()) {
-            if(!teamOwner.getAppointmentAssetsInTeams(team).isEmpty()) {
-                if (!teamOwner.getAppointmentAssetsInTeams(team).containsKey(assetId)) {
-                    if (user instanceof TeamOwner || user instanceof TeamManager
-                            || user instanceof Player || user instanceof Coach) {
+                if (user instanceof TeamOwner || user instanceof TeamManager
+                        || user instanceof Player || user instanceof Coach) {
 
-                        //if the team owner is not already exist
-                        if (!team.getTeamOwners().contains(user)) {
-                            team.addTeamOwner((TeamOwner) user);
+                    //if the team owner is not already exist
+                    if (!team.getTeamOwners().contains(user)) {
+
+                        team.addTeamOwner((TeamOwner) user);
+                        ((TeamOwner) user).setAppointmentAssetsInTeams(team);
+
+                        if (!teamOwner.getAppointmentAssetsInTeams(team).containsKey(assetId)) {
                             teamOwner.getAppointmentAssetsInTeams(team).put(assetId, user);
-
-
-                            /**NEED TO MAKE THE USER A TEAM OWNER*/
-                            if (user instanceof Player || user instanceof Coach || user instanceof TeamManager) {
-                                //user become a Team Owner
-                            }
                         }
 
+                        /**NEED TO MAKE THE USER A TEAM OWNER*/
+                        if (user instanceof Player || user instanceof Coach || user instanceof TeamManager) {
+                            //user become a Team Owner
+                        }
                     }
-
-                }
             }
+
         }
     }
 
     public void appointmentTeamManager(TeamOwner teamOwner, User user, Team team){
 
         String assetId = user.getID();
-
         /*
          * if the new asset is part of the team, but the rule change
          * */
         if(team.isActive()) {
-            if (!teamOwner.getAppointmentAssetsInTeams(team).containsKey(assetId)) {
                 if (user instanceof TeamManager || user instanceof Player || user instanceof Coach) {
 
                     //if the team manager is not already exist
                     if(!team.getTeamManagers().contains(user)) {
                         team.addTeamManager((TeamManager) user);
-                        teamOwner.getAppointmentAssetsInTeams(team).put(assetId,user);
 
+                        if (!teamOwner.getAppointmentAssetsInTeams(team).containsKey(assetId)) {
+                            teamOwner.getAppointmentAssetsInTeams(team).put(assetId, user);
+                        }
                         /**NEED TO MAKE THE USER A TEAM Manager*/
                         if(user instanceof Player || user instanceof Coach){
                             //user become a Team Manager
@@ -184,7 +183,7 @@ public class UserManagement//for admins
 
                 }
 
-            }
+
         }
     }
 
@@ -194,13 +193,14 @@ public class UserManagement//for admins
     public void removeAppointmentTeamOwner(TeamOwner teamOwner, User user, Team team)
     {
 
-
         if(user instanceof TeamOwner) {
             if (teamOwner.getAppointmentAssetsInTeams(team) != null) {
-                removeTeamOwner(teamOwner, user, team);
+                if(teamOwner.getAppointmentAssetsInTeams(team).containsKey(user.getID())) {
+                    removeTeamOwner(teamOwner, user, team);
 
-                /**remove Appointments of team owner*/
-                removeAppointmentsByLoop((TeamOwner) user, team);
+                    /**remove Appointments of team owner*/
+                    removeAppointmentsByLoop((TeamOwner) user, team);
+                }
             }
         }
 
@@ -213,7 +213,9 @@ public class UserManagement//for admins
     {
         if(user instanceof TeamManager) {
             if (teamOwner.getAppointmentAssetsInTeams(team) != null) {
-                removeTeamManager(teamOwner, user, team);
+                if(teamOwner.getAppointmentAssetsInTeams(team).containsKey(user.getID())) {
+                    removeTeamManager(teamOwner, user, team);
+                }
             }
         }
 
