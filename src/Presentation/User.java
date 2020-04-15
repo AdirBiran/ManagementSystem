@@ -14,6 +14,7 @@ public abstract class User extends Guest {
     protected String mail;
     protected List<Notice> messageBox;
     protected boolean isActive;
+    protected int amountOfTeams;
 
     /**
      * constructor for user
@@ -29,6 +30,7 @@ public abstract class User extends Guest {
         this.mail = mail;
         this.messageBox = new LinkedList<>();
         this.isActive = true;
+        this.amountOfTeams=0;
     }
 
     public void deactivate() {
@@ -81,5 +83,11 @@ public abstract class User extends Guest {
     public void addMessage(Notice notice){
         if(messageBox!=null)
             messageBox.add(notice);
+    }
+    public int getAmountOfTeams(){
+        return amountOfTeams;
+    }
+    public void setAmountOfTeams(int number){
+        this.amountOfTeams=this.amountOfTeams+number;
     }
 }

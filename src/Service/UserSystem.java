@@ -75,4 +75,38 @@ public class UserSystem extends GuestSystem{
         return leagueAndGameManagement.registrationForGamesAlerts(fan, games, receive);
         
     }
+    /*
+    Remove user
+     */
+    public void removeUser(String userId){
+        userManagement.removeUser(userId);
+    }
+
+    /*
+    this function adds a new asset to the system
+     */
+    public void addAsset(Asset asset , Team team){
+
+        userManagement.addAsset(asset , team);
+    }
+
+    /*
+    Remove Asset
+     */
+    public void removeAsset(Asset asset , Team team){
+        userManagement.removeAsset(asset ,team);
+    }
+
+    public void appointmentTeamOwner(TeamOwner teamOwner ,User user, Team team){
+        userManagement.appointmentTeamOwner(teamOwner, user, team);
+    }
+    public void appointmentTeamManager(TeamOwner teamOwner, User user, Team team){
+        userManagement.appointmentTeamManager(teamOwner, user, team);
+    }
+    public void removeAppointmentTeamOwner(TeamOwner teamOwner, User user, Team team){
+        userManagement.removeAppointmentTeamOwner(teamOwner, user, team);
+    }
+    public void removeAppointmentTeamManager(TeamOwner teamOwner,User user, Team team){
+        userManagement.removeAppointmentTeamManager(teamOwner, user, team);
+    }
 }

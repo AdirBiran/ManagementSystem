@@ -31,6 +31,11 @@ public class FieldTest implements Domain.Asset {
     }
 
     @Override
+    public void deactivate() {
+
+    }
+
+    @Override
     public double getPrice() {
         return 0;
     }
