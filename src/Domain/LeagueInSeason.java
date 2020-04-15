@@ -17,15 +17,14 @@ public class LeagueInSeason {
     private List<Team> teams;
 
 
-    public LeagueInSeason(GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, League league, Season season, List<Game> games) {
+    public LeagueInSeason(GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, League league, Season season) {
         this.assignmentPolicy = assignmentPolicy;
         this.scorePolicy = scorePolicy;
         scoreTable = new LinkedList<>();
         this.league = league;
         this.season = season;
-        if(games==null||games.size()<1)
-            throw new RuntimeException("not enough games to open a league");
-        this.games = games;
+
+        this.games = new LinkedList<>();
         this.referees = new LinkedList<>();
         this.teams = new LinkedList<>();
     }
@@ -46,6 +45,11 @@ public class LeagueInSeason {
 
     public void setGames(List<Game> games) {
         this.games = games;
+    }
+
+    public void addGame(Game game) {
+        if(!games.contains(game))
+            games.add(game);
     }
 
     public List<ScoreTableRecord> getScoreTable() {

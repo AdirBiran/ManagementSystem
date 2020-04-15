@@ -2,7 +2,7 @@ package Data;
 import Domain.*;
 import Presentation.*;
 
-import java.sql.Time;
+import java.security.MessageDigest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -54,25 +54,24 @@ public class Database //maybe generalize with interface? //for now red layer
             teams.put(team.getID(), team);
             for(Player player:team.getPlayers()){
                 if(!usersInDatabase.containsKey(player.getID())){
-                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
                     addUser(player.getID(),"Aa1234",player);
                 }
             }
             for(Coach coach:team.getCoaches()){
                 if(!usersInDatabase.containsKey(coach.getID())){
-                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
+
                     addUser(coach.getID(),"Aa1234",coach);
                 }
             }
             for(TeamOwner teamOwner:team.getTeamOwners()){
                 if(!usersInDatabase.containsKey(teamOwner.getID())){
-                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
+
                     addUser(teamOwner.getID(),"Aa1234",teamOwner);
                 }
             }
             for(TeamManager teamManager:team.getTeamManagers()){
                 if(!usersInDatabase.containsKey(teamManager.getID())){
-                    //addUser(player.getID(),PasswordGenerator.generateRandPassword(6),player);
+
                     addUser(teamManager.getID(),"Aa1234",teamManager);
                 }
             }
@@ -153,8 +152,8 @@ public class Database //maybe generalize with interface? //for now red layer
      */
     public boolean addUser(String userId, String password, User user){
         if(!usersInDatabase.containsKey(userId)&& user.isActive()){
-            //use some hash to encrypt the password?
-            userNamesAndPasswords.put(userId, password);
+            String encryptedPassword = encrypt(password);
+            userNamesAndPasswords.put(userId, encryptedPassword);
             usersInDatabase.put(userId, user);
             if(user instanceof Asset && !assetsInDatabase.containsKey(user.getID())){
                 assetsInDatabase.put(user.getID(), (Asset)user);
@@ -163,6 +162,18 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return false;
     }
+
+    private String encrypt(String password) {
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-1");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        messageDigest.update(password.getBytes());
+        return new String(messageDigest.digest());
+    }
+
     /*
     this function adds a game to the database according to its toString() value
     returns false if the game already exists
@@ -195,9 +206,9 @@ public class Database //maybe generalize with interface? //for now red layer
      */
     public boolean authenticationCheck(String userId, String password){
         if(usersInDatabase.containsKey(userId)&& usersInDatabase.get(userId).isActive()){
-            //use some hash to encrypt the the given password to compare it with the one we have
+            String encryptedPassword = encrypt(password);
             String passwordInSystem = userNamesAndPasswords.get(userId);
-            return passwordInSystem.equals(password);
+            return passwordInSystem.equals(encryptedPassword);
         }
         return false;
     }
@@ -367,94 +378,6 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public void addComplaint(Complaint complaint){complaints.add(complaint);}
 
-
-    //**UnitTests!**//
-    public static void main(String[] args) {
-        Database database = new Database();
-        League league = new League("Alufot", "3");
-        Season season = new Season(2019);
-        System.out.println(database.addLeague(league));// expected : true
-        System.out.println(database.addSeason(season));// expected : true
-        System.out.println(database.addLeague(league));// expected : false
-        System.out.println(database.addSeason(season));// expected : false
-        User admin = new Admin("Admin","Ush", "example@gmail.com");
-        User unionRep = new UnionRepresentative("Natzig", "Ush", "");
-        System.out.println(database.addUser(admin.getID(), "aA1aA1", admin));//expected : true
-        System.out.println(database.addUser(unionRep.getID(), "aA1aA1", unionRep));//expected : true maybe false
-        System.out.println(database.addUser(admin.getID(), "aA1aA1", admin));//expected : false
-        System.out.println(database.authenticationCheck(admin.getID(), "aA1aA1"));//expected : true
-        System.out.println(database.authenticationCheck(admin.getID(), "aA1bA1"));//expected : false
-        TeamOwner owner = new TeamOwner("Team","Owner", "");
-        List<TeamOwner> owners1 = new LinkedList<>();
-        owners1.add(owner);
-        Field field1 = new Field("jerusalem", 550);
-        Team hapoel = new Team("Hapoel", null, owners1, createPlayers(), createCoaches(),field1);
-
-        System.out.println(database.addAsset(field1));//expected : true
-        System.out.println(database.addTeam(hapoel));//expected : true
-        PersonalPage hapoelsPage = new PersonalPage("",hapoel.getPlayers().get(0));
-        System.out.println(database.addPage(hapoelsPage));//expected : true
-        Field field2 = new Field( "TelAviv", 550);
-        Team macabi = new Team ( "Macabi", null,owners1, createPlayers(),createCoaches(),field2);
-        System.out.println(database.addTeam(macabi));//expected : true
-        System.out.println(database.addAsset(field2));//expected : true
-        Game game = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoel, macabi);
-        Game game2 = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoel, macabi);
-        System.out.println(database.addGame(game));//expected : true
-        System.out.println(database.addGame(game2));//expected : true
-        System.out.println(database.getUser("1"));//expected : admin
-        System.out.println(database.getUser("2"));//expected : union rep
-        System.out.println(database.getUser(""));//expected : null
-        System.out.println(database.getAsset(macabi.getID()));//expected : macabi
-        System.out.println(database.getAsset(field1.getID()));//expected : field1
-        System.out.println(database.getAsset(""));//expected : null
-        System.out.println(database.getGame(game.getId()));//expected : game
-        System.out.println(database.getGame(""));//expected : null
-        System.out.println(database.getPage(hapoelsPage.getId()));//expected : hapoelsPage
-        System.out.println(database.getPage(""));//expected : null
-        System.out.println(database.getSeason("2019"));//expected : season 2019
-        System.out.println(database.getLeague("Alufot"));//expected : Alufot
-        System.out.println(database.getSeason("2020"));//expected : null
-        System.out.println(database.getLeague("Leomit"));//expected : null
-        database.removeUser("2");
-        System.out.println(database.getUser("2"));//expected : null
-        System.out.println(database.getAllGames().size());//expected : 2 games
-        System.out.println(database.getAllFutureGames().size());//expected : 1 game
-        System.out.println(database.getListOfAllSpecificUsers("Admin").size());//expected : 1
-        System.out.println(database.getListOfAllSpecificUsers("Player").size());//expected : 24
-        System.out.println(database.getListOfAllSpecificUsers("Referee").size());//expected : 0
-
-    }
-
-    public static List<Referee> sideReferees() {
-        List<Referee> refs = new LinkedList<>();
-        Referee referee;
-        for (int i = 0; i <3 ; i++) {
-            referee = new Referee("ref"+i,"", "", "side");
-            refs.add(referee);
-        }
-        return refs;
-    }
-
-    public static Referee mainReferee() {
-        return new Referee("referee", "", "", "talented");
-    }
-
-    public static List<Coach> createCoaches() {
-        Coach coach = new Coach("coach1", "", "", null, "", "main");
-        List<Coach> coaches = new LinkedList<>();
-        coaches.add(coach);
-        return coaches;
-    }
-
-
-    public static List<Player> createPlayers() {
-        List<Player> players = new LinkedList<>();
-        for (int i = 0; i <12 ; i++) {
-            players.add(new Player("player"+i, "", "", null, new Date (1999,1,1),"role"+i));
-        }
-        return players;
-    }
 
 
 }

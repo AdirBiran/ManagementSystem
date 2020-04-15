@@ -26,12 +26,12 @@ public class UnionRepresentativeSystem {
         return leagueAndGameManagement.configureNewSeason(year);
     }
 
-    public boolean configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, List<Game> games){
-        return leagueAndGameManagement.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy,scorePolicy,games);
+    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy){
+        return leagueAndGameManagement.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy,scorePolicy);
     }
-    public boolean appointReferee(String firstName,String lastName, String ID, String mail, String training)
+    public Referee appointReferee(String firstName,String lastName, String mail, String training)
     {
-        return refereeManagement.appointReferee(firstName,lastName, ID, mail, training);
+        return refereeManagement.appointReferee(firstName,lastName, mail, training);
     }
 
     public boolean assignRefToLeague(LeagueInSeason league, Referee referee)
@@ -54,4 +54,7 @@ public class UnionRepresentativeSystem {
         return leagueAndGameManagement.assignGames(league,dates);
     }
 
+    public void addTeamToLeague(LeagueInSeason league, Team team) {
+         leagueAndGameManagement.addTeamToLeague(league, team);
+    }
 }

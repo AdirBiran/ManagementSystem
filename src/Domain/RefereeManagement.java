@@ -20,12 +20,15 @@ public class RefereeManagement {
         game.getMainReferee().addMessage(new Notice(true, msg));
     }
 
-    public boolean appointReferee(String firstName, String lastName, String id, String mail, String training) {
+    public Referee appointReferee(String firstName, String lastName, String mail, String training) {
         Referee referee = new Referee(firstName,lastName, mail, training);
         //String randomInitialPassword = PasswordGenerator.generateRandPassword(6);
         String randomInitialPassword = "Ac1234";
         //send referee mail to approve?
-        return database.addUser(referee.getID(), randomInitialPassword, referee);
+        if(database.addUser(referee.getID(), randomInitialPassword, referee))
+            return referee;
+        else
+            return null;
     }
 
 }

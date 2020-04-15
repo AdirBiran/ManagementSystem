@@ -33,11 +33,15 @@ public class FootballManagementSystem {
         RefereeSystem refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
         SearchSystem searchSystem = new SearchSystem(searcher);
         UnionRepresentativeSystem unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
-        UserSystem userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement, leagueAndGameManagement);
+        UserSystem userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement, leagueAndGameManagement, notificationSystem);
         //***presentation***//
-        int id = IdGenerator.getNewId();
         Admin systemAdmin = new Admin("adminush","", "example@gmail.com");
         userSystem.addUser(systemAdmin.getID(), "Adminush1", systemAdmin);
+        //***External systems***//
+        StubAccountingSystem accountingSystem = new StubAccountingSystem();
+        StubIsraeliTaxLawsSystem taxLawsSystem = new StubIsraeliTaxLawsSystem();
+        accountingSystem.connect();
+        taxLawsSystem.connect();
 
 
 
@@ -106,24 +110,23 @@ public class FootballManagementSystem {
 
         /**-----------DORON TESTS--------------*/
 
-
         //**UnitTests!-NotificationSystem**//
         TeamOwner owner = new TeamOwner("Team","Owner", "a@gmail.com");
         List<TeamOwner> owners = new LinkedList<>();
         owners.add(owner);
         Field field = new Field( "jerusalem", 550);
-        Team hapoel = new Team("Hapoel", null, owners, database.createPlayers(), database.createCoaches(),field);
+        Team hapoel = new Team("Hapoel", null, owners, createPlayers(), createCoaches(),field);
 
         database.addAsset(field);
         database.addTeam(hapoel);
         PersonalPage hapoelsPage = new PersonalPage("",hapoel.getPlayers().get(0));
         database.addPage(hapoelsPage);//expected : true
         Field field2 = new Field( "TelAviv", 550);
-        Team macabi = new Team ("Macabi", null,owners, database.createPlayers(),database.createCoaches(),field2);
+        Team macabi = new Team ("Macabi", null,owners, createPlayers(),createCoaches(),field2);
         database.addTeam(macabi);
         database.addAsset(field2);
-        Game game = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25, 20,0,0), field, database.mainReferee(), database.sideReferees(),hapoel, macabi);
-        Game game2 = new Game("G"+IdGenerator.getNewId(),new Date(120,4,25, 20,0,0), field, database.mainReferee(), database.sideReferees(),hapoel, macabi);
+        Game game = new Game(new Date(120,4,25, 20,0,0), field, mainReferee(), sideReferees(),hapoel, macabi);
+        Game game2 = new Game(new Date(120,4,25, 20,0,0), field, mainReferee(), sideReferees(),hapoel, macabi);
         database.addGame(game);
         database.addGame(game2);
 
@@ -144,5 +147,133 @@ public class FootballManagementSystem {
         System.out.println();
         System.out.println(financeTransactionsSystem.reportNewIncome(macabi.getTeamOwners().get(0), macabi, 200));//expected : true
         System.out.println(financeTransactionsSystem.reportNewExpanse(macabi.getTeamOwners().get(0), macabi, 300));//expected : false
+
+    //-----------FinanceTransactionsSystem test--------------//
+        System.out.println();
+        System.out.println(financeTransactionsSystem.reportNewIncome(macabi.getTeamOwners().get(0), macabi, 200));//expected : true
+        System.out.println(financeTransactionsSystem.reportNewIncome(macabi.getTeamOwners().get(0), macabi, 200));//expected : true
+        System.out.println(financeTransactionsSystem.getBalance(macabi));//expected : 600
+        System.out.println(financeTransactionsSystem.reportNewExpanse(macabi.getTeamOwners().get(0), macabi, 500));//expected : true
+        System.out.println(financeTransactionsSystem.getBalance(macabi));//expected : 100
+        System.out.println(financeTransactionsSystem.reportNewExpanse(macabi.getTeamOwners().get(0), macabi, 500));//expected : false
+        System.out.println(financeTransactionsSystem.getBalance(macabi));//expected : 100
+
+    //--------unionRepresentativeSystem test--------------//
+
+        hapoel.setActive(true);
+        unionRepresentativeSystem.configureNewLeague("leumit", "2");
+        unionRepresentativeSystem.configureNewSeason(2020);
+        GameAssignmentPolicy gameAssignmentPolicy = new PlayOnceWithEachTeamPolicy();
+        LeagueInSeason leumit2020 = unionRepresentativeSystem.configureLeagueInSeason("leumit", "2020",gameAssignmentPolicy, new StubScorePolicy());
+        Referee ref1 = unionRepresentativeSystem.appointReferee("ref", "1", "a1@gmail.com", "the best one");
+        Referee ref2 = unionRepresentativeSystem.appointReferee("ref", "2", "a2@gmail.com", "the best one");
+        Referee ref3 = unionRepresentativeSystem.appointReferee("ref", "3", "a3@gmail.com", "the best one");
+        unionRepresentativeSystem.assignRefToLeague(leumit2020, ref1);
+        unionRepresentativeSystem.assignRefToLeague(leumit2020, ref2);
+        unionRepresentativeSystem.assignRefToLeague(leumit2020, ref3);
+        unionRepresentativeSystem.addTeamToLeague(leumit2020, macabi);
+        unionRepresentativeSystem.addTeamToLeague(leumit2020, hapoel);
+        unionRepresentativeSystem.addTeamToLeague(leumit2020, team);
+        unionRepresentativeSystem.assignGames(leumit2020, getDates());
+        printList(leumit2020.getAllGames());//expected :each team play once with each other team
+        unionRepresentativeSystem.changeAssignmentPolicy(leumit2020, new PlayTwiceWithEachTeamPolicy());
+        unionRepresentativeSystem.assignGames(leumit2020, getDates());
+        printList(leumit2020.getAllGames());//expected :each team play twice with each other team
+
+        //------------DATABASE UnitTests-------------//
+        League league = new League("Alufot", "3");
+        Season season = new Season(2019);
+        System.out.println(database.addLeague(league));// expected : true
+        System.out.println(database.addSeason(season));// expected : true
+        System.out.println(database.addLeague(league));// expected : false
+        System.out.println(database.addSeason(season));// expected : false
+        User admin = new Admin("Admin","Ush", "example@gmail.com");
+        User unionRep = new UnionRepresentative("Natzig", "Ush", "");
+        System.out.println(database.addUser(admin.getID(), "aA1aA1", admin));//expected : true
+        System.out.println(database.addUser(unionRep.getID(), "aA1aA1", unionRep));//expected : true
+        System.out.println(database.addUser(admin.getID(), "aA1aA1", admin));//expected : false
+        System.out.println(database.authenticationCheck(admin.getID(), "aA1aA1"));//expected : true
+        System.out.println(database.authenticationCheck(admin.getID(), "aA1bA1"));//expected : false
+
+        TeamOwner tOwner = new TeamOwner("Team","Owner", "");
+        List<TeamOwner> owners1 = new LinkedList<>();
+        owners1.add(tOwner);
+        Field field11 = new Field("jerusalem", 550);
+        Team hapoelTA = new Team("Hapoel", null, owners1, createPlayers(), createCoaches(),field11);
+
+        System.out.println(database.addAsset(field11));//expected : true
+        System.out.println(database.addTeam(hapoelTA));//expected : true
+        PersonalPage hapoelsPage2 = new PersonalPage("",hapoelTA.getPlayers().get(0));
+        System.out.println(database.addPage(hapoelsPage2));//expected : true
+        Field field22 = new Field( "TelAviv", 550);
+        Team macabi2 = new Team ( "Macabi", null,owners1, createPlayers(),createCoaches(),field22);
+        System.out.println(database.addTeam(macabi2));//expected : true
+        System.out.println(database.addAsset(field22));//expected : true
+        Game game3 = new Game(new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoelTA, macabi2);
+        Game game23 = new Game(new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoelTA, macabi2);
+        System.out.println(database.addGame(game3));//expected : true
+        System.out.println(database.addGame(game23));//expected : true
+        System.out.println(database.getUser(admin.getID()));//expected : admin
+        System.out.println(database.getUser(unionRep.getID()));//expected : union rep
+        System.out.println(database.getUser(""));//expected : null
+        System.out.println(database.getAsset(macabi2.getID()));//expected : macabi2
+        System.out.println(database.getAsset(field11.getID()));//expected : field11
+        System.out.println(database.getAsset(""));//expected : null
+        System.out.println(database.getGame(game.getId()));//expected : game
+        System.out.println(database.getGame(""));//expected : null
+        System.out.println(database.getPage(hapoelsPage.getId()));//expected : hapoelsPage
+        System.out.println(database.getPage(""));//expected : null
+        System.out.println(database.getSeason("2019"));//expected : season 2019
+        System.out.println(database.getLeague("Alufot"));//expected : Alufot
+        System.out.println(database.getSeason("2020"));//expected : season 2020
+        System.out.println(database.getLeague("leumit"));//expected : leomit
+        database.removeUser("2");
+        System.out.println(database.getUser("2"));//expected : null
+        System.out.println(database.getAllGames().size());//expected : 2 games
+        System.out.println(database.getAllFutureGames().size());//expected : 1 game
+        System.out.println(database.getListOfAllSpecificUsers("Admin").size());//expected : 2
+        System.out.println(database.getListOfAllSpecificUsers("Player").size());//expected : 48
+        System.out.println(database.getListOfAllSpecificUsers("Referee").size());//expected : 19
+
+    }
+
+    public static List<Referee> sideReferees() {
+        List<Referee> refs = new LinkedList<>();
+        Referee referee;
+        for (int i = 0; i <3 ; i++) {
+            referee = new Referee("ref"+i,"", "", "side");
+            refs.add(referee);
+        }
+        return refs;
+    }
+
+    public static Referee mainReferee() {
+        return new Referee("referee", "", "", "talented");
+    }
+    public static List<Coach> createCoaches() {
+        Coach coach = new Coach("coach1", "", "", null, "", "main");
+        List<Coach> coaches = new LinkedList<>();
+        coaches.add(coach);
+        return coaches;
+    }
+    public static List<Player> createPlayers() {
+        List<Player> players = new LinkedList<>();
+        for (int i = 0; i <12 ; i++) {
+            players.add(new Player("player"+i, "", "", null, new Date (99,1,1),"role"+i));
+        }
+        return players;
+    }
+    private static void printList(List<Game> allGames) {
+        for(Game game: allGames){
+            System.out.println(game.toString());
+        }
+    }
+
+    private static List<Date> getDates() {
+        LinkedList<Date> dates = new LinkedList<>();
+        for (int i = 1; i < 29; i++) {
+            dates.add(new Date (120, 6, i, 20, 0));
+        }
+        return dates;
     }
 }

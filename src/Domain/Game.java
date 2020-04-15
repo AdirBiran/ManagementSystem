@@ -22,9 +22,9 @@ public class Game {
     private HashMap<Fan, ReceiveAlerts> fansForAlerts; //list of fans that signed up to receive game alerts
     private EventReport eventReport;
 
-    public Game(String id, Date date, Field field, Referee mainReferee, List<Referee> sideReferees,
+    public Game(Date date, Field field, Referee mainReferee, List<Referee> sideReferees,
                 Team hostTeam, Team guestTeam) {
-        this.id = id;
+        this.id = "G"+IdGenerator.getNewId();
         this.date = date;
         this.field = field;
         this.mainReferee = mainReferee;

@@ -38,14 +38,14 @@ public class LeagueAndGameManagement {
         return database.addSeason(season);
     }
 
-    public boolean configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, List<Game> games) {
+    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy) {
         League league = database.getLeague(nameOfLeague);
         Season season = database.getSeason(yearOfSeason);
-        if(league==null||season==null)return false;
-        LeagueInSeason leagueInSeason = new LeagueInSeason(assignmentPolicy, scorePolicy, league, season, games);
+        if(league==null||season==null)return null;
+        LeagueInSeason leagueInSeason = new LeagueInSeason(assignmentPolicy, scorePolicy, league, season);
         league.addLeagueInSeason(leagueInSeason);
         season.addLeagueInSeason(leagueInSeason);
-        return true;
+        return leagueInSeason;
     }
 
     public boolean assignRefToLeague(LeagueInSeason league, Referee referee) {
@@ -97,5 +97,9 @@ public class LeagueAndGameManagement {
             //What happens to the members of the teams???
         }
         return false;
+    }
+
+    public void addTeamToLeague(LeagueInSeason league, Team team) {
+        league.addATeam(team);
     }
 }
