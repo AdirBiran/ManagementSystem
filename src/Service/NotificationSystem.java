@@ -2,20 +2,19 @@ package Service;
 
 import Domain.*;
 import Presentation.*;
-
-import java.sql.Time;
 import java.util.Date;
-import java.util.List;
 
 public class NotificationSystem {
 
     private RefereeManagement refereeManagement;
     private AssetManagement assetManagement;
+    private MailSender mailSender; //??
 
     public NotificationSystem(LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement,
-                              AssetManagement assetManagement) {
+                              AssetManagement assetManagement, MailSender mailSender) {
         this.refereeManagement = refereeManagement;
         this.assetManagement = assetManagement;
+        this.mailSender = mailSender;
     }
 
     /*
@@ -48,12 +47,8 @@ public class NotificationSystem {
     /*
     Send a notification to the user when the administrator removes it
      */
-    public boolean UserRemovalNotification(User user){
-        if(!user.isActive()) {
-            user.addMessage(new Notice(true, "Your subscription has been removed"));
-            return true;
-        }
-        return false;
+    public boolean UserRemovalNotification(String userMail){
+        return mailSender.send(userMail);
     }
 
 }

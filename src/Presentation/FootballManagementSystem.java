@@ -24,9 +24,10 @@ public class FootballManagementSystem {
         RefereeManagement refereeManagement = new RefereeManagement(database);
         Searcher searcher = new Searcher(database);
         UserManagement userManagement = new UserManagement(database);
+        MailSender mailSender = new MailSender();
         //***service***//
         AssetSystem assetSystem = new AssetSystem(assetManagement);
-        NotificationSystem notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement);
+        NotificationSystem notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement, mailSender);
         FinanceTransactionsSystem financeTransactionsSystem = new FinanceTransactionsSystem(financeTransactionsManagement, notificationSystem);
         GuestSystem guestSystem = new GuestSystem(searcher, userManagement);
         PersonalPageSystem personalPageSystem = new PersonalPageSystem(personalPageManagement);
@@ -34,6 +35,7 @@ public class FootballManagementSystem {
         SearchSystem searchSystem = new SearchSystem(searcher);
         UnionRepresentativeSystem unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
         UserSystem userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement, leagueAndGameManagement, notificationSystem);
+        TeamManagementSystem teamManagementSystem = new TeamManagementSystem(leagueAndGameManagement, userManagement, notificationSystem);
         //***presentation***//
         Admin systemAdmin = new Admin("adminush","", "example@gmail.com");
         userSystem.addUser(systemAdmin.getID(), "Adminush1", systemAdmin);
@@ -92,20 +94,20 @@ public class FootballManagementSystem {
         Team team = new Team("Lidoy" , null ,teamOwnerList,playerList,coachList,field1 );
         teamOwner.appointmentTeamManager(teamManager ,team);
 
-        userSystem.appointmentTeamManager(teamOwner,teamManager,team);
-        userSystem.appointmentTeamOwner(teamOwner,teamOwner2,team);
-        userSystem.appointmentTeamOwner(teamOwner2,teamOwner3,team);
+        teamManagementSystem.appointmentTeamManager(teamOwner,teamManager,team);
+        teamManagementSystem.appointmentTeamOwner(teamOwner,teamOwner2,team);
+        teamManagementSystem.appointmentTeamOwner(teamOwner2,teamOwner3,team);
 
         /**TEAM OWNER TRY TO REMOVE APPOINTMENT
          * THOSE APPOINTMENTS IS NOT HIS APPOINTMENTS
          * */
-        userSystem.removeAppointmentTeamOwner(teamOwner2,teamOwner,team);
-        userSystem.removeAppointmentTeamManager(teamOwner2,teamManager,team);
+        teamManagementSystem.removeAppointmentTeamOwner(teamOwner2,teamOwner,team);
+        teamManagementSystem.removeAppointmentTeamManager(teamOwner2,teamManager,team);
 
         /**TEAM OWNER TRY TO REMOVE APPOINTMENT
          * THOSE APPOINTMENTS IS HIS APPOINTMENTS
          * */
-        userSystem.removeAppointmentTeamOwner(teamOwner , teamOwner2,team);
+        teamManagementSystem.removeAppointmentTeamOwner(teamOwner , teamOwner2,team);
 
 
         /**-----------DORON TESTS--------------*/
@@ -141,9 +143,9 @@ public class FootballManagementSystem {
         System.out.println(notificationSystem.openORCloseTeam("closed", hapoel, true)); //expected : true
         notificationSystem.refereeAlertsChangeDate(game, game.getDate());
         notificationSystem.refereeAlertsChangeGameLocation(game, game.getField());
-        System.out.println(notificationSystem.UserRemovalNotification(fan));//expected : false
+        System.out.println(notificationSystem.UserRemovalNotification(fan.getMail()));//expected : false
         fan.deactivate();
-        System.out.println(notificationSystem.UserRemovalNotification(fan));//expected : true
+        System.out.println(notificationSystem.UserRemovalNotification(fan.getMail()));//expected : true
         System.out.println();
         System.out.println(financeTransactionsSystem.reportNewIncome(macabi.getTeamOwners().get(0), macabi, 200));//expected : true
         System.out.println(financeTransactionsSystem.reportNewExpanse(macabi.getTeamOwners().get(0), macabi, 300));//expected : false
