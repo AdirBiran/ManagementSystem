@@ -337,7 +337,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 }
                 case("Team"):{
                     for(Team team:teams.values()){
-                        if(searchWord.equals(team.getID()))
+                        if(searchWord.equals(team.getID())&&team.isActive())
                             return team;
                     }
                 }
