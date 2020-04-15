@@ -10,7 +10,7 @@ public class Fan extends User {
     private String address;
     private String phone;
     private List<Complaint> complaints;
-    private List<PersonalPage> pages;
+    private List<PersonalPage> followPages;
     private List<String> searchHistory;
 
     public Fan(String mail, String firstName, String lastName,
@@ -19,7 +19,7 @@ public class Fan extends User {
         this.address = address;
         this.phone = phone;
         complaints = new LinkedList<>();
-        pages = new LinkedList<>();
+        followPages = new LinkedList<>();
         searchHistory = new LinkedList<>();
     }
 
@@ -53,11 +53,18 @@ public class Fan extends User {
     {
 
     }
-    public void editDetails(String firstName, String lastName, String password, String address, String phone) {
+    public void editDetails(String firstName, String lastName, String address, String phone) {
         super.editDetails(firstName, lastName);
         this.address = address;
         this.phone = phone;
 
+    }
+    public boolean addPageToFollow(PersonalPage page){
+        if(!followPages.contains(page)){
+            followPages.add(page);
+            return true;
+        }
+        return false;
     }
 
 
@@ -70,8 +77,8 @@ public class Fan extends User {
         return complaints;
     }
 
-    public List<PersonalPage> getPages() {
-        return pages;
+    public List<PersonalPage> getFollowPages() {
+        return followPages;
     }
 
     public boolean addToSearchHistory(String word){ return searchHistory.add(word);}

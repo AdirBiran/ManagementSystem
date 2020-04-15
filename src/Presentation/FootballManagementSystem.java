@@ -4,7 +4,6 @@ import Data.Database;
 import Domain.*;
 import Service.*;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class FootballManagementSystem {
         RefereeSystem refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
         SearchSystem searchSystem = new SearchSystem(searcher);
         UnionRepresentativeSystem unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
-        UserSystem userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement);
+        UserSystem userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement, leagueAndGameManagement);
         //***presentation***//
         int id = IdGenerator.getNewId();
         Admin systemAdmin = new Admin("adminush","", "example@gmail.com");
@@ -66,13 +65,11 @@ public class FootballManagementSystem {
         List<Game> games = new LinkedList<>();
         games.add(game);
         games.add(game2);
-        System.out.println(notificationSystem.registrationForGameAlerts(fan, games, receiveAlerts)); //expected : true
         System.out.println(notificationSystem.openORCloseTeam("closed", hapoel, false)); //expected : false
         System.out.println(notificationSystem.openORCloseTeam("open", hapoel, false)); //expected : true
         hapoel.setActive(false);
         System.out.println(notificationSystem.openORCloseTeam("closed", hapoel, true)); //expected : true
         notificationSystem.refereeAlertsChangeDate(game, game.getDate());
-        //notificationSystem.refereeAlertsChangeTime(game, game.getTime());
         notificationSystem.refereeAlertsChangeGameLocation(game, game.getField());
         System.out.println(notificationSystem.UserRemovalNotification(fan));//expected : false
         fan.deactivate();

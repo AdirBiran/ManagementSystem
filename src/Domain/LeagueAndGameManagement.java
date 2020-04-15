@@ -17,7 +17,7 @@ public class LeagueAndGameManagement {
     /*
     Fan registration for alerts for games you've selected
      */
-    public boolean registrationForGameAlerts(Fan fan, List<Game> games, ReceiveAlerts receiveAlerts) {
+    public boolean registrationForGamesAlerts(Fan fan, List<Game> games, ReceiveAlerts receiveAlerts) {
         for(Game game : games){
             if(!game.addFanForNotifications(fan, receiveAlerts))
                 return false;

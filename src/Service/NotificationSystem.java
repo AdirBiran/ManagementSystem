@@ -9,23 +9,15 @@ import java.util.List;
 
 public class NotificationSystem {
 
-    private LeagueAndGameManagement leagueAndGameManagement;
     private RefereeManagement refereeManagement;
     private AssetManagement assetManagement;
 
     public NotificationSystem(LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement,
                               AssetManagement assetManagement) {
-        this.leagueAndGameManagement = leagueAndGameManagement;
         this.refereeManagement = refereeManagement;
         this.assetManagement = assetManagement;
     }
 
-    /*
-    Fan registration for alerts for games you've selected
-     */
-    public boolean registrationForGameAlerts(Fan fan, List<Game> games, ReceiveAlerts receive){
-        return leagueAndGameManagement.registrationForGameAlerts(fan, games, receive);
-    }
     /*
     When a team is closed / permanently closed or reopened, alerts are sent accordingly
      */
@@ -37,13 +29,6 @@ public class NotificationSystem {
      */
     public void refereeAlertsChangeDate(Game game, Date newDate){
         String msg = "The game: "+game.toString()+" have new date: "+newDate;
-        refereeManagement.sendNotification(game, msg);
-    }
-    /*
-    Send alerts to the referee when there is a change in game time
-     */
-    public void refereeAlertsChangeTime(Game game, Time newTime){
-        String msg= "The game: "+game.toString()+" have new time: "+newTime;
         refereeManagement.sendNotification(game, msg);
     }
     /*

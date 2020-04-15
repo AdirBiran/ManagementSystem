@@ -37,23 +37,15 @@ public class UserManagement//for admins
      */
     public boolean registrationToSystem(String mail, String password, String firstName, String lastName, String phone,
                                         String address) {
-        if(!database.authenticationCheck(mail, password) && database.getUser(mail)==null){
+        if(!database.authenticationCheck(mail, password)){
             Fan fan = new Fan(mail, firstName, lastName, phone,address);
             database.addUser(fan.getID(), password, fan);
             return true;
         }
         return false;
     }
-    /*
-    Edit user personal information
-     */
-    public void editPersonalDetails(User user, String firstName, String lastName, String phone,
-                                    String address, String password) {
-        if(password!=null)
-            //change password ?!!?
-            if(user instanceof Fan)
-                ((Fan)user).editDetails(firstName, lastName, phone, address, lastName);
-            else // player? coach? what change !?!?!
-                user.editDetails(firstName, lastName);
+
+    public boolean registrationToFollowUp(Fan fan, PersonalPage page){
+        return fan.addPageToFollow(page);
     }
 }

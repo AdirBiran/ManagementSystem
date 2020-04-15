@@ -201,6 +201,10 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return false;
     }
+    public void changePassword(String userId, String newPassword){
+        if(userNamesAndPasswords.containsKey(userId))
+            userNamesAndPasswords.replace(userId, newPassword);
+    }
     /*
     this function returns a list of users of a specific type. for example all admins, all players ext.
     the input is a string of the type "Admin", "Player"
@@ -335,7 +339,6 @@ public class Database //maybe generalize with interface? //for now red layer
             return null;
 
     }
-
 
     public void removeUser(String userId) {
         User user = usersInDatabase.get(userId);
