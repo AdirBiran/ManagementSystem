@@ -1,8 +1,11 @@
 package Domain;
 
 import Data.Database;
+import Presentation.Admin;
 import Presentation.Fan;
 import Presentation.Referee;
+import Presentation.TeamOwner;
+
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +65,36 @@ public class LeagueAndGameManagement {
         if(games!=null){
             league.setGames(games);
             return true;
+        }
+        return false;
+    }
+    public boolean closeTeam(TeamOwner teamOwner, Team team) {
+        if(team.isActive()){
+            teamOwner.setClosedTeam(team, true);
+            team.setActive(false);
+            //Removing permissions for team members
+            return true;
+        }
+        return false;
+    }
+
+    public boolean reopeningTeam(TeamOwner teamOwner, Team team) {
+        if(!team.isActive() && !team.isPermanentlyClosed() && teamOwner.isClosedTeam(team)){
+            teamOwner.setClosedTeam(team, false);
+            team.setActive(true);
+            //Re-configure permissions for team members
+            return true;
+        }
+        return false;
+    }
+
+    public boolean permanentlyCloseTeam(Team team) {
+        if(!team.isPermanentlyClosed()) {
+            if (team.isActive())
+                team.setActive(false);
+            team.setPermanentlyClosed(true);
+            //Maybe add a list of permanently closed teams to Database
+            //What happens to the members of the teams???
         }
         return false;
     }

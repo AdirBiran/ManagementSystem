@@ -1,11 +1,7 @@
 package Presentation;
 
 import Domain.Asset;
-import Domain.Field;
-import Domain.IdGenerator;
 import Domain.Team;
-import Service.UserSystem;
-
 import java.util.*;
 
 public class TeamOwner extends Manager {
@@ -25,6 +21,17 @@ public class TeamOwner extends Manager {
 
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+
+    public void addTeam(Team team) {
+        if(!teams.contains(team)){
+            teams.add(team);
+            isClosedTeam.put(team, false);
+
+            //not sure about this
+            appointmentAssetsInTeams.put(team,new HashMap<>());
+        }
+
+    }
 
     public void addExistAsset(Asset asset , Team team){
 
@@ -75,18 +82,6 @@ public class TeamOwner extends Manager {
         }*/
     }
 
-    public void addTeam(Team team) {
-       if(!teams.contains(team)){
-           teams.add(team);
-           isClosedTeam.put(team, false);
-
-           //not sure about this
-           appointmentAssetsInTeams.put(team,new HashMap<>());
-       }
-
-    }
-
-
     public void appointmentTeamOwner(Asset asset, Team team){
 
        /* String assetId = asset.getID();
@@ -134,8 +129,6 @@ public class TeamOwner extends Manager {
             }
         }*/
     }
-
-
 
     /**
      * remove Team Owner Appointment
@@ -219,22 +212,20 @@ public class TeamOwner extends Manager {
         }
     }*/
 
+    /*
 
-    /**
-     *
      */
     public void closeTeam(){
 
     }
-    /**
-     *
+    /*
+
      */
     public void openTeam(){
 
     }
+    /*
 
-    /**
-     *
      */
     public void reportFinanceTrans()
     {
@@ -249,8 +240,8 @@ public class TeamOwner extends Manager {
         return isClosedTeam.get(team);
     }
 
-    public void setClosedTeam(Team team) {
-        isClosedTeam.replace(team, true);
+    public void setClosedTeam(Team team, boolean closeTeam) {
+        isClosedTeam.replace(team, closeTeam);
     }
 
 

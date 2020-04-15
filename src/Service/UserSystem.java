@@ -10,15 +10,18 @@ public class UserSystem extends GuestSystem{
     private EditPersonalInfo editPersonalInfo;
     private PersonalPageManagement personalPageManagement;
     private LeagueAndGameManagement leagueAndGameManagement;
+    private NotificationSystem notificationSystem;
 
     public UserSystem(Searcher searcher, ComplaintManager complaintManger, EditPersonalInfo editPersonalInfo,
                       PersonalPageManagement personalPageManagement,UserManagement userManagement,
-                      LeagueAndGameManagement leagueAndGameManagement) {
+                      LeagueAndGameManagement leagueAndGameManagement,
+                      NotificationSystem notificationSystem) {
         super(searcher, userManagement);
         this.complaintManger = complaintManger;
         this.editPersonalInfo = editPersonalInfo;
         this.personalPageManagement = personalPageManagement;
         this.leagueAndGameManagement = leagueAndGameManagement;
+        this.notificationSystem = notificationSystem;
 
     }
     /*
@@ -76,7 +79,7 @@ public class UserSystem extends GuestSystem{
         
     }
     /*
-    Remove user
+    Remove user by an administrator
      */
     public void removeUser(String userId){
         userManagement.removeUser(userId);
@@ -108,5 +111,35 @@ public class UserSystem extends GuestSystem{
     }
     public void removeAppointmentTeamManager(TeamOwner teamOwner,User user, Team team){
         userManagement.removeAppointmentTeamManager(teamOwner, user, team);
+    }
+    /*
+
+     */
+    public boolean closeTeam(TeamOwner teamOwner, Team team){
+        if(leagueAndGameManagement.closeTeam(teamOwner, team)){
+            notificationSystem.openORCloseTeam("closed", team, false);
+            return true;
+        }
+        return false;
+    }
+    /*
+
+     */
+    public boolean reopeningTeam(TeamOwner teamOwner, Team team){
+        if(leagueAndGameManagement.reopeningTeam(teamOwner, team)){
+            notificationSystem.openORCloseTeam("open", team, false);
+            return true;
+        }
+        return false;
+    }
+    /*
+    Permanently close a group only by an administrator
+     */
+    public boolean permanentlyCloseTeam(Team team){
+        if(leagueAndGameManagement.permanentlyCloseTeam(team)){
+            notificationSystem.openORCloseTeam("closed", team, true);
+            return true;
+        }
+        return false;
     }
 }
