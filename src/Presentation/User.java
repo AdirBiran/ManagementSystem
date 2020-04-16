@@ -2,7 +2,6 @@ package Presentation;
 
 import Domain.IdGenerator;
 import Domain.Notice;
-
 import java.util.List;
 import java.util.LinkedList;
 
@@ -89,5 +88,9 @@ public abstract class User extends Guest {
     }
     public void setAmountOfTeams(int number){
         this.amountOfTeams=this.amountOfTeams+number;
+    }
+
+    public String getMail() {
+        return mail;
     }
 }

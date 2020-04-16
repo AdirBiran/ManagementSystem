@@ -23,8 +23,8 @@ public class UserManagement//for admins
     /*
     Remove user
      */
-    public void removeUser(String userId){
-        database.removeUser(userId);
+    public String removeUser(String userId){
+        return database.removeUser(userId);
     }
 
     /*

@@ -351,11 +351,14 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    public void removeUser(String userId) {
+    public String removeUser(String userId) {
         User user = usersInDatabase.get(userId);
+        String userMail="";
         if(user!=null){
             user.deactivate();
+            userMail= user.getMail();
         }
+        return userMail;
     }
 
     /*
