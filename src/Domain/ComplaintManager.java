@@ -1,6 +1,7 @@
 package Domain;
 
 import Data.Database;
+import Presentation.Admin;
 import Presentation.Fan;
 import java.util.Date;
 
@@ -18,5 +19,9 @@ public class ComplaintManager {
     public void addComplaintToSystem(Fan fan, String description) {
         Complaint complaint = new Complaint(new Date(), description, fan);
         database.addComplaint(complaint);
+    }
+
+    public void responseToComplaint(Admin admin, Complaint complaint) {
+
     }
 }

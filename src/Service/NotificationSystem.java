@@ -8,13 +8,15 @@ public class NotificationSystem {
 
     private RefereeManagement refereeManagement;
     private AssetManagement assetManagement;
-    private MailSender mailSender; //??
+    private MailSender mailSender;
+    private UserManagement userManagement;
 
     public NotificationSystem(LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement,
-                              AssetManagement assetManagement, MailSender mailSender) {
+                              AssetManagement assetManagement, MailSender mailSender, UserManagement userManagement) {
         this.refereeManagement = refereeManagement;
         this.assetManagement = assetManagement;
         this.mailSender = mailSender;
+        this.userManagement = userManagement;
     }
 
     /*
@@ -51,4 +53,15 @@ public class NotificationSystem {
         return mailSender.send(userMail);
     }
 
+    public void notificationForAppointment(User user, boolean addAppointment){
+        String message;
+        if(addAppointment){
+            message = "You have a new appointment";
+        }
+        else{
+            message = "Your appointment hes been removed";
+        }
+        userManagement.notificationForAppointment(user, message);
+
+    }
 }

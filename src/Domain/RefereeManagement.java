@@ -25,7 +25,7 @@ public class RefereeManagement {
         //String randomInitialPassword = PasswordGenerator.generateRandPassword(6);
         String randomInitialPassword = "Ac1234";
         //send referee mail to approve?
-        if(database.addUser(referee.getID(), randomInitialPassword, referee))
+        if(database.addUser(randomInitialPassword, referee))
             return referee;
         else
             return null;

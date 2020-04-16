@@ -5,6 +5,8 @@ import Domain.UserManagement;
 import Presentation.Guest;
 import Presentation.User;
 
+import java.util.List;
+
 public class GuestSystem {
 
     protected Searcher searcher;
@@ -37,8 +39,8 @@ public class GuestSystem {
     /*
     Search results in a system
      */
-    public void search(Guest g, String wordToSearch){
-        searcher.searchInfo(g, wordToSearch);
+    public List<Object> search(Guest g, String wordToSearch){
+       return searcher.searchInfo(g, wordToSearch);
 
     }
     /*

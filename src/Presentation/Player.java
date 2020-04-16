@@ -65,4 +65,9 @@ public class Player extends HasAPage implements Asset {
         teams.add(team);
         return true;
     }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 }

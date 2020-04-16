@@ -18,4 +18,9 @@ public class Guest {
     {
 
     }
+    public void register(String mail, String password, String firstName, String lastName,
+                         String phone, String address)
+    {
+
+    }
 }

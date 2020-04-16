@@ -24,4 +24,8 @@ public class FinanceTransactionsManagement {
     public double getBalance(Team team) {
         return team.getBudget().getBalance();
     }
+
+    public void addTUTUPayment(Team team, double payment) {
+        team.getBudget().addIncome(payment);
+    }
 }

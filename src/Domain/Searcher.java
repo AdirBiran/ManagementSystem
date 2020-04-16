@@ -15,10 +15,11 @@ public class Searcher {
     /*
 
      */
-    public void searchInfo(Guest g, String wordToSearch) {
+    public List<Object> searchInfo(Guest g, String wordToSearch) {
         if(g instanceof Fan){
             ((Fan) g).addToSearchHistory(wordToSearch);
         }
+        return database.searchObject(wordToSearch);
         //search info about wordToSearch
     }
     /*

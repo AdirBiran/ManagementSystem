@@ -15,6 +15,7 @@ public abstract class User extends Guest {
     protected boolean isActive;
     protected int amountOfTeams;
 
+
     /**
      * constructor for user
      * @param firstName

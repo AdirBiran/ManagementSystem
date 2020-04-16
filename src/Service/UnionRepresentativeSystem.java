@@ -26,8 +26,8 @@ public class UnionRepresentativeSystem {
         return leagueAndGameManagement.configureNewSeason(year);
     }
 
-    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy){
-        return leagueAndGameManagement.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy,scorePolicy);
+    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){
+        return leagueAndGameManagement.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy,scorePolicy,fee);
     }
     public Referee appointReferee(String firstName,String lastName, String mail, String training)
     {
@@ -49,6 +49,10 @@ public class UnionRepresentativeSystem {
     {
         return leagueAndGameManagement.changeAssignmentPolicy(league, policy);
     }
+
+    /*
+    throws exceptions
+     */
     public boolean assignGames(LeagueInSeason league, List<Date> dates)
     {
         return leagueAndGameManagement.assignGames(league,dates);
@@ -57,4 +61,19 @@ public class UnionRepresentativeSystem {
     public void addTeamToLeague(LeagueInSeason league, Team team) {
          leagueAndGameManagement.addTeamToLeague(league, team);
     }
+    public void calculateLeagueScore(LeagueInSeason league){
+        leagueAndGameManagement.calculateLeagueScore(league);
+    }
+
+    public void calculateGameScore(LeagueInSeason league,Game game){
+        leagueAndGameManagement.calculateGameScore(league,game);
+    }
+    public void changeRegistrationFee(LeagueInSeason league, double newFee){
+        leagueAndGameManagement.changeRegistrationFee(league, newFee);
+    }
+
+    public void addTUTUPayment(Team team, double payment){
+        financeTransactionsManagement.addTUTUPayment(team, payment);
+    }
+
 }

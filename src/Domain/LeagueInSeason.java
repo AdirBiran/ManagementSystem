@@ -15,11 +15,13 @@ public class LeagueInSeason {
     private List<Game> games;
     private List<Referee> referees;
     private List<Team> teams;
+    private double registrationFee;
 
 
-    public LeagueInSeason(GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, League league, Season season) {
+    public LeagueInSeason(GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, League league, Season season, double registrationFee) {
         this.assignmentPolicy = assignmentPolicy;
         this.scorePolicy = scorePolicy;
+        this.registrationFee = registrationFee;
         scoreTable = new LinkedList<>();
         this.league = league;
         this.season = season;
@@ -30,6 +32,10 @@ public class LeagueInSeason {
     }
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
+
+    public void changeRegistrationFee(double registrationFee) {
+        this.registrationFee = registrationFee;
+    }
 
     public List<Team> getTeams() {
         return teams;
@@ -99,13 +105,6 @@ public class LeagueInSeason {
         return season;
     }
 
-    /**
-     *
-     * @return
-     */
-    public List<ScoreTableRecord> getScoreTabel() {
-        return scoreTable;
-    }
 
     public boolean addReferee(Referee referee) {
         if(!referees.contains(referee)){

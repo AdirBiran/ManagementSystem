@@ -88,15 +88,15 @@ public class Team{
                 '}';
     }
 
-    public void addAWin(int wins) {
+    public void addAWin() {
         this.wins ++;
     }
 
-    public void addALoss(int losses) {
+    public void addALoss() {
         this.losses ++;
     }
 
-    public void addADraw(int draws) {
+    public void addADraw() {
         this.draws ++;
     }
 

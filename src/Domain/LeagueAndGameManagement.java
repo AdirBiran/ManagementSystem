@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Presentation.Admin;
 import Presentation.Fan;
 import Presentation.Referee;
 import Presentation.TeamOwner;
@@ -38,11 +37,11 @@ public class LeagueAndGameManagement {
         return database.addSeason(season);
     }
 
-    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy) {
+    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double registrationFee) {
         League league = database.getLeague(nameOfLeague);
         Season season = database.getSeason(yearOfSeason);
         if(league==null||season==null)return null;
-        LeagueInSeason leagueInSeason = new LeagueInSeason(assignmentPolicy, scorePolicy, league, season);
+        LeagueInSeason leagueInSeason = new LeagueInSeason(assignmentPolicy, scorePolicy, league, season, registrationFee);
         league.addLeagueInSeason(leagueInSeason);
         season.addLeagueInSeason(leagueInSeason);
         return leagueInSeason;
@@ -101,5 +100,17 @@ public class LeagueAndGameManagement {
 
     public void addTeamToLeague(LeagueInSeason league, Team team) {
         league.addATeam(team);
+    }
+
+    public void calculateLeagueScore(LeagueInSeason league) {
+        league.getScorePolicy().calculateLeagueScore(league);
+    }
+
+    public void calculateGameScore(LeagueInSeason league, Game game) {
+        league.getScorePolicy().calculateScore(game);
+    }
+
+    public void changeRegistrationFee(LeagueInSeason league, double newFee) {
+        league.changeRegistrationFee(newFee);
     }
 }

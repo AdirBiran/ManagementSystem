@@ -17,8 +17,8 @@ public class UserManagement//for admins
     /*
        this function adds a new user to the system
     */
-    public void addUser(String userId, String password, User user) {
-        database.addUser(userId, password, user);
+    public void addUser(String password, User user) {
+        database.addUser(password, user);
     }
     /*
     Remove user
@@ -39,6 +39,11 @@ public class UserManagement//for admins
     * */
     public void addAsset(Asset asset , Team team){
         if(asset instanceof User){
+            if(database.getAsset(asset.getID())!=null)
+                asset = database.getAsset(asset.getID());
+            else
+                database.addUser("Aa123",(User)asset);
+
             if(asset instanceof TeamManager){
                 team.addTeamManager((TeamManager) asset);
             }
@@ -48,16 +53,16 @@ public class UserManagement//for admins
             if(asset instanceof Coach){
                 team.addCoach((Coach) asset);
             }
+
         }
 
         /**
          * Need to decide what happen if the team has a Field
          * */
-        if(asset instanceof Field){
+       else if(asset instanceof Field){
             team.getFields().add((Field) asset);
+            database.addAsset(asset);
         }
-
-        database.addAsset(asset);
     }
     /*
        Remove asset
@@ -109,7 +114,7 @@ public class UserManagement//for admins
                                         String address) {
         if(!database.authenticationCheck(mail, password)){
             Fan fan = new Fan(mail, firstName, lastName, phone,address);
-            database.addUser(fan.getID(), password, fan);
+            database.addUser(password, fan);
             return true;
         }
         return false;
@@ -120,69 +125,74 @@ public class UserManagement//for admins
     }
 
 
-    public void appointmentTeamOwner(TeamOwner teamOwner , User user, Team team){
+    public boolean appointmentTeamOwner(TeamOwner teamOwner , User user, Team team){
 
         String assetId = user.getID();
+        boolean ans = false;
 
         /*
+         * allows to add only team owners
          * if the new asset is part of the team, but the rule change
          * */
         if(team.isActive()) {
-                if (user instanceof TeamOwner || user instanceof TeamManager
-                        || user instanceof Player || user instanceof Coach) {
-
+                if (user instanceof TeamOwner) {// user instanceof TeamManage || user instanceof Player || user instanceof Coach
                     //if the team owner is not already exist
-                    if (!team.getTeamOwners().contains(user)) {
-
-                        team.addTeamOwner((TeamOwner) user);
-                        ((TeamOwner) user).setAppointmentAssetsInTeams(team);
-
-                        if (!teamOwner.getAppointmentAssetsInTeams(team).containsKey(assetId)) {
-                            teamOwner.getAppointmentAssetsInTeams(team).put(assetId, user);
-                        }
-
-                        /**NEED TO MAKE THE USER A TEAM OWNER*/
-                        if (user instanceof Player || user instanceof Coach || user instanceof TeamManager) {
-                            //user become a Team Owner
-                        }
+                    if (team.getTeamOwners().contains(user)) {
+                        return false;
                     }
+
+                    team.addTeamOwner((TeamOwner) user);
+                    ((TeamOwner) user).setAppointmentAssetsInTeams(team);
+
+                    if (!teamOwner.getAppointmentAssetsInTeams(team).containsKey(assetId)) {
+                        teamOwner.getAppointmentAssetsInTeams(team).put(assetId, user);
+                        ans = true;
+
+                    }
+
+                }
+            /**NEED TO MAKE THE USER A TEAM OWNER*/
+            if (user instanceof Player || user instanceof Coach || user instanceof TeamManager) {
+                //user become a Team Owner
             }
 
         }
+        return ans;
     }
 
-    public void appointmentTeamManager(TeamOwner teamOwner, User user, Team team){
+    public boolean appointmentTeamManager(TeamOwner teamOwner, User user, Team team){
 
         String assetId = user.getID();
+        boolean ans = false;
         /*
          * if the new asset is part of the team, but the rule change
          * */
         if(team.isActive()) {
-                if (user instanceof TeamManager || user instanceof Player || user instanceof Coach) {
+                if (user instanceof TeamManager){// || user instanceof Player || user instanceof Coach) {
 
                     //if the team manager is not already exist
-                    if(!team.getTeamManagers().contains(user)) {
+                    if(team.getTeamManagers().contains(user)) {
+                        return false;
+                    }
                         team.addTeamManager((TeamManager) user);
 
                         if (!teamOwner.getAppointmentAssetsInTeams(team).containsKey(assetId)) {
                             teamOwner.getAppointmentAssetsInTeams(team).put(assetId, user);
+                            ans = true;
                         }
-                        /**NEED TO MAKE THE USER A TEAM Manager*/
-                        if(user instanceof Player || user instanceof Coach){
-                            //user become a Team Manager
-                        }
-                    }
-
                 }
-
-
+            /**NEED TO MAKE THE USER A TEAM Manager*/
+            if(user instanceof Player || user instanceof Coach){
+                //user become a Team Manager
+            }
         }
+        return ans;
     }
 
     /**
      * remove Team Owner Appointment
      */
-    public void removeAppointmentTeamOwner(TeamOwner teamOwner, User user, Team team)
+    public boolean removeAppointmentTeamOwner(TeamOwner teamOwner, User user, Team team)
     {
 
         if(user instanceof TeamOwner) {
@@ -192,24 +202,28 @@ public class UserManagement//for admins
 
                     /**remove Appointments of team owner*/
                     removeAppointmentsByLoop((TeamOwner) user, team);
+                    user.addMessage(new Notice(true, "Your appointment hes been removed"));
+                    return true;
                 }
             }
         }
-
+        return false;
     }
 
     /**
      * remove Team Manager Appointment
      */
-    public void removeAppointmentTeamManager(TeamOwner teamOwner,User user, Team team)
+    public boolean removeAppointmentTeamManager(TeamOwner teamOwner,User user, Team team)
     {
         if(user instanceof TeamManager) {
             if (teamOwner.getAppointmentAssetsInTeams(team) != null) {
                 if(teamOwner.getAppointmentAssetsInTeams(team).containsKey(user.getID())) {
                     removeTeamManager(teamOwner, user, team);
+                    return true;
                 }
             }
         }
+        return false;
 
         //maybe add more stuff here
     }
@@ -227,7 +241,7 @@ public class UserManagement//for admins
                  * if the User is no longer part of something in the system
                  * the user become not active
                  * */
-                if (((TeamOwner) user).getAmountOfTeams() == 0) {
+                if (user.getAmountOfTeams() == 0) {
                     user.deactivate();
                 }
             }
@@ -293,5 +307,33 @@ public class UserManagement//for admins
                 }
             }
         }
+    }
+
+    public boolean updateRole(User user, String role) {
+        if(user instanceof Player){
+            ((Player)user).setRole(role);
+            return true;
+        }
+        if(user instanceof Coach){
+            ((Coach)user).setRole(role);
+            return true;
+        }
+        return false;
+    }
+    public boolean updateTraining(User user, String training) {
+        if(user instanceof Coach){
+            ((Coach)user).setRole(training);
+            return true;
+        }
+        return false;
+    }
+
+    public void deactivateField(Field field) {
+        field.deactivate();
+    }
+
+    public void notificationForAppointment(User user, String message) {
+
+        user.addMessage(new Notice(true, message));
     }
 }

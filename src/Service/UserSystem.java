@@ -11,22 +11,18 @@ public class UserSystem extends GuestSystem{
     private PersonalPageManagement personalPageManagement;
     private LeagueAndGameManagement leagueAndGameManagement;
 
+
     public UserSystem(Searcher searcher, ComplaintManager complaintManger, EditPersonalInfo editPersonalInfo,
                       PersonalPageManagement personalPageManagement,UserManagement userManagement,
-                      LeagueAndGameManagement leagueAndGameManagement,
-                      NotificationSystem notificationSystem) {
+                      LeagueAndGameManagement leagueAndGameManagement) {
         super(searcher, userManagement);
         this.complaintManger = complaintManger;
         this.editPersonalInfo = editPersonalInfo;
         this.personalPageManagement = personalPageManagement;
         this.leagueAndGameManagement = leagueAndGameManagement;
+
     }
-    /*
-    this function adds a new user to the system
-    */
-    public void addUser(String id, String password, User user) {
-        userManagement.addUser(id, password, user);
-    }
+
     /*
     View fan search history
      */
@@ -75,4 +71,5 @@ public class UserSystem extends GuestSystem{
         return leagueAndGameManagement.registrationForGamesAlerts(fan, games, receive);
         
     }
+
 }

@@ -1,16 +1,14 @@
 package Service;
 
-import Domain.Asset;
-import Domain.LeagueAndGameManagement;
-import Domain.Team;
-import Domain.UserManagement;
+import Domain.*;
+import Presentation.Player;
 import Presentation.TeamOwner;
 import Presentation.User;
 
 public class TeamManagementSystem {
     private LeagueAndGameManagement leagueAndGameManagement;
     private UserManagement userManagement;
-    private NotificationSystem notificationSystem; //??
+    private NotificationSystem notificationSystem;
 
     public TeamManagementSystem(LeagueAndGameManagement leagueAndGameManagement, UserManagement userManagement,
                                 NotificationSystem notificationSystem) {
@@ -26,15 +24,6 @@ public class TeamManagementSystem {
         userManagement.addAsset(asset , team);
     }
     /*
-    Remove user by an administrator
-    */
-    public void removeUser(String userId){
-        String userMail = userManagement.removeUser(userId);
-        notificationSystem.UserRemovalNotification(userMail);
-    }
-
-
-    /*
     Remove Asset
      */
     public void removeAsset(Asset asset , Team team){
@@ -42,16 +31,23 @@ public class TeamManagementSystem {
     }
 
     public void appointmentTeamOwner(TeamOwner teamOwner , User user, Team team){
-        userManagement.appointmentTeamOwner(teamOwner, user, team);
+        if(userManagement.appointmentTeamOwner(teamOwner, user, team)){
+            notificationSystem.notificationForAppointment(user, true);
+        }
+
     }
     public void appointmentTeamManager(TeamOwner teamOwner, User user, Team team){
-        userManagement.appointmentTeamManager(teamOwner, user, team);
+        if(userManagement.appointmentTeamManager(teamOwner, user, team)){
+            notificationSystem.notificationForAppointment(user, true);
+        }
     }
     public void removeAppointmentTeamOwner(TeamOwner teamOwner, User user, Team team){
         userManagement.removeAppointmentTeamOwner(teamOwner, user, team);
     }
     public void removeAppointmentTeamManager(TeamOwner teamOwner,User user, Team team){
-        userManagement.removeAppointmentTeamManager(teamOwner, user, team);
+        if(userManagement.removeAppointmentTeamManager(teamOwner, user, team)){
+            notificationSystem.notificationForAppointment(user, false);
+        }
     }
     /*
     Closing a team by the team owner
@@ -73,14 +69,15 @@ public class TeamManagementSystem {
         }
         return false;
     }
-    /*
-    Permanently close a group only by an administrator
-     */
-    public boolean permanentlyCloseTeam(Team team){
-        if(leagueAndGameManagement.permanentlyCloseTeam(team)){
-            notificationSystem.openORCloseTeam("closed", team, true);
-            return true;
-        }
-        return false;
+
+
+    public boolean updateRole(User user,String role){
+       return userManagement.updateRole(user, role);
+    }
+    public boolean updateTraining(User user,String training){
+        return userManagement.updateTraining(user, training);
+    }
+    public void deactivateField(Field field){
+        userManagement.deactivateField(field);
     }
 }

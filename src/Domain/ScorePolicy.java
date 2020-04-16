@@ -3,6 +3,7 @@ package Domain;
 public interface ScorePolicy {
 
 
-    void calculateScore();
+    void calculateScore(Game game);
+    void calculateLeagueScore(LeagueInSeason league);
 
 }

@@ -19,7 +19,8 @@ public class Coach extends HasAPage implements Asset {
         this.team = null;
     }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+
+// ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
     /**
      *
@@ -59,6 +60,18 @@ public class Coach extends HasAPage implements Asset {
     }
 
     public void addTeam(Team team){
+        this.team = team;
+    }
+
+    public void setTraining(String training) {
+        this.training = training;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setTeam(Team team) {
         this.team = team;
     }
 }

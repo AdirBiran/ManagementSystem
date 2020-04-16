@@ -15,7 +15,7 @@ public class Admin extends User {
      *
      * @param team
      */
-    public void deleteTeam(Team team)
+    public void permanentlyCloseTeam(Team team)
     {
 
     }
@@ -24,7 +24,7 @@ public class Admin extends User {
      *
      * @param user
      */
-    public void deleteUser(User user)
+    public void removeUser(User user)
     {
 
         // need to check that the Admin doesn't delete himself

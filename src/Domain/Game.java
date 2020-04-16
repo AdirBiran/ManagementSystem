@@ -3,7 +3,6 @@ package Domain;
 import Presentation.Fan;
 import Presentation.Referee;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +11,8 @@ public class Game {
 
     private String id;
     private Date date;
-    private int hostScore;
-    private int guestScore;
+    private int hostScore;//number of goals
+    private int guestScore;//number of goals
     private Field field;
     private Referee mainReferee; // exactly 1, check type of referee
     private List<Referee> sideReferees; // between 2 and 6, check type of referee
@@ -73,13 +72,25 @@ public class Game {
         return date;
     }
 
-
+    /*
+    number of goals
+     */
     public int hostScore() {
         return hostScore;
     }
-
+    /*
+        number of goals
+    */
     public int guestScore() {
         return guestScore;
+    }
+
+    public void setHostScore(int hostScore) {
+        this.hostScore = hostScore;
+    }
+
+    public void setGuestScore(int guestScore) {
+        this.guestScore = guestScore;
     }
 
     public Field getField() {
