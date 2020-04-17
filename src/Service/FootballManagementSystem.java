@@ -1,7 +1,8 @@
-package Presentation;
+package Service;
 
 import Data.Database;
 import Domain.*;
+import Presentation.*;
 import Service.*;
 import java.util.Date;
 import java.util.LinkedList;
@@ -40,7 +41,7 @@ public class FootballManagementSystem {
     private static StubAccountingSystem accountingSystem;
     private static StubIsraeliTaxLawsSystem taxLawsSystem;
 
-    public void systemInit(boolean firsTime){
+    public boolean systemInit(boolean firsTime){
         //***data***//
         database = new Database();
         if(!firsTime)
@@ -80,12 +81,13 @@ public class FootballManagementSystem {
             systemAdmins.addAll(database.GetSystemAdmins());
         }
 
-
         //***External systems***//
         accountingSystem = new StubAccountingSystem();
         taxLawsSystem = new StubIsraeliTaxLawsSystem();
         accountingSystem.connect();
         taxLawsSystem.connect();
+
+        return true;
     }
 
     public void dataReboot(){
@@ -220,6 +222,7 @@ public class FootballManagementSystem {
         /**-----------DORON TESTS--------------*/
 
         //**UnitTests!-NotificationSystem**//
+        LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020),200);
         TeamOwner owner = new TeamOwner("Team","Owner", "a@gmail.com");
         List<TeamOwner> owners = new LinkedList<>();
         owners.add(owner);
@@ -234,8 +237,8 @@ public class FootballManagementSystem {
         Team macabi = new Team ("Macabi", null,owners, createPlayers(),createCoaches(),field2);
         database.addTeam(macabi);
         database.addAsset(field2);
-        Game game = new Game(new Date(120,4,25, 20,0,0), field, mainReferee(), sideReferees(),hapoel, macabi);
-        Game game2 = new Game(new Date(120,4,25, 20,0,0), field, mainReferee(), sideReferees(),hapoel, macabi);
+        Game game = new Game(new Date(120,4,25, 20,0,0), field, mainReferee(), sideReferees(),hapoel, macabi, league);
+        Game game2 = new Game(new Date(120,4,25, 20,0,0), field, mainReferee(), sideReferees(),hapoel, macabi, league);
         database.addGame(game);
         database.addGame(game2);
 
@@ -290,11 +293,11 @@ public class FootballManagementSystem {
         printList(leumit2020.getAllGames());//expected :each team play twice with each other team
 
         //------------DATABASE UnitTests-------------//
-        League league = new League("Alufot", "3");
+        League league1 = new League("Alufot", "3");
         Season season = new Season(2019);
-        System.out.println(database.addLeague(league));// expected : true
+        System.out.println(database.addLeague(league1));// expected : true
         System.out.println(database.addSeason(season));// expected : true
-        System.out.println(database.addLeague(league));// expected : false
+        System.out.println(database.addLeague(league1));// expected : false
         System.out.println(database.addSeason(season));// expected : false
         User admin = new Admin("Admin","Ush", "example@gmail.com");
         User unionRep = new UnionRepresentative("Natzig", "Ush", "");
@@ -318,8 +321,8 @@ public class FootballManagementSystem {
         Team macabi2 = new Team ( "Macabi", null,owners1, createPlayers(),createCoaches(),field22);
         System.out.println(database.addTeam(macabi2));//expected : true
         System.out.println(database.addAsset(field22));//expected : true
-        Game game3 = new Game(new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoelTA, macabi2);
-        Game game23 = new Game(new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoelTA, macabi2);
+        Game game3 = new Game(new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoelTA, macabi2, league);
+        Game game23 = new Game(new Date(120,4,25, 20,0,0), field1, mainReferee(), sideReferees(),hapoelTA, macabi2, league);
         System.out.println(database.addGame(game3));//expected : true
         System.out.println(database.addGame(game23));//expected : true
         System.out.println(database.getUser(admin.getID()));//expected : admin

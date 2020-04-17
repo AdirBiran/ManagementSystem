@@ -104,7 +104,7 @@ public class UserManagement//for admins
      */
     public User logInUserToSystem(String mail, String password) {
         if(database.authenticationCheck(mail, password))
-            return database.getUser(mail);
+            return database.getUserbyMail(mail);
         return null;
     }
     /*
