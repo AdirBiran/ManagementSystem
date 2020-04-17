@@ -3,27 +3,25 @@ package Presentation;
 import Data.Database;
 import Domain.*;
 import Service.*;
-
-import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class FootballManagementSystem {
-    private static Database database;
+    public static Database database;
     //***domain***//
-    private static AssetManagement assetManagement;
-    private static ComplaintManager complaintManager;
-    private static EditPersonalInfo editPersonalInfo;
-    private static EventReportManagement eventReportManagement;
-    private static FinanceTransactionsManagement financeTransactionsManagement;
-    private static LeagueAndGameManagement leagueAndGameManagement;
-    private static PersonalPageManagement personalPageManagement;
-    private static RefereeManagement refereeManagement;
-    private static Searcher searcher;
-    private static UserManagement userManagement;
-    private static MailSender mailSender;
+    public static AssetManagement assetManagement;
+    public static ComplaintManager complaintManager;
+    public static EditPersonalInfo editPersonalInfo;
+    public static EventReportManagement eventReportManagement;
+    public static FinanceTransactionsManagement financeTransactionsManagement;
+    public static LeagueAndGameManagement leagueAndGameManagement;
+    public static PersonalPageManagement personalPageManagement;
+    public static RefereeManagement refereeManagement;
+    public static Searcher searcher;
+    public static UserManagement userManagement;
+    public static MailSender mailSender;
     //***service***//
     private static AssetSystem assetSystem ;
     private static NotificationSystem notificationSystem;
@@ -42,9 +40,55 @@ public class FootballManagementSystem {
     private static StubAccountingSystem accountingSystem;
     private static StubIsraeliTaxLawsSystem taxLawsSystem;
 
-    public static void main(String[] args) {
+    public void systemInit(boolean firsTime){
+        //***data***//
+        database = new Database();
+        if(!firsTime)
+            database.loadDatabaseFromDisk("");
+        //***domain***//
+        assetManagement = new AssetManagement(database);
+        complaintManager = new ComplaintManager(database);
+        editPersonalInfo = new EditPersonalInfo(database);
+        eventReportManagement = new EventReportManagement(database);
+        financeTransactionsManagement = new FinanceTransactionsManagement(database);
+        leagueAndGameManagement = new LeagueAndGameManagement(database);
+        personalPageManagement = new PersonalPageManagement(database);
+        refereeManagement = new RefereeManagement(database);
+        searcher = new Searcher(database);
+        userManagement = new UserManagement(database);
+        mailSender = new MailSender();
+        //***service***//
+        adminSystem = new AdminSystem(leagueAndGameManagement, userManagement, notificationSystem, complaintManager);
+        assetSystem = new AssetSystem(assetManagement);
+        notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement, mailSender, userManagement);
+        financeTransactionsSystem = new FinanceTransactionsSystem(financeTransactionsManagement, notificationSystem);
+        guestSystem = new GuestSystem(searcher, userManagement);
+        personalPageSystem = new PersonalPageSystem(personalPageManagement);
+        refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
+        searchSystem = new SearchSystem(searcher);
+        unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
+        userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement, leagueAndGameManagement);
+        teamManagementSystem = new TeamManagementSystem(leagueAndGameManagement, userManagement, notificationSystem);
+        //***presentation***//
+        systemAdmins = new LinkedList<>();
+        if(firsTime){
+            Admin systemAdmin = new Admin("adminush","", "example@gmail.com");
+            systemAdmins.add(systemAdmin);
+            adminSystem.addUser("Adminush1", systemAdmin);
+        }
+        else{
+            systemAdmins.addAll(database.GetSystemAdmins());
+        }
 
-        systemInit(true);
+
+        //***External systems***//
+        accountingSystem = new StubAccountingSystem();
+        taxLawsSystem = new StubIsraeliTaxLawsSystem();
+        accountingSystem.connect();
+        taxLawsSystem.connect();
+    }
+
+    public void dataReboot(){
         unionRepresentativeSystem.configureNewSeason(2020);
         unionRepresentativeSystem.configureNewLeague("Haal", "3");
         LeagueInSeason leagueInSeason = unionRepresentativeSystem.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
@@ -65,8 +109,50 @@ public class FootballManagementSystem {
             adminSystem.addUser("Aa123", ref);
             unionRepresentativeSystem.assignRefToLeague(leagueInSeason, ref);
         }
+    }
 
 
+    public static List<Referee> sideReferees() {
+        List<Referee> refs = new LinkedList<>();
+        Referee referee;
+        for (int i = 0; i <3 ; i++) {
+            referee = new Referee("ref"+i,"", "referee"+IdGenerator.getNewId()+"@gmail.com", "side");
+            refs.add(referee);
+        }
+        return refs;
+    }
+
+    public static Referee mainReferee() {
+        return new Referee("referee", "", "referee"+IdGenerator.getNewId()+"@gmail.com", "talented");
+    }
+    public static List<Coach> createCoaches() {
+        Coach coach = new Coach("coach1", "", "coach"+IdGenerator.getNewId()+"@gmail.com", null, "", "main");
+        List<Coach> coaches = new LinkedList<>();
+        coaches.add(coach);
+        return coaches;
+    }
+    public static List<Player> createPlayers() {
+        List<Player> players = new LinkedList<>();
+        for (int i = 0; i <12 ; i++) {
+            players.add(new Player("player"+i, "", "player"+IdGenerator.getNewId()+"@gmail.com", null, new Date (99,1,1),"role"+i));
+        }
+        return players;
+    }
+    private static void printList(List<Game> allGames) {
+        for(Game game: allGames){
+            System.out.println(game.toString());
+        }
+    }
+
+    private static List<Date> getDates() {
+        LinkedList<Date> dates = new LinkedList<>();
+        for (int i = 1; i < 29; i++) {
+            dates.add(new Date (120, 6, i, 20, 0));
+        }
+        return dates;
+    }
+
+    public static void main(String[] args) {
 
         /**-----------DORON TESTS--------------*/
 
@@ -171,7 +257,7 @@ public class FootballManagementSystem {
         System.out.println(financeTransactionsSystem.reportNewIncome(macabi.getTeamOwners().get(0), macabi, 200));//expected : true
         System.out.println(financeTransactionsSystem.reportNewExpanse(macabi.getTeamOwners().get(0), macabi, 300));//expected : false
 
-    //-----------FinanceTransactionsSystem test--------------//
+        //-----------FinanceTransactionsSystem test--------------//
         System.out.println();
         System.out.println(financeTransactionsSystem.reportNewIncome(macabi.getTeamOwners().get(0), macabi, 200));//expected : true
         System.out.println(financeTransactionsSystem.reportNewIncome(macabi.getTeamOwners().get(0), macabi, 200));//expected : true
@@ -181,7 +267,7 @@ public class FootballManagementSystem {
         System.out.println(financeTransactionsSystem.reportNewExpanse(macabi.getTeamOwners().get(0), macabi, 500));//expected : false
         System.out.println(financeTransactionsSystem.getBalance(macabi));//expected : 100
 
-    //--------unionRepresentativeSystem test--------------//
+        //--------unionRepresentativeSystem test--------------//
 
         hapoel.setActive(true);
         unionRepresentativeSystem.configureNewLeague("leumit", "2");
@@ -260,91 +346,5 @@ public class FootballManagementSystem {
 
     }
 
-    public static void systemInit(boolean firsTime){
-        //***data***//
-        database = new Database();
-        if(!firsTime)
-            database.loadDatabaseFromDisk("");
-        //***domain***//
-        assetManagement = new AssetManagement(database);
-        complaintManager = new ComplaintManager(database);
-        editPersonalInfo = new EditPersonalInfo(database);
-        eventReportManagement = new EventReportManagement(database);
-        financeTransactionsManagement = new FinanceTransactionsManagement(database);
-        leagueAndGameManagement = new LeagueAndGameManagement(database);
-        personalPageManagement = new PersonalPageManagement(database);
-        refereeManagement = new RefereeManagement(database);
-        searcher = new Searcher(database);
-        userManagement = new UserManagement(database);
-        mailSender = new MailSender();
-        //***service***//
-        adminSystem = new AdminSystem(leagueAndGameManagement, userManagement, notificationSystem, complaintManager);
-        assetSystem = new AssetSystem(assetManagement);
-        notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement, mailSender, userManagement);
-        financeTransactionsSystem = new FinanceTransactionsSystem(financeTransactionsManagement, notificationSystem);
-        guestSystem = new GuestSystem(searcher, userManagement);
-        personalPageSystem = new PersonalPageSystem(personalPageManagement);
-        refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
-        searchSystem = new SearchSystem(searcher);
-        unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
-        userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement, leagueAndGameManagement);
-        teamManagementSystem = new TeamManagementSystem(leagueAndGameManagement, userManagement, notificationSystem);
-        //***presentation***//
-        systemAdmins = new LinkedList<>();
-        if(firsTime){
-            Admin systemAdmin = new Admin("adminush","", "example@gmail.com");
-            systemAdmins.add(systemAdmin);
-            adminSystem.addUser("Adminush1", systemAdmin);
-        }
-        else{
-            systemAdmins.addAll(database.GetSystemAdmins());
-        }
-
-
-        //***External systems***//
-        accountingSystem = new StubAccountingSystem();
-        taxLawsSystem = new StubIsraeliTaxLawsSystem();
-        accountingSystem.connect();
-        taxLawsSystem.connect();
-    }
-
-    public static List<Referee> sideReferees() {
-        List<Referee> refs = new LinkedList<>();
-        Referee referee;
-        for (int i = 0; i <3 ; i++) {
-            referee = new Referee("ref"+i,"", "referee"+IdGenerator.getNewId()+"@gmail.com", "side");
-            refs.add(referee);
-        }
-        return refs;
-    }
-
-    public static Referee mainReferee() {
-        return new Referee("referee", "", "referee"+IdGenerator.getNewId()+"@gmail.com", "talented");
-    }
-    public static List<Coach> createCoaches() {
-        Coach coach = new Coach("coach1", "", "coach"+IdGenerator.getNewId()+"@gmail.com", null, "", "main");
-        List<Coach> coaches = new LinkedList<>();
-        coaches.add(coach);
-        return coaches;
-    }
-    public static List<Player> createPlayers() {
-        List<Player> players = new LinkedList<>();
-        for (int i = 0; i <12 ; i++) {
-            players.add(new Player("player"+i, "", "player"+IdGenerator.getNewId()+"@gmail.com", null, new Date (99,1,1),"role"+i));
-        }
-        return players;
-    }
-    private static void printList(List<Game> allGames) {
-        for(Game game: allGames){
-            System.out.println(game.toString());
-        }
-    }
-
-    private static List<Date> getDates() {
-        LinkedList<Date> dates = new LinkedList<>();
-        for (int i = 1; i < 29; i++) {
-            dates.add(new Date (120, 6, i, 20, 0));
-        }
-        return dates;
-    }
 }
+

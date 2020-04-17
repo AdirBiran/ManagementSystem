@@ -40,7 +40,7 @@ public class FinanceTransactionsManagementTest {
 
     @Test
     public void getBalance() {
-        Team team = database.getTeams().values().iterator().next();
+        Team team = (Team) database.searchObject("team0");
         Budget budget = new Budget(team);
         finance.reportNewIncome(budget, 250);
         finance.reportNewExpanse(budget, 150);
@@ -49,7 +49,7 @@ public class FinanceTransactionsManagementTest {
 
     @Test
     public void addTUTUPayment() {
-        Team team = database.getTeams().values().iterator().next();
+        Team team = (Team) database.searchObject("team0");
         finance.addTUTUPayment(team, 100);
         assertEquals(100, finance.getBalance(team), 0);
     }
