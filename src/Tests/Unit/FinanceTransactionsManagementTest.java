@@ -1,10 +1,8 @@
 package Tests.Unit;
 
-import Data.Database;
 import Domain.Budget;
-import Domain.FinanceTransactionsManagement;
 import Domain.Team;
-import Presentation.FootballManagementSystem;
+import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 

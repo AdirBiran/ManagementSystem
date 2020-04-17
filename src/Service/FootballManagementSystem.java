@@ -1,7 +1,8 @@
-package Presentation;
+package Service;
 
 import Data.Database;
 import Domain.*;
+import Presentation.*;
 import Service.*;
 import java.util.Date;
 import java.util.LinkedList;
@@ -40,7 +41,7 @@ public class FootballManagementSystem {
     private static StubAccountingSystem accountingSystem;
     private static StubIsraeliTaxLawsSystem taxLawsSystem;
 
-    public void systemInit(boolean firsTime){
+    public boolean systemInit(boolean firsTime){
         //***data***//
         database = new Database();
         if(!firsTime)
@@ -80,12 +81,13 @@ public class FootballManagementSystem {
             systemAdmins.addAll(database.GetSystemAdmins());
         }
 
-
         //***External systems***//
         accountingSystem = new StubAccountingSystem();
         taxLawsSystem = new StubIsraeliTaxLawsSystem();
         accountingSystem.connect();
         taxLawsSystem.connect();
+
+        return true;
     }
 
     public void dataReboot(){

@@ -1,9 +1,7 @@
 package Tests.Unit;
 
-import Data.Database;
-import Domain.EditPersonalInfo;
 import Presentation.Fan;
-import Presentation.FootballManagementSystem;
+import Service.FootballManagementSystem;
 import Presentation.Player;
 import org.junit.Test;
 

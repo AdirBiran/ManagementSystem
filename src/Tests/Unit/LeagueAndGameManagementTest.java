@@ -3,7 +3,7 @@ package Tests.Unit;
 import Data.Database;
 import Domain.*;
 import Presentation.Fan;
-import Presentation.FootballManagementSystem;
+import Service.FootballManagementSystem;
 import Presentation.Referee;
 import org.junit.Before;
 import org.junit.Test;
