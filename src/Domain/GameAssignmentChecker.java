@@ -57,11 +57,11 @@ public class GameAssignmentChecker {
         if(referees.size()<3) throw new RuntimeException("not enough referees available to assign games");
     }
 
-    public static Game makeGame(List<Referee> referees, Team team1, Team team2, List<Date> dates) {
+    public static Game makeGame(List<Referee> referees, Team team1, Team team2, List<Date> dates, LeagueInSeason league) {
         Referee mainRef;
         List<Referee> sideRefs;
         mainRef = getMainReferee(referees);
         sideRefs = getSideReferees(referees,mainRef);
-        return new Game(getDateFromList(dates), team1.getField(), mainRef,sideRefs, team1,team2);
+        return new Game(getDateFromList(dates), team1.getField(), mainRef,sideRefs, team1,team2, league);
     }
 }
