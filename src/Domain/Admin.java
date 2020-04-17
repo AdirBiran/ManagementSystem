@@ -16,8 +16,12 @@ public class Admin extends User {
     public boolean permanentlyCloseTeam(Team team) {
         if(!team.isPermanentlyClosed()) {
             if (team.isActive())
+            {
                 team.setActive(false);
-            team.setPermanentlyClosed(true);
+                team.setPermanentlyClosed(true);
+                return true;
+            }
+
             //Maybe add a list of permanently closed teams to Database
             //What happens to the members of the teams???
         }
