@@ -94,4 +94,8 @@ public abstract class User extends Guest {
     public String getMail() {
         return mail;
     }
+
+    public List<Notice> getMessageBox() {
+        return messageBox;
+    }
 }
