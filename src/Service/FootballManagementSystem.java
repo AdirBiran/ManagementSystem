@@ -41,6 +41,50 @@ public class FootballManagementSystem {
     private static StubAccountingSystem accountingSystem;
     private static StubIsraeliTaxLawsSystem taxLawsSystem;
 
+    public TeamManagementSystem getTeamManagementSystem() {
+        return teamManagementSystem;
+    }
+
+    public AdminSystem getAdminSystem() {
+        return adminSystem;
+    }
+
+    public static UserSystem getUserSystem() {
+        return userSystem;
+    }
+
+    public UnionRepresentativeSystem getUnionRepresentativeSystem() {
+        return unionRepresentativeSystem;
+    }
+
+    public GuestSystem getGuestSystem() {
+        return guestSystem;
+    }
+
+    public PersonalPageSystem getPersonalPageSystem() {
+        return personalPageSystem;
+    }
+
+    public RefereeSystem getRefereeSystem() {
+        return refereeSystem;
+    }
+
+    public SearchSystem getSearchSystem() {
+        return searchSystem;
+    }
+
+    public AssetSystem getAssetSystem() {
+        return assetSystem;
+    }
+
+    public NotificationSystem getNotificationSystem() {
+        return notificationSystem;
+    }
+
+    public FinanceTransactionsSystem getFinanceTransactionsSystem() {
+        return financeTransactionsSystem;
+    }
+
     public boolean systemInit(boolean firsTime){
         //***data***//
         database = new Database();

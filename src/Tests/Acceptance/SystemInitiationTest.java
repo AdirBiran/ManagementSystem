@@ -1,6 +1,6 @@
 package Tests.Acceptance;
 
-import Presentation.FootballManagementSystem;
+import Service.FootballManagementSystem;
 import org.junit.Test;
 
 public class SystemInitiationTest {
@@ -9,7 +9,7 @@ public class SystemInitiationTest {
     public void systemInitFail_1()
     {
         FootballManagementSystem system = new FootballManagementSystem();
-        system.systemInit(false);
+        boolean init = system.systemInit(false);
 
     }
 
@@ -17,7 +17,7 @@ public class SystemInitiationTest {
     public void systemInitSuccess_2()
     {
         FootballManagementSystem system = new FootballManagementSystem();
-        system.systemInit(true);
+        boolean init = system.systemInit(true);
     }
 
 }
