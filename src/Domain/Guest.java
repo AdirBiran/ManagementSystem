@@ -1,4 +1,4 @@
-package Presentation;
+package Domain;
 
 public class Guest {
 

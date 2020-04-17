@@ -1,8 +1,8 @@
 package Tests.Unit;
 
-import Presentation.Fan;
+import Domain.Fan;
 import Service.FootballManagementSystem;
-import Presentation.Player;
+import Domain.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

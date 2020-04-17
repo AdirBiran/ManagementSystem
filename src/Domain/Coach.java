@@ -1,10 +1,4 @@
-package Presentation;
-
-import Domain.Asset;
-import Domain.PersonalPage;
-import Domain.Team;
-
-import java.util.List;
+package Domain;
 
 public class Coach extends HasAPage implements Asset {
 

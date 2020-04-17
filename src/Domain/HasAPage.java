@@ -1,9 +1,4 @@
-package Presentation;
-
-import Domain.PersonalPage;
-import Presentation.User;
-
-import java.util.List;
+package Domain;
 
 public abstract class HasAPage extends User {
 

@@ -3,7 +3,7 @@ package Service;
 import Data.Database;
 import Domain.*;
 import Presentation.*;
-import Service.*;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +30,6 @@ public class FootballManagementSystem {
     private static GuestSystem guestSystem;
     private static PersonalPageSystem personalPageSystem ;
     private static RefereeSystem refereeSystem;
-    private static SearchSystem searchSystem;
     private static UnionRepresentativeSystem unionRepresentativeSystem;
     private static UserSystem userSystem;
     private static AdminSystem adminSystem;
@@ -66,9 +65,8 @@ public class FootballManagementSystem {
         guestSystem = new GuestSystem(searcher, userManagement);
         personalPageSystem = new PersonalPageSystem(personalPageManagement);
         refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
-        searchSystem = new SearchSystem(searcher);
         unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
-        userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement, leagueAndGameManagement);
+        userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, userManagement, leagueAndGameManagement);
         teamManagementSystem = new TeamManagementSystem(leagueAndGameManagement, userManagement, notificationSystem);
         //***presentation***//
         systemAdmins = new LinkedList<>();

@@ -1,24 +1,21 @@
 package Service;
 
 import Domain.*;
-import Presentation.*;
+
 import java.util.List;
 
 public class UserSystem extends GuestSystem{
 
     private ComplaintManager complaintManger;
     private EditPersonalInfo editPersonalInfo;
-    private PersonalPageManagement personalPageManagement;
     private LeagueAndGameManagement leagueAndGameManagement;
 
 
-    public UserSystem(Searcher searcher, ComplaintManager complaintManger, EditPersonalInfo editPersonalInfo,
-                      PersonalPageManagement personalPageManagement,UserManagement userManagement,
+    public UserSystem(Searcher searcher, ComplaintManager complaintManger, EditPersonalInfo editPersonalInfo,UserManagement userManagement,
                       LeagueAndGameManagement leagueAndGameManagement) {
         super(searcher, userManagement);
         this.complaintManger = complaintManger;
         this.editPersonalInfo = editPersonalInfo;
-        this.personalPageManagement = personalPageManagement;
         this.leagueAndGameManagement = leagueAndGameManagement;
 
     }

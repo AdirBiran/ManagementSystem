@@ -1,7 +1,6 @@
-package Presentation;
+package Domain;
 
 
-import Domain.Team;
 import java.util.*;
 
 public class TeamOwner extends Manager {

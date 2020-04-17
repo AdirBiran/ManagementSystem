@@ -1,8 +1,7 @@
 package Domain;
 
 import Data.Database;
-import Presentation.Admin;
-import Presentation.Fan;
+
 import java.util.Date;
 
 public class ComplaintManager {

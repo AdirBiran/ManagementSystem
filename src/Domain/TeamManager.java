@@ -1,9 +1,4 @@
-package Presentation;
-
-import Domain.Asset;
-import Domain.Team;
-
-import java.util.List;
+package Domain;
 
 public class TeamManager extends Manager implements Asset {
 

@@ -1,6 +1,5 @@
-package Presentation;
+package Domain;
 
-import Domain.Game;
 import java.util.List;
 import java.util.LinkedList;
 

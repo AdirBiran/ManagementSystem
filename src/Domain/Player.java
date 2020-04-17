@@ -1,8 +1,5 @@
-package Presentation;
+package Domain;
 
-import Domain.Asset;
-import Domain.PersonalPage;
-import Domain.Team;
 import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;

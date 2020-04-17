@@ -1,7 +1,5 @@
-package Presentation;
+package Domain;
 
-import Domain.Complaint;
-import Domain.PersonalPage;
 import java.util.LinkedList;
 import java.util.List;
 

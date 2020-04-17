@@ -2,9 +2,9 @@ package Tests.Unit;
 
 import Data.Database;
 import Domain.*;
-import Presentation.Fan;
+import Domain.Fan;
 import Service.FootballManagementSystem;
-import Presentation.Referee;
+import Domain.Referee;
 import org.junit.Before;
 import org.junit.Test;
 

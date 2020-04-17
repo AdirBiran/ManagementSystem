@@ -1,9 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Presentation.TeamManager;
-import Presentation.TeamOwner;
-import Presentation.User;
 
 public class AssetManagement {
     private Database database;
