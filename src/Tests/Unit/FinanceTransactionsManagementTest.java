@@ -39,7 +39,7 @@ public class FinanceTransactionsManagementTest {
 
     @Test
     public void getBalance() {
-        Team team = (Team) system.database.searchObject("team0").get(0);
+        Team team = (Team) system.getDatabase().searchObject("team0").get(0);
         Budget budget = new Budget(team);
         system.financeTransactionsManagement.reportNewIncome(budget, 250);
         system.financeTransactionsManagement.reportNewExpanse(budget, 150);
@@ -48,7 +48,7 @@ public class FinanceTransactionsManagementTest {
 
     @Test
     public void addTUTUPayment() {
-        Team team = (Team) system.database.searchObject("team0").get(0);
+        Team team = (Team) system.getDatabase().searchObject("team0").get(0);
         system.financeTransactionsManagement.addTUTUPayment(team, 100);
         assertEquals(100, system.financeTransactionsManagement.getBalance(team), 0);
     }

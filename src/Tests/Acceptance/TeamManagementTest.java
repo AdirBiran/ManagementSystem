@@ -1,5 +1,6 @@
 package Tests.Acceptance;
 
+import Data.Database;
 import Domain.*;
 import Domain.Coach;
 import Domain.Player;
@@ -23,6 +24,7 @@ public class TeamManagementTest {
     private List<Player> players;
     private List<Coach> coaches;
     private TeamOwner owner;
+    private Database database;
 
     @Before
     public void init()
@@ -37,6 +39,8 @@ public class TeamManagementTest {
         players = FootballManagementSystem.createPlayers();
         coaches = FootballManagementSystem.createCoaches();
         owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
+
+        database = system.getDatabase();
     }
 
     @Test
@@ -48,7 +52,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
         Player playerAdded = teamSystem.getTeamPlayers(team).get(0);
@@ -83,7 +87,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
@@ -111,7 +115,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
@@ -146,7 +150,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,emptyPlayers,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
         Player player = players.get(0);
 
@@ -175,7 +179,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
@@ -206,7 +210,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
@@ -226,7 +230,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
@@ -252,7 +256,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
@@ -275,7 +279,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
@@ -297,7 +301,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
@@ -320,7 +324,7 @@ public class TeamManagementTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
-        FootballManagementSystem.database.addTeam(team);
+        database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();

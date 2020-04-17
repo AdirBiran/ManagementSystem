@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class FootballManagementSystem {
-    public static Database database;
+    private static Database database;
     //***domain***//
     public static AssetManagement assetManagement;
     public static ComplaintManager complaintManager;
@@ -39,6 +39,11 @@ public class FootballManagementSystem {
      //***External systems***//
     private static StubAccountingSystem accountingSystem;
     private static StubIsraeliTaxLawsSystem taxLawsSystem;
+
+    public Database getDatabase()
+    {
+        return database;
+    }
 
     public TeamManagementSystem getTeamManagementSystem() {
         return teamManagementSystem;
