@@ -1,7 +1,7 @@
 package Tests.Unit;
 import Domain.Team;
 import Service.FootballManagementSystem;
-import Presentation.UnionRepresentative;
+import Domain.UnionRepresentative;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Presentation.Referee;
 
 public class RefereeManagement {
 

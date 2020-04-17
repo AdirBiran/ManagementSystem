@@ -1,9 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Presentation.Fan;
-import Presentation.User;
-import Service.UserSystem;
 
 public class EditPersonalInfo {
     private Database database;

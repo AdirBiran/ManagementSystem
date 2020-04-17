@@ -1,8 +1,8 @@
 package Service;
 
 import Domain.*;
-import Presentation.Admin;
-import Presentation.User;
+import Domain.Admin;
+import Domain.User;
 
 public class AdminSystem {
 

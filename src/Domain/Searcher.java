@@ -1,8 +1,7 @@
 package Domain;
 
 import Data.Database;
-import Presentation.Fan;
-import Presentation.Guest;
+
 import java.util.List;
 
 public class Searcher {

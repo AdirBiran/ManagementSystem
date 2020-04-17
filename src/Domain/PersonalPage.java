@@ -1,7 +1,5 @@
 package Domain;
 
-import Presentation.Fan;
-import Presentation.HasAPage;
 import java.util.List;
 import java.util.LinkedList;
 

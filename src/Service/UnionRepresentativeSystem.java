@@ -2,7 +2,7 @@ package Service;
 
 
 import Domain.*;
-import Presentation.Referee;
+import Domain.Referee;
 
 import java.util.List;
 import java.util.Date;
