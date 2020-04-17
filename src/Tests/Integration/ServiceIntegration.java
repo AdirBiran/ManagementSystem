@@ -5,6 +5,7 @@ import Service.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class ServiceIntegration {
         User user = system.getDatabase().getUserbyMail("a@b.com");
         assertNotNull(user);
 
-        representativeSystem.configureNewSeason(2020);
+        representativeSystem.configureNewSeason(2020,new Date(121, 4, 1));
         representativeSystem.configureNewLeague("Haal", "3");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         List<Player> players = FootballManagementSystem.createPlayers();
@@ -53,7 +54,7 @@ public class ServiceIntegration {
         team.setActive(true);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
-        boolean flag = adminSystem.permanentlyCloseTeam(team);
+        boolean flag = adminSystem.permanentlyCloseTeam(system.getDatabase().GetSystemAdmins().get(0) ,team);
         assertTrue(flag);
 
     }
@@ -64,7 +65,7 @@ public class ServiceIntegration {
 
         FinanceTransactionsSystem finSystem = system.getFinanceTransactionsSystem();
 
-        representativeSystem.configureNewSeason(2020);
+        representativeSystem.configureNewSeason(2020,new Date(121, 4, 1));
         representativeSystem.configureNewLeague("Haal", "3");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         List<Player> players = FootballManagementSystem.createPlayers();
@@ -113,7 +114,7 @@ public class ServiceIntegration {
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
 
-        representativeSystem.configureNewSeason(2020);
+        representativeSystem.configureNewSeason(2020,new Date(120, 4, 1));
         representativeSystem.configureNewLeague("Haal", "3");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         List<Player> players = FootballManagementSystem.createPlayers();
@@ -164,7 +165,7 @@ public class ServiceIntegration {
         representativeSystem = system.getUnionRepresentativeSystem();
         boolean success;
 
-        success = representativeSystem.configureNewSeason(2021);
+        success = representativeSystem.configureNewSeason(2021,new Date(121, 4, 1));
         assertTrue(success);
 
         success = representativeSystem.configureNewLeague("Alufot", "3");

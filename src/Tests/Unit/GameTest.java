@@ -3,9 +3,9 @@ package Tests.Unit;
 import Data.Database;
 import Domain.Game;
 import Domain.ReceiveAlerts;
-import Domain.Team;
-import Presentation.Fan;
-import Presentation.FootballManagementSystem;
+
+import Domain.Fan;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;

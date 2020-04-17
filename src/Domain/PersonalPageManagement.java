@@ -8,4 +8,9 @@ public class PersonalPageManagement {
     public PersonalPageManagement(Database database) {
         this.database = database;
     }
+
+
+    public void editPersonalPage(HasAPage user, PersonalPage page, String change){
+
+    }
 }

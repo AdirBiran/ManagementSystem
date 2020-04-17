@@ -84,7 +84,7 @@ public class LeagueAndGameManagement {
         return false;
     }
 
-<<<<<<< HEAD
+
     public boolean permanentlyCloseTeam(Team team) {
         if(!team.isPermanentlyClosed()) {
             if (team.isActive())
@@ -99,9 +99,7 @@ public class LeagueAndGameManagement {
         }
         return false;
     }
-=======
 
->>>>>>> 9763a59539ab52d91857cbe3446d1a82145982f5
 
     public void addTeamToLeague(LeagueInSeason league, Team team) {
         league.addATeam(team);

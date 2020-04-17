@@ -5,9 +5,6 @@ import java.util.*;
 
 public class TeamOwner extends Manager {
 
-
-
-
     public TeamOwner(String firstName,String lastName, String mail) {
         super(firstName,lastName, "TO", mail);
     }

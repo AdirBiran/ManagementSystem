@@ -10,19 +10,21 @@ public class TeamManagementSystem {
     private LeagueAndGameManagement leagueAndGameManagement;
     private UserManagement userManagement;
     private NotificationSystem notificationSystem;
+    private AssetManagement assetManagement;
 
     public TeamManagementSystem(LeagueAndGameManagement leagueAndGameManagement, UserManagement userManagement,
-                                NotificationSystem notificationSystem) {
+                                NotificationSystem notificationSystem, AssetManagement assetManagement) {
         this.leagueAndGameManagement = leagueAndGameManagement;
         this.userManagement = userManagement;
         this.notificationSystem = notificationSystem;
+        this.assetManagement = assetManagement;
     }
     /*
     this function adds a new asset to the system
      */
     public void addAsset(Asset asset , Team team){
 
-        userManagement.addAsset(asset , team);
+        assetManagement.addAsset(asset , team);
     }
 
     public List<Coach> getTeamCoaches(Team team)
@@ -49,7 +51,7 @@ public class TeamManagementSystem {
     Remove Asset
      */
     public void removeAsset(Asset asset , Team team){
-        userManagement.removeAsset(asset ,team);
+        assetManagement.removeAsset(asset ,team);
     }
 
     public void appointmentTeamOwner(TeamOwner teamOwner , User user, Team team){

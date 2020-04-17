@@ -41,9 +41,9 @@ public class CloseTeamPermanentlyTest {
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
-        adminSystem.permanentlyCloseTeam(team);
+        adminSystem.permanentlyCloseTeam(database.GetSystemAdmins().get(0), team);
 
-        boolean flag = adminSystem.permanentlyCloseTeam(team);
+        boolean flag = adminSystem.permanentlyCloseTeam(database.GetSystemAdmins().get(0),team);
         assertFalse(flag);
     }
 
@@ -59,7 +59,7 @@ public class CloseTeamPermanentlyTest {
         Field field = new Field( "tel-aviv", 550);
         Team team = new Team("team2",page,owners,players,coaches, field);
         database.addTeam(team);
-        boolean flag = adminSystem.permanentlyCloseTeam(team);
+        boolean flag = adminSystem.permanentlyCloseTeam(database.GetSystemAdmins().get(0),team);
 
         assertTrue(flag);
     }

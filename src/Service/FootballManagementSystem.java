@@ -113,7 +113,7 @@ public class FootballManagementSystem {
         refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
         unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
         userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, userManagement, leagueAndGameManagement);
-        teamManagementSystem = new TeamManagementSystem(leagueAndGameManagement, userManagement, notificationSystem);
+        teamManagementSystem = new TeamManagementSystem(leagueAndGameManagement, userManagement, notificationSystem, assetManagement);
         //***presentation***//
         systemAdmins = new LinkedList<>();
         if(firsTime){

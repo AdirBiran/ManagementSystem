@@ -36,4 +36,69 @@ public class AssetManagement {
         for(User unionRep : database.getListOfAllSpecificUsers("UnionRepresentative"))
             unionRep.addMessage(new Notice(true, msg));
     }
+
+    /*
+     *this function adds a new asset to the system
+     * */
+    public void addAsset(Asset asset , Team team){
+        if(asset instanceof User){
+            if(database.getAsset(asset.getID())!=null)
+                asset = database.getAsset(asset.getID());
+            else
+                database.addUser("Aa123",(User)asset);
+
+            if(asset instanceof TeamManager){
+                team.addTeamManager((TeamManager) asset);
+            }
+            if(asset instanceof Player){
+                team.addPlayer((Player) asset);
+            }
+            if(asset instanceof Coach){
+                team.addCoach((Coach) asset);
+            }
+
+        }
+
+        /**
+         * Need to decide what happen if the team has a Field
+         * */
+        else if(asset instanceof Field){
+            team.getFields().add((Field) asset);
+            database.addAsset(asset);
+        }
+    }
+    /*
+       Remove asset
+        */
+    public void removeAsset(Asset asset , Team team) {
+        if(asset instanceof User){
+            if(asset instanceof TeamManager){
+                team.removeTeamManager((TeamManager) asset);
+            }
+            if(asset instanceof Player){
+                team.removePlayer((Player) asset);
+            }
+            if(asset instanceof Coach){
+                team.removeCoach((Coach) asset);
+            }
+        }
+
+        /**
+         * Need to decide what happen if the team has a Field
+         * */
+        if(asset instanceof Field){
+            team.getFields().remove(asset);
+        }
+        database.removeAsset(asset.getID());
+    }
+
+    /*
+    this function update a asset in the system
+    */
+    public void updateAsset(String assetId, String action) {
+        Asset asset = database.getAsset(assetId);
+        if(action.equals("Some_Action")){
+            //do the action
+        }
+    }
 }

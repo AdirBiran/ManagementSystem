@@ -8,6 +8,7 @@ import Service.FootballManagementSystem;
 import Service.UnionRepresentativeSystem;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.Date;
 
 public class ScorePolicyChangeTest {
 
@@ -30,7 +31,7 @@ public class ScorePolicyChangeTest {
 
         system.dataReboot();
 
-        repSystem.configureNewSeason(2021);
+        repSystem.configureNewSeason(2021 ,new Date(121, 4, 11));
         repSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
@@ -45,7 +46,7 @@ public class ScorePolicyChangeTest {
 
         system.dataReboot();
 
-        repSystem.configureNewSeason(2021);
+        repSystem.configureNewSeason(2021,new Date(121, 4, 11));
         repSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
@@ -60,7 +61,7 @@ public class ScorePolicyChangeTest {
 
         system.dataReboot();
 
-        repSystem.configureNewSeason(2021);
+        repSystem.configureNewSeason(2021,new Date(121, 4, 11));
         repSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
