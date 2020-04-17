@@ -1,7 +1,5 @@
 package Domain;
 
-import Presentation.Referee;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,9 +42,13 @@ public class LeagueInSeason {
     public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
+
     public void addATeam(Team team) {
-        if(!teams.contains(team))
+        if(!teams.contains(team)){
             teams.add(team);
+            team.addLeague(this);
+        }
+
     }
 
     public void setGames(List<Game> games) {

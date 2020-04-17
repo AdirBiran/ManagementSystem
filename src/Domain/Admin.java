@@ -1,6 +1,4 @@
-package Presentation;
-
-import Domain.Team;
+package Domain;
 
 public class Admin extends User {
 

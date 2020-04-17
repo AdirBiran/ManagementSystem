@@ -2,9 +2,9 @@ package Tests.Unit;
 
 import Data.Database;
 import Domain.*;
-import Presentation.Fan;
+import Domain.Fan;
 import Service.FootballManagementSystem;
-import Presentation.Referee;
+import Domain.Referee;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,6 +28,7 @@ public class LeagueAndGameManagementTest {
 
     @Test
     public void registrationForGamesAlerts() {
+        LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020),200);
         Fan fan = new Fan("AviLevi@gmail.com", "Avi", "Levi", "0500004544", "Yuda123");
         Team team0 = (Team) system.database.searchObject("team0").get(0);
         Team team1 = (Team) system.database.searchObject("team1").get(0);
@@ -36,7 +37,7 @@ public class LeagueAndGameManagementTest {
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add((Referee) system.database.getListOfAllSpecificUsers("Referee").get(1));
         sideReferees.add((Referee) system.database.getListOfAllSpecificUsers("Referee").get(2));
-        Game game = new Game(new Date(10, 10, 2020), field, mainReferee, sideReferees ,team0, team1);
+        Game game = new Game(new Date(10, 10, 2020), field, mainReferee, sideReferees ,team0, team1,league);
         List<Game> games = new LinkedList<>();
         games.add(game);
         ReceiveAlerts receive = new ReceiveAlerts(false, false);

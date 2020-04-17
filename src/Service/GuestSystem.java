@@ -2,8 +2,8 @@ package Service;
 
 import Domain.Searcher;
 import Domain.UserManagement;
-import Presentation.Guest;
-import Presentation.User;
+import Domain.Guest;
+import Domain.User;
 
 import java.util.List;
 

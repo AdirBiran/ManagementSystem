@@ -1,7 +1,5 @@
-package Presentation;
+package Domain;
 
-import Domain.Complaint;
-import Domain.PersonalPage;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,6 +60,7 @@ public class Fan extends User {
     public boolean addPageToFollow(PersonalPage page){
         if(!followPages.contains(page)){
             followPages.add(page);
+            page.addAFollower(this);
             return true;
         }
         return false;

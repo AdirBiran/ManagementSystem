@@ -1,7 +1,5 @@
-package Presentation;
+package Domain;
 
-import Domain.IdGenerator;
-import Domain.Notice;
 import java.util.List;
 import java.util.LinkedList;
 

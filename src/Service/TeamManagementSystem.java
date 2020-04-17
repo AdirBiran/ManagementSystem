@@ -1,9 +1,8 @@
 package Service;
 
 import Domain.*;
-import Presentation.Player;
-import Presentation.TeamOwner;
-import Presentation.User;
+import Domain.TeamOwner;
+import Domain.User;
 
 public class TeamManagementSystem {
     private LeagueAndGameManagement leagueAndGameManagement;

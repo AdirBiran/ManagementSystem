@@ -2,7 +2,7 @@ package Tests.Unit;
 
 import Data.Database;
 import Domain.ComplaintManager;
-import Presentation.Fan;
+import Domain.Fan;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

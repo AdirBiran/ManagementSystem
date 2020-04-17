@@ -1,9 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Presentation.Fan;
-import Presentation.Referee;
-import Presentation.TeamOwner;
 
 import java.util.Date;
 import java.util.List;

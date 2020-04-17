@@ -2,7 +2,7 @@ package Service;
 
 import Domain.FinanceTransactionsManagement;
 import Domain.Team;
-import Presentation.TeamOwner;
+import Domain.TeamOwner;
 
 public class FinanceTransactionsSystem
 {
