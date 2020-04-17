@@ -87,8 +87,12 @@ public class LeagueAndGameManagement {
     public boolean permanentlyCloseTeam(Team team) {
         if(!team.isPermanentlyClosed()) {
             if (team.isActive())
+            {
                 team.setActive(false);
-            team.setPermanentlyClosed(true);
+                team.setPermanentlyClosed(true);
+                return true;
+            }
+
             //Maybe add a list of permanently closed teams to Database
             //What happens to the members of the teams???
         }
@@ -109,5 +113,9 @@ public class LeagueAndGameManagement {
 
     public void changeRegistrationFee(LeagueInSeason league, double newFee) {
         league.changeRegistrationFee(newFee);
+    }
+
+    public double getRegistrationFee(LeagueInSeason league) {
+        return league.getRegistrationFee();
     }
 }

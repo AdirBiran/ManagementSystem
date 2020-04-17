@@ -124,7 +124,7 @@ public class TeamManagementTest {
         teamSystem.updateRole(player, "Goalkeeper");
         String role = teamSystem.getRole(player);
 
-        assertEquals(player.getRole(), "Goalkeeper");
+        assertEquals(role, "Goalkeeper");
     }
 
     @Test
@@ -143,26 +143,27 @@ public class TeamManagementTest {
     public void manageAssets_31()
     {
 
-        List<Player> emptyPlayers = new LinkedList<>();
-
         List<TeamOwner> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
-        Team team = new Team("team",page,owners,emptyPlayers,coaches, field);
+        Team team = new Team("team",page,owners,players,coaches, field);
+
+        Field fieldAdded = new Field( "tel-aviv", 700);
+
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
-        Player player = players.get(0);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        List<Player> assets = teamSystem.getTeamPlayers(team);
 
-        teamSystem.addAsset(player, team);
+        teamSystem.addAsset(fieldAdded, team);
+        List<Field> assets = teamSystem.getTeamFields(team);
+
 
         boolean flag = false;
 
-        for (Player p : assets)
-            if (p == player)
+        for (Field f : assets)
+            if (f == fieldAdded)
                 flag = true;
 
         assertTrue(flag);
@@ -184,6 +185,7 @@ public class TeamManagementTest {
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
         Player manager = teamSystem.getTeamPlayers(team).get(1);
+        team.setActive(true);
         teamSystem.appointmentTeamManager(owner, manager, team);
 
         List<TeamManager> managers = teamSystem.getTeamManagers(team);
@@ -191,8 +193,7 @@ public class TeamManagementTest {
         boolean flag = false;
 
         for (TeamManager mng : managers)
-            if (mng.getID() == manager.getID())
-                flag = true;
+            System.out.println(mng.getID());
 
         assertTrue(flag);
 
@@ -262,9 +263,8 @@ public class TeamManagementTest {
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
         teamSystem.closeTeam(owner, team);
 
-        teamSystem.closeTeam(owner, team);
-
-        // cant be implemented, what happens when 2 tries?
+        boolean flag = teamSystem.closeTeam(owner, team);
+        assertFalse(flag);
 
     }
 

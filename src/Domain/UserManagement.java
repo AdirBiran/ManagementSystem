@@ -123,6 +123,11 @@ public class UserManagement//for admins
         return fan.addPageToFollow(page);
     }
 
+    public List<PersonalPage> getFanPages(Fan fan)
+    {
+        return fan.getFollowPages();
+    }
+
 
     public boolean appointmentTeamOwner(TeamOwner teamOwner , User user, Team team){
 

@@ -132,4 +132,8 @@ public class LeagueInSeason {
         }
         return false;
     }
+
+    public double getRegistrationFee() {
+        return this.registrationFee;
+    }
 }

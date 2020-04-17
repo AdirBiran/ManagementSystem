@@ -74,6 +74,11 @@ public class UnionRepresentativeSystem {
         leagueAndGameManagement.changeRegistrationFee(league, newFee);
     }
 
+    public double getRegistrationFee(LeagueInSeason league)
+    {
+        return leagueAndGameManagement.getRegistrationFee(league);
+    }
+
     public void addTUTUPayment(Team team, double payment){
         financeTransactionsManagement.addTUTUPayment(team, payment);
     }

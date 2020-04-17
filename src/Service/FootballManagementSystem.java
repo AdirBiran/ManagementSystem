@@ -53,7 +53,7 @@ public class FootballManagementSystem {
         return adminSystem;
     }
 
-    public static UserSystem getUserSystem() {
+    public UserSystem getUserSystem() {
         return userSystem;
     }
 
@@ -104,9 +104,9 @@ public class FootballManagementSystem {
         userManagement = new UserManagement(database);
         mailSender = new MailSender();
         //***service***//
+        notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement, mailSender, userManagement);
         adminSystem = new AdminSystem(leagueAndGameManagement, userManagement, notificationSystem, complaintManager);
         assetSystem = new AssetSystem(assetManagement);
-        notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement, mailSender, userManagement);
         financeTransactionsSystem = new FinanceTransactionsSystem(financeTransactionsManagement, notificationSystem);
         guestSystem = new GuestSystem(searcher, userManagement);
         personalPageSystem = new PersonalPageSystem(personalPageManagement);
@@ -190,7 +190,7 @@ public class FootballManagementSystem {
         }
     }
 
-    private static List<Date> getDates() {
+    public static List<Date> getDates() {
         LinkedList<Date> dates = new LinkedList<>();
         for (int i = 1; i < 29; i++) {
             dates.add(new Date (120, 6, i, 20, 0));

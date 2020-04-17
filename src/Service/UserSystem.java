@@ -61,6 +61,11 @@ public class UserSystem extends GuestSystem{
     public boolean registrationToFollowUp(Fan fan, PersonalPage page){
         return userManagement.registrationToFollowUp(fan, page);
     }
+
+    public List<PersonalPage> getFanPages(Fan fan)
+    {
+        return userManagement.getFanPages(fan);
+    }
     /*
     Fan registration for alerts for games you've selected
      */

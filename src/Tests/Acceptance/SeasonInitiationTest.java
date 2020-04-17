@@ -82,17 +82,7 @@ public class SeasonInitiationTest {
         PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550);
         Team team = new Team("Team1",page,owners,players,coaches, field);
-        system.getDatabase().addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
-
-        TeamOwner owner2 = new TeamOwner("Team2","Owner", "b"+"@gmail.com");
-        List<TeamOwner> owners2 = new LinkedList<>();
-        owners.add(owner2);
-        PersonalPage page2 = new PersonalPage("", players.get(0));
-        Field field2 = new Field( "tel-aviv", 600);
-        Team team2 = new Team("Team2",page2,owners2,players,coaches, field2);
-        system.getDatabase().addTeam(team2);
-        representativeSystem.addTeamToLeague(leagueInSeason, team2);
 
         League league = system.getDatabase().getLeague("Alufot");
 
@@ -153,7 +143,7 @@ public class SeasonInitiationTest {
             else if (r == ref2)
                 flagRef2 = true;
 
-        assertTrue(flagRef1);
+            assertTrue(flagRef1);
         assertFalse(flagRef2);
 
     }
