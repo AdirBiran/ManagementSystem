@@ -10,7 +10,7 @@ import java.util.List;
 
 
 public class FootballManagementSystem {
-    public static Database database;
+    private static Database database;
     //***domain***//
     public static AssetManagement assetManagement;
     public static ComplaintManager complaintManager;
@@ -39,6 +39,52 @@ public class FootballManagementSystem {
      //***External systems***//
     private static StubAccountingSystem accountingSystem;
     private static StubIsraeliTaxLawsSystem taxLawsSystem;
+
+    public Database getDatabase()
+    {
+        return database;
+    }
+
+    public TeamManagementSystem getTeamManagementSystem() {
+        return teamManagementSystem;
+    }
+
+    public AdminSystem getAdminSystem() {
+        return adminSystem;
+    }
+
+    public static UserSystem getUserSystem() {
+        return userSystem;
+    }
+
+    public UnionRepresentativeSystem getUnionRepresentativeSystem() {
+        return unionRepresentativeSystem;
+    }
+
+    public GuestSystem getGuestSystem() {
+        return guestSystem;
+    }
+
+    public PersonalPageSystem getPersonalPageSystem() {
+        return personalPageSystem;
+    }
+
+    public RefereeSystem getRefereeSystem() {
+        return refereeSystem;
+    }
+
+
+    public AssetSystem getAssetSystem() {
+        return assetSystem;
+    }
+
+    public NotificationSystem getNotificationSystem() {
+        return notificationSystem;
+    }
+
+    public FinanceTransactionsSystem getFinanceTransactionsSystem() {
+        return financeTransactionsSystem;
+    }
 
     public boolean systemInit(boolean firsTime){
         //***data***//

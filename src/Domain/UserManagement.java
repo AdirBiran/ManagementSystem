@@ -308,6 +308,18 @@ public class UserManagement//for admins
         }
     }
 
+    public String getRole(User user) {
+
+        if (user instanceof Player) {
+            return ((Player)user).getRole();
+        }
+        if (user instanceof Coach) {
+            return ((Coach)user).getRole();
+        }
+
+        return "";
+    }
+
     public boolean updateRole(User user, String role) {
         if(user instanceof Player){
             ((Player)user).setRole(role);

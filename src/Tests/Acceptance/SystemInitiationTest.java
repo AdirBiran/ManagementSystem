@@ -3,13 +3,17 @@ package Tests.Acceptance;
 import Service.FootballManagementSystem;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class SystemInitiationTest {
 
     @Test
     public void systemInitFail_1()
     {
         FootballManagementSystem system = new FootballManagementSystem();
-        system.systemInit(false);
+        boolean init = system.systemInit(false);
+
+        assertFalse(init);
 
     }
 
@@ -17,7 +21,10 @@ public class SystemInitiationTest {
     public void systemInitSuccess_2()
     {
         FootballManagementSystem system = new FootballManagementSystem();
-        system.systemInit(true);
+        boolean init = system.systemInit(true);
+
+        assertTrue(init);
+
     }
 
 }
