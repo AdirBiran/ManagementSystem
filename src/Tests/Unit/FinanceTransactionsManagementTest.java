@@ -4,6 +4,7 @@ import Data.Database;
 import Domain.Budget;
 import Domain.FinanceTransactionsManagement;
 import Domain.Team;
+import Presentation.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,46 +12,46 @@ import static org.junit.Assert.*;
 
 public class FinanceTransactionsManagementTest {
 
-    Database database;
-    FinanceTransactionsManagement finance;
+    FootballManagementSystem system;
 
     @Before
     public void initDataBase(){
-        database = new Database();
-        finance = new FinanceTransactionsManagement(database);
+        system = new FootballManagementSystem();
+        system.systemInit(true);
+        system.dataReboot();
     }
 
 
     @Test
     public void reportNewIncome() {
         Budget budget = new Budget(null);
-        finance.reportNewIncome(budget,200);
+        system.financeTransactionsManagement.reportNewIncome(budget,200);
         assertEquals(200.0, budget.getIncome(), 0);
     }
 
     @Test
     public void reportNewExpanse() {
         Budget budget = new Budget(null);
-        finance.reportNewExpanse(budget, 100);
+        system.financeTransactionsManagement.reportNewExpanse(budget, 100);
         assertEquals(0, budget.getExpanses(), 0);
-        finance.reportNewIncome(budget, 200);
-        finance.reportNewExpanse(budget, 150);
+        system.financeTransactionsManagement.reportNewIncome(budget, 200);
+        system.financeTransactionsManagement.reportNewExpanse(budget, 150);
         assertEquals(150, budget.getExpanses(), 0);
     }
 
     @Test
     public void getBalance() {
-        Team team = (Team) database.searchObject("team0");
+        Team team = (Team) system.database.searchObject("team0").get(0);
         Budget budget = new Budget(team);
-        finance.reportNewIncome(budget, 250);
-        finance.reportNewExpanse(budget, 150);
-        assertEquals(100, finance.getBalance(team), 0);
+        system.financeTransactionsManagement.reportNewIncome(budget, 250);
+        system.financeTransactionsManagement.reportNewExpanse(budget, 150);
+        assertEquals(100, system.financeTransactionsManagement.getBalance(team), 0);
     }
 
     @Test
     public void addTUTUPayment() {
-        Team team = (Team) database.searchObject("team0");
-        finance.addTUTUPayment(team, 100);
-        assertEquals(100, finance.getBalance(team), 0);
+        Team team = (Team) system.database.searchObject("team0").get(0);
+        system.financeTransactionsManagement.addTUTUPayment(team, 100);
+        assertEquals(100, system.financeTransactionsManagement.getBalance(team), 0);
     }
 }

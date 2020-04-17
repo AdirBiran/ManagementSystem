@@ -12,7 +12,8 @@ import java.util.HashSet;
 
 public class Database //maybe generalize with interface? //for now red layer
 {
-    private HashMap<String, String> userNamesAndPasswords; //- <mail, encryptedPassword??>
+    private HashMap<String,String> mailsAndPasswords; //- <mail, encryptedPassword??>
+    private HashMap<String,String> mailsAndUserID; //- <mail, userId>
     private HashMap<String,User> usersInDatabase; // - <userId,User>
     private HashMap<String,Asset> assetsInDatabase;// - <asset.name, Asset>
     private HashMap<String, Game> gamesInDatabase; // - <game.id, Game>
@@ -23,7 +24,8 @@ public class Database //maybe generalize with interface? //for now red layer
     private HashMap<String, Team> teams;
 
     public Database() {
-        userNamesAndPasswords = new HashMap<>();
+        mailsAndPasswords = new HashMap<>();
+        mailsAndUserID = new HashMap<>();
         usersInDatabase = new HashMap<>();
         assetsInDatabase = new HashMap<>();
         gamesInDatabase = new HashMap<>();
@@ -101,6 +103,10 @@ public class Database //maybe generalize with interface? //for now red layer
     public User getUser(String userId){
         return (User)search("User", userId);
     }
+
+    public User getUserbyMail(String mail){
+        return (User)search("Mail", mail);
+    }
     /*
     this function gets a gameId - Game.toString (its address in memory) and returns a pointer to the object of this game
     return null if cant find game
@@ -153,7 +159,8 @@ public class Database //maybe generalize with interface? //for now red layer
     public boolean addUser(String password, User user){
         if(!usersInDatabase.containsKey(user.getID())&& user.isActive()){
             String encryptedPassword = encrypt(password);
-            userNamesAndPasswords.put(user.getMail(), encryptedPassword);
+            mailsAndPasswords.put(user.getMail(), encryptedPassword);
+            mailsAndUserID.put(user.getMail(), user.getID());
             usersInDatabase.put(user.getID(), user);
             if(user instanceof Asset && !assetsInDatabase.containsKey(user.getID())){
                 assetsInDatabase.put(user.getID(), (Asset)user);
@@ -205,17 +212,17 @@ public class Database //maybe generalize with interface? //for now red layer
     returns true if this is the correct credentials and false otherwise
      */
     public boolean authenticationCheck(String mail, String password){
-        if(usersInDatabase.containsKey(mail)&& usersInDatabase.get(mail).isActive()){
+        if(mailsAndPasswords.containsKey(mail) && usersInDatabase.get(mailsAndUserID.get(mail)).isActive()){
             String encryptedPassword = encrypt(password);
-            String passwordInSystem = userNamesAndPasswords.get(mail);
+            String passwordInSystem = mailsAndPasswords.get(mail);
             return passwordInSystem.equals(encryptedPassword);
         }
         return false;
     }
     public void changePassword(String mail, String newPassword){
-        if(userNamesAndPasswords.containsKey(mail)){
+        if(mailsAndPasswords.containsKey(mail)){
             String encryptedPassword = encrypt(newPassword);
-            userNamesAndPasswords.replace(mail, encryptedPassword);
+            mailsAndPasswords.replace(mail, encryptedPassword);
         }
 
     }
@@ -318,6 +325,12 @@ public class Database //maybe generalize with interface? //for now red layer
                     }
                     break;
                 }
+                case ("Mail"):{
+                    if(mailsAndUserID.containsKey(searchWord)){
+                        return usersInDatabase.get(mailsAndUserID.get(searchWord));
+                    }
+                    break;
+                }
                 case("Game"):{
                     for(String gameId:gamesInDatabase.keySet()){
                         if(searchWord.equals(gameId))
@@ -356,7 +369,6 @@ public class Database //maybe generalize with interface? //for now red layer
                     //think about it
                     break;
                 }
-
             }
             return null;
 
