@@ -44,9 +44,13 @@ public class LeagueInSeason {
     public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
+
     public void addATeam(Team team) {
-        if(!teams.contains(team))
+        if(!teams.contains(team)){
             teams.add(team);
+            team.addLeague(this);
+        }
+
     }
 
     public void setGames(List<Game> games) {

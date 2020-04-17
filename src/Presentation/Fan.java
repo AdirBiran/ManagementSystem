@@ -62,6 +62,7 @@ public class Fan extends User {
     public boolean addPageToFollow(PersonalPage page){
         if(!followPages.contains(page)){
             followPages.add(page);
+            page.addAFollower(this);
             return true;
         }
         return false;

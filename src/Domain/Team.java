@@ -20,6 +20,7 @@ public class Team{
     private Budget budget;
     private List<Game> games;
     private List<Field> fields;
+    private List<LeagueInSeason> leagues;
     private boolean active;
     private boolean permanentlyClosed; //closed by admin and cannot open again
 
@@ -51,6 +52,14 @@ public class Team{
         this.games = new LinkedList<>();
         this.active = true;
         this.permanentlyClosed = false;
+        this.leagues = new LinkedList<>();
+    }
+
+    public void addLeague(LeagueInSeason league) {
+        if(!leagues.contains(league)){
+            this.leagues.add(league);
+            league.addATeam(this);
+        }
     }
 
     private void linkField() {
