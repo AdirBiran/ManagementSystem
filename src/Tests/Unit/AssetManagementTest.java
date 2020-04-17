@@ -1,10 +1,7 @@
 package Tests.Unit;
-
-import Data.Database;
-import Domain.AssetManagement;
 import Domain.Team;
-import Presentation.FootballManagementSystem;
-import Presentation.UnionRepresentative;
+import Service.FootballManagementSystem;
+import Domain.UnionRepresentative;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -16,7 +13,7 @@ public class AssetManagementTest {
         FootballManagementSystem system = new FootballManagementSystem();
         system.systemInit(true);
         system.dataReboot();
-        Team team = (Team) system.database.searchObject("team0").get(0);
+        Team team = (Team) system.getDatabase().searchObject("team0").get(0);
         assertFalse(system.assetManagement.alertBudgetException("closed", team, false));
         assertTrue(system.assetManagement.alertBudgetException("open", team, false));
         team.setActive(false);
@@ -32,7 +29,7 @@ public class AssetManagementTest {
         system.systemInit(true);
         system.dataReboot();
         UnionRepresentative union = new UnionRepresentative("union", "rep", "unionrep@gmail.com");
-        system.database.addUser("AAA123", union);
+        system.getDatabase().addUser("AAA123", union);
         int sizeOfMessageBox = union.getMessageBox().size();
         system.assetManagement.alertBudgetException("test message");
         assertEquals(sizeOfMessageBox+1, union.getMessageBox().size(), 0);

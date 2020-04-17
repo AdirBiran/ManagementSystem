@@ -1,8 +1,5 @@
 package Domain;
 
-import Presentation.Fan;
-import Presentation.Referee;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +17,13 @@ public class Game {
     private Team guestTeam; // check type of team
     private HashMap<Fan, ReceiveAlerts> fansForAlerts; //list of fans that signed up to receive game alerts
     private EventReport eventReport;
+    private LeagueInSeason league;
+
 
     public Game(Date date, Field field, Referee mainReferee, List<Referee> sideReferees,
-                Team hostTeam, Team guestTeam) {
+                Team hostTeam, Team guestTeam, LeagueInSeason league) {
+        this.league = league;
+        league.addGame(this);
         this.id = "G"+IdGenerator.getNewId();
         this.date = date;
         this.field = field;

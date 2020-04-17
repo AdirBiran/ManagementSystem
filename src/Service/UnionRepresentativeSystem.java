@@ -2,7 +2,7 @@ package Service;
 
 
 import Domain.*;
-import Presentation.Referee;
+import Domain.Referee;
 
 import java.util.List;
 import java.util.Date;
@@ -27,6 +27,8 @@ public class UnionRepresentativeSystem {
     }
 
     public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){
+        if (assignmentPolicy == null || scorePolicy == null)
+            return null;
         return leagueAndGameManagement.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy,scorePolicy,fee);
     }
     public Referee appointReferee(String firstName,String lastName, String mail, String training)

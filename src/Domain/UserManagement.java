@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Presentation.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -104,7 +103,7 @@ public class UserManagement//for admins
      */
     public User logInUserToSystem(String mail, String password) {
         if(database.authenticationCheck(mail, password))
-            return database.getUser(mail);
+            return database.getUserbyMail(mail);
         return null;
     }
     /*
@@ -307,6 +306,18 @@ public class UserManagement//for admins
                 }
             }
         }
+    }
+
+    public String getRole(User user) {
+
+        if (user instanceof Player) {
+            return ((Player)user).getRole();
+        }
+        if (user instanceof Coach) {
+            return ((Coach)user).getRole();
+        }
+
+        return "";
     }
 
     public boolean updateRole(User user, String role) {
