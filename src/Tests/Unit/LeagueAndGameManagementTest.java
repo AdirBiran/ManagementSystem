@@ -28,7 +28,7 @@ public class LeagueAndGameManagementTest {
 
     @Test
     public void registrationForGamesAlerts() {
-        LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020),200);
+        LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
         Fan fan = new Fan("AviLevi@gmail.com", "Avi", "Levi", "0500004544", "Yuda123");
         Team team0 = (Team) system.getDatabase().searchObject("team0").get(0);
         Team team1 = (Team) system.getDatabase().searchObject("team1").get(0);
@@ -53,8 +53,8 @@ public class LeagueAndGameManagementTest {
 
     @Test
     public void configureNewSeason() {
-        assertTrue(system.leagueAndGameManagement.configureNewSeason(2021));
-        assertFalse(system.leagueAndGameManagement.configureNewSeason(2021));
+        assertTrue(system.leagueAndGameManagement.configureNewSeason(2021, new Date(120,4,1)));
+        assertFalse(system.leagueAndGameManagement.configureNewSeason(2021, new Date(120,4,1)));
     }
 
     @Test

@@ -5,43 +5,17 @@ import java.util.*;
 
 public class TeamOwner extends Manager {
 
-    private List<Team> teams;
-    private HashMap<Team, Boolean> isClosedTeam;
-    private HashMap<Team,HashMap<String,User>> appointmentAssetsInTeams;
+
 
 
     public TeamOwner(String firstName,String lastName, String mail) {
         super(firstName,lastName, "TO", mail);
-        this.teams = new LinkedList<>();
-        this.isClosedTeam = new HashMap<>();
-        this.appointmentAssetsInTeams = new HashMap<>();
-
     }
 
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-    public void addTeam(Team team) {
-        if(!teams.contains(team)){
-            teams.add(team);
-            isClosedTeam.put(team, false);
 
-            //not sure about this
-            appointmentAssetsInTeams.put(team,new HashMap<>());
-        }
-
-    }
-
-    public void addExistAsset(){
-    }
-
-    public void addNewAsset(){
-
-    }
-
-    public void removeAsset(){
-
-    }
 
     public void appointmentTeamOwner(){
 

@@ -9,4 +9,8 @@ public class EventReportManagement {
     public EventReportManagement(Database database) {
         this.database = database;
     }
+
+    public void addEventToGame(Referee referee, Event event, Game game){
+
+    }
 }
