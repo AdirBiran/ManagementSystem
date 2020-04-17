@@ -13,9 +13,15 @@ public class Admin extends User {
      *
      * @param team
      */
-    public void permanentlyCloseTeam(Team team)
-    {
-
+    public boolean permanentlyCloseTeam(Team team) {
+        if(!team.isPermanentlyClosed()) {
+            if (team.isActive())
+                team.setActive(false);
+            team.setPermanentlyClosed(true);
+            //Maybe add a list of permanently closed teams to Database
+            //What happens to the members of the teams???
+        }
+        return false;
     }
 
     /**
@@ -31,8 +37,9 @@ public class Admin extends User {
 
     /**
      *
+     * @param complaint
      */
-    public void responseToComplaint()
+    public void responseToComplaint(Complaint complaint)
     {
 
     }
