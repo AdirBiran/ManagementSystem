@@ -395,6 +395,14 @@ public class Database //maybe generalize with interface? //for now red layer
         return (Season)search("Season", yearOfSeason);
     }
 
+    public HashMap<String, Team> getTeams() {
+        return teams;
+    }
+
+    public HashSet<Complaint> getComplaints() {
+        return complaints;
+    }
+
     public void addComplaint(Complaint complaint){complaints.add(complaint);}
 
     public void writeToDatabaseDisk(){

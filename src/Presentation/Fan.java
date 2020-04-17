@@ -73,6 +73,10 @@ public class Fan extends User {
         return address;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
     public List<Complaint> getComplaints() {
         return complaints;
     }
