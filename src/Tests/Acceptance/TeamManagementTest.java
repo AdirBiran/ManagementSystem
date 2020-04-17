@@ -1,9 +1,9 @@
 package Tests.Acceptance;
 
 import Domain.*;
-import Presentation.Coach;
-import Presentation.Player;
-import Presentation.TeamOwner;
+import Domain.Coach;
+import Domain.Player;
+import Domain.TeamOwner;
 import Service.FootballManagementSystem;
 import Service.TeamManagementSystem;
 import Service.UnionRepresentativeSystem;
