@@ -1,8 +1,7 @@
 package Tests.Unit;
 
-import Data.Database;
-import Domain.EditPersonalInfo;
 import Presentation.Fan;
+import Service.FootballManagementSystem;
 import Presentation.Player;
 import org.junit.Test;
 
@@ -12,25 +11,27 @@ public class EditPersonalInfoTest {
 
     @Test
     public void editPersonalDetails() {
-        Database database = new Database();
-        EditPersonalInfo personalInfo = new EditPersonalInfo(database);
+        FootballManagementSystem system = new FootballManagementSystem();
+        system.systemInit(true);
+        system.dataReboot();
         Fan fan = new Fan("AviLevi@gmail.com", "Avi", "Levi", "0500004544", "Yuda123");
-        database.addUser("Aa1234", fan);
-        personalInfo.editPersonalDetails(fan, "Avi", "Levi", "0544884666", "Yuda123", "");
-        Fan checkFan = (Fan)database.getUser(fan.getID());
+        system.database.addUser("Aa1234", fan);
+        system.editPersonalInfo.editPersonalDetails(fan, "Avi", "Levi", "0544884666", "Yuda123", "");
+        Fan checkFan = (Fan)system.database.getUser(fan.getID());
         assertEquals(checkFan.getPhone(), "0544884666"); ///
-        personalInfo.editPersonalDetails(fan, "Avi", "Levi", "0544884666", "Yuda123", "ABC123");
-        assertTrue(database.authenticationCheck("AviLevi@gmail.com", "ABC123"));
+        system.editPersonalInfo.editPersonalDetails(fan, "Avi", "Levi", "0544884666", "Yuda123", "ABC123");
+        assertTrue(system.database.authenticationCheck("AviLevi@gmail.com", "ABC123"));
 
     }
 
     @Test
     public void editPersonalDetails1() {
-        Database database = new Database();
-        EditPersonalInfo personalInfo = new EditPersonalInfo(database);
-        Player player = (Player) database.getListOfAllSpecificUsers("Player").get(0);
-        personalInfo.editPersonalDetails(player, "leo", "mesi", "AAA123");
-        assertEquals("leo mesi", database.getListOfAllSpecificUsers("Player").get(0).getName()); ///
-        assertTrue(database.authenticationCheck(player.getID(), "AAA123"));
+        FootballManagementSystem system = new FootballManagementSystem();
+        system.systemInit(true);
+        system.dataReboot();
+        Player player = (Player) system.database.getListOfAllSpecificUsers("Player").get(0);
+        system.editPersonalInfo.editPersonalDetails(player, "leo", "mesi", "AAA123");
+        assertEquals("leo mesi", system.database.getListOfAllSpecificUsers("Player").get(0).getName()); ///
+        assertTrue(system.database.authenticationCheck(player.getMail(), "AAA123"));
     }
 }
