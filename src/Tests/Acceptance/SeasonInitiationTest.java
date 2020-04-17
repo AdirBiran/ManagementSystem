@@ -6,6 +6,7 @@ import Service.UnionRepresentativeSystem;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class SeasonInitiationTest {
         system.dataReboot();
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(2021);
+        representativeSystem.configureNewSeason(2021,new Date(120,4,1));
         representativeSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
@@ -43,7 +44,7 @@ public class SeasonInitiationTest {
         system.dataReboot();
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(2021);
+        representativeSystem.configureNewSeason(2021,new Date(121,4,1));
         representativeSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "2021", null, null, 250);
 
@@ -55,7 +56,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(1800);
+        representativeSystem.configureNewSeason(1800, new Date(18,4,1));
         representativeSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "1800", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
@@ -70,7 +71,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(2021);
+        representativeSystem.configureNewSeason(2021,new Date(121,4,1));
         representativeSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
@@ -106,7 +107,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(2021);
+        representativeSystem.configureNewSeason(2021 ,new Date(121,4,1));
         representativeSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
@@ -130,7 +131,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(2021);
+        representativeSystem.configureNewSeason(2021, new Date(121,4,1));
         representativeSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 

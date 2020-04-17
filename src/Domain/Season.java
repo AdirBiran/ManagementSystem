@@ -3,19 +3,26 @@ package Domain;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Date;
 
 public class Season {
 
     private int year;
+    private Date startDate;
     private List<LeagueInSeason> leagueInSeasons;
 
-    public Season(int year) {
+    public Season(int year, Date startDate) {
         this.year = year;
+        this.startDate = startDate;
         leagueInSeasons = new LinkedList<>();
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
+
+    public Date getStartDate() {
+        return startDate;
+    }
 
     /**
      *

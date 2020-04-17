@@ -135,7 +135,7 @@ public class FootballManagementSystem {
     }
 
     public void dataReboot(){
-        unionRepresentativeSystem.configureNewSeason(2020);
+        unionRepresentativeSystem.configureNewSeason(2020, new Date(120, 4, 1));
         unionRepresentativeSystem.configureNewLeague("Haal", "3");
         LeagueInSeason leagueInSeason = unionRepresentativeSystem.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         for (int i = 0; i < 5; i++) {
@@ -266,7 +266,7 @@ public class FootballManagementSystem {
         /**-----------DORON TESTS--------------*/
 
         //**UnitTests!-NotificationSystem**//
-        LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020),200);
+        LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
         TeamOwner owner = new TeamOwner("Team","Owner", "a@gmail.com");
         List<TeamOwner> owners = new LinkedList<>();
         owners.add(owner);
@@ -318,7 +318,7 @@ public class FootballManagementSystem {
 
         hapoel.setActive(true);
         unionRepresentativeSystem.configureNewLeague("leumit", "2");
-        unionRepresentativeSystem.configureNewSeason(2020);
+        unionRepresentativeSystem.configureNewSeason(2020,new Date(120,4,1));
         GameAssignmentPolicy gameAssignmentPolicy = new PlayOnceWithEachTeamPolicy();
         LeagueInSeason leumit2020 = unionRepresentativeSystem.configureLeagueInSeason("leumit", "2020",gameAssignmentPolicy, new StandardScorePolicy(), 250);
         Referee ref1 = unionRepresentativeSystem.appointReferee("ref", "1", "a1@gmail.com", "the best one");
@@ -338,7 +338,7 @@ public class FootballManagementSystem {
 
         //------------DATABASE UnitTests-------------//
         League league1 = new League("Alufot", "3");
-        Season season = new Season(2019);
+        Season season = new Season(2019, new Date(120,4,1));
         System.out.println(database.addLeague(league1));// expected : true
         System.out.println(database.addSeason(season));// expected : true
         System.out.println(database.addLeague(league1));// expected : false

@@ -29,8 +29,8 @@ public class LeagueAndGameManagement {
         return database.addLeague(league);
     }
 
-    public boolean configureNewSeason(int year) {
-        Season season = new Season(year);
+    public boolean configureNewSeason(int year, Date startDate) {
+        Season season = new Season(year, startDate);
         return database.addSeason(season);
     }
 

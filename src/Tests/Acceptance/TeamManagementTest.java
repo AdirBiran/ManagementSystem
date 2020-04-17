@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -33,7 +34,7 @@ public class TeamManagementTest {
         system.systemInit(true);
         representativeSystem = system.getUnionRepresentativeSystem();
 
-        representativeSystem.configureNewSeason(2020);
+        representativeSystem.configureNewSeason(2020, new Date(120,4,1 ));
         representativeSystem.configureNewLeague("Haal", "3");
         leagueInSeason = representativeSystem.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         players = FootballManagementSystem.createPlayers();

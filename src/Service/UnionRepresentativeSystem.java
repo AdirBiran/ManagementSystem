@@ -22,8 +22,8 @@ public class UnionRepresentativeSystem {
     public boolean configureNewLeague(String name, String level){
         return leagueAndGameManagement.configureNewLeague(name, level);
     }
-    public boolean configureNewSeason(int year){
-        return leagueAndGameManagement.configureNewSeason(year);
+    public boolean configureNewSeason(int year, Date startDate){
+        return leagueAndGameManagement.configureNewSeason(year,startDate);
     }
 
     public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){

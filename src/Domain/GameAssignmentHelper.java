@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class GameAssignmentChecker {
+public class GameAssignmentHelper {
 
     public static boolean checkForDuplicates(List<Game> games, Team team1, Team team2) {
         for(Game game : games){

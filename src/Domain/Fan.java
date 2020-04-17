@@ -27,14 +27,6 @@ public class Fan extends User {
      */
     public void registrationForGameAlerts(){
     }
-    /**
-     *
-     * @param page
-     */
-    public void followPage(PersonalPage page)
-    {
-
-    }
 
     /**
      *
