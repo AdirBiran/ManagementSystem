@@ -1,15 +1,15 @@
 package Tests.Acceptance;
 
 import Domain.*;
-import Presentation.*;
 import Service.FootballManagementSystem;
 import Service.UnionRepresentativeSystem;
 import org.junit.Before;
-import Service.FootballManagementSystem;
 import org.junit.Test;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class SeasonInitiationTest {
 
@@ -33,7 +33,7 @@ public class SeasonInitiationTest {
         representativeSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
-
+        // cant be implemented yet
     }
 
     @Test
@@ -47,6 +47,7 @@ public class SeasonInitiationTest {
         representativeSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "2021", null, null, 250);
 
+        assertNull(leagueInSeason);
     }
 
     @Test
@@ -58,6 +59,10 @@ public class SeasonInitiationTest {
         representativeSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "1800", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
+
+        // need to change configureLeagueInSeason
+
+        assertNull(leagueInSeason);
     }
 
     @Test
@@ -89,6 +94,11 @@ public class SeasonInitiationTest {
         FootballManagementSystem.database.addTeam(team2);
         representativeSystem.addTeamToLeague(leagueInSeason, team2);
 
+        League league = FootballManagementSystem.database.getLeague("Alufot");
+
+        assertNotNull(league);
+
+
     }
 
     @Test
@@ -103,6 +113,15 @@ public class SeasonInitiationTest {
         Referee ref = FootballManagementSystem.mainReferee();
         system.getAdminSystem().addUser("Aa123", ref);
         representativeSystem.assignRefToLeague(leagueInSeason, ref);
+
+        List<Referee> referees = leagueInSeason.getReferees();
+        Referee resReferee = null;
+
+        for (Referee r : referees)
+            if (r == ref)
+                resReferee = r;
+
+        assertEquals(ref, resReferee);
 
     }
 
@@ -123,6 +142,19 @@ public class SeasonInitiationTest {
         representativeSystem.assignRefToLeague(leagueInSeason, ref);
         representativeSystem.assignRefToLeague(leagueInSeason, ref2);
 
+        List<Referee> referees = leagueInSeason.getReferees();
+
+        boolean flagRef1 = false;
+        boolean flagRef2 = false;
+
+        for (Referee r: referees)
+            if (r == ref)
+                flagRef1 = true;
+            else if (r == ref2)
+                flagRef2 = true;
+
+        assertTrue(flagRef1);
+        assertFalse(flagRef2);
 
     }
 }

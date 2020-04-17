@@ -13,6 +13,8 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.junit.Assert.*;
+
 public class TeamManagementTest {
 
     private UnionRepresentativeSystem representativeSystem;
@@ -41,8 +43,6 @@ public class TeamManagementTest {
     public void manageAssets_26()
     {
 
-
-
         List<TeamOwner> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
@@ -50,9 +50,25 @@ public class TeamManagementTest {
         Team team = new Team("team",page,owners,players,coaches, field);
         FootballManagementSystem.database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
-
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        teamSystem.addAsset(players.get(0), team);
+        Player playerAdded = teamSystem.getTeamPlayers(team).get(0);
+
+        teamSystem.addAsset(playerAdded, team);
+
+
+        boolean existsOnce = false;
+        boolean existsTwice = false;
+
+        List<Player> assets = teamSystem.getTeamPlayers(team);
+
+        for (Player p : assets)
+            if (p == playerAdded)
+                if (existsOnce)
+                    existsTwice = true;
+                else
+                    existsOnce = true;
+
+        assertFalse(existsTwice);
 
 
     }
@@ -71,9 +87,18 @@ public class TeamManagementTest {
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        Player player = players.get(0);
+        Player playerAdded = teamSystem.getTeamPlayers(team).get(0);
+        List<Player> assets = teamSystem.getTeamPlayers(team);
 
-        teamSystem.removeAsset(player, team);
+        teamSystem.removeAsset(playerAdded, team);
+
+        boolean flag = false;
+
+        for (Player p: assets)
+            if (p == playerAdded)
+                flag = true;
+
+        assertFalse(flag);
     }
 
     @Test
@@ -93,6 +118,9 @@ public class TeamManagementTest {
         Player player = players.get(0);
 
         teamSystem.updateRole(player, "Goalkeeper");
+        String role = teamSystem.getRole(player);
+
+        assertEquals(player.getRole(), "Goalkeeper");
     }
 
     @Test
@@ -111,9 +139,7 @@ public class TeamManagementTest {
     public void manageAssets_31()
     {
 
-
         List<Player> emptyPlayers = new LinkedList<>();
-
 
         List<TeamOwner> owners = new LinkedList<>();
         owners.add(owner);
@@ -122,9 +148,21 @@ public class TeamManagementTest {
         Team team = new Team("team",page,owners,emptyPlayers,coaches, field);
         FootballManagementSystem.database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
+        Player player = players.get(0);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        teamSystem.addAsset(players.get(0), team);
+        List<Player> assets = teamSystem.getTeamPlayers(team);
+
+        teamSystem.addAsset(player, team);
+
+        boolean flag = false;
+
+        for (Player p : assets)
+            if (p == player)
+                flag = true;
+
+        assertTrue(flag);
+
     }
 
     @Test
@@ -141,8 +179,20 @@ public class TeamManagementTest {
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        teamSystem.appointmentTeamOwner(owner, players.get(0), team);
-        teamSystem.appointmentTeamManager(owner, players.get(1), team);
+        Player manager = teamSystem.getTeamPlayers(team).get(1);
+        teamSystem.appointmentTeamManager(owner, manager, team);
+
+        List<TeamManager> managers = teamSystem.getTeamManagers(team);
+
+        boolean flag = false;
+
+        for (TeamManager mng : managers)
+            if (mng.getID() == manager.getID())
+                flag = true;
+
+        assertTrue(flag);
+
+
 
     }
 
@@ -180,8 +230,15 @@ public class TeamManagementTest {
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
+
+        boolean active = teamSystem.isActiveTeam(team);
+
+        assertTrue(active);
+
         teamSystem.closeTeam(owner, team);
 
+        active = teamSystem.isActiveTeam(team);
+        assertFalse(active);
 
     }
 
@@ -202,6 +259,8 @@ public class TeamManagementTest {
         teamSystem.closeTeam(owner, team);
 
         teamSystem.closeTeam(owner, team);
+
+        // cant be implemented, what happens when 2 tries?
 
     }
 
@@ -242,7 +301,14 @@ public class TeamManagementTest {
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
+
+        boolean active = teamSystem.isActiveTeam(team);
+        assertTrue(active);
+
         teamSystem.reopeningTeam(owner, team);
+
+        active = teamSystem.isActiveTeam(team);
+        assertTrue(active);
     }
 
     @Test
@@ -259,7 +325,14 @@ public class TeamManagementTest {
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
         teamSystem.closeTeam(owner, team);
+
+        boolean active = teamSystem.isActiveTeam(team);
+        assertFalse(active);
+
         teamSystem.reopeningTeam(owner, team);
+
+        active = teamSystem.isActiveTeam(team);
+        assertFalse(active);
     }
 
 

@@ -68,9 +68,6 @@ public class FootballManagementSystem {
         return refereeSystem;
     }
 
-    public SearchSystem getSearchSystem() {
-        return searchSystem;
-    }
 
     public AssetSystem getAssetSystem() {
         return assetSystem;
