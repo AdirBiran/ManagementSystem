@@ -57,9 +57,8 @@ public class AssetManagementTest {
 
     @Test
     public void removeAsset(){
-        Team team = system.getDatabase().getTeams().get(0);
         Player player = (Player) system.getDatabase().getAssetsInDatabase().get(system.getDatabase().getAssetsInDatabase().keySet().iterator().next());
-        assertFalse(assetManagement.removeAsset(player, team));
+        assertTrue(assetManagement.removeAsset(player, player.getTeams().get(0)));
         Coach coach = (Coach)system.getDatabase().getListOfAllSpecificUsers("Coach").get(0);
         assertFalse(assetManagement.removeAsset(coach, coach.getTeams().get(0)));
     }
