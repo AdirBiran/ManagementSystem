@@ -107,11 +107,13 @@ public class Team{
         this.draws ++;
     }
 
-    public void addTeamOwner(User teamOwner) {
+    public boolean addTeamOwner(User teamOwner) {
         if(!teamOwners.contains(teamOwner)) {
             this.teamOwners.add(teamOwner);
             teamOwner.addTeam(this);
+            return true;
         }
+        return false;
     }
 
     public boolean addTeamManager(User teamManager) {

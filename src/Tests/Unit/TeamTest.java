@@ -1,6 +1,7 @@
 package Tests.Unit;
 
 import Domain.Team;
+import Domain.TeamOwner;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +23,9 @@ public class TeamTest {
 
     @Test
     public void addTeamOwner() {
+        TeamOwner teamOwner = (TeamOwner) system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(0);
+        assertTrue(team.addTeamOwner(teamOwner));
+
     }
 
     @Test
@@ -35,7 +39,6 @@ public class TeamTest {
     @Test
     public void addCoach() {
     }
-
 
     @Test
     public void removeTeamOwner() {
