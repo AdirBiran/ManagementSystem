@@ -1,9 +1,8 @@
 package Domain;
 
-import Presentation.Referee;
-
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Date;
 
 public class LeagueInSeason {
 
@@ -120,18 +119,23 @@ public class LeagueInSeason {
     }
 
     public boolean changeScorePolicy(ScorePolicy policy) {
-        if(policy!=null){
+        if(season.getStartDate().after(new Date())&&policy!=null){
             this.scorePolicy = policy;
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean changeAssignmentPolicy(GameAssignmentPolicy policy) {
+        if(season.getStartDate().after(new Date())&&policy!=null){
+            this.assignmentPolicy=policy;
             return true;
         }
         return false;
     }
 
-    public boolean changeAssignmentPolicy(GameAssignmentPolicy policy) {
-        if(policy!=null){
-            this.assignmentPolicy=policy;
-            return true;
-        }
-        return false;
+    public double getRegistrationFee() {
+        return this.registrationFee;
     }
 }

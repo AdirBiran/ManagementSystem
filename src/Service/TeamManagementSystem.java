@@ -1,33 +1,57 @@
 package Service;
 
 import Domain.*;
-import Presentation.Player;
-import Presentation.TeamOwner;
-import Presentation.User;
+import Domain.TeamOwner;
+import Domain.User;
+
+import java.util.List;
 
 public class TeamManagementSystem {
     private LeagueAndGameManagement leagueAndGameManagement;
     private UserManagement userManagement;
     private NotificationSystem notificationSystem;
+    private AssetManagement assetManagement;
 
     public TeamManagementSystem(LeagueAndGameManagement leagueAndGameManagement, UserManagement userManagement,
-                                NotificationSystem notificationSystem) {
+                                NotificationSystem notificationSystem, AssetManagement assetManagement) {
         this.leagueAndGameManagement = leagueAndGameManagement;
         this.userManagement = userManagement;
         this.notificationSystem = notificationSystem;
+        this.assetManagement = assetManagement;
     }
     /*
     this function adds a new asset to the system
      */
     public void addAsset(Asset asset , Team team){
 
-        userManagement.addAsset(asset , team);
+        assetManagement.addAsset(asset , team);
     }
+
+    public List<Coach> getTeamCoaches(Team team)
+    {
+        return team.getCoaches();
+    }
+
+    public List<Player> getTeamPlayers(Team team)
+    {
+        return team.getPlayers();
+    }
+
+    public List<Field> getTeamFields(Team team)
+    {
+        return team.getFields();
+    }
+
+    public List<TeamManager> getTeamManagers(Team team)
+    {
+        return team.getTeamManagers();
+    }
+
     /*
     Remove Asset
      */
     public void removeAsset(Asset asset , Team team){
-        userManagement.removeAsset(asset ,team);
+        assetManagement.removeAsset(asset ,team);
     }
 
     public void appointmentTeamOwner(TeamOwner teamOwner , User user, Team team){
@@ -74,10 +98,19 @@ public class TeamManagementSystem {
     public boolean updateRole(User user,String role){
        return userManagement.updateRole(user, role);
     }
+
+    public String getRole(User user){
+        return userManagement.getRole(user);
+    }
     public boolean updateTraining(User user,String training){
         return userManagement.updateTraining(user, training);
     }
     public void deactivateField(Field field){
         userManagement.deactivateField(field);
+    }
+
+    public boolean isActiveTeam(Team team)
+    {
+        return team.isActive();
     }
 }

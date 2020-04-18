@@ -1,7 +1,7 @@
 package Tests.Unit;
 import Domain.Team;
 import Service.FootballManagementSystem;
-import Presentation.UnionRepresentative;
+import Domain.UnionRepresentative;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,14 +13,14 @@ public class AssetManagementTest {
         FootballManagementSystem system = new FootballManagementSystem();
         system.systemInit(true);
         system.dataReboot();
-        Team team = (Team) system.database.searchObject("team0").get(0);
-        assertFalse(system.assetManagement.alertBudgetException("closed", team, false));
-        assertTrue(system.assetManagement.alertBudgetException("open", team, false));
+        Team team = (Team) system.getDatabase().searchObject("team0").get(0);
+        assertFalse(system.getAssetManagement().alertBudgetException("closed", team, false));
+        assertTrue(system.getAssetManagement().alertBudgetException("open", team, false));
         team.setActive(false);
-        assertTrue(system.assetManagement.alertBudgetException("closed", team, false));
-        assertFalse(system.assetManagement.alertBudgetException("open", team, false));
+        assertTrue(system.getAssetManagement().alertBudgetException("closed", team, false));
+        assertFalse(system.getAssetManagement().alertBudgetException("open", team, false));
         team.setPermanentlyClosed(true);
-        assertTrue(system.assetManagement.alertBudgetException("closed", team, true));
+        assertTrue(system.getAssetManagement().alertBudgetException("closed", team, true));
     }
 
     @Test
@@ -29,9 +29,9 @@ public class AssetManagementTest {
         system.systemInit(true);
         system.dataReboot();
         UnionRepresentative union = new UnionRepresentative("union", "rep", "unionrep@gmail.com");
-        system.database.addUser("AAA123", union);
+        system.getDatabase().addUser("AAA123", union);
         int sizeOfMessageBox = union.getMessageBox().size();
-        system.assetManagement.alertBudgetException("test message");
+        system.getAssetManagement().alertBudgetException("test message");
         assertEquals(sizeOfMessageBox+1, union.getMessageBox().size(), 0);
     }
 }

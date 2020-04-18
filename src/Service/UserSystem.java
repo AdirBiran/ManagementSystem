@@ -1,24 +1,21 @@
 package Service;
 
 import Domain.*;
-import Presentation.*;
+
 import java.util.List;
 
 public class UserSystem extends GuestSystem{
 
     private ComplaintManager complaintManger;
     private EditPersonalInfo editPersonalInfo;
-    private PersonalPageManagement personalPageManagement;
     private LeagueAndGameManagement leagueAndGameManagement;
 
 
-    public UserSystem(Searcher searcher, ComplaintManager complaintManger, EditPersonalInfo editPersonalInfo,
-                      PersonalPageManagement personalPageManagement,UserManagement userManagement,
+    public UserSystem(Searcher searcher, ComplaintManager complaintManger, EditPersonalInfo editPersonalInfo,UserManagement userManagement,
                       LeagueAndGameManagement leagueAndGameManagement) {
         super(searcher, userManagement);
         this.complaintManger = complaintManger;
         this.editPersonalInfo = editPersonalInfo;
-        this.personalPageManagement = personalPageManagement;
         this.leagueAndGameManagement = leagueAndGameManagement;
 
     }
@@ -63,6 +60,11 @@ public class UserSystem extends GuestSystem{
 
     public boolean registrationToFollowUp(Fan fan, PersonalPage page){
         return userManagement.registrationToFollowUp(fan, page);
+    }
+
+    public List<PersonalPage> getFanPages(Fan fan)
+    {
+        return userManagement.getFanPages(fan);
     }
     /*
     Fan registration for alerts for games you've selected

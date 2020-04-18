@@ -1,8 +1,8 @@
 package Service;
 
 import Domain.*;
-import Presentation.Admin;
-import Presentation.User;
+import Domain.Admin;
+import Domain.User;
 
 public class AdminSystem {
 
@@ -36,8 +36,8 @@ public class AdminSystem {
     /*
 Permanently close a group only by an administrator
  */
-    public boolean permanentlyCloseTeam(Team team){
-        if(leagueAndGameManagement.permanentlyCloseTeam(team)){
+    public boolean permanentlyCloseTeam(Admin admin, Team team){
+        if(admin.permanentlyCloseTeam(team)){
             notificationSystem.openORCloseTeam("closed", team, true);
             return true;
         }
@@ -49,6 +49,7 @@ Permanently close a group only by an administrator
      */
     public void responseToComplaint(Admin admin, Complaint complaint)
     {
+        admin.responseToComplaint(complaint);
         complaintManager.responseToComplaint(admin,complaint);
     }
     /**

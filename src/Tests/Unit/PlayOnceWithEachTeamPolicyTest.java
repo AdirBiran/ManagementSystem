@@ -19,7 +19,7 @@ public class PlayOnceWithEachTeamPolicyTest {
         system.systemInit(true);
         system.dataReboot();
         List <Team> teams =new LinkedList<>();
-        for (Object t : system.database.searchObject("team"))
+        for (Object t : system.getDatabase().searchObject("team"))
             teams.add((Team) t);
 
     }

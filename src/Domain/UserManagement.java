@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Presentation.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,70 +32,6 @@ public class UserManagement//for admins
     public void updateUser(String userId){
     User user = database.getUser(userId);
 
-}
-    /*
-    *this function adds a new asset to the system
-    * */
-    public void addAsset(Asset asset , Team team){
-        if(asset instanceof User){
-            if(database.getAsset(asset.getID())!=null)
-                asset = database.getAsset(asset.getID());
-            else
-                database.addUser("Aa123",(User)asset);
-
-            if(asset instanceof TeamManager){
-                team.addTeamManager((TeamManager) asset);
-            }
-            if(asset instanceof Player){
-                team.addPlayer((Player) asset);
-            }
-            if(asset instanceof Coach){
-                team.addCoach((Coach) asset);
-            }
-
-        }
-
-        /**
-         * Need to decide what happen if the team has a Field
-         * */
-       else if(asset instanceof Field){
-            team.getFields().add((Field) asset);
-            database.addAsset(asset);
-        }
-    }
-    /*
-       Remove asset
-        */
-    public void removeAsset(Asset asset , Team team) {
-        if(asset instanceof User){
-            if(asset instanceof TeamManager){
-                team.removeTeamManager((TeamManager) asset);
-            }
-            if(asset instanceof Player){
-                team.removePlayer((Player) asset);
-            }
-            if(asset instanceof Coach){
-                team.removeCoach((Coach) asset);
-            }
-        }
-
-        /**
-         * Need to decide what happen if the team has a Field
-         * */
-        if(asset instanceof Field){
-            team.getFields().remove(asset);
-        }
-        database.removeAsset(asset.getID());
-    }
-
-    /*
-    this function update a asset in the system
-    */
-    public void updateAsset(String assetId, String action) {
-        Asset asset = database.getAsset(assetId);
-        if(action.equals("Some_Action")){
-            //do the action
-        }
     }
 
     /*
@@ -122,6 +57,11 @@ public class UserManagement//for admins
 
     public boolean registrationToFollowUp(Fan fan, PersonalPage page){
         return fan.addPageToFollow(page);
+    }
+
+    public List<PersonalPage> getFanPages(Fan fan)
+    {
+        return fan.getFollowPages();
     }
 
 
@@ -307,6 +247,18 @@ public class UserManagement//for admins
                 }
             }
         }
+    }
+
+    public String getRole(User user) {
+
+        if (user instanceof Player) {
+            return ((Player)user).getRole();
+        }
+        if (user instanceof Coach) {
+            return ((Coach)user).getRole();
+        }
+
+        return "";
     }
 
     public boolean updateRole(User user, String role) {

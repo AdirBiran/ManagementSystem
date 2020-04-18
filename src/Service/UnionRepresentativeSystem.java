@@ -2,7 +2,7 @@ package Service;
 
 
 import Domain.*;
-import Presentation.Referee;
+import Domain.Referee;
 
 import java.util.List;
 import java.util.Date;
@@ -22,11 +22,13 @@ public class UnionRepresentativeSystem {
     public boolean configureNewLeague(String name, String level){
         return leagueAndGameManagement.configureNewLeague(name, level);
     }
-    public boolean configureNewSeason(int year){
-        return leagueAndGameManagement.configureNewSeason(year);
+    public boolean configureNewSeason(int year, Date startDate){
+        return leagueAndGameManagement.configureNewSeason(year,startDate);
     }
 
     public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){
+        if (assignmentPolicy == null || scorePolicy == null)
+            return null;
         return leagueAndGameManagement.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy,scorePolicy,fee);
     }
     public Referee appointReferee(String firstName,String lastName, String mail, String training)
@@ -70,6 +72,11 @@ public class UnionRepresentativeSystem {
     }
     public void changeRegistrationFee(LeagueInSeason league, double newFee){
         leagueAndGameManagement.changeRegistrationFee(league, newFee);
+    }
+
+    public double getRegistrationFee(LeagueInSeason league)
+    {
+        return leagueAndGameManagement.getRegistrationFee(league);
     }
 
     public void addTUTUPayment(Team team, double payment){

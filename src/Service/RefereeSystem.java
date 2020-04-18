@@ -1,9 +1,6 @@
 package Service;
 
-import Domain.EventReportManagement;
-import Domain.Game;
-import Domain.LeagueAndGameManagement;
-import Domain.RefereeManagement;
+import Domain.*;
 
 public class RefereeSystem {
 
@@ -18,5 +15,11 @@ public class RefereeSystem {
         this.eventReportManagement = eventReportManagement;
 
     }
+
+    public void addEventToGame(Referee referee, Game game, Event event){
+
+    }
+
+    public void makeGameReport(Game game){}
 
 }

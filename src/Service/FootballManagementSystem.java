@@ -3,26 +3,26 @@ package Service;
 import Data.Database;
 import Domain.*;
 import Presentation.*;
-import Service.*;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class FootballManagementSystem {
-    public static Database database;
+    private static Database database;
     //***domain***//
-    public static AssetManagement assetManagement;
-    public static ComplaintManager complaintManager;
-    public static EditPersonalInfo editPersonalInfo;
-    public static EventReportManagement eventReportManagement;
-    public static FinanceTransactionsManagement financeTransactionsManagement;
-    public static LeagueAndGameManagement leagueAndGameManagement;
-    public static PersonalPageManagement personalPageManagement;
-    public static RefereeManagement refereeManagement;
-    public static Searcher searcher;
-    public static UserManagement userManagement;
-    public static MailSender mailSender;
+    private static AssetManagement assetManagement;
+    private static ComplaintManager complaintManager;
+    private static EditPersonalInfo editPersonalInfo;
+    private static EventReportManagement eventReportManagement;
+    private static FinanceTransactionsManagement financeTransactionsManagement;
+    private static LeagueAndGameManagement leagueAndGameManagement;
+    private static PersonalPageManagement personalPageManagement;
+    private static RefereeManagement refereeManagement;
+    private static Searcher searcher;
+    private static UserManagement userManagement;
+    private static MailSender mailSender;
     //***service***//
     private static AssetSystem assetSystem ;
     private static NotificationSystem notificationSystem;
@@ -30,7 +30,6 @@ public class FootballManagementSystem {
     private static GuestSystem guestSystem;
     private static PersonalPageSystem personalPageSystem ;
     private static RefereeSystem refereeSystem;
-    private static SearchSystem searchSystem;
     private static UnionRepresentativeSystem unionRepresentativeSystem;
     private static UserSystem userSystem;
     private static AdminSystem adminSystem;
@@ -40,6 +39,108 @@ public class FootballManagementSystem {
      //***External systems***//
     private static StubAccountingSystem accountingSystem;
     private static StubIsraeliTaxLawsSystem taxLawsSystem;
+
+    public Database getDatabase()
+    {
+        return database;
+    }
+
+    public TeamManagementSystem getTeamManagementSystem() {
+        return teamManagementSystem;
+    }
+
+    public AdminSystem getAdminSystem() {
+        return adminSystem;
+    }
+
+    public UserSystem getUserSystem() {
+        return userSystem;
+    }
+
+    public UnionRepresentativeSystem getUnionRepresentativeSystem() {
+        return unionRepresentativeSystem;
+    }
+
+    public GuestSystem getGuestSystem() {
+        return guestSystem;
+    }
+
+    public PersonalPageSystem getPersonalPageSystem() {
+        return personalPageSystem;
+    }
+
+    public RefereeSystem getRefereeSystem() {
+        return refereeSystem;
+    }
+
+
+    public AssetSystem getAssetSystem() {
+        return assetSystem;
+    }
+
+    public NotificationSystem getNotificationSystem() {
+        return notificationSystem;
+    }
+
+    public FinanceTransactionsSystem getFinanceTransactionsSystem() {
+        return financeTransactionsSystem;
+    }
+
+    public static AssetManagement getAssetManagement() {
+        return assetManagement;
+    }
+
+    public static ComplaintManager getComplaintManager() {
+        return complaintManager;
+    }
+
+    public static EditPersonalInfo getEditPersonalInfo() {
+        return editPersonalInfo;
+    }
+
+    public static EventReportManagement getEventReportManagement() {
+        return eventReportManagement;
+    }
+
+    public static FinanceTransactionsManagement getFinanceTransactionsManagement() {
+        return financeTransactionsManagement;
+    }
+
+    public static LeagueAndGameManagement getLeagueAndGameManagement() {
+        return leagueAndGameManagement;
+    }
+
+    public static PersonalPageManagement getPersonalPageManagement() {
+        return personalPageManagement;
+    }
+
+    public static RefereeManagement getRefereeManagement() {
+        return refereeManagement;
+    }
+
+    public static Searcher getSearcher() {
+        return searcher;
+    }
+
+    public static UserManagement getUserManagement() {
+        return userManagement;
+    }
+
+    public static MailSender getMailSender() {
+        return mailSender;
+    }
+
+    public static List<Admin> getSystemAdmins() {
+        return systemAdmins;
+    }
+
+    public static StubAccountingSystem getAccountingSystem() {
+        return accountingSystem;
+    }
+
+    public static StubIsraeliTaxLawsSystem getTaxLawsSystem() {
+        return taxLawsSystem;
+    }
 
     public boolean systemInit(boolean firsTime){
         //***data***//
@@ -59,17 +160,16 @@ public class FootballManagementSystem {
         userManagement = new UserManagement(database);
         mailSender = new MailSender();
         //***service***//
+        notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement, mailSender, userManagement);
         adminSystem = new AdminSystem(leagueAndGameManagement, userManagement, notificationSystem, complaintManager);
         assetSystem = new AssetSystem(assetManagement);
-        notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement, mailSender, userManagement);
         financeTransactionsSystem = new FinanceTransactionsSystem(financeTransactionsManagement, notificationSystem);
         guestSystem = new GuestSystem(searcher, userManagement);
         personalPageSystem = new PersonalPageSystem(personalPageManagement);
         refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
-        searchSystem = new SearchSystem(searcher);
         unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
-        userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, personalPageManagement, userManagement, leagueAndGameManagement);
-        teamManagementSystem = new TeamManagementSystem(leagueAndGameManagement, userManagement, notificationSystem);
+        userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, userManagement, leagueAndGameManagement);
+        teamManagementSystem = new TeamManagementSystem(leagueAndGameManagement, userManagement, notificationSystem, assetManagement);
         //***presentation***//
         systemAdmins = new LinkedList<>();
         if(firsTime){
@@ -91,7 +191,7 @@ public class FootballManagementSystem {
     }
 
     public void dataReboot(){
-        unionRepresentativeSystem.configureNewSeason(2020);
+        unionRepresentativeSystem.configureNewSeason(2020, new Date(120, 4, 1));
         unionRepresentativeSystem.configureNewLeague("Haal", "3");
         LeagueInSeason leagueInSeason = unionRepresentativeSystem.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         for (int i = 0; i < 5; i++) {
@@ -222,7 +322,7 @@ public class FootballManagementSystem {
         /**-----------DORON TESTS--------------*/
 
         //**UnitTests!-NotificationSystem**//
-        LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020),200);
+        LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
         TeamOwner owner = new TeamOwner("Team","Owner", "a@gmail.com");
         List<TeamOwner> owners = new LinkedList<>();
         owners.add(owner);
@@ -274,7 +374,7 @@ public class FootballManagementSystem {
 
         hapoel.setActive(true);
         unionRepresentativeSystem.configureNewLeague("leumit", "2");
-        unionRepresentativeSystem.configureNewSeason(2020);
+        unionRepresentativeSystem.configureNewSeason(2020,new Date(120,4,1));
         GameAssignmentPolicy gameAssignmentPolicy = new PlayOnceWithEachTeamPolicy();
         LeagueInSeason leumit2020 = unionRepresentativeSystem.configureLeagueInSeason("leumit", "2020",gameAssignmentPolicy, new StandardScorePolicy(), 250);
         Referee ref1 = unionRepresentativeSystem.appointReferee("ref", "1", "a1@gmail.com", "the best one");
@@ -294,7 +394,7 @@ public class FootballManagementSystem {
 
         //------------DATABASE UnitTests-------------//
         League league1 = new League("Alufot", "3");
-        Season season = new Season(2019);
+        Season season = new Season(2019, new Date(120,4,1));
         System.out.println(database.addLeague(league1));// expected : true
         System.out.println(database.addSeason(season));// expected : true
         System.out.println(database.addLeague(league1));// expected : false

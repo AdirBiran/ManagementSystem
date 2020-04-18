@@ -1,9 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Presentation.Fan;
-import Presentation.Referee;
-import Presentation.TeamOwner;
 
 import java.util.Date;
 import java.util.List;
@@ -32,8 +29,8 @@ public class LeagueAndGameManagement {
         return database.addLeague(league);
     }
 
-    public boolean configureNewSeason(int year) {
-        Season season = new Season(year);
+    public boolean configureNewSeason(int year, Date startDate) {
+        Season season = new Season(year, startDate);
         return database.addSeason(season);
     }
 
@@ -87,16 +84,22 @@ public class LeagueAndGameManagement {
         return false;
     }
 
+
     public boolean permanentlyCloseTeam(Team team) {
         if(!team.isPermanentlyClosed()) {
             if (team.isActive())
+            {
                 team.setActive(false);
-            team.setPermanentlyClosed(true);
+                team.setPermanentlyClosed(true);
+                return true;
+            }
+
             //Maybe add a list of permanently closed teams to Database
             //What happens to the members of the teams???
         }
         return false;
     }
+
 
     public void addTeamToLeague(LeagueInSeason league, Team team) {
         league.addATeam(team);
@@ -112,5 +115,9 @@ public class LeagueAndGameManagement {
 
     public void changeRegistrationFee(LeagueInSeason league, double newFee) {
         league.changeRegistrationFee(newFee);
+    }
+
+    public double getRegistrationFee(LeagueInSeason league) {
+        return league.getRegistrationFee();
     }
 }
