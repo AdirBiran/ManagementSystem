@@ -175,13 +175,24 @@ public class FootballManagementSystem {
             systemAdmins.addAll(database.GetSystemAdmins());
         }
 
-        //***External systems***//
+
         accountingSystem = new StubAccountingSystem();
         taxLawsSystem = new StubIsraeliTaxLawsSystem();
-        accountingSystem.connect();
-        taxLawsSystem.connect();
 
         return true;
+    }
+
+    public boolean connectToOuterSystems(boolean flag)
+    {
+
+        boolean con1 = accountingSystem.connect(flag);
+        boolean con2 = taxLawsSystem.connect(flag);
+
+        if (con1 && con2)
+            return true;
+
+        return false;
+
     }
 
     public void dataReboot(){

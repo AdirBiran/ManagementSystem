@@ -5,6 +5,8 @@ import Service.UserSystem;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+
 
 public class LogoutTest {
 
@@ -25,6 +27,7 @@ public class LogoutTest {
     public void logoutSuccess_18()
     {
 
+        assertTrue(false);
         // can't be implemented yet
 
     }
@@ -33,6 +36,7 @@ public class LogoutTest {
     public void logoutFail_19()
     {
 
+        assertTrue(false);
         // can't be implemented yet
 
     }
