@@ -26,8 +26,8 @@ public class LoginTest {
     @Test
     public void loginSuccess_15()
     {
-        guestSystem.registrationToSystem("a@b.com", "123456", "Moshe", "Cohen", "0987654321", "Israel");
-        User user = guestSystem.logIn("a@b.com", "123456");
+        guestSystem.registrationToSystem("a@b.com", "Abb123", "Moshe", "Cohen", "0987654321", "Israel");
+        User user = guestSystem.logIn("a@b.com", "Abb123");
 
         assertNotNull(user);
 
