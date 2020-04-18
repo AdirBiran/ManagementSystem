@@ -1,20 +1,19 @@
 package Domain;
 
 import java.util.Date;
-import java.util.List;
-import java.util.LinkedList;
 
 public class Player extends HasAPage implements Asset {
 
     private Date birthDate;
     private String role;
-    private List<Team> teams; // at least one
+    private double price;
 
-    public Player(String firstName,String lastName, String mail, PersonalPage page, Date birthDate, String role) {
+
+    public Player(String firstName, String lastName, String mail, PersonalPage page, Date birthDate, String role, double price) {
         super(firstName,lastName, "P", mail, page);
         this.birthDate = birthDate;
         this.role = role;
-        this.teams = new LinkedList<>();
+        this.price = price;
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
@@ -44,24 +43,11 @@ public class Player extends HasAPage implements Asset {
         return page;
     }
 
-    /**
-     *
-     * @return
-     */
-    public List<Team> getTeams() {
-        return teams;
-    }
-
     @Override
     public double getPrice() {
-        return 0;
+        return price;
     }
 
-    public boolean addTeam(Team team){
-        if(teams.contains(team)) return false;
-        teams.add(team);
-        return true;
-    }
 
     public void setRole(String role) {
         this.role = role;

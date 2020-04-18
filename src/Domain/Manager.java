@@ -6,13 +6,11 @@ import java.util.List;
 
 public abstract class Manager extends User {
 
-    protected List<Team> teams;
     protected HashMap<Team, Boolean> isClosedTeam;
     protected HashMap<Team,HashMap<String,User>> appointmentAssetsInTeams;
 
     public Manager(String firstName,String lastName, String ID, String mail) {
         super(firstName,lastName, ID, mail);
-        this.teams = new LinkedList<>();
         this.isClosedTeam = new HashMap<>();
         this.appointmentAssetsInTeams = new HashMap<>();
     }
@@ -24,21 +22,9 @@ public abstract class Manager extends User {
         if(!teams.contains(team)){
             teams.add(team);
             isClosedTeam.put(team, false);
-
             //not sure about this
             appointmentAssetsInTeams.put(team,new HashMap<>());
         }
-
-    }
-
-    public void addExistAsset(){
-    }
-
-    public void addNewAsset(){
-
-    }
-
-    public void removeAsset(){
 
     }
 

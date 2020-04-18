@@ -1,5 +1,7 @@
 package Domain;
 
+import Presentation.Guest;
+
 import java.util.List;
 import java.util.LinkedList;
 
@@ -11,8 +13,8 @@ public abstract class User extends Guest {
     protected String mail;
     protected List<Notice> messageBox;
     protected boolean isActive;
-    protected int amountOfTeams;
-    //protected List<Role> roles;
+    protected List<Team> teams;
+
 
 
     /**
@@ -29,8 +31,8 @@ public abstract class User extends Guest {
         this.mail = mail;
         this.messageBox = new LinkedList<>();
         this.isActive = true;
-        this.amountOfTeams=0;
-        //roles = new LinkedList<>();
+        this.teams= new LinkedList<>();
+
     }
 
 
@@ -56,12 +58,6 @@ public abstract class User extends Guest {
                 '}';
     }
 
-    /**
-     *
-     */
-    public void logOut() {
-
-    }
 
     /**
      *
@@ -82,15 +78,13 @@ public abstract class User extends Guest {
     }
 
     public void addMessage(Notice notice){
-        if(messageBox!=null)
+        if(notice!=null)
             messageBox.add(notice);
     }
     public int getAmountOfTeams(){
-        return amountOfTeams;
+        return teams.size();
     }
-    public void setAmountOfTeams(int number){
-        this.amountOfTeams=this.amountOfTeams+number;
-    }
+
 
     public String getMail() {
         return mail;
@@ -98,5 +92,17 @@ public abstract class User extends Guest {
 
     public List<Notice> getMessageBox() {
         return messageBox;
+    }
+
+    public void addTeam(Team team) {
+        if(!teams.contains(team))
+            teams.add(team);
+    }
+    public void removeTeam(Team team){
+        teams.remove(team);
+    }
+
+    public List<Team> getTeams() {
+        return teams;
     }
 }

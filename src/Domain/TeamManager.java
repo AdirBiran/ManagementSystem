@@ -2,26 +2,18 @@ package Domain;
 
 public class TeamManager extends Manager implements Asset {
 
-    private Team team;
+    private double price;
 
-    public TeamManager(String firstName,String lastName , String mail, Team team) {
+    public TeamManager(String firstName, String lastName, String mail, Team team, double price) {
         super(firstName,lastName, "TM", mail);
-        this.team = team;
+        this.price = price;
+        addTeam(team);
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-
-    /**
-     *
-     * @return
-     */
-    public Team getTeam() {
-        return team;
-    }
-
     @Override
     public double getPrice() {
-        return 0;
+        return price;
     }
 }

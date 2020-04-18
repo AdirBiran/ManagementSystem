@@ -27,7 +27,7 @@ public class RefereeManagementTest {
         LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
         Team team2 = (Team) system.getDatabase().searchObject("team2").get(0);
         Team team3 = (Team) system.getDatabase().searchObject("team3").get(0);
-        Field field = new Field("Jerusalem", 20000);
+        Field field = new Field("Jerusalem", 20000, 1500);
         Referee mainReferee= (Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(0);
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add((Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(1));

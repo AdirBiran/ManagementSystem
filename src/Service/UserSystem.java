@@ -1,6 +1,7 @@
 package Service;
 
 import Domain.*;
+import Presentation.Guest;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package Domain;
 
 import Data.Database;
+import Presentation.Guest;
 
 import java.util.List;
 

@@ -160,7 +160,7 @@ public class FootballManagementSystem {
         userManagement = new UserManagement(database);
         mailSender = new MailSender();
         //***service***//
-        notificationSystem = new NotificationSystem(leagueAndGameManagement, refereeManagement, assetManagement, mailSender, userManagement);
+        notificationSystem = new NotificationSystem(refereeManagement, assetManagement);
         adminSystem = new AdminSystem(leagueAndGameManagement, userManagement, notificationSystem, complaintManager);
         assetSystem = new AssetSystem(assetManagement);
         financeTransactionsSystem = new FinanceTransactionsSystem(financeTransactionsManagement, notificationSystem);
@@ -169,7 +169,7 @@ public class FootballManagementSystem {
         refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
         unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
         userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, userManagement, leagueAndGameManagement);
-        teamManagementSystem = new TeamManagementSystem(leagueAndGameManagement, userManagement, notificationSystem, assetManagement);
+        teamManagementSystem = new TeamManagementSystem(notificationSystem, assetManagement);
         //***presentation***//
         systemAdmins = new LinkedList<>();
         if(firsTime){
@@ -198,10 +198,10 @@ public class FootballManagementSystem {
             List<Player> players = createPlayers();
             List<Coach> coaches = createCoaches();
             TeamOwner owner = new TeamOwner("Team","Owner", "a"+i+"@gmail.com");
-            List<TeamOwner> owners = new LinkedList<>();
+            List<User> owners = new LinkedList<>();
             owners.add(owner);
             PersonalPage page = new PersonalPage("", players.get(0));
-            Field field = new Field( "jerusalem", 550);
+            Field field = new Field( "jerusalem", 550, 150000);
             Team team = new Team("team"+i,page,owners,players,coaches, field);
             database.addTeam(team);
             unionRepresentativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -228,7 +228,7 @@ public class FootballManagementSystem {
         return new Referee("referee", "", "referee"+IdGenerator.getNewId()+"@gmail.com", "talented");
     }
     public static List<Coach> createCoaches() {
-        Coach coach = new Coach("coach1", "", "coach"+IdGenerator.getNewId()+"@gmail.com", null, "", "main");
+        Coach coach = new Coach("coach1", "", "coach"+IdGenerator.getNewId()+"@gmail.com", null, "", "main", 1500);
         List<Coach> coaches = new LinkedList<>();
         coaches.add(coach);
         return coaches;
@@ -236,7 +236,7 @@ public class FootballManagementSystem {
     public static List<Player> createPlayers() {
         List<Player> players = new LinkedList<>();
         for (int i = 0; i <12 ; i++) {
-            players.add(new Player("player"+i, "", "player"+IdGenerator.getNewId()+"@gmail.com", null, new Date (99,1,1),"role"+i));
+            players.add(new Player("player"+i, "", "player"+IdGenerator.getNewId()+"@gmail.com", null, new Date (99,1,1),"role"+i, 1500));
         }
         return players;
     }
@@ -256,7 +256,7 @@ public class FootballManagementSystem {
 
     public static void main(String[] args) {
 
-        /**-----------DORON TESTS--------------*/
+        /**-----------DORON TESTS--------------
 
         TeamOwner teamOwner = new TeamOwner("Doron" , "Shamai" , "shamai.doron@gmail.com");
         TeamOwner teamOwner2 = new TeamOwner("Saly" , "Shamai" , "shamai.doron@gmail.com");
@@ -264,7 +264,7 @@ public class FootballManagementSystem {
 
         TeamManager teamManager = new TeamManager("Yotam" , "Oren" , "yotamoren@gmail.com",null);
 
-        List<TeamOwner> teamOwnerList = new LinkedList<>();
+        List<User> teamOwnerList = new LinkedList<>();
         teamOwnerList.add(teamOwner);
 
         Date date = new Date();
@@ -309,19 +309,19 @@ public class FootballManagementSystem {
 
         /**TEAM OWNER TRY TO REMOVE APPOINTMENT
          * THOSE APPOINTMENTS IS NOT HIS APPOINTMENTS
-         * */
+         *
         teamManagementSystem.removeAppointmentTeamOwner(teamOwner2,teamOwner,team);
         teamManagementSystem.removeAppointmentTeamManager(teamOwner2,teamManager,team);
-
+*/
         /**TEAM OWNER TRY TO REMOVE APPOINTMENT
          * THOSE APPOINTMENTS IS HIS APPOINTMENTS
-         * */
+         *
         teamManagementSystem.removeAppointmentTeamOwner(teamOwner , teamOwner2,team);
-
 
         /**-----------DORON TESTS--------------*/
 
         //**UnitTests!-NotificationSystem**//
+        /*
         LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
         TeamOwner owner = new TeamOwner("Team","Owner", "a@gmail.com");
         List<TeamOwner> owners = new LinkedList<>();
@@ -447,7 +447,8 @@ public class FootballManagementSystem {
         System.out.println(database.getListOfAllSpecificUsers("Player").size());//expected : 48
         System.out.println(database.getListOfAllSpecificUsers("Referee").size());//expected : 19
 
-    }
+    }*/
 
+}
 }
 

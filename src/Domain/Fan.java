@@ -22,27 +22,8 @@ public class Fan extends User {
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-    /**
-     * registration for game alerts- In menu of fan
-     */
-    public void registrationForGameAlerts(){
-    }
 
-    /**
-     *
-     */
-    public void submitAComplaint()
-    {
 
-    }
-
-    /**
-     *
-     */
-    public void viewSearchHistory()
-    {
-
-    }
     public void editDetails(String firstName, String lastName, String address, String phone) {
         super.editDetails(firstName, lastName);
         this.address = address;

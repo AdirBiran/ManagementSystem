@@ -8,15 +8,11 @@ public class NotificationSystem {
 
     private RefereeManagement refereeManagement;
     private AssetManagement assetManagement;
-    private MailSender mailSender;
-    private UserManagement userManagement;
 
-    public NotificationSystem(LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement,
-                              AssetManagement assetManagement, MailSender mailSender, UserManagement userManagement) {
+
+    public NotificationSystem(RefereeManagement refereeManagement, AssetManagement assetManagement) {
         this.refereeManagement = refereeManagement;
         this.assetManagement = assetManagement;
-        this.mailSender = mailSender;
-        this.userManagement = userManagement;
     }
 
     /*
@@ -50,7 +46,7 @@ public class NotificationSystem {
     Send a notification to the user when the administrator removes it
      */
     public boolean UserRemovalNotification(String userMail){
-        return mailSender.send(userMail);
+        return MailSender.send(userMail);
     }
 
     public void notificationForAppointment(User user, boolean addAppointment){

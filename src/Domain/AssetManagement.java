@@ -14,11 +14,11 @@ public class AssetManagement {
      */
     public boolean alertBudgetException(String option, Team team, boolean permanently) {
         if((!team.isActive() && option.equals("closed")) || (team.isActive() && option.equals("open"))) {
-            for (TeamOwner owner : team.getTeamOwners()) {
-                if (!owner.isClosedTeam(team))
+            for (User owner : team.getTeamOwners()) {
+                if (owner instanceof TeamOwner && !((TeamOwner)owner).isClosedTeam(team))
                     owner.addMessage(new Notice(true, "team " + option + " : " + team.getName()));
             }
-            for (TeamManager teamManager : team.getTeamManagers())
+            for (User teamManager : team.getTeamManagers())
                 teamManager.addMessage(new Notice(true, "team " + option + " : " + team.getName()));
 
             if (!permanently) {

@@ -36,10 +36,10 @@ public class TransactionsTest {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
         TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
 
         transSystem.reportNewExpanse(owner, team, 50);
@@ -55,10 +55,10 @@ public class TransactionsTest {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
         TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
 
         double total = transSystem.getBalance(team);

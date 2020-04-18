@@ -1,6 +1,5 @@
 package Tests.Unit;
 
-import Data.Database;
 import Domain.*;
 import Domain.Fan;
 import Service.FootballManagementSystem;
@@ -31,7 +30,7 @@ public class LeagueAndGameManagementTest {
         Fan fan = new Fan("AviLevi@gmail.com", "Avi", "Levi", "0500004544", "Yuda123");
         Team team0 = (Team) system.getDatabase().searchObject("team0").get(0);
         Team team1 = (Team) system.getDatabase().searchObject("team1").get(0);
-        Field field = new Field("Tel-Aviv", 10000);
+        Field field = new Field("Tel-Aviv", 10000, 150000);
         Referee mainReferee= (Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(0);
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add((Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(1));

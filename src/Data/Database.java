@@ -64,13 +64,13 @@ public class Database //maybe generalize with interface? //for now red layer
                     addUser("Aa1234",coach);
                 }
             }
-            for(TeamOwner teamOwner:team.getTeamOwners()){
+            for(User teamOwner:team.getTeamOwners()){
                 if(!usersInDatabase.containsKey(teamOwner.getID())){
 
                     addUser("Aa1234",teamOwner);
                 }
             }
-            for(TeamManager teamManager:team.getTeamManagers()){
+            for(User teamManager:team.getTeamManagers()){
                 if(!usersInDatabase.containsKey(teamManager.getID())){
 
                     addUser("Aa1234",teamManager);

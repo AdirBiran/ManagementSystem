@@ -48,10 +48,10 @@ public class TeamManagementTest {
     public void manageAssets_26()
     {
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 150000);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -83,10 +83,10 @@ public class TeamManagementTest {
     {
 
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 150000);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -111,10 +111,10 @@ public class TeamManagementTest {
     {
 
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -144,13 +144,13 @@ public class TeamManagementTest {
     public void manageAssets_31()
     {
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 15000);
         Team team = new Team("team",page,owners,players,coaches, field);
 
-        Field fieldAdded = new Field( "tel-aviv", 700);
+        Field fieldAdded = new Field( "tel-aviv", 700, 150000);
 
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -176,10 +176,10 @@ public class TeamManagementTest {
     {
 
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -189,11 +189,11 @@ public class TeamManagementTest {
         team.setActive(true);
         teamSystem.appointmentTeamManager(owner, manager, team);
 
-        List<TeamManager> managers = teamSystem.getTeamManagers(team);
+        List<User> managers = teamSystem.getTeamManagers(team);
 
         boolean flag = false;
 
-        for (TeamManager mng : managers)
+        for (User mng : managers)
             System.out.println(mng.getID());
 
         assertTrue(flag);
@@ -207,10 +207,10 @@ public class TeamManagementTest {
     {
 
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -227,10 +227,10 @@ public class TeamManagementTest {
     {
 
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -253,10 +253,10 @@ public class TeamManagementTest {
     {
 
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 15000);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -275,10 +275,10 @@ public class TeamManagementTest {
 
 
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -297,10 +297,10 @@ public class TeamManagementTest {
 
 
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -320,10 +320,10 @@ public class TeamManagementTest {
     public void openTeam_38()
     {
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         representativeSystem.addTeamToLeague(leagueInSeason, team);

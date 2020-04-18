@@ -7,15 +7,11 @@ import Domain.User;
 import java.util.List;
 
 public class TeamManagementSystem {
-    private LeagueAndGameManagement leagueAndGameManagement;
-    private UserManagement userManagement;
+
     private NotificationSystem notificationSystem;
     private AssetManagement assetManagement;
 
-    public TeamManagementSystem(LeagueAndGameManagement leagueAndGameManagement, UserManagement userManagement,
-                                NotificationSystem notificationSystem, AssetManagement assetManagement) {
-        this.leagueAndGameManagement = leagueAndGameManagement;
-        this.userManagement = userManagement;
+    public TeamManagementSystem(NotificationSystem notificationSystem, AssetManagement assetManagement) {
         this.notificationSystem = notificationSystem;
         this.assetManagement = assetManagement;
     }
@@ -42,7 +38,7 @@ public class TeamManagementSystem {
         return team.getFields();
     }
 
-    public List<TeamManager> getTeamManagers(Team team)
+    public List<User> getTeamManagers(Team team)
     {
         return team.getTeamManagers();
     }
@@ -55,21 +51,21 @@ public class TeamManagementSystem {
     }
 
     public void appointmentTeamOwner(TeamOwner teamOwner , User user, Team team){
-        if(userManagement.appointmentTeamOwner(teamOwner, user, team)){
+        if(teamOwner.appointmentTeamOwner( user, team)){
             notificationSystem.notificationForAppointment(user, true);
         }
 
     }
     public void appointmentTeamManager(TeamOwner teamOwner, User user, Team team){
-        if(userManagement.appointmentTeamManager(teamOwner, user, team)){
+        if(teamOwner.appointmentTeamManager( user, team)){
             notificationSystem.notificationForAppointment(user, true);
         }
     }
     public void removeAppointmentTeamOwner(TeamOwner teamOwner, User user, Team team){
-        userManagement.removeAppointmentTeamOwner(teamOwner, user, team);
+        teamOwner.removeAppointmentTeamOwner( user, team);
     }
     public void removeAppointmentTeamManager(TeamOwner teamOwner,User user, Team team){
-        if(userManagement.removeAppointmentTeamManager(teamOwner, user, team)){
+        if(teamOwner.removeAppointmentTeamManager(user, team)){
             notificationSystem.notificationForAppointment(user, false);
         }
     }
@@ -84,10 +80,7 @@ public class TeamManagementSystem {
     }
 
     public boolean closeTeam(TeamOwner teamOwner, Team team) {
-        if(team.isActive()){
-            teamOwner.setClosedTeam(team, true);
-            team.setActive(false);
-            //Removing permissions for team members
+        if(teamOwner.closeTeam(team)){
             notificationSystem.openORCloseTeam("closed", team, false);
             return true;
         }
@@ -95,11 +88,9 @@ public class TeamManagementSystem {
     }
 
     public boolean reopeningTeam(TeamOwner teamOwner, Team team) {
-        if(!team.isActive() && !team.isPermanentlyClosed() && teamOwner.isClosedTeam(team)){
-            teamOwner.setClosedTeam(team, false);
-            team.setActive(true);
+        if(teamOwner.reopeningTeam(team)){
             notificationSystem.openORCloseTeam("open", team, false);
-            //Re-configure permissions for team members
+
             return true;
         }
         return false;

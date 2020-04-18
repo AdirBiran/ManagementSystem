@@ -12,7 +12,7 @@ public abstract class HasAPage extends User {
     /**
      *
      */
-    public void uploadToPage()
+    public void uploadToPage(String data)
     {
 
     }

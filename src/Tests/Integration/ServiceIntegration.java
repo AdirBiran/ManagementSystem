@@ -1,6 +1,7 @@
 package Tests.Integration;
 
 import Domain.*;
+import Presentation.Guest;
 import Service.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,10 +47,10 @@ public class ServiceIntegration {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
         TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 15000000);
         Team team = new Team("team",page,owners,players,coaches, field);
         team.setActive(true);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
@@ -71,10 +72,10 @@ public class ServiceIntegration {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
         TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
         boolean failExpense = finSystem.reportNewExpanse(owner, team, 100);
@@ -121,10 +122,10 @@ public class ServiceIntegration {
         List<Coach> coaches = FootballManagementSystem.createCoaches();
         TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
 
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
 
         List<Player> teamPlayers = teamSystem.getTeamPlayers(team);
@@ -136,7 +137,7 @@ public class ServiceIntegration {
         List<Coach> teamCoaches = teamSystem.getTeamCoaches(team);
         assertEquals(1, teamCoaches.size());
 
-        List<TeamManager> teamManagers = teamSystem.getTeamManagers(team);
+        List<User> teamManagers = teamSystem.getTeamManagers(team);
         assertEquals(0, teamManagers.size());
 
         int numOfPlayers = teamSystem.getTeamPlayers(team).size();
@@ -202,10 +203,10 @@ public class ServiceIntegration {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
         TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 

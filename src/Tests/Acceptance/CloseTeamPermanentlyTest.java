@@ -35,10 +35,10 @@ public class CloseTeamPermanentlyTest {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
         TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 150000);
         Team team = new Team("team",page,owners,players,coaches, field);
         database.addTeam(team);
         adminSystem.permanentlyCloseTeam(database.GetSystemAdmins().get(0), team);
@@ -53,10 +53,10 @@ public class CloseTeamPermanentlyTest {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
         TeamOwner owner = new TeamOwner("Team2","Owner2", "a2"+"@gmail.com");
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "tel-aviv", 550);
+        Field field = new Field( "tel-aviv", 550, 150000);
         Team team = new Team("team2",page,owners,players,coaches, field);
         database.addTeam(team);
         boolean flag = adminSystem.permanentlyCloseTeam(database.GetSystemAdmins().get(0),team);

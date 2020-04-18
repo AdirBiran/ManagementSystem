@@ -11,8 +11,8 @@ public class Team{
     private int losses;
     private int draws;
     private PersonalPage page;
-    private List<TeamOwner> teamOwners; // at least one
-    private List<TeamManager> teamManagers;
+    private List<User> teamOwners; // at least one
+    private List<User> teamManagers;
     private List<Player> players; // at least 11
     private List<Coach> coaches; // at least one
     private Budget budget;
@@ -22,7 +22,7 @@ public class Team{
     private boolean active;
     private boolean permanentlyClosed; //closed by admin and cannot open again
 
-    public Team(String name, PersonalPage page, List<TeamOwner> teamOwners, List<Player> players, List<Coach> coaches, Field field) {
+    public Team(String name, PersonalPage page, List<User> teamOwners, List<Player> players, List<Coach> coaches, Field field) {
         this.id = "T"+IdGenerator.getNewId();
         this.name = name;
         this.page = page;
@@ -80,8 +80,8 @@ public class Team{
     }
 
     private void linkTeamOwner() {
-        for(TeamOwner to:teamOwners){
-            to.addTeam(this);
+        for(User user:teamOwners){
+            user.addTeam(this);
         }
     }
 
@@ -107,31 +107,31 @@ public class Team{
         this.draws ++;
     }
 
-    public void addTeamOwner(TeamOwner teamOwner) {
+    public void addTeamOwner(User teamOwner) {
         if(!teamOwners.contains(teamOwner)) {
             this.teamOwners.add(teamOwner);
-            teamOwner.setAmountOfTeams(1);
+            teamOwner.addTeam(this);
         }
     }
 
-    public void addTeamManager(TeamManager teamManager) {
+    public void addTeamManager(User teamManager) {
         if(!teamManagers.contains(teamManager)) {
             this.teamManagers.add(teamManager);
-            teamManager.setAmountOfTeams(1);
+            teamManager.addTeam(this);
         }
     }
 
     public void addPlayer(Player player) {
         if(!players.contains(player)) {
             this.players.add(player);
-            player.setAmountOfTeams(1);
+            player.addTeam(this);
         }
     }
 
     public void addCoach(Coach coach) {
         if(!coaches.contains(coach)) {
             this.coaches.add(coach);
-            coach.setAmountOfTeams(1);
+            coach.addTeam(this);
         }
     }
 
@@ -144,31 +144,31 @@ public class Team{
 
     /**remove**/
 
-    public void removeTeamOwner(TeamOwner teamOwner) {
+    public void removeTeamOwner(User teamOwner) {
         if(teamOwners.contains(teamOwner)) {
             this.teamOwners.remove(teamOwner);
-            teamOwner.setAmountOfTeams(-1);
+            teamOwner.removeTeam(this);
         }
     }
 
-    public void removeTeamManager(TeamManager teamManager) {
+    public void removeTeamManager(User teamManager) {
         if(teamManagers.contains(teamManager)) {
             this.teamManagers.remove(teamManager);
-            teamManager.setAmountOfTeams(-1);
+            teamManager.removeTeam(this);
         }
     }
 
     public void removePlayer(Player player) {
         if(players.contains(player)) {
             this.players.remove(player);
-            player.setAmountOfTeams(-1);
+            player.removeTeam(this);
         }
     }
 
     public void removeCoach(Coach coach) {
         if(coaches.contains(coach)) {
             this.coaches.remove(coach);
-            coach.setAmountOfTeams(-1);
+            coach.removeTeam(this);
         }
     }
 
@@ -197,11 +197,11 @@ public class Team{
         return page;
     }
 
-    public List<TeamOwner> getTeamOwners() {
+    public List<User> getTeamOwners() {
         return teamOwners;
     }
 
-    public List<TeamManager> getTeamManagers() {
+    public List<User> getTeamManagers() {
         return teamManagers;
     }
 

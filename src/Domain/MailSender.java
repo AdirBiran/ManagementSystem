@@ -2,7 +2,7 @@ package Domain;
 
 public class MailSender {
 
-    public boolean send(String mail){
+    public static boolean send(String mail){
         //send mail to user
         return true;
     }

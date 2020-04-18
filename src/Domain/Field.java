@@ -11,8 +11,10 @@ public class Field implements Asset {
     private Team team;
     private List<Game> games;
     protected boolean isActive;
+    private double price;
 
-    public Field(String location, int capacity) {
+    public Field(String location, int capacity, double price) {
+        this.price = price;
         this.id = "Filed"+IdGenerator.getNewId();
         this.location = location;
         this.capacity = capacity;
@@ -78,7 +80,7 @@ public class Field implements Asset {
 
     @Override
     public double getPrice() {
-        return 0;
+        return price;
     }
 
 }

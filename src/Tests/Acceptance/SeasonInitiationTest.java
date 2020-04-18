@@ -78,10 +78,10 @@ public class SeasonInitiationTest {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
         TeamOwner owner = new TeamOwner("Team1","Owner", "a"+"@gmail.com");
-        List<TeamOwner> owners = new LinkedList<>();
+        List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550);
+        Field field = new Field( "jerusalem", 550, 15000);
         Team team = new Team("Team1",page,owners,players,coaches, field);
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
