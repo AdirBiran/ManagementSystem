@@ -43,8 +43,7 @@ public class CupScorePolicyTest {
         game.setGuestScore(3);
         game.setHostScore(1);
         score.calculateScore(game);
-        assertEquals(0,team0.getDraws(),0);
-        assertEquals(0,team1.getDraws(),0);
+       
     }
 
     @Test
