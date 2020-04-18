@@ -1,29 +1,31 @@
 package Tests.Unit;
 
+import Domain.Team;
+import Domain.TeamOwner;
+import Service.FootballManagementSystem;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class TeamTest {
 
-    @Test
-    public void addLeague() {
-    }
+    FootballManagementSystem system;
+    Team team;
 
-    @Test
-    public void addAWin() {
-    }
-
-    @Test
-    public void addALoss() {
-    }
-
-    @Test
-    public void addADraw() {
+    @Before
+    public void init(){
+        system = new FootballManagementSystem();
+        system.systemInit(true);
+        system.dataReboot();
+        team = system.getDatabase().getTeams().get(0);
     }
 
     @Test
     public void addTeamOwner() {
+        TeamOwner teamOwner = (TeamOwner) system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(0);
+        assertTrue(team.addTeamOwner(teamOwner));
+
     }
 
     @Test
@@ -36,10 +38,6 @@ public class TeamTest {
 
     @Test
     public void addCoach() {
-    }
-
-    @Test
-    public void addGame() {
     }
 
     @Test
