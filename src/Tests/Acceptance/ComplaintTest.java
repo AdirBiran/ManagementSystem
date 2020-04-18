@@ -29,7 +29,7 @@ public class ComplaintTest {
     public void invalidComplaint_13()
     {
         Fan fan = new Fan("a@b.com", "AAA", "BBB", "0123456789", "Israel");
-        String invalidDescription = "invalid complaint $%^&*(";
+        String invalidDescription = "";
         userSystem.addComplaint(fan, invalidDescription);
 
         boolean found = false;
