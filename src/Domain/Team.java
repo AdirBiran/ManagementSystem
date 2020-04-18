@@ -151,25 +151,31 @@ public class Team{
         }
     }
 
-    public void removeTeamManager(User teamManager) {
+    public boolean removeTeamManager(User teamManager) {
         if(teamManagers.contains(teamManager)) {
             this.teamManagers.remove(teamManager);
             teamManager.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void removePlayer(Player player) {
-        if(players.contains(player)) {
+    public boolean removePlayer(Player player) {
+        if(players.contains(player) && players.size()>12) {
             this.players.remove(player);
             player.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void removeCoach(Coach coach) {
+    public boolean removeCoach(Coach coach) {
         if(coaches.contains(coach)) {
             this.coaches.remove(coach);
             coach.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
 
