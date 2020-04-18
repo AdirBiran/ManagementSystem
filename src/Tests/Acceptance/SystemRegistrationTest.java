@@ -29,7 +29,7 @@ public class SystemRegistrationTest {
         User user = system.getDatabase().getUserByMail("a@b.com");
         assertNull(user);
 
-        guestSystem.registrationToSystem("a@b.com", "123456", "Moshe", "Cohen", "0987654321", "Israel");
+        guestSystem.registrationToSystem("a@b.com", "Ab1234", "Moshe", "Cohen", "0987654321", "Israel");
 
         user = system.getDatabase().getUserByMail("a@b.com");
         assertNotNull(user);
@@ -40,8 +40,8 @@ public class SystemRegistrationTest {
     public void registrationFail_7()
     {
 
-        boolean reg1 = guestSystem.registrationToSystem("a@b.com", "123456", "Moshe", "Cohen", "0987654321", "Israel");
-        boolean reg2 = guestSystem.registrationToSystem("a@b.com", "567890", "Dani", "Levi", "9876543210", "Israel");
+        boolean reg1 = guestSystem.registrationToSystem("a@b.com", "Ab2123", "Moshe", "Cohen", "0987654321", "Israel");
+        boolean reg2 = guestSystem.registrationToSystem("a@b.com", "Cc1234", "Dani", "Levi", "9876543210", "Israel");
 
         assertTrue(reg1);
         assertFalse(reg2);
