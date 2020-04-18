@@ -171,7 +171,7 @@ public class Team{
     }
 
     public boolean removePlayer(Player player) {
-        if(players.contains(player) && players.size()>12) {
+        if(players.contains(player) && players.size()>11) {
             this.players.remove(player);
             player.removeTeam(this);
             return true;
