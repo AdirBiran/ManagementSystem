@@ -19,7 +19,6 @@ public class DomainIntegration {
     private AssetManagement assetManagement;
     private ComplaintManager complaintManager;
     private EditPersonalInfo editInfo;
-    private EventReportManagement eventsManager;
     private FinanceTransactionsManagement financeManager;
     private LeagueAndGameManagement leagueManager;
     private PersonalPageManagement pageManager;
@@ -35,7 +34,6 @@ public class DomainIntegration {
         assetManagement = new AssetManagement(database);
         complaintManager = new ComplaintManager(database);
         editInfo = new EditPersonalInfo(database);
-        eventsManager = new EventReportManagement(database);
         financeManager = new FinanceTransactionsManagement(database);
         leagueManager = new LeagueAndGameManagement(database);
         pageManager = new PersonalPageManagement(database);
@@ -84,12 +82,6 @@ public class DomainIntegration {
         boolean found2 = system.getDatabase().authenticationCheck(mail, "00000");
         assertTrue(found2);
 
-    }
-
-    @Test
-    public void EventReportManagement_Test()
-    {
-        // Not functional yet
     }
 
     @Test
