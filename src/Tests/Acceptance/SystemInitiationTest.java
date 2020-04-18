@@ -1,6 +1,6 @@
 package Tests.Acceptance;
 
-import Presentation.FootballManagementSystem;
+import Service.FootballManagementSystem;
 import org.junit.Test;
 
 public class SystemInitiationTest {

@@ -146,7 +146,7 @@ public class FootballManagementSystem {
         }
     }
 
-    private static List<Date> getDates() {
+    public static List<Date> getDates() {
         LinkedList<Date> dates = new LinkedList<>();
         for (int i = 1; i < 29; i++) {
             dates.add(new Date (120, 6, i, 20, 0));

@@ -12,8 +12,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class LeagueAndGameManagementTest {
 
@@ -59,27 +58,39 @@ public class LeagueAndGameManagementTest {
 
     @Test
     public void configureLeagueInSeason() {
-        Database database = new Database();
-        LeagueAndGameManagement leagueAndGameManagement = new LeagueAndGameManagement(database);
-        //GameAssignmentPolicy assignmentPolicy
-        //leagueAndGameManagement.configureLeagueInSeason("Haal", "2020", )
-
+        LeagueInSeason leagueInSeason = system.leagueAndGameManagement.configureLeagueInSeason("Leomit", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        assertNull(leagueInSeason);
+        LeagueInSeason leagueInSeason2 = system.leagueAndGameManagement.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        assertEquals("Haal", leagueInSeason2.getLeague().getName());
+        assertEquals(2020, leagueInSeason2.getSeason().getYear());
     }
 
     @Test
     public void assignRefToLeague() {
+        LeagueInSeason leagueInSeason = system.leagueAndGameManagement.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        Referee referee= (Referee) system.database.getListOfAllSpecificUsers("Referee").get(0);
+        assertTrue(system.leagueAndGameManagement.assignRefToLeague(leagueInSeason, referee));
+        assertFalse(system.leagueAndGameManagement.assignRefToLeague(leagueInSeason, referee));
     }
 
     @Test
     public void changeScorePolicy() {
+
     }
 
     @Test
     public void changeAssignmentPolicy() {
+        LeagueInSeason haal = system.leagueAndGameManagement.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        assertTrue(system.leagueAndGameManagement.changeAssignmentPolicy(haal, new PlayOnceWithEachTeamPolicy()));
+        assertTrue(system.leagueAndGameManagement.changeAssignmentPolicy(haal, new PlayTwiceWithEachTeamPolicy()));
     }
 
     @Test
     public void assignGames() {
+        LeagueInSeason haal = system.leagueAndGameManagement.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        for(Object r : system.database.getListOfAllSpecificUsers("Referee"))
+            system.leagueAndGameManagement.assignRefToLeague(haal, (Referee) r);
+        assertTrue(system.leagueAndGameManagement.assignGames(haal, system.getDates()));
     }
 
     @Test

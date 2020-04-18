@@ -40,9 +40,8 @@ public class FinanceTransactionsManagementTest {
     @Test
     public void getBalance() {
         Team team = (Team) system.database.searchObject("team0").get(0);
-        Budget budget = new Budget(team);
-        system.financeTransactionsManagement.reportNewIncome(budget, 250);
-        system.financeTransactionsManagement.reportNewExpanse(budget, 150);
+        system.financeTransactionsManagement.reportNewIncome(team.getBudget(), 250);
+        system.financeTransactionsManagement.reportNewExpanse(team.getBudget(), 150);
         assertEquals(100, system.financeTransactionsManagement.getBalance(team), 0);
     }
 
