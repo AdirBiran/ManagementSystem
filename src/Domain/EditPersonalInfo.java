@@ -10,8 +10,8 @@ public class EditPersonalInfo {
     }
 
     /*
-Edit fan personal information
- */
+    Edit fan personal information
+    */
     public void editPersonalDetails(Fan fan, String firstName, String lastName, String phone,
                                     String address, String password) {
         if(!password.equals(""))

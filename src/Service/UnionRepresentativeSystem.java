@@ -63,6 +63,7 @@ public class UnionRepresentativeSystem {
     public void addTeamToLeague(LeagueInSeason league, Team team) {
          league.addATeam(team);
     }
+
     public void calculateLeagueScore(LeagueInSeason league){
 
         league.getScorePolicy().calculateLeagueScore(league);

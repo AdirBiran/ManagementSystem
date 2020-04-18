@@ -13,8 +13,6 @@ public class UserManagement//for admins
         this.database = database;
     }
 
-
-
     /*
      * User login to system
      */
