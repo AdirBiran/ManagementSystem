@@ -16,4 +16,9 @@ public class TeamManager extends Manager implements Asset {
     public double getPrice() {
         return price;
     }
+
+    @Override
+    public void setPrice(double update) {
+        this.price = update;
+    }
 }

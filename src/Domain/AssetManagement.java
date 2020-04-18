@@ -95,10 +95,10 @@ public class AssetManagement {
     /*
     this function update a asset in the system
     */
-    public void updateAsset(String assetId, String action) {
+    public void updateAsset(String assetId, String action, String update) {
         Asset asset = database.getAsset(assetId);
-        if(action.equals("Some_Action")){
-            //do the action
+        if(action.equals("Price")){
+            asset.setPrice(Double.valueOf(update));
         }
     }
 }

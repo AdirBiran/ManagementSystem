@@ -6,4 +6,5 @@ public interface Asset {
     void deactivate();
     double getPrice();
 
+    void setPrice(double update);
 }
