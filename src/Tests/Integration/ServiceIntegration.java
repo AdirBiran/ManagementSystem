@@ -38,7 +38,7 @@ public class ServiceIntegration {
     {
 
         system.getDatabase().GetSystemAdmins().get(0).addUser("12345", new Referee("First", "Last", "a@b.com", "Training"));
-        User user = system.getDatabase().getUserbyMail("a@b.com");
+        User user = system.getDatabase().getUserByMail("a@b.com");
         assertNotNull(user);
 
         representativeSystem.configureNewSeason(2020,new Date(121, 4, 1));
@@ -226,7 +226,7 @@ public class ServiceIntegration {
         List<Player> players = FootballManagementSystem.createPlayers();
 
         guestSystem.registrationToSystem("a@b.com", "123456", "first", "last", "123456789", "Israel");
-        User user = system.getDatabase().getUserbyMail("a@b.com");
+        User user = system.getDatabase().getUserByMail("a@b.com");
         Fan fan = new Fan("ab@c.com", "fan1", "fan12", "0123456789", "Israel");
         Player player = players.get(0);
         PersonalPage page = new PersonalPage("Personal Page", player);

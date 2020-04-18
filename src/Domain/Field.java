@@ -83,4 +83,8 @@ public class Field implements Asset {
         return price;
     }
 
+    @Override
+    public void setPrice(double update) {
+        this.price= update;
+    }
 }

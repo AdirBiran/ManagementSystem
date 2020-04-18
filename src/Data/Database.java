@@ -103,7 +103,7 @@ public class Database //maybe generalize with interface? //for now red layer
         return (User)search("User", userId);
     }
 
-    public User getUserbyMail(String mail){
+    public User getUserByMail(String mail){
         return (User)search("Mail", mail);
     }
     /*
@@ -138,10 +138,15 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return futureGames;
     }
+
+    public HashMap<String, Asset> getAssetsInDatabase() {
+        return assetsInDatabase;
+    }
+
     /*
-    adds an asset to the database
-    returns false if the asset already exists
-     */
+        adds an asset to the database
+        returns false if the asset already exists
+         */
     public boolean addAsset(Asset asset){
         String assetID = asset.getID();
         if(assetsInDatabase.containsKey(assetID)){
