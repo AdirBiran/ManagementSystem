@@ -131,22 +131,6 @@ public class TeamManagementTest {
     }
 
     @Test
-    public void manageAssets_29()
-    {
-        assertTrue(false);
-
-        // cant be implemented
-    }
-
-    @Test
-    public void manageAssets_30()
-    {
-        assertTrue(false);
-
-        // cant be implemented
-    }
-
-    @Test
     public void manageAssets_31()
     {
 
@@ -270,29 +254,6 @@ public class TeamManagementTest {
 
         boolean flag = teamSystem.closeTeam(owner, team);
         assertFalse(flag);
-
-    }
-
-    @Test
-    public void openTeam_36()
-    {
-
-
-
-        List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", players.get(0));
-        Field field = new Field( "jerusalem", 550, 1500);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        database.addTeam(team);
-        representativeSystem.addTeamToLeague(leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        teamSystem.closeTeam(owner, team);
-        teamSystem.reopeningTeam(owner, team);
-
-        //cant be implemented, need at least 24 hours
-        assertTrue(false);
 
     }
 

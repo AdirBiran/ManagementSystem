@@ -8,7 +8,8 @@ public class PlayOnceWithEachTeamPolicy implements GameAssignmentPolicy {
 
     @Override
     public List<Game> assignGames(List<Team> teams, List<Date> dates, LeagueInSeason league) {
-
+        if(teams.size()<2)
+            return null;
         List<Referee> referees = league.getReferees();
         GameAssignmentHelper.checkConstrains(dates, teams, referees);
         List<Game> games = new LinkedList<>();
