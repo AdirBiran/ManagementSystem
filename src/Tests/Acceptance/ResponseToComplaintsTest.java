@@ -14,6 +14,11 @@ import static org.junit.Assert.assertTrue;
 public class ResponseToComplaintsTest {
 
 
+    // Will be implemented in the next iteration
+
+
+    /*
+
     private FootballManagementSystem system;
     private UserSystem userSystem;
 
@@ -61,4 +66,7 @@ public class ResponseToComplaintsTest {
         // cant be implemented yet
 
     }
+
+
+     */
 }
