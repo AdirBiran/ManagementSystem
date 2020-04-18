@@ -57,7 +57,7 @@ public class AssetManagementTest {
 
     @Test
     public void removeAsset(){
-        Player player = (Player) system.getDatabase().getAssetsInDatabase().get(system.getDatabase().getAssetsInDatabase().keySet().iterator().next());
+        Player player = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
         assertTrue(assetManagement.removeAsset(player, player.getTeams().get(0)));
         Coach coach = (Coach)system.getDatabase().getListOfAllSpecificUsers("Coach").get(0);
         assertFalse(assetManagement.removeAsset(coach, coach.getTeams().get(0)));
@@ -65,7 +65,7 @@ public class AssetManagementTest {
 
     @Test
     public void updateAsset(){
-        Player player = (Player) system.getDatabase().getAssetsInDatabase().get(system.getDatabase().getAssetsInDatabase().keySet().iterator().next());
+        Player player = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
         assetManagement.updateAsset(player.getID(), "Price", "10000");
         assertEquals(10000, player.getPrice(), 0);
     }
