@@ -13,6 +13,18 @@ public class Admin extends User {
 
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+        /*
+       this function adds a new user to the system
+    */
+    public void addUser(String password, User user) {
+        database.addUser(password, user);
+    }
+    /*
+    Remove user
+     */
+    public String removeUser(String userId){
+        return database.removeUser(userId);
+    }
     /*
     Permanently close a team
      */
@@ -55,19 +67,6 @@ public class Admin extends User {
     {
 
     }
-    /*
-       this function adds a new user to the system
-    */
-    public void addUser(String password, User user) {
-        database.addUser(password, user);
-    }
-    /*
-    Remove user
-     */
-    public String removeUser(String userId){
-        return database.removeUser(userId);
-    }
 
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
 }
