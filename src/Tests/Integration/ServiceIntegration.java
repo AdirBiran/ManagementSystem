@@ -1,5 +1,6 @@
 package Tests.Integration;
 
+import Data.Database;
 import Domain.*;
 import Presentation.Guest;
 import Service.*;
@@ -19,7 +20,7 @@ public class ServiceIntegration {
     private UnionRepresentativeSystem representativeSystem;
     private GuestSystem guestSystem;
     private UserSystem userSystem;
-
+    private NotificationSystem notSystem;
     @Before
     public void init()
     {
@@ -30,7 +31,7 @@ public class ServiceIntegration {
         guestSystem = system.getGuestSystem();
         userSystem = system.getUserSystem();
         representativeSystem = system.getUnionRepresentativeSystem();
-
+        notSystem = system.getNotificationSystem();
     }
 
     @Test
@@ -253,6 +254,38 @@ public class ServiceIntegration {
         FootballManagementSystem.getSearcher().searchInfo(fan, keyword);
         List<String> history = userSystem.viewSearchHistory(fan);
         assertEquals(1, history.size());
+
+
+    }
+
+    @Test
+    public void integration_NotificationSystem()
+    {
+        representativeSystem.configureNewSeason(2020, new Date(120,4,1 ));
+        representativeSystem.configureNewLeague("Haal", "3");
+        LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        List<Player> players = FootballManagementSystem.createPlayers();
+        List<Coach> coaches = FootballManagementSystem.createCoaches();
+
+        TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
+        Database database = system.getDatabase();
+        List<User> owners = new LinkedList<>();
+        owners.add(owner);
+        PersonalPage page = new PersonalPage("", players.get(0));
+        Field field = new Field( "jerusalem", 550, 150000);
+        Team team = new Team("team",page,owners,players,coaches, field);
+        database.addTeam(team);
+        team.setActive(false);
+        representativeSystem.addTeamToLeague(leagueInSeason, team);
+
+
+        boolean success = notSystem.openORCloseTeam("closed", team, false);
+        assertTrue(success);
+
+        team.setActive(true);
+
+        success = notSystem.openORCloseTeam("open", team, false);
+        assertTrue(success);
 
 
     }

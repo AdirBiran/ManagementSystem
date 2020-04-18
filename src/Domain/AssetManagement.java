@@ -105,4 +105,9 @@ public class AssetManagement {
             asset.setPrice(Double.valueOf(update));
         }
     }
+
+    public double getAssetPrice(Asset asset)
+    {
+        return asset.getPrice();
+    }
 }

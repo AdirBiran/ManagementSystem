@@ -6,6 +6,7 @@ import Service.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.crypto.Data;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -21,7 +22,6 @@ public class DomainIntegration {
     private EditPersonalInfo editInfo;
     private FinanceTransactionsManagement financeManager;
     private LeagueAndGameManagement leagueManager;
-    private PersonalPageManagement pageManager;
     private RefereeManagement refereeManager;
     private UserManagement userManager;
 
@@ -36,7 +36,6 @@ public class DomainIntegration {
         editInfo = new EditPersonalInfo(database);
         financeManager = new FinanceTransactionsManagement(database);
         leagueManager = new LeagueAndGameManagement(database);
-        pageManager = new PersonalPageManagement(database);
         refereeManager = new RefereeManagement(database);
         userManager = new UserManagement(database);
 
@@ -45,7 +44,31 @@ public class DomainIntegration {
     @Test
     public void AssetManagement_Test()
     {
-        assertTrue(false);
+
+        List<Player> players = FootballManagementSystem.createPlayers();
+        List<Coach> coaches = FootballManagementSystem.createCoaches();
+        TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
+        Database database = system.getDatabase();
+
+        List<User> owners = new LinkedList<>();
+        owners.add(owner);
+        PersonalPage page = new PersonalPage("", players.get(0));
+        Field field = new Field( "jerusalem", 550, 1500);
+        Team team = new Team("team",page,owners,players,coaches, field);
+        database.addTeam(team);
+        Field field2 = new Field("tel-aviv", 300, 1000);
+
+        assetManagement.addAsset(field2, team);
+        TeamManagementSystem sys = system.getTeamManagementSystem();
+        team.setActive(true);
+
+        assertEquals(2, sys.getTeamFields(team).size());
+
+        assetManagement.updateAsset(field2.getID(), "Price", "15000");
+        assertEquals(15000, assetManagement.getAssetPrice(field2), 0);
+
+        assetManagement.removeAsset(field2, team);
+        assertEquals(1, sys.getTeamFields(team).size());
 
     }
 
