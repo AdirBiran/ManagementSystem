@@ -2,6 +2,7 @@ package Service;
 
 import Domain.Searcher;
 import Domain.UserManagement;
+import Presentation.Checker;
 import Presentation.Guest;
 import Domain.User;
 
@@ -22,6 +23,8 @@ public class GuestSystem {
      */
     public boolean registrationToSystem(String mail, String password, String firstName, String lastName,
                                         String phone, String address){
+        if(!Checker.isValidPassword(password))
+            return false;
         if(userManagement.registrationToSystem(mail, password, firstName, lastName, phone, address))
             return true;
         return false;
