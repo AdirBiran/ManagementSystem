@@ -8,6 +8,7 @@ import Domain.TeamOwner;
 import Service.FootballManagementSystem;
 import Service.TeamManagementSystem;
 import Service.UnionRepresentativeSystem;
+import Service.UserSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -120,12 +121,13 @@ public class TeamManagementTest {
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
+        UserSystem userSystem = system.getUserSystem();
         Player player = players.get(0);
 
-        //teamSystem.updateRole(player, "Goalkeeper");
-        //String role = teamSystem.getRole(player);
+        userSystem.updateRole(player, "Goalkeeper");
+        String role = userSystem.getRole(player);
 
-        //assertEquals(role, "Goalkeeper");
+        assertEquals(role, "Goalkeeper");
     }
 
     @Test
@@ -192,9 +194,6 @@ public class TeamManagementTest {
         List<User> managers = teamSystem.getTeamManagers(team);
 
         boolean flag = false;
-
-        for (User mng : managers)
-            System.out.println(mng.getID());
 
         assertTrue(flag);
 
