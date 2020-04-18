@@ -114,25 +114,31 @@ public class Team{
         }
     }
 
-    public void addTeamManager(User teamManager) {
+    public boolean addTeamManager(User teamManager) {
         if(!teamManagers.contains(teamManager)) {
             this.teamManagers.add(teamManager);
             teamManager.addTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         if(!players.contains(player)) {
             this.players.add(player);
             player.addTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void addCoach(Coach coach) {
+    public boolean addCoach(Coach coach) {
         if(!coaches.contains(coach)) {
             this.coaches.add(coach);
             coach.addTeam(this);
+            return true;
         }
+        return false;
     }
 
     public void addGame(Game game) {
@@ -144,32 +150,40 @@ public class Team{
 
     /**remove**/
 
-    public void removeTeamOwner(User teamOwner) {
+    public boolean removeTeamOwner(User teamOwner) {
         if(teamOwners.contains(teamOwner)) {
             this.teamOwners.remove(teamOwner);
             teamOwner.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void removeTeamManager(User teamManager) {
+    public boolean removeTeamManager(User teamManager) {
         if(teamManagers.contains(teamManager)) {
             this.teamManagers.remove(teamManager);
             teamManager.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void removePlayer(Player player) {
+    public boolean removePlayer(Player player) {
         if(players.contains(player)) {
             this.players.remove(player);
             player.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void removeCoach(Coach coach) {
+    public boolean removeCoach(Coach coach) {
         if(coaches.contains(coach)) {
             this.coaches.remove(coach);
             coach.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
 
