@@ -20,14 +20,20 @@ public class LeagueAndGameManagement {
     }
 
     public boolean configureNewSeason(int year, Date startDate) {
-        Season season = new Season(year, startDate);
-        return database.addSeason(season);
+        try{
+            Season season = new Season(year, startDate);
+            return database.addSeason(season);
+        }catch (Exception e){
+
+        }
+
+        return false;
     }
 
     public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double registrationFee) {
         League league = database.getLeague(nameOfLeague);
         Season season = database.getSeason(yearOfSeason);
-        if(league==null||season==null)return null;
+        if(league==null||season==null||assignmentPolicy==null||scorePolicy==null)return null;
         LeagueInSeason leagueInSeason = new LeagueInSeason(assignmentPolicy, scorePolicy, league, season, registrationFee);
         league.addLeagueInSeason(leagueInSeason);
         season.addLeagueInSeason(leagueInSeason);

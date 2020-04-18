@@ -11,9 +11,11 @@ public class SystemInitiationTest {
     public void systemInitFail_1()
     {
         FootballManagementSystem system = new FootballManagementSystem();
-        boolean init = system.systemInit(false);
+        system.systemInit(true);
 
-        assertFalse(init);
+        boolean connect = system.connectToOuterSystems(false);
+
+        assertFalse(connect);
 
     }
 
