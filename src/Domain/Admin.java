@@ -23,6 +23,12 @@ public class Admin extends User {
     Remove user
      */
     public String removeUser(String userId){
+        User user = database.getUser(userId);
+        if(user instanceof TeamOwner){
+         for(Team team: ((TeamOwner) user).getTeam())
+             if(team.getTeamOwners().size()==1)
+                 return "";
+        }
         return database.removeUser(userId);
     }
     /*

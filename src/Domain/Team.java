@@ -171,7 +171,7 @@ public class Team{
     }
 
     public boolean removePlayer(Player player) {
-        if(players.contains(player)) {
+        if(players.contains(player) && players.size()>12) {
             this.players.remove(player);
             player.removeTeam(this);
             return true;
@@ -180,7 +180,7 @@ public class Team{
     }
 
     public boolean removeCoach(Coach coach) {
-        if(coaches.contains(coach)) {
+        if(coaches.contains(coach) && coaches.size()>1) {
             this.coaches.remove(coach);
             coach.removeTeam(this);
             return true;

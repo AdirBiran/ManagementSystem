@@ -47,6 +47,8 @@ public class LeagueAndGameManagementTest {
         LeagueInSeason haal = system.getLeagueAndGameManagement().configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         for(Object r : system.getDatabase().getListOfAllSpecificUsers("Referee"))
             haal.addReferee((Referee) r);
+        for (Team team: system.getDatabase().getTeams())
+            haal.addATeam(team);
         assertTrue(system.getLeagueAndGameManagement().assignGames(haal, system.getDates()));
     }
 }
