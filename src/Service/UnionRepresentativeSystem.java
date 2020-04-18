@@ -38,18 +38,18 @@ public class UnionRepresentativeSystem {
 
     public boolean assignRefToLeague(LeagueInSeason league, Referee referee)
     {
-        return leagueAndGameManagement.assignRefToLeague(league, referee);
+        return league.addReferee(referee);
     }
 
 
     public boolean changeScorePolicy(LeagueInSeason league, ScorePolicy policy)
     {
-        return leagueAndGameManagement.changeScorePolicy(league, policy);
+        return league.changeScorePolicy(policy);
     }
 
     public boolean changeAssignmentPolicy(LeagueInSeason league, GameAssignmentPolicy policy)
     {
-        return leagueAndGameManagement.changeAssignmentPolicy(league, policy);
+        return league.changeAssignmentPolicy(policy);
     }
 
     /*
@@ -61,22 +61,23 @@ public class UnionRepresentativeSystem {
     }
 
     public void addTeamToLeague(LeagueInSeason league, Team team) {
-         leagueAndGameManagement.addTeamToLeague(league, team);
+         league.addATeam(team);
     }
     public void calculateLeagueScore(LeagueInSeason league){
-        leagueAndGameManagement.calculateLeagueScore(league);
+
+        league.getScorePolicy().calculateLeagueScore(league);
     }
 
     public void calculateGameScore(LeagueInSeason league,Game game){
-        leagueAndGameManagement.calculateGameScore(league,game);
+        league.getScorePolicy().calculateScore(game);
     }
     public void changeRegistrationFee(LeagueInSeason league, double newFee){
-        leagueAndGameManagement.changeRegistrationFee(league, newFee);
+        league.changeRegistrationFee(newFee);
     }
 
     public double getRegistrationFee(LeagueInSeason league)
     {
-        return leagueAndGameManagement.getRegistrationFee(league);
+        return league.getRegistrationFee();
     }
 
     public void addTUTUPayment(Team team, double payment){

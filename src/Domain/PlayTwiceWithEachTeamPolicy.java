@@ -22,4 +22,10 @@ public class PlayTwiceWithEachTeamPolicy implements GameAssignmentPolicy {
         }
         return games;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof PlayTwiceWithEachTeamPolicy) return true;
+        return false;
+    }
 }

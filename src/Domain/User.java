@@ -12,6 +12,7 @@ public abstract class User extends Guest {
     protected List<Notice> messageBox;
     protected boolean isActive;
     protected int amountOfTeams;
+    //protected List<Role> roles;
 
 
     /**
@@ -29,7 +30,9 @@ public abstract class User extends Guest {
         this.messageBox = new LinkedList<>();
         this.isActive = true;
         this.amountOfTeams=0;
+        //roles = new LinkedList<>();
     }
+
 
     public void deactivate() {
         isActive = false;

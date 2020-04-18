@@ -59,19 +59,53 @@ public class UserSystem extends GuestSystem{
     }
 
     public boolean registrationToFollowUp(Fan fan, PersonalPage page){
-        return userManagement.registrationToFollowUp(fan, page);
+        return fan.addPageToFollow(page);
     }
 
     public List<PersonalPage> getFanPages(Fan fan)
     {
-        return userManagement.getFanPages(fan);
+        return fan.getFollowPages();
     }
     /*
     Fan registration for alerts for games you've selected
      */
     public boolean registrationForGamesAlerts(Fan fan, List<Game> games, ReceiveAlerts receive){
-        return leagueAndGameManagement.registrationForGamesAlerts(fan, games, receive);
+        return userManagement.registrationForGamesAlerts(fan, games, receive);
         
     }
+    public boolean updateTraining(User user,String training){
+        if(user instanceof Coach){
+            ((Coach)user).setTraining(training);
+            return true;
+        }
+        else if(user instanceof Referee){
+            ((Referee)user).setTraining(training);
+            return true;
+        }
+        return false;
+    }
 
+    public boolean updateRole(User user,String role){
+
+        if(user instanceof Player){
+            ((Player)user).setRole(role);
+            return true;
+        }
+        if(user instanceof Coach){
+            ((Coach)user).setRole(role);
+            return true;
+        }
+        return false;
+    }
+    public String getRole(User user) {
+
+        if (user instanceof Player) {
+            return ((Player)user).getRole();
+        }
+        if (user instanceof Coach) {
+            return ((Coach)user).getRole();
+        }
+
+        return "";
+    }
 }

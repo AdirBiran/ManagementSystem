@@ -173,9 +173,9 @@ public class FootballManagementSystem {
         //***presentation***//
         systemAdmins = new LinkedList<>();
         if(firsTime){
-            Admin systemAdmin = new Admin("adminush","", "example@gmail.com");
+            Admin systemAdmin = new Admin("adminush","", "example@gmail.com", database);
             systemAdmins.add(systemAdmin);
-            adminSystem.addUser("Adminush1", systemAdmin);
+            systemAdmin.addUser("Adminush1", systemAdmin);
         }
         else{
             systemAdmins.addAll(database.GetSystemAdmins());
@@ -208,7 +208,7 @@ public class FootballManagementSystem {
         }
         for (int i = 0; i <10 ; i++) {
             Referee ref = mainReferee();
-            adminSystem.addUser("Aa123", ref);
+            systemAdmins.get(0).addUser("Aa123", ref);
             unionRepresentativeSystem.assignRefToLeague(leagueInSeason, ref);
         }
     }
@@ -399,7 +399,7 @@ public class FootballManagementSystem {
         System.out.println(database.addSeason(season));// expected : true
         System.out.println(database.addLeague(league1));// expected : false
         System.out.println(database.addSeason(season));// expected : false
-        User admin = new Admin("Admin","Ush", "example@gmail.com");
+        User admin = new Admin("Admin","Ush", "example@gmail.com", database);
         User unionRep = new UnionRepresentative("Natzig", "Ush", "");
         System.out.println(database.addUser("aA1aA1", admin));//expected : true
         System.out.println(database.addUser("aA1aA1", unionRep));//expected : true

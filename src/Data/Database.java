@@ -156,7 +156,7 @@ public class Database //maybe generalize with interface? //for now red layer
     returns false if the user already exists
      */
     public boolean addUser(String password, User user){
-        if(!usersInDatabase.containsKey(user.getID())&& user.isActive()){
+        if(!mailsAndUserID.containsKey(user.getMail())&& user.isActive()){
             String encryptedPassword = encrypt(password);
             mailsAndPasswords.put(user.getMail(), encryptedPassword);
             mailsAndUserID.put(user.getMail(), user.getID());

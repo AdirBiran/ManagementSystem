@@ -21,13 +21,20 @@ public class RefereeManagement {
 
     public Referee appointReferee(String firstName, String lastName, String mail, String training) {
         Referee referee = new Referee(firstName,lastName, mail, training);
-        //String randomInitialPassword = PasswordGenerator.generateRandPassword(6);
-        String randomInitialPassword = "Ac1234";
+        String initialPassword = "Ac1234";
         //send referee mail to approve?
-        if(database.addUser(randomInitialPassword, referee))
+        if(database.addUser(initialPassword, referee))
             return referee;
         else
             return null;
+    }
+
+    /**
+     *
+     */
+    public void viewGames()
+    {
+
     }
 
 }

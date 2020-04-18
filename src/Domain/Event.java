@@ -5,7 +5,7 @@ import java.sql.Time;
 
 public class Event {
 
-    private enum EventType {
+    public enum EventType {
         Undefined,
         Goal,
         Offside,

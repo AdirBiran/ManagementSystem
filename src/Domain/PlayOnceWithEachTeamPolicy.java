@@ -23,4 +23,9 @@ public class PlayOnceWithEachTeamPolicy implements GameAssignmentPolicy {
         return games;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof PlayOnceWithEachTeamPolicy) return true;
+        return false;
+    }
 }

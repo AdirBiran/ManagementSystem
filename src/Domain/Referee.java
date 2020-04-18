@@ -1,5 +1,6 @@
 package Domain;
 
+import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -25,25 +26,25 @@ public class Referee extends User {
 
     /**
      *
+     * @param game
+     *
      */
-    public void viewGames()
+    public void createEvent(Game game, Event.EventType type, Date date, double minuteInGame, String description)
     {
+        Event newEvent = new Event(type, date, minuteInGame, description, game.getEventReport());
+
 
     }
 
     /**
      *
+     * @param eventReport
      */
-    public void addEvent()
+    public void generateGameReport(EventReport eventReport)
     {
+        for (Event event: eventReport.getEvents()) {
 
-    }
-
-    /**
-     *
-     */
-    public void generateGameReport()
-    {
+        }
 
     }
 
@@ -56,4 +57,7 @@ public class Referee extends User {
     }
 
 
+    public void setTraining(String training) {
+        this.training = training;
+    }
 }

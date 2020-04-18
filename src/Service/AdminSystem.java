@@ -21,16 +21,16 @@ public class AdminSystem {
     /*
         Remove user by an administrator
         */
-    public void removeUser(String userId){
-        String userMail = userManagement.removeUser(userId);
+    public void removeUser(Admin admin, String userId){
+        String userMail = admin.removeUser(userId);
         notificationSystem.UserRemovalNotification(userMail);
     }
 
     /*
     this function adds a new user to the system
     */
-    public void addUser(String password, User user) {
-        userManagement.addUser(password, user);
+    public void addUser(Admin admin, String password, User user) {
+        admin.addUser(password, user);
     }
 
     /*

@@ -13,26 +13,7 @@ public class UserManagement//for admins
         this.database = database;
     }
 
-    /*
-       this function adds a new user to the system
-    */
-    public void addUser(String password, User user) {
-        database.addUser(password, user);
-    }
-    /*
-    Remove user
-     */
-    public String removeUser(String userId){
-        return database.removeUser(userId);
-    }
 
-    /*
-     this function update a user in the system
-     */
-    public void updateUser(String userId){
-        User user = database.getUser(userId);
-
-    }
 
     /*
      * User login to system
@@ -47,21 +28,19 @@ public class UserManagement//for admins
      */
     public boolean registrationToSystem(String mail, String password, String firstName, String lastName, String phone,
                                         String address) {
-        if(!database.authenticationCheck(mail, password)){
-            Fan fan = new Fan(mail, firstName, lastName, phone,address);
-            database.addUser(password, fan);
-            return true;
+        Fan fan = new Fan(mail, firstName, lastName, phone,address);
+        return database.addUser(password, fan);
+    }
+
+    /*
+    Fan registration for alerts for games you've selected
+     */
+    public boolean registrationForGamesAlerts(Fan fan, List<Game> games, ReceiveAlerts receiveAlerts) {
+        for(Game game : games){
+            if(!game.addFanForNotifications(fan, receiveAlerts))
+                return false;
         }
-        return false;
-    }
-
-    public boolean registrationToFollowUp(Fan fan, PersonalPage page){
-        return fan.addPageToFollow(page);
-    }
-
-    public List<PersonalPage> getFanPages(Fan fan)
-    {
-        return fan.getFollowPages();
+        return true;
     }
 
 
@@ -249,43 +228,7 @@ public class UserManagement//for admins
         }
     }
 
-    public String getRole(User user) {
 
-        if (user instanceof Player) {
-            return ((Player)user).getRole();
-        }
-        if (user instanceof Coach) {
-            return ((Coach)user).getRole();
-        }
 
-        return "";
-    }
 
-    public boolean updateRole(User user, String role) {
-        if(user instanceof Player){
-            ((Player)user).setRole(role);
-            return true;
-        }
-        if(user instanceof Coach){
-            ((Coach)user).setRole(role);
-            return true;
-        }
-        return false;
-    }
-    public boolean updateTraining(User user, String training) {
-        if(user instanceof Coach){
-            ((Coach)user).setRole(training);
-            return true;
-        }
-        return false;
-    }
-
-    public void deactivateField(Field field) {
-        field.deactivate();
-    }
-
-    public void notificationForAppointment(User user, String message) {
-
-        user.addMessage(new Notice(true, message));
-    }
 }

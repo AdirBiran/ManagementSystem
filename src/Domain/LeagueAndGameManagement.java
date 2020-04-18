@@ -13,16 +13,6 @@ public class LeagueAndGameManagement {
         this.database = database;
     }
 
-    /*
-    Fan registration for alerts for games you've selected
-     */
-    public boolean registrationForGamesAlerts(Fan fan, List<Game> games, ReceiveAlerts receiveAlerts) {
-        for(Game game : games){
-            if(!game.addFanForNotifications(fan, receiveAlerts))
-                return false;
-        }
-        return true;
-    }
 
     public boolean configureNewLeague(String name, String level) {
         League league = new League(name, level);
@@ -44,17 +34,6 @@ public class LeagueAndGameManagement {
         return leagueInSeason;
     }
 
-    public boolean assignRefToLeague(LeagueInSeason league, Referee referee) {
-        return league.addReferee(referee);
-    }
-
-    public boolean changeScorePolicy(LeagueInSeason league, ScorePolicy policy) {
-        return league.changeScorePolicy(policy);
-    }
-
-    public boolean changeAssignmentPolicy(LeagueInSeason league, GameAssignmentPolicy policy) {
-        return league.changeAssignmentPolicy(policy);
-    }
 
     public boolean assignGames(LeagueInSeason league, List<Date> dates) {
         List<Game> games = league.getAssignmentPolicy().assignGames(league.getTeams(), dates, league);
@@ -64,43 +43,5 @@ public class LeagueAndGameManagement {
         }
         return false;
     }
-    public boolean closeTeam(TeamOwner teamOwner, Team team) {
-        if(team.isActive()){
-            teamOwner.setClosedTeam(team, true);
-            team.setActive(false);
-            //Removing permissions for team members
-            return true;
-        }
-        return false;
-    }
 
-    public boolean reopeningTeam(TeamOwner teamOwner, Team team) {
-        if(!team.isActive() && !team.isPermanentlyClosed() && teamOwner.isClosedTeam(team)){
-            teamOwner.setClosedTeam(team, false);
-            team.setActive(true);
-            //Re-configure permissions for team members
-            return true;
-        }
-        return false;
-    }
-
-    public void addTeamToLeague(LeagueInSeason league, Team team) {
-        league.addATeam(team);
-    }
-
-    public void calculateLeagueScore(LeagueInSeason league) {
-        league.getScorePolicy().calculateLeagueScore(league);
-    }
-
-    public void calculateGameScore(LeagueInSeason league, Game game) {
-        league.getScorePolicy().calculateScore(game);
-    }
-
-    public void changeRegistrationFee(LeagueInSeason league, double newFee) {
-        league.changeRegistrationFee(newFee);
-    }
-
-    public double getRegistrationFee(LeagueInSeason league) {
-        return league.getRegistrationFee();
-    }
 }

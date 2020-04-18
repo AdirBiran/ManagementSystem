@@ -36,7 +36,7 @@ public class ServiceIntegration {
     public void integration_AdminSystem()
     {
 
-        adminSystem.addUser("12345", new Referee("First", "Last", "a@b.com", "Training"));
+        system.getDatabase().GetSystemAdmins().get(0).addUser("12345", new Referee("First", "Last", "a@b.com", "Training"));
         User user = system.getDatabase().getUserbyMail("a@b.com");
         assertNotNull(user);
 

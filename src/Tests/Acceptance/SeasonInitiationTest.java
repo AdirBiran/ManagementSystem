@@ -102,7 +102,7 @@ public class SeasonInitiationTest {
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
         Referee ref = FootballManagementSystem.mainReferee();
-        system.getAdminSystem().addUser("Aa123", ref);
+        system.getDatabase().GetSystemAdmins().get(0).addUser("Aa123", ref);
         representativeSystem.assignRefToLeague(leagueInSeason, ref);
 
         List<Referee> referees = leagueInSeason.getReferees();
@@ -127,8 +127,8 @@ public class SeasonInitiationTest {
 
         Referee ref = FootballManagementSystem.mainReferee();
         Referee ref2 = FootballManagementSystem.mainReferee();
-        system.getAdminSystem().addUser("Aa123", ref);
-        system.getAdminSystem().addUser("Bb123", ref2);
+        system.getDatabase().GetSystemAdmins().get(0).addUser("Aa123", ref);
+        system.getDatabase().GetSystemAdmins().get(0).addUser("Bb123", ref2);
 
         representativeSystem.assignRefToLeague(leagueInSeason, ref);
         representativeSystem.assignRefToLeague(leagueInSeason, ref2);

@@ -64,6 +64,10 @@ public class Game {
         return false;
     }
 
+    public EventReport getEventReport() {
+        return eventReport;
+    }
+
     public String getId() {
         return id;
     }

@@ -31,4 +31,10 @@ public class StandardScorePolicy implements ScorePolicy {
              league.addScoreTableRecord(record);
          }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof StandardScorePolicy) return true;
+        return false;
+    }
 }

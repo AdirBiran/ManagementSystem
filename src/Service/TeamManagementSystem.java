@@ -73,44 +73,35 @@ public class TeamManagementSystem {
             notificationSystem.notificationForAppointment(user, false);
         }
     }
-    /*
-    Closing a team by the team owner
-     */
-    public boolean closeTeam(TeamOwner teamOwner, Team team){
-        if(leagueAndGameManagement.closeTeam(teamOwner, team)){
-            notificationSystem.openORCloseTeam("closed", team, false);
-            return true;
-        }
-        return false;
-    }
-    /*
-    Re-opening a team by the team owner that it closed
-    */
-    public boolean reopeningTeam(TeamOwner teamOwner, Team team){
-        if(leagueAndGameManagement.reopeningTeam(teamOwner, team)){
-            notificationSystem.openORCloseTeam("open", team, false);
-            return true;
-        }
-        return false;
-    }
 
-
-    public boolean updateRole(User user,String role){
-       return userManagement.updateRole(user, role);
-    }
-
-    public String getRole(User user){
-        return userManagement.getRole(user);
-    }
-    public boolean updateTraining(User user,String training){
-        return userManagement.updateTraining(user, training);
-    }
     public void deactivateField(Field field){
-        userManagement.deactivateField(field);
+        field.deactivate();
     }
 
     public boolean isActiveTeam(Team team)
     {
         return team.isActive();
+    }
+
+    public boolean closeTeam(TeamOwner teamOwner, Team team) {
+        if(team.isActive()){
+            teamOwner.setClosedTeam(team, true);
+            team.setActive(false);
+            //Removing permissions for team members
+            notificationSystem.openORCloseTeam("closed", team, false);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean reopeningTeam(TeamOwner teamOwner, Team team) {
+        if(!team.isActive() && !team.isPermanentlyClosed() && teamOwner.isClosedTeam(team)){
+            teamOwner.setClosedTeam(team, false);
+            team.setActive(true);
+            notificationSystem.openORCloseTeam("open", team, false);
+            //Re-configure permissions for team members
+            return true;
+        }
+        return false;
     }
 }

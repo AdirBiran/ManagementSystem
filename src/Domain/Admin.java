@@ -1,10 +1,14 @@
 package Domain;
 
+import Data.Database;
+
 public class Admin extends User {
 
-    public Admin(String firstName,String lastName, String mail) {
+    private Database database;
+    public Admin(String firstName, String lastName, String mail, Database database) {
 
         super(firstName,lastName, "A", mail);
+        this.database = database;
     }
 
 
@@ -26,16 +30,6 @@ public class Admin extends User {
         return false;
     }
 
-    /**
-     *
-     * @param user
-     */
-    public void removeUser(User user)
-    {
-
-        // need to check that the Admin doesn't delete himself
-
-    }
 
     /**
      *
@@ -60,6 +54,18 @@ public class Admin extends User {
     public void trainModel()
     {
 
+    }
+    /*
+       this function adds a new user to the system
+    */
+    public void addUser(String password, User user) {
+        database.addUser(password, user);
+    }
+    /*
+    Remove user
+     */
+    public String removeUser(String userId){
+        return database.removeUser(userId);
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++

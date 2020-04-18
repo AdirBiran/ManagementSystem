@@ -16,4 +16,8 @@ public class EventReport {
         if(!events.contains(event))
             events.add(event);
     }
+
+    public List<Event> getEvents() {
+        return events;
+    }
 }

@@ -61,7 +61,6 @@ public class NotificationSystem {
         else{
             message = "Your appointment hes been removed";
         }
-        userManagement.notificationForAppointment(user, message);
-
+        user.addMessage(new Notice(true, message));
     }
 }
