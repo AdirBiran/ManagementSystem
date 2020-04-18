@@ -22,7 +22,7 @@ public class TeamOwnerTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
         system.dataReboot();
-        teamManager = new TeamManager("Doron" , "Shamai" , "Mail" , team ,100);
+        teamManager = new TeamManager("Doron" , "Shamai" , "shamaid@gmail.com" , team ,100);
         teamOwner1 = (TeamOwner) system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(0);
         teamOwner2 = (TeamOwner) system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(1);
         teamOwner3 = (TeamOwner) system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(2);
