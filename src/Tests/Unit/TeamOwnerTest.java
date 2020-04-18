@@ -84,6 +84,8 @@ public class TeamOwnerTest {
 
     @Test
     public void isClosedTeam() {
-        assertTrue();
+        assertFalse(teamOwner1.isClosedTeam(teamOwner1.getTeam().get(0)));
+        teamOwner1.closeTeam(teamOwner1.getTeam().get(0));
+        assertTrue(teamOwner1.isClosedTeam(teamOwner1.getTeam().get(0)));
     }
 }
