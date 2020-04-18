@@ -10,6 +10,11 @@ import static org.junit.Assert.assertTrue;
 
 public class LogoutTest {
 
+    // Will be implemented in the next iteration
+
+    /*
+
+
     private FootballManagementSystem system;
     private UserSystem userSystem;
 
@@ -40,4 +45,7 @@ public class LogoutTest {
         // can't be implemented yet
 
     }
+
+
+     */
 }
