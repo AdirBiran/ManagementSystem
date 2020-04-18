@@ -2,11 +2,7 @@ package Data;
 import Domain.*;
 
 import java.security.MessageDigest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.HashSet;
+import java.util.*;
 
 
 public class Database //maybe generalize with interface? //for now red layer
@@ -86,11 +82,15 @@ public class Database //maybe generalize with interface? //for now red layer
         return (Team)search("Team", teamId);
     }
 
+    public List<Team> getTeams() {
+        return new LinkedList<>(teams.values());
+    }
+
     /*
-    this function gets a name of an asset and returns a pointer to the object of this asset
-    for example input: "Blumfield stadium" - the output will be a pointer to Blumfield stadium object or Null if it doesn't exists
-    return null if cant find asset
-     */
+        this function gets a name of an asset and returns a pointer to the object of this asset
+        for example input: "Blumfield stadium" - the output will be a pointer to Blumfield stadium object or Null if it doesn't exists
+        return null if cant find asset
+         */
     public Asset getAsset(String name){
        return (Asset)search("Asset", name);
     }
@@ -103,7 +103,7 @@ public class Database //maybe generalize with interface? //for now red layer
         return (User)search("User", userId);
     }
 
-    public User getUserbyMail(String mail){
+    public User getUserByMail(String mail){
         return (User)search("Mail", mail);
     }
     /*
@@ -138,10 +138,15 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return futureGames;
     }
+
+    public HashMap<String, Asset> getAssetsInDatabase() {
+        return assetsInDatabase;
+    }
+
     /*
-    adds an asset to the database
-    returns false if the asset already exists
-     */
+        adds an asset to the database
+        returns false if the asset already exists
+         */
     public boolean addAsset(Asset asset){
         String assetID = asset.getID();
         if(assetsInDatabase.containsKey(assetID)){
@@ -409,6 +414,8 @@ public class Database //maybe generalize with interface? //for now red layer
     public HashSet<Complaint> getComplaints() {
         return complaints;
     }
+
+
 
     public void addComplaint(Complaint complaint){complaints.add(complaint);}
 

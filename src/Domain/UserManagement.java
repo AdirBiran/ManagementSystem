@@ -2,7 +2,6 @@ package Domain;
 
 import Data.Database;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class UserManagement//for admins
@@ -18,7 +17,7 @@ public class UserManagement//for admins
      */
     public User logInUserToSystem(String mail, String password) {
         if(database.authenticationCheck(mail, password))
-            return database.getUserbyMail(mail);
+            return database.getUserByMail(mail);
         return null;
     }
     /*

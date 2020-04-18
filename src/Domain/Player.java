@@ -53,4 +53,8 @@ public class Player extends HasAPage implements Asset {
         this.role = role;
     }
 
+    @Override
+    public void setPrice(double update) {
+        this.price = update;
+    }
 }

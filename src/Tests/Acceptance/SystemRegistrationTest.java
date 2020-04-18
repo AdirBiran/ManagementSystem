@@ -1,10 +1,8 @@
 package Tests.Acceptance;
 
 import Domain.User;
-import Service.AdminSystem;
 import Service.FootballManagementSystem;
 import Service.GuestSystem;
-import Service.UserSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,12 +26,12 @@ public class SystemRegistrationTest {
     @Test
     public void registrationSuccess_6()
     {
-        User user = system.getDatabase().getUserbyMail("a@b.com");
+        User user = system.getDatabase().getUserByMail("a@b.com");
         assertNull(user);
 
         guestSystem.registrationToSystem("a@b.com", "123456", "Moshe", "Cohen", "0987654321", "Israel");
 
-        user = system.getDatabase().getUserbyMail("a@b.com");
+        user = system.getDatabase().getUserByMail("a@b.com");
         assertNotNull(user);
 
     }
