@@ -21,8 +21,7 @@ public class LeagueAndGameManagementTest {
         system.dataReboot();
     }
 
-    @Test
-<<<<<<< HEAD
+
     /*public void registrationForGamesAlerts() {
         LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
         Fan fan = new Fan("AviLevi@gmail.com", "Avi", "Levi", "0500004544", "Yuda123");
@@ -42,8 +41,6 @@ public class LeagueAndGameManagementTest {
     }*/
 
     @Test
-=======
->>>>>>> 3335f2e8d1cf787e405e28ae030de1798d8ac19f
     public void configureNewLeague() {
         assertTrue(system.getLeagueAndGameManagement().configureNewLeague("Alofot", "2"));
         assertFalse(system.getLeagueAndGameManagement().configureNewLeague("Alofot", "2"));
