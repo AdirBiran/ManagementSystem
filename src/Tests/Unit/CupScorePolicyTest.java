@@ -43,7 +43,7 @@ public class CupScorePolicyTest {
         game.setGuestScore(3);
         game.setHostScore(1);
         score.calculateScore(game);
-       
+
     }
 
     @Test
