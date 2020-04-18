@@ -29,9 +29,9 @@ public class AdminTest {
     @Test
     public void removeUser() {
         Player player = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
-        admin.removeUser(player.getID());
-        assertEquals(false, player.isActive());
-
+        assertEquals(player.getMail(),admin.removeUser(player.getID()));
+        TeamOwner teamOwner = (TeamOwner) system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(0);
+        assertEquals("", admin.removeUser(teamOwner.getID()));
     }
 
     @Test

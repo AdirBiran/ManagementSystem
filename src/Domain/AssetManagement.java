@@ -70,16 +70,19 @@ public class AssetManagement {
     /*
        Remove asset
         */
-    public void removeAsset(Asset asset , Team team) {
+    public boolean removeAsset(Asset asset , Team team) {
         if(asset instanceof User){
             if(asset instanceof TeamManager){
-                team.removeTeamManager((TeamManager) asset);
+                if(!team.removeTeamManager((TeamManager) asset))
+                    return false;
             }
             if(asset instanceof Player){
-                team.removePlayer((Player) asset);
+                if(!team.removePlayer((Player) asset))
+                    return false;
             }
             if(asset instanceof Coach){
-                team.removeCoach((Coach) asset);
+                if(!team.removeCoach((Coach) asset))
+                    return false;
             }
         }
 
@@ -90,6 +93,7 @@ public class AssetManagement {
             team.getFields().remove(asset);
         }
         database.removeAsset(asset.getID());
+        return true;
     }
 
     /*
