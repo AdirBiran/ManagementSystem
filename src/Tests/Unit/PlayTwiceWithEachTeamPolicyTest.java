@@ -15,7 +15,7 @@ public class PlayTwiceWithEachTeamPolicyTest {
     @Test
     public void assignGames() {
         FootballManagementSystem system;
-        PlayOnceWithEachTeamPolicy one = new PlayOnceWithEachTeamPolicy();
+        PlayTwiceWithEachTeamPolicy one = new PlayTwiceWithEachTeamPolicy();
         system = new FootballManagementSystem();
         system.systemInit(true);
         system.dataReboot();

@@ -63,6 +63,7 @@ public class SearchHistoryTest {
             flag = true;
 
         assertTrue(flag);
+        assertTrue(false);
 
         // cant be implemented, need to check 6 months before
 

@@ -8,6 +8,7 @@ import Domain.TeamOwner;
 import Service.FootballManagementSystem;
 import Service.TeamManagementSystem;
 import Service.UnionRepresentativeSystem;
+import Service.UserSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -120,23 +121,28 @@ public class TeamManagementTest {
         representativeSystem.addTeamToLeague(leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
+        UserSystem userSystem = system.getUserSystem();
         Player player = players.get(0);
 
-        //teamSystem.updateRole(player, "Goalkeeper");
-        //String role = teamSystem.getRole(player);
+        userSystem.updateRole(player, "Goalkeeper");
+        String role = userSystem.getRole(player);
 
-        //assertEquals(role, "Goalkeeper");
+        assertEquals(role, "Goalkeeper");
     }
 
     @Test
     public void manageAssets_29()
     {
+        assertTrue(false);
+
         // cant be implemented
     }
 
     @Test
     public void manageAssets_30()
     {
+        assertTrue(false);
+
         // cant be implemented
     }
 
@@ -193,9 +199,6 @@ public class TeamManagementTest {
 
         boolean flag = false;
 
-        for (User mng : managers)
-            System.out.println(mng.getID());
-
         assertTrue(flag);
 
 
@@ -219,6 +222,7 @@ public class TeamManagementTest {
         teamSystem.appointmentTeamOwner(owner, players.get(0), team);
 
         // cant be implemented due to permissions problem
+        assertTrue(false);
 
     }
 
@@ -288,6 +292,7 @@ public class TeamManagementTest {
         teamSystem.reopeningTeam(owner, team);
 
         //cant be implemented, need at least 24 hours
+        assertTrue(false);
 
     }
 
@@ -337,7 +342,7 @@ public class TeamManagementTest {
         teamSystem.reopeningTeam(owner, team);
 
         active = teamSystem.isActiveTeam(team);
-        assertFalse(active);
+        assertTrue(active);
     }
 
 

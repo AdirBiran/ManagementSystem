@@ -7,6 +7,10 @@ import static org.junit.Assert.*;
 public class TeamTest {
 
     @Test
+    public void addLeague() {
+    }
+
+    @Test
     public void addAWin() {
     }
 
@@ -55,78 +59,10 @@ public class TeamTest {
     }
 
     @Test
-    public void getName() {
-    }
-
-    @Test
-    public void getWins() {
-    }
-
-    @Test
-    public void getLosses() {
-    }
-
-    @Test
-    public void getDraws() {
-    }
-
-    @Test
-    public void getPage() {
-    }
-
-    @Test
-    public void getTeamOwners() {
-    }
-
-    @Test
-    public void getTeamManagers() {
-    }
-
-    @Test
-    public void getPlayers() {
-    }
-
-    @Test
-    public void getCoaches() {
-    }
-
-    @Test
-    public void getBudget() {
-    }
-
-    @Test
-    public void getGames() {
-    }
-
-    @Test
-    public void getFields() {
-    }
-
-    @Test
-    public void getField() {
-    }
-
-    @Test
     public void isActive() {
     }
 
     @Test
-    public void setActive() {
-    }
-
-    @Test
     public void isPermanentlyClosed() {
-    }
-
-    @Test
-    public void setPermanentlyClosed() {
-    }
-
-    @Test
-    public void getID() {
-    }
-
-    @Test
-    public void getPrice() {
     }
 }

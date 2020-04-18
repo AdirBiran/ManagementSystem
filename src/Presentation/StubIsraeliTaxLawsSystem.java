@@ -4,6 +4,7 @@ public class StubIsraeliTaxLawsSystem {
 
 
 
-    public void connect() {
+    public boolean connect(boolean flag) {
+        return flag;
     }
 }
