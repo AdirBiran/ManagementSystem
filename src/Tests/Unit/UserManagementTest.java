@@ -21,6 +21,20 @@ public class UserManagementTest {
         system.systemInit(true);
         system.dataReboot();
     }
+
+    @Test
+    public void logInUserToSystem() {
+        system.getUserManagement().registrationToSystem("liron@gmail.com", "liron123", "liron", "Ben Yakov", "0504874960", "yosef2");
+        assertNotNull(system.getUserManagement().logInUserToSystem("liron@gmail.com","liron123"));
+
+    }
+
+    @Test
+    public void registrationToSystem() {
+        assertTrue(system.getUserManagement().registrationToSystem("liron@gmail.com", "liron123", "liron", "Ben Yakov", "0504874960", "yosef2"));
+        assertFalse(system.getUserManagement().registrationToSystem("liron@gmail.com", "liron123", "liron", "Ben Yakov", "0504874960", "yosef2"));
+    }
+
     @Test
     public void registrationForGamesAlerts() {
         LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
@@ -38,49 +52,5 @@ public class UserManagementTest {
         ReceiveAlerts receive = new ReceiveAlerts(false, false);
         assertTrue(system.getUserManagement().registrationForGamesAlerts(fan, games, receive));
         assertFalse(system.getUserManagement().registrationForGamesAlerts(fan, games, receive));
-    }
-
-    @Test
-    public void logInUserToSystem() {
-    }
-
-    @Test
-    public void registrationToSystem() {
-    }
-
-    @Test
-    public void registrationToFollowUp() {
-    }
-
-    @Test
-    public void appointmentTeamOwner() {
-    }
-
-    @Test
-    public void appointmentTeamManager() {
-    }
-
-    @Test
-    public void removeAppointmentTeamOwner() {
-    }
-
-    @Test
-    public void removeAppointmentTeamManager() {
-    }
-
-    @Test
-    public void updateRole() {
-    }
-
-    @Test
-    public void updateTraining() {
-    }
-
-    @Test
-    public void deactivateField() {
-    }
-
-    @Test
-    public void notificationForAppointment() {
     }
 }

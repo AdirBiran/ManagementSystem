@@ -9,12 +9,12 @@ public class RefereeSystem {
 
     private LeagueAndGameManagement leagueAndGameManagement;
     private RefereeManagement refereeManagement;
-    private EventReportManagement eventReportManagement;
 
-    public RefereeSystem(LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement, EventReportManagement eventReportManagement) {
+
+    public RefereeSystem(LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement) {
         this.leagueAndGameManagement = leagueAndGameManagement;
         this.refereeManagement = refereeManagement;
-        this.eventReportManagement = eventReportManagement;
+
 
     }
 

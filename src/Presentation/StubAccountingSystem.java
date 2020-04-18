@@ -4,6 +4,7 @@ public class StubAccountingSystem {
 
 
 
-    public void connect() {
+    public boolean connect() {
+        return true;
     }
 }

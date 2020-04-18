@@ -53,4 +53,9 @@ public class Coach extends HasAPage implements Asset {
     public void setRole(String role) {
         this.role = role;
     }
+
+    @Override
+    public void setPrice(double update) {
+        this.price= update;
+    }
 }

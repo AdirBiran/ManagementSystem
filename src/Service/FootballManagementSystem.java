@@ -15,7 +15,7 @@ public class FootballManagementSystem {
     private static AssetManagement assetManagement;
     private static ComplaintManager complaintManager;
     private static EditPersonalInfo editPersonalInfo;
-    private static EventReportManagement eventReportManagement;
+
     private static FinanceTransactionsManagement financeTransactionsManagement;
     private static LeagueAndGameManagement leagueAndGameManagement;
     private static PersonalPageManagement personalPageManagement;
@@ -24,7 +24,7 @@ public class FootballManagementSystem {
     private static UserManagement userManagement;
     private static MailSender mailSender;
     //***service***//
-    private static AssetSystem assetSystem ;
+
     private static NotificationSystem notificationSystem;
     private static FinanceTransactionsSystem financeTransactionsSystem;
     private static GuestSystem guestSystem;
@@ -74,9 +74,7 @@ public class FootballManagementSystem {
     }
 
 
-    public AssetSystem getAssetSystem() {
-        return assetSystem;
-    }
+
 
     public NotificationSystem getNotificationSystem() {
         return notificationSystem;
@@ -98,9 +96,7 @@ public class FootballManagementSystem {
         return editPersonalInfo;
     }
 
-    public static EventReportManagement getEventReportManagement() {
-        return eventReportManagement;
-    }
+
 
     public static FinanceTransactionsManagement getFinanceTransactionsManagement() {
         return financeTransactionsManagement;
@@ -151,7 +147,6 @@ public class FootballManagementSystem {
         assetManagement = new AssetManagement(database);
         complaintManager = new ComplaintManager(database);
         editPersonalInfo = new EditPersonalInfo(database);
-        eventReportManagement = new EventReportManagement(database);
         financeTransactionsManagement = new FinanceTransactionsManagement(database);
         leagueAndGameManagement = new LeagueAndGameManagement(database);
         personalPageManagement = new PersonalPageManagement(database);
@@ -162,11 +157,10 @@ public class FootballManagementSystem {
         //***service***//
         notificationSystem = new NotificationSystem(refereeManagement, assetManagement);
         adminSystem = new AdminSystem(leagueAndGameManagement, userManagement, notificationSystem, complaintManager);
-        assetSystem = new AssetSystem(assetManagement);
         financeTransactionsSystem = new FinanceTransactionsSystem(financeTransactionsManagement, notificationSystem);
         guestSystem = new GuestSystem(searcher, userManagement);
         personalPageSystem = new PersonalPageSystem(personalPageManagement);
-        refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement, eventReportManagement);
+        refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement);
         unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
         userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, userManagement, leagueAndGameManagement);
         teamManagementSystem = new TeamManagementSystem(notificationSystem, assetManagement);
