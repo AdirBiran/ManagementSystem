@@ -41,7 +41,7 @@ public class TeamTest {
 
     @Test
     public void addTeamManager() {
-        TeamManager teamManager = new TeamManager("Doron" , "Shamai" , "Mail" , team ,100);
+        TeamManager teamManager = new TeamManager("Doron" , "Shamai" , "shamaid@gmail.com" , team ,100);
         assertTrue(team.addTeamManager(teamManager));
         assertFalse(team.addTeamManager(team.getTeamManagers().get(0)));
 
@@ -50,7 +50,7 @@ public class TeamTest {
     @Test
     public void addPlayer() {
         Player player1 = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
-        Player player2 = new Player("Doron" , "Shamai" , "Mail",null, player1.getBirthDate() , player1.getRole() , 100);
+        Player player2 = new Player("Doron" , "Shamai" , "shamaid@gmail.com",null, player1.getBirthDate() , player1.getRole() , 100);
         assertTrue(team.addPlayer(player2));
         assertFalse(team.addPlayer(team.getPlayers().get(0)));
     }
@@ -73,7 +73,7 @@ public class TeamTest {
 
     @Test
     public void removeTeamManager() {
-        TeamManager teamManager = new TeamManager("Doron" , "Shamai" , "Mail" , team ,100);
+        TeamManager teamManager = new TeamManager("Doron" , "Shamai" , "shamaid@gmail.com" , team ,100);
         if(team.getCoaches().size()>1) {
             assertFalse(team.removeTeamManager(teamManager));
             assertTrue(team.removeTeamManager(team.getTeamManagers().get(0)));
@@ -83,7 +83,7 @@ public class TeamTest {
     @Test
     public void removePlayer() {
         Player player1 = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
-        Player player2 = new Player("Doron" , "Shamai" , "Mail",null, player1.getBirthDate() , player1.getRole() , 100);
+        Player player2 = new Player("Doron" , "Shamai" , "shamaid@gmail.com",null, player1.getBirthDate() , player1.getRole() , 100);
         if(team.getPlayers().size()>11 && team.getPlayers().contains(player1)) {
             assertTrue(team.removePlayer(player1));
         }

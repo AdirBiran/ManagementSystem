@@ -147,6 +147,29 @@ public class DomainIntegration {
         for(Object r : database.getListOfAllSpecificUsers("Referee"))
             lis5.addReferee((Referee) r);
 
+        UnionRepresentativeSystem repSystem = system.getUnionRepresentativeSystem();
+
+        List<Player> players = FootballManagementSystem.createPlayers();
+        List<Coach> coaches = FootballManagementSystem.createCoaches();
+        List<Player> players2 = FootballManagementSystem.createPlayers();
+        List<Coach> coaches2 = FootballManagementSystem.createCoaches();
+        TeamOwner owner = new TeamOwner("Team1","Owner", "a"+"@gmail.com");
+        TeamOwner owner2 = new TeamOwner("Team2","Owner2", "a2"+"@gmail.com");
+        List<User> owners = new LinkedList<>();
+        List<User> owners2 = new LinkedList<>();
+        owners.add(owner);
+        owners2.add(owner2);
+        PersonalPage page = new PersonalPage("", players.get(0));
+        Field field = new Field( "jerusalem", 550, 15000);
+        Field field2 = new Field( "tel-aviv", 1000, 20000);
+
+        Team team = new Team("Team1",page,owners,players,coaches, field);
+        Team team2 = new Team("Team1",page,owners2,players2,coaches2, field2);
+
+        repSystem.addTeamToLeague(lis5, team);
+        repSystem.addTeamToLeague(lis5, team2);
+
+
         assertTrue(leagueManager.assignGames(lis5, system.getDates()));
 
     }
