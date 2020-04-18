@@ -46,7 +46,7 @@ public class NotificationSystem {
     Send a notification to the user when the administrator removes it
      */
     public boolean UserRemovalNotification(String userMail){
-        return MailSender.send(userMail);
+        return MailSender.send(userMail, "you have been removed from system");
     }
 
     public void notificationForAppointment(User user, boolean addAppointment){

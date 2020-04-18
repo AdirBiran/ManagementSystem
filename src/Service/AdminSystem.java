@@ -3,6 +3,9 @@ package Service;
 import Domain.*;
 import Domain.Admin;
 import Domain.User;
+import Presentation.Checker;
+
+import java.awt.*;
 
 public class AdminSystem {
 
@@ -29,8 +32,12 @@ public class AdminSystem {
     /*
     this function adds a new user to the system
     */
-    public void addUser(Admin admin, String password, User user) {
-        admin.addUser(password, user);
+    public boolean addUser(Admin admin, String password, User user) {
+        if(Checker.isValidPassword(password)){
+            admin.addUser(password, user);
+            return true;
+        }
+        return false;
     }
 
     /*
