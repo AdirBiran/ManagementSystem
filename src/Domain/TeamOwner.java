@@ -157,11 +157,15 @@ public class TeamOwner extends Manager {
     }
 
     public boolean closeTeam(Team team){
+
+        //List<User> teamowner = team.getTeamOwners();
         if(team.isActive()) {
-            setClosedTeam(team, true);
-            team.setActive(false);
-            //Removing permissions for team members
-            return true;
+            if(team.getTeamOwners().contains(this)) {
+                setClosedTeam(team, true);
+                team.setActive(false);
+                //Removing permissions for team members
+                return true;
+            }
         }
         return false;
     }
