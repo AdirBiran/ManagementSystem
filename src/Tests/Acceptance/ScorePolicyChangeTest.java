@@ -1,16 +1,13 @@
 package Tests.Acceptance;
 
-import Domain.LeagueInSeason;
-import Domain.PlayTwiceWithEachTeamPolicy;
-import Domain.StandardScorePolicy;
-import Domain.UnionRepresentative;
+import Domain.*;
 import Service.FootballManagementSystem;
 import Service.UnionRepresentativeSystem;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.Date;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ScorePolicyChangeTest {
 
@@ -27,21 +24,6 @@ public class ScorePolicyChangeTest {
         repSystem = system.getUnionRepresentativeSystem();
     }
 
-    @Test
-    public void changeScorePolicy_67()
-    {
-
-        system.dataReboot();
-
-        repSystem.configureNewSeason(2021 ,new Date(121, 4, 11));
-        repSystem.configureNewLeague("Alufot", "1");
-        LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
-
-        //repSystem.changeScorePolicy(leagueInSeason, new policy...)
-        assertTrue(false);
-
-        // cant be implemented yet, no other types of policies
-    }
 
     @Test
     public void changeScorePolicy_68()
@@ -53,10 +35,9 @@ public class ScorePolicyChangeTest {
         repSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
-        //repSystem.changeScorePolicy(leagueInSeason, new policy...)
-        assertTrue(false);
+        boolean success = repSystem.changeScorePolicy(leagueInSeason, new StandardScorePolicy());
+        assertFalse(success);
 
-        // cant be implemented yet, no other types of policies
     }
 
     @Test
@@ -69,9 +50,8 @@ public class ScorePolicyChangeTest {
         repSystem.configureNewLeague("Alufot", "1");
         LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
-        //repSystem.changeScorePolicy(leagueInSeason, new policy...)
-        assertTrue(false);
+        boolean success = repSystem.changeScorePolicy(leagueInSeason, new CupScorePolicy());
+        assertTrue(success);
 
-        // cant be implemented yet, no other types of policies
     }
 }

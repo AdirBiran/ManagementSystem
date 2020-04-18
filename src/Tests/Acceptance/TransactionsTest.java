@@ -16,8 +16,6 @@ import static org.junit.Assert.assertEquals;
 public class TransactionsTest {
 
     private FootballManagementSystem system;
-    private AdminSystem adminSystem;
-    private Database database;
     private FinanceTransactionsSystem transSystem;
 
     @Before
@@ -25,8 +23,6 @@ public class TransactionsTest {
     {
         system = new FootballManagementSystem();
         system.systemInit(true);
-        adminSystem = system.getAdminSystem();
-        database = system.getDatabase();
         transSystem = system.getFinanceTransactionsSystem();
     }
 
