@@ -39,8 +39,8 @@ public class UserManagementTest {
     public void registrationForGamesAlerts() {
         LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
         Fan fan = new Fan("AviLevi@gmail.com", "Avi", "Levi", "0500004544", "Yuda123");
-        Team team0 = (Team) system.getDatabase().searchObject("team0").get(0);
-        Team team1 = (Team) system.getDatabase().searchObject("team1").get(0);
+        Team team0 = system.getDatabase().getTeams().get(0);
+        Team team1 = system.getDatabase().getTeams().get(0);
         Field field = new Field("Tel-Aviv", 10000, 1500);
         Referee mainReferee= (Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(0);
         List<Referee> sideReferees = new LinkedList<>();

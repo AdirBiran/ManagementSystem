@@ -38,9 +38,6 @@ public class AssetManagementTest {
 
     @Test
     public void alertBudgetException1() {
-        FootballManagementSystem system = new FootballManagementSystem();
-        system.systemInit(true);
-        system.dataReboot();
         UnionRepresentative union = new UnionRepresentative("union", "rep", "unionrep@gmail.com");
         system.getDatabase().addUser("AAA123", union);
         int sizeOfMessageBox = union.getMessageBox().size();
