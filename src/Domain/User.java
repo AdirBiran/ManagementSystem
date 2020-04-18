@@ -28,6 +28,8 @@ public abstract class User extends Guest {
         this.firstName = firstName;
         this.lastName = lastName;
         this.ID = ID + IdGenerator.getNewId();
+        if(!mail.matches("^(.+)@(.+)$"))
+            throw new RuntimeException("email address not valid");
         this.mail = mail;
         this.messageBox = new LinkedList<>();
         this.isActive = true;

@@ -78,10 +78,6 @@ public class TeamOwnerTest {
 
     }
 
-    /*@Test
-    public void reportFinanceTrans() {
-    }*/
-
     @Test
     public void isClosedTeam() {
         assertFalse(teamOwner1.isClosedTeam(teamOwner1.getTeam().get(0)));
