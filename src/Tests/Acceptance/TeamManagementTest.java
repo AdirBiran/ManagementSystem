@@ -133,12 +133,16 @@ public class TeamManagementTest {
     @Test
     public void manageAssets_29()
     {
+        assertTrue(false);
+
         // cant be implemented
     }
 
     @Test
     public void manageAssets_30()
     {
+        assertTrue(false);
+
         // cant be implemented
     }
 
@@ -218,6 +222,7 @@ public class TeamManagementTest {
         teamSystem.appointmentTeamOwner(owner, players.get(0), team);
 
         // cant be implemented due to permissions problem
+        assertTrue(false);
 
     }
 
@@ -287,6 +292,7 @@ public class TeamManagementTest {
         teamSystem.reopeningTeam(owner, team);
 
         //cant be implemented, need at least 24 hours
+        assertTrue(false);
 
     }
 
@@ -336,7 +342,7 @@ public class TeamManagementTest {
         teamSystem.reopeningTeam(owner, team);
 
         active = teamSystem.isActiveTeam(team);
-        assertFalse(active);
+        assertTrue(active);
     }
 
 

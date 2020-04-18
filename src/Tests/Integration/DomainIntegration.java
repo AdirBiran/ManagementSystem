@@ -45,6 +45,7 @@ public class DomainIntegration {
     @Test
     public void AssetManagement_Test()
     {
+        assertTrue(false);
 
     }
 
