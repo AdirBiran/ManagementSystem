@@ -22,7 +22,7 @@ public class RefereeManagement {
     public Referee appointReferee(String firstName, String lastName, String mail, String training) {
         Referee referee = new Referee(firstName,lastName, mail, training);
         String initialPassword = "Ac1234";
-        //send referee mail to approve?
+        MailSender.send(referee.getMail(), "you have been appointed as a referee, your user id is: "+ referee.getMail()+" your password is: "+ initialPassword);
         if(database.addUser(initialPassword, referee))
             return referee;
         else
