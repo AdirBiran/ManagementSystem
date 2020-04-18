@@ -149,7 +149,6 @@ public class ServiceIntegration {
         teamSystem.appointmentTeamManager(owner, user, team);
         teamManagers = teamSystem.getTeamManagers(team);
         assertEquals(1, teamManagers.size());
-        //can't be implemented - problem with permissions
 
         boolean isActive = teamSystem.isActiveTeam(team);
         assertTrue(isActive);

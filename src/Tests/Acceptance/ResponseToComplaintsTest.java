@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ResponseToComplaintsTest {
 
@@ -38,6 +39,7 @@ public class ResponseToComplaintsTest {
     public void responseToComplaint_49()
     {
 
+        assertTrue(false);
         // cant be implemented yet
 
     }
@@ -45,6 +47,7 @@ public class ResponseToComplaintsTest {
     @Test
     public void responseToComplaint_50()
     {
+        assertTrue(false);
 
         // cant be implemented yet
 
@@ -53,6 +56,7 @@ public class ResponseToComplaintsTest {
     @Test
     public void responseToComplaint_51()
     {
+        assertTrue(false);
 
         // cant be implemented yet
 
