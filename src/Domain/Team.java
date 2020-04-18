@@ -107,32 +107,40 @@ public class Team{
         this.draws ++;
     }
 
-    public void addTeamOwner(User teamOwner) {
+    public boolean addTeamOwner(User teamOwner) {
         if(!teamOwners.contains(teamOwner)) {
             this.teamOwners.add(teamOwner);
             teamOwner.addTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void addTeamManager(User teamManager) {
+    public boolean addTeamManager(User teamManager) {
         if(!teamManagers.contains(teamManager)) {
             this.teamManagers.add(teamManager);
             teamManager.addTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         if(!players.contains(player)) {
             this.players.add(player);
             player.addTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void addCoach(Coach coach) {
+    public boolean addCoach(Coach coach) {
         if(!coaches.contains(coach)) {
             this.coaches.add(coach);
             coach.addTeam(this);
+            return true;
         }
+        return false;
     }
 
     public void addGame(Game game) {
@@ -144,32 +152,40 @@ public class Team{
 
     /**remove**/
 
-    public void removeTeamOwner(User teamOwner) {
+    public boolean removeTeamOwner(User teamOwner) {
         if(teamOwners.contains(teamOwner)) {
             this.teamOwners.remove(teamOwner);
             teamOwner.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void removeTeamManager(User teamManager) {
+    public boolean removeTeamManager(User teamManager) {
         if(teamManagers.contains(teamManager)) {
             this.teamManagers.remove(teamManager);
             teamManager.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void removePlayer(Player player) {
-        if(players.contains(player)) {
+    public boolean removePlayer(Player player) {
+        if(players.contains(player) && players.size()>12) {
             this.players.remove(player);
             player.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
-    public void removeCoach(Coach coach) {
-        if(coaches.contains(coach)) {
+    public boolean removeCoach(Coach coach) {
+        if(coaches.contains(coach) && coaches.size()>1) {
             this.coaches.remove(coach);
             coach.removeTeam(this);
+            return true;
         }
+        return false;
     }
 
 
