@@ -37,7 +37,7 @@ public class ServiceIntegration {
     public void integration_AdminSystem()
     {
 
-        system.getDatabase().GetSystemAdmins().get(0).addUser("12345", new Referee("First", "Last", "a@b.com", "Training"));
+        system.getDatabase().GetSystemAdmins().get(0).addUser("Ab1234", new Referee("First", "Last", "a@b.com", "Training"));
         User user = system.getDatabase().getUserByMail("a@b.com");
         assertNotNull(user);
 
@@ -94,10 +94,10 @@ public class ServiceIntegration {
     public void integration_GuestSystem()
     {
 
-        boolean registered = guestSystem.registrationToSystem("a@b.com", "123456", "First", "Last", "0123456789", "Israel");
+        boolean registered = guestSystem.registrationToSystem("a@b.com", "ABb123", "First", "Last", "0123456789", "Israel");
         assertTrue(registered);
 
-        User user = guestSystem.logIn("a@b.com", "123456");
+        User user = guestSystem.logIn("a@b.com", "ABb123");
         assertNotNull(user);
 
         Guest g = userSystem.logOut();
