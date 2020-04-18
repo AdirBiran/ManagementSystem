@@ -36,7 +36,7 @@ public class LeagueAndGameManagementTest {
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add((Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(1));
         sideReferees.add((Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(2));
-        Game game = new Game(new Date(10, 10, 2020), field, mainReferee, sideReferees ,team0, team1,league);
+        Game game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees ,team0, team1,league);
         List<Game> games = new LinkedList<>();
         games.add(game);
         ReceiveAlerts receive = new ReceiveAlerts(false, false);
@@ -75,6 +75,8 @@ public class LeagueAndGameManagementTest {
 
     @Test
     public void changeScorePolicy() {
+        LeagueInSeason leagueInSeason = system.getLeagueAndGameManagement().configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        assertTrue(system.getLeagueAndGameManagement().changeScorePolicy(leagueInSeason, new StandardScorePolicy()));
 
     }
 

@@ -34,4 +34,19 @@ public class AssetManagementTest {
         system.getAssetManagement().alertBudgetException("test message");
         assertEquals(sizeOfMessageBox+1, union.getMessageBox().size(), 0);
     }
+
+    @Test
+    public void addAsset(){
+
+    }
+
+    @Test
+    public void removeAsset(){
+
+    }
+
+    @Test
+    public void updateAsset(){
+
+    }
 }

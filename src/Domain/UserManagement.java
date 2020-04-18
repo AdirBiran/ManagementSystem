@@ -30,7 +30,7 @@ public class UserManagement//for admins
      this function update a user in the system
      */
     public void updateUser(String userId){
-    User user = database.getUser(userId);
+        User user = database.getUser(userId);
 
     }
 
