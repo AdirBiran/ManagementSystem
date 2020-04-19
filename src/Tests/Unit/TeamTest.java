@@ -1,4 +1,4 @@
-package Tests.Unit;
+package Unit;
 
 import Domain.*;
 import Service.FootballManagementSystem;
@@ -79,12 +79,14 @@ public class TeamTest {
 
     @Test
     public void removeTeamManager() {
+
         TeamManager teamManager = new TeamManager("Doron" , "Shamai" , "shamaid@gmail.com" , team1 ,100);
         system.getDatabase().addUser("AAa123", teamManager);
 
         assertFalse(team.removeTeamManager(teamManager));
         teamOwner1.appointmentTeamManager(teamManager,team);
         assertTrue(team.removeTeamManager(teamManager));
+
     }
 
     @Test
