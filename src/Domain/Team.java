@@ -153,7 +153,7 @@ public class Team{
     /**remove**/
 
     public boolean removeTeamOwner(User teamOwner) {
-        if(teamOwners.contains(teamOwner)) {
+        if(teamOwners.contains(teamOwner) && teamOwners.size()>1) {
             this.teamOwners.remove(teamOwner);
             teamOwner.removeTeam(this);
             return true;

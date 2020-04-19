@@ -67,8 +67,11 @@ public class TeamTest {
     @Test
     public void removeTeamOwner() {
         TeamOwner teamOwner = (TeamOwner) system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(0);
-        assertFalse(team.removeTeamOwner(teamOwner));
-        assertTrue(team.removeTeamOwner(team.getTeamOwners().get(0)));
+        assertFalse(teamOwner.getTeam().get(0).removeTeamOwner(teamOwner));
+        TeamOwner to = (TeamOwner)system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(1);
+        system.getDatabase().addUser("AAa123", to);
+        teamOwner.appointmentTeamOwner(to, teamOwner.getTeam().get(0));
+        assertTrue(teamOwner.getTeam().get(0).removeTeamOwner(to));
     }
 
     @Test
