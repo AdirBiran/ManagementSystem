@@ -5,8 +5,6 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
-
 import static org.junit.Assert.*;
 
 public class TeamTest {
@@ -61,7 +59,6 @@ public class TeamTest {
 
         assertTrue(team.addPlayer(player2));
         assertFalse(team.addPlayer(player2));
-        //assertFalse(team.addPlayer(team.getPlayers().get(0)));
     }
 
     @Test
