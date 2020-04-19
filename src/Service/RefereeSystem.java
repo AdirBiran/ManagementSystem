@@ -7,14 +7,8 @@ import java.util.Date;
 public class RefereeSystem {
 
 
-    private LeagueAndGameManagement leagueAndGameManagement;
-    private RefereeManagement refereeManagement;
 
-
-    public RefereeSystem(LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement) {
-        this.leagueAndGameManagement = leagueAndGameManagement;
-        this.refereeManagement = refereeManagement;
-
+    public RefereeSystem() {
 
     }
 

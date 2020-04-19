@@ -9,15 +9,12 @@ public class UserSystem extends GuestSystem{
 
     private ComplaintManager complaintManger;
     private EditPersonalInfo editPersonalInfo;
-    private LeagueAndGameManagement leagueAndGameManagement;
 
 
-    public UserSystem(Searcher searcher, ComplaintManager complaintManger, EditPersonalInfo editPersonalInfo,UserManagement userManagement,
-                      LeagueAndGameManagement leagueAndGameManagement) {
+    public UserSystem(Searcher searcher, ComplaintManager complaintManger, EditPersonalInfo editPersonalInfo,UserManagement userManagement) {
         super(searcher, userManagement);
         this.complaintManger = complaintManger;
         this.editPersonalInfo = editPersonalInfo;
-        this.leagueAndGameManagement = leagueAndGameManagement;
 
     }
 

@@ -9,14 +9,10 @@ import java.awt.*;
 
 public class AdminSystem {
 
-    private LeagueAndGameManagement leagueAndGameManagement;
-    private UserManagement userManagement;
     private NotificationSystem notificationSystem;
     private ComplaintManager complaintManager;
 
-    public AdminSystem(LeagueAndGameManagement leagueAndGameManagement, UserManagement userManagement, NotificationSystem notificationSystem, ComplaintManager complaintManager) {
-        this.leagueAndGameManagement = leagueAndGameManagement;
-        this.userManagement = userManagement;
+    public AdminSystem(NotificationSystem notificationSystem, ComplaintManager complaintManager) {
         this.notificationSystem = notificationSystem;
         this.complaintManager = complaintManager;
     }

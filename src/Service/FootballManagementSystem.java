@@ -156,13 +156,13 @@ public class FootballManagementSystem {
         mailSender = new MailSender();
         //***service***//
         notificationSystem = new NotificationSystem(refereeManagement, assetManagement);
-        adminSystem = new AdminSystem(leagueAndGameManagement, userManagement, notificationSystem, complaintManager);
+        adminSystem = new AdminSystem(notificationSystem, complaintManager);
         financeTransactionsSystem = new FinanceTransactionsSystem(financeTransactionsManagement, notificationSystem);
         guestSystem = new GuestSystem(searcher, userManagement);
         personalPageSystem = new PersonalPageSystem(personalPageManagement);
-        refereeSystem = new RefereeSystem(leagueAndGameManagement, refereeManagement);
+        refereeSystem = new RefereeSystem();
         unionRepresentativeSystem = new UnionRepresentativeSystem(financeTransactionsManagement, leagueAndGameManagement, refereeManagement);
-        userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, userManagement, leagueAndGameManagement);
+        userSystem = new UserSystem(searcher, complaintManager, editPersonalInfo, userManagement);
         teamManagementSystem = new TeamManagementSystem(notificationSystem, assetManagement);
         //***presentation***//
         systemAdmins = new LinkedList<>();
