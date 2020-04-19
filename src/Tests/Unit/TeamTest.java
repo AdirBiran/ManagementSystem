@@ -30,22 +30,26 @@ public class TeamTest {
 
     @Test
     public void addTeamOwner() {
-        TeamOwner teamOwner = (TeamOwner) system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(0);
-        Player player = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
-        if(!team.getTeamOwners().contains(teamOwner)) {
-            assertTrue(team.addTeamOwner(teamOwner));
-        }
-        if(!team.getTeamOwners().contains(player)) {
-            assertTrue(team.addTeamOwner(player));
-        }
-        assertFalse(team.addTeamOwner(team.getTeamOwners().get(0)));
+        TeamOwner teamOwner = new TeamOwner("Doron" , "Shamai" , "shamaid@gmail.com" );
+        system.getDatabase().addUser("AAa123", teamOwner);
+        Player player1 = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
+        Player player2 = new Player("Doron" , "Shamai" , "shamaid@gmail.com",null, player1.getBirthDate() , player1.getRole() , 100);
+
+        system.getDatabase().addUser("AAa123", player2);
+
+        assertTrue(team.addTeamOwner(teamOwner));
+        assertTrue(team.addTeamOwner(player2));
+
+        assertFalse(team.addTeamOwner(teamOwner));
     }
 
     @Test
     public void addTeamManager() {
-        TeamManager teamManager = new TeamManager("Doron" , "Shamai" , "shamaid@gmail.com" , team ,100);
+        TeamManager teamManager = new TeamManager("Doron" , "Shamai" , "shamaid@gmail.com" , team1 ,100);
+        system.getDatabase().addUser("AAa123", teamManager);
+
         assertTrue(team.addTeamManager(teamManager));
-        assertFalse(team.addTeamManager(team.getTeamManagers().get(0)));
+        assertFalse(team.addTeamManager(teamManager));
 
     }
 
@@ -53,17 +57,22 @@ public class TeamTest {
     public void addPlayer() {
         Player player1 = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
         Player player2 = new Player("Doron" , "Shamai" , "shamaid@gmail.com",null, player1.getBirthDate() , player1.getRole() , 100);
+        system.getDatabase().addUser("AAa123", player2);
+
         assertTrue(team.addPlayer(player2));
-        assertFalse(team.addPlayer(team.getPlayers().get(0)));
+        assertFalse(team.addPlayer(player2));
+        //assertFalse(team.addPlayer(team.getPlayers().get(0)));
     }
 
     @Test
     public void addCoach() {
         Coach coach = (Coach) system.getDatabase().getListOfAllSpecificUsers("Coach").get(0);
-        if(!team.getCoaches().contains(coach)) {
-            assertTrue(team.addCoach(coach));
-        }
-        assertFalse(team.addCoach(team.getCoaches().get(0)));
+        Coach coach1 = new Coach("Doron" , "Shamai" , "shamaid@gmail.com",null,coach.getTraining(),coach.getRole(),100);
+        system.getDatabase().addUser("AAa123", coach1);
+
+        assertTrue(team.addCoach(coach1));
+        assertFalse(team.addCoach(coach1));
+        
     }
 
     @Test
@@ -106,6 +115,7 @@ public class TeamTest {
     public void removeCoach() {
         Coach coach = (Coach) system.getDatabase().getListOfAllSpecificUsers("Coach").get(0);
         Coach coach1 = new Coach("Doron" , "Shamai" , "shamaid@gmail.com",null,coach.getTraining(),coach.getRole(),100);
+        system.getDatabase().addUser("AAa123", coach1);
 
         assertFalse(team.removeCoach(coach1));
         team.addCoach(coach1);
