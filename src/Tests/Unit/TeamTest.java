@@ -94,28 +94,22 @@ public class TeamTest {
         Player player1 = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
         Player player2 = new Player("Doron" , "Shamai" , "shamaid@gmail.com",null, player1.getBirthDate() , player1.getRole() , 100);
 
-        system.getDatabase().addUser("AAa123", player1);
         system.getDatabase().addUser("AAa123", player2);
 
-        if(!team.getPlayers().contains(player1)) {
-            team.addPlayer(player1);
-        }
-        if(team.getPlayers().size()>11 && team.getPlayers().contains(player1)) {
-            assertTrue(team.removePlayer(player1));
-        }
         assertFalse(team.removePlayer(player2));
+        team.addPlayer(player2);
+        assertTrue(team.removePlayer(player2));
+
     }
 
     @Test
     public void removeCoach() {
         Coach coach = (Coach) system.getDatabase().getListOfAllSpecificUsers("Coach").get(0);
-        if(!team.getCoaches().contains(coach)) {
-            team.addCoach(coach);
-        }
-        if(team.getCoaches().size()>1) {
-            assertTrue(team.removeCoach(coach));
-            assertFalse(team.removeCoach(team.getCoaches().get(0)));
-        }
+        Coach coach1 = new Coach("Doron" , "Shamai" , "shamaid@gmail.com",null,coach.getTraining(),coach.getRole(),100);
+
+        assertFalse(team.removeCoach(coach1));
+        team.addCoach(coach1);
+        assertTrue(team.removeCoach(coach1));
     }
 
     @Test
