@@ -1,4 +1,4 @@
-package Tests.Unit;
+package Unit;
 
 import Domain.Fan;
 import Domain.Searcher;

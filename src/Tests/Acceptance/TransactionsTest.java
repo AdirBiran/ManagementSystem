@@ -1,8 +1,6 @@
-package Tests.Acceptance;
+package Acceptance;
 
-import Data.Database;
 import Domain.*;
-import Service.AdminSystem;
 import Service.FinanceTransactionsSystem;
 import Service.FootballManagementSystem;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package Tests.Integration;
+package Integration;
 
 import Data.Database;
 import Domain.*;

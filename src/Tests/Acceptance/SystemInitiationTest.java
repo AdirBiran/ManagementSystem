@@ -1,4 +1,4 @@
-package Tests.Acceptance;
+package Acceptance;
 
 import Service.FootballManagementSystem;
 import org.junit.Test;

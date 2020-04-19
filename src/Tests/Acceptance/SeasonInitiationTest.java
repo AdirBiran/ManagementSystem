@@ -1,4 +1,4 @@
-package Tests.Acceptance;
+package Acceptance;
 
 import Domain.*;
 import Service.FootballManagementSystem;
