@@ -1,7 +1,10 @@
 package Acceptance;
 
+import Data.Database;
 import Domain.Complaint;
 import Domain.Fan;
+import Domain.User;
+import Domain.UserFactory;
 import Service.FootballManagementSystem;
 import Service.UserSystem;
 import org.junit.Before;
@@ -28,13 +31,15 @@ public class ComplaintTest {
     @Test
     public void invalidComplaint_13()
     {
-        Fan fan = new Fan("a@b.com", "AAA", "BBB", "0123456789", "Israel");
+        Object[] fan = UserFactory.getNewFan("Aa1323","AAA", "BBB","a@b.com", "0123456789", "Israel");
         String invalidDescription = "";
-        userSystem.addComplaint(fan, invalidDescription);
+        if(fan!=null){
+            userSystem.addComplaint((User)fan[0], invalidDescription);
+        }
 
         boolean found = false;
 
-        HashSet<Complaint> complaints = system.getDatabase().getComplaints();
+        HashSet<Complaint> complaints = Database.getComplaints();
 
         for (Complaint comp : complaints)
             if (comp.getDescription().equals(invalidDescription))
@@ -47,13 +52,13 @@ public class ComplaintTest {
     @Test
     public void validComplaint_14()
     {
-        Fan fan = new Fan("a@b.com", "AAA", "BBB", "0123456789", "Israel");
+        Object[] fan = UserFactory.getNewFan("Aa12234", "AAA", "BBB","a@b.com" ,"0123456789", "Israel");
         String validDescription = "valid complaint";
-        userSystem.addComplaint(fan, validDescription);
+        userSystem.addComplaint((User)fan[0], validDescription);
 
         boolean found = false;
 
-        HashSet<Complaint> complaints = system.getDatabase().getComplaints();
+        HashSet<Complaint> complaints = Database.getComplaints();
 
         for (Complaint comp : complaints)
             if (comp.getDescription().equals(validDescription))

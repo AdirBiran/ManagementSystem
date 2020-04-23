@@ -1,5 +1,6 @@
 package Acceptance;
 
+import Data.Database;
 import Domain.User;
 import Service.FootballManagementSystem;
 import Service.GuestSystem;
@@ -26,12 +27,12 @@ public class SystemRegistrationTest {
     @Test
     public void registrationSuccess_6()
     {
-        User user = system.getDatabase().getUserByMail("a@b.com");
+        User user = Database.getUserByMail("a@b.com");
         assertNull(user);
 
         guestSystem.registrationToSystem("a@b.com", "Ab1234", "Moshe", "Cohen", "0987654321", "Israel");
 
-        user = system.getDatabase().getUserByMail("a@b.com");
+        user = Database.getUserByMail("a@b.com");
         assertNotNull(user);
 
     }
@@ -40,8 +41,8 @@ public class SystemRegistrationTest {
     public void registrationFail_7()
     {
 
-        boolean reg1 = guestSystem.registrationToSystem("a@b.com", "Ab2123", "Moshe", "Cohen", "0987654321", "Israel");
-        boolean reg2 = guestSystem.registrationToSystem("a@b.com", "Cc1234", "Dani", "Levi", "9876543210", "Israel");
+        boolean reg1 = (guestSystem.registrationToSystem("a@b.com", "Ab2123", "Moshe", "Cohen", "0987654321", "Israel"))!=null;
+        boolean reg2 = (guestSystem.registrationToSystem("a@b.com", "Cc1234", "Dani", "Levi", "9876543210", "Israel"))!=null;
 
         assertTrue(reg1);
         assertFalse(reg2);
@@ -50,7 +51,7 @@ public class SystemRegistrationTest {
     @Test
     public void registrationFail_8()
     {
-        boolean reg = guestSystem.registrationToSystem("as ds & @b.com", "567890", "Dani", "Levi", "9876543210", "Israel");
+        boolean reg = (guestSystem.registrationToSystem("as ds & @b.com", "567890", "Dani", "Levi", "9876543210", "Israel"))!=null;
 
         assertFalse(reg);
     }

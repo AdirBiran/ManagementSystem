@@ -29,15 +29,15 @@ public class TransactionsTest {
     {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
-        TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
+        User owner = UserFactory.getNewTeamOwner("Team","Owner", "a233655"+"@gmail.com");
         List<User> owners = new LinkedList<>();
         owners.add(owner);
-        PersonalPage page = new PersonalPage("", players.get(0));
+        PersonalPage page = new PersonalPage("", owner);
         Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
 
         transSystem.reportNewExpanse(owner, team, 50);
-        double afterChange = transSystem.getBalance(team);
+        double afterChange = transSystem.getBalance(owner,team);
 
         assertEquals(0, afterChange, 0);
 
@@ -48,22 +48,22 @@ public class TransactionsTest {
     {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
-        TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
+        User owner = UserFactory.getNewTeamOwner("Team","Owner", "a"+"@gmail.com");
         List<User> owners = new LinkedList<>();
         owners.add(owner);
-        PersonalPage page = new PersonalPage("", players.get(0));
+        PersonalPage page = new PersonalPage("", owner);
         Field field = new Field( "jerusalem", 550, 1500);
         Team team = new Team("team",page,owners,players,coaches, field);
 
-        double total = transSystem.getBalance(team);
+        double total = transSystem.getBalance(owner,team);
         transSystem.reportNewIncome(owner, team, 50);
-        double afterChange = transSystem.getBalance(team);
+        double afterChange = transSystem.getBalance(owner,team);
 
         assertEquals(total+50, afterChange, 0);
 
-        total = transSystem.getBalance(team);
+        total = transSystem.getBalance(owner,team);
         transSystem.reportNewExpanse(owner, team, 50);
-        afterChange = transSystem.getBalance(team);
+        afterChange = transSystem.getBalance(owner,team);
 
         assertEquals(total-50, afterChange, 0);
 

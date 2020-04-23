@@ -1,26 +1,17 @@
 package Presentation;
 
+import Domain.Authorization.GuestAuthorization;
+
 public class Guest {
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-    /**
-     *
-     */
-    public void logIn()
-    {
 
+    GuestAuthorization guestAuthorization;
+
+    public Guest() {
+        guestAuthorization = new GuestAuthorization();
     }
-    /**
-     *
-     * @param strToSearch
-     */
-    public void Search(String strToSearch)
-    {
 
-    }
-    public void register(String mail, String password, String firstName, String lastName,
-                         String phone, String address)
-    {
-
+    public GuestAuthorization getGuestAuthorization() {
+        return guestAuthorization;
     }
 }

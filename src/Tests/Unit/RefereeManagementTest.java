@@ -21,7 +21,7 @@ public class RefereeManagementTest {
         system.systemInit(true);
         system.dataReboot();
     }
-
+/*
     @Test
     public void sendNotification() {
         LeagueInSeason league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
@@ -37,11 +37,5 @@ public class RefereeManagementTest {
         system.getRefereeManagement().sendNotification(game, "The game in "+game.getDate());
         assertEquals(amountOfMessage+1,system.getDatabase().getListOfAllSpecificUsers("Referee").get(0).getMessageBox().size(), 0 );
     }
-
-    @Test
-    public void appointReferee() {
-        int amountOfReferee = system.getDatabase().getListOfAllSpecificUsers("Referee").size();
-        assertNotNull(system.getRefereeManagement().appointReferee("Alon", "Yefet", "alonY@gmail.com", "talented"));
-        assertEquals(amountOfReferee+1,system.getDatabase().getListOfAllSpecificUsers("Referee").size(), 0);
-    }
+*/
 }

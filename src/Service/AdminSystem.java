@@ -1,48 +1,89 @@
 package Service;
 
+import Domain.Authorization.AdminAuthorization;
+import Domain.Authorization.AuthorizationRole;
 import Domain.*;
-import Domain.Admin;
 import Domain.User;
 import Presentation.Checker;
 
-import java.awt.*;
+import java.util.Date;
 
 public class AdminSystem {
 
     private NotificationSystem notificationSystem;
-    private ComplaintManager complaintManager;
 
-    public AdminSystem(NotificationSystem notificationSystem, ComplaintManager complaintManager) {
+    public AdminSystem(NotificationSystem notificationSystem) {
         this.notificationSystem = notificationSystem;
-        this.complaintManager = complaintManager;
     }
 
     /*
         Remove user by an administrator
         */
-    public void removeUser(Admin admin, String userId){
-        String userMail = admin.removeUser(userId);
-        notificationSystem.UserRemovalNotification(userMail);
+    public void removeUser(User admin, String userId){
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null){
+            String userMail = authorization.removeUser(userId);
+            notificationSystem.UserRemovalNotification(userMail);
+        }
+
     }
 
-    /*
-    this function adds a new user to the system
-    */
-    public boolean addUser(Admin admin, String password, User user) {
-        if(Checker.isValidPassword(password)){
-            admin.addUser(password, user);
-            return true;
+    public Object[] addNewPlayer(User admin, String firstName, String lastName, String mail, Date birthDate, String role, double price){
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null){
+            return authorization.addNewPlayer(firstName, lastName, mail, birthDate, role, price);
         }
-        return false;
+        return null;
     }
+    public Object[] addNewCoach(User admin,String firstName, String lastName, String mail, String training, String role, double price){
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null){
+            return authorization.addNewCoach(firstName, lastName, mail, training, role, price);
+        }
+        return null;
+    }
+    public User addNewTeamOwner(User admin,String firstName, String lastName, String mail){
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null){
+            return  authorization.addNewTeamOwner(firstName, lastName, mail);
+        }
+        return null;
+    }
+    public Object[] addNewTeamManager(User admin,String firstName, String lastName, String mail, double price){
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null){
+            return authorization.addNewTeamManager(firstName, lastName, mail, price);
+        }
+        return null;
+    }
+    public User addNewUnionRepresentative(User admin,String firstName, String lastName, String mail){
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null){
+            return authorization.addNewUnionRepresentative(firstName, lastName, mail);
+        }
+        return null;
+    }
+
+    public User addNewAdmin(User admin,String password ,String firstName, String lastName, String mail){
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null){
+            return authorization.addNewAdmin(password,firstName, lastName, mail);
+        }
+        return null;
+
+    }
+
 
     /*
 Permanently close a group only by an administrator
  */
-    public boolean permanentlyCloseTeam(Admin admin, Team team){
-        if(admin.permanentlyCloseTeam(team)){
-            notificationSystem.openORCloseTeam("closed", team, true);
-            return true;
+    public boolean permanentlyCloseTeam(User admin, Team team){
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null){
+            if(authorization.closeTeamPermanently(team)){
+                notificationSystem.openORCloseTeam("closed", team, true);
+                return true;
+            }
         }
         return false;
     }
@@ -50,10 +91,12 @@ Permanently close a group only by an administrator
     /**
      *
      */
-    public void responseToComplaint(Admin admin, Complaint complaint)
+    public void responseToComplaint(User admin, Complaint complaint)
     {
-        admin.responseToComplaint(complaint);
-        complaintManager.responseToComplaint(admin,complaint);
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null){
+            authorization.responseToComplaint();
+        }
     }
     /**
      *
@@ -69,5 +112,14 @@ Permanently close a group only by an administrator
     public void trainModel()
     {
 
+    }
+
+
+    private AdminAuthorization getAuthorization(User user) {
+        for(AuthorizationRole role : user.getRoles()){
+            if(role.getRoleName().contains("Admin"))
+                return (AdminAuthorization)role;
+        }
+        return null;
     }
 }

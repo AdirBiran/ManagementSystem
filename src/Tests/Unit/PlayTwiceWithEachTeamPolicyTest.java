@@ -1,5 +1,6 @@
 package Unit;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Test;
@@ -18,12 +19,11 @@ public class PlayTwiceWithEachTeamPolicyTest {
         PlayTwiceWithEachTeamPolicy one = new PlayTwiceWithEachTeamPolicy();
         system = new FootballManagementSystem();
         system.systemInit(true);
-        system.dataReboot();
-        List <Team> teams = system.getDatabase().getTeams();
+        LeagueInSeason haal =system.dataReboot();
+        List <Team> teams = haal.getTeams();
         List<Date> dates = system.getDates();
-        LeagueInSeason haal = system.getLeagueAndGameManagement().configureLeagueInSeason("Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
-        for(Object r : system.getDatabase().getListOfAllSpecificUsers("Referee"))
-            haal.addReferee((Referee) r);
-        assertEquals(20, one.assignGames(teams, dates, haal).size(), 0);
+        List<Game> games = one.assignGames(teams, dates, haal);
+        assertNotNull(games);
+        assertEquals((teams.size())*(teams.size()-1), games.size());
     }
 }

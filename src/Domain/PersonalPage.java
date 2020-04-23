@@ -7,14 +7,13 @@ public class PersonalPage {
 
     private String id;
     private String data;
-    private HasAPage user;
+    private User user;
     private List<Fan> followers;
 
-    public PersonalPage(String data, HasAPage user) {
+    public PersonalPage(String data, User user) {
         this.id = "PP"+IdGenerator.getNewId();
         this.data = data;
         this.user = user;
-        user.setPage(this);
         followers = new LinkedList<>();
     }
 
@@ -42,7 +41,7 @@ public class PersonalPage {
         return data;
     }
 
-    public HasAPage getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -51,5 +50,9 @@ public class PersonalPage {
             followers.add(follower);
             follower.addPageToFollow(this);
         }
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 }

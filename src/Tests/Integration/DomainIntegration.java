@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class DomainIntegration {
-
+/*
     private FootballManagementSystem system;
     private AssetManagement assetManagement;
     private ComplaintManager complaintManager;
@@ -234,4 +234,5 @@ public class DomainIntegration {
     }
 
 
+*/
 }

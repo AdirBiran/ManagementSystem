@@ -9,8 +9,8 @@ public class Complaint {
     private boolean isActive;
     private Fan fanComplained;
 
-    public Complaint(Date date, String description, Fan fanComplained) {
-        this.date = date;
+    public Complaint(String description, Fan fanComplained) {
+        this.date = new Date();
         this.description = description;
         this.fanComplained = fanComplained;
         isActive = true;

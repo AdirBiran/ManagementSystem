@@ -1,8 +1,6 @@
 package Service;
 
-import Domain.Searcher;
-import Domain.UserManagement;
-import Presentation.Checker;
+import Domain.Authorization.GuestAuthorization;
 import Presentation.Guest;
 import Domain.User;
 
@@ -10,24 +8,21 @@ import java.util.List;
 
 public class GuestSystem {
 
-    protected Searcher searcher;
-    protected UserManagement userManagement;
 
-    public GuestSystem(Searcher searcher, UserManagement userManagement) {
-        this.searcher = searcher;
-        this.userManagement = userManagement;
+    GuestAuthorization authorization;
+
+
+    public GuestSystem() {
+        authorization = new GuestAuthorization();
     }
 
     /*
     Guest registration for the system
      */
-    public boolean registrationToSystem(String mail, String password, String firstName, String lastName,
+    public User registrationToSystem(String mail, String password, String firstName, String lastName,
                                         String phone, String address){
-        if(!Checker.isValidPassword(password))
-            return false;
-        if(userManagement.registrationToSystem(mail, password, firstName, lastName, phone, address))
-            return true;
-        return false;
+        return authorization.register(mail, password, firstName, lastName, phone, address);
+
     }
 
     /*
@@ -35,22 +30,22 @@ public class GuestSystem {
      * if exists return connected user
      * if the password is invalid or there is no such email in the system return null
      */
-    public User logIn(String mail, String password){
-        return userManagement.logInUserToSystem(mail, password);
+    public User logIn( String mail, String password){
+
+        return authorization.login(mail, password);
     }
 
     /*
     Search results in a system
      */
-    public List<Object> search(Guest g, String wordToSearch){
-       return searcher.searchInfo(g, wordToSearch);
-
+    public List<Object> search( String wordToSearch){
+       return authorization.search(wordToSearch);
     }
     /*
-    the guest chooses what to watch - teams, players, coaches, leagues and more
-     */
+    the guest chooses what to watch - teamsToManage, players, coaches, leagues and more
+     *//*
     public void viewInformation(String viewAbout){
         searcher.viewInfoAbout(viewAbout);
 
-    }
+    }*/
 }

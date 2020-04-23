@@ -7,16 +7,18 @@ import java.util.*;
 
 public class Database //maybe generalize with interface? //for now red layer
 {
-    private HashMap<String,String> mailsAndPasswords; //- <mail, encryptedPassword??>
-    private HashMap<String,String> mailsAndUserID; //- <mail, userId>
-    private HashMap<String,User> usersInDatabase; // - <userId,User>
-    private HashMap<String,Asset> assetsInDatabase;// - <asset.name, Asset>
-    private HashMap<String, Game> gamesInDatabase; // - <game.id, Game>
-    private HashMap<String, PersonalPage> pagesInDatabase;//-<userId, PersonalPage>
-    private HashSet<League> leagues;
-    private HashSet<Season> seasons;
-    private HashSet<Complaint> complaints;
-    private HashMap<String, Team> teams;
+    private static HashMap<String,String> mailsAndPasswords; //- <mail, encryptedPassword??>
+    private static HashMap<String,String> mailsAndUserID; //- <mail, userId>
+    private static HashMap<String,User> usersInDatabase; // - <userId,User>
+    private static HashMap<String, User> admins;
+    private static HashMap<String,Asset> assetsInDatabase;// - <asset.name, Asset>
+    private static HashMap<String, Game> gamesInDatabase; // - <game.id, Game>
+    private static HashMap<String, PersonalPage> pagesInDatabase;//-<userId, PersonalPage>
+    private static HashSet<League> leagues;
+    private static HashSet<Season> seasons;
+    private static HashSet<Complaint> complaints;
+    private static HashMap<String, Team> teams;
+    private static HashMap<User, Referee> referees;
 
     public Database() {
         mailsAndPasswords = new HashMap<>();
@@ -29,16 +31,28 @@ public class Database //maybe generalize with interface? //for now red layer
         seasons = new HashSet<>();
         complaints = new HashSet<>();
         teams = new HashMap<>();
+        admins = new HashMap<>();
+        referees = new HashMap<>();
     }
 
-    public boolean addLeague(League league) {
+    public static boolean addReferee(User user, Referee referee){
+        if(referees.containsKey(user))return false;
+        referees.put(user, referee);
+        return true;
+    }
+
+    public static HashMap<User, Referee> getReferees() {
+        return referees;
+    }
+
+    public static boolean addLeague(League league) {
         if(!leagues.contains(league)){
             leagues.add(league);
             return true;
         }
         return false;
     }
-    public boolean addSeason(Season season) {
+    public static boolean addSeason(Season season) {
         if(!seasons.contains(season)){
             seasons.add(season);
             return true;
@@ -46,43 +60,35 @@ public class Database //maybe generalize with interface? //for now red layer
         return false;
     }
 
-    public boolean addTeam(Team team){
+    public static boolean addTeam(Team team){
         if(!teams.containsKey(team.getID())){
             teams.put(team.getID(), team);
             for(Player player:team.getPlayers()){
                 if(!usersInDatabase.containsKey(player.getID())){
-                    addUser("Aa1234",player);
+                    addAsset(player);
                 }
             }
             for(Coach coach:team.getCoaches()){
                 if(!usersInDatabase.containsKey(coach.getID())){
-
-                    addUser("Aa1234",coach);
+                    addAsset(coach);
                 }
             }
-            for(User teamOwner:team.getTeamOwners()){
-                if(!usersInDatabase.containsKey(teamOwner.getID())){
-
-                    addUser("Aa1234",teamOwner);
-                }
-            }
-            for(User teamManager:team.getTeamManagers()){
-                if(!usersInDatabase.containsKey(teamManager.getID())){
-
-                    addUser("Aa1234",teamManager);
-                }
-            }
+            //for(User teamManager:team.getTeamManagers()){
+            //    if(!usersInDatabase.containsKey(teamManager.getID())){
+            //        addAsset(teamManager.getRoles().get(0));
+            //    }
+            //}
 
             return true;
         }
 
         return false;
     }
-    public Team getTeam(String teamId){
+    public static Team getTeam(String teamId){
         return (Team)search("Team", teamId);
     }
 
-    public List<Team> getTeams() {
+    public static List<Team> getTeams() {
         return new LinkedList<>(teams.values());
     }
 
@@ -91,7 +97,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for example input: "Blumfield stadium" - the output will be a pointer to Blumfield stadium object or Null if it doesn't exists
         return null if cant find asset
          */
-    public Asset getAsset(String name){
+    public static Asset getAsset(String name){
        return (Asset)search("Asset", name);
     }
     /*
@@ -99,37 +105,37 @@ public class Database //maybe generalize with interface? //for now red layer
     for example input: "Leonardo Messi" - the output will be a pointer to messi's user or Null if it doesn't exists
     return null if cant find user
      */
-    public User getUser(String userId){
+    public static User getUser(String userId){
         return (User)search("User", userId);
     }
 
-    public User getUserByMail(String mail){
+    public static User getUserByMail(String mail){
         return (User)search("Mail", mail);
     }
     /*
     this function gets a gameId - Game.toString (its address in memory) and returns a pointer to the object of this game
     return null if cant find game
     */
-    public Game getGame(String gameId){
+    public static Game getGame(String gameId){
         return (Game)search("Game", gameId);
     }
     /*
     this function gets a userId and return its personalPage if exists
     if page not exists the function returns null
      */
-    public PersonalPage getPage(String userId){
+    public static PersonalPage getPage(String userId){
         return (PersonalPage)search("Page", userId);
     }
     /*
     this function returns all games in database
      */
-    public LinkedList<Game> getAllGames(){
+    public static LinkedList<Game> getAllGames(){
         return new LinkedList<>(gamesInDatabase.values());
     }
     /*
     this function returns a list of all future games
      */
-    public LinkedList<Game> getAllFutureGames(){
+    public static LinkedList<Game> getAllFutureGames(){
         Date today = new Date();// Calendar.getInstance().getTime();
         LinkedList<Game> futureGames = new LinkedList<>();
         for(Game game : gamesInDatabase.values()){
@@ -139,7 +145,7 @@ public class Database //maybe generalize with interface? //for now red layer
         return futureGames;
     }
 
-    public HashMap<String, Asset> getAssetsInDatabase() {
+    public static HashMap<String, Asset> getAssetsInDatabase() {
         return assetsInDatabase;
     }
 
@@ -147,7 +153,7 @@ public class Database //maybe generalize with interface? //for now red layer
         adds an asset to the database
         returns false if the asset already exists
          */
-    public boolean addAsset(Asset asset){
+    public static boolean addAsset(Asset asset){
         String assetID = asset.getID();
         if(assetsInDatabase.containsKey(assetID)){
             return false;
@@ -160,21 +166,18 @@ public class Database //maybe generalize with interface? //for now red layer
     adds a user to the database
     returns false if the user already exists
      */
-    public boolean addUser(String password, User user){
+    public static boolean addUser(String password, User user){
         if(!mailsAndUserID.containsKey(user.getMail())&& user.isActive()){
             String encryptedPassword = encrypt(password);
             mailsAndPasswords.put(user.getMail(), encryptedPassword);
             mailsAndUserID.put(user.getMail(), user.getID());
             usersInDatabase.put(user.getID(), user);
-            if(user instanceof Asset && !assetsInDatabase.containsKey(user.getID())){
-                assetsInDatabase.put(user.getID(), (Asset)user);
-            }
             return true;
         }
         return false;
     }
 
-    private String encrypt(String password) {
+    private static String encrypt(String password) {
         MessageDigest messageDigest = null;
         try {
             messageDigest = MessageDigest.getInstance("SHA-1");
@@ -189,14 +192,11 @@ public class Database //maybe generalize with interface? //for now red layer
     this function adds a game to the database according to its toString() value
     returns false if the game already exists
     */
-    public boolean addGame(Game game){
+    public static boolean addGame(Game game){
         if(gamesInDatabase.containsKey(game.getId()))
             return false;
         gamesInDatabase.put(game.getId(), game);
-        addUser("Aa1234", game.getMainReferee());
-        for(Referee ref : game.getSideReferees()){
-                addUser("Aa1234", ref);
-        }
+
         addTeam(game.getGuestTeam());
         addTeam(game.getHostTeam());
         return true;
@@ -204,7 +204,7 @@ public class Database //maybe generalize with interface? //for now red layer
     /*
     this function adds a new personal page to the database according to the user id
      */
-    public boolean addPage(PersonalPage page){
+    public static boolean addPage(PersonalPage page){
         String userId = page.getId();
         if(pagesInDatabase.containsKey(userId))
             return false;
@@ -215,7 +215,7 @@ public class Database //maybe generalize with interface? //for now red layer
     this function perform a authentication check for username an password
     returns true if this is the correct credentials and false otherwise
      */
-    public boolean authenticationCheck(String mail, String password){
+    public static boolean authenticationCheck(String mail, String password){
         if(mailsAndPasswords.containsKey(mail) && usersInDatabase.get(mailsAndUserID.get(mail)).isActive()){
             String encryptedPassword = encrypt(password);
             String passwordInSystem = mailsAndPasswords.get(mail);
@@ -223,7 +223,7 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return false;
     }
-    public void changePassword(String mail, String newPassword){
+    public static void changePassword(String mail, String newPassword){
         if(mailsAndPasswords.containsKey(mail)){
             String encryptedPassword = encrypt(newPassword);
             mailsAndPasswords.replace(mail, encryptedPassword);
@@ -236,82 +236,81 @@ public class Database //maybe generalize with interface? //for now red layer
     if there aren't any users of this type - the list will be empty
     if the string type is wrong the function will return null
      */
-    public List<User> getListOfAllSpecificUsers(String userType){
-        LinkedList<User> listOfUsers = new LinkedList<>();
+    public static List<Asset> getListOfAllSpecificAssets(String userType){
+        LinkedList<Asset> listOfAssets = new LinkedList<>();
         switch(userType){
-            case("Admin"):{
-                for(User user : usersInDatabase.values()){
-                    if(user instanceof Admin &&user.isActive())
-                        listOfUsers.add(user);
-                }
-                return listOfUsers;
-
-            }
             case("Coach"):{
-                for(User user : usersInDatabase.values()){
-                    if(user instanceof Coach &&user.isActive())
-                        listOfUsers.add(user);
+                for(Asset asset : assetsInDatabase.values()){
+                    if(asset instanceof Coach &&asset.isActive())
+                        listOfAssets.add(asset);
                 }
-                return listOfUsers;
+                return listOfAssets;
 
             }
             case("Fan"):{
-                for(User user : usersInDatabase.values()){
-                    if(user instanceof Fan &&user.isActive())
-                        listOfUsers.add(user);
-                }
-                return listOfUsers;
+                //for(User user : usersInDatabase.values()){
+                //    if(user instanceof Fan &&user.isActive())
+                //        listOfUsers.add(user);
+                //}
+                //return listOfUsers;
+                break;
 
             }
             case("Player"):{
-                for(User user : usersInDatabase.values()){
+                for(Asset user : assetsInDatabase.values()){
                     if(user instanceof Player &&user.isActive())
-                        listOfUsers.add(user);
+                        listOfAssets.add(user);
                 }
-                return listOfUsers;
+                return listOfAssets;
             }
             case("Referee"):{
-                for(User user : usersInDatabase.values()){
-                    if(user instanceof Referee &&user.isActive())
-                        listOfUsers.add(user);
-                }
-                return listOfUsers;
+                //for(User user : usersInDatabase.values()){
+                //    if(user instanceof Referee &&user.isActive())
+                //        listOfUsers.add(user);
+                //}
+                //return listOfUsers;
+                break;
             }
             case("TeamManager"):{
-                for(User user : usersInDatabase.values()){
-                    if(user instanceof TeamManager &&user.isActive())
-                        listOfUsers.add(user);
-                }
-                return listOfUsers;
+               for(Asset user : assetsInDatabase.values()){
+                   if(user instanceof TeamManager &&user.isActive())
+                       listOfAssets.add(user);
+               }
+               return listOfAssets;
+
             }
             case("TeamOwner"):{
-                for(User user : usersInDatabase.values()){
-                    if(user instanceof TeamOwner &&user.isActive())
-                        listOfUsers.add(user);
-                }
-                return listOfUsers;
+                //for(User user : usersInDatabase.values()){
+                //    if(user instanceof TeamOwner &&user.isActive())
+                //        listOfUsers.add(user);
+                //}
+                //return listOfUsers;
+                break;
             }
             case("UnionRepresentative"):{
-                for(User user : usersInDatabase.values()){
-                    if(user instanceof UnionRepresentative &&user.isActive())
-                        listOfUsers.add(user);
-                }
-                return listOfUsers;
+                //for(User user : usersInDatabase.values()){
+                //    if(user instanceof UnionRepresentative &&user.isActive())
+                //        listOfUsers.add(user);
+                //}
+                //return listOfUsers;
+                break;
             }
         }
         return null;
     }
 
-    public List<Admin>GetSystemAdmins(){
-        List<Admin> listOfUsers = new LinkedList<>();
-        for(User user : usersInDatabase.values()){
-            if(user instanceof Admin &&user.isActive())
-                listOfUsers.add((Admin)user);
-        }
-        return listOfUsers;
+    public static List<User> getSystemAdmins(){
+        LinkedList<User> ListOfUsers = new LinkedList(admins.values());
+
+        return ListOfUsers;
     }
 
-    private Object search(String whatType, String searchWord){
+    public static boolean addAdmin(String password, User admin){
+        admins.put(admin.getID(), admin);
+        return addUser(password, admin);
+    }
+
+    private static Object search(String whatType, String searchWord){
             switch(whatType){
                 case("Asset"):{
                     for(String nameOfAsset : assetsInDatabase.keySet()) {
@@ -378,7 +377,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    public String removeUser(String userId) {
+    public static String removeUser(String userId) {
         User user = usersInDatabase.get(userId);
         String userMail="";
         if(user!=null){
@@ -391,53 +390,49 @@ public class Database //maybe generalize with interface? //for now red layer
     /*
     *
     * */
-    public void removeAsset(String assetId) {
+    public static void removeAsset(String assetId) {
         Asset asset = assetsInDatabase.get(assetId);
         if(asset!=null){
-            if(asset instanceof User &&((User)asset).getAmountOfTeams()==0){
-                asset.deactivate();
-            }
-            else if(asset instanceof Field)
-                asset.deactivate();
+            asset.deactivate();
         }
 
     }
 
-    public League getLeague(String nameOfLeague) {
+    public static League getLeague(String nameOfLeague) {
         return (League)search("League", nameOfLeague);
     }
 
-    public Season getSeason(String yearOfSeason) {
+    public static Season getSeason(String yearOfSeason) {
         return (Season)search("Season", yearOfSeason);
     }
 
-    public HashSet<Complaint> getComplaints() {
+    public static HashSet<Complaint> getComplaints() {
         return complaints;
     }
 
 
 
-    public void addComplaint(Complaint complaint){complaints.add(complaint);}
+    public static boolean addComplaint(Complaint complaint){return complaints.add(complaint);}
 
-    public void writeToDatabaseDisk(){
+    public static void writeToDatabaseDisk(){
         //*
     }
-    public void loadDatabaseFromDisk(String path){
+    public static void loadDatabaseFromDisk(String path){
         //*
     }
 
-    public List<Object> searchObject(String searchWord){
+    public static List<Object> searchObject(String searchWord){
         List<Object> result = new LinkedList<>();
         for(User user : usersInDatabase.values()){
-            if(searchWord.equals(user.getName())||searchWord.equals(user.getMail()))
+            if(searchWord.contains(user.getName())||searchWord.contains(user.getMail()))
                 result.add(user);
         }
         for(Team team : teams.values()){
-            if(searchWord.equals(team.getName()))
+            if(searchWord.contains(team.getName()))
                 result.add(team);
         }
         for(Asset asset : assetsInDatabase.values()){
-            if(asset instanceof Field && ((Field)asset).getLocation().equals(searchWord)){
+            if(asset instanceof Field && ((Field)asset).getLocation().contains(searchWord)){
                 result.add(asset);
             }
         }

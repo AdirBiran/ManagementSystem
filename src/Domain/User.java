@@ -1,20 +1,22 @@
 package Domain;
 
-import Presentation.Guest;
+import Domain.Authorization.AuthorizationRole;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public abstract class User extends Guest {
+public class User {
 
-    protected String ID; //unique id for system
-    protected String firstName;
-    protected String lastName;
-    protected String mail;
-    protected List<Notice> messageBox;
-    protected boolean isActive;
-    protected List<Team> teams;
-
+    private String ID; //unique id for system
+    private String firstName;
+    private String lastName;
+    private String mail;
+    private List<Notice> messageBox;
+    private boolean isActive;
+    private List<AuthorizationRole> roles;
+    private List<String> searchHistory;
 
 
     /**
@@ -25,15 +27,19 @@ public abstract class User extends Guest {
      * @param mail
      */
     public User(String firstName, String lastName, String ID, String mail) {
+
+        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(mail);
         this.firstName = firstName;
         this.lastName = lastName;
         this.ID = ID + IdGenerator.getNewId();
-        if(!mail.matches("^(.+)@(.+)$"))
+        if(!matcher.find())
             throw new RuntimeException("email address not valid");
         this.mail = mail;
         this.messageBox = new LinkedList<>();
         this.isActive = true;
-        this.teams= new LinkedList<>();
+        this.roles = new LinkedList<>();
+        this.searchHistory = new LinkedList<>();
 
     }
 
@@ -60,19 +66,17 @@ public abstract class User extends Guest {
                 '}';
     }
 
-
-    /**
-     *
-     */
-    public void editDetails(String firstName, String lastName)
-    {
-        this.firstName = firstName;
-        this.lastName =lastName;
-    }
-
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getName() {
         return firstName+" "+lastName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getID() {
@@ -83,10 +87,6 @@ public abstract class User extends Guest {
         if(notice!=null)
             messageBox.add(notice);
     }
-    public int getAmountOfTeams(){
-        return teams.size();
-    }
-
 
     public String getMail() {
         return mail;
@@ -96,15 +96,17 @@ public abstract class User extends Guest {
         return messageBox;
     }
 
-    public void addTeam(Team team) {
-        if(!teams.contains(team))
-            teams.add(team);
-    }
-    public void removeTeam(Team team){
-        teams.remove(team);
+    public void addAuthorization(AuthorizationRole authorizationRole){
+        roles.add(authorizationRole);
     }
 
-    public List<Team> getTeams() {
-        return teams;
+    public List<AuthorizationRole> getRoles() {
+        return roles;
+    }
+
+    public boolean addToSearchHistory(String word){ return searchHistory.add(word);}
+
+    public List<String> getSearchHistory() {
+        return searchHistory;
     }
 }

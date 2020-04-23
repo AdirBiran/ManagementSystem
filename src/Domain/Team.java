@@ -1,5 +1,8 @@
 package Domain;
 
+import Domain.Authorization.AuthorizationRole;
+import Domain.Authorization.TeamOwnerAuthorization;
+
 import java.util.List;
 import java.util.LinkedList;
 
@@ -62,7 +65,7 @@ public class Team{
 
     private void linkField() {
         for(Field field :fields){
-            field.setTeam(this);
+            field.addTeam(this);
         }
 
     }
@@ -81,8 +84,18 @@ public class Team{
 
     private void linkTeamOwner() {
         for(User user:teamOwners){
-            user.addTeam(this);
+            TeamOwnerAuthorization authorization = getAuthorization(user);
+            if(authorization!=null)
+                authorization.addTeam(this);
         }
+    }
+
+    private TeamOwnerAuthorization getAuthorization(User user) {
+        for(AuthorizationRole role : user.getRoles()){
+            if(role.getClass().getName().contains("TeamOwner"))
+                return (TeamOwnerAuthorization)role;
+        }
+        return null;
     }
 
     @Override
@@ -110,7 +123,18 @@ public class Team{
     public boolean addTeamOwner(User teamOwner) {
         if(!teamOwners.contains(teamOwner)) {
             this.teamOwners.add(teamOwner);
-            teamOwner.addTeam(this);
+            TeamOwnerAuthorization authorization = getAuthorization(teamOwner);
+            if(authorization!=null){
+                authorization.addTeam(this);
+
+            }
+            else{
+                authorization = new TeamOwnerAuthorization(teamOwner);
+                authorization.addTeam(this);
+                authorization.giveAll(true);
+                teamOwner.addAuthorization(authorization);
+
+            }
             return true;
         }
         return false;
@@ -119,7 +143,17 @@ public class Team{
     public boolean addTeamManager(User teamManager) {
         if(!teamManagers.contains(teamManager)) {
             this.teamManagers.add(teamManager);
-            teamManager.addTeam(this);
+            TeamOwnerAuthorization authorization = getAuthorization(teamManager);
+            if(authorization!=null){
+                authorization.addTeam(this);
+            }
+            else{
+                authorization = new TeamOwnerAuthorization(teamManager);
+                authorization.addTeam(this);
+                authorization.giveAssetManagement();
+                authorization.giveFinance();
+                teamManager.addAuthorization(authorization);
+            }
             return true;
         }
         return false;
@@ -155,7 +189,10 @@ public class Team{
     public boolean removeTeamOwner(User teamOwner) {
         if(teamOwners.contains(teamOwner) && teamOwners.size()>1) {
             this.teamOwners.remove(teamOwner);
-            teamOwner.removeTeam(this);
+            TeamOwnerAuthorization authorization = getAuthorization(teamOwner);
+            if(authorization!=null){
+                authorization.removeTeam(this);
+            }
             return true;
         }
         return false;
@@ -164,7 +201,11 @@ public class Team{
     public boolean removeTeamManager(User teamManager) {
         if(teamManagers.contains(teamManager)) {
             this.teamManagers.remove(teamManager);
-            teamManager.removeTeam(this);
+
+            TeamOwnerAuthorization authorization = getAuthorization(teamManager);
+            if(authorization!=null){
+                authorization.removeTeam(this);
+            }
             return true;
         }
         return false;

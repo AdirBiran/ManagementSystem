@@ -1,6 +1,7 @@
 package Acceptance;
 
 import Domain.*;
+import Domain.Authorization.HasPageAuthorization;
 import Service.FootballManagementSystem;
 import Service.UserSystem;
 import org.junit.Before;
@@ -16,6 +17,7 @@ public class FollowPageTest {
     private FootballManagementSystem system;
     private UserSystem userSystem;
     private Team team;
+    private User owner;
 
 
     @Before
@@ -29,10 +31,10 @@ public class FollowPageTest {
 
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
-        TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
+        owner = UserFactory.getNewTeamOwner("Team","Owner", "a"+"@gmail.com");
         List<User> owners = new LinkedList<>();
         owners.add(owner);
-        PersonalPage page = new PersonalPage("", players.get(0));
+        PersonalPage page = new PersonalPage("", players.get(0).getUser());
         Field field = new Field( "jerusalem", 550, 15000);
         team = new Team("Team",page,owners,players,coaches, field);
     }
@@ -40,13 +42,13 @@ public class FollowPageTest {
     @Test
     public void followPageSuccess_9()
     {
-        Fan fan = new Fan("a@b.com", "AAA", "BBB", "0123456789", "Israel");
+        Object[] fan = UserFactory.getNewFan("Aa123456","AAA", "BBB","a@b.com" , "0123456789", "Israel");
 
-        Player player = system.getTeamManagementSystem().getTeamPlayers(team).get(0);
-        PersonalPage page = new PersonalPage("Personal Page", player);
+        Player player = system.getTeamManagementSystem().getTeamPlayers(owner,team).get(0);
+        PersonalPage page = ((HasPageAuthorization)player.getUser().getRoles().get(0)).getPage();
 
-        userSystem.registrationToFollowUp(fan, page);
-        List<PersonalPage> pages = userSystem.getFanPages(fan);
+        userSystem.registrationToFollowUp((User)fan[0], page);
+        List<PersonalPage> pages = userSystem.getFanPages((User) fan[0]);
 
         boolean found = false;
 
@@ -61,19 +63,19 @@ public class FollowPageTest {
     @Test
     public void followPageFail_10()
     {
-        Fan fan = new Fan("a@b.com", "AAA", "BBB", "0123456789", "Israel");
+        Object[] fan = UserFactory.getNewFan("Aa234567", "AAA", "BBB","a@b.com","0123456789", "Israel");
 
-        Player player = system.getTeamManagementSystem().getTeamPlayers(team).get(0);
-        PersonalPage page = new PersonalPage("Personal Page", player);
+        Player player = system.getTeamManagementSystem().getTeamPlayers(owner,team).get(0);
+        PersonalPage page =((HasPageAuthorization)player.getUser().getRoles().get(0)).getPage();
 
-        userSystem.registrationToFollowUp(fan, page);
+        userSystem.registrationToFollowUp((User)fan[0], page);
 
-        userSystem.registrationToFollowUp(fan, page);
+        userSystem.registrationToFollowUp((User)fan[0], page);
 
 
         int counter = 0;
 
-        List<PersonalPage> pages = userSystem.getFanPages(fan);
+        List<PersonalPage> pages = userSystem.getFanPages((User)fan[0]);
 
         for (PersonalPage p : pages)
             if (p == page)

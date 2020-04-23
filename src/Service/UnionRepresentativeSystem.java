@@ -1,6 +1,8 @@
 package Service;
 
 
+import Domain.Authorization.AuthorizationRole;
+import Domain.Authorization.UnionAuthorization;
 import Domain.*;
 import Domain.Referee;
 
@@ -9,80 +11,126 @@ import java.util.Date;
 
 public class UnionRepresentativeSystem {
 
-    private FinanceTransactionsManagement financeTransactionsManagement;
-    private LeagueAndGameManagement leagueAndGameManagement;
-    private RefereeManagement refereeManagement;
 
-    public UnionRepresentativeSystem(FinanceTransactionsManagement financeTransactionsManagement, LeagueAndGameManagement leagueAndGameManagement, RefereeManagement refereeManagement) {
-        this.financeTransactionsManagement = financeTransactionsManagement;
-        this.leagueAndGameManagement = leagueAndGameManagement;
-        this.refereeManagement = refereeManagement;
+    public UnionRepresentativeSystem() {
     }
 
-    public boolean configureNewLeague(String name, String level){
-        return leagueAndGameManagement.configureNewLeague(name, level);
-    }
-    public boolean configureNewSeason(int year, Date startDate){
-        return leagueAndGameManagement.configureNewSeason(year,startDate);
+    public boolean configureNewLeague(User user, String name, String level){
+        UnionAuthorization authorization = getAuthorization(user);
+        if(authorization!=null){
+            return authorization.configureNewLeague(name, level);
+        }
+        return false;
     }
 
-    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){
+
+
+    public boolean configureNewSeason(User user, int year, Date startDate){
+        UnionAuthorization authorization = getAuthorization(user);
+        if(authorization!=null){
+            return authorization.configureNewSeason(year, startDate);
+        }
+        return false;
+    }
+
+    public LeagueInSeason configureLeagueInSeason(User user, String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){
         if (assignmentPolicy == null || scorePolicy == null)
             return null;
-        return leagueAndGameManagement.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy,scorePolicy,fee);
+        UnionAuthorization authorization = getAuthorization(user);
+        if(authorization!=null){
+            return authorization.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy, scorePolicy,fee );
+        }
+        return null;
     }
-    public Referee appointReferee(String firstName,String lastName, String mail, String training)
+    public Object[] appointReferee(User user, String firstName,String lastName, String mail, String training)
     {
-        return refereeManagement.appointReferee(firstName,lastName, mail, training);
-    }
-
-    public boolean assignRefToLeague(LeagueInSeason league, Referee referee)
-    {
-        return league.addReferee(referee);
-    }
-
-
-    public boolean changeScorePolicy(LeagueInSeason league, ScorePolicy policy)
-    {
-        return league.changeScorePolicy(policy);
+        UnionAuthorization authorization = getAuthorization(user);
+        if(authorization!=null){
+            return authorization.appointReferee(firstName, lastName, mail, training);
+        }
+        return null;
     }
 
-    public boolean changeAssignmentPolicy(LeagueInSeason league, GameAssignmentPolicy policy)
+    public boolean assignRefToLeague(User user, LeagueInSeason league, Referee referee)
     {
-        return league.changeAssignmentPolicy(policy);
+        UnionAuthorization authorization = getAuthorization(user);
+        if(authorization!=null){
+            return authorization.addRefereeToLeague(league, referee);
+        }
+        return false;
+    }
+
+
+    public boolean changeScorePolicy(User user, LeagueInSeason league, ScorePolicy policy)
+    {
+        if(getAuthorization(user)!=null)
+            return league.changeScorePolicy(policy);
+        return false;
+    }
+
+    public boolean changeAssignmentPolicy(User user, LeagueInSeason league, GameAssignmentPolicy policy)
+    {
+        if(getAuthorization(user)!=null)
+            return league.changeAssignmentPolicy(policy);
+        return false;
     }
 
     /*
     throws exceptions
      */
-    public boolean assignGames(LeagueInSeason league, List<Date> dates)
+    public boolean assignGames(User user, LeagueInSeason league, List<Date> dates)
     {
-        return leagueAndGameManagement.assignGames(league,dates);
+        UnionAuthorization authorization = getAuthorization(user);
+        if(authorization!=null){
+            return authorization.assignGames(league, dates);
+        }
+        return false;
     }
 
-    public void addTeamToLeague(LeagueInSeason league, Team team) {
-         league.addATeam(team);
+    public boolean addTeamToLeague(User user, LeagueInSeason league, Team team) {
+        if(getAuthorization(user)!=null && team.isActive()){
+            league.addATeam(team);
+            return getAuthorization(user).addTeamToDatabase(team);
+        }
+        return false;
     }
 
-    public void calculateLeagueScore(LeagueInSeason league){
+    public void calculateLeagueScore(User user, LeagueInSeason league){
 
-        league.getScorePolicy().calculateLeagueScore(league);
+        if(getAuthorization(user)!=null)
+            league.getScorePolicy().calculateLeagueScore(league);
     }
 
-    public void calculateGameScore(LeagueInSeason league,Game game){
-        league.getScorePolicy().calculateScore(game);
+    public void calculateGameScore(User user, LeagueInSeason league,Game game){
+        if(getAuthorization(user)!=null)
+            league.getScorePolicy().calculateScore(game);
     }
-    public void changeRegistrationFee(LeagueInSeason league, double newFee){
-        league.changeRegistrationFee(newFee);
+    public void changeRegistrationFee(User user, LeagueInSeason league, double newFee){
+        if(getAuthorization(user)!=null)
+            league.changeRegistrationFee(newFee);
     }
 
-    public double getRegistrationFee(LeagueInSeason league)
+    public double getRegistrationFee(User user,LeagueInSeason league)
     {
-        return league.getRegistrationFee();
+        if(getAuthorization(user)!=null)
+            return league.getRegistrationFee();
+        return -1;
     }
 
-    public void addTUTUPayment(Team team, double payment){
-        financeTransactionsManagement.addTUTUPayment(team, payment);
+    public void addTUTUPayment(User user, Team team, double payment){
+
+        UnionAuthorization authorization = getAuthorization(user);
+        if(authorization!=null){
+            authorization.addTUTUPayment(team, payment);
+        }
+    }
+
+    private UnionAuthorization getAuthorization(User user) {
+        for(AuthorizationRole role : user.getRoles()){
+            if(role.getRoleName().contains("Union"))
+                return (UnionAuthorization)role;
+        }
+        return null;
     }
 
 }

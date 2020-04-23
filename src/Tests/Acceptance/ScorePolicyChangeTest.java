@@ -14,12 +14,14 @@ public class ScorePolicyChangeTest {
 
     private FootballManagementSystem system;
     private UnionRepresentativeSystem repSystem;
+    private User unionRep;
 
     @Before
     public void init()
     {
         system = new FootballManagementSystem();
         system.systemInit(true);
+        unionRep = UserFactory.getNewUnionRepresentative("union", "rep", "someLie@a.com");
 
         repSystem = system.getUnionRepresentativeSystem();
     }
@@ -31,11 +33,11 @@ public class ScorePolicyChangeTest {
 
         system.dataReboot();
 
-        repSystem.configureNewSeason(2021,new Date(121, 4, 11));
-        repSystem.configureNewLeague("Alufot", "1");
-        LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
+        repSystem.configureNewSeason(unionRep,2021,new Date(121, 4, 11));
+        repSystem.configureNewLeague(unionRep,"Alufot", "1");
+        LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason(unionRep,"Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
-        boolean success = repSystem.changeScorePolicy(leagueInSeason, new StandardScorePolicy());
+        boolean success = repSystem.changeScorePolicy(unionRep,leagueInSeason, new StandardScorePolicy());
         assertFalse(success);
 
     }
@@ -46,11 +48,11 @@ public class ScorePolicyChangeTest {
 
         system.dataReboot();
 
-        repSystem.configureNewSeason(2021,new Date(121, 4, 11));
-        repSystem.configureNewLeague("Alufot", "1");
-        LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason("Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
+        repSystem.configureNewSeason(unionRep,2021,new Date(121, 4, 11));
+        repSystem.configureNewLeague(unionRep,"Alufot", "1");
+        LeagueInSeason leagueInSeason = repSystem.configureLeagueInSeason(unionRep,"Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
 
-        boolean success = repSystem.changeScorePolicy(leagueInSeason, new CupScorePolicy());
+        boolean success = repSystem.changeScorePolicy(unionRep,leagueInSeason, new CupScorePolicy());
         assertTrue(success);
 
     }

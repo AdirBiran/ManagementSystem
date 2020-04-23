@@ -4,49 +4,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 
-public class Referee extends User {
+public class Referee {
 
 
     private String training;
-    private List<Game> games;
+    private User user;
 
-    public Referee(String firstName,String lastName, String mail, String training) {
-        super(firstName,lastName, "R", mail);
+    public Referee(String training, User user) {
         this.training = training;
-        this.games = new LinkedList<>();
+        this.user = user;
     }
 
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
-
-    public void addGame(Game game) {
-        if(!games.contains(game))
-            this.games.add(game);
-    }
-
-    /**
-     *
-     * @param game
-     *
-     */
-    public void createEvent(Game game, Event.EventType type, Date date, double minuteInGame, String description)
-    {
-        Event newEvent = new Event(type, date, minuteInGame, description, game.getEventReport());
-
-
-    }
-
-    /**
-     *
-     * @param eventReport
-     */
-    public void generateGameReport(EventReport eventReport)
-    {
-        for (Event event: eventReport.getEvents()) {
-
-        }
-
-    }
 
     /**
      *
@@ -59,5 +28,9 @@ public class Referee extends User {
 
     public void setTraining(String training) {
         this.training = training;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

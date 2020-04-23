@@ -16,7 +16,7 @@ public class CloseTeamPermanentlyTest {
 
     private FootballManagementSystem system;
     private AdminSystem adminSystem;
-    private Database database;
+
 
     @Before
     public void init()
@@ -24,7 +24,7 @@ public class CloseTeamPermanentlyTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
         adminSystem = system.getAdminSystem();
-        database = system.getDatabase();
+
 
 
     }
@@ -34,16 +34,16 @@ public class CloseTeamPermanentlyTest {
     {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
-        TeamOwner owner = new TeamOwner("Team","Owner", "a"+"@gmail.com");
+        User owner = UserFactory.getNewTeamOwner("Team","Owner", "a"+"@gmail.com");
         List<User> owners = new LinkedList<>();
         owners.add(owner);
-        PersonalPage page = new PersonalPage("", players.get(0));
+        PersonalPage page = new PersonalPage("", players.get(0).getUser());
         Field field = new Field( "jerusalem", 550, 150000);
         Team team = new Team("team",page,owners,players,coaches, field);
-        database.addTeam(team);
-        adminSystem.permanentlyCloseTeam(database.GetSystemAdmins().get(0), team);
+        Database.addTeam(team);
+        adminSystem.permanentlyCloseTeam(Database.getSystemAdmins().get(0), team);
 
-        boolean flag = adminSystem.permanentlyCloseTeam(database.GetSystemAdmins().get(0),team);
+        boolean flag = adminSystem.permanentlyCloseTeam(Database.getSystemAdmins().get(0),team);
         assertFalse(flag);
     }
 
@@ -52,14 +52,14 @@ public class CloseTeamPermanentlyTest {
     {
         List<Player> players = FootballManagementSystem.createPlayers();
         List<Coach> coaches = FootballManagementSystem.createCoaches();
-        TeamOwner owner = new TeamOwner("Team2","Owner2", "a2"+"@gmail.com");
+        User owner = UserFactory.getNewTeamOwner("Team2","Owner2", "a2"+"@gmail.com");
         List<User> owners = new LinkedList<>();
         owners.add(owner);
-        PersonalPage page = new PersonalPage("", players.get(0));
+        PersonalPage page = new PersonalPage("", players.get(0).getUser());
         Field field = new Field( "tel-aviv", 550, 150000);
         Team team = new Team("team2",page,owners,players,coaches, field);
-        database.addTeam(team);
-        boolean flag = adminSystem.permanentlyCloseTeam(database.GetSystemAdmins().get(0),team);
+        Database.addTeam(team);
+        boolean flag = adminSystem.permanentlyCloseTeam(Database.getSystemAdmins().get(0),team);
 
         assertTrue(flag);
     }

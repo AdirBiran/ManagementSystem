@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.LinkedList;
 import java.util.List;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class SearchHistoryTest {
@@ -18,7 +19,8 @@ public class SearchHistoryTest {
     private FootballManagementSystem system;
     private UserSystem userSystem;
     private GuestSystem guestSystem;
-    private Fan fan;
+
+    private User fanUser;
 
     @Before
     public void init()
@@ -30,7 +32,11 @@ public class SearchHistoryTest {
 
         system.dataReboot();
 
-        fan = new Fan("a@b.com", "AAA", "BBB", "0123456789", "Israel");
+        Object[] fanObj = UserFactory.getNewFan("aA12345", "AAA", "BBB", "a@b.com", "0123456789", "Israel");
+        assertNotNull(fanObj);
+        fanUser = (User)fanObj[0];
+
+
 
     }
 
@@ -39,8 +45,8 @@ public class SearchHistoryTest {
     {
 
         String searchWord = "Search Test";
-        guestSystem.search(fan, searchWord);
-        List<String> searchHistory = userSystem.viewSearchHistory(fan);
+        userSystem.search(fanUser, searchWord);
+        List<String> searchHistory = userSystem.viewSearchHistory(fanUser);
 
         boolean flag = false;
 
@@ -55,7 +61,7 @@ public class SearchHistoryTest {
     {
 
         String searchWord = "Search Test";
-        List<String> searchHistory = userSystem.viewSearchHistory(fan);
+        List<String> searchHistory = userSystem.viewSearchHistory(fanUser);
 
         boolean flag = false;
 

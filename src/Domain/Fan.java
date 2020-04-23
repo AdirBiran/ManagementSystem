@@ -3,29 +3,29 @@ package Domain;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Fan extends User {
+public class Fan {
 
+
+    private String id;
     private String address;
     private String phone;
     private List<Complaint> complaints;
     private List<PersonalPage> followPages;
-    private List<String> searchHistory;
 
-    public Fan(String mail, String firstName, String lastName,
-               String phone, String address) {
-        super(firstName, lastName,"F", mail);
+
+    public Fan(String id,String phone, String address) {
+        this.id = id;
         this.address = address;
         this.phone = phone;
         complaints = new LinkedList<>();
         followPages = new LinkedList<>();
-        searchHistory = new LinkedList<>();
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 
-    public void editDetails(String firstName, String lastName, String address, String phone) {
-        super.editDetails(firstName, lastName);
+    public void editDetails(String address, String phone) {
+
         this.address = address;
         this.phone = phone;
 
@@ -41,6 +41,16 @@ public class Fan extends User {
 
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -57,10 +67,6 @@ public class Fan extends User {
         return followPages;
     }
 
-    public boolean addToSearchHistory(String word){ return searchHistory.add(word);}
 
-    public List<String> getSearchHistory() {
-        return searchHistory;
-    }
 
 }

@@ -1,5 +1,6 @@
 package Unit;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -24,16 +25,16 @@ public class StandardScorePolicyTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        system.dataReboot();
-        league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
-        score=new StandardScorePolicy();
-        team0 = (Team) system.getDatabase().searchObject("team0").get(0);
-        team1 = (Team) system.getDatabase().searchObject("team1").get(0);
+        league = system.dataReboot();
+        //league = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(), new StandardScorePolicy(), new League("alofot", "3"), new Season(2020, new Date(120,4,1)),200);
+        score = new StandardScorePolicy();
+        team0 = (Team) Database.searchObject("team0").get(0);
+        team1 = (Team) Database.searchObject("team1").get(0);
         Field field = new Field("Tel-Aviv", 10000, 150000);
-        Referee mainReferee= (Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(0);
+        Referee mainReferee= league.getReferees().get(0);
         List<Referee> sideReferees = new LinkedList<>();
-        sideReferees.add((Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(1));
-        sideReferees.add((Referee) system.getDatabase().getListOfAllSpecificUsers("Referee").get(2));
+        sideReferees.add(league.getReferees().get(1));
+        sideReferees.add(league.getReferees().get(2));
         game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees ,team0, team1,league);
         league.addATeam(team0);
         league.addATeam(team1);
@@ -48,6 +49,6 @@ public class StandardScorePolicyTest {
     @Test
     public void calculateLeagueScore() {
         score.calculateLeagueScore(league);
-        assertEquals(2,league.getScoreTable().size(),0);
+        assertEquals(league.getTeams().size(),league.getScoreTable().size(),0);
     }
 }

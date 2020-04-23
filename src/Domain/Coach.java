@@ -1,17 +1,17 @@
 package Domain;
 
-public class Coach extends HasAPage implements Asset {
+public class Coach extends Asset {
 
     private String training;
     private String role;
-    private double price;
+    private User user;
 
 
-    public Coach(String firstName, String lastName, String mail, PersonalPage page, String training, String role, double price) {
-        super(firstName,lastName, "C", mail, page);
+    public Coach(String id,String training, String role, double price, User user) {
+        super(id, price);
         this.training = training;
         this.role = role;
-        this.price = price;
+        this.user = user;
     }
 
 
@@ -33,18 +33,6 @@ public class Coach extends HasAPage implements Asset {
         return role;
     }
 
-    /**
-     *
-     * @return
-     */
-    public PersonalPage getPage() {
-        return page;
-    }
-
-    @Override
-    public double getPrice() {
-        return price;
-    }
 
     public void setTraining(String training) {
         this.training = training;
@@ -54,8 +42,7 @@ public class Coach extends HasAPage implements Asset {
         this.role = role;
     }
 
-    @Override
-    public void setPrice(double update) {
-        this.price= update;
+    public User getUser() {
+        return user;
     }
 }

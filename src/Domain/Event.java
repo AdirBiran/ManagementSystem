@@ -15,19 +15,19 @@ public class Event {
         Injury,
         Replacement
     }
-
+    private String id;
     private EventType type;
     private Date date;
     private double minuteInGame;
     private String description;
-    private EventReport eventReport;
 
-    public Event(EventType type, Date date, double minuteInGame, String description, EventReport eventReport) {
+
+    public Event(EventType type, double minuteInGame, String description, EventReport eventReport) {
+        this.id = "E"+IdGenerator.getNewId();
         this.type = type;
-        this.date = date;
+        this.date = new Date();
         this.minuteInGame = minuteInGame;
         this.description = description;
-        this.eventReport = eventReport;
         eventReport.addEvent(this);
     }
 
@@ -67,5 +67,15 @@ public class Event {
         return description;
     }
 
+    public void setMinuteInGame(double minuteInGame) {
+        this.minuteInGame = minuteInGame;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getId() {
+        return id;
+    }
 }

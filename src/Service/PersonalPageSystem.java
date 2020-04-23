@@ -1,11 +1,29 @@
 package Service;
 
-import Domain.PersonalPageManagement;
+import Domain.Authorization.AuthorizationRole;
+import Domain.Authorization.HasPageAuthorization;
+import Domain.User;
 
 public class PersonalPageSystem {
-    private PersonalPageManagement personalPageManagement;
 
-    public PersonalPageSystem(PersonalPageManagement personalPageManagement) {
-        this.personalPageManagement = personalPageManagement;
+
+    public PersonalPageSystem() {
+    }
+
+    public boolean uploadToPage(User user, String data){
+        HasPageAuthorization authorization = getAuthorization(user);
+        if(authorization!=null){
+            authorization.uploadToPage(data);
+            return true;
+        }
+        return false;
+    }
+
+    private HasPageAuthorization getAuthorization(User user) {
+        for(AuthorizationRole role : user.getRoles()){
+            if(role.getRoleName().contains("HasPage"))
+                return (HasPageAuthorization)role;
+        }
+        return null;
     }
 }

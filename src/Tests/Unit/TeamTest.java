@@ -1,138 +1,131 @@
 package Unit;
 
+import Data.Database;
 import Domain.*;
+import Domain.Authorization.AdminAuthorization;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
 public class TeamTest {
 
+
     FootballManagementSystem system;
     Team team;
     Team team1;
-    TeamOwner teamOwner1;
-    Admin admin;
+    User teamOwner1, teamOwner2,admin;
 
     @Before
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        system.dataReboot();
-        team = system.getDatabase().getTeams().get(0);
-        team1 = system.getDatabase().getTeams().get(1);
-        teamOwner1 = (TeamOwner) team.getTeamOwners().get(0);
-        admin = (Admin) system.getDatabase().getListOfAllSpecificUsers("Admin").get(0);
+        LeagueInSeason league = system.dataReboot();
+        team = league.getTeams().get(0);
+        team1 = league.getTeams().get(1);
+        teamOwner1 = team.getTeamOwners().get(0);
+        teamOwner2 = UserFactory.getNewTeamOwner("first", "last", "mcndhffd@gmail.com");
+        assertNotNull(teamOwner2);
+        admin = Database.getSystemAdmins().get(0);
     }
 
     @Test
     public void addTeamOwner() {
-        TeamOwner teamOwner = new TeamOwner("Doron" , "Shamai" , "shamaid@gmail.com" );
-        system.getDatabase().addUser("AAa123", teamOwner);
-        Player player1 = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
-        Player player2 = new Player("Doron" , "Shamai" , "shamaid@gmail.com",null, player1.getBirthDate() , player1.getRole() , 100);
 
-        system.getDatabase().addUser("AAa123", player2);
-
-        assertTrue(team.addTeamOwner(teamOwner));
-        assertTrue(team.addTeamOwner(player2));
-
-        assertFalse(team.addTeamOwner(teamOwner));
+        Player player1 = (Player) Database.getListOfAllSpecificAssets("Player").get(0);
+        assertNotNull(player1);
+        Object[] player2 = UserFactory.getNewPlayer("Doron" , "Shamai" , "shamaid@gmail.com", player1.getBirthDate() , player1.getRole() , 100);
+        assertNotNull(player2);
+        assertTrue(team.addTeamOwner(teamOwner2));
+        assertTrue(team.addTeamOwner((User)player2[0]));
+        assertFalse(team.addTeamOwner(teamOwner2));
     }
 
     @Test
     public void addTeamManager() {
-        TeamManager teamManager = new TeamManager("Doron" , "Shamai" , "shamaid@gmail.com" , team1 ,100);
-        system.getDatabase().addUser("AAa123", teamManager);
+        Object[] teamManager =UserFactory.getNewTeamManager("Doron" , "Shamai" , "shamaid@gfffmail.com" ,100);
+        assertNotNull(teamManager);
 
-        assertTrue(team.addTeamManager(teamManager));
-        assertFalse(team.addTeamManager(teamManager));
+        assertTrue(team.addTeamManager((User)teamManager[0]));
+        assertFalse(team.addTeamManager((User)teamManager[0]));
 
     }
 
     @Test
     public void addPlayer() {
-        Player player1 = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
-        Player player2 = new Player("Doron" , "Shamai" , "shamaid@gmail.com",null, player1.getBirthDate() , player1.getRole() , 100);
-        system.getDatabase().addUser("AAa123", player2);
+        Player player1 = (Player) Database.getListOfAllSpecificAssets("Player").get(0);
+        assertNotNull(player1);
+        Object[] player2 = UserFactory.getNewPlayer("Doron" , "Shamai" , "shafffmaid@gmail.com", player1.getBirthDate() , player1.getRole() , 100);
+        assertNotNull(player2);
 
-        assertTrue(team.addPlayer(player2));
-        assertFalse(team.addPlayer(player2));
+        assertTrue(team.addPlayer((Player) player2[1]));
+        assertFalse(team.addPlayer((Player) player2[1]));
     }
 
     @Test
     public void addCoach() {
-        Coach coach = (Coach) system.getDatabase().getListOfAllSpecificUsers("Coach").get(0);
-        Coach coach1 = new Coach("Doron" , "Shamai" , "shamaid@gmail.com",null,coach.getTraining(),coach.getRole(),100);
-        system.getDatabase().addUser("AAa123", coach1);
-
-        assertTrue(team.addCoach(coach1));
-        assertFalse(team.addCoach(coach1));
+        Coach coach = (Coach) Database.getListOfAllSpecificAssets("Coach").get(0);
+        assertNotNull(coach);
+        Object[] coach1 = UserFactory.getNewCoach("Doron" , "Shamai" , "shadddmdsaid@gmail.com",coach.getTraining(),coach.getRole(),100);
+        assertNotNull(coach1);
+        assertTrue(team.addCoach((Coach) coach1[1]));
+        assertFalse(team.addCoach((Coach) coach1[1]));
         
     }
 
     @Test
     public void removeTeamOwner() {
-        TeamOwner teamOwner = (TeamOwner) system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(0);
-        assertFalse(teamOwner.getTeam().get(0).removeTeamOwner(teamOwner));
 
-        TeamOwner to = (TeamOwner)system.getDatabase().getListOfAllSpecificUsers("TeamOwner").get(1);
-        system.getDatabase().addUser("AAa123", to);
-        teamOwner.appointmentTeamOwner(to, teamOwner.getTeam().get(0));
-        assertTrue(teamOwner.getTeam().get(0).removeTeamOwner(to));
+        User teamOwner = team.getTeamOwners().get(0);
+        assertNotNull(teamOwner);
+        assertFalse(team.removeTeamOwner(teamOwner));
+        assertTrue(team.addTeamOwner(teamOwner2));
+        assertTrue(team.removeTeamOwner(teamOwner));
     }
 
     @Test
     public void removeTeamManager() {
 
-        TeamManager teamManager = new TeamManager("Doron" , "Shamai" , "shamaid@gmail.com" , team1 ,100);
-        system.getDatabase().addUser("AAa123", teamManager);
-
-        assertFalse(team.removeTeamManager(teamManager));
-        teamOwner1.appointmentTeamManager(teamManager,team);
-        assertTrue(team.removeTeamManager(teamManager));
+        Object[] teamManager = UserFactory.getNewTeamManager("Doron" , "Shamai" , "shamaid@gmailaa.com"  ,100);
+        assertNotNull(teamManager);
+        assertFalse(team.removeTeamManager((User)teamManager[0]));
+        team.addTeamManager((User)teamManager[0]);
+        assertTrue(team.removeTeamManager((User)teamManager[0]));
 
     }
 
     @Test
     public void removePlayer() {
-        Player player1 = (Player) system.getDatabase().getListOfAllSpecificUsers("Player").get(0);
-        Player player2 = new Player("Doron" , "Shamai" , "shamaid@gmail.com",null, player1.getBirthDate() , player1.getRole() , 100);
 
-        system.getDatabase().addUser("AAa123", player2);
+        Object[] player2 = UserFactory.getNewPlayer("Doron" , "Shamai" , "shamaid@gmail.com", new Date(98, 1, 4) , "" , 100);
+        assertNotNull(player2);
 
-        assertFalse(team.removePlayer(player2));
-        team.addPlayer(player2);
-        assertTrue(team.removePlayer(player2));
+        assertFalse(team.removePlayer((Player) player2[1]));
+        team.addPlayer((Player) player2[1]);
+        assertTrue(team.removePlayer((Player) player2[1]));
 
     }
 
     @Test
     public void removeCoach() {
-        Coach coach = (Coach) system.getDatabase().getListOfAllSpecificUsers("Coach").get(0);
-        Coach coach1 = new Coach("Doron" , "Shamai" , "shamaid@gmail.com",null,coach.getTraining(),coach.getRole(),100);
-        system.getDatabase().addUser("AAa123", coach1);
 
-        assertFalse(team.removeCoach(coach1));
-        team.addCoach(coach1);
-        assertTrue(team.removeCoach(coach1));
+        Object[] coach1 = UserFactory.getNewCoach("Doron" , "Shamai" , "shamaid@gmail.com","","",100);
+        assertNotNull(coach1);
+        assertFalse(team.removeCoach((Coach) coach1[1]));
+        team.addCoach((Coach) coach1[1]);
+        assertTrue(team.removeCoach((Coach) coach1[1]));
     }
 
-    @Test
-    public void isActive() {
-        assertTrue(team.isActive());
-
-        teamOwner1.closeTeam(team);
-        assertFalse(team.isActive());
-    }
 
     @Test
     public void isPermanentlyClosed() {
         assertFalse(team.isPermanentlyClosed());
 
-        admin.permanentlyCloseTeam(team);
+        ((AdminAuthorization)(admin.getRoles().get(0))).closeTeamPermanently(team);
         assertTrue(team.isPermanentlyClosed());
 
     }
+
 }

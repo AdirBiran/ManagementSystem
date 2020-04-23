@@ -1,14 +1,14 @@
 package Domain;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Date;
+import javafx.scene.layout.Priority;
+
+import java.util.*;
 
 public class LeagueInSeason {
 
     private GameAssignmentPolicy assignmentPolicy;
     private ScorePolicy scorePolicy;
-    private List<ScoreTableRecord> scoreTable;
+    private Queue<ScoreTableRecord> scoreTable;
     private League league;
     private Season season;
     private List<Game> games;
@@ -21,7 +21,12 @@ public class LeagueInSeason {
         this.assignmentPolicy = assignmentPolicy;
         this.scorePolicy = scorePolicy;
         this.registrationFee = registrationFee;
-        scoreTable = new LinkedList<>();
+        scoreTable = new PriorityQueue<>(new Comparator<ScoreTableRecord>() {
+            @Override
+            public int compare(ScoreTableRecord o1, ScoreTableRecord o2) {
+                return Integer.compare(o2.getTotalScore(), o1.getTotalScore());
+            }
+        });
         this.league = league;
         this.season = season;
 
@@ -61,7 +66,7 @@ public class LeagueInSeason {
             games.add(game);
     }
 
-    public List<ScoreTableRecord> getScoreTable() {
+    public Queue<ScoreTableRecord> getScoreTable() {
         return scoreTable;
     }
 

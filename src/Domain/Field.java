@@ -3,26 +3,19 @@ package Domain;
 import java.util.List;
 import java.util.LinkedList;
 
-public class Field implements Asset {
+public class Field extends Asset {
 
-    private String id;
+
     private String location;
     private int capacity;
-    private Team team;
     private List<Game> games;
-    protected boolean isActive;
-    private double price;
+
 
     public Field(String location, int capacity, double price) {
-        this.price = price;
-        this.id = "Filed"+IdGenerator.getNewId();
+        super("Field", price);
         this.location = location;
         this.capacity = capacity;
         this.games = new LinkedList<>();
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
     }
 
     @Override
@@ -56,35 +49,8 @@ public class Field implements Asset {
      *
      * @return
      */
-    public Team getTeam() {
-        return team;
-    }
-
-    /**
-     *
-     * @return
-     */
     public List<Game> getGames() {
         return games;
     }
 
-    @Override
-    public String getID() {
-        return id;
-    }
-
-    @Override
-    public void deactivate() {
-        isActive = false;
-    }
-
-    @Override
-    public double getPrice() {
-        return price;
-    }
-
-    @Override
-    public void setPrice(double update) {
-        this.price= update;
-    }
 }
