@@ -161,6 +161,8 @@ public class Team{
 
     public boolean addPlayer(Player player) {
         if(!players.contains(player)) {
+            //go over player's teams
+            //check league
             this.players.add(player);
             player.addTeam(this);
             return true;

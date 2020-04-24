@@ -205,6 +205,7 @@ public class TeamOwnerAuthorization extends UserAuthorization {
                 return team.addTeamManager(((TeamManager) asset).getUser());
             }
             if(asset instanceof Player){
+
                 return team.addPlayer((Player) asset);
             }
             else if(asset instanceof Coach){

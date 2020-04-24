@@ -81,7 +81,7 @@ public class AdminAuthorization extends UserAuthorization {
     }
 
     public void responseToComplaint(){}
-    public void viewLig(){}
+    public void viewLog(){}
     public void trainModel(){}
 
     @Override
