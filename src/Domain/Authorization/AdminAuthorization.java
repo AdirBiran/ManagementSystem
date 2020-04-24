@@ -65,7 +65,7 @@ public class AdminAuthorization extends UserAuthorization {
 
     private LinkedList<Team> getTeamsFromUser(User user) {
         for(AuthorizationRole role : user.getRoles()){
-            if(role.getRoleName().contains("TeamOwnerAuthorization")) {
+            if(role instanceof  TeamOwnerAuthorization) {
                 return ((TeamOwnerAuthorization) role).getTeamsToManage();
             }
         }
@@ -74,7 +74,7 @@ public class AdminAuthorization extends UserAuthorization {
 
     private boolean checkIsTeamOwner(User user) {
         for(AuthorizationRole role : user.getRoles()){
-            if(role.getRoleName().contains("TeamOwnerAuthorization"))
+            if(role instanceof  TeamOwnerAuthorization)
                 return true;
         }
         return false;
@@ -89,6 +89,6 @@ public class AdminAuthorization extends UserAuthorization {
         return obj instanceof AdminAuthorization;
     }
 
-    public String getRoleName(){return "AdminAuthorization";}
+
 
 }

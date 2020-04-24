@@ -117,7 +117,7 @@ Permanently close a group only by an administrator
 
     private AdminAuthorization getAuthorization(User user) {
         for(AuthorizationRole role : user.getRoles()){
-            if(role.getRoleName().contains("Admin"))
+            if(role instanceof AdminAuthorization)
                 return (AdminAuthorization)role;
         }
         return null;

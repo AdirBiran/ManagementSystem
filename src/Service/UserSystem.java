@@ -153,8 +153,8 @@ public class UserSystem extends GuestSystem {
                 return user.getRoles().get(0);
             case("Fan"):{
                 for (AuthorizationRole role : user.getRoles()) {
-                    if (role.getRoleName().contains(type))
-                        return (UserAuthorization) role;
+                    if (role instanceof FanAuthorization)
+                        return role;
                 }
             }
         }

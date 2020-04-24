@@ -68,5 +68,5 @@ public class RefereeAuthorization extends UserAuthorization {
         return obj instanceof RefereeAuthorization;
     }
 
-    public String getRoleName(){return "RefereeAuthorization";}
+
 }

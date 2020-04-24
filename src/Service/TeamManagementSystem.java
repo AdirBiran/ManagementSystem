@@ -140,7 +140,7 @@ public class TeamManagementSystem {
 
     private TeamOwnerAuthorization getAuthorization(User user) {
         for(AuthorizationRole role : user.getRoles()){
-            if(role.getRoleName().contains("TeamOwner"))
+            if(role instanceof TeamOwnerAuthorization)
                 return (TeamOwnerAuthorization)role;
         }
         return null;

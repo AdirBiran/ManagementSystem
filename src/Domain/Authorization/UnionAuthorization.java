@@ -85,5 +85,5 @@ public class UnionAuthorization extends UserAuthorization {
         return Database.addTeam(team);
     }
 
-    public String getRoleName(){return "UnionAuthorization";}
+
 }

@@ -127,7 +127,7 @@ public class UnionRepresentativeSystem {
 
     private UnionAuthorization getAuthorization(User user) {
         for(AuthorizationRole role : user.getRoles()){
-            if(role.getRoleName().contains("Union"))
+            if(role instanceof UnionAuthorization)
                 return (UnionAuthorization)role;
         }
         return null;

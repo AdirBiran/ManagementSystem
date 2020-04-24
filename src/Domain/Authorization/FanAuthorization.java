@@ -47,5 +47,5 @@ public class FanAuthorization extends UserAuthorization{
     public Fan getFan() {
         return fan;
     }
-    public String getRoleName(){return "FanAuthorization";}
+
 }

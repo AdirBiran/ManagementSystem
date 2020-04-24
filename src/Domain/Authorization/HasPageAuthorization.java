@@ -26,6 +26,6 @@ public class HasPageAuthorization extends UserAuthorization {
         return obj instanceof HasPageAuthorization;
     }
 
-    public String getRoleName(){return "HasPageAuthorization";}
+
 
 }

@@ -47,5 +47,5 @@ public class UserAuthorization extends GuestAuthorization {
         return false;
     }
 
-    public String getRoleName(){return "UserAuthorization";}
+
 }

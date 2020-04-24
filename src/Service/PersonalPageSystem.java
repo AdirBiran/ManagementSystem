@@ -21,7 +21,7 @@ public class PersonalPageSystem {
 
     private HasPageAuthorization getAuthorization(User user) {
         for(AuthorizationRole role : user.getRoles()){
-            if(role.getRoleName().contains("HasPage"))
+            if(role instanceof HasPageAuthorization)
                 return (HasPageAuthorization)role;
         }
         return null;

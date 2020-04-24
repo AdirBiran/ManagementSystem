@@ -38,5 +38,5 @@ public class GuestAuthorization extends AuthorizationRole {
         return obj instanceof GuestAuthorization;
     }
 
-    public String getRoleName(){return "GuestAuthorization";}
+
 }

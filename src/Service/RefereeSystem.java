@@ -31,7 +31,7 @@ public class RefereeSystem {
     private RefereeAuthorization getAuthorization(User user) {
 
         for(AuthorizationRole role : user.getRoles()){
-            if(role.getRoleName().contains("Referee"))
+            if(role instanceof RefereeAuthorization)
                 return (RefereeAuthorization)role;
         }
         return null;

@@ -396,6 +396,6 @@ public class TeamOwnerAuthorization extends UserAuthorization {
         return obj instanceof TeamOwnerAuthorization;
     }
 
-    public String getRoleName(){return "TeamOwnerAuthorization";}
+
 
 }
