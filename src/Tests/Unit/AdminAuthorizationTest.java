@@ -60,4 +60,38 @@ public class AdminAuthorizationTest {
     @Test
     public void trainModel() {
     }
+
+    @Test
+    public void closeTeamPermanently() {
+    }
+
+    @Test
+    public void addNewCoach() {
+    }
+
+    @Test
+    public void addNewTeamOwner() {
+    }
+
+    @Test
+    public void addNewTeamManager() {
+    }
+
+    @Test
+    public void addNewUnionRepresentative() {
+    }
+
+    @Test
+    public void addNewAdmin() {
+    }
+
+
+    @Test
+    public void viewLig() {
+    }
+
+
+    @Test
+    public void equals() {
+    }
 }
