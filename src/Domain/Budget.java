@@ -11,7 +11,8 @@ public class Budget {
     //do we want to have a more detailed budget log?
     public Budget(Team team)
     {
-        this.team = team;
+        if(team!=null)
+            this.team = team;
         income =0;
         expanses=0;
         balance =0;

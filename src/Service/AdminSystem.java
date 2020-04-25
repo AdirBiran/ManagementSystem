@@ -109,8 +109,15 @@ Permanently close a group only by an administrator
     /**
      *
      */
-    public void trainModel()
+    public boolean trainModel(User admin)
     {
+        AdminAuthorization authorization = getAuthorization(admin);
+        if(authorization!=null) {
+            StubRecommendationSystem recommendationSystem = new StubRecommendationSystem();
+            recommendationSystem.connect();
+            return recommendationSystem.trainModel();
+        }
+        return false;
 
     }
 

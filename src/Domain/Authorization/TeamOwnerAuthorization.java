@@ -193,13 +193,14 @@ public class TeamOwnerAuthorization extends UserAuthorization {
     }
 
 
-
+    /**
+     * //we assume the asset is a registered user
+     * @param asset - registered user known to database!! this function only adds fields to database
+     * @param team
+     * @return
+     */
     public boolean addAssetToTeam(Asset asset, Team team){
-        if(addAssetToTeam && teamsToManage.contains(team)){
-            if(Database.getAsset(asset.getID())!=null)
-                asset = Database.getAsset(asset.getID());
-            else
-                Database.addAsset(asset);// make sure real database support it - can only add assets to system
+        if(addAssetToTeam && teamsToManage.contains(team)&&team.getBudget().addExpanse(asset.getPrice())){
 
             if(asset instanceof TeamManager){
                 return team.addTeamManager(((TeamManager) asset).getUser());

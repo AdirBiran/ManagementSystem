@@ -11,8 +11,10 @@ import java.util.Date;
 
 public class UnionRepresentativeSystem {
 
+    private UnionBudget unionBudget;
 
     public UnionRepresentativeSystem() {
+        unionBudget = new UnionBudget();
     }
 
     public boolean configureNewLeague(User user, String name, String level){
@@ -88,9 +90,14 @@ public class UnionRepresentativeSystem {
     }
 
     public boolean addTeamToLeague(User user, LeagueInSeason league, Team team) {
-        if(getAuthorization(user)!=null && team.isActive()){
+        UnionAuthorization authorization = getAuthorization(user);
+        if(authorization!=null && team.isActive()){
+            if(team.getBudget().addExpanse(league.getRegistrationFee()))
+                unionBudget.addPayment(league.getRegistrationFee());
+            else
+                return false;
             league.addATeam(team);
-            return getAuthorization(user).addTeamToDatabase(team);
+            return authorization.addTeamToDatabase(team);
         }
         return false;
     }
@@ -122,6 +129,12 @@ public class UnionRepresentativeSystem {
         UnionAuthorization authorization = getAuthorization(user);
         if(authorization!=null){
             authorization.addTUTUPayment(team, payment);
+        }
+    }
+    public void addPaymentsFromTheTUTU(User user,double payment){
+        UnionAuthorization authorization = getAuthorization(user);
+        if(authorization!=null){
+            unionBudget.addPayment( payment);
         }
     }
 

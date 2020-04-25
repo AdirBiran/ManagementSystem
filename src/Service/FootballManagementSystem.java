@@ -150,6 +150,7 @@ public class FootballManagementSystem {
                 owner.addAuthorization(new HasPageAuthorization(page, owner));
                 Field field = new Field( "jerusalem", 550, 150000);
                 team = new Team("team"+i,page,owners,players,coaches, field);
+                team.getBudget().addIncome(1000000000);
                 unionRepresentativeSystem.addTeamToLeague(unionRep,leagueInSeason, team);
             }
 

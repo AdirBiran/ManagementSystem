@@ -14,7 +14,7 @@ public class HasPageAuthorization extends UserAuthorization {
 
     public void uploadToPage(String data)
     {
-        page.setData(data);
+        page.addData(data);
     }
 
     public PersonalPage getPage() {

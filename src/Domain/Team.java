@@ -1,6 +1,7 @@
 package Domain;
 
 import Domain.Authorization.AuthorizationRole;
+import Domain.Authorization.HasPageAuthorization;
 import Domain.Authorization.TeamOwnerAuthorization;
 
 import java.util.List;
@@ -28,12 +29,17 @@ public class Team{
     public Team(String name, PersonalPage page, List<User> teamOwners, List<Player> players, List<Coach> coaches, Field field) {
         this.id = "T"+IdGenerator.getNewId();
         this.name = name;
-        this.page = page;
-
         if(teamOwners==null||teamOwners.size()<1)
            throw new RuntimeException("not enough TeamOwners");
         this.teamOwners = teamOwners;
         linkTeamOwner();
+        if(page == null){
+            this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
+            teamOwners.get(0).addAuthorization(new HasPageAuthorization(page, teamOwners.get(0)));
+        }
+        else
+            this.page = page;
+
         if(players==null||players.size()<11)
             throw new RuntimeException("not enough Players");
         this.players = players;
@@ -161,13 +167,33 @@ public class Team{
 
     public boolean addPlayer(Player player) {
         if(!players.contains(player)) {
-            //go over player's teams
-            //check league
+            for(Team playersTeams: player.getTeams()){
+                if(doListsHaveLeaguesInCommon(getAllLeagues(),playersTeams.getAllLeagues()))
+                    return false;
+            }
             this.players.add(player);
             player.addTeam(this);
             return true;
         }
         return false;
+    }
+
+    private boolean doListsHaveLeaguesInCommon(List<League> list1, List<League> list2){
+        for(League league1:list1){
+            for(League league2: list2){
+                if(league1.equals(league2))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private List<League> getAllLeagues(){
+        List<League> leagues1 = new LinkedList<>();
+        for(LeagueInSeason league: leagues){
+            leagues1.add(league.getLeague());
+        }
+        return leagues1;
     }
 
     public boolean addCoach(Coach coach) {
