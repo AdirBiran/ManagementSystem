@@ -1,7 +1,7 @@
 package Service;
 
-import Domain.Authorization.AuthorizationRole;
-import Domain.Authorization.HasPageAuthorization;
+import Domain.HasPage;
+import Domain.Role;
 import Domain.User;
 
 public class PersonalPageSystem {
@@ -11,7 +11,7 @@ public class PersonalPageSystem {
     }
 
     public boolean uploadToPage(User user, String data){
-        HasPageAuthorization authorization = getAuthorization(user);
+        HasPage authorization = getAuthorization(user);
         if(authorization!=null){
             authorization.uploadToPage(data);
             return true;
@@ -19,10 +19,10 @@ public class PersonalPageSystem {
         return false;
     }
 
-    private HasPageAuthorization getAuthorization(User user) {
-        for(AuthorizationRole role : user.getRoles()){
-            if(role instanceof HasPageAuthorization)
-                return (HasPageAuthorization)role;
+    private HasPage getAuthorization(User user) {
+        for(Role role : user.getRoles()){
+            if(role instanceof HasPage)
+                return (HasPage)role;
         }
         return null;
     }

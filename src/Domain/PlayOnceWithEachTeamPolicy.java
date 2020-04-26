@@ -11,8 +11,8 @@ public class PlayOnceWithEachTeamPolicy extends GameAssignmentPolicy {
         if(teams.size()<2)
             return null;
         if(dates.size()<findOutHowManyDatesRequired(teams.size())) throw new RuntimeException("not enough dates available to assign games");
-        List<Referee> referees = league.getReferees();
-        checkConstrains(dates, teams, referees);
+        List<User> referees = league.getReferees();
+        checkConstrains(teams, referees);
         List<Game> games = new LinkedList<>();
 
         for(Team team1 : teams){

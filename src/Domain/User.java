@@ -1,13 +1,14 @@
 package Domain;
 
-import Domain.Authorization.AuthorizationRole;
+import Data.Database;
+
 
 import java.util.List;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class User {
+public class User extends Guest{
 
     private String ID; //unique id for system
     private String firstName;
@@ -15,7 +16,7 @@ public class User {
     private String mail;
     private List<Notice> messageBox;
     private boolean isActive;
-    private List<AuthorizationRole> roles;
+    private List<Role> roles;
     private List<String> searchHistory;
 
 
@@ -96,11 +97,11 @@ public class User {
         return messageBox;
     }
 
-    public void addAuthorization(AuthorizationRole authorizationRole){
-        roles.add(authorizationRole);
+    public void addAuthorization(Role role){
+        roles.add(role);
     }
 
-    public List<AuthorizationRole> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
@@ -109,4 +110,30 @@ public class User {
     public List<String> getSearchHistory() {
         return searchHistory;
     }
+
+
+    public User logout(){return null;}
+
+    public void editPersonalInfo(String firstName, String lastName){
+        setFirstName(firstName);
+        setLastName(lastName);
+    }
+
+    public List<Object> search(String wordToSearch)
+    {
+        addToSearchHistory(wordToSearch);
+        return Database.searchObject(wordToSearch);
+    }
+
+    public List<String> viewSearchHistory(){return getSearchHistory();}
+
+
+    public boolean changePassword(String oldPassword, String newPassword){
+        if(Database.authenticationCheck(getMail(), oldPassword)){
+            Database.changePassword(getMail(), newPassword);
+            return true;
+        }
+        return false;
+    }
+
 }

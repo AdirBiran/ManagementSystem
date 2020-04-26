@@ -1,7 +1,7 @@
 package Service;
 
-import Domain.Authorization.GuestAuthorization;
-import Presentation.Guest;
+
+import Domain.Guest;
 import Domain.User;
 
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.List;
 public class GuestSystem {
 
 
-    GuestAuthorization authorization;
+    Guest authorization;
 
 
     public GuestSystem() {
-        authorization = new GuestAuthorization();
+        authorization = new Guest();
     }
 
     /*

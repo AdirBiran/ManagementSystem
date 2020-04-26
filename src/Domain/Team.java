@@ -1,9 +1,5 @@
 package Domain;
 
-import Domain.Authorization.AuthorizationRole;
-import Domain.Authorization.HasPageAuthorization;
-import Domain.Authorization.TeamOwnerAuthorization;
-
 import java.util.List;
 import java.util.LinkedList;
 
@@ -17,8 +13,8 @@ public class Team{
     private PersonalPage page;
     private List<User> teamOwners; // at least one
     private List<User> teamManagers;
-    private List<Player> players; // at least 11
-    private List<Coach> coaches; // at least one
+    private List<User> players; // at least 11
+    private List<User> coaches; // at least one
     private Budget budget;
     private List<Game> games;
     private List<Field> fields;
@@ -26,7 +22,7 @@ public class Team{
     private boolean active;
     private boolean permanentlyClosed; //closed by admin and cannot open again
 
-    public Team(String name, PersonalPage page, List<User> teamOwners, List<Player> players, List<Coach> coaches, Field field) {
+    public Team(String name, PersonalPage page, List<User> teamOwners, List<User> players, List<User> coaches, Field field) {
         this.id = "T"+IdGenerator.getNewId();
         this.name = name;
         if(teamOwners==null||teamOwners.size()<1)
@@ -35,7 +31,7 @@ public class Team{
         linkTeamOwner();
         if(page == null){
             this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
-            teamOwners.get(0).addAuthorization(new HasPageAuthorization(page, teamOwners.get(0)));
+            teamOwners.get(0).addAuthorization(new HasPage(page));
         }
         else
             this.page = page;
@@ -77,32 +73,37 @@ public class Team{
     }
 
     private void linkCoaches() {
-        for(Coach coach :coaches){
-            coach.addTeam(this);
+        for(User user :coaches){
+            //check if has coach add add team
+            Coach coach = getCoach(user);
+            if(coach==null)
+                throw new RuntimeException("unauthorized coach");
+            else
+                coach.addTeam(this);
         }
     }
 
+
     private void linkPlayers() {
-        for(Player player :players){
-            player.addTeam(this);
+        for(User user :players){
+            Player player = getPlayer(user);
+            if(player==null)
+                throw new RuntimeException("unauthorized player");
+            else
+                player.addTeam(this);
         }
     }
+
 
     private void linkTeamOwner() {
         for(User user:teamOwners){
-            TeamOwnerAuthorization authorization = getAuthorization(user);
+            TeamOwner authorization = getAuthorization(user);
             if(authorization!=null)
                 authorization.addTeam(this);
         }
     }
 
-    private TeamOwnerAuthorization getAuthorization(User user) {
-        for(AuthorizationRole role : user.getRoles()){
-            if(role.getClass().getName().contains("TeamOwner"))
-                return (TeamOwnerAuthorization)role;
-        }
-        return null;
-    }
+
 
     @Override
     public String toString() {
@@ -129,15 +130,14 @@ public class Team{
     public boolean addTeamOwner(User teamOwner) {
         if(!teamOwners.contains(teamOwner)) {
             this.teamOwners.add(teamOwner);
-            TeamOwnerAuthorization authorization = getAuthorization(teamOwner);
+            TeamOwner authorization = getAuthorization(teamOwner);
             if(authorization!=null){
                 authorization.addTeam(this);
 
             }
             else{
-                authorization = new TeamOwnerAuthorization(teamOwner);
+                authorization = new TeamOwner();
                 authorization.addTeam(this);
-                authorization.giveAll(true);
                 teamOwner.addAuthorization(authorization);
 
             }
@@ -149,15 +149,13 @@ public class Team{
     public boolean addTeamManager(User teamManager) {
         if(!teamManagers.contains(teamManager)) {
             this.teamManagers.add(teamManager);
-            TeamOwnerAuthorization authorization = getAuthorization(teamManager);
+            TeamManager authorization = getManagerAuthorization(teamManager);
             if(authorization!=null){
                 authorization.addTeam(this);
             }
             else{
-                authorization = new TeamOwnerAuthorization(teamManager);
+                authorization = new TeamManager(teamManager.getID(), 0);
                 authorization.addTeam(this);
-                authorization.giveAssetManagement();
-                authorization.giveFinance();
                 teamManager.addAuthorization(authorization);
             }
             return true;
@@ -165,15 +163,20 @@ public class Team{
         return false;
     }
 
-    public boolean addPlayer(Player player) {
-        if(!players.contains(player)) {
-            for(Team playersTeams: player.getTeams()){
-                if(doListsHaveLeaguesInCommon(getAllLeagues(),playersTeams.getAllLeagues()))
-                    return false;
+
+
+    public boolean addPlayer(User user) {
+        if(!players.contains(user)) {
+            Player player = getPlayer(user);
+            if(player!=null){
+                for(Team playersTeams: player.getTeams()){
+                    if(doListsHaveLeaguesInCommon(getAllLeagues(),playersTeams.getAllLeagues()))
+                        return false;
+                }
+                this.players.add(user);
+                player.addTeam(this);
+                return true;
             }
-            this.players.add(player);
-            player.addTeam(this);
-            return true;
         }
         return false;
     }
@@ -196,11 +199,14 @@ public class Team{
         return leagues1;
     }
 
-    public boolean addCoach(Coach coach) {
-        if(!coaches.contains(coach)) {
-            this.coaches.add(coach);
-            coach.addTeam(this);
-            return true;
+    public boolean addCoach(User user) {
+        if(!coaches.contains(user)) {
+            Coach coach = getCoach(user);
+            if(coach!=null){
+                this.coaches.add(user);
+                coach.addTeam(this);
+                return true;
+            }
         }
         return false;
     }
@@ -217,7 +223,7 @@ public class Team{
     public boolean removeTeamOwner(User teamOwner) {
         if(teamOwners.contains(teamOwner) && teamOwners.size()>1) {
             this.teamOwners.remove(teamOwner);
-            TeamOwnerAuthorization authorization = getAuthorization(teamOwner);
+            TeamOwner authorization = getAuthorization(teamOwner);
             if(authorization!=null){
                 authorization.removeTeam(this);
             }
@@ -230,7 +236,7 @@ public class Team{
         if(teamManagers.contains(teamManager)) {
             this.teamManagers.remove(teamManager);
 
-            TeamOwnerAuthorization authorization = getAuthorization(teamManager);
+            TeamManager authorization = getManagerAuthorization(teamManager);
             if(authorization!=null){
                 authorization.removeTeam(this);
             }
@@ -239,20 +245,27 @@ public class Team{
         return false;
     }
 
-    public boolean removePlayer(Player player) {
+    public boolean removePlayer(User player) {
         if(players.contains(player) && players.size()>11) {
             this.players.remove(player);
-            player.removeTeam(this);
-            return true;
+            Player player1 = getPlayer(player);
+            if(player1!=null){
+                player1.removeTeam(this);
+                return true;
+            }
+
         }
         return false;
     }
 
-    public boolean removeCoach(Coach coach) {
+    public boolean removeCoach(User coach) {
         if(coaches.contains(coach) && coaches.size()>1) {
             this.coaches.remove(coach);
-            coach.removeTeam(this);
-            return true;
+            Coach coach1 = getCoach(coach);
+            if(coach1!=null){
+                coach1.removeTeam(this);
+                return true;
+            }
         }
         return false;
     }
@@ -290,11 +303,11 @@ public class Team{
         return teamManagers;
     }
 
-    public List<Player> getPlayers() {
+    public List<User> getPlayers() {
         return players;
     }
 
-    public List<Coach> getCoaches() {
+    public List<User> getCoaches() {
         return coaches;
     }
 
@@ -340,5 +353,49 @@ public class Team{
 
     public double getPrice() {
         return 0;
+    }
+
+
+    private Coach getCoach(User user) {
+        for(Role role:user.getRoles()){
+            if(role instanceof Coach)
+                return (Coach)role;
+        }
+        return null;
+    }
+
+    private Player getPlayer(User user) {
+        for(Role role:user.getRoles()){
+            if(role instanceof Player)
+                return (Player)role;
+        }
+        return null;
+    }
+
+    private TeamManager getManagerAuthorization(User teamManager) {
+        for(Role role : teamManager.getRoles()){
+            if(role instanceof TeamManager)
+                return (TeamManager)role;
+        }
+        return null;
+
+    }
+
+    private TeamOwner getAuthorization(User user) {
+        for(Role role : user.getRoles()){
+            if(role instanceof TeamOwner)
+                return (TeamOwner)role;
+        }
+        return null;
+    }
+
+    public void addField(Field field) {
+        if(!fields.contains(field))
+            fields.add(field);
+
+    }
+
+    public void removeField(Field field) {
+        fields.remove(field);
     }
 }

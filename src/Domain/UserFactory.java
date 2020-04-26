@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Domain.Authorization.*;
 
 import java.util.*;
 
@@ -14,14 +13,13 @@ public class UserFactory {
      */
 
 
-    public static Object[] getNewFan(String password ,String firstName, String lastName, String mail, String phone, String addres){
+    public static User getNewFan(String password ,String firstName, String lastName, String mail, String phone, String addres){
         try {
             User user = new User (firstName, lastName, "F", mail);
-            Fan fan = new Fan(user.getID(),phone, addres);
-            FanAuthorization authorization = new FanAuthorization(fan, user);
-            user.addAuthorization(authorization);
+            Fan fan = new Fan(phone, addres);
+            user.addAuthorization(fan);
             if(Database.addUser(password, user)){
-                return addToArray(user, fan);
+                return user;
             }
             return null;
         }catch (Exception e){
@@ -30,10 +28,11 @@ public class UserFactory {
 
     }
 
-    public static Object[] getNewPlayer(String firstName, String lastName, String mail, Date birthDate, String role, double price){
+    public static User getNewPlayer(String firstName, String lastName, String mail, Date birthDate, String role, double price){
         try {
         User user = new User(firstName, lastName, "P", mail);
         Player player = new Player(user.getID(), birthDate, role, price, user);
+        user.addAuthorization(player);
         giveHasPageAuthorization(user);
         return addToDatabase(user, player);
         }
@@ -42,10 +41,11 @@ public class UserFactory {
         }
     }
 
-    public static Object[] getNewCoach(String firstName, String lastName, String mail, String training, String role, double price){
+    public static User getNewCoach(String firstName, String lastName, String mail, String training, String role, double price){
         try {
         User user = new User(firstName, lastName, "C", mail);
-        Coach coach = new Coach(user.getID(),training, role, price, user);
+        Coach coach = new Coach(user.getID(),training, role, price);
+        user.addAuthorization(coach);
         giveHasPageAuthorization(user);
         return addToDatabase(user, coach);
     }
@@ -56,7 +56,7 @@ public class UserFactory {
     public static User getNewTeamOwner(String firstName, String lastName, String mail){
         try {
         User user = new User(firstName, lastName, "TO", mail);
-        TeamOwnerAuthorization authorization = new TeamOwnerAuthorization(user);
+        TeamOwner authorization = new TeamOwner();
         authorization.giveAll(true);
         user.addAuthorization(authorization);
         return addToDatabase(user);
@@ -67,14 +67,11 @@ public class UserFactory {
 
     }
 
-    public static Object[] getNewTeamManager(String firstName, String lastName, String mail, double price){
+    public static User getNewTeamManager(String firstName, String lastName, String mail, double price){
         try {
         User user = new User(firstName, lastName, "TM", mail);
-        TeamManager teamManager = new TeamManager(user.getID(),price, user);
-        TeamOwnerAuthorization authorization = new TeamOwnerAuthorization(user);
-        authorization.giveAssetManagement();
-        authorization.giveFinance();
-        user.addAuthorization(authorization);
+        TeamManager teamManager = new TeamManager(user.getID(),price);
+        user.addAuthorization(teamManager);
         return addToDatabase(user, teamManager);
         }
         catch (Exception e){
@@ -86,7 +83,7 @@ public class UserFactory {
     public static User getNewAdmin(String password, String firstName, String lastName, String mail){
         try {
         User user = new User(firstName, lastName, "A", mail);
-        AdminAuthorization authorization = new AdminAuthorization(user);
+        Admin authorization = new Admin();
         user.addAuthorization(authorization);
         if(Database.addAdmin(password, user))
             return user;
@@ -99,7 +96,7 @@ public class UserFactory {
     public static User getNewUnionRepresentative(String firstName, String lastName, String mail){
         try {
         User user = new User(firstName, lastName, "UR", mail);
-        UnionAuthorization authorization = new UnionAuthorization(user);
+        UnionRepresentative authorization = new UnionRepresentative();
         user.addAuthorization(authorization);
         return addToDatabase(user);
         }
@@ -109,13 +106,12 @@ public class UserFactory {
 
     }
 
-    public static Object[] getNewReferee(String firstName, String lastName, String mail, String training){
+    public static User getNewReferee(String firstName, String lastName, String mail, String training){
         try {
         User user = new User(firstName, lastName, "R", mail);
-        Referee referee = new Referee(training, user);
-        RefereeAuthorization authorization = new RefereeAuthorization(referee, user);
-        user.addAuthorization(authorization);
-        return addToArray(user, referee);
+        Referee referee = new Referee(training);
+        user.addAuthorization(referee);
+        return user;
         }
         catch (Exception e){
         return null;
@@ -133,34 +129,27 @@ public class UserFactory {
     }
 
 
-    private static Object[] addToDatabase(User user,Object asset){
+    private static User addToDatabase(User user,Object asset){
         String password = PasswordGenerator.generateRandPassword(6);
-        if(asset instanceof Asset){
-            if(Database.addUser(password, user) && Database.addAsset((Asset)asset)){
+        if(asset instanceof PartOfATeam){
+            if(Database.addUser(password, user) && Database.addAsset((PartOfATeam)asset)){
                 MailSender.send(user.getMail(), "Welcome!\nUserId is: "+ user.getMail()+"\npassword: " + password);
-                return addToArray(user, asset);
+                return user;
             }
         }
         else{
             if(Database.addUser(password, user)){
                 MailSender.send(user.getMail(), "Welcome!\nUserId is: "+ user.getMail()+"\npassword: " + password);
-                return addToArray(user, asset);
+                return user;
             }
         }
         return null;
     }
 
-    private static Object[] addToArray(User user, Object asset) {
-        Object[] userObj = new Object[2];
-        userObj[0] = user;
-        userObj[1] = asset;
-        return userObj;
-    }
-
     private static void giveHasPageAuthorization(User user) {
         String data = "This is "+ user.getName()+"'s Personal Page! ";
         PersonalPage page = new PersonalPage(data, user);
-        HasPageAuthorization authorization = new HasPageAuthorization(page, user);
+        HasPage authorization = new HasPage(page);
         user.addAuthorization(authorization);
     }
 

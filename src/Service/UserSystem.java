@@ -1,8 +1,5 @@
 package Service;
 
-import Domain.Authorization.AuthorizationRole;
-import Domain.Authorization.FanAuthorization;
-import Domain.Authorization.UserAuthorization;
 import Domain.*;
 
 import java.util.List;
@@ -17,11 +14,7 @@ public class UserSystem extends GuestSystem {
     View fan search history
      */
     public List<String> viewSearchHistory(User user) {
-        UserAuthorization authorization = (UserAuthorization)getAuthorization(user, "User");
-        if (authorization != null) {
-            return authorization.viewSearchHistory();
-        }
-        return null;
+        return user.viewSearchHistory();
     }
 
     /*
@@ -42,7 +35,7 @@ public class UserSystem extends GuestSystem {
     Edit fan personal information
      */
     public void editFanPersonalDetails(User user, String firstName, String lastName, String phone, String address) {
-        FanAuthorization authorization = (FanAuthorization)getAuthorization(user, "Fan");
+        Fan authorization = getFanAuthorization(user);
         if (authorization != null) {
             authorization.editPersonalInfo(firstName, lastName, phone, address);
         }
@@ -52,24 +45,21 @@ public class UserSystem extends GuestSystem {
     Edit user personal information
      */
     public void editPersonalInfo(User user, String firstName, String lastName) {
-        UserAuthorization authorization = (UserAuthorization)getAuthorization(user, "User");
-        if (authorization != null) {
-            authorization.editPersonalInfo(firstName, lastName);
-        }
+        user.editPersonalInfo(firstName, lastName);
     }
 
     /*
     user adds a complaint to the system
      */
     public void addComplaint(User user, String description) {
-        FanAuthorization authorization = (FanAuthorization)getAuthorization(user, "Fan");
+        Fan authorization =getFanAuthorization(user);
         if (authorization != null) {
             authorization.submitComplaint(description);
         }
     }
 
     public boolean registrationToFollowUp(User user, PersonalPage page) {
-        FanAuthorization authorization = (FanAuthorization)getAuthorization(user, "Fan");
+        Fan authorization =getFanAuthorization(user);
         if (authorization != null) {
             return authorization.followPage(page);
         }
@@ -77,7 +67,7 @@ public class UserSystem extends GuestSystem {
     }
 
     public List<PersonalPage> getFanPages(User user) {
-        FanAuthorization authorization = (FanAuthorization)getAuthorization(user, "Fan");
+        Fan authorization =getFanAuthorization(user);
         if (authorization != null) {
             return authorization.getFollowedPages();
         }
@@ -88,7 +78,7 @@ public class UserSystem extends GuestSystem {
     Fan registration for alerts for games you've selected
      */
     public boolean registrationForGamesAlerts(User user, List<Game> games, ReceiveAlerts receive) {
-        FanAuthorization authorization = (FanAuthorization)getAuthorization(user, "Fan");
+        Fan authorization =getFanAuthorization(user);
         if (authorization != null) {
             for(Game game : games){
                 authorization.followGame(game, receive);
@@ -139,25 +129,19 @@ public class UserSystem extends GuestSystem {
     Search results in a system
      */
     public List<Object> search(User user,  String wordToSearch){
-        UserAuthorization authorization = (UserAuthorization)getAuthorization(user, "User");
-        if (authorization != null) {
-            return authorization.search(wordToSearch);
-        }
-        return null;
+        return user.search(wordToSearch);
+
     }
 
 
-    private AuthorizationRole getAuthorization(User user, String type) {
-        switch (type){
-            case("User"):
-                return user.getRoles().get(0);
-            case("Fan"):{
-                for (AuthorizationRole role : user.getRoles()) {
-                    if (role instanceof FanAuthorization)
-                        return role;
-                }
-            }
+    private Fan getFanAuthorization(User user) {
+
+        for (Role role : user.getRoles()) {
+            if (role instanceof Fan)
+                return (Fan)role;
+
         }
+
         return null;
     }
 

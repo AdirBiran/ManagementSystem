@@ -11,7 +11,7 @@ public class Database //maybe generalize with interface? //for now red layer
     private static HashMap<String,String> mailsAndUserID; //- <mail, userId>
     private static HashMap<String,User> usersInDatabase; // - <userId,User>
     private static HashMap<String, User> admins;
-    private static HashMap<String,Asset> assetsInDatabase;// - <asset.name, Asset>
+    private static HashMap<String, PartOfATeam> assetsInDatabase;// - <asset.name, PartOfATeam>
     private static HashMap<String, Game> gamesInDatabase; // - <game.id, Game>
     private static HashMap<String, PersonalPage> pagesInDatabase;//-<userId, PersonalPage>
     private static HashSet<League> leagues;
@@ -63,22 +63,6 @@ public class Database //maybe generalize with interface? //for now red layer
     public static boolean addTeam(Team team){
         if(!teams.containsKey(team.getID())){
             teams.put(team.getID(), team);
-            for(Player player:team.getPlayers()){
-                if(!usersInDatabase.containsKey(player.getID())){
-                    addAsset(player);
-                }
-            }
-            for(Coach coach:team.getCoaches()){
-                if(!usersInDatabase.containsKey(coach.getID())){
-                    addAsset(coach);
-                }
-            }
-            //for(User teamManager:team.getTeamManagers()){
-            //    if(!usersInDatabase.containsKey(teamManager.getID())){
-            //        addAsset(teamManager.getRoles().get(0));
-            //    }
-            //}
-
             return true;
         }
 
@@ -97,8 +81,8 @@ public class Database //maybe generalize with interface? //for now red layer
         for example input: "Blumfield stadium" - the output will be a pointer to Blumfield stadium object or Null if it doesn't exists
         return null if cant find asset
          */
-    public static Asset getAsset(String name){
-       return (Asset)search("Asset", name);
+    public static PartOfATeam getAsset(String name){
+       return (PartOfATeam)search("PartOfATeam", name);
     }
     /*
     this function gets a user id and returns a pointer to the object of this user
@@ -145,7 +129,7 @@ public class Database //maybe generalize with interface? //for now red layer
         return futureGames;
     }
 
-    public static HashMap<String, Asset> getAssetsInDatabase() {
+    public static HashMap<String, PartOfATeam> getAssetsInDatabase() {
         return assetsInDatabase;
     }
 
@@ -153,7 +137,7 @@ public class Database //maybe generalize with interface? //for now red layer
         adds an asset to the database
         returns false if the asset already exists
          */
-    public static boolean addAsset(Asset asset){
+    public static boolean addAsset(PartOfATeam asset){
         String assetID = asset.getID();
         if(assetsInDatabase.containsKey(assetID)){
             return false;
@@ -236,11 +220,11 @@ public class Database //maybe generalize with interface? //for now red layer
     if there aren't any users of this type - the list will be empty
     if the string type is wrong the function will return null
      */
-    public static List<Asset> getListOfAllSpecificAssets(String userType){
-        LinkedList<Asset> listOfAssets = new LinkedList<>();
+    public static List<PartOfATeam> getListOfAllSpecificAssets(String userType){
+        LinkedList<PartOfATeam> listOfAssets = new LinkedList<>();
         switch(userType){
             case("Coach"):{
-                for(Asset asset : assetsInDatabase.values()){
+                for(PartOfATeam asset : assetsInDatabase.values()){
                     if(asset instanceof Coach &&asset.isActive())
                         listOfAssets.add(asset);
                 }
@@ -257,7 +241,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             }
             case("Player"):{
-                for(Asset user : assetsInDatabase.values()){
+                for(PartOfATeam user : assetsInDatabase.values()){
                     if(user instanceof Player &&user.isActive())
                         listOfAssets.add(user);
                 }
@@ -272,7 +256,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 break;
             }
             case("TeamManager"):{
-               for(Asset user : assetsInDatabase.values()){
+               for(PartOfATeam user : assetsInDatabase.values()){
                    if(user instanceof TeamManager &&user.isActive())
                        listOfAssets.add(user);
                }
@@ -312,7 +296,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
     private static Object search(String whatType, String searchWord){
             switch(whatType){
-                case("Asset"):{
+                case("PartOfATeam"):{
                     for(String nameOfAsset : assetsInDatabase.keySet()) {
                         if (searchWord.equals(nameOfAsset))
                             return assetsInDatabase.get(searchWord);
@@ -391,7 +375,7 @@ public class Database //maybe generalize with interface? //for now red layer
     *
     * */
     public static void removeAsset(String assetId) {
-        Asset asset = assetsInDatabase.get(assetId);
+        PartOfATeam asset = assetsInDatabase.get(assetId);
         if(asset!=null){
             asset.deactivate();
         }
@@ -431,7 +415,7 @@ public class Database //maybe generalize with interface? //for now red layer
             if(searchWord.contains(team.getName()))
                 result.add(team);
         }
-        for(Asset asset : assetsInDatabase.values()){
+        for(PartOfATeam asset : assetsInDatabase.values()){
             if(asset instanceof Field && ((Field)asset).getLocation().contains(searchWord)){
                 result.add(asset);
             }

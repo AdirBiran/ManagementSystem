@@ -1,7 +1,5 @@
 package Service;
 
-import Domain.Authorization.AuthorizationRole;
-import Domain.Authorization.RefereeAuthorization;
 import Domain.*;
 
 public class RefereeSystem {
@@ -13,7 +11,7 @@ public class RefereeSystem {
     }
 
     public boolean addEventToGame(User user, Game game, Event.EventType type, double minuteInGame, String description){
-        RefereeAuthorization authorization = getAuthorization(user);
+        Referee authorization = getAuthorization(user);
         if(authorization!=null){
             authorization.addEventToGame(game, type, minuteInGame, description);
             return true;
@@ -22,17 +20,17 @@ public class RefereeSystem {
     }
 
     public void setScoreInGame(User user,Game game, int hostScore, int guestScore){
-        RefereeAuthorization authorization = getAuthorization(user);
+        Referee authorization = getAuthorization(user);
         if(authorization!=null){
             authorization.setScoreInGame(game, hostScore, guestScore);
         }
     }
 
-    private RefereeAuthorization getAuthorization(User user) {
+    private Referee getAuthorization(User user) {
 
-        for(AuthorizationRole role : user.getRoles()){
-            if(role instanceof RefereeAuthorization)
-                return (RefereeAuthorization)role;
+        for(Role role : user.getRoles()){
+            if(role instanceof Referee)
+                return (Referee)role;
         }
         return null;
     }

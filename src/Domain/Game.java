@@ -11,8 +11,8 @@ public class Game {
     private int hostScore;//number of goals
     private int guestScore;//number of goals
     private Field field;
-    private Referee mainReferee; // exactly 1, check type of referee
-    private List<Referee> sideReferees; // between 2 and 6, check type of referee
+    private User mainReferee; // exactly 1, check type of referee
+    private List<User> sideReferees; // between 2 and 6, check type of referee
     private Team hostTeam; // check type of team
     private Team guestTeam; // check type of team
     private HashMap<Fan, ReceiveAlerts> fansForAlerts; //list of fans that signed up to receive game alerts
@@ -20,7 +20,7 @@ public class Game {
     private LeagueInSeason league;
 
 
-    public Game(Date date, Field field, Referee mainReferee, List<Referee> sideReferees,
+    public Game(Date date, Field field, User mainReferee, List<User> sideReferees,
                 Team hostTeam, Team guestTeam, LeagueInSeason league) {
         this.league = league;
         league.addGame(this);
@@ -102,11 +102,11 @@ public class Game {
         return field;
     }
 
-    public Referee getMainReferee() {
+    public User getMainReferee() {
         return mainReferee;
     }
 
-    public List<Referee> getSideReferees() {
+    public List<User> getSideReferees() {
         return sideReferees;
     }
 
