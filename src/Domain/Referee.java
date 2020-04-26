@@ -1,9 +1,6 @@
 package Domain;
 
-<<<<<<< Updated upstream
-=======
 import java.util.HashSet;
->>>>>>> Stashed changes
 
 public class Referee implements Role{
 

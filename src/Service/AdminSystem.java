@@ -106,10 +106,8 @@ Permanently close a group only by an administrator
     /**
      *
      */
-    public void trainModel()
+    public boolean trainModel(User admin)
     {
-<<<<<<< Updated upstream
-=======
         Admin authorization = getAuthorization(admin);
         if(authorization!=null) {
             StubRecommendationSystem recommendationSystem = new StubRecommendationSystem();
@@ -117,7 +115,6 @@ Permanently close a group only by an administrator
             return recommendationSystem.trainModel();
         }
         return false;
->>>>>>> Stashed changes
 
     }
 

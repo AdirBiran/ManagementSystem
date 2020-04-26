@@ -55,4 +55,7 @@ public class PersonalPage {
     public void setData(String data) {
         this.data = data;
     }
+    public void addData(String data) {
+        this.data += data;
+    }
 }

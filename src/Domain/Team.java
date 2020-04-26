@@ -1,11 +1,5 @@
 package Domain;
 
-<<<<<<< Updated upstream
-import Domain.Authorization.AuthorizationRole;
-import Domain.Authorization.TeamOwnerAuthorization;
-
-=======
->>>>>>> Stashed changes
 import java.util.List;
 import java.util.LinkedList;
 
@@ -31,14 +25,10 @@ public class Team{
     public Team(String name, PersonalPage page, List<User> teamOwners, List<User> players, List<User> coaches, Field field) {
         this.id = "T"+IdGenerator.getNewId();
         this.name = name;
-        this.page = page;
-
         if(teamOwners==null||teamOwners.size()<1)
            throw new RuntimeException("not enough TeamOwners");
         this.teamOwners = teamOwners;
         linkTeamOwner();
-<<<<<<< Updated upstream
-=======
         if(page == null){
             this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
             teamOwners.get(0).addAuthorization(new HasPage(page));
@@ -46,7 +36,6 @@ public class Team{
         else
             this.page = page;
 
->>>>>>> Stashed changes
         if(players==null||players.size()<11)
             throw new RuntimeException("not enough Players");
         this.players = players;
@@ -174,15 +163,6 @@ public class Team{
         return false;
     }
 
-<<<<<<< Updated upstream
-    public boolean addPlayer(Player player) {
-        if(!players.contains(player)) {
-            //go over player's teams
-            //check league
-            this.players.add(player);
-            player.addTeam(this);
-            return true;
-=======
 
 
     public boolean addPlayer(User user) {
@@ -197,18 +177,10 @@ public class Team{
                 player.addTeam(this);
                 return true;
             }
->>>>>>> Stashed changes
         }
         return false;
     }
 
-<<<<<<< Updated upstream
-    public boolean addCoach(Coach coach) {
-        if(!coaches.contains(coach)) {
-            this.coaches.add(coach);
-            coach.addTeam(this);
-            return true;
-=======
     private boolean doListsHaveLeaguesInCommon(List<League> list1, List<League> list2){
         for(League league1:list1){
             for(League league2: list2){
@@ -235,7 +207,6 @@ public class Team{
                 coach.addTeam(this);
                 return true;
             }
->>>>>>> Stashed changes
         }
         return false;
     }

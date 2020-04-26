@@ -9,8 +9,10 @@ import java.util.Date;
 
 public class UnionRepresentativeSystem {
 
+    private UnionBudget unionBudget;
 
     public UnionRepresentativeSystem() {
+        unionBudget = new UnionBudget();
     }
 
     public boolean configureNewLeague(User user, String name, String level){
@@ -86,18 +88,14 @@ public class UnionRepresentativeSystem {
     }
 
     public boolean addTeamToLeague(User user, LeagueInSeason league, Team team) {
-<<<<<<< Updated upstream
-        if(getAuthorization(user)!=null && team.isActive()){
-=======
         UnionRepresentative authorization = getAuthorization(user);
         if(authorization!=null && team.isActive()){
             if(team.getBudget().addExpanse(league.getRegistrationFee()))
                 unionBudget.addPayment(league.getRegistrationFee());
             else
                 return false;
->>>>>>> Stashed changes
             league.addATeam(team);
-            return getAuthorization(user).addTeamToDatabase(team);
+            return authorization.addTeamToDatabase(team);
         }
         return false;
     }
@@ -131,15 +129,12 @@ public class UnionRepresentativeSystem {
             authorization.addTUTUPayment(team, payment);
         }
     }
-<<<<<<< Updated upstream
-=======
     public void addPaymentsFromTheTUTU(User user,double payment){
         UnionRepresentative authorization = getAuthorization(user);
         if(authorization!=null){
             unionBudget.addPayment( payment);
         }
     }
->>>>>>> Stashed changes
 
     private UnionRepresentative getAuthorization(User user) {
         for(Role role : user.getRoles()){
