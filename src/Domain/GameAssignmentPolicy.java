@@ -20,10 +20,10 @@ public abstract class GameAssignmentPolicy {
      /*
      for now this function returns 2 side referees
      */
-     protected List<Referee> getSideReferees(List<Referee> referees, Referee main) {
-          List<Referee> sideReferees = new LinkedList<>();
+     protected List<User> getSideReferees(List<User> referees, User main) {
+          List<User> sideReferees = new LinkedList<>();
           int index ;
-          Referee ref1, ref2;
+          User ref1, ref2;
           do{
                index = (int)((Math.random())*referees.size())%referees.size();
                ref1 = referees.get(index);
@@ -39,9 +39,9 @@ public abstract class GameAssignmentPolicy {
           return sideReferees;
      }
 
-     protected Referee getMainReferee(List<Referee> referees) {
+     protected User getMainReferee(List<User> referees) {
           int index = (int)((Math.random())*referees.size())%referees.size();
-          Referee main = referees.get(index);
+          User main = referees.get(index);
           return main;
 
      }
@@ -53,15 +53,15 @@ public abstract class GameAssignmentPolicy {
           return date;
      }
 
-     protected void checkConstrains(List<Date> dates, List<Team> teams, List<Referee> referees) {
+     protected void checkConstrains( List<Team> teams, List<User> referees) {
           if(referees.size()<3) throw new RuntimeException("not enough referees available to assign games");
           if(teams.size()<13) throw new RuntimeException("not enough teams available to assign games");
      }
 
 
-     protected Game makeGame(List<Referee> referees, Team team1, Team team2, List<Date> dates, LeagueInSeason league) {
-          Referee mainRef;
-          List<Referee> sideRefs;
+     protected Game makeGame(List<User> referees, Team team1, Team team2, List<Date> dates, LeagueInSeason league) {
+          User mainRef;
+          List<User> sideRefs;
           mainRef = getMainReferee(referees);
           sideRefs = getSideReferees(referees,mainRef);
           return new Game(getDateFromList(dates), team1.getField(), mainRef,sideRefs, team1,team2, league);

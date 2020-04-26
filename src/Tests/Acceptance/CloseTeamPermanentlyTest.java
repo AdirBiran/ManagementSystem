@@ -32,12 +32,12 @@ public class CloseTeamPermanentlyTest {
     @Test
     public void closeFail_41()
     {
-        List<Player> players = FootballManagementSystem.createPlayers();
-        List<Coach> coaches = FootballManagementSystem.createCoaches();
+        List<User> players = FootballManagementSystem.createPlayers();
+        List<User> coaches = FootballManagementSystem.createCoaches();
         User owner = UserFactory.getNewTeamOwner("Team","Owner", "a"+"@gmail.com");
         List<User> owners = new LinkedList<>();
         owners.add(owner);
-        PersonalPage page = new PersonalPage("", players.get(0).getUser());
+        PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "jerusalem", 550, 150000);
         Team team = new Team("team",page,owners,players,coaches, field);
         Database.addTeam(team);
@@ -50,12 +50,12 @@ public class CloseTeamPermanentlyTest {
     @Test
     public void closeSuccess_42()
     {
-        List<Player> players = FootballManagementSystem.createPlayers();
-        List<Coach> coaches = FootballManagementSystem.createCoaches();
+        List<User> players = FootballManagementSystem.createPlayers();
+        List<User> coaches = FootballManagementSystem.createCoaches();
         User owner = UserFactory.getNewTeamOwner("Team2","Owner2", "a2"+"@gmail.com");
         List<User> owners = new LinkedList<>();
         owners.add(owner);
-        PersonalPage page = new PersonalPage("", players.get(0).getUser());
+        PersonalPage page = new PersonalPage("", players.get(0));
         Field field = new Field( "tel-aviv", 550, 150000);
         Team team = new Team("team2",page,owners,players,coaches, field);
         Database.addTeam(team);

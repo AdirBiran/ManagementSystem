@@ -1,7 +1,5 @@
 package Unit;
 
-import Domain.Authorization.RefereeAuthorization;
-import Domain.Referee;
 import Domain.User;
 import Domain.UserFactory;
 import Service.FootballManagementSystem;

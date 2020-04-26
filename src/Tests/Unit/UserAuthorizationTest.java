@@ -1,8 +1,5 @@
 package Unit;
 
-import Data.Database;
-import Domain.Authorization.UserAuthorization;
-import Domain.Player;
 import Domain.User;
 import Domain.UserFactory;
 import Service.FootballManagementSystem;

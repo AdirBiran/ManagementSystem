@@ -1,20 +1,22 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public class Fan {
+public class Fan implements Role{
 
 
-    private String id;
+
     private String address;
     private String phone;
     private List<Complaint> complaints;
     private List<PersonalPage> followPages;
 
 
-    public Fan(String id,String phone, String address) {
-        this.id = id;
+    public Fan(String phone, String address) {
+
         this.address = address;
         this.phone = phone;
         complaints = new LinkedList<>();
@@ -66,6 +68,39 @@ public class Fan {
     public List<PersonalPage> getFollowPages() {
         return followPages;
     }
+
+
+    public void editPersonalInfo(String firstName, String lastName, String address, String phone){
+
+        editDetails(address, phone);
+
+    }
+    public boolean followPage(PersonalPage page){
+        return addPageToFollow(page);
+    }
+
+    public boolean followGame(Game game , ReceiveAlerts receiveAlerts){
+        return game.addFanForNotifications(this, receiveAlerts);
+    }
+    public boolean submitComplaint(String description)
+    {
+        if(description.length()<1)
+            return false;
+        Complaint complaint = new Complaint(description, this);
+        return Database.addComplaint(complaint);
+
+    }
+
+    public List<PersonalPage> getFollowedPages()
+    {
+        return getFollowPages();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Fan;
+    }
+
 
 
 

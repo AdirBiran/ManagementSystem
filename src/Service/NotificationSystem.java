@@ -33,9 +33,9 @@ public class NotificationSystem {
     }
 
     private void sendNotification(Game game, String msg) {
-        for(Referee sideRef : game.getSideReferees())
-            sideRef.getUser().addMessage(new Notice(msg));
-        game.getMainReferee().getUser().addMessage(new Notice(msg));
+        for(User sideRef : game.getSideReferees())
+            sideRef.addMessage(new Notice(msg));
+        game.getMainReferee().addMessage(new Notice(msg));
     }
 
     /*

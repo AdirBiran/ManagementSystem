@@ -31,10 +31,10 @@ public class ComplaintTest {
     @Test
     public void invalidComplaint_13()
     {
-        Object[] fan = UserFactory.getNewFan("Aa1323","AAA", "BBB","a@b.com", "0123456789", "Israel");
+        User fan = UserFactory.getNewFan("Aa1323","AAA", "BBB","a@b.com", "0123456789", "Israel");
         String invalidDescription = "";
         if(fan!=null){
-            userSystem.addComplaint((User)fan[0], invalidDescription);
+            userSystem.addComplaint(fan, invalidDescription);
         }
 
         boolean found = false;
@@ -52,9 +52,9 @@ public class ComplaintTest {
     @Test
     public void validComplaint_14()
     {
-        Object[] fan = UserFactory.getNewFan("Aa12234", "AAA", "BBB","a@b.com" ,"0123456789", "Israel");
+        User fan = UserFactory.getNewFan("Aa12234", "AAA", "BBB","a@b.com" ,"0123456789", "Israel");
         String validDescription = "valid complaint";
-        userSystem.addComplaint((User)fan[0], validDescription);
+        userSystem.addComplaint(fan, validDescription);
 
         boolean found = false;
 

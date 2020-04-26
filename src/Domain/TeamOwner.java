@@ -1,17 +1,14 @@
-package Domain.Authorization;
+package Domain;
 
 import Data.Database;
-import Domain.*;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.HashMap;
 
-public class TeamOwnerAuthorization extends UserAuthorization {
+public class TeamOwner extends Manager implements Role{
 
-    private boolean addAssetToTeam;
-    private boolean removeAssetFromTeam;
-    private boolean updateAsset;
+
     private boolean appointTeamOwner;
     private boolean appointTeamManager;
     private boolean removeAppointTeamOwner;
@@ -28,9 +25,8 @@ public class TeamOwnerAuthorization extends UserAuthorization {
     private HashMap<User, Team> appointedTeamManagers;
 
 
-    public TeamOwnerAuthorization( User user) {
-        super(user);
-        giveAll(false);
+    public TeamOwner() {
+        giveAll(true);
 
         teamsToManage = new LinkedList<>();
         closedTeams = new LinkedList<>();
@@ -41,9 +37,7 @@ public class TeamOwnerAuthorization extends UserAuthorization {
 
 
     public void giveAll(boolean value){
-        addAssetToTeam = value;
-        removeAssetFromTeam = value;
-        updateAsset = value;
+
         appointTeamOwner= value;
         appointTeamManager= value;
         removeAppointTeamOwner= value;
@@ -53,13 +47,6 @@ public class TeamOwnerAuthorization extends UserAuthorization {
         reportIncome= value;
         reportExpanse= value;
         getBalance=value;
-
-    }
-
-    public void giveAssetManagement(){
-        addAssetToTeam = true;
-        removeAssetFromTeam = true;
-        updateAsset = true;
 
     }
 
@@ -81,17 +68,6 @@ public class TeamOwnerAuthorization extends UserAuthorization {
         return getBalance;
     }
 
-    public boolean isAddAssetToTeam() {
-        return addAssetToTeam;
-    }
-
-    public boolean isRemoveAssetFromTeam() {
-        return removeAssetFromTeam;
-    }
-
-    public boolean isUpdateAsset() {
-        return updateAsset;
-    }
 
     public boolean isAppointTeamOwner() {
         return appointTeamOwner;
@@ -125,17 +101,6 @@ public class TeamOwnerAuthorization extends UserAuthorization {
         return reportExpanse;
     }
 
-    public void setAddAssetToTeam(boolean addAssetToTeam) {
-        this.addAssetToTeam = addAssetToTeam;
-    }
-
-    public void setRemoveAssetFromTeam(boolean removeAssetFromTeam) {
-        this.removeAssetFromTeam = removeAssetFromTeam;
-    }
-
-    public void setUpdateAsset(boolean updateAsset) {
-        this.updateAsset = updateAsset;
-    }
 
     public void setAppointTeamOwner(boolean appointTeamOwner) {
         this.appointTeamOwner = appointTeamOwner;
@@ -193,6 +158,7 @@ public class TeamOwnerAuthorization extends UserAuthorization {
     }
 
 
+<<<<<<< Updated upstream:src/Domain/Authorization/TeamOwnerAuthorization.java
 
     public boolean addAssetToTeam(Asset asset, Team team){
         if(addAssetToTeam && teamsToManage.contains(team)){
@@ -267,18 +233,20 @@ public class TeamOwnerAuthorization extends UserAuthorization {
         return false;
     }
 
+=======
+>>>>>>> Stashed changes:src/Domain/TeamOwner.java
     public boolean appointTeamOwner(User user, Team team){
         if(appointTeamOwner && teamsToManage.contains(team)){
             if(!team.getTeamOwners().contains(user)){
                 if(!user.getRoles().contains(this)){
-                    TeamOwnerAuthorization teamOwner = new TeamOwnerAuthorization(user);
+                    TeamOwner teamOwner = new TeamOwner();
                     teamOwner.giveAll(true);
                     teamOwner.addTeam(team);
                     user.addAuthorization(teamOwner);
                 }
                 else{
                     int index = user.getRoles().indexOf(this);
-                    ((TeamOwnerAuthorization)user.getRoles().get(index)).addTeam(team);
+                    ((TeamOwner)user.getRoles().get(index)).addTeam(team);
                 }
                 team.addTeamOwner(user);
                 appointedTeamOwners.put(user, team);
@@ -298,14 +266,12 @@ public class TeamOwnerAuthorization extends UserAuthorization {
         if(appointTeamManager && teamsToManage.contains(team)){
             if(!team.getTeamManagers().contains(user)){
                 if(!user.getRoles().contains(this)){
-                    TeamOwnerAuthorization teamManagerAutho = new TeamOwnerAuthorization(user);
-                    teamManagerAutho.giveAssetManagement();
-                    teamManagerAutho.giveFinance();//??
+                    TeamManager teamManagerAutho = new TeamManager(user.getID(), 0);
                     user.addAuthorization(teamManagerAutho);
                 }
                 else{
                     int index = user.getRoles().indexOf(this);
-                    ((TeamOwnerAuthorization)user.getRoles().get(index)).addTeam(team);
+                    ((TeamOwner)user.getRoles().get(index)).addTeam(team);
                 }
                 team.addTeamManager(user);
                 appointedTeamManagers.put(user,team);
@@ -339,7 +305,7 @@ public class TeamOwnerAuthorization extends UserAuthorization {
 
     private void removeAuthorization(User user, Team team){
         int index = user.getRoles().indexOf(this);
-        TeamOwnerAuthorization autho = (TeamOwnerAuthorization) user.getRoles().get(index);
+        TeamOwner autho = (TeamOwner) user.getRoles().get(index);
         if(autho.getTeamsToManage().size()==1)
             user.getRoles().remove(this);
         else{
@@ -357,10 +323,10 @@ public class TeamOwnerAuthorization extends UserAuthorization {
 
     public boolean closeTeam(Team team){
         if(closeTeam && teamsToManage.contains(team)&& !closedTeams.contains(team)){
-           team.setActive(false);
-           teamsToManage.remove(team);
-           closedTeams.add(team);
-           return true;
+            team.setActive(false);
+            teamsToManage.remove(team);
+            closedTeams.add(team);
+            return true;
         }
         return false;
     }
@@ -394,9 +360,8 @@ public class TeamOwnerAuthorization extends UserAuthorization {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof TeamOwnerAuthorization;
+        return obj instanceof TeamOwner;
     }
-
 
 
 }

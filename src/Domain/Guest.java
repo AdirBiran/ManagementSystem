@@ -1,18 +1,16 @@
-package Domain.Authorization;
+package Domain;
 
 import Data.Database;
-import Domain.Fan;
 import Domain.User;
 import Domain.UserFactory;
 
 import java.util.List;
 
-public class GuestAuthorization extends AuthorizationRole {
+public class Guest {
 
 
+    public Guest() {
 
-    public GuestAuthorization() {
-        super();
     }
 
     public List<Object> search(String wordToSearch){
@@ -21,10 +19,7 @@ public class GuestAuthorization extends AuthorizationRole {
 
     public User register(String mail, String password, String firstName, String lastName, String phone, String address)
     {
-        Object[] fan = UserFactory.getNewFan(password, firstName, lastName, mail, phone, address);
-        if(fan!=null)
-            return (User)fan[0];
-        return null;
+        return UserFactory.getNewFan(password, firstName, lastName, mail, phone, address);
     }
     public User login(String mail, String password)
     {
@@ -32,11 +27,4 @@ public class GuestAuthorization extends AuthorizationRole {
             return Database.getUserByMail(mail);
         return null;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof GuestAuthorization;
-    }
-
-
 }

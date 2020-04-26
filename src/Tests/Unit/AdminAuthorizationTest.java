@@ -2,7 +2,6 @@ package Unit;
 
 import Data.Database;
 import Domain.*;
-import Domain.Authorization.AdminAuthorization;
 import Service.FootballManagementSystem;
 import java.util.Date;
 import org.junit.Before;
@@ -12,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class AdminAuthorizationTest {
     FootballManagementSystem system;
-    AdminAuthorization admin;
+    Admin admin;
 
     @Before
     public void init(){
@@ -21,7 +20,7 @@ public class AdminAuthorizationTest {
         system.dataReboot();
         User userAdmin = UserFactory.getNewAdmin("Aaa112233","ad", "min", "adminTest@gmail.com");
         assertNotNull(userAdmin);
-        admin = (AdminAuthorization) userAdmin.getRoles().get(0);
+        admin = (Admin) userAdmin.getRoles().get(0);
     }
     @Test
     public void addNewPlayer() {

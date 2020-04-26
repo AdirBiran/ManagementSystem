@@ -1,9 +1,5 @@
 package Service;
 
-import Domain.Authorization.AdminAuthorization;
-import Domain.Authorization.HasPageAuthorization;
-import Domain.Authorization.RefereeAuthorization;
-import Domain.Authorization.UserAuthorization;
 import Data.Database;
 import Domain.*;
 import Presentation.*;
@@ -140,14 +136,14 @@ public class FootballManagementSystem {
         LeagueInSeason leagueInSeason = unionRepresentativeSystem.configureLeagueInSeason(unionRep,"Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         Team team;
         for (int i = 0; i < 14; i++) {
-            List<Player> players = createPlayers();
-            List<Coach> coaches = createCoaches();
+            List<User> players = createPlayers();
+            List<User> coaches = createCoaches();
             List<User> owners = new LinkedList<>();
             User owner = adminSystem.addNewTeamOwner(systemAdmins.get(0),"Team","Owner","to"+i+"@gmail.com" );
             if(owner!=null){
                 owners.add(owner);
                 PersonalPage page = new PersonalPage("", owner);
-                owner.addAuthorization(new HasPageAuthorization(page, owner));
+                owner.addAuthorization(new HasPage(page));
                 Field field = new Field( "jerusalem", 550, 150000);
                 team = new Team("team"+i,page,owners,players,coaches, field);
                 unionRepresentativeSystem.addTeamToLeague(unionRep,leagueInSeason, team);
@@ -155,33 +151,29 @@ public class FootballManagementSystem {
 
         }
         for (int i = 0; i <10 ; i++) {
-            Referee ref = mainReferee(unionRep);
+            User ref = mainReferee(unionRep);
             unionRepresentativeSystem.assignRefToLeague(unionRep,leagueInSeason, ref);
         }
         return leagueInSeason;
     }
 
 
-    public static Referee mainReferee(User unionRep) {
-        Object[] obj =  unionRepresentativeSystem.appointReferee(unionRep,"referee", "",+IdGenerator.getNewId()+"@gmail.com", "talented");
-        if(obj!=null)
-            return (Referee)obj[1];
-        return null;
+    public static User mainReferee(User unionRep) {
+        return unionRepresentativeSystem.appointReferee(unionRep,"referee", "",+IdGenerator.getNewId()+"@gmail.com", "talented");
     }
-    public static List<Coach> createCoaches() {
-        Object[] objects;
-        objects = adminSystem.addNewCoach(systemAdmins.get(0),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com","firstOne", "main", 1500);
-        List<Coach> coaches = new LinkedList<>();
-        coaches.add((Coach) objects[1]);
+    public static List<User> createCoaches() {
+        User Coach = adminSystem.addNewCoach(systemAdmins.get(0),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com","firstOne", "main", 1500);
+        List<User> coaches = new LinkedList<>();
+        coaches.add(Coach);
         return coaches;
     }
-    public static List<Player> createPlayers() {
-        List<Player> players = new LinkedList<>();
-        Object[] objects;
+    public static List<User> createPlayers() {
+        List<User> players = new LinkedList<>();
+        User player;
         for (int i = 0; i <12 ; i++) {
-            objects = adminSystem.addNewPlayer(systemAdmins.get(0), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", new Date(99, 1, 1),"role"+i, 3500);
-            if(objects!=null){
-                players.add((Player) objects[1]);
+            player = adminSystem.addNewPlayer(systemAdmins.get(0), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", new Date(99, 1, 1),"role"+i, 3500);
+            if(player!=null){
+                players.add(player);
             }
         }
         return players;

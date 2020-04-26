@@ -32,9 +32,9 @@ public class SearchHistoryTest {
 
         system.dataReboot();
 
-        Object[] fanObj = UserFactory.getNewFan("aA12345", "AAA", "BBB", "a@b.com", "0123456789", "Israel");
+        User fanObj = UserFactory.getNewFan("aA12345", "AAA", "BBB", "a@b.com", "0123456789", "Israel");
         assertNotNull(fanObj);
-        fanUser = (User)fanObj[0];
+        fanUser = fanObj;
 
 
 

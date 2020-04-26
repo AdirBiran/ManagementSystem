@@ -1,16 +1,12 @@
-package Domain.Authorization;
+package Domain;
 
 import Data.Database;
-import Domain.*;
 
 import java.util.Date;
 import java.util.List;
 
-public class UnionAuthorization extends UserAuthorization {
+public class UnionRepresentative implements Role{
 
-    public UnionAuthorization(User user) {
-        super( user);
-    }
 
     public boolean configureNewLeague(String name, String level) {
         League league = new League(name, level);
@@ -46,23 +42,20 @@ public class UnionAuthorization extends UserAuthorization {
         }
         return false;
     }
-    public Object[] appointReferee(String firstName, String lastName, String mail, String training)
+    public User appointReferee(String firstName, String lastName, String mail, String training)
     {
-        Object[]referee = UserFactory.getNewReferee(firstName, lastName, mail, training);
-        if(referee!=null){
-            Database.addReferee((User)referee[0], (Referee)referee[1]);
-            return referee;
-        }
-        return null;
+        return UserFactory.getNewReferee(firstName, lastName, mail, training);
     }
     public void removeReferee(User user)
     {
 
     }
-    public boolean addRefereeToLeague(LeagueInSeason league, Referee referee)
+    public boolean addRefereeToLeague(LeagueInSeason league, User referee)
     {
         return league.addReferee(referee);
     }
+
+
     public boolean changeScorePolicy(LeagueInSeason league, ScorePolicy policy)
     {
         return league.changeScorePolicy(policy);
@@ -78,12 +71,10 @@ public class UnionAuthorization extends UserAuthorization {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof UnionAuthorization;
+        return obj instanceof UnionRepresentative;
     }
 
     public boolean addTeamToDatabase(Team team) {
         return Database.addTeam(team);
     }
-
-
 }

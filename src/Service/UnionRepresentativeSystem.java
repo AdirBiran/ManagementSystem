@@ -1,8 +1,6 @@
 package Service;
 
 
-import Domain.Authorization.AuthorizationRole;
-import Domain.Authorization.UnionAuthorization;
 import Domain.*;
 import Domain.Referee;
 
@@ -16,7 +14,7 @@ public class UnionRepresentativeSystem {
     }
 
     public boolean configureNewLeague(User user, String name, String level){
-        UnionAuthorization authorization = getAuthorization(user);
+        UnionRepresentative authorization = getAuthorization(user);
         if(authorization!=null){
             return authorization.configureNewLeague(name, level);
         }
@@ -26,7 +24,7 @@ public class UnionRepresentativeSystem {
 
 
     public boolean configureNewSeason(User user, int year, Date startDate){
-        UnionAuthorization authorization = getAuthorization(user);
+        UnionRepresentative authorization = getAuthorization(user);
         if(authorization!=null){
             return authorization.configureNewSeason(year, startDate);
         }
@@ -36,24 +34,24 @@ public class UnionRepresentativeSystem {
     public LeagueInSeason configureLeagueInSeason(User user, String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){
         if (assignmentPolicy == null || scorePolicy == null)
             return null;
-        UnionAuthorization authorization = getAuthorization(user);
+        UnionRepresentative authorization = getAuthorization(user);
         if(authorization!=null){
             return authorization.configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy, scorePolicy,fee );
         }
         return null;
     }
-    public Object[] appointReferee(User user, String firstName,String lastName, String mail, String training)
+    public User appointReferee(User user, String firstName,String lastName, String mail, String training)
     {
-        UnionAuthorization authorization = getAuthorization(user);
+        UnionRepresentative authorization = getAuthorization(user);
         if(authorization!=null){
             return authorization.appointReferee(firstName, lastName, mail, training);
         }
         return null;
     }
 
-    public boolean assignRefToLeague(User user, LeagueInSeason league, Referee referee)
+    public boolean assignRefToLeague(User user, LeagueInSeason league, User referee)
     {
-        UnionAuthorization authorization = getAuthorization(user);
+        UnionRepresentative authorization = getAuthorization(user);
         if(authorization!=null){
             return authorization.addRefereeToLeague(league, referee);
         }
@@ -80,7 +78,7 @@ public class UnionRepresentativeSystem {
      */
     public boolean assignGames(User user, LeagueInSeason league, List<Date> dates)
     {
-        UnionAuthorization authorization = getAuthorization(user);
+        UnionRepresentative authorization = getAuthorization(user);
         if(authorization!=null){
             return authorization.assignGames(league, dates);
         }
@@ -88,7 +86,16 @@ public class UnionRepresentativeSystem {
     }
 
     public boolean addTeamToLeague(User user, LeagueInSeason league, Team team) {
+<<<<<<< Updated upstream
         if(getAuthorization(user)!=null && team.isActive()){
+=======
+        UnionRepresentative authorization = getAuthorization(user);
+        if(authorization!=null && team.isActive()){
+            if(team.getBudget().addExpanse(league.getRegistrationFee()))
+                unionBudget.addPayment(league.getRegistrationFee());
+            else
+                return false;
+>>>>>>> Stashed changes
             league.addATeam(team);
             return getAuthorization(user).addTeamToDatabase(team);
         }
@@ -119,16 +126,25 @@ public class UnionRepresentativeSystem {
 
     public void addTUTUPayment(User user, Team team, double payment){
 
-        UnionAuthorization authorization = getAuthorization(user);
+        UnionRepresentative authorization = getAuthorization(user);
         if(authorization!=null){
             authorization.addTUTUPayment(team, payment);
         }
     }
+<<<<<<< Updated upstream
+=======
+    public void addPaymentsFromTheTUTU(User user,double payment){
+        UnionRepresentative authorization = getAuthorization(user);
+        if(authorization!=null){
+            unionBudget.addPayment( payment);
+        }
+    }
+>>>>>>> Stashed changes
 
-    private UnionAuthorization getAuthorization(User user) {
-        for(AuthorizationRole role : user.getRoles()){
-            if(role instanceof UnionAuthorization)
-                return (UnionAuthorization)role;
+    private UnionRepresentative getAuthorization(User user) {
+        for(Role role : user.getRoles()){
+            if(role instanceof UnionRepresentative)
+                return (UnionRepresentative)role;
         }
         return null;
     }

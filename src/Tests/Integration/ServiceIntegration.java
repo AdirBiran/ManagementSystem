@@ -2,8 +2,6 @@ package Integration;
 
 import Data.Database;
 import Domain.*;
-import Domain.Authorization.HasPageAuthorization;
-import Presentation.Guest;
 import Service.*;
 import org.junit.Before;
 import org.junit.Test;

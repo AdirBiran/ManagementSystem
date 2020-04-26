@@ -1,19 +1,16 @@
-package Domain.Authorization;
+package Domain;
 
 import Data.Database;
-import Domain.Team;
-import Domain.User;
-import Domain.UserFactory;
 
 import java.util.Date;
 import java.util.LinkedList;
 
-public class AdminAuthorization extends UserAuthorization {
+public class Admin implements Role {
 
     private LinkedList<Team> permanentlyClosedTeams;
 
-    public AdminAuthorization(User user) {
-        super(user);
+    public Admin() {
+
         permanentlyClosedTeams = new LinkedList<>();
     }
 
@@ -29,16 +26,16 @@ public class AdminAuthorization extends UserAuthorization {
         }
         return false;
     }
-    public Object[] addNewPlayer(String firstName, String lastName, String mail, Date birthDate, String role, double price){
-         return UserFactory.getNewPlayer(firstName, lastName, mail, birthDate, role, price);
+    public User addNewPlayer(String firstName, String lastName, String mail, Date birthDate, String role, double price){
+        return UserFactory.getNewPlayer(firstName, lastName, mail, birthDate, role, price);
     }
-    public Object[] addNewCoach(String firstName, String lastName, String mail, String training, String role, double price){
+    public User addNewCoach(String firstName, String lastName, String mail, String training, String role, double price){
         return UserFactory.getNewCoach(firstName, lastName, mail, training, role, price);
     }
     public User addNewTeamOwner(String firstName, String lastName, String mail){
         return  UserFactory.getNewTeamOwner(firstName, lastName, mail);
     }
-    public Object[] addNewTeamManager(String firstName, String lastName, String mail, double price){
+    public User addNewTeamManager(String firstName, String lastName, String mail, double price){
         return UserFactory.getNewTeamManager(firstName, lastName, mail, price);
     }
     public User addNewUnionRepresentative(String firstName, String lastName, String mail){
@@ -64,17 +61,17 @@ public class AdminAuthorization extends UserAuthorization {
     }
 
     private LinkedList<Team> getTeamsFromUser(User user) {
-        for(AuthorizationRole role : user.getRoles()){
-            if(role instanceof  TeamOwnerAuthorization) {
-                return ((TeamOwnerAuthorization) role).getTeamsToManage();
+        for(Role role : user.getRoles()){
+            if(role instanceof TeamOwner) {
+                return ((TeamOwner) role).getTeamsToManage();
             }
         }
         return null;
     }
 
     private boolean checkIsTeamOwner(User user) {
-        for(AuthorizationRole role : user.getRoles()){
-            if(role instanceof  TeamOwnerAuthorization)
+        for(Role role : user.getRoles()){
+            if(role instanceof  TeamOwner)
                 return true;
         }
         return false;
@@ -83,12 +80,4 @@ public class AdminAuthorization extends UserAuthorization {
     public void responseToComplaint(){}
     public void viewLog(){}
     public void trainModel(){}
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof AdminAuthorization;
-    }
-
-
-
 }

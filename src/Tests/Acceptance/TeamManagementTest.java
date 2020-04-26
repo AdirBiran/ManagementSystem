@@ -22,8 +22,8 @@ public class TeamManagementTest {
     private UnionRepresentativeSystem representativeSystem;
     private FootballManagementSystem system;
     private LeagueInSeason leagueInSeason;
-    private List<Player> players;
-    private List<Coach> coaches;
+    private List<User> players;
+    private List<User> coaches;
     private User owner, UnionRep;
 
 
@@ -55,7 +55,7 @@ public class TeamManagementTest {
         Database.addTeam(team);
         representativeSystem.addTeamToLeague(UnionRep,leagueInSeason, team);
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        Player playerAdded = teamSystem.getTeamPlayers(owner,team).get(0);
+        User playerAdded = teamSystem.getTeamPlayers(owner,team).get(0);
 
         teamSystem.addAsset(owner,playerAdded, team);
 
@@ -63,9 +63,9 @@ public class TeamManagementTest {
         boolean existsOnce = false;
         boolean existsTwice = false;
 
-        List<Player> assets = teamSystem.getTeamPlayers(owner,team);
+        List<User> assets = teamSystem.getTeamPlayers(owner,team);
 
-        for (Player p : assets)
+        for (User p : assets)
             if (p == playerAdded)
                 if (existsOnce)
                     existsTwice = true;
@@ -91,14 +91,14 @@ public class TeamManagementTest {
         representativeSystem.addTeamToLeague(UnionRep,leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        Player playerAdded = teamSystem.getTeamPlayers(owner,team).get(0);
-        List<Player> assets = teamSystem.getTeamPlayers(owner,team);
+        User playerAdded = teamSystem.getTeamPlayers(owner,team).get(0);
+        List<User> assets = teamSystem.getTeamPlayers(owner,team);
 
         teamSystem.removeAsset(owner,playerAdded, team);
 
         boolean flag = false;
 
-        for (Player p: assets)
+        for (User p: assets)
             if (p == playerAdded)
                 flag = true;
 
@@ -120,7 +120,7 @@ public class TeamManagementTest {
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
         UserSystem userSystem = system.getUserSystem();
-        Player player = players.get(0);
+        User player = players.get(0);
 
         userSystem.updateRole(player, "Goalkeeper");
         String role = userSystem.getRole(player);
@@ -173,7 +173,7 @@ public class TeamManagementTest {
         representativeSystem.addTeamToLeague(UnionRep,leagueInSeason, team);
 
         TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        Player manager = teamSystem.getTeamPlayers(owner,team).get(1);
+        User manager = teamSystem.getTeamPlayers(owner,team).get(1);
         team.setActive(true);
         List<User> managers = teamSystem.getTeamManagers(owner, team);
         assertEquals(0, managers.size());

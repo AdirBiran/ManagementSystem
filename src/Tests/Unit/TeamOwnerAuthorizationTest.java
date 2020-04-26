@@ -1,7 +1,6 @@
 package Unit;
 import Data.Database;
 import Domain.*;
-import Domain.Authorization.TeamOwnerAuthorization;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;

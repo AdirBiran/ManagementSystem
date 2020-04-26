@@ -1,7 +1,5 @@
 package Service;
 
-import Domain.Authorization.AuthorizationRole;
-import Domain.Authorization.TeamOwnerAuthorization;
 import Domain.*;
 import Domain.User;
 
@@ -17,22 +15,38 @@ public class TeamManagementSystem {
     /*
     this function adds a new asset to the system
      */
-    public boolean addAsset(User user, Asset asset , Team team){
-        TeamOwnerAuthorization authorization = getAuthorization(user);
+    public boolean addAsset(User user, User asset , Team team){
+        Manager authorization = getAuthorization(user);
         if(authorization!=null){
             return authorization.addAssetToTeam(asset, team);
         }
         return false;
     }
 
-    public List<Coach> getTeamCoaches(User user,Team team)
+    public boolean addField(User user, Field asset , Team team){
+        Manager authorization = getAuthorization(user);
+        if(authorization!=null){
+            return authorization.addFieldToTeam(asset, team);
+        }
+        return false;
+    }
+
+    public boolean removeField(User user, Field asset , Team team){
+        Manager authorization = getAuthorization(user);
+        if(authorization!=null){
+            return authorization.removeFieldFromTeam(asset, team);
+        }
+        return false;
+    }
+
+    public List<User> getTeamCoaches(User user,Team team)
     {
         if(getAuthorization(user)!=null)
             return team.getCoaches();
         return null;
     }
 
-    public List<Player> getTeamPlayers(User user,Team team)
+    public List<User> getTeamPlayers(User user,Team team)
     {
         if(getAuthorization(user)!=null)
             return team.getPlayers();
@@ -54,10 +68,10 @@ public class TeamManagementSystem {
     }
 
     /*
-    Remove Asset
+    Remove PartOfATeam
      */
-    public boolean removeAsset(User user,Asset asset , Team team){
-        TeamOwnerAuthorization authorization = getAuthorization(user);
+    public boolean removeAsset(User user, User asset , Team team){
+        Manager authorization = getAuthorization(user);
         if(authorization!=null){
             return authorization.removeAssetFromTeam(asset, team);
         }
@@ -65,7 +79,7 @@ public class TeamManagementSystem {
     }
 
     public boolean appointmentTeamOwner(User user, User userToAppoint, Team team){
-        TeamOwnerAuthorization authorization = getAuthorization(user);
+        TeamOwner authorization = getTeamOwnerAuthorization(user);
         if(authorization!=null) {
             if (authorization.appointTeamOwner(userToAppoint, team)) {
                     notificationSystem.notificationForAppointment(userToAppoint, true);
@@ -76,8 +90,9 @@ public class TeamManagementSystem {
     }
 
 
+
     public boolean appointmentTeamManager(User user,User userToAppoint, Team team){
-        TeamOwnerAuthorization authorization = getAuthorization(user);
+        TeamOwner authorization = getTeamOwnerAuthorization(user);
         if(authorization!=null) {
             if (authorization.appointTeamManager(userToAppoint, team)) {
                 notificationSystem.notificationForAppointment(userToAppoint, true);
@@ -88,7 +103,7 @@ public class TeamManagementSystem {
     }
 
     public boolean removeAppointmentTeamOwner(User user,User userToRemove, Team team){
-        TeamOwnerAuthorization authorization = getAuthorization(user);
+        TeamOwner authorization = getTeamOwnerAuthorization(user);
         if(authorization!=null) {
             if(authorization.removeAppointTeamOwner(userToRemove, team)) {
                 notificationSystem.notificationForAppointment(userToRemove, false);
@@ -98,7 +113,7 @@ public class TeamManagementSystem {
         return false;
     }
     public boolean removeAppointmentTeamManager(User user,User userToRemove, Team team){
-        TeamOwnerAuthorization authorization = getAuthorization(user);
+        TeamOwner authorization = getTeamOwnerAuthorization(user);
         if(authorization!=null) {
             if(authorization.removeAppointTeamManager(userToRemove, team)){
                 notificationSystem.notificationForAppointment(userToRemove, false);
@@ -116,7 +131,7 @@ public class TeamManagementSystem {
 
 
     public boolean closeTeam(User user, Team team) {
-        TeamOwnerAuthorization authorization = getAuthorization(user);
+        TeamOwner authorization = getTeamOwnerAuthorization(user);
         if(authorization!=null) {
             if(authorization.closeTeam(team)) {
                 notificationSystem.openORCloseTeam("closed", team, false);
@@ -127,7 +142,7 @@ public class TeamManagementSystem {
     }
 
     public boolean reopeningTeam(User user, Team team) {
-        TeamOwnerAuthorization authorization = getAuthorization(user);
+        TeamOwner authorization = getTeamOwnerAuthorization(user);
         if(authorization!=null) {
             if(authorization.reopenTeam(team)){
                 notificationSystem.openORCloseTeam("open", team, false);
@@ -138,13 +153,23 @@ public class TeamManagementSystem {
 
     }
 
-    private TeamOwnerAuthorization getAuthorization(User user) {
-        for(AuthorizationRole role : user.getRoles()){
-            if(role instanceof TeamOwnerAuthorization)
-                return (TeamOwnerAuthorization)role;
+    private Manager getAuthorization(User user) {
+        for(Role role : user.getRoles()){
+            if(role instanceof Manager)
+                return (Manager)role;
         }
         return null;
     }
+
+    private TeamOwner getTeamOwnerAuthorization(User user) {
+
+        for(Role role : user.getRoles()){
+            if(role instanceof TeamOwner)
+                return (TeamOwner)role;
+        }
+        return null;
+    }
+
 
     public boolean isActiveTeam(Team team) {
         return team.isActive();

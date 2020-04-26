@@ -1,7 +1,6 @@
 package Unit;
 
 import Data.Database;
-import Domain.Authorization.FanAuthorization;
 import Domain.Fan;
 import Domain.PersonalPage;
 import Domain.User;

@@ -1,6 +1,5 @@
 package Unit;
 
-import Domain.Authorization.HasPageAuthorization;
 import Domain.User;
 import Domain.UserFactory;
 import org.junit.Test;

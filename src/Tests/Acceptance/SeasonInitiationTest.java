@@ -87,8 +87,8 @@ public class SeasonInitiationTest {
         representativeSystem.configureNewLeague(UnionRep,"Alufot", "1");
         LeagueInSeason leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep,"Alufot", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 250);
         //LeagueInSeason leagueInSeason = FootballManagementSystem.dataReboot();
-        List<Player> players = FootballManagementSystem.createPlayers();
-        List<Coach> coaches = FootballManagementSystem.createCoaches();
+        List<User> players = FootballManagementSystem.createPlayers();
+        List<User> coaches = FootballManagementSystem.createCoaches();
         User owner = UserFactory.getNewTeamOwner("Team1","Owner", "a112"+"@gmail.com");
         List<User> owners = new LinkedList<>();
         owners.add(owner);
@@ -97,8 +97,8 @@ public class SeasonInitiationTest {
         Team team = new Team("Team1",page,owners,players,coaches, field);
         representativeSystem.addTeamToLeague(UnionRep,leagueInSeason, team);
 
-        List<Player> players2 = FootballManagementSystem.createPlayers();
-        List<Coach> coaches2 = FootballManagementSystem.createCoaches();
+        List<User> players2 = FootballManagementSystem.createPlayers();
+        List<User> coaches2 = FootballManagementSystem.createCoaches();
         User owner2 = UserFactory.getNewTeamOwner("Team1","Owner", "a"+"@gmail.com");
         List<User> owners2 = new LinkedList<>();
         owners2.add(owner2);
