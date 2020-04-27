@@ -113,6 +113,15 @@ public class User extends Guest{
         return roles;
     }
 
+
+    public Role checkUserRole (String userRole) {
+        for(Role role : roles){
+            if(role.myRole().contains(userRole))
+                return role;
+        }
+        return null;
+    }
+
     public boolean addToSearchHistory(String word){ return searchHistory.add(word);}
 
     public List<String> getSearchHistory() {

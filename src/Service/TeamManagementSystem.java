@@ -15,55 +15,87 @@ public class TeamManagementSystem {
     /*
     this function adds a new asset to the system
      */
-    public boolean addAsset(Manager user, User asset , Team team){
-            return user.addAssetToTeam(asset, team);
+    public boolean addAsset(User user, User asset , Team team){
+        Role role = user.checkUserRole("Team");
+        if(role instanceof Manager){
+            return ((Manager) role).addAssetToTeam(asset , team);
+        }
+        return false;
     }
 
-    public boolean addField(Manager user, Field asset , Team team){
-        return user.addFieldToTeam(asset, team);
+    public boolean addField(User user, Field asset , Team team){
+        Role role = user.checkUserRole("Team");
+        if(role instanceof Manager){
+            return ((Manager) role).addFieldToTeam(asset, team);
+        }
+        return false;
     }
 
-    public boolean removeField(Manager user, Field asset , Team team){
-        return user.removeFieldFromTeam(asset, team);
+    public boolean removeField(User user, Field asset , Team team){
+        Role role = user.checkUserRole("Team");
+        if(role instanceof Manager){
+            return ((Manager) role).removeFieldFromTeam(asset, team);
+        }
+        return false;
     }
     /*
     Remove PartOfATeam
      */
-    public boolean removeAsset(Manager user, User asset , Team team){
-        return user.removeAssetFromTeam(asset, team);
+    public boolean removeAsset(User user, User asset , Team team)
+    {
+        Role role = user.checkUserRole("Team");
+        if(role instanceof Manager){
+            return ((Manager) role).removeAssetFromTeam(asset, team);
+        }
+        return false;
     }
 
-    public boolean appointmentTeamOwner(TeamOwner user, User userToAppoint, Team team){
-        if (user.appointTeamOwner(userToAppoint, team)) {
-            notificationSystem.notificationForAppointment(userToAppoint, true);
-            return true;
+    public boolean appointmentTeamOwner(User user, User userToAppoint, Team team){
+        Role role = user.checkUserRole("TeamOwner");
+        if(role instanceof TeamOwner){
+            if (((TeamOwner) role).appointTeamOwner(userToAppoint, team)) {
+                notificationSystem.notificationForAppointment(userToAppoint, true);
+                return true;
+            }
         }
         return false;
     }
 
 
 
-    public boolean appointmentTeamManager(TeamOwner user,User userToAppoint, Team team){
-        if (user.appointTeamManager(userToAppoint, team)) {
-            notificationSystem.notificationForAppointment(userToAppoint, true);
-            return true;
+    public boolean appointmentTeamManager(User user,User userToAppoint, Team team){
+        Role role = user.checkUserRole("TeamOwner");
+        if(role instanceof TeamOwner){
+            if (((TeamOwner) role).appointTeamManager(userToAppoint, team)) {
+                notificationSystem.notificationForAppointment(userToAppoint, true);
+                return true;
+            }
         }
         return false;
     }
 
-    public boolean removeAppointmentTeamOwner(TeamOwner user,User userToRemove, Team team){
-        if(user.removeAppointTeamOwner(userToRemove, team)) {
-            notificationSystem.notificationForAppointment(userToRemove, false);
-            return true;
+    public boolean removeAppointmentTeamOwner(User user,User userToRemove, Team team){
+        Role role = user.checkUserRole("TeamOwner");
+        if(role instanceof TeamOwner){
+            if (((TeamOwner) role).removeAppointTeamOwner(userToRemove, team)) {
+                notificationSystem.notificationForAppointment(userToRemove, false);
+                return true;
+            }
         }
         return false;
+
     }
-    public boolean removeAppointmentTeamManager(TeamOwner user,User userToRemove, Team team){
-        if(user.removeAppointTeamManager(userToRemove, team)) {
-            notificationSystem.notificationForAppointment(userToRemove, false);
-            return true;
+
+    public boolean removeAppointmentTeamManager(User user,User userToRemove, Team team){
+        Role role = user.checkUserRole("TeamOwner");
+        if(role instanceof TeamOwner){
+            if (((TeamOwner) role).removeAppointTeamManager(userToRemove, team)) {
+                notificationSystem.notificationForAppointment(userToRemove, false);
+                return true;
+            }
         }
         return false;
+
     }
 
    /* public void deactivateField(TeamOwner user,Field field){
@@ -73,18 +105,24 @@ public class TeamManagementSystem {
     }*/
 
 
-    public boolean closeTeam(TeamOwner user, Team team) {
-        if(user.closeTeam(team)) {
-            notificationSystem.openORCloseTeam("closed", team, false);
-            return true;
+    public boolean closeTeam(User user, Team team) {
+        Role role = user.checkUserRole("TeamOwner");
+        if(role instanceof TeamOwner){
+            if (((TeamOwner) role).closeTeam(team)) {
+                notificationSystem.openORCloseTeam("closed", team, false);
+                return true;
+            }
         }
         return false;
     }
 
-    public boolean reopeningTeam(TeamOwner user, Team team) {
-        if(user.reopenTeam(team)){
-            notificationSystem.openORCloseTeam("open", team, false);
-            return true;
+    public boolean reOpeningTeam(User user, Team team) {
+        Role role = user.checkUserRole("TeamOwner");
+        if(role instanceof TeamOwner){
+            if (((TeamOwner) role).reopenTeam(team)) {
+                notificationSystem.openORCloseTeam("open", team, false);
+                return true;
+            }
         }
         return false;
     }
