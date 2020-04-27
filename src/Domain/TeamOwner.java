@@ -24,6 +24,7 @@ public class TeamOwner extends Manager implements Role{
     private List<Team> closedTeams;
     private HashMap<User, Team> appointedTeamOwners;
     private HashMap<User, Team> appointedTeamManagers;
+    private HashMap<Team,PersonalPage> personalPages;
 
 
     public TeamOwner() {
@@ -31,6 +32,7 @@ public class TeamOwner extends Manager implements Role{
 
         fullPermission(true);
         closedTeams = new LinkedList<>();
+        personalPages = new HashMap<>();
 
         appointedTeamOwners = new HashMap<>();
         appointedTeamManagers = new HashMap<>();
@@ -144,6 +146,11 @@ public class TeamOwner extends Manager implements Role{
         if(!teams.contains(team))
             teams.add(team);
     }
+
+    public void addTeamPersonalPage(Team team , PersonalPage personalPage){
+        personalPages.put(team , personalPage);
+    }
+
     public List<Team> getTeams(){return teams;}
 
     public Team getTeamById(String id){

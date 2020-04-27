@@ -66,11 +66,11 @@ public class TeamManagementSystem {
         return false;
     }
 
-    public void deactivateField(TeamOwner user,Field field){
+   /* public void deactivateField(TeamOwner user,Field field){
         if(getAuthorization(user)!=null) {
             field.deactivate();
         }
-    }
+    }*/
 
 
     public boolean closeTeam(TeamOwner user, Team team) {

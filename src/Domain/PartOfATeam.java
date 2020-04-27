@@ -7,6 +7,7 @@ public interface PartOfATeam {
 
     String getID(); // - we need to think about uniqueId for the assets.
     void deactivate();
+    void reactivate();
 
     double getPrice();
 
