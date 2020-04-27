@@ -34,8 +34,13 @@ public class UserSystem extends GuestSystem {
     /*
     Edit fan personal information
      */
-    public void editFanPersonalDetails(Fan user, String firstName, String lastName, String phone, String address) {
-        user.editPersonalInfo(firstName, lastName, phone, address);
+    public boolean editFanPersonalDetails(User user, String firstName, String lastName, String phone, String address) {
+        Role role = user.checkUserRole("Fan");
+        if(role instanceof Fan) {
+            ((Fan)role).editPersonalInfo(firstName, lastName, phone, address);
+            return true;
+        }
+        return false;
     }
 
     /*
@@ -48,25 +53,41 @@ public class UserSystem extends GuestSystem {
     /*
     user adds a complaint to the system
      */
-    public void addComplaint(Fan user, String description) {
-            user.submitComplaint(description);
+    public boolean addComplaint(User user, String description) {
+        Role role = user.checkUserRole("Fan");
+        if(role instanceof Fan) {
+            ((Fan)role).submitComplaint(description);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean registrationToFollowUp(User user, PersonalPage page) {
+        Role role = user.checkUserRole("Fan");
+        if(role instanceof Fan) {
+        return ((Fan)role).followPage(page);
+        }
+        return false;
 
     }
 
-    public boolean registrationToFollowUp(Fan user, PersonalPage page) {
-        return user.followPage(page);
-
-    }
-
-    public List<PersonalPage> getFanPages(Fan user) {
-        return user.getFollowedPages();
+    public List<PersonalPage> getFanPages(User user) {
+        Role role = user.checkUserRole("Fan");
+        if(role instanceof Fan) {
+            return ((Fan)role).getFollowedPages();
+        }
+        return null;
     }
 
     /*
     Fan registration for alerts for games you've selected
      */
-    public boolean registrationForGamesAlerts(Fan user, List<Game> games, ReceiveAlerts receive) {
-        return user.followGames(games, receive);
+    public boolean registrationForGamesAlerts(User user, List<Game> games, ReceiveAlerts receive) {
+        Role role = user.checkUserRole("Fan");
+        if(role instanceof Fan) {
+            return ((Fan)role).followGames(games, receive);
+        }
+        return false;
     }
 
 
