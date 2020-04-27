@@ -79,8 +79,12 @@ public class Fan implements Role{
         return addPageToFollow(page);
     }
 
-    public boolean followGame(Game game , ReceiveAlerts receiveAlerts){
-        return game.addFanForNotifications(this, receiveAlerts);
+    public boolean followGames(List<Game> games , ReceiveAlerts receiveAlerts){
+        for(Game game: games) {
+            if(!game.addFanForNotifications(this, receiveAlerts));
+                return false;
+        }
+        return true;
     }
     public boolean submitComplaint(String description)
     {

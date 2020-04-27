@@ -34,11 +34,8 @@ public class UserSystem extends GuestSystem {
     /*
     Edit fan personal information
      */
-    public void editFanPersonalDetails(User user, String firstName, String lastName, String phone, String address) {
-        Fan authorization = getFanAuthorization(user);
-        if (authorization != null) {
-            authorization.editPersonalInfo(firstName, lastName, phone, address);
-        }
+    public void editFanPersonalDetails(Fan user, String firstName, String lastName, String phone, String address) {
+        user.editPersonalInfo(firstName, lastName, phone, address);
     }
 
     /*
@@ -51,80 +48,64 @@ public class UserSystem extends GuestSystem {
     /*
     user adds a complaint to the system
      */
-    public void addComplaint(User user, String description) {
-        Fan authorization =getFanAuthorization(user);
-        if (authorization != null) {
-            authorization.submitComplaint(description);
-        }
+    public void addComplaint(Fan user, String description) {
+            user.submitComplaint(description);
+
     }
 
-    public boolean registrationToFollowUp(User user, PersonalPage page) {
-        Fan authorization =getFanAuthorization(user);
-        if (authorization != null) {
-            return authorization.followPage(page);
-        }
-        return false;
+    public boolean registrationToFollowUp(Fan user, PersonalPage page) {
+        return user.followPage(page);
+
     }
 
-    public List<PersonalPage> getFanPages(User user) {
-        Fan authorization =getFanAuthorization(user);
-        if (authorization != null) {
-            return authorization.getFollowedPages();
-        }
-        return null;
+    public List<PersonalPage> getFanPages(Fan user) {
+        return user.getFollowedPages();
     }
 
     /*
     Fan registration for alerts for games you've selected
      */
-    public boolean registrationForGamesAlerts(User user, List<Game> games, ReceiveAlerts receive) {
-        Fan authorization =getFanAuthorization(user);
-        if (authorization != null) {
-            for(Game game : games){
-                authorization.followGame(game, receive);
-            }
+    public boolean registrationForGamesAlerts(Fan user, List<Game> games, ReceiveAlerts receive) {
+        return user.followGames(games, receive);
+    }
+
+
+    public boolean updateTraining(Role role, String training) {
+        if (role instanceof Coach) {
+            ((Coach) role).setTraining(training);
+            return true;
+        } else if (role instanceof Referee) {
+            ((Referee) role).setTraining(training);
             return true;
         }
         return false;
     }
 
-    /*
-    public boolean updateTraining(User user, String training) {
-        if (user instanceof Coach) {
-            ((Coach) user).setTraining(training);
-            return true;
-        } else if (user instanceof Referee) {
-            ((Referee) user).setTraining(training);
+    public boolean updateRole(Role role, String newRole) {
+
+        if (role instanceof Player) {
+            ((Player) role).setRole(newRole);
             return true;
         }
-        return false;
-    }
-
-    public boolean updateRole(User user, String role) {
-
-        if (user instanceof Player) {
-            ((Player) user).setRole(role);
-            return true;
-        }
-        if (user instanceof Coach) {
-            ((Coach) user).setRole(role);
+        if (role instanceof Coach) {
+            ((Coach) role).setRole(newRole);
             return true;
         }
         return false;
     }
 
-    public String getRole(User user) {
+    public String getRole(Role role) {
 
-        if (user instanceof Player) {
-            return ((Player) user).getRole();
+        if (role instanceof Player) {
+            return ((Player) role).getRole();
         }
-        if (user instanceof Coach) {
-            return ((Coach) user).getRole();
+        if (role instanceof Coach) {
+            return ((Coach) role).getRole();
         }
 
         return "";
     }
-*/
+
      /*
     Search results in a system
      */
@@ -133,23 +114,4 @@ public class UserSystem extends GuestSystem {
 
     }
 
-
-//    private Fan getFanAuthorization(User user) {
-//
-//        for (Role role : user.getRoles()) {
-//            if (role instanceof Fan)
-//                return (Fan)role;
-//
-//        }
-//
-//        return null;
-//    }
-//
-//    public void updateRole(Player player, String role) {
-//        player.setRole(role);
-//    }
-//
-//    public String getRole(Player player) {
-//        return player.getRole();
-//    }
 }

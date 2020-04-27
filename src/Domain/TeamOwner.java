@@ -51,11 +51,11 @@ public class TeamOwner extends Manager implements Role{
 
     }
 
-   /* public void financePermission(boolean value){
+    public void financePermission(boolean value){
         permissionReportIncome = value;
         permissionReportExpanse = value;
         permissionManageBalance = value;
-    }*/
+    }
 
     public HashMap<User, Team> getAppointedTeamOwners() {
         return appointedTeamOwners;
