@@ -82,4 +82,8 @@ public class Referee implements Role{
         return obj instanceof Referee;
     }
 
+    @Override
+    public String myRole() {
+        return "Referee";
+    }
 }

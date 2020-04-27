@@ -59,12 +59,20 @@ public class User extends Guest{
 
     @Override
     public String toString() {
-        return "User{" +
+        String userToString="User{" +
                 "ID='" + ID + '\'' +
                 ", first name='" + firstName + '\'' +
                 ", last name='" + lastName + '\'' +
-                ", isActive=" + isActive +
-                '}';
+                ", isActive=" + isActive;
+
+        for(Role role : roles){
+            if(role instanceof Coach || role instanceof Player
+               || role instanceof Fan){
+
+                userToString = userToString + role.toString();
+            }
+        }
+        return userToString+"}";
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
@@ -97,7 +105,7 @@ public class User extends Guest{
         return messageBox;
     }
 
-    public void addAuthorization(Role role){
+    public void addRole(Role role){
         roles.add(role);
     }
 
@@ -125,15 +133,14 @@ public class User extends Guest{
         return Database.searchObject(wordToSearch);
     }
 
-    public List<String> viewSearchHistory(){return getSearchHistory();}
+    public List<String> viewSearchHistory(){
+        return getSearchHistory();
+    }
 
 
     public boolean changePassword(String oldPassword, String newPassword){
-        if(Database.authenticationCheck(getMail(), oldPassword)){
-            Database.changePassword(getMail(), newPassword);
-            return true;
-        }
-        return false;
+
+        return Database.changePassword(this.mail,oldPassword ,  newPassword);
     }
 
 }

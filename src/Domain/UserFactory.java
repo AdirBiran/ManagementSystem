@@ -17,7 +17,7 @@ public class UserFactory {
         try {
             User user = new User (firstName, lastName, "F", mail);
             Fan fan = new Fan(phone, addres);
-            user.addAuthorization(fan);
+            user.addRole(fan);
             if(Database.addUser(password, user)){
                 return user;
             }
@@ -32,7 +32,7 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "P", mail);
         Player player = new Player(user.getID(), birthDate, role, price, user);
-        user.addAuthorization(player);
+        user.addRole(player);
         giveHasPageAuthorization(user);
         return addToDatabase(user, player);
         }
@@ -45,7 +45,7 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "C", mail);
         Coach coach = new Coach(user.getID(),training, role, price);
-        user.addAuthorization(coach);
+        user.addRole(coach);
         giveHasPageAuthorization(user);
         return addToDatabase(user, coach);
     }
@@ -57,8 +57,8 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "TO", mail);
         TeamOwner authorization = new TeamOwner();
-        authorization.giveAll(true);
-        user.addAuthorization(authorization);
+        authorization.fullPermission(true);
+        user.addRole(authorization);
         return addToDatabase(user);
     }
         catch (Exception e){
@@ -71,7 +71,7 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "TM", mail);
         TeamManager teamManager = new TeamManager(user.getID(),price);
-        user.addAuthorization(teamManager);
+        user.addRole(teamManager);
         return addToDatabase(user, teamManager);
         }
         catch (Exception e){
@@ -84,7 +84,7 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "A", mail);
         Admin authorization = new Admin();
-        user.addAuthorization(authorization);
+        user.addRole(authorization);
         if(Database.addAdmin(password, user))
             return user;
         }
@@ -97,7 +97,7 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "UR", mail);
         UnionRepresentative authorization = new UnionRepresentative();
-        user.addAuthorization(authorization);
+        user.addRole(authorization);
         return addToDatabase(user);
         }
         catch (Exception e){
@@ -110,7 +110,7 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "R", mail);
         Referee referee = new Referee(training);
-        user.addAuthorization(referee);
+        user.addRole(referee);
         return user;
         }
         catch (Exception e){
@@ -150,7 +150,7 @@ public class UserFactory {
         String data = "This is "+ user.getName()+"'s Personal Page! ";
         PersonalPage page = new PersonalPage(data, user);
         HasPage authorization = new HasPage(page);
-        user.addAuthorization(authorization);
+        user.addRole(authorization);
     }
 
 

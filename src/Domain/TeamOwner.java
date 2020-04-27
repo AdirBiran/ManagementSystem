@@ -1,7 +1,5 @@
 package Domain;
 
-import Data.Database;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,26 +7,29 @@ import java.util.List;
 public class TeamOwner extends Manager implements Role{
 
 
-    private boolean appointTeamOwner;
-    private boolean appointTeamManager;
-    private boolean removeAppointTeamOwner;
-    private boolean removeAppointTeamManager;
-    private boolean closeTeam;
-    private boolean reopenTeam;
-    private boolean reportIncome;
-    private boolean reportExpanse;
-    private boolean getBalance;
+    /**Belongs only to a management class*/
+    private boolean permissionAppointTOw;
+    private boolean permissionAppointTM;
+    private boolean permissionRemoveAppointTO;
+    private boolean permissionRemoveAppointTM;
+    private boolean permissionCloseTeam;
+    private boolean permissionReopenTeam;
+    private boolean permissionReportIncome;
+    private boolean permissionReportExpanse;
+    private boolean permissionManageBalance; //?
 
-    private LinkedList<Team> teamsToManage;
+
+    private List<Team> teams;
+
     private List<Team> closedTeams;
     private HashMap<User, Team> appointedTeamOwners;
     private HashMap<User, Team> appointedTeamManagers;
 
 
     public TeamOwner() {
-        giveAll(true);
+        super();
 
-        teamsToManage = new LinkedList<>();
+        fullPermission(true);
         closedTeams = new LinkedList<>();
 
         appointedTeamOwners = new HashMap<>();
@@ -36,25 +37,25 @@ public class TeamOwner extends Manager implements Role{
     }
 
 
-    public void giveAll(boolean value){
+    public void fullPermission(boolean value){
 
-        appointTeamOwner= value;
-        appointTeamManager= value;
-        removeAppointTeamOwner= value;
-        removeAppointTeamManager= value;
-        closeTeam= value;
-        reopenTeam= value;
-        reportIncome= value;
-        reportExpanse= value;
-        getBalance=value;
+        permissionAppointTOw = value;
+        permissionAppointTM = value;
+        permissionRemoveAppointTO = value;
+        permissionRemoveAppointTM = value;
+        permissionCloseTeam = value;
+        permissionReopenTeam = value;
+        permissionReportIncome = value;
+        permissionReportExpanse = value;
+        permissionManageBalance =value;
 
     }
 
-    public void giveFinance(){
-        reportIncome= true;
-        reportExpanse= true;
-        getBalance = true;
-    }
+   /* public void financePermission(boolean value){
+        permissionReportIncome = value;
+        permissionReportExpanse = value;
+        permissionManageBalance = value;
+    }*/
 
     public HashMap<User, Team> getAppointedTeamOwners() {
         return appointedTeamOwners;
@@ -64,89 +65,89 @@ public class TeamOwner extends Manager implements Role{
         return appointedTeamManagers;
     }
 
-    public boolean isGetBalance() {
-        return getBalance;
+    public boolean isPermissionManageBalance() {
+        return permissionManageBalance;
     }
 
 
-    public boolean isAppointTeamOwner() {
-        return appointTeamOwner;
+    public boolean isPermissionAppointTOw() {
+        return permissionAppointTOw;
     }
 
-    public boolean isAppointTeamManager() {
-        return appointTeamManager;
+    public boolean isPermissionAppointTM() {
+        return permissionAppointTM;
     }
 
-    public boolean isRemoveAppointTeamOwner() {
-        return removeAppointTeamOwner;
+    public boolean isPermissionRemoveAppointTO() {
+        return permissionRemoveAppointTO;
     }
 
-    public boolean isRemoveAppointTeamManager() {
-        return removeAppointTeamManager;
+    public boolean isPermissionRemoveAppointTM() {
+        return permissionRemoveAppointTM;
     }
 
-    public boolean isCloseTeam() {
-        return closeTeam;
+    public boolean isPermissionCloseTeam() {
+        return permissionCloseTeam;
     }
 
-    public boolean isReopenTeam() {
-        return reopenTeam;
+    public boolean isPermissionReopenTeam() {
+        return permissionReopenTeam;
     }
 
-    public boolean isReportIncome() {
-        return reportIncome;
+    public boolean isPermissionReportIncome() {
+        return permissionReportIncome;
     }
 
-    public boolean isReportExpanse() {
-        return reportExpanse;
+    public boolean isPermissionReportExpanse() {
+        return permissionReportExpanse;
     }
 
 
-    public void setAppointTeamOwner(boolean appointTeamOwner) {
-        this.appointTeamOwner = appointTeamOwner;
+    public void setPermissionAppointTOw(boolean permissionAppointTOw) {
+        this.permissionAppointTOw = permissionAppointTOw;
     }
 
-    public void setAppointTeamManager(boolean appointTeamManager) {
-        this.appointTeamManager = appointTeamManager;
+    public void setPermissionAppointTM(boolean permissionAppointTM) {
+        this.permissionAppointTM = permissionAppointTM;
     }
 
-    public void setRemoveAppointTeamOwner(boolean removeAppointTeamOwner) {
-        this.removeAppointTeamOwner = removeAppointTeamOwner;
+    public void setPermissionRemoveAppointTO(boolean permissionRemoveAppointTO) {
+        this.permissionRemoveAppointTO = permissionRemoveAppointTO;
     }
 
-    public void setRemoveAppointTeamManager(boolean removeAppointTeamManager) {
-        this.removeAppointTeamManager = removeAppointTeamManager;
+    public void setPermissionRemoveAppointTM(boolean permissionRemoveAppointTM) {
+        this.permissionRemoveAppointTM = permissionRemoveAppointTM;
     }
 
-    public void setCloseTeam(boolean closeTeam) {
-        this.closeTeam = closeTeam;
+    public void setPermissionCloseTeam(boolean permissionCloseTeam) {
+        this.permissionCloseTeam = permissionCloseTeam;
     }
 
-    public void setReopenTeam(boolean reopenTeam) {
-        this.reopenTeam = reopenTeam;
+    public void setPermissionReopenTeam(boolean permissionReopenTeam) {
+        this.permissionReopenTeam = permissionReopenTeam;
     }
 
-    public void setReportIncome(boolean reportIncome) {
-        this.reportIncome = reportIncome;
+    public void setPermissionReportIncome(boolean permissionReportIncome) {
+        this.permissionReportIncome = permissionReportIncome;
     }
 
-    public void setReportExpanse(boolean reportExpanse) {
-        this.reportExpanse = reportExpanse;
+    public void setPermissionReportExpanse(boolean permissionReportExpanse) {
+        this.permissionReportExpanse = permissionReportExpanse;
     }
 
-    public void setGetBalance(boolean getBalance) {
-        this.getBalance = getBalance;
+    public void setPermissionManageBalance(boolean permissionManageBalance) {
+        this.permissionManageBalance = permissionManageBalance;
     }
 
     public void addTeam(Team team)
     {
-        if(!teamsToManage.contains(team))
-            teamsToManage.add(team);
+        if(!teams.contains(team))
+            teams.add(team);
     }
-    public LinkedList<Team> getTeamsToManage(){return teamsToManage;}
+    public List<Team> getTeams(){return teams;}
 
     public Team getTeamById(String id){
-        for(Team team : teamsToManage){
+        for(Team team : teams){
             if(team.getID().equals(id))
                 return team;
         }
@@ -154,18 +155,18 @@ public class TeamOwner extends Manager implements Role{
     }
 
     public void removeTeam(Team team) {
-        teamsToManage.remove(team);
+        teams.remove(team);
     }
 
 
     public boolean appointTeamOwner(User user, Team team){
-        if(appointTeamOwner && teamsToManage.contains(team)){
+        if(permissionAppointTOw && teams.contains(team)){
             if(!team.getTeamOwners().contains(user)){
                 if(!user.getRoles().contains(this)){
                     TeamOwner teamOwner = new TeamOwner();
-                    teamOwner.giveAll(true);
+                    teamOwner.fullPermission(true);
                     teamOwner.addTeam(team);
-                    user.addAuthorization(teamOwner);
+                    user.addRole(teamOwner);
                 }
                 else{
                     int index = user.getRoles().indexOf(this);
@@ -186,11 +187,11 @@ public class TeamOwner extends Manager implements Role{
      * @return
      */
     public boolean appointTeamManager(User user, Team team){
-        if(appointTeamManager && teamsToManage.contains(team)){
+        if(permissionAppointTM && teams.contains(team)){
             if(!team.getTeamManagers().contains(user)){
                 if(!user.getRoles().contains(this)){
                     TeamManager teamManagerAutho = new TeamManager(user.getID(), 0);
-                    user.addAuthorization(teamManagerAutho);
+                    user.addRole(teamManagerAutho);
                 }
                 else{
                     int index = user.getRoles().indexOf(this);
@@ -204,7 +205,7 @@ public class TeamOwner extends Manager implements Role{
         return false;
     }
     public boolean removeAppointTeamOwner(User user, Team team){
-        if(removeAppointTeamOwner && teamsToManage.contains(team) && appointedTeamOwners.containsKey(user)){
+        if(permissionRemoveAppointTO && teams.contains(team) && appointedTeamOwners.containsKey(user)){
             if(team.getTeamOwners().contains(user) && user.getRoles().contains(this)){
                 team.removeTeamOwner(user);
                 appointedTeamOwners.remove(user);
@@ -215,7 +216,7 @@ public class TeamOwner extends Manager implements Role{
         return false;
     }
     public boolean removeAppointTeamManager(User user, Team team){
-        if(removeAppointTeamManager && teamsToManage.contains(team)&& appointedTeamManagers.containsKey(user)){
+        if(permissionRemoveAppointTM && teams.contains(team)&& appointedTeamManagers.containsKey(user)){
             if(team.getTeamManagers().contains(user) && user.getRoles().contains(this)){
                 team.removeTeamManager(user);
                 removeAuthorization(user, team);
@@ -229,12 +230,12 @@ public class TeamOwner extends Manager implements Role{
     private void removeAuthorization(User user, Team team){
         int index = user.getRoles().indexOf(this);
         TeamOwner autho = (TeamOwner) user.getRoles().get(index);
-        if(autho.getTeamsToManage().size()==1)
+        if(autho.getTeams().size()==1)
             user.getRoles().remove(this);
         else{
             autho.removeTeam(team);
         }
-        if(autho.isAppointTeamOwner() || autho.isAppointTeamManager()){
+        if(autho.isPermissionAppointTOw() || autho.isPermissionAppointTM()){
             for(User authorized : autho.getAppointedTeamOwners().keySet()){
                 autho.removeAppointTeamOwner(authorized,team);
             }
@@ -245,46 +246,51 @@ public class TeamOwner extends Manager implements Role{
     }
 
     public boolean closeTeam(Team team){
-        if(closeTeam && teamsToManage.contains(team)&& !closedTeams.contains(team)){
+        if(permissionCloseTeam && teams.contains(team)&& !closedTeams.contains(team)){
             team.setActive(false);
-            teamsToManage.remove(team);
+            teams.remove(team);
             closedTeams.add(team);
             return true;
         }
         return false;
     }
     public boolean reopenTeam(Team team){
-        if(reopenTeam && closedTeams.contains(team) &&!team.isActive() &&!team.isPermanentlyClosed()){
+        if(permissionReopenTeam && closedTeams.contains(team) &&!team.isActive() &&!team.isPermanentlyClosed()){
             team.setActive(true);
             closedTeams.remove(team);
-            teamsToManage.add(team);
+            teams.add(team);
             return true;
         }
         return false;
     }
     public boolean reportIncome(Team team, double income){
-        if(reportIncome && teamsToManage.contains(team)){
+        if(permissionReportIncome && teams.contains(team)){
             return team.getBudget().addIncome(income);
         }
         return false;
     }
     public boolean reportExpanse(Team team, double expanse){
-        if(reportExpanse && teamsToManage.contains(team)){
+        if(permissionReportExpanse && teams.contains(team)){
             return team.getBudget().addExpanse(expanse);
         }
         return false;
     }
 
     public double getBalance(Team team){
-        if(getBalance && teamsToManage.contains(team))
+        if(permissionManageBalance && teams.contains(team))
             return team.getBudget().getBalance();
         return -1;
     }
 
     @Override
+    public String myRole() {
+        return "TeamOwner";
+    }
+
+  /*  @Override
     public boolean equals(Object obj) {
         return obj instanceof TeamOwner;
-    }
+    }*/
 
 
 }

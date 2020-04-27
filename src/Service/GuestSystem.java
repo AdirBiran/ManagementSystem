@@ -9,19 +9,20 @@ import java.util.List;
 public class GuestSystem {
 
 
-    Guest authorization;
+    Guest guest;
 
 
     public GuestSystem() {
-        authorization = new Guest();
+        guest = new Guest();
     }
 
     /*
     Guest registration for the system
      */
-    public User registrationToSystem(String mail, String password, String firstName, String lastName,
+    public User registr(String mail, String password, String firstName, String lastName,
                                         String phone, String address){
-        return authorization.register(mail, password, firstName, lastName, phone, address);
+
+        return guest.register(mail, password, firstName, lastName, phone, address);
 
     }
 
@@ -32,14 +33,14 @@ public class GuestSystem {
      */
     public User logIn( String mail, String password){
 
-        return authorization.login(mail, password);
+        return guest.login(mail, password);
     }
 
     /*
     Search results in a system
      */
     public List<Object> search( String wordToSearch){
-       return authorization.search(wordToSearch);
+       return guest.search(wordToSearch);
     }
     /*
     the guest chooses what to watch - teamsToManage, players, coaches, leagues and more

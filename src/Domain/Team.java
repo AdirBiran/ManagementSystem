@@ -31,7 +31,7 @@ public class Team{
         linkTeamOwner();
         if(page == null){
             this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
-            teamOwners.get(0).addAuthorization(new HasPage(page));
+            teamOwners.get(0).addRole(new HasPage(page));
         }
         else
             this.page = page;
@@ -138,7 +138,7 @@ public class Team{
             else{
                 authorization = new TeamOwner();
                 authorization.addTeam(this);
-                teamOwner.addAuthorization(authorization);
+                teamOwner.addRole(authorization);
 
             }
             return true;
@@ -156,7 +156,7 @@ public class Team{
             else{
                 authorization = new TeamManager(teamManager.getID(), 0);
                 authorization.addTeam(this);
-                teamManager.addAuthorization(authorization);
+                teamManager.addRole(authorization);
             }
             return true;
         }

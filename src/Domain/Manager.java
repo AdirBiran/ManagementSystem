@@ -4,7 +4,7 @@ import Data.Database;
 
 import java.util.LinkedList;
 
-public class Manager implements Role {
+public abstract class Manager implements Role {
 
     private LinkedList<Team> teamsToManage;
     /**
@@ -78,16 +78,16 @@ public class Manager implements Role {
      */
     public boolean updateAsset(String assetId, String action, String update){
 
-            PartOfATeam asset = Database.getAsset(assetId);
-            switch(action){
-                case("Price"):{
-                    asset.setPrice(Double.valueOf(update));
-                    return true;
-                }
-                case("Name"):{
-                    return true;
-                }
+        PartOfATeam asset = Database.getAsset(assetId);
+        switch(action){
+            case("Price"):{
+                asset.setPrice(Double.valueOf(update));
+                return true;
             }
-            return false;
+            case("Name"):{
+                return true;
+            }
+        }
+        return false;
     }
 }

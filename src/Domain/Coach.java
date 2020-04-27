@@ -89,4 +89,16 @@ public class Coach implements PartOfATeam, Role {
     public boolean isActive() {
         return isActive;
     }
+
+    @Override
+    public String myRole() {
+        return "Coach";
+    }
+
+    @Override
+    public String toString() {
+        return  '\''+ ", Coach training='" + training + '\''+
+         ", Coach role='" + role + '\'' ;
+
+    }
 }

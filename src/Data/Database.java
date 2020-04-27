@@ -93,8 +93,11 @@ public class Database //maybe generalize with interface? //for now red layer
         return (User)search("User", userId);
     }
 
-    public static User getUserByMail(String mail){
-        return (User)search("Mail", mail);
+    public static User getUserByMail(String mail , String password){
+        if(authenticationCheck(mail, password)) {
+            return (User) search("Mail", mail);
+        }
+        return null;
     }
     /*
     this function gets a gameId - Game.toString (its address in memory) and returns a pointer to the object of this game
@@ -199,7 +202,7 @@ public class Database //maybe generalize with interface? //for now red layer
     this function perform a authentication check for username an password
     returns true if this is the correct credentials and false otherwise
      */
-    public static boolean authenticationCheck(String mail, String password){
+    private static boolean authenticationCheck(String mail, String password){
         if(mailsAndPasswords.containsKey(mail) && usersInDatabase.get(mailsAndUserID.get(mail)).isActive()){
             String encryptedPassword = encrypt(password);
             String passwordInSystem = mailsAndPasswords.get(mail);
@@ -207,11 +210,15 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return false;
     }
-    public static void changePassword(String mail, String newPassword){
-        if(mailsAndPasswords.containsKey(mail)){
-            String encryptedPassword = encrypt(newPassword);
-            mailsAndPasswords.replace(mail, encryptedPassword);
+    public static boolean changePassword(String mail,String oldPassword , String newPassword){
+        if(authenticationCheck(mail , oldPassword)) {
+            if (mailsAndPasswords.containsKey(mail)) {
+                String encryptedPassword = encrypt(newPassword);
+                mailsAndPasswords.replace(mail, encryptedPassword);
+                return true;
+            }
         }
+        return false;
 
     }
     /*

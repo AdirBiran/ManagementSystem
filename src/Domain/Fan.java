@@ -102,6 +102,14 @@ public class Fan implements Role{
     }
 
 
+    @Override
+    public String myRole() {
+        return "Fan";
+    }
 
-
+    @Override
+    public String toString() {
+        return  '\''+ ", Fan phone='" + phone + '\''+
+                ", Fan address='" + address + '\'' ;
+    }
 }

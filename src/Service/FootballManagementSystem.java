@@ -143,7 +143,7 @@ public class FootballManagementSystem {
             if(owner!=null){
                 owners.add(owner);
                 PersonalPage page = new PersonalPage("", owner);
-                owner.addAuthorization(new HasPage(page));
+                owner.addRole(new HasPage(page));
                 Field field = new Field( "jerusalem", 550, 150000);
                 team = new Team("team"+i,page,owners,players,coaches, field);
                 team.getBudget().addIncome(1000000000);

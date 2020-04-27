@@ -92,4 +92,15 @@ public class Player implements PartOfATeam, Role {
     public boolean isActive() {
         return isActive;
     }
+
+    @Override
+    public String myRole() {
+        return "Player";
+    }
+
+    @Override
+    public String toString() {
+        return  '\''+ ", Player birthDate='" + birthDate + '\''+
+                ", Player role='" + role + '\'' ;
+    }
 }

@@ -4,6 +4,7 @@ import Data.Database;
 
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Admin implements Role {
 
@@ -50,7 +51,7 @@ public class Admin implements Role {
     {
         User user = Database.getUser(userId);
         if(checkIsTeamOwner(user)){
-            LinkedList<Team> teams = getTeamsFromUser(user);
+            List<Team> teams = getTeamsFromUser(user);
             if(teams!=null){
                 for(Team team:teams )
                     if(team.getTeamOwners().size()==1)
@@ -60,10 +61,10 @@ public class Admin implements Role {
         return Database.removeUser(userId);
     }
 
-    private LinkedList<Team> getTeamsFromUser(User user) {
+    private List<Team> getTeamsFromUser(User user) {
         for(Role role : user.getRoles()){
             if(role instanceof TeamOwner) {
-                return ((TeamOwner) role).getTeamsToManage();
+                return ((TeamOwner) role).getTeams();
             }
         }
         return null;
@@ -80,4 +81,11 @@ public class Admin implements Role {
     public void responseToComplaint(){}
     public void viewLog(){}
     public void trainModel(){}
+
+    @Override
+    public String myRole() {
+        return "Admin";
+    }
+
+
 }

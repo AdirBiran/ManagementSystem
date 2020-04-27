@@ -23,8 +23,6 @@ public class Guest {
     }
     public User login(String mail, String password)
     {
-        if(Database.authenticationCheck(mail, password))
-            return Database.getUserByMail(mail);
-        return null;
+        return Database.getUserByMail(mail ,password );
     }
 }

@@ -20,8 +20,8 @@ public class UserSystem extends GuestSystem {
     /*
     log out user from system
      */
-    public User logOut() {
-        return null;
+    public Guest logOut() {
+        return this.guest;
     }
 
     /*
@@ -134,22 +134,22 @@ public class UserSystem extends GuestSystem {
     }
 
 
-    private Fan getFanAuthorization(User user) {
-
-        for (Role role : user.getRoles()) {
-            if (role instanceof Fan)
-                return (Fan)role;
-
-        }
-
-        return null;
-    }
-
-    public void updateRole(Player player, String role) {
-        player.setRole(role);
-    }
-
-    public String getRole(Player player) {
-        return player.getRole();
-    }
+//    private Fan getFanAuthorization(User user) {
+//
+//        for (Role role : user.getRoles()) {
+//            if (role instanceof Fan)
+//                return (Fan)role;
+//
+//        }
+//
+//        return null;
+//    }
+//
+//    public void updateRole(Player player, String role) {
+//        player.setRole(role);
+//    }
+//
+//    public String getRole(Player player) {
+//        return player.getRole();
+//    }
 }
