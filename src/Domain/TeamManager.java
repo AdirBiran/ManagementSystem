@@ -59,6 +59,11 @@ public class TeamManager extends Manager implements Role,PartOfATeam {
     }
 
     @Override
+    public void reactivate() {
+        isActive = true;
+    }
+
+    @Override
     public String myRole() {
         return "TeamManager";
     }

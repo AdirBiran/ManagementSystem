@@ -44,8 +44,8 @@ public abstract class Manager implements Role {
         return false;
     }
     public boolean removeFieldFromTeam(Field field, Team team){
-        if(teamsToManage.contains(team)&&team.getFields().contains(field)){
-            Database.removeAsset(field.getID());
+        if(teamsToManage.contains(team) && team.getFields().contains(field)){
+            //Database.removeAsset(field.getID());
             team.removeField(field);
             return true;
         }
@@ -84,9 +84,9 @@ public abstract class Manager implements Role {
                 asset.setPrice(Double.valueOf(update));
                 return true;
             }
-            case("Name"):{
+            /*case("Name"):{
                 return true;
-            }
+            }*/
         }
         return false;
     }

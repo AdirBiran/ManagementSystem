@@ -79,6 +79,24 @@ public class Admin implements Role {
     }
 
     public void responseToComplaint(){}
+
+    /**The Admin is responsible for adding
+     * (including returning the Field to be active)
+     * And removal of a Field*/
+    public void removeField(Field field){
+        if(field.getTeams().size() == 0){
+            Database.removeAsset(field.getID());
+        }
+    }
+
+    /**The Admin is responsible for adding
+     * (including returning the Field to be active)
+     * And removal of a Field*/
+    public void addField(Field field){
+        Database.addAsset(field);
+        field.reactivate();
+    }
+
     public void viewLog(){}
     public void trainModel(){}
 

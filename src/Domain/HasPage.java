@@ -1,6 +1,6 @@
 package Domain;
 
-public class HasPage implements Role{
+public abstract class HasPage {
 
     private PersonalPage page;
 

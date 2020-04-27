@@ -72,6 +72,11 @@ public class Field implements PartOfATeam {
     }
 
     @Override
+    public void reactivate() {
+        isActive = true;
+    }
+
+    @Override
     public double getPrice() {
         return price;
     }

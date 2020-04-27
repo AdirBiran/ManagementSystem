@@ -31,7 +31,8 @@ public class Team{
         linkTeamOwner();
         if(page == null){
             this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
-            teamOwners.get(0).addRole(new HasPage(page));
+            //teamOwners.get(0).addRole(new HasPage(page));
+            //teamOwners.get(0).getRoles()
         }
         else
             this.page = page;

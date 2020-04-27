@@ -49,7 +49,7 @@ public class User extends Guest{
         isActive = false;
     }
 
-    public void activate() {
+    public void reactivate() {
         isActive = true;
     }
 

@@ -77,4 +77,9 @@ public class UnionRepresentative implements Role{
     public boolean addTeamToDatabase(Team team) {
         return Database.addTeam(team);
     }
+
+    @Override
+    public String myRole() {
+        return "UnionRepresentative";
+    }
 }

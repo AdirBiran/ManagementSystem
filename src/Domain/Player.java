@@ -94,6 +94,11 @@ public class Player implements PartOfATeam, Role {
     }
 
     @Override
+    public void reactivate() {
+        isActive = true;
+    }
+
+    @Override
     public String myRole() {
         return "Player";
     }

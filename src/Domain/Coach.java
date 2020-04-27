@@ -60,6 +60,7 @@ public class Coach implements PartOfATeam, Role {
         isActive=false;
     }
 
+
     @Override
     public double getPrice() {
         return price;
@@ -88,6 +89,11 @@ public class Coach implements PartOfATeam, Role {
     @Override
     public boolean isActive() {
         return isActive;
+    }
+
+    @Override
+    public void reactivate() {
+        isActive = true;
     }
 
     @Override
