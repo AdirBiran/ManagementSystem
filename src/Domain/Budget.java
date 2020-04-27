@@ -5,14 +5,14 @@ public class Budget {
     private double income;
     private double expanses;
     private double balance;
-    private Team team;
+    //private Team team;
 
     //is this suppose to be budget for season?
     //do we want to have a more detailed budget log?
-    public Budget(Team team)
+    public Budget()
     {
-        if(team!=null)
-            this.team = team;
+       /* if(team!=null)
+            this.team = team;*/
         income =0;
         expanses=0;
         balance =0;
@@ -50,9 +50,9 @@ public class Budget {
      *
      * @return
      */
-    public Team getTeam() {
+    /*public Team getTeam() {
         return team;
-    }
+    }*/
 
     public boolean addIncome(double income){
         if(income>0){

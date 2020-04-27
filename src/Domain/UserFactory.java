@@ -57,7 +57,7 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "TO", mail);
         TeamOwner authorization = new TeamOwner();
-        authorization.fullPermission(true);
+        //authorization.fullPermission(true);
         user.addRole(authorization);
         return addToDatabase(user);
     }
@@ -67,10 +67,10 @@ public class UserFactory {
 
     }
 
-    public static User getNewTeamManager(String firstName, String lastName, String mail, double price){
+    public static User getNewTeamManager(String firstName, String lastName, String mail, double price, boolean manageAssets , boolean finance){
         try {
         User user = new User(firstName, lastName, "TM", mail);
-        TeamManager teamManager = new TeamManager(user.getID(),price);
+        TeamManager teamManager = new TeamManager(user.getID(),price, manageAssets, finance);
         user.addRole(teamManager);
         return addToDatabase(user, teamManager);
         }

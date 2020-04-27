@@ -3,35 +3,43 @@ package Domain;
 import Data.Database;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public abstract class Manager implements Role {
 
-    private LinkedList<Team> teamsToManage;
-    /**
-     * //we assume the asset is a registered user
-     * @param asset - registered user known to database!! this function only adds fields to database
-     * @param team
-     * @return
-     */
-    public boolean addAssetToTeam(User asset, Team team){
-        if(teamsToManage.contains(team)){//
-            for(Role role: asset.getRoles()){
-                if(role instanceof TeamManager&&team.getBudget().addExpanse(((PartOfATeam)role).getPrice())){
-                    return team.addTeamManager(asset);
-                }
-                else if(role instanceof Player &&team.getBudget().addExpanse(((PartOfATeam)role).getPrice())){
+    protected List<Team> teamsToManage;
 
-                    return team.addPlayer(asset);
-                }
-                else if(role instanceof Coach &&team.getBudget().addExpanse(((PartOfATeam)role).getPrice())){
-                    return team.addCoach(asset);
-                }
-                return false;
+    public Manager(){
+        teamsToManage = new LinkedList<>();
+    }
+
+    public boolean addPlayerToTeam(User player, Team team){
+        Role assetRole = player.checkUserRole("Player");
+        if(teamsToManage.contains(team)) {//
+            if (team.getBudget().addExpanse(((PartOfATeam) assetRole).getPrice())) {
+                return team.addPlayer(player);
             }
-
         }
-        else
-            return false;
+        return false;
+    }
+
+    public boolean addCoachToTeam(User coach, Team team){
+        Role assetRole = coach.checkUserRole("Coach");
+        if(teamsToManage.contains(team)) {//
+            if (team.getBudget().addExpanse(((PartOfATeam) assetRole).getPrice())) {
+                return team.addCoach(coach);
+            }
+        }
+        return false;
+    }
+
+    public boolean addTeamManagerToTeam(User teamManager, Team team) {
+        Role assetRole = teamManager.checkUserRole("TeamManager");
+        if(teamsToManage.contains(team)) {//
+            if (team.getBudget().addExpanse(((PartOfATeam) assetRole).getPrice())) {
+                return team.addTeamManager(teamManager);
+            }
+        }
         return false;
     }
 
@@ -45,36 +53,30 @@ public abstract class Manager implements Role {
     }
     public boolean removeFieldFromTeam(Field field, Team team){
         if(teamsToManage.contains(team) && team.getFields().contains(field)){
-            //Database.removeAsset(field.getID());
             team.removeField(field);
             return true;
         }
         return false;
     }
 
-    public boolean removeAssetFromTeam(User asset , Team team){
-        if( teamsToManage.contains(team)){
-            for(Role role:asset.getRoles()){
-                if(role instanceof TeamManager){
-                    return team.removeTeamManager(asset);
-                }
-                if(role instanceof Player){
-                    return team.removePlayer(asset);
-                }
-                if(role instanceof Coach){
-                    return team.removeCoach(asset);
-                }
-            }
-            return false;
-        }
+    public boolean removePlayerFormTeam(User player , Team team){
+        if(teamsToManage.contains(team))
+            return team.removePlayer(player);
+        return false;
+    }
+    public boolean removeCoachFormTeam(User coach , Team team){
+        if(teamsToManage.contains(team))
+            return team.removeCoach(coach);
+        return false;
+    }
+    public boolean removeTeamManagerFormTeam(User teamManager , Team team){
+        if(teamsToManage.contains(team))
+            return team.removeTeamManager(teamManager);
         return false;
     }
 
     /**
      * decide what actions we allow
-     * @param assetId
-     * @param action
-     * @param update
      */
     public boolean updateAsset(String assetId, String action, String update){
 
@@ -84,10 +86,26 @@ public abstract class Manager implements Role {
                 asset.setPrice(Double.valueOf(update));
                 return true;
             }
-            /*case("Name"):{
-                return true;
-            }*/
         }
         return false;
+    }
+
+    public boolean reportIncome(Team team, double income){
+        if(teamsToManage.contains(team)){
+            return team.getBudget().addIncome(income);
+        }
+        return false;
+    }
+    public boolean reportExpanse(Team team, double expanse){
+        if(teamsToManage.contains(team)){
+            return team.getBudget().addExpanse(expanse);
+        }
+        return false;
+    }
+
+    public double getBalance(Team team){
+        if(teamsToManage.contains(team))
+            return team.getBudget().getBalance();
+        return -1;
     }
 }

@@ -223,11 +223,9 @@ public class Team{
 
     public boolean removeTeamOwner(User teamOwner) {
         if(teamOwners.contains(teamOwner) && teamOwners.size()>1) {
-            this.teamOwners.remove(teamOwner);
-            TeamOwner authorization = getAuthorization(teamOwner);
-            if(authorization!=null){
-                authorization.removeTeam(this);
-            }
+            teamOwners.remove(teamOwner);
+            Role teamOwnerRole = teamOwner.checkUserRole("TeamOwner");
+            ((TeamOwner)teamOwnerRole).removeTeam(this);
             return true;
         }
         return false;
@@ -235,12 +233,9 @@ public class Team{
 
     public boolean removeTeamManager(User teamManager) {
         if(teamManagers.contains(teamManager)) {
-            this.teamManagers.remove(teamManager);
-
-            TeamManager authorization = getManagerAuthorization(teamManager);
-            if(authorization!=null){
-                authorization.removeTeam(this);
-            }
+            teamManagers.remove(teamManager);
+            Role teamManagerRole = teamManager.checkUserRole("TeamManager");
+            ((TeamManager)teamManagerRole).removeTeam(this);
             return true;
         }
         return false;
@@ -248,19 +243,18 @@ public class Team{
 
     public boolean removePlayer(User player) {
         if(players.contains(player) && players.size()>11) {
+            Role role = player.checkUserRole("Player");
+            ((Player)role).removeTeam(this);
             this.players.remove(player);
-            Player player1 = getPlayer(player);
-            if(player1!=null){
-                player1.removeTeam(this);
-                return true;
-            }
-
+            return true;
         }
         return false;
     }
 
     public boolean removeCoach(User coach) {
         if(coaches.contains(coach) && coaches.size()>1) {
+            Role role = coach.checkUserRole("Coach");
+            ((Coach)role).removeTeam(this);
             this.coaches.remove(coach);
             Coach coach1 = getCoach(coach);
             if(coach1!=null){
@@ -356,7 +350,7 @@ public class Team{
         return 0;
     }
 
-
+/*
     private Coach getCoach(User user) {
         for(Role role:user.getRoles()){
             if(role instanceof Coach)
@@ -388,7 +382,7 @@ public class Team{
                 return (TeamOwner)role;
         }
         return null;
-    }
+    }*/
 
     public void addField(Field field) {
         if(!fields.contains(field))

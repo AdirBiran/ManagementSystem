@@ -10,12 +10,18 @@ public class TeamManager extends Manager implements Role,PartOfATeam {
     private boolean isActive;
     private double price;
 
+    private boolean permissionManageAssets;
+    private boolean permissionFinance;
 
-    public TeamManager(String id,double price) {
+
+
+    public TeamManager(String id,double price, boolean manageAssets , boolean finance ) {
         this.id = id;
         teams = new HashSet<>();
         this.price = price;
         isActive = true;
+        permissionManageAssets = manageAssets;
+        permissionFinance = finance;
     }
 
     @Override
@@ -41,6 +47,14 @@ public class TeamManager extends Manager implements Role,PartOfATeam {
     @Override
     public HashSet<Team> getTeams() {
         return teams;
+    }
+
+    public boolean isPermissionManageAssets() {
+        return permissionManageAssets;
+    }
+
+    public boolean isPermissionFinance() {
+        return permissionFinance;
     }
 
     @Override

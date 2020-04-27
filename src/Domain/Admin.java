@@ -64,7 +64,7 @@ public class Admin implements Role {
     private List<Team> getTeamsFromUser(User user) {
         for(Role role : user.getRoles()){
             if(role instanceof TeamOwner) {
-                return ((TeamOwner) role).getTeams();
+                return ((TeamOwner) role).getTeamsToManage();
             }
         }
         return null;

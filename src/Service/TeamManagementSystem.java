@@ -3,8 +3,6 @@ package Service;
 import Domain.*;
 import Domain.User;
 
-import java.util.List;
-
 public class TeamManagementSystem {
 
     private NotificationSystem notificationSystem;
@@ -15,10 +13,32 @@ public class TeamManagementSystem {
     /*
     this function adds a new asset to the system
      */
-    public boolean addAsset(User user, User asset , Team team){
+    public boolean addAssetPlayer(User user, User asset, Team team){
         Role role = user.checkUserRole("Team");
         if(role instanceof Manager){
-            return ((Manager) role).addAssetToTeam(asset , team);
+            if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
+                return false;
+            return ((Manager) role).addPlayerToTeam(asset , team);
+        }
+        return false;
+    }
+
+    public boolean addAssetCoach(User user, User asset, Team team){
+        Role role = user.checkUserRole("Team");
+        if(role instanceof Manager){
+            if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
+                return false;
+            return ((Manager) role).addCoachToTeam(asset , team);
+        }
+        return false;
+    }
+
+    public boolean addAssetTeamManager(User user, User asset, Team team){
+        Role role = user.checkUserRole("Team");
+        if(role instanceof Manager){
+            if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
+                return false;
+            return ((Manager) role).addTeamManagerToTeam(asset , team);
         }
         return false;
     }
@@ -26,6 +46,8 @@ public class TeamManagementSystem {
     public boolean addField(User user, Field asset , Team team){
         Role role = user.checkUserRole("Team");
         if(role instanceof Manager){
+            if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
+                return false;
             return ((Manager) role).addFieldToTeam(asset, team);
         }
         return false;
@@ -34,6 +56,8 @@ public class TeamManagementSystem {
     public boolean removeField(User user, Field asset , Team team){
         Role role = user.checkUserRole("Team");
         if(role instanceof Manager){
+            if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
+                return false;
             return ((Manager) role).removeFieldFromTeam(asset, team);
         }
         return false;
@@ -41,11 +65,40 @@ public class TeamManagementSystem {
     /*
     Remove PartOfATeam
      */
-    public boolean removeAsset(User user, User asset , Team team)
-    {
+    public boolean removeAssetPlayer(User user, User asset , Team team){
         Role role = user.checkUserRole("Team");
         if(role instanceof Manager){
-            return ((Manager) role).removeAssetFromTeam(asset, team);
+            if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
+                return false;
+            return ((Manager) role).removePlayerFormTeam(asset, team);
+        }
+        return false;
+    }
+    public boolean removeAssetCoach(User user, User asset , Team team){
+        Role role = user.checkUserRole("Team");
+        if(role instanceof Manager){
+            if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
+                return false;
+            return ((Manager) role).removeCoachFormTeam(asset, team);
+        }
+        return false;
+    }
+    public boolean removeAssetTeamManager(User user, User asset , Team team){
+        Role role = user.checkUserRole("Team");
+        if(role instanceof Manager){
+            if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
+                return false;
+            return ((Manager) role).removeTeamManagerFormTeam(asset, team);
+        }
+        return false;
+    }
+
+    public boolean updateAsset(User user, String assetId, String action, String update){
+        Role role = user.checkUserRole("Team");
+        if(role instanceof Manager){
+            if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
+                return false;
+            return ((Manager) role).updateAsset(assetId,action,update);
         }
         return false;
     }
@@ -61,12 +114,10 @@ public class TeamManagementSystem {
         return false;
     }
 
-
-
-    public boolean appointmentTeamManager(User user,User userToAppoint, Team team){
+    public boolean appointmentTeamManager(User user,User userToAppoint, Team team, double price, boolean manageAssets , boolean finance){
         Role role = user.checkUserRole("TeamOwner");
         if(role instanceof TeamOwner){
-            if (((TeamOwner) role).appointTeamManager(userToAppoint, team)) {
+            if (((TeamOwner) role).appointTeamManager(userToAppoint, team, price, manageAssets, finance)) {
                 notificationSystem.notificationForAppointment(userToAppoint, true);
                 return true;
             }
@@ -98,13 +149,6 @@ public class TeamManagementSystem {
 
     }
 
-   /* public void deactivateField(TeamOwner user,Field field){
-        if(getAuthorization(user)!=null) {
-            field.deactivate();
-        }
-    }*/
-
-
     public boolean closeTeam(User user, Team team) {
         Role role = user.checkUserRole("TeamOwner");
         if(role instanceof TeamOwner){
@@ -126,55 +170,6 @@ public class TeamManagementSystem {
         }
         return false;
     }
-    /*
-    public List<User> getTeamCoaches(User user,Team team)
-    {
-        if(getAuthorization(user)!=null)
-            return team.getCoaches();
-        return null;
-    }
-
-    public List<User> getTeamPlayers(User user,Team team)
-    {
-        if(getAuthorization(user)!=null)
-            return team.getPlayers();
-        return null;
-    }
-
-    public List<Field> getTeamFields(User user,Team team)
-    {
-        if(getAuthorization(user)!=null)
-            return team.getFields();
-        return null;
-    }
-
-    public List<User> getTeamManagers(User user,Team team)
-    {
-        if(getAuthorization(user)!=null)
-            return team.getTeamManagers();
-        return null;
-    }
 
 
-    public boolean isActiveTeam(Team team) {
-        return team.isActive();
-    }
-
-    private Manager getAuthorization(User user) {
-        for(Role role : user.getRoles()){
-            if(role instanceof Manager)
-                return (Manager)role;
-        }
-        return null;
-    }
-
-    private TeamOwner getTeamOwnerAuthorization(User user) {
-
-        for(Role role : user.getRoles()){
-            if(role instanceof TeamOwner)
-                return (TeamOwner)role;
-        }
-        return null;
-    }
-     */
 }
