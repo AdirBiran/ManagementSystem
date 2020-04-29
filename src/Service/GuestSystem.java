@@ -1,8 +1,8 @@
 package Service;
 
 
-import Domain.Guest;
-import Domain.User;
+import Domain.*;
+
 import java.util.List;
 
 public class GuestSystem {
@@ -42,9 +42,28 @@ public class GuestSystem {
 
     /*
     the guest chooses what to watch - teamsToManage, players, coaches, leagues and more
-     *//*
-    public void viewInformation(String viewAbout){
-        searcher.viewInfoAbout(viewAbout);
+     */
+    public List<Team> viewInformationAboutTeams(){
+        return guest.viewInfoAboutTeams();
+    }
 
-    }*/
+    public List<PartOfATeam> viewInformationAboutPlayers(){
+        return guest.viewInfoAboutPlayers();
+    }
+
+    public List<PartOfATeam> viewInformationAboutCoaches(){
+        return guest.viewInfoAboutCoaches();
+    }
+
+    public List<League> viewInformationAboutLeagues(){
+        return guest.viewInfoAboutLeagues();
+    }
+
+    public List<Season> viewInformationAboutSeasons(){
+        return guest.viewInfoAboutSeasons();
+    }
+
+    public List<Referee> viewInformationAboutReferees(){
+        return guest.viewInfoAboutReferees();
+    }
 }

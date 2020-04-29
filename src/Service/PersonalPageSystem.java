@@ -10,19 +10,11 @@ public class PersonalPageSystem {
     }
 
     public boolean uploadToPage(User user, String data){
-        HasPage authorization = getAuthorization(user);
-        if(authorization!=null){
-            authorization.uploadToPage(data);
+        Role role = user.checkUserRole("HasPage");
+        if(role instanceof HasPage){
+            ((HasPage)role).uploadToPage(data);
             return true;
         }
         return false;
-    }
-
-    private HasPage getAuthorization(User user) {
-        for(Role role : user.getRoles()){
-            if(role instanceof HasPage)
-                return (HasPage)role;
-        }
-        return null;
     }
 }

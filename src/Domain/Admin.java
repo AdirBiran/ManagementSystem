@@ -54,7 +54,7 @@ public class Admin implements Role {
             if(teams!=null){
                 for(Team team:teams )
                     if(team.getTeamOwners().size()==1)
-                        return "";
+                        return "The user cannot be deleted";
             }
         }
         return Database.removeUser(userId);
