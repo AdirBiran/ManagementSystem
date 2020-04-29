@@ -38,7 +38,7 @@ public class Game {
         guestScore=0;
         fansForAlerts = new HashMap<>();
     }
-
+    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     @Override
     public String toString() {
         return "Game{" +
@@ -49,9 +49,7 @@ public class Game {
                 '}';
     }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     /**
-     *
      * @param fan - signed up for game alerts
      * @param receiveAlerts- how to get the alerts
      * @return true- if the fan is added to list to receive game alerts
@@ -67,12 +65,11 @@ public class Game {
     public EventReport getEventReport() {
         return eventReport;
     }
-
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getId() {
         return id;
     }
 
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public Date getDate() {
         return date;
     }
@@ -84,7 +81,7 @@ public class Game {
         return hostScore;
     }
     /*
-        number of goals
+    number of goals
     */
     public int guestScore() {
         return guestScore;

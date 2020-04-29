@@ -2,8 +2,6 @@ package Domain;
 
 import java.util.*;
 
-
-
 public class PlayOnceWithEachTeamPolicy extends GameAssignmentPolicy {
 
     @Override

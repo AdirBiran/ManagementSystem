@@ -1,8 +1,6 @@
 package Domain;
 
 import Data.Database;
-
-
 import java.util.List;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -18,7 +16,6 @@ public class User extends Guest{
     private boolean isActive;
     private List<Role> roles;
     private List<String> searchHistory;
-
 
     /**
      * constructor for user
@@ -44,6 +41,42 @@ public class User extends Guest{
 
     }
 
+    public Role checkUserRole (String userRole) {
+        for(Role role : roles){
+            if(role.myRole().contains(userRole))
+                return role;
+        }
+        return null;
+    }
+
+    public boolean addToSearchHistory(String word){ return searchHistory.add(word);}
+
+    public List<String> getSearchHistory() {
+        return searchHistory;
+    }
+
+    public User logout(){return null;}
+
+    public void editPersonalInfo(String firstName, String lastName){
+        setFirstName(firstName);
+        setLastName(lastName);
+    }
+
+    public List<Object> search(String wordToSearch)
+    {
+        addToSearchHistory(wordToSearch);
+        return Database.searchObject(wordToSearch);
+    }
+
+    public List<String> viewSearchHistory(){
+        return getSearchHistory();
+    }
+
+
+    public boolean changePassword(String oldPassword, String newPassword){
+
+        return Database.changePassword(this.mail, oldPassword, newPassword);
+    }
 
     public void deactivate() {
         isActive = false;
@@ -55,6 +88,11 @@ public class User extends Guest{
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public void addMessage(Notice notice){
+        if(notice!=null)
+            messageBox.add(notice);
     }
 
     @Override
@@ -92,11 +130,6 @@ public class User extends Guest{
         return ID;
     }
 
-    public void addMessage(Notice notice){
-        if(notice!=null)
-            messageBox.add(notice);
-    }
-
     public String getMail() {
         return mail;
     }
@@ -111,45 +144,6 @@ public class User extends Guest{
 
     public List<Role> getRoles() {
         return roles;
-    }
-
-
-    public Role checkUserRole (String userRole) {
-        for(Role role : roles){
-            if(role.myRole().contains(userRole))
-                return role;
-        }
-        return null;
-    }
-
-    public boolean addToSearchHistory(String word){ return searchHistory.add(word);}
-
-    public List<String> getSearchHistory() {
-        return searchHistory;
-    }
-
-
-    public User logout(){return null;}
-
-    public void editPersonalInfo(String firstName, String lastName){
-        setFirstName(firstName);
-        setLastName(lastName);
-    }
-
-    public List<Object> search(String wordToSearch)
-    {
-        addToSearchHistory(wordToSearch);
-        return Database.searchObject(wordToSearch);
-    }
-
-    public List<String> viewSearchHistory(){
-        return getSearchHistory();
-    }
-
-
-    public boolean changePassword(String oldPassword, String newPassword){
-
-        return Database.changePassword(this.mail,oldPassword ,  newPassword);
     }
 
 }

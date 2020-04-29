@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,11 +32,11 @@ public abstract class Manager implements Role {
         return false;
     }
 
-    public boolean addTeamManagerToTeam(User teamManager, Team team) {
+    public boolean addTeamManagerToTeam(User teamManager, Team team, double price, boolean manageAssets , boolean finance) {
         Role assetRole = teamManager.checkUserRole("TeamManager");
         if(teamsToManage.contains(team)) {//
             if (team.getBudget().addExpanse(((PartOfATeam) assetRole).getPrice())) {
-                return team.addTeamManager(teamManager);
+                return team.addTeamManager(teamManager, price, manageAssets, finance);
             }
         }
         return false;

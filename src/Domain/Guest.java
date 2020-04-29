@@ -1,13 +1,10 @@
 package Domain;
 
 import Data.Database;
-import Domain.User;
-import Domain.UserFactory;
 
 import java.util.List;
 
 public class Guest {
-
 
     public Guest() {
 

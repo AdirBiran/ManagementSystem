@@ -2,7 +2,6 @@ package Service;
 
 import Domain.*;
 import Domain.User;
-
 import java.util.Date;
 
 public class AdminSystem {
@@ -46,10 +45,10 @@ public class AdminSystem {
         }
         return null;
     }
-    public User addNewTeamManager(User admin,String firstName, String lastName, String mail, double price){
+    public User addNewTeamManager(User admin,String firstName, String lastName, String mail, double price,boolean manageAssets , boolean finance){
         Admin authorization = getAuthorization(admin);
         if(authorization!=null){
-            return authorization.addNewTeamManager(firstName, lastName, mail, price);
+            return authorization.addNewTeamManager(firstName, lastName, mail, price, manageAssets, finance);
         }
         return null;
     }
@@ -85,9 +84,6 @@ Permanently close a group only by an administrator
         return false;
     }
 
-    /**
-     *
-     */
     public void responseToComplaint(User admin, Complaint complaint)
     {
         Admin authorization = getAuthorization(admin);
@@ -95,17 +91,12 @@ Permanently close a group only by an administrator
             authorization.responseToComplaint();
         }
     }
-    /**
-     *
-     */
+
     public void viewLog()
     {
 
     }
 
-    /**
-     *
-     */
     public boolean trainModel(User admin)
     {
         Admin authorization = getAuthorization(admin);
@@ -117,7 +108,6 @@ Permanently close a group only by an administrator
         return false;
 
     }
-
 
     private Admin getAuthorization(User user) {
         for(Role role : user.getRoles()){

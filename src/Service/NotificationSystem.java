@@ -2,11 +2,9 @@ package Service;
 
 import Data.Database;
 import Domain.*;
-
 import java.util.Date;
 
 public class NotificationSystem {
-
 
     public NotificationSystem() {
     }

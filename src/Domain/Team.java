@@ -31,8 +31,7 @@ public class Team{
         linkTeamOwner();
         if(page == null){
             this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
-            //teamOwners.get(0).addRole(new HasPage(page));
-            //teamOwners.get(0).getRoles()
+            teamOwners.get(0).addRole(new HasPage(this.page));
         }
         else
             this.page = page;
@@ -45,7 +44,7 @@ public class Team{
             throw new RuntimeException("not enough Coaches");
         this.coaches = coaches;
         linkCoaches();
-        this.budget = new Budget(this);
+        this.budget = new Budget();
         this.fields = new LinkedList<>();
         fields.add(field);
         linkField();
@@ -59,6 +58,7 @@ public class Team{
         this.leagues = new LinkedList<>();
     }
 
+    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     public void addLeague(LeagueInSeason league) {
         if(!leagues.contains(league)){
             this.leagues.add(league);
@@ -76,7 +76,7 @@ public class Team{
     private void linkCoaches() {
         for(User user :coaches){
             //check if has coach add add team
-            Coach coach = getCoach(user);
+            Coach coach = (Coach) user.checkUserRole("Coach");
             if(coach==null)
                 throw new RuntimeException("unauthorized coach");
             else
@@ -84,10 +84,9 @@ public class Team{
         }
     }
 
-
     private void linkPlayers() {
         for(User user :players){
-            Player player = getPlayer(user);
+            Player player = (Player) user.checkUserRole("Player");
             if(player==null)
                 throw new RuntimeException("unauthorized player");
             else
@@ -95,16 +94,13 @@ public class Team{
         }
     }
 
-
     private void linkTeamOwner() {
         for(User user:teamOwners){
-            TeamOwner authorization = getAuthorization(user);
-            if(authorization!=null)
-                authorization.addTeam(this);
+            TeamOwner teamOwner = (TeamOwner) user.checkUserRole("TeamOwner");
+            if(teamOwner!=null)
+                teamOwner.addTeam(this);
         }
     }
-
-
 
     @Override
     public String toString() {
@@ -128,36 +124,34 @@ public class Team{
         this.draws ++;
     }
 
-    public boolean addTeamOwner(User teamOwner) {
-        if(!teamOwners.contains(teamOwner)) {
-            this.teamOwners.add(teamOwner);
-            TeamOwner authorization = getAuthorization(teamOwner);
-            if(authorization!=null){
-                authorization.addTeam(this);
-
+    public boolean addTeamOwner(User user) {
+        if(!teamOwners.contains(user)) {
+            this.teamOwners.add(user);
+            TeamOwner teamOwner = (TeamOwner) user.checkUserRole("TeamOwner");
+            if(teamOwner!=null){
+                teamOwner.addTeam(this);
             }
             else{
-                authorization = new TeamOwner();
-                authorization.addTeam(this);
-                teamOwner.addRole(authorization);
-
+                teamOwner = new TeamOwner();
+                teamOwner.addTeam(this);
+                user.addRole(teamOwner);
             }
             return true;
         }
         return false;
     }
 
-    public boolean addTeamManager(User teamManager) {
-        if(!teamManagers.contains(teamManager)) {
-            this.teamManagers.add(teamManager);
-            TeamManager authorization = getManagerAuthorization(teamManager);
-            if(authorization!=null){
-                authorization.addTeam(this);
+    public boolean addTeamManager(User user,double price,boolean manageAssets , boolean finance) {
+        if(!teamManagers.contains(user)) {
+            this.teamManagers.add(user);
+            TeamManager teamManager = (TeamManager)user.checkUserRole("TeamManager");
+            if(teamManager!=null){
+                teamManager.addTeam(this);
             }
             else{
-                authorization = new TeamManager(teamManager.getID(), 0);
-                authorization.addTeam(this);
-                teamManager.addRole(authorization);
+                teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
+                teamManager.addTeam(this);
+                user.addRole(teamManager);
             }
             return true;
         }
@@ -168,10 +162,10 @@ public class Team{
 
     public boolean addPlayer(User user) {
         if(!players.contains(user)) {
-            Player player = getPlayer(user);
+            Player player = (Player)user.checkUserRole("Player");
             if(player!=null){
                 for(Team playersTeams: player.getTeams()){
-                    if(doListsHaveLeaguesInCommon(getAllLeagues(),playersTeams.getAllLeagues()))
+                    //if(doListsHaveLeaguesInCommon(getAllLeagues(),playersTeams.getAllLeagues()))
                         return false;
                 }
                 this.players.add(user);
@@ -182,9 +176,9 @@ public class Team{
         return false;
     }
 
-    private boolean doListsHaveLeaguesInCommon(List<League> list1, List<League> list2){
-        for(League league1:list1){
-            for(League league2: list2){
+    private boolean doListsHaveLeaguesInCommon(List<LeagueInSeason> list1, List<LeagueInSeason> list2){
+        for(LeagueInSeason league1:list1){
+            for(LeagueInSeason league2: list2){
                 if(league1.equals(league2))
                     return true;
             }
@@ -202,7 +196,7 @@ public class Team{
 
     public boolean addCoach(User user) {
         if(!coaches.contains(user)) {
-            Coach coach = getCoach(user);
+            Coach coach = (Coach) user.checkUserRole("Coach");
             if(coach!=null){
                 this.coaches.add(user);
                 coach.addTeam(this);
@@ -220,7 +214,6 @@ public class Team{
 
 
     /**remove**/
-
     public boolean removeTeamOwner(User teamOwner) {
         if(teamOwners.contains(teamOwner) && teamOwners.size()>1) {
             teamOwners.remove(teamOwner);
@@ -256,18 +249,10 @@ public class Team{
             Role role = coach.checkUserRole("Coach");
             ((Coach)role).removeTeam(this);
             this.coaches.remove(coach);
-            Coach coach1 = getCoach(coach);
-            if(coach1!=null){
-                coach1.removeTeam(this);
-                return true;
-            }
+            return true;
         }
         return false;
     }
-
-
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getName() {
@@ -314,12 +299,11 @@ public class Team{
         return games;
     }
 
-    /**/
     public List<Field> getFields() {
         return fields;
     }
 
-    /**LIAT--GET ONE FIELD*/
+    /**GET ONE FIELD*/
     public Field getField() {
         return fields.get(0);
     }
@@ -350,39 +334,6 @@ public class Team{
         return 0;
     }
 
-/*
-    private Coach getCoach(User user) {
-        for(Role role:user.getRoles()){
-            if(role instanceof Coach)
-                return (Coach)role;
-        }
-        return null;
-    }
-
-    private Player getPlayer(User user) {
-        for(Role role:user.getRoles()){
-            if(role instanceof Player)
-                return (Player)role;
-        }
-        return null;
-    }
-
-    private TeamManager getManagerAuthorization(User teamManager) {
-        for(Role role : teamManager.getRoles()){
-            if(role instanceof TeamManager)
-                return (TeamManager)role;
-        }
-        return null;
-
-    }
-
-    private TeamOwner getAuthorization(User user) {
-        for(Role role : user.getRoles()){
-            if(role instanceof TeamOwner)
-                return (TeamOwner)role;
-        }
-        return null;
-    }*/
 
     public void addField(Field field) {
         if(!fields.contains(field))

@@ -44,6 +44,7 @@ public class FinanceTransactionsSystem
         return ((Manager) role).getBalance(team);
 
     }
+
     //how union representative uses this functionality? no use case for this
 
 }

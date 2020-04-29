@@ -4,7 +4,6 @@ import java.util.HashSet;
 
 public class Referee implements Role{
 
-
     private String training;
     private HashSet<Game> games;
 
@@ -15,19 +14,13 @@ public class Referee implements Role{
 
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-    /**
-     *
-     * @return
-     */
     public String getTraining() {
         return training;
     }
 
-
     public void setTraining(String training) {
         this.training = training;
     }
-
 
     public void addGame(Game game) {
 
@@ -75,11 +68,6 @@ public class Referee implements Role{
             return true;
         }
         return false;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Referee;
     }
 
     @Override

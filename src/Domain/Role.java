@@ -4,5 +4,4 @@ public interface Role {
 
     String myRole();
 
-
 }
