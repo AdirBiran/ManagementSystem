@@ -13,70 +13,68 @@ public class AdminSystem {
     }
 
     /*
-        Remove user by an administrator
-        */
-    public void removeUser(User admin, String userId){
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null){
-            String userMail = authorization.removeUser(userId);
+    Remove user by an administrator
+    */
+    public void removeUser(User user, String userId){
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
+            String userMail = ((Admin)adminRole).removeUser(userId);
             notificationSystem.UserRemovalNotification(userMail);
         }
-
     }
 
-    public User addNewPlayer(User admin, String firstName, String lastName, String mail, Date birthDate, String role, double price){
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null){
-            return authorization.addNewPlayer(firstName, lastName, mail, birthDate, role, price);
+    public User addNewPlayer(User user, String firstName, String lastName, String mail, Date birthDate, String role, double price){
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
+            return ((Admin)adminRole).addNewPlayer(firstName, lastName, mail, birthDate, role, price);
         }
         return null;
     }
-    public User addNewCoach(User admin,String firstName, String lastName, String mail, String training, String role, double price){
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null){
-            return authorization.addNewCoach(firstName, lastName, mail, training, role, price);
+    public User addNewCoach(User user,String firstName, String lastName, String mail, String training, String role, double price){
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
+            return ((Admin)adminRole).addNewCoach(firstName, lastName, mail, training, role, price);
         }
         return null;
     }
-    public User addNewTeamOwner(User admin,String firstName, String lastName, String mail){
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null){
-            return  authorization.addNewTeamOwner(firstName, lastName, mail);
+    public User addNewTeamOwner(User user,String firstName, String lastName, String mail){
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
+            return  ((Admin)adminRole).addNewTeamOwner(firstName, lastName, mail);
         }
         return null;
     }
-    public User addNewTeamManager(User admin,String firstName, String lastName, String mail, double price,boolean manageAssets , boolean finance){
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null){
-            return authorization.addNewTeamManager(firstName, lastName, mail, price, manageAssets, finance);
+    public User addNewTeamManager(User user,String firstName, String lastName, String mail, double price,boolean manageAssets , boolean finance){
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
+            return ((Admin)adminRole).addNewTeamManager(firstName, lastName, mail, price, manageAssets, finance);
         }
         return null;
     }
-    public User addNewUnionRepresentative(User admin,String firstName, String lastName, String mail){
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null){
-            return authorization.addNewUnionRepresentative(firstName, lastName, mail);
+    public User addNewUnionRepresentative(User user,String firstName, String lastName, String mail){
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
+            return ((Admin)adminRole).addNewUnionRepresentative(firstName, lastName, mail);
         }
         return null;
     }
 
-    public User addNewAdmin(User admin,String password ,String firstName, String lastName, String mail){
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null){
-            return authorization.addNewAdmin(password,firstName, lastName, mail);
+    public User addNewAdmin(User user,String password ,String firstName, String lastName, String mail){
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
+            return ((Admin)adminRole).addNewAdmin(password,firstName, lastName, mail);
         }
         return null;
 
     }
-
 
     /*
-Permanently close a group only by an administrator
- */
-    public boolean permanentlyCloseTeam(User admin, Team team){
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null){
-            if(authorization.closeTeamPermanently(team)){
+    Permanently close a group only by an administrator
+    */
+    public boolean permanentlyCloseTeam(User user, Team team){
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
+            if(((Admin)adminRole).closeTeamPermanently(team)){
                 notificationSystem.openORCloseTeam("closed", team, true);
                 return true;
             }
@@ -84,11 +82,11 @@ Permanently close a group only by an administrator
         return false;
     }
 
-    public void responseToComplaint(User admin, Complaint complaint)
+    public void responseToComplaint(User user, Complaint complaint)
     {
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null){
-            authorization.responseToComplaint();
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
+            ((Admin)adminRole).responseToComplaint();
         }
     }
 
@@ -97,23 +95,15 @@ Permanently close a group only by an administrator
 
     }
 
-    public boolean trainModel(User admin)
+    public boolean trainModel(User user)
     {
-        Admin authorization = getAuthorization(admin);
-        if(authorization!=null) {
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin){
             StubRecommendationSystem recommendationSystem = new StubRecommendationSystem();
             recommendationSystem.connect();
             return recommendationSystem.trainModel();
         }
         return false;
-
     }
 
-    private Admin getAuthorization(User user) {
-        for(Role role : user.getRoles()){
-            if(role instanceof Admin)
-                return (Admin)role;
-        }
-        return null;
-    }
 }

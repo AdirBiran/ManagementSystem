@@ -158,14 +158,12 @@ public class Team{
         return false;
     }
 
-
-
     public boolean addPlayer(User user) {
         if(!players.contains(user)) {
             Player player = (Player)user.checkUserRole("Player");
             if(player!=null){
                 for(Team playersTeams: player.getTeams()){
-                    //if(doListsHaveLeaguesInCommon(getAllLeagues(),playersTeams.getAllLeagues()))
+                    if(doListsHaveLeaguesInCommon(this.leagues,playersTeams.leagues))
                         return false;
                 }
                 this.players.add(user);
@@ -186,14 +184,6 @@ public class Team{
         return false;
     }
 
-    private List<League> getAllLeagues(){
-        List<League> leagues1 = new LinkedList<>();
-        for(LeagueInSeason league: leagues){
-            leagues1.add(league.getLeague());
-        }
-        return leagues1;
-    }
-
     public boolean addCoach(User user) {
         if(!coaches.contains(user)) {
             Coach coach = (Coach) user.checkUserRole("Coach");
@@ -210,8 +200,6 @@ public class Team{
         if(!games.contains(game))
         this.games.add(game);
     }
-
-
 
     /**remove**/
     public boolean removeTeamOwner(User teamOwner) {
@@ -324,7 +312,6 @@ public class Team{
         this.permanentlyClosed = permanentlyClosed;
     }
 
-
     public String getID() {
         return id;
     }
@@ -333,7 +320,6 @@ public class Team{
     public double getPrice() {
         return 0;
     }
-
 
     public void addField(Field field) {
         if(!fields.contains(field))

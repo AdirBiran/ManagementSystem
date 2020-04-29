@@ -22,4 +22,26 @@ public class Guest {
     {
         return Database.getUserByMail(mail ,password );
     }
+
+    public List<Team> viewInfoAboutTeams() {
+        return Database.getTeams();
+    }
+
+    public List<PartOfATeam> viewInfoAboutPlayers() {
+        return Database.getListOfAllSpecificAssets("Player");
+    }
+
+    public List<PartOfATeam> viewInfoAboutCoaches() {
+        return Database.getListOfAllSpecificAssets("Coach");
+    }
+
+    public List<League> viewInfoAboutLeagues() {
+        return Database.getLeagues();
+    }
+    public List<Season> viewInfoAboutSeasons() {
+        return Database.getSeasons();
+    }
+    public List<Referee> viewInfoAboutReferees(){
+        return Database.getReferees();
+    }
 }

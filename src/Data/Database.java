@@ -41,8 +41,8 @@ public class Database //maybe generalize with interface? //for now red layer
         return true;
     }
 
-    public static HashMap<User, Referee> getReferees() {
-        return referees;
+    public static List<Referee> getReferees() {
+        return new LinkedList<>(referees.values());
     }
 
     public static boolean addLeague(League league) {
@@ -76,11 +76,17 @@ public class Database //maybe generalize with interface? //for now red layer
         return new LinkedList<>(teams.values());
     }
 
+    public static List<League> getLeagues(){ return new LinkedList<>(leagues);}
+
+    public static List<Season> getSeasons() {
+        return new LinkedList<>(seasons);
+    }
+
     /*
-        this function gets a name of an asset and returns a pointer to the object of this asset
-        for example input: "Blumfield stadium" - the output will be a pointer to Blumfield stadium object or Null if it doesn't exists
-        return null if cant find asset
-         */
+            this function gets a name of an asset and returns a pointer to the object of this asset
+            for example input: "Blumfield stadium" - the output will be a pointer to Blumfield stadium object or Null if it doesn't exists
+            return null if cant find asset
+             */
     public static PartOfATeam getAsset(String name){
        return (PartOfATeam)search("PartOfATeam", name);
     }
