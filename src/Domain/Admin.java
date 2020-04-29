@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,8 +35,8 @@ public class Admin implements Role {
     public User addNewTeamOwner(String firstName, String lastName, String mail){
         return  UserFactory.getNewTeamOwner(firstName, lastName, mail);
     }
-    public User addNewTeamManager(String firstName, String lastName, String mail, double price){
-        return UserFactory.getNewTeamManager(firstName, lastName, mail, price);
+    public User addNewTeamManager(String firstName, String lastName, String mail, double price,boolean manageAssets , boolean finance){
+        return UserFactory.getNewTeamManager(firstName, lastName, mail, price, manageAssets, finance);
     }
     public User addNewUnionRepresentative(String firstName, String lastName, String mail){
         return UserFactory.getNewUnionRepresentative(firstName, lastName, mail);
@@ -78,8 +77,6 @@ public class Admin implements Role {
         return false;
     }
 
-    public void responseToComplaint(){}
-
     /**The Admin is responsible for adding
      * (including returning the Field to be active)
      * And removal of a Field*/
@@ -97,6 +94,7 @@ public class Admin implements Role {
         field.reactivate();
     }
 
+    public void responseToComplaint(){}
     public void viewLog(){}
     public void trainModel(){}
 

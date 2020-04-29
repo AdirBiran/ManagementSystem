@@ -25,7 +25,7 @@ public class Field implements PartOfATeam {
         this.price = price;
         isActive = true;
     }
-
+    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     @Override
     public String toString() {
         return "Field{" +
@@ -34,29 +34,15 @@ public class Field implements PartOfATeam {
                 ", capacity=" + capacity +
                 '}';
     }
-// ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-
-    /**
-     *
-     * @return
-     */
     public String getLocation() {
         return location;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getCapacity() {
         return capacity;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<Game> getGames() {
         return games;
     }

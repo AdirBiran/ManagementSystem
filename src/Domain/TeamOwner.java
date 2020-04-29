@@ -84,7 +84,7 @@ public class TeamOwner extends Manager implements Role{
                 else{
                     ((TeamManager)teamManagerRole).addTeam(team);
                 }
-                team.addTeamManager(user);
+                team.addTeamManager(user, price, manageAssets, finance);
                 appointedTeamManagers.put(user,team);
                 return true;
             }

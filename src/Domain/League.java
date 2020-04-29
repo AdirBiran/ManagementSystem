@@ -20,43 +20,12 @@ public class League {
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
-
     public void addLeagueInSeason(LeagueInSeason leagueInSeason){
         leagueInSeasons.add(leagueInSeason);
     }
-    /**
-     *
-      * @return
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getLevel() {
-        return level;
-    }
-
-    /**
-     *
-     * @return
-     */
 
     public List<LeagueInSeason> getLeagueInSeasons() {
         return leagueInSeasons;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof League)) return false;
-        League league = (League) o;
-        return Objects.equals(getName(), league.getName()) &&
-                Objects.equals(getLevel(), league.getLevel());
     }
 
     @Override
@@ -70,5 +39,13 @@ public class League {
                 "name='" + name + '\'' +
                 ", level='" + level + '\'' +
                 '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getLevel() {
+        return level;
     }
 }

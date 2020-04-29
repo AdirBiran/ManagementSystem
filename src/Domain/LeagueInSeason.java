@@ -1,7 +1,5 @@
 package Domain;
 
-import javafx.scene.layout.Priority;
-
 import java.util.*;
 
 public class LeagueInSeason {
@@ -35,7 +33,6 @@ public class LeagueInSeason {
         this.teams = new LinkedList<>();
     }
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
 
     public void changeRegistrationFee(double registrationFee) {
         this.registrationFee = registrationFee;
@@ -82,38 +79,6 @@ public class LeagueInSeason {
         return null;
     }
 
-    public List<User> getReferees() {
-        return referees;
-    }
-
-    public void addScoreTableRecord(ScoreTableRecord scoreTableRecord){
-        scoreTable.add(scoreTableRecord);
-    }
-    /**
-     *
-     * @return
-     */
-    public GameAssignmentPolicy getAssignmentPolicy() {
-        return assignmentPolicy;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public ScorePolicy getScorePolicy() {
-        return scorePolicy;
-    }
-
-    public League getLeague() {
-        return league;
-    }
-
-    public Season getSeason() {
-        return season;
-    }
-
-
     public boolean addReferee(User referee) {
         if(!referees.contains(referee)){
             referees.add(referee);
@@ -140,7 +105,41 @@ public class LeagueInSeason {
         return false;
     }
 
+    public List<User> getReferees() {
+        return referees;
+    }
+
+    public void addScoreTableRecord(ScoreTableRecord scoreTableRecord){
+        scoreTable.add(scoreTableRecord);
+    }
+
+    public GameAssignmentPolicy getAssignmentPolicy() {
+        return assignmentPolicy;
+    }
+
+    public ScorePolicy getScorePolicy() {
+        return scorePolicy;
+    }
+
+    public League getLeague() {
+        return league;
+    }
+
+    public Season getSeason() {
+        return season;
+    }
+
     public double getRegistrationFee() {
         return this.registrationFee;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LeagueInSeason)) return false;
+        LeagueInSeason leagueInSeason = (LeagueInSeason) o;
+        return Objects.equals(this.league.getName(), leagueInSeason.league.getName()) &&
+                Objects.equals(this.league.getLevel(), leagueInSeason.league.getLevel()) &&
+                        Objects.equals(this.season.getYear(), leagueInSeason.season.getYear());
     }
 }

@@ -24,22 +24,13 @@ public class Coach implements PartOfATeam, Role {
 
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-    /**
-     *
-     * @return
-     */
     public String getTraining() {
         return training;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getRole() {
         return role;
     }
-
 
     public void setTraining(String training) {
         this.training = training;

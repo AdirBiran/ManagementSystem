@@ -6,13 +6,6 @@ import java.util.*;
 
 public class UserFactory {
 
-
-    /*
-    Object[0] = User
-    Object[1] = Fan
-     */
-
-
     public static User getNewFan(String password ,String firstName, String lastName, String mail, String phone, String addres){
         try {
             User user = new User (firstName, lastName, "F", mail);
@@ -128,7 +121,6 @@ public class UserFactory {
         return null;
     }
 
-
     private static User addToDatabase(User user,Object asset){
         String password = PasswordGenerator.generateRandPassword(6);
         if(asset instanceof PartOfATeam){
@@ -152,6 +144,4 @@ public class UserFactory {
         HasPage authorization = new HasPage(page);
         user.addRole(authorization);
     }
-
-
 }

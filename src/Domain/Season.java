@@ -27,10 +27,6 @@ public class Season {
         return startDate;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getYear() {
         return year;
     }

@@ -1,8 +1,6 @@
 package Domain;
 
-
 import Presentation.Checker;
-
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,7 +36,6 @@ public class PasswordGenerator {
             password = sb.toString();
         }
         while(!Checker.isValidPassword(password));
-
 
         return password;
     }

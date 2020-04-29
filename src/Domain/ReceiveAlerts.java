@@ -6,8 +6,8 @@ public class ReceiveAlerts {
     boolean sms;
 
     public ReceiveAlerts(boolean toMail, boolean toPhone) {
-        this.mail = toMail;
         this.messageBox = true; //default
+        this.mail = toMail;
         this.sms = toPhone;
     }
 }

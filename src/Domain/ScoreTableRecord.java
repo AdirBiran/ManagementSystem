@@ -12,19 +12,10 @@ public class ScoreTableRecord
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-
-    /**
-     *
-     * @return
-     */
     public Team getTeam() {
         return team;
     }
 
-    /**
-     *
-     * @return
-     */
     public int getTotalScore() {
         return totalScore;
     }

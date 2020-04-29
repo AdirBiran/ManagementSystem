@@ -1,6 +1,6 @@
 package Domain;
 
-public abstract class HasPage {
+public class HasPage implements Role{
 
     private PersonalPage page;
 
@@ -21,5 +21,10 @@ public abstract class HasPage {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof HasPage;
+    }
+
+    @Override
+    public String myRole() {
+        return "HasPage";
     }
 }

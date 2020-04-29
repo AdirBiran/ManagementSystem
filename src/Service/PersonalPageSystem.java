@@ -6,7 +6,6 @@ import Domain.User;
 
 public class PersonalPageSystem {
 
-
     public PersonalPageSystem() {
     }
 

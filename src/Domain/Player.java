@@ -27,23 +27,13 @@ public class Player implements PartOfATeam, Role {
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-
-    /**
-     *
-     * @return
-     */
     public Date getBirthDate() {
         return birthDate;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getRole() {
         return role;
     }
-
 
     public void setRole(String role) {
         this.role = role;

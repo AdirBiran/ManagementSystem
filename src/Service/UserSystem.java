@@ -1,7 +1,6 @@
 package Service;
 
 import Domain.*;
-
 import java.util.List;
 
 public class UserSystem extends GuestSystem {
@@ -37,7 +36,7 @@ public class UserSystem extends GuestSystem {
     public boolean editFanPersonalDetails(User user, String firstName, String lastName, String phone, String address) {
         Role role = user.checkUserRole("Fan");
         if(role instanceof Fan) {
-            ((Fan)role).editPersonalInfo(firstName, lastName, phone, address);
+            ((Fan)role).editPersonalInfo(user, firstName, lastName, phone, address);
             return true;
         }
         return false;

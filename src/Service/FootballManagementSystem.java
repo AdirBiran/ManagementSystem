@@ -3,11 +3,9 @@ package Service;
 import Data.Database;
 import Domain.*;
 import Presentation.*;
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
 
 public class FootballManagementSystem {
     private static Database database;
@@ -59,9 +57,6 @@ public class FootballManagementSystem {
     public RefereeSystem getRefereeSystem() {
         return refereeSystem;
     }
-
-
-
 
     public NotificationSystem getNotificationSystem() {
         return notificationSystem;
@@ -130,7 +125,6 @@ public class FootballManagementSystem {
 
     public static LeagueInSeason dataReboot(){
         User unionRep = UserFactory.getNewUnionRepresentative("", "","mail@mail.com");
-
         unionRepresentativeSystem.configureNewSeason(unionRep,2020, new Date(120, 4, 1));
         unionRepresentativeSystem.configureNewLeague(unionRep,"Haal", "3");
         LeagueInSeason leagueInSeason = unionRepresentativeSystem.configureLeagueInSeason(unionRep,"Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);

@@ -1,7 +1,6 @@
 package Domain;
 
 import java.util.Date;
-import java.sql.Time;
 
 public class Event {
 
@@ -31,38 +30,20 @@ public class Event {
         eventReport.addEvent(this);
     }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
-
-    /**
-     *
-     * @return
-     */
     public EventType getType() {
         return type;
     }
 
-    /**
-     *
-     * @return
-     */
     public Date getDate() {
         return date;
     }
 
-
-    /**
-     *
-     * @return
-     */
     public double getMinuteInGame() {
         return minuteInGame;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getDescription() {
         return description;
     }

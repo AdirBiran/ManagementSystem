@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ public class Fan implements Role{
 
 
     public Fan(String phone, String address) {
-
         this.address = address;
         this.phone = phone;
         complaints = new LinkedList<>();
@@ -25,13 +23,6 @@ public class Fan implements Role{
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-
-    public void editDetails(String address, String phone) {
-
-        this.address = address;
-        this.phone = phone;
-
-    }
     public boolean addPageToFollow(PersonalPage page){
         if(!followPages.contains(page)){
             followPages.add(page);
@@ -41,40 +32,12 @@ public class Fan implements Role{
         return false;
     }
 
-
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
-
-
-    public void setAddress(String address) {
+    public void editPersonalInfo(User user, String firstName, String lastName, String address, String phone){
+        user.editPersonalInfo(firstName, lastName);
         this.address = address;
-    }
-
-    public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public List<Complaint> getComplaints() {
-        return complaints;
-    }
-
-    public List<PersonalPage> getFollowPages() {
-        return followPages;
-    }
-
-
-    public void editPersonalInfo(String firstName, String lastName, String address, String phone){
-
-        editDetails(address, phone);
-
-    }
     public boolean followPage(PersonalPage page){
         return addPageToFollow(page);
     }
@@ -100,11 +63,35 @@ public class Fan implements Role{
         return getFollowPages();
     }
 
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public List<Complaint> getComplaints() {
+        return complaints;
+    }
+
+    public List<PersonalPage> getFollowPages() {
+        return followPages;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Fan;
     }
-
 
     @Override
     public String myRole() {

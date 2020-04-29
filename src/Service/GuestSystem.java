@@ -3,14 +3,11 @@ package Service;
 
 import Domain.Guest;
 import Domain.User;
-
 import java.util.List;
 
 public class GuestSystem {
 
-
     Guest guest;
-
 
     public GuestSystem() {
         guest = new Guest();
@@ -42,6 +39,7 @@ public class GuestSystem {
     public List<Object> search( String wordToSearch){
        return guest.search(wordToSearch);
     }
+
     /*
     the guest chooses what to watch - teamsToManage, players, coaches, leagues and more
      *//*

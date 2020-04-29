@@ -17,37 +17,18 @@ public class Complaint {
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
-
-    /**
-     *
-     * @return
-     */
     public Date getDate() {
         return date;
     }
 
-
-    /**
-     *
-     * @return
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     *
-     * @return
-     */
     public boolean getIsActive() {
         return isActive;
     }
 
-    /**
-     *
-     * @return
-     */
     public Fan getFanComplained() {
         return fanComplained;
     }

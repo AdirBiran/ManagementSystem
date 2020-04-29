@@ -2,11 +2,6 @@ package Presentation;
 
 public class Checker {
 
-    /**
-     *
-     * @param obj
-     * @return
-     */
     public static boolean isValid(Object obj) {
         if (!passNull(obj))
             return false;
@@ -47,11 +42,6 @@ public class Checker {
         return hasLowerCase&&hasUpperCase&&hasNumber;
     }
 
-    /**
-     *
-     * @param obj
-     * @return
-     */
     private static boolean passNull(Object obj)
     {
         if (obj == null)
@@ -60,11 +50,6 @@ public class Checker {
         return true;
     }
 
-    /**
-     *
-     * @param st
-     * @return
-     */
     private static boolean passEmptyString(String st)
     {
         if (st.equals(""))
@@ -73,11 +58,6 @@ public class Checker {
         return true;
     }
 
-    /**
-     *
-     * @param st
-     * @return
-     */
     private static boolean passLength(String st)
     {
         if (st.length() > 256)
@@ -86,12 +66,6 @@ public class Checker {
         return true;
     }
 
-
-    /**
-     *
-     * @param st
-     * @return
-     */
     private static boolean passIllegalCharacter(String st)
     {
 
@@ -104,11 +78,6 @@ public class Checker {
         return true;
     }
 
-    /**
-     *
-     * @param obj
-     * @return
-     */
     private static boolean passNegativeNumber(Object obj)
     {
         if (obj instanceof Integer)

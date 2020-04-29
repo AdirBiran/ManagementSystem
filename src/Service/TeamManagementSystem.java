@@ -33,12 +33,12 @@ public class TeamManagementSystem {
         return false;
     }
 
-    public boolean addAssetTeamManager(User user, User asset, Team team){
+    public boolean addAssetTeamManager(User user, User asset, Team team, double price, boolean manageAssets , boolean finance){
         Role role = user.checkUserRole("Team");
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).addTeamManagerToTeam(asset , team);
+            return ((Manager) role).addTeamManagerToTeam(asset , team, price, manageAssets, finance);
         }
         return false;
     }
@@ -134,7 +134,6 @@ public class TeamManagementSystem {
             }
         }
         return false;
-
     }
 
     public boolean removeAppointmentTeamManager(User user,User userToRemove, Team team){
@@ -170,6 +169,5 @@ public class TeamManagementSystem {
         }
         return false;
     }
-
 
 }

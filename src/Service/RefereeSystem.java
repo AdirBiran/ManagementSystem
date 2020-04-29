@@ -4,10 +4,7 @@ import Domain.*;
 
 public class RefereeSystem {
 
-
-
     public RefereeSystem() {
-
     }
 
     public boolean addEventToGame(User user, Game game, Event.EventType type, double minuteInGame, String description){
