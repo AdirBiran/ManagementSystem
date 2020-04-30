@@ -45,13 +45,6 @@ import static org.junit.Assert.*;
         assertEquals(teamManager.getTeams().size(),0);
     }
 
-    @Test
-    public void isPermissionManageAssets() {
-    }
-
-    @Test
-    public void isPermissionFinance() {
-    }
 
     @Test
     public void addTeam() {
@@ -61,17 +54,35 @@ import static org.junit.Assert.*;
 
     @Test
     public void removeTeam() {
+        teamManager.addTeam(team);
+        assertEquals(teamManager.getTeams().size(),1);
+        teamManager.removeTeam(team);
+        assertEquals(teamManager.getTeams().size(),0);
     }
 
     @Test
+    public void isPermissionManageAssets(){
+        assertFalse(teamManager.isPermissionManageAssets());
+    }
+
+    @Test
+    public void isPermissionFinance(){
+        assertFalse(teamManager.isPermissionFinance());
+    }
+    @Test
     public void isActive() {
+        assertTrue(teamManager.isActive());
     }
 
     @Test
     public void reactivate() {
+        teamManager.reactivate();
+        assertTrue(teamManager.isActive());
+
     }
 
     @Test
     public void myRole() {
+        assertEquals(teamManager.myRole(),"TeamManager");
     }
 }
