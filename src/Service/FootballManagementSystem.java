@@ -110,6 +110,10 @@ public class FootballManagementSystem {
         return true;
     }
 
+    public User getAdmin(){
+        return systemAdmins.get(0);
+    }
+
     public boolean connectToOuterSystems(boolean flag)
     {
 

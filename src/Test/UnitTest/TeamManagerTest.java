@@ -1,8 +1,6 @@
 package UnitTest;
 
-import Domain.LeagueInSeason;
-import Domain.Team;
-import Domain.TeamManager;
+import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,16 +14,18 @@ import static org.junit.Assert.*;
     Team team;
     @Before
     public void init(){
-        teamManager=new TeamManager("123456789",20000,false,false);
         system = new FootballManagementSystem();
         system.systemInit(true);
         LeagueInSeason league = system.dataReboot();
         team = league.getTeams().get(0);
+        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        User userTeamManager= admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false);
+        teamManager = (TeamManager)userTeamManager.checkUserRole("TeamManager");
     }
 
     @Test
     public void getID() {
-        assertEquals(teamManager.getID(),"123456789");
+        assertNotNull(teamManager.getID());
     }
 
     @Test
