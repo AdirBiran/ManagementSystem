@@ -146,4 +146,11 @@ public class User extends Guest{
         return roles;
     }
 
+    public List<String> getStringRoles(){
+        List<String> myRoles = new LinkedList<>();
+        for (Role role : roles)
+            myRoles.add(role.myRole());
+        return myRoles;
+    }
+
 }

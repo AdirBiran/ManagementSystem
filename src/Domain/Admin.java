@@ -49,8 +49,9 @@ public class Admin implements Role {
     public String removeUser(String userId)
     {
         User user = Database.getUser(userId);
-        if(checkIsTeamOwner(user)){
-            List<Team> teams = getTeamsFromUser(user);
+        TeamOwner roleTeamOwner = (TeamOwner) user.checkUserRole("TeamOwner");
+        if(roleTeamOwner!=null){
+            List<Team> teams = roleTeamOwner.getTeamsToManage();
             if(teams!=null){
                 for(Team team:teams )
                     if(team.getTeamOwners().size()==1)
@@ -58,23 +59,6 @@ public class Admin implements Role {
             }
         }
         return Database.removeUser(userId);
-    }
-
-    private List<Team> getTeamsFromUser(User user) {
-        for(Role role : user.getRoles()){
-            if(role instanceof TeamOwner) {
-                return ((TeamOwner) role).getTeamsToManage();
-            }
-        }
-        return null;
-    }
-
-    private boolean checkIsTeamOwner(User user) {
-        for(Role role : user.getRoles()){
-            if(role instanceof  TeamOwner)
-                return true;
-        }
-        return false;
     }
 
     /**The Admin is responsible for adding

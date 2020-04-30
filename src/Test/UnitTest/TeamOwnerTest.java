@@ -19,8 +19,8 @@ public class TeamOwnerTest {
         LeagueInSeason league = system.dataReboot();
         team = league.getTeams().get(0);
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
-        User userTeamowner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
-        teamOwner = (TeamOwner) userTeamowner.checkUserRole("TeamOwner");
+        User userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
+        teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
     }
 
     @Test
