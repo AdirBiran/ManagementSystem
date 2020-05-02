@@ -1,4 +1,4 @@
-package Tests.Unit;
+package UnitTest;
 
 import Domain.*;
 import Service.FootballManagementSystem;
