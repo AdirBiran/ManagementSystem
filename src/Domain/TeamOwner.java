@@ -53,6 +53,14 @@ public class TeamOwner extends Manager implements Role{
     }
 
 
+    public boolean createTeam(User user , String teamName, PersonalPage page, List<User> teamOwners, List<User> players, List<User> coaches, Field field){
+        Role teamOwnerRole = user.checkUserRole("TeamOwner");
+        if(teamOwnerRole != null){
+            Team team = new Team(teamName,page,)
+        }
+    }
+
+
     public boolean appointTeamOwner(User user, Team team){
         Role teamOwnerRole = user.checkUserRole("TeamOwner");
         if(teamsToManage.contains(team)){
