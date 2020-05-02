@@ -22,14 +22,14 @@ public class UnionRepresentative implements Role{
         }
     }
 
-    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double registrationFee) {
+    public String configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double registrationFee) {
         League league = Database.getLeague(nameOfLeague);
         Season season = Database.getSeason(yearOfSeason);
         if(league==null||season==null||assignmentPolicy==null||scorePolicy==null)return null;
         LeagueInSeason leagueInSeason = new LeagueInSeason(assignmentPolicy, scorePolicy, league, season, registrationFee);
         league.addLeagueInSeason(leagueInSeason);
         season.addLeagueInSeason(leagueInSeason);
-        return leagueInSeason;
+        return leagueInSeason.toString();
     }
 
     public boolean assignGames(LeagueInSeason league, List<Date> dates) {

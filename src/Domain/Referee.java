@@ -74,4 +74,12 @@ public class Referee implements Role{
     public String myRole() {
         return "Referee";
     }
+
+    @Override
+    public String toString() {
+        return "Referee{" +
+                "training='" + training + '\'' +
+                ", games=" + games +
+                '}';
+    }
 }

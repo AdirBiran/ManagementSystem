@@ -2,6 +2,7 @@ package Domain;
 
 import Data.Database;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Guest {
@@ -23,25 +24,49 @@ public class Guest {
         return Database.getUserByMail(mail ,password );
     }
 
-    public List<Team> viewInfoAboutTeams() {
-        return Database.getTeams();
+    public List<String> viewInfoAboutTeams() {
+        List<Team> teams =  Database.getTeams();
+        List<String> stringOfTeams = new LinkedList<>();
+        for(Team t : teams)
+            stringOfTeams.add(t.toString());
+        return stringOfTeams;
     }
 
-    public List<PartOfATeam> viewInfoAboutPlayers() {
-        return Database.getListOfAllSpecificAssets("Player");
+    public List<String> viewInfoAboutPlayers() {
+        List<PartOfATeam> players = Database.getListOfAllSpecificAssets("Player");
+        List<String> stringOfPlayers = new LinkedList<>();
+        for(PartOfATeam p: players)
+            stringOfPlayers.add(((Player)p).toString());
+        return stringOfPlayers;
     }
 
-    public List<PartOfATeam> viewInfoAboutCoaches() {
-        return Database.getListOfAllSpecificAssets("Coach");
+    public List<String> viewInfoAboutCoaches() {
+        List<PartOfATeam> coaches =  Database.getListOfAllSpecificAssets("Coach");
+        List<String> stringOfCoaches = new LinkedList<>();
+        for(PartOfATeam c : coaches)
+            stringOfCoaches.add(((Coach)c).toString());
+        return stringOfCoaches;
     }
 
-    public List<League> viewInfoAboutLeagues() {
-        return Database.getLeagues();
+    public List<String> viewInfoAboutLeagues() {
+        List<League> leagues = Database.getLeagues();
+        List<String> stringOfLeagues = new LinkedList<>();
+        for (League l : leagues)
+            stringOfLeagues.add(l.toString());
+        return stringOfLeagues;
     }
-    public List<Season> viewInfoAboutSeasons() {
-        return Database.getSeasons();
+    public List<String> viewInfoAboutSeasons() {
+        List<Season> seasons = Database.getSeasons();
+        List <String> stringOfSeasons = new LinkedList<>();
+        for (Season s: seasons)
+            stringOfSeasons.add(s.toString());
+        return stringOfSeasons;
     }
-    public List<Referee> viewInfoAboutReferees(){
-        return Database.getReferees();
+    public List<String> viewInfoAboutReferees(){
+        List<Referee> referees = Database.getReferees();
+        List <String> stringOfReferees = new LinkedList<>();
+        for(Referee r : referees)
+            stringOfReferees.add(r.toString());
+        return stringOfReferees;
     }
 }
