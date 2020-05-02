@@ -27,7 +27,7 @@ public class UnionRepresentativeSystem {
         return false;
     }
 
-    public String configureLeagueInSeason(User user, String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){
+    public LeagueInSeason configureLeagueInSeason(User user, String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){
         if (assignmentPolicy == null || scorePolicy == null)
             return null;
         Role role = user.checkUserRole("UnionRepresentative");
