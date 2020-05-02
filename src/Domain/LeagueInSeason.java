@@ -142,4 +142,12 @@ public class LeagueInSeason {
                 Objects.equals(this.league.getLevel(), leagueInSeason.league.getLevel()) &&
                         Objects.equals(this.season.getYear(), leagueInSeason.season.getYear());
     }
+
+    @Override
+    public String toString() {
+        return "LeagueInSeason{" +
+                "league=" + league.getName() +
+                ", season=" + season.getYear() +
+                '}';
+    }
 }

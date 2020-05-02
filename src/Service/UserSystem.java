@@ -70,7 +70,7 @@ public class UserSystem extends GuestSystem {
 
     }
 
-    public List<PersonalPage> getFanPages(User user) {
+    public List<String> getFanPages(User user) {
         Role role = user.checkUserRole("Fan");
         if(role instanceof Fan) {
             return ((Fan)role).getFollowedPages();
@@ -101,7 +101,7 @@ public class UserSystem extends GuestSystem {
         return false;
     }
 
-    public boolean updateRole(Role role, String newRole) {
+    public boolean teamRoleUpdate(Role role, String newRole) {
 
         if (role instanceof Player) {
             ((Player) role).setRole(newRole);
@@ -114,7 +114,7 @@ public class UserSystem extends GuestSystem {
         return false;
     }
 
-    public String getRole(Role role) {
+    public String getTeamRole(Role role) {
 
         if (role instanceof Player) {
             return ((Player) role).getRole();

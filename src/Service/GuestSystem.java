@@ -1,6 +1,5 @@
 package Service;
 
-
 import Domain.*;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class GuestSystem {
     /*
     Guest registration for the system
      */
-    public User registr(String mail, String password, String firstName, String lastName,
+    public User register(String mail, String password, String firstName, String lastName,
                                         String phone, String address){
 
         return guest.register(mail, password, firstName, lastName, phone, address);
@@ -43,27 +42,27 @@ public class GuestSystem {
     /*
     the guest chooses what to watch - teamsToManage, players, coaches, leagues and more
      */
-    public List<Team> viewInformationAboutTeams(){
+    public List<String> viewInformationAboutTeams(){
         return guest.viewInfoAboutTeams();
     }
 
-    public List<PartOfATeam> viewInformationAboutPlayers(){
+    public List<String> viewInformationAboutPlayers(){
         return guest.viewInfoAboutPlayers();
     }
 
-    public List<PartOfATeam> viewInformationAboutCoaches(){
+    public List<String> viewInformationAboutCoaches(){
         return guest.viewInfoAboutCoaches();
     }
 
-    public List<League> viewInformationAboutLeagues(){
+    public List<String> viewInformationAboutLeagues(){
         return guest.viewInfoAboutLeagues();
     }
 
-    public List<Season> viewInformationAboutSeasons(){
+    public List<String> viewInformationAboutSeasons(){
         return guest.viewInfoAboutSeasons();
     }
 
-    public List<Referee> viewInformationAboutReferees(){
+    public List<String> viewInformationAboutReferees(){
         return guest.viewInfoAboutReferees();
     }
 }
