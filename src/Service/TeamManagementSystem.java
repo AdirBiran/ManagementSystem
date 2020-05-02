@@ -103,6 +103,18 @@ public class TeamManagementSystem {
         return false;
     }
 
+
+    public boolean createTeam(User user){
+        Role role = user.checkUserRole("TeamOwner");
+        if(role instanceof TeamOwner){
+            if (((TeamOwner) role).appointTeamOwner(userToAppoint, team)) {
+                notificationSystem.notificationForAppointment(userToAppoint, true);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean appointmentTeamOwner(User user, User userToAppoint, Team team){
         Role role = user.checkUserRole("TeamOwner");
         if(role instanceof TeamOwner){
