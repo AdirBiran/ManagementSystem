@@ -35,7 +35,7 @@ public class Referee implements Role{
         new Event(type, minuteInGame, description, game.getEventReport());
     }
     /*
-    to edit get event report and edit it only main referee can
+    to edit get event report and edit it only Main referee can
      */
     public EventReport getEventReport(Game game){
         if(this.equals(game.getMainReferee())){

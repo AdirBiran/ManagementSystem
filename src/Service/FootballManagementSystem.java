@@ -161,7 +161,7 @@ public class FootballManagementSystem {
         return unionRepresentativeSystem.appointReferee(unionRep,"referee", "",+IdGenerator.getNewId()+"@gmail.com", "talented");
     }
     public static List<User> createCoaches() {
-        User Coach = adminSystem.addNewCoach(systemAdmins.get(0),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com","firstOne", "main", 1500);
+        User Coach = adminSystem.addNewCoach(systemAdmins.get(0),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com","firstOne", "Main", 1500);
         List<User> coaches = new LinkedList<>();
         coaches.add(Coach);
         return coaches;
