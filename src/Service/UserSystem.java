@@ -1,6 +1,8 @@
 package Service;
 
 import Domain.*;
+import Logger.Logger;
+
 import java.util.List;
 
 public class UserSystem extends GuestSystem {
@@ -13,13 +15,16 @@ public class UserSystem extends GuestSystem {
     View fan search history
      */
     public List<String> viewSearchHistory(User user) {
+        Logger.logEvent(user.getID(), "View Search History");
         return user.viewSearchHistory();
     }
 
     /*
     log out user from system
      */
-    public Guest logOut() {
+    public Guest logOut()
+    {
+        Logger.logEvent("(Guest)", "Logout");
         return this.guest;
     }
 
@@ -27,6 +32,8 @@ public class UserSystem extends GuestSystem {
     View user's personal information
      */
     public String viewPersonalDetails(User user) {
+        Logger.logEvent(user.getID(), "View Personal Details");
+
         return user.toString(); // toString by user!?!?
     }
 
@@ -37,8 +44,11 @@ public class UserSystem extends GuestSystem {
         Role role = user.checkUserRole("Fan");
         if(role instanceof Fan) {
             ((Fan)role).editPersonalInfo(user, firstName, lastName, phone, address);
+            Logger.logEvent(user.getID(), "Edit Fan Personal Details");
             return true;
+
         }
+        Logger.logError("Failed editing fan's personal details");
         return false;
     }
 
@@ -47,6 +57,8 @@ public class UserSystem extends GuestSystem {
      */
     public void editPersonalInfo(User user, String firstName, String lastName) {
         user.editPersonalInfo(firstName, lastName);
+        Logger.logEvent(user.getID(), "Edit Personal Details");
+
     }
 
     /*
@@ -56,16 +68,27 @@ public class UserSystem extends GuestSystem {
         Role role = user.checkUserRole("Fan");
         if(role instanceof Fan) {
             ((Fan)role).submitComplaint(description);
+            Logger.logEvent(user.getID(), "Added Complaint");
             return true;
         }
+
+        Logger.logEvent(user.getID(), "Adding complaint Failed");
         return false;
     }
 
     public boolean registrationToFollowUp(User user, PersonalPage page) {
         Role role = user.checkUserRole("Fan");
         if(role instanceof Fan) {
-        return ((Fan)role).followPage(page);
+        boolean success = ((Fan)role).followPage(page);
+        if (success)
+            Logger.logEvent(user.getID(), "Follow page Success");
+        else
+            Logger.logError("Follow page Failed");
+
+            return success;
         }
+
+
         return false;
 
     }
@@ -73,6 +96,7 @@ public class UserSystem extends GuestSystem {
     public List<String> getFanPages(User user) {
         Role role = user.checkUserRole("Fan");
         if(role instanceof Fan) {
+            Logger.logEvent(user.getID(), "Requested followed pages");
             return ((Fan)role).getFollowedPages();
         }
         return null;
@@ -84,7 +108,13 @@ public class UserSystem extends GuestSystem {
     public boolean registrationForGamesAlerts(User user, List<Game> games, ReceiveAlerts receive) {
         Role role = user.checkUserRole("Fan");
         if(role instanceof Fan) {
-            return ((Fan)role).followGames(games, receive);
+            boolean success = ((Fan)role).followGames(games, receive);
+            if (success)
+                Logger.logEvent(user.getID(), "Game Alerts Registration Success");
+            else
+                Logger.logError("Game Alerts Registration Failed");
+
+            return success;
         }
         return false;
     }
@@ -96,6 +126,7 @@ public class UserSystem extends GuestSystem {
             return true;
         } else if (role instanceof Referee) {
             ((Referee) role).setTraining(training);
+
             return true;
         }
         return false;
@@ -130,6 +161,7 @@ public class UserSystem extends GuestSystem {
     Search results in a system
      */
     public List<Object> search(User user,  String wordToSearch){
+        Logger.logEvent(user.getID(), "Searched " + wordToSearch);
         return user.search(wordToSearch);
 
     }

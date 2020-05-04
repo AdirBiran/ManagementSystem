@@ -2,6 +2,7 @@ package Service;
 
 import Domain.*;
 import Domain.User;
+import Logger.Logger;
 
 import java.util.List;
 
@@ -20,7 +21,15 @@ public class TeamManagementSystem {
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).addPlayerToTeam(asset , team);
+            boolean success = ((Manager) role).addPlayerToTeam(asset , team);
+
+            if (success)
+                Logger.logEvent(user.getID(),"Added Player " + asset.getID() + " to Team " + team.getName());
+            else
+                Logger.logError("Adding Player to team Failed");
+
+            return success;
+
         }
         return false;
     }
@@ -30,7 +39,14 @@ public class TeamManagementSystem {
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).addCoachToTeam(asset , team);
+            boolean success = ((Manager) role).addCoachToTeam(asset , team);
+
+            if (success)
+                Logger.logEvent(user.getID(),"Added Coach " + asset.getID() + " to Team " + team.getName());
+            else
+                Logger.logError("Adding Coach to team Failed");
+
+            return success;
         }
         return false;
     }
@@ -40,7 +56,14 @@ public class TeamManagementSystem {
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).addTeamManagerToTeam(asset , team, price, manageAssets, finance);
+            boolean success = ((Manager) role).addTeamManagerToTeam(asset , team, price, manageAssets, finance);
+
+            if (success)
+                Logger.logEvent(user.getID(),"Added TeamManager " + asset.getID() + " to Team " + team.getName());
+            else
+                Logger.logError("Adding TeamManager to team Failed");
+
+            return success;
         }
         return false;
     }
@@ -50,7 +73,14 @@ public class TeamManagementSystem {
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).addFieldToTeam(asset, team);
+            boolean success = ((Manager) role).addFieldToTeam(asset, team);
+
+            if (success)
+                Logger.logEvent(user.getID(),"Added Field " + asset.getID() + " to Team " + team.getName());
+            else
+                Logger.logError("Adding Field to team Failed");
+
+            return success;
         }
         return false;
     }
@@ -60,7 +90,14 @@ public class TeamManagementSystem {
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).removeFieldFromTeam(asset, team);
+            boolean success = ((Manager) role).removeFieldFromTeam(asset, team);
+
+            if (success)
+                Logger.logEvent(user.getID(),"Removed Field " + asset.getID() + " from Team " + team.getName());
+            else
+                Logger.logError("Removing Field from team Failed");
+
+            return success;
         }
         return false;
     }
@@ -72,7 +109,14 @@ public class TeamManagementSystem {
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).removePlayerFormTeam(asset, team);
+            boolean success = ((Manager) role).removePlayerFormTeam(asset, team);
+
+            if (success)
+                Logger.logEvent(user.getID(),"Removed Player " + asset.getID() + " from Team " + team.getName());
+            else
+                Logger.logError("Removing Player from team Failed");
+
+            return success;
         }
         return false;
     }
@@ -81,7 +125,14 @@ public class TeamManagementSystem {
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).removeCoachFormTeam(asset, team);
+            boolean success = ((Manager) role).removeCoachFormTeam(asset, team);
+
+            if (success)
+                Logger.logEvent(user.getID(),"Removed Coach " + asset.getID() + " from Team " + team.getName());
+            else
+                Logger.logError("Removing Coach from team Failed");
+
+            return success;
         }
         return false;
     }
@@ -90,7 +141,14 @@ public class TeamManagementSystem {
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).removeTeamManagerFormTeam(asset, team);
+            boolean success = ((Manager) role).removeTeamManagerFormTeam(asset, team);
+
+            if (success)
+                Logger.logEvent(user.getID(),"Removed TeamManager " + asset.getID() + " from Team " + team.getName());
+            else
+                Logger.logError("Removing TeamManager from team Failed");
+
+            return success;
         }
         return false;
     }
@@ -100,7 +158,14 @@ public class TeamManagementSystem {
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionManageAssets())
                 return false;
-            return ((Manager) role).updateAsset(assetId,action,update);
+            boolean success = ((Manager) role).updateAsset(assetId,action,update);
+
+            if (success)
+                Logger.logEvent(user.getID(),"Updated asset " + assetId);
+            else
+                Logger.logError("Updating Asset Failed");
+
+            return success;
         }
         return false;
     }
@@ -112,9 +177,15 @@ public class TeamManagementSystem {
             if (((TeamOwner) role).createTeam(user , teamName ,pageData,players,coaches,field)) {
                 /**need to sent  notification to all users*/
 //                notificationSystem.notificationForAppointment(userToAppoint, true);
+
+                Logger.logEvent(user.getID(),"Created Team " + teamName);
+
                 return true;
             }
         }
+
+        Logger.logError("Failed Creating Team");
+
         return false;
     }
 
@@ -123,9 +194,13 @@ public class TeamManagementSystem {
         if(role instanceof TeamOwner){
             if (((TeamOwner) role).appointTeamOwner(userToAppoint, team)) {
                 notificationSystem.notificationForAppointment(userToAppoint, true);
+                Logger.logEvent(user.getID(),"Appointed Team Owner " + userToAppoint.getID());
                 return true;
             }
         }
+
+        Logger.logError("Failed Appointing Team Owner");
+
         return false;
     }
 
@@ -134,9 +209,13 @@ public class TeamManagementSystem {
         if(role instanceof TeamOwner){
             if (((TeamOwner) role).appointTeamManager(userToAppoint, team, price, manageAssets, finance)) {
                 notificationSystem.notificationForAppointment(userToAppoint, true);
+                Logger.logEvent(user.getID(),"Appointed Team Manager " + userToAppoint.getID());
+
                 return true;
             }
         }
+        Logger.logError("Failed Appointing Team Manager");
+
         return false;
     }
 
@@ -145,9 +224,12 @@ public class TeamManagementSystem {
         if(role instanceof TeamOwner){
             if (((TeamOwner) role).removeAppointTeamOwner(userToRemove, team)) {
                 notificationSystem.notificationForAppointment(userToRemove, false);
+                Logger.logEvent(user.getID(),"Removed Team Owner " + userToRemove.getID());
                 return true;
             }
         }
+        Logger.logError("Failed removing appointed Team Owner");
+
         return false;
     }
 
@@ -156,9 +238,13 @@ public class TeamManagementSystem {
         if(role instanceof TeamOwner){
             if (((TeamOwner) role).removeAppointTeamManager(userToRemove, team)) {
                 notificationSystem.notificationForAppointment(userToRemove, false);
+                Logger.logEvent(user.getID(),"Removed Team Manager " + userToRemove.getID());
                 return true;
             }
         }
+
+        Logger.logError("Failed removing appointed Team Manager");
+
         return false;
 
     }
@@ -168,9 +254,13 @@ public class TeamManagementSystem {
         if(role instanceof TeamOwner){
             if (((TeamOwner) role).closeTeam(team)) {
                 notificationSystem.openORCloseTeam("closed", team, false);
+                Logger.logEvent(user.getID(),"Closed Team " + team.getName());
                 return true;
             }
         }
+
+        Logger.logError("Failed closing Team");
+
         return false;
     }
 
@@ -179,9 +269,11 @@ public class TeamManagementSystem {
         if(role instanceof TeamOwner){
             if (((TeamOwner) role).reopenTeam(team)) {
                 notificationSystem.openORCloseTeam("open", team, false);
+                Logger.logEvent(user.getID(),"Reopened Team " + team.getName());
                 return true;
             }
         }
+        Logger.logError("Failed reopening Team");
         return false;
     }
 
