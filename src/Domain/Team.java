@@ -22,19 +22,16 @@ public class Team{
     private boolean active;
     private boolean permanentlyClosed; //closed by admin and cannot open again
 
-    public Team(String name, PersonalPage page, List<User> teamOwners, List<User> players, List<User> coaches, Field field) {
+    public Team(String name, List<User> teamOwners, List<User> players, List<User> coaches, Field field) {
         this.id = "T"+IdGenerator.getNewId();
         this.name = name;
         if(teamOwners==null||teamOwners.size()<1)
            throw new RuntimeException("not enough TeamOwners");
         this.teamOwners = teamOwners;
         linkTeamOwner();
-        if(page == null){
-            this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
-            teamOwners.get(0).addRole(new HasPage(this.page));
-        }
-        else
-            this.page = page;
+
+        this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
+        teamOwners.get(0).addRole(new HasPage(this.page));
 
         if(players==null||players.size()<11)
             throw new RuntimeException("not enough Players");

@@ -59,17 +59,14 @@ public class TeamOwner extends Manager implements Role{
         Role teamOwnerRole = user.checkUserRole("TeamOwner");
         if(teamOwnerRole != null){
 
-            /**create new personal page for the team*/
-            PersonalPage personalPage = new PersonalPage(pageData , user);
-
             /**add the user that create the team as a teamOwner*/
             List<User> teamOwner = new LinkedList<>();
             teamOwner.add(user);
 
             /**find the player in the system and add him to the list of players
              * if one of the players doesnt exist, return false*/
-            List<User> teamPalyers =  findPartOfTeam(players);
-            if(teamPalyers == null){
+            List<User> teamPlayers =  findPartOfTeam(players);
+            if(teamPlayers == null){
                 return false;
             }
 
@@ -87,13 +84,9 @@ public class TeamOwner extends Manager implements Role{
                 return false;
             }
 
-
             /**create new team*/
-            Team team = new Team(teamName ,personalPage, teamOwner ,teamPalyers,teamCoaches, (Field) teamField);
-
-            /**add the new team to this user*/
-            ((TeamOwner)teamOwnerRole).addTeam(team);
-            return true;
+            Team team = new Team(teamName ,teamOwner ,teamPlayers,teamCoaches, (Field) teamField);
+            return Database.addTeam(team);
         }
         return false;
     }
@@ -114,16 +107,6 @@ public class TeamOwner extends Manager implements Role{
         }
         return listOfAssets;
     }
-
-
-    /*public boolean registrTeam(User user ,Team team , LeagueInSeason leagueInSeason){
-        Role teamOwnerRole = user.checkUserRole("TeamOwner");
-        if(teamOwnerRole != null){
-            ((TeamOwner)teamOwnerRole).reportExpanse(team,)
-
-        }
-    }*/
-
 
     public boolean appointTeamOwner(User user, Team team){
         Role teamOwnerRole = user.checkUserRole("TeamOwner");

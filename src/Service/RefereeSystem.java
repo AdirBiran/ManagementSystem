@@ -2,6 +2,8 @@ package Service;
 
 import Domain.*;
 
+import java.util.List;
+
 public class RefereeSystem {
 
     public RefereeSystem() {
@@ -22,5 +24,8 @@ public class RefereeSystem {
             ((Referee)role).setScoreInGame(game, hostScore, guestScore);
         }
     }
+/*
+    public List<String> getGameReport(Game game){
 
+    }*/
 }

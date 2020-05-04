@@ -3,15 +3,22 @@ package Service;
 import Data.Database;
 import Domain.*;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
-public class NotificationSystem {
+public class NotificationSystem extends Observable implements Observer {
 
     public NotificationSystem() {
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
+
     /*
-    When a team is closed / permanently closed or reopened, alerts are sent accordingly
-     */
+        When a team is closed / permanently closed or reopened, alerts are sent accordingly
+         */
     public boolean openORCloseTeam(String option, Team team, boolean permanently){
         return alertBudgetException(option, team, permanently);
     }

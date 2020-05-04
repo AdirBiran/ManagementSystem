@@ -140,10 +140,8 @@ public class FootballManagementSystem {
             User owner = adminSystem.addNewTeamOwner(systemAdmins.get(0),"Team","Owner","to"+i+"@gmail.com" );
             if(owner!=null){
                 owners.add(owner);
-                PersonalPage page = new PersonalPage("", owner);
-                owner.addRole(new HasPage(page));
                 Field field = new Field( "jerusalem", 550, 150000);
-                team = new Team("team"+i,page,owners,players,coaches, field);
+                team = new Team("team"+i,owners,players,coaches, field);
                 team.getBudget().addIncome(1000000000);
                 unionRepresentativeSystem.addTeamToLeague(unionRep,leagueInSeason, team);
             }
