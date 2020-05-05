@@ -138,7 +138,7 @@ public class Team{
         return false;
     }
 
-    public boolean addTeamManager(User user,double price,boolean manageAssets , boolean finance) {
+    public boolean addTeamManager(User user, double price,boolean manageAssets , boolean finance) {
         if(!teamManagers.contains(user)) {
             this.teamManagers.add(user);
             TeamManager teamManager = (TeamManager)user.checkUserRole("TeamManager");
@@ -146,7 +146,7 @@ public class Team{
                 teamManager.addTeam(this);
             }
             else{
-                teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
+                teamManager = new TeamManager(user.getID(),user.getName(), price, manageAssets, finance);
                 teamManager.addTeam(this);
                 user.addRole(teamManager);
             }

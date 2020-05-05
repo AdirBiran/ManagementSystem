@@ -8,6 +8,7 @@ public class Field implements PartOfATeam {
 
 
     private String location;
+    private String name;
     private int capacity;
     private List<Game> games;
     private String id;
@@ -16,9 +17,10 @@ public class Field implements PartOfATeam {
     private double price;
 
 
-    public Field(String location, int capacity, double price) {
+    public Field(String location,String fieldName, int capacity, double price) {
         this.id = "Field"+IdGenerator.getNewId();
         this.location = location;
+        this.name = fieldName;
         this.capacity = capacity;
         this.games = new LinkedList<>();
         teams = new HashSet<>();
@@ -26,14 +28,6 @@ public class Field implements PartOfATeam {
         isActive = true;
     }
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-    @Override
-    public String toString() {
-        return "Field{" +
-                "id='" + id + '\'' +
-                ", location='" + location + '\'' +
-                ", capacity=" + capacity +
-                '}';
-    }
 
     public String getLocation() {
         return location;
@@ -45,6 +39,20 @@ public class Field implements PartOfATeam {
 
     public List<Game> getGames() {
         return games;
+    }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "id='" + id + '\'' +
+                ", location='" + location + '\'' +
+                ", capacity=" + capacity +
+                '}';
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override

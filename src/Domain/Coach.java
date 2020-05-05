@@ -7,13 +7,15 @@ public class Coach implements PartOfATeam, Role {
     private String training;
     private String role;
     private String id;
+    private String name;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
 
 
-    public Coach(String id,String training, String role, double price) {
+    public Coach(String id,String name, String training, String role, double price) {
         this.id = id;
+        this.name = name;
         this.training = training;
         this.role = role;
         this.price = price;
@@ -40,6 +42,10 @@ public class Coach implements PartOfATeam, Role {
         this.role = role;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
 
     @Override
     public String getID() {
