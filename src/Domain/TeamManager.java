@@ -6,6 +6,7 @@ public class TeamManager extends Manager implements Role,PartOfATeam {
 
 
     private String id;
+    private String name;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
@@ -15,8 +16,9 @@ public class TeamManager extends Manager implements Role,PartOfATeam {
 
 
 
-    public TeamManager(String id,double price, boolean manageAssets , boolean finance ) {
+    public TeamManager(String id,String name, double price, boolean manageAssets , boolean finance ) {
         this.id = id;
+        this.name = name;
         teams = new HashSet<>();
         this.price = price;
         isActive = true;
@@ -27,6 +29,11 @@ public class TeamManager extends Manager implements Role,PartOfATeam {
     @Override
     public String getID() {
         return id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override

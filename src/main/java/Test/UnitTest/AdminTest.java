@@ -66,7 +66,7 @@ public class AdminTest {
 
     @Test
     public void removeField() {
-     Field  field = new Field("Tel-Aviv", 150000, 125000);
+     Field  field = new Field("Tel-Aviv","Bloomfield", 150000, 125000);
      admin.addField(field);
      admin.removeField(field);
      assertFalse(field.isActive());
@@ -74,7 +74,7 @@ public class AdminTest {
 
     @Test
     public void addField() {
-        Field  field = new Field("Tel-Aviv", 150000, 125000);
+        Field  field = new Field("Tel-Aviv","Bloomfield", 150000, 125000);
         admin.addField(field);
         assertTrue(field.isActive());
     }

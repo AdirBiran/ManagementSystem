@@ -20,7 +20,7 @@ public class FieldTest {
         system.systemInit(true);
         LeagueInSeason league = system.dataReboot();
         team = league.getTeams().get(0);
-        field = new Field("Tel-Aviv", 150000, 125000);
+        field = new Field("Tel-Aviv","Bloomfield", 150000, 125000);
     }
 
     @Test

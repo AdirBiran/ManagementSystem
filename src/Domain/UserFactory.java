@@ -6,10 +6,10 @@ import java.util.*;
 
 public class UserFactory {
 
-    public static User getNewFan(String password ,String firstName, String lastName, String mail, String phone, String addres){
+    public static User getNewFan(String password ,String firstName, String lastName, String mail, String phone, String address){
         try {
             User user = new User (firstName, lastName, "F", mail);
-            Fan fan = new Fan(phone, addres);
+            Fan fan = new Fan(phone, address);
             user.addRole(fan);
             if(Database.addUser(password, user)){
                 return user;
@@ -24,7 +24,7 @@ public class UserFactory {
     public static User getNewPlayer(String firstName, String lastName, String mail, Date birthDate, String role, double price){
         try {
         User user = new User(firstName, lastName, "P", mail);
-        Player player = new Player(user.getID(), birthDate, role, price, user);
+        Player player = new Player(user.getID(),user.getName(), birthDate, role, price, user);
         user.addRole(player);
         giveHasPageAuthorization(user);
         return addToDatabase(user, player);
@@ -37,7 +37,7 @@ public class UserFactory {
     public static User getNewCoach(String firstName, String lastName, String mail, String training, String role, double price){
         try {
         User user = new User(firstName, lastName, "C", mail);
-        Coach coach = new Coach(user.getID(),training, role, price);
+        Coach coach = new Coach(user.getID(),user.getName(), training, role, price);
         user.addRole(coach);
         giveHasPageAuthorization(user);
         return addToDatabase(user, coach);
@@ -63,7 +63,7 @@ public class UserFactory {
     public static User getNewTeamManager(String firstName, String lastName, String mail, double price, boolean manageAssets , boolean finance){
         try {
         User user = new User(firstName, lastName, "TM", mail);
-        TeamManager teamManager = new TeamManager(user.getID(),price, manageAssets, finance);
+        TeamManager teamManager = new TeamManager(user.getID(),user.getName(), price, manageAssets, finance);
         user.addRole(teamManager);
         return addToDatabase(user, teamManager);
         }
