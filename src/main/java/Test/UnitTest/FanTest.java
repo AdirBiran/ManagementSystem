@@ -4,11 +4,15 @@ import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 public class FanTest {
 
     FootballManagementSystem system;
-
+    User user;
+    User mesi;
+    PersonalPage mesiPage;
+    Fan fan;
     @Before
     public void init(){
         system = new FootballManagementSystem();
@@ -16,16 +20,21 @@ public class FanTest {
         LeagueInSeason league = system.dataReboot();
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
         Guest guest = new Guest();
-        User user= guest.register("fan@gmail.com", "Aa1234", "fan", "fan","0500001234", "yosef23");
-
+        user= guest.register("fan@gmail.com", "Aa1234", "fan", "fan","0500001234", "yosef23");
+        mesi=new User("mesi","mesi","123456789","mesi@gmail.com");
+        mesiPage=new PersonalPage("",mesi);
+        fan = (Fan) user.checkUserRole("fan");
     }
 
     @Test
     public void addPageToFollow() {
+        assertTrue(fan.addPageToFollow(mesiPage));
     }
 
     @Test
     public void editPersonalInfo() {
+        fan.editPersonalInfo(user,"shir","shir","ff","052555654");
+        assertEquals(fan.getAddress(),"ff");
     }
 
     @Test

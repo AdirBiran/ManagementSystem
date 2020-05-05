@@ -5,6 +5,8 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class CoachTest {
 
     FootballManagementSystem system;
@@ -27,6 +29,7 @@ public class CoachTest {
 
     @Test
     public void getRole() {
+        assertEquals(coach.getRole(),"Coach");
     }
 
     @Test
