@@ -1,8 +1,5 @@
 package Presentation;
 
-import Domain.User;
-import Service.GuestSystem;
-
 import java.io.IOException;
 
 import java.util.List;
@@ -15,7 +12,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
@@ -27,9 +23,10 @@ import javafx.scene.layout.Pane;
 public class GuestController {
 
 
-    private GuestSystem guestSystem = new GuestSystem();
+    //private GuestSystem guestSystem = new GuestSystem();
 
-    private User loggedUser = null;
+    private Client m_client = new Client(7567);//split by |
+    private String loggedUser = "";
 
     @FXML private HBox mainView;
     @FXML private TextField tf_email;
@@ -41,14 +38,20 @@ public class GuestController {
         String Email = tf_email.getText();
         String password = tf_password.getText();
         if(Checker.isValidPassword(password)&&Checker.isValidEmailAddress(Email)){
-            loggedUser = guestSystem.logIn(Email, password);
-            if(loggedUser == null){
+            List<String> user = m_client.sendToServer("logIn"+"|"+Email+"|"+password);
+            String[] split = (user.get(0).split("\\|"));
+            loggedUser = split[0];
+            if(loggedUser.length()==0){
                 showAlert("wrong email or password!");
             }
             else{
                 tf_email.setText("");
                 tf_password.setText("");
-                setSceneByFXMLPath("UserView.fxml");
+                user = new LinkedList<>();
+                for (int i = 1; i < split.length; i++) {
+                    user.add(split[i]);
+                }
+                setSceneByFXMLPath("UserView.fxml", user);
             }
         }
         else
@@ -56,14 +59,15 @@ public class GuestController {
 
     }
 
-    private void setSceneByFXMLPath(String path) {
+    private void setSceneByFXMLPath(String path, List<String>roles) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
 
             if(path.equals("UserView.fxml")){
-                ((UserController)loader.getController()).buildPresentation(loggedUser.getStringRoles());
+                ((UserController)loader.getController()).buildPresentation(roles);
                 ((UserController)loader.getController()).setUser(loggedUser);
+                ((UserController)loader.getController()).setClient(m_client);
             }
 
             Scene scene = new Scene(root);
@@ -156,10 +160,16 @@ public class GuestController {
             return;
         }
         if(Checker.isValid(firstName) && Checker.isValid(lastName) && Checker.isValid(phone) && Checker.isValid(address)){
-            loggedUser = guestSystem.registr(mail,password,firstName,lastName,phone,address);
-            if(loggedUser!=null){
-                setSceneByFXMLPath("UserView.fxml");
-                l_registerPane = null;
+            List<String> register = m_client.sendToServer("register|"+mail+"|"+password+"|"+firstName+"|"+lastName+"|"+phone+"|"+address);
+            String[]split = register.get(0).split("\\|");
+            loggedUser = split[0];
+            if(loggedUser.length()>0){
+                register = new LinkedList<>();
+                for (int i = 1; i < split.length; i++) {
+                    register.add(split[i]);
+                }
+                setSceneByFXMLPath("UserView.fxml",register);
+                clearMainView();
             }
             else
                 showAlert("registration failed :( ");
@@ -182,15 +192,8 @@ public class GuestController {
             @Override
             public void handle(ActionEvent event) {
                 //do we want spelling correction?
-                List<Object> results = guestSystem.search(searchArea.getText());//needs to return a list of String
-                int i=3;
-                for(Object result: results){
-                    Label label = new Label(result.toString());
-                    label.setAlignment(Pos.CENTER);
-                    l_searchPane.add(label, 3, i);
-                    i++;
-                }
-                //show results
+                List<String> results = m_client.sendToServer("search"+"|"+searchArea.getText());
+                showListOnScreen(results, l_searchPane, 3);
             }
         });
 
@@ -201,6 +204,7 @@ public class GuestController {
     }
 
     private GridPane l_viewPane;
+
     public void viewInfoButtonPushed(ActionEvent actionEvent){
         clearMainView();
         l_viewPane = new GridPane();
@@ -231,30 +235,51 @@ public class GuestController {
     private void showInfo(String choice) {
         switch(choice){
             case("Teams"):{
-                guestSystem.viewInformationAboutTeams();
+                List<String> teams = m_client.sendToServer("viewInformationAboutTeams");
+                showListOnScreen(teams, l_viewPane, 2);
+
                 break;
             }
             case("Players"):{
-                guestSystem.viewInformationAboutPlayers();
+                List<String> players = m_client.sendToServer("viewInformationAboutPlayers");
+                showListOnScreen(players, l_viewPane, 2);
                 break;
             }
             case("Coaches"):{
-                guestSystem.viewInformationAboutCoaches();
+                List<String> coaches = m_client.sendToServer("viewInformationAboutCoaches");
+                showListOnScreen(coaches, l_viewPane, 2);
                 break;
             }
             case("Leagues"):{
-                guestSystem.viewInformationAboutLeagues();
+                List<String> leagues = m_client.sendToServer("viewInformationAboutLeagues");
+                showListOnScreen(leagues, l_viewPane, 2);
                 break;
             }
             case("Seasons"):{
-                guestSystem.viewInformationAboutSeasons();
+                List<String> seasons = m_client.sendToServer("viewInformationAboutSeasons");
+                showListOnScreen(seasons, l_viewPane, 2);
                 break;
             }
             case("Referees"):{
-                guestSystem.viewInformationAboutReferees();
+                List<String> referees = m_client.sendToServer("viewInformationAboutReferees");
+                showListOnScreen(referees, l_viewPane, 2);
                 break;
             }
         }
+    }
+
+    private void showListOnScreen(List<String> list, GridPane gridPane, int startIndex) {
+
+        for(String string: list){
+            Label label = new Label(string);
+            gridPane.add(label,0,startIndex);
+            startIndex++;
+        }
+
+    }
+
+    private void clearPane(Pane pane){
+
     }
 
 

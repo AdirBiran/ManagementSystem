@@ -1,6 +1,7 @@
 package Service;
 
 
+import Domain.User;
 import Logger.Logger;
 
 import java.io.*;
@@ -107,8 +108,9 @@ public class Server {
             String lineReceived = rd.readLine();
             System.out.println("Server Received Packet: " + lineReceived);
 
-            String[] splitLine = lineReceived.replace("\n", "").split(",");
+            String[] splitLine = lineReceived.replace("\n", "").split("\\|");
             String operation = splitLine[0];
+
 
             if (operation.equals("login"))
                 handleLogin(splitLine, clientSocket);
@@ -177,7 +179,16 @@ public class Server {
 
     private void handleRegister(String[] splitLine, Socket clientSocket)
     {
-
+        GuestSystem guestSystem = new GuestSystem();
+        User user = guestSystem.register(splitLine[1],splitLine[2],splitLine[3],splitLine[4],splitLine[5], splitLine[6]);
+        String id="";
+        if(user == null){
+            sendLineToClient("|registration failed!", clientSocket);
+            return;
+        }
+        id = user.getID();
+        //return format - {userID, role1, role2,...}
+        sendLineToClient(id + "|Fan", clientSocket);
     }
 
     private void handleLogout(String[] splitLine, Socket clientSocket)
@@ -187,6 +198,7 @@ public class Server {
 
     private void handleLogin(String[] splitLine, Socket clientSocket)
     {
+        //return format - {userID, role1, role2,...}
 
     }
 
