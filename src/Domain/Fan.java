@@ -55,7 +55,6 @@ public class Fan implements Role {
             return false;
         Complaint complaint = new Complaint(description, this);
         return Database.addComplaint(complaint);
-
     }
 
     public List<String> getFollowedPages(){
