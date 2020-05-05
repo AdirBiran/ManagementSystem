@@ -34,8 +34,7 @@
                             </VBox.margin>
                         </Button>
                         <Button mnemonicParsing="false" onAction="#viewSearchHistoryButtonPushed" text="View Search History" />
-                        <Button mnemonicParsing="false" text="Edit Personal Info" />
-                        <Button mnemonicParsing="false" text="Change Password" />
+                        <Button mnemonicParsing="false" onAction="#editPersonalInfoButtonPushed" text="Edit Personal Info" />
                     </children>
                     <opaqueInsets>
                         <Insets />

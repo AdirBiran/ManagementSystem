@@ -23,10 +23,9 @@ import javafx.scene.layout.Pane;
 public class GuestController {
 
 
-    //private GuestSystem guestSystem = new GuestSystem();
-
     private Client m_client = new Client(7567);//split by |
-    private String loggedUser = "";
+
+    private GeneralController m_general = new GeneralController();
 
     @FXML private HBox mainView;
     @FXML private TextField tf_email;
@@ -40,45 +39,24 @@ public class GuestController {
         if(Checker.isValidPassword(password)&&Checker.isValidEmailAddress(Email)){
             List<String> user = m_client.sendToServer("logIn"+"|"+Email+"|"+password);
             String[] split = (user.get(0).split("\\|"));
-            loggedUser = split[0];
+            String loggedUser = split[0];
             if(loggedUser.length()==0){
-                showAlert("wrong email or password!");
+                m_general.showAlert("wrong email or password!",Alert.AlertType.ERROR);
             }
             else{
                 tf_email.setText("");
                 tf_password.setText("");
-                user = new LinkedList<>();
-                for (int i = 1; i < split.length; i++) {
-                    user.add(split[i]);
-                }
-                setSceneByFXMLPath("UserView.fxml", user);
+                user = getRolesFromSplitedText(split,1);
+
+                m_general.setSceneByFXMLPath("UserView.fxml", user, loggedUser, m_client);
             }
         }
         else
-            showAlert("wrong email or password!");
+            m_general.showAlert("wrong email or password!",Alert.AlertType.ERROR);
 
     }
 
-    private void setSceneByFXMLPath(String path, List<String>roles) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
-            Parent root = loader.load();
 
-            if(path.equals("UserView.fxml")){
-                ((UserController)loader.getController()).buildPresentation(roles);
-                ((UserController)loader.getController()).setUser(loggedUser);
-                ((UserController)loader.getController()).setClient(m_client);
-            }
-
-            Scene scene = new Scene(root);
-            Main.getStage().setScene(scene);
-            Main.getStage().show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     private TextField tf_emailInForm;
     private TextField tf_passwordInForm;
@@ -87,12 +65,11 @@ public class GuestController {
     private TextField tf_lastName;
     private TextField tf_phone;
     private TextField tf_address;
-    private GridPane l_registerPane;
 
-    public void buildForm(ActionEvent action) {
+    public void buildRegistrationForm(ActionEvent action) {
 
-        clearMainView();
-        l_registerPane = new GridPane();
+        m_general.clearMainView(mainView);
+        GridPane l_registerPane = new GridPane();
         Label mail = new Label("E-mail Address:");
         l_registerPane.add(mail, 0,0);
         Label Password = new Label("Password:");
@@ -135,11 +112,9 @@ public class GuestController {
         mainView.getChildren().add(l_registerPane);
     }
 
-    private void clearMainView() {
-        mainView.getChildren().clear();
-    }
 
-    public void registerInForm(ActionEvent action){
+
+    private void registerInForm(ActionEvent action){
         String mail = tf_emailInForm.getText(),
                 password = tf_passwordInForm.getText(),
                 firstName = tf_firstName.getText(),
@@ -147,147 +122,60 @@ public class GuestController {
                 phone = tf_phone.getText(),
                 address = tf_address.getText();
         if(!Checker.isValidEmailAddress(mail)){
-            showAlert("invalid Email Address!");
+            m_general.showAlert("invalid Email Address!",Alert.AlertType.ERROR);
             return;
         }
         if(!password.equals(tf_passwordAgain.getText())){
-            showAlert("cant verify password!");
+            m_general.showAlert("cant verify password!",Alert.AlertType.ERROR);
             return;
         }
         if(!Checker.isValidPassword(password)){
-            showAlert("invalid password!");
+            m_general.showAlert("invalid password!",Alert.AlertType.ERROR);
 
             return;
         }
         if(Checker.isValid(firstName) && Checker.isValid(lastName) && Checker.isValid(phone) && Checker.isValid(address)){
             List<String> register = m_client.sendToServer("register|"+mail+"|"+password+"|"+firstName+"|"+lastName+"|"+phone+"|"+address);
             String[]split = register.get(0).split("\\|");
-            loggedUser = split[0];
+            String loggedUser = split[0];
             if(loggedUser.length()>0){
-                register = new LinkedList<>();
-                for (int i = 1; i < split.length; i++) {
-                    register.add(split[i]);
-                }
-                setSceneByFXMLPath("UserView.fxml",register);
-                clearMainView();
+                register = getRolesFromSplitedText(split,1);
+                m_general.setSceneByFXMLPath("UserView.fxml",register, loggedUser, m_client);
+                m_general.clearMainView(mainView);
             }
             else
-                showAlert("registration failed :( ");
+                m_general.showAlert("registration failed - user already exists",Alert.AlertType.ERROR);
 
         }
         else
-            showAlert("registration failed :( ");
+            m_general.showAlert("registration failed - invalid first name, last name, phone ot address",Alert.AlertType.ERROR);
 
     }
-
-    private GridPane l_searchPane;
 
     public void searchButtonPushed(ActionEvent actionEvent){
-        clearMainView();
-        l_searchPane = new GridPane();
-        TextField searchArea = new TextField();
-        l_searchPane.add(searchArea, 3, 0);
-        Button b_search = new Button("Search");
-        b_search.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //do we want spelling correction?
-                List<String> results = m_client.sendToServer("search"+"|"+searchArea.getText());
-                showListOnScreen(results, l_searchPane, 3);
-            }
-        });
+        m_general.clearMainView(mainView);
+        GridPane l_searchPane = new GridPane();
+        m_general.buildSearchView(l_searchPane, mainView, m_client,"");
 
-        l_searchPane.add(b_search,3,1);
-        l_searchPane.setAlignment(Pos.TOP_CENTER);
-        mainView.getChildren().add(l_searchPane);
 
     }
-
-    private GridPane l_viewPane;
 
     public void viewInfoButtonPushed(ActionEvent actionEvent){
-        clearMainView();
-        l_viewPane = new GridPane();
-        Label label = new Label("Please select subject:");
-        label.setAlignment(Pos.CENTER_LEFT);
-        l_viewPane.add(label, 0,0);
-        List<String> values = new LinkedList<>();
-        values.add("Teams");
-        values.add("Players");
-        values.add("Coaches");
-        values.add("Leagues");
-        values.add("Seasons");
-        values.add("Referees");
-        ObservableList obList = FXCollections.observableList(values);
-        ChoiceBox subjects = new ChoiceBox(obList);
-        subjects.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String choice = (String)subjects.getValue();
-                showInfo(choice);
-            }
-        });
-        l_viewPane.add(subjects, 0,1);
-        l_viewPane.setAlignment(Pos.TOP_CENTER);
-        mainView.getChildren().add(l_viewPane);
+        m_general.clearMainView(mainView);
+        GridPane l_viewPane = new GridPane();
+        m_general.buildViewInfoScene(l_viewPane, mainView, m_client);
+
     }
 
-    private void showInfo(String choice) {
-        switch(choice){
-            case("Teams"):{
-                List<String> teams = m_client.sendToServer("viewInformationAboutTeams");
-                showListOnScreen(teams, l_viewPane, 2);
 
-                break;
-            }
-            case("Players"):{
-                List<String> players = m_client.sendToServer("viewInformationAboutPlayers");
-                showListOnScreen(players, l_viewPane, 2);
-                break;
-            }
-            case("Coaches"):{
-                List<String> coaches = m_client.sendToServer("viewInformationAboutCoaches");
-                showListOnScreen(coaches, l_viewPane, 2);
-                break;
-            }
-            case("Leagues"):{
-                List<String> leagues = m_client.sendToServer("viewInformationAboutLeagues");
-                showListOnScreen(leagues, l_viewPane, 2);
-                break;
-            }
-            case("Seasons"):{
-                List<String> seasons = m_client.sendToServer("viewInformationAboutSeasons");
-                showListOnScreen(seasons, l_viewPane, 2);
-                break;
-            }
-            case("Referees"):{
-                List<String> referees = m_client.sendToServer("viewInformationAboutReferees");
-                showListOnScreen(referees, l_viewPane, 2);
-                break;
-            }
+    private List<String> getRolesFromSplitedText(String[] split, int startIndex) {
+        List<String> result = new LinkedList<>();
+        new LinkedList<>();
+        for (int i = startIndex; i < split.length; i++) {
+            result.add(split[i]);
         }
+        return result;
     }
-
-    private void showListOnScreen(List<String> list, GridPane gridPane, int startIndex) {
-
-        for(String string: list){
-            Label label = new Label(string);
-            gridPane.add(label,0,startIndex);
-            startIndex++;
-        }
-
-    }
-
-    private void clearPane(Pane pane){
-
-    }
-
-
-    private void showAlert(String s) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION,s);
-        alert.show();
-    }
-
 
 
 

@@ -44,7 +44,7 @@
             </Button>
             <VBox fx:id="vb_buttonBox" alignment="CENTER" focusTraversable="true" prefHeight="215.0" prefWidth="196.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#buildForm" text="Register">
+                  <Button mnemonicParsing="false" onAction="#buildRegistrationForm" text="Register">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>

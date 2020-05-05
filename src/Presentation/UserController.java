@@ -1,12 +1,7 @@
 package Presentation;
 
-import Domain.User;
-import Service.UserSystem;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -14,9 +9,7 @@ import javafx.scene.control.MenuItem;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.List;
 
 public class UserController {
@@ -26,10 +19,11 @@ public class UserController {
     @FXML private HBox mainView1;
     @FXML private MenuBar mb_mainMenu1;
 
-    //private UserSystem userSystem = new UserSystem();
-    private Client m_client;
 
+    private Client m_client;
     private String loggedUser;
+
+    private GeneralController m_general = new GeneralController();
 
     private AdminController admin;
     private FanController fan;
@@ -39,32 +33,39 @@ public class UserController {
     private RefereeController referee;
     private UnionController union;
 
+    public void editPersonalInfoButtonPushed(ActionEvent action){
+        //show users info
+        //let user select what to change - name, password etr
+        //send request to change info
+        //return ack to user - success or failure
+    }
 
     public void searchButtonPushed(ActionEvent actionEvent){
+        m_general.clearMainView(mainView1);
+        GridPane searchPane = new GridPane();
+        m_general.buildSearchView(searchPane, mainView1, m_client, loggedUser);
         //find a way to reuse code in guest controller
     }
 
     public void viewInfoButtonPushed(ActionEvent actionEvent){
+        m_general.clearMainView(mainView1);
+        GridPane viewPane = new GridPane();
+        m_general.buildViewInfoScene(viewPane, mainView1, m_client);
         //find a way to reuse code in guest controller
     }
 
     public void viewSearchHistoryButtonPushed(ActionEvent actionEvent){
 
         List<String> history = m_client.sendToServer("viewSearchHistory|"+loggedUser);
-        //show list - find a way to reuse code in guest controller
+        GridPane historyPane = new GridPane();
+        mainView1.getChildren().add(historyPane);
+        m_general.showListOnScreen(history, historyPane,0);
     }
 
     public void logoutButtonPushed(ActionEvent actionEvent) {
         m_client.sendToServer("logOut|"+loggedUser);
         loggedUser = "";
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("GuestView.fxml"));
-            Scene scene = new Scene(root);
-            Main.getStage().setScene(scene);
-            Main.getStage().show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        m_general.setSceneByFXMLPath("GuestView.fxml", null, "", m_client);
     }
 
     public void setUser(String user){
