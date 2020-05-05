@@ -58,9 +58,11 @@ public class Fan implements Role{
 
     }
 
-    public List<PersonalPage> getFollowedPages()
-    {
-        return getFollowPages();
+    public List<String> getFollowedPages(){
+        List<String> pages = new LinkedList<>();
+        for(PersonalPage p: followPages)
+            pages.add(p.toString());
+        return pages;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
@@ -100,7 +102,9 @@ public class Fan implements Role{
 
     @Override
     public String toString() {
-        return  '\''+ ", Fan phone='" + phone + '\''+
-                ", Fan address='" + address + '\'' ;
+        return "Fan{" +
+                "address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
     }
 }

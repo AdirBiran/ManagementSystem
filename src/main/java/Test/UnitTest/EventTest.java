@@ -1,4 +1,4 @@
-package Tests.Unit;
+package UnitTest;
 
 import org.junit.Test;
 

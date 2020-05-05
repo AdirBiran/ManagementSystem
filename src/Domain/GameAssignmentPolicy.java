@@ -6,7 +6,7 @@ import java.util.Date;
 
 public abstract class GameAssignmentPolicy {
 
-     public abstract List<Game> assignGames(List<Team> teams, List<Date> dates, LeagueInSeason league);
+     public abstract List<Game> assignGames(List<Date> dates, LeagueInSeason league);
 
      protected boolean checkForDuplicates(List<Game> games, Team team1, Team team2) {
           for(Game game : games){

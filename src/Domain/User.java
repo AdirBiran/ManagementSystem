@@ -107,7 +107,7 @@ public class User extends Guest{
             if(role instanceof Coach || role instanceof Player
                || role instanceof Fan){
 
-                userToString = userToString + role.toString();
+                userToString = userToString + '\'' +role.toString();
             }
         }
         return userToString+"}";

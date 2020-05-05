@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,6 +54,59 @@ public class TeamOwner extends Manager implements Role{
         teamsToManage.remove(team);
     }
 
+
+    public boolean createTeam(User user , String teamName, String pageData, List<String> players, List<String> coaches, String field){
+        Role teamOwnerRole = user.checkUserRole("TeamOwner");
+        if(teamOwnerRole != null){
+
+            /**add the user that create the team as a teamOwner*/
+            List<User> teamOwner = new LinkedList<>();
+            teamOwner.add(user);
+
+            /**find the player in the system and add him to the list of players
+             * if one of the players doesnt exist, return false*/
+            List<User> teamPlayers =  findPartOfTeam(players);
+            if(teamPlayers == null){
+                return false;
+            }
+
+            /**find the player in the system and add him to the list of players
+             * if one of the players doesnt exist, return false*/
+            List<User> teamCoaches = findPartOfTeam(coaches);
+            if(teamCoaches == null){
+                return false;
+            }
+
+            /**find the field in the system and add it to the team
+             * if the field doesnt exist, return false*/
+            PartOfATeam teamField = Database.getAsset(field);
+            if(teamField == null){
+                return false;
+            }
+
+            /**create new team*/
+            Team team = new Team(teamName ,teamOwner ,teamPlayers,teamCoaches, (Field) teamField);
+            return Database.addTeam(team);
+        }
+        return false;
+    }
+
+
+    private List<User> findPartOfTeam(List<String> list){
+        List<User> listOfAssets = new LinkedList<>();
+        for(int i=0 ; i<list.size() ; i++){
+            String assetName = list.get(i);
+            User asset = Database.getUser(assetName);
+            if( asset == null){
+                //return false or create player?
+                return null;
+            }
+            else{
+                listOfAssets.add(asset);
+            }
+        }
+        return listOfAssets;
+    }
 
     public boolean appointTeamOwner(User user, Team team){
         Role teamOwnerRole = user.checkUserRole("TeamOwner");

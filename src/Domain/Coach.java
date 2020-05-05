@@ -94,8 +94,9 @@ public class Coach implements PartOfATeam, Role {
 
     @Override
     public String toString() {
-        return  '\''+ ", Coach training='" + training + '\''+
-         ", Coach role='" + role + '\'' ;
-
+        return "Coach{" +
+                "training='" + training + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

@@ -73,6 +73,8 @@ public class UserFactory {
 
     }
 
+
+
     public static User getNewAdmin(String password, String firstName, String lastName, String mail){
         try {
         User user = new User(firstName, lastName, "A", mail);

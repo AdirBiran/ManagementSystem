@@ -1,6 +1,7 @@
 package Service;
 
 import Domain.*;
+import Logger.Logger;
 
 public class FinanceTransactionsSystem
 {
@@ -17,8 +18,18 @@ public class FinanceTransactionsSystem
         Role role = user.checkUserRole("Team");
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionFinance())
+            {
+                Logger.logError("Reporting new income Failed");
                 return false;
-            return ((Manager) role).reportIncome(team, income);
+            }
+            boolean success = ((Manager) role).reportIncome(team, income);
+
+            if (success)
+                Logger.logEvent(user.getID(), "Reported income " + income);
+            else
+                Logger.logError("Reporting new income Failed");
+
+            return success;
         }
         return false;
     }
@@ -30,12 +41,21 @@ public class FinanceTransactionsSystem
         Role role = user.checkUserRole("Team");
         if(role instanceof Manager){
             if(role.myRole().equals("TeamManager") && !((TeamManager)role).isPermissionFinance())
+            {
+                Logger.logError("Reporting new expense Failed");
                 return false;
+            }
             if(((Manager) role).reportExpanse(team, expanse))
+            {
+                Logger.logEvent(user.getID(), "Reported expense " + expanse);
                 return true;
+
+            }
             else
                 notificationSystem.exceededBudget(team);
         }
+        Logger.logError("Reporting new expense Failed");
+
         return false;
     }
 
