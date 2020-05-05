@@ -1,9 +1,9 @@
 package Service;
 
 import Domain.*;
-
 import java.util.LinkedList;
 import java.util.List;
+import Logger.Logger;
 
 public class RefereeSystem {
 
@@ -14,6 +14,7 @@ public class RefereeSystem {
         Role role = user.checkUserRole("Referee");
         if(role instanceof  Referee){
             ((Referee)role).addEventToGame(game, type, minuteInGame, description);
+            Logger.logEvent( user.getID()+ " (Referee)","Added Event to Game");
             return true;
         }
         return false;
@@ -23,6 +24,8 @@ public class RefereeSystem {
         Role role = user.checkUserRole("Referee");
         if(role instanceof  Referee){
             ((Referee)role).setScoreInGame(game, hostScore, guestScore);
+            Logger.logEvent( user.getID()+ " (Referee)","Set game's score");
+
         }
     }
 
