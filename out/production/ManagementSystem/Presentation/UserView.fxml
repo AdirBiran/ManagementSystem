@@ -80,7 +80,7 @@
         </ToolBar>
     </top>
     <center>
-        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+        <HBox fx:id="mainView1" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
     </center>
 
 </BorderPane>

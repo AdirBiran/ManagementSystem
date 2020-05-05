@@ -78,7 +78,7 @@ public class FootballManagementSystem {
         return taxLawsSystem;
     }
 
-    public boolean systemInit(boolean firsTime){
+    public static boolean systemInit(boolean firsTime){
         //***data***//
         database = new Database();
         if(!firsTime)

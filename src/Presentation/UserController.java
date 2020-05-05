@@ -11,6 +11,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 import javafx.event.ActionEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,9 +20,12 @@ import java.util.List;
 public class UserController {
 
 
+
+    @FXML private HBox mainView1;
     @FXML private MenuBar mb_mainMenu1;
     private UserSystem userSystem = new UserSystem();
     private User loggedUser;
+
 
 
 

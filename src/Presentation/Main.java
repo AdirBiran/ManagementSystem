@@ -2,6 +2,7 @@ package Presentation;
 
 import Data.Database;
 import Domain.UserFactory;
+import Service.FootballManagementSystem;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,8 +27,9 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        new Database();
-        UserFactory.getNewAdmin("aA123456", "adminush", "ush", "mail@mail.com");
+        FootballManagementSystem.systemInit(true);
+        FootballManagementSystem.dataReboot();
+        UserFactory.getNewAdmin("aA123456", "adminush", "ush", "m@m.com");
         launch(args);
     }
 }

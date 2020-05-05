@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
@@ -31,9 +32,9 @@
               </rowConstraints>
                <children>
                   <TextField fx:id="tf_email" GridPane.columnIndex="1" />
-                  <TextField fx:id="tf_password" accessibleRole="PASSWORD_FIELD" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="E-mail Address:" />
                   <Label text="Password:" GridPane.rowIndex="1" />
+                  <PasswordField fx:id="tf_password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
           <Button mnemonicParsing="false" onAction="#loginButtonPushed" text="Login">
@@ -43,7 +44,7 @@
             </Button>
             <VBox fx:id="vb_buttonBox" alignment="CENTER" focusTraversable="true" prefHeight="215.0" prefWidth="196.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#registerButtonPushed" text="Register">
+                  <Button mnemonicParsing="false" onAction="#buildForm" text="Register">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -102,6 +103,9 @@
       </ToolBar>
    </top>
    <center>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <HBox fx:id="mainView" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></HBox>
    </center>
 </BorderPane>
