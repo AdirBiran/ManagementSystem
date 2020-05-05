@@ -11,8 +11,11 @@ public class Guest {
 
     }
 
-    public List<Object> search(String wordToSearch){
-        return Database.searchObject(wordToSearch);
+    public List<String> search(String wordToSearch){
+        List<String> searches = new LinkedList<>();
+        for(Object o: Database.searchObject(wordToSearch) )
+            searches.add(o.toString());
+        return searches;
     }
 
     public User register(String mail, String password, String firstName, String lastName, String phone, String address)

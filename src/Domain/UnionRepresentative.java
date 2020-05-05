@@ -33,8 +33,7 @@ public class UnionRepresentative implements Role{
     }
 
     public boolean assignGames(LeagueInSeason league, List<Date> dates) {
-        List<Game> games =league.getAssignmentPolicy().assignGames(league.getTeams(), dates, league);
-
+        List<Game> games =league.getAssignmentPolicy().assignGames(dates, league);
         if(games!=null){
             league.setGames(games);
             return true;

@@ -2,6 +2,7 @@ package Service;
 
 import Domain.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class RefereeSystem {
@@ -24,8 +25,13 @@ public class RefereeSystem {
             ((Referee)role).setScoreInGame(game, hostScore, guestScore);
         }
     }
-/*
-    public List<String> getGameReport(Game game){
 
-    }*/
+    public List<String> getGameReport(Game game){
+        List <String> gameReport = new LinkedList<>();
+        String gameInfo = game.toString();
+        gameReport.add(gameInfo);
+        gameReport.addAll(game.getEventString());
+
+        return gameReport;
+    }
 }

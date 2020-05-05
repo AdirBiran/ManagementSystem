@@ -4,7 +4,7 @@ import Data.Database;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Fan implements Role{
+public class Fan implements Role {
 
 
 
@@ -107,4 +107,5 @@ public class Fan implements Role{
                 ", phone='" + phone + '\'' +
                 '}';
     }
+
 }

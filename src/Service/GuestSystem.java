@@ -35,7 +35,7 @@ public class GuestSystem {
     /*
     Search results in a system
      */
-    public List<Object> search( String wordToSearch){
+    public List<String> search( String wordToSearch){
        return guest.search(wordToSearch);
     }
 

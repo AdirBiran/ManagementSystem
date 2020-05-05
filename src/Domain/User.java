@@ -62,10 +62,10 @@ public class User extends Guest{
         setLastName(lastName);
     }
 
-    public List<Object> search(String wordToSearch)
+    public List<String> search(String wordToSearch)
     {
         addToSearchHistory(wordToSearch);
-        return Database.searchObject(wordToSearch);
+        return super.search(wordToSearch);
     }
 
     public List<String> viewSearchHistory(){

@@ -90,23 +90,33 @@ public class UserSystem extends GuestSystem {
     }
 
 
-    public boolean updateTraining(Role role, String training) {
+    public boolean updateTrainingForCoach(User user, String training) {
+        Role role = user.checkUserRole("Coach");
         if (role instanceof Coach) {
             ((Coach) role).setTraining(training);
             return true;
-        } else if (role instanceof Referee) {
+        }
+        return false;
+    }
+    public boolean updateTrainingForReferee(User user, String training) {
+        Role role = user.checkUserRole("Referee");
+        if (role instanceof Referee) {
             ((Referee) role).setTraining(training);
             return true;
         }
         return false;
     }
 
-    public boolean teamRoleUpdate(Role role, String newRole) {
-
+    public boolean updateRoleForPlayer(User user, String newRole) {
+        Role role = user.checkUserRole("Player");
         if (role instanceof Player) {
             ((Player) role).setRole(newRole);
             return true;
         }
+        return false;
+    }
+    public boolean updateRoleForCoach(User user, String newRole) {
+        Role role = user.checkUserRole("Coach");
         if (role instanceof Coach) {
             ((Coach) role).setRole(newRole);
             return true;
@@ -114,22 +124,25 @@ public class UserSystem extends GuestSystem {
         return false;
     }
 
-    public String getTeamRole(Role role) {
-
+    public String getRoleForPlayer(User user) {
+        Role role = user.checkUserRole("Player");
         if (role instanceof Player) {
             return ((Player) role).getRole();
         }
+        return "";
+    }
+    public String getRoleForCoach(User user) {
+        Role role = user.checkUserRole("Coach");
         if (role instanceof Coach) {
             return ((Coach) role).getRole();
         }
-
         return "";
     }
 
      /*
     Search results in a system
      */
-    public List<Object> search(User user,  String wordToSearch){
+    public List<String> search(User user,  String wordToSearch){
         return user.search(wordToSearch);
 
     }

@@ -106,14 +106,10 @@ public class TeamManagementSystem {
     }
 
 
-    public boolean createTeam(User user , String teamName , String pageData , List<String> players, List<String> coaches, String field){
+    public boolean createTeam(User user , String teamName, List<String> players, List<String> coaches, String field){
         Role role = user.checkUserRole("TeamOwner");
         if(role instanceof TeamOwner){
-            if (((TeamOwner) role).createTeam(user , teamName ,pageData,players,coaches,field)) {
-                /**need to sent  notification to all users*/
-//                notificationSystem.notificationForAppointment(userToAppoint, true);
-                return true;
-            }
+            return ((TeamOwner) role).createTeam(user , teamName ,players,coaches,field);
         }
         return false;
     }

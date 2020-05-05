@@ -1,10 +1,8 @@
 package Domain;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-public class Game {
+public class Game extends Observable {
 
     private String id;
     private Date date;
@@ -62,8 +60,16 @@ public class Game {
         return false;
     }
 
-    public EventReport getEventReport() {
-        return eventReport;
+    public List<String> getEventString() {
+        List<String> events = new LinkedList<>();
+        for(Event event : eventReport.getEvents())
+            events.add(event.toString());
+        return events;
+    }
+
+    public void setNews(String news){
+        //for(Fan f : fansForAlerts.keySet())
+            //f.update(news);
     }
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getId() {
@@ -114,5 +120,10 @@ public class Game {
     public Team getGuestTeam() {
         return guestTeam;
     }
+
+    public EventReport getEventReport() {
+        return eventReport;
+    }
+
 
 }
