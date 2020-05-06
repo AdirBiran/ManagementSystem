@@ -133,7 +133,7 @@ public class TeamOwner extends Manager implements Role{
         if(teamsToManage.contains(team)){
             if(!team.getTeamManagers().contains(user) && !team.getTeamOwners().contains(user)){
                 if(teamManagerRole==null){
-                    TeamManager teamManager = new TeamManager(user.getID(),user.getName(), price, manageAssets, finance);
+                    TeamManager teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
                     user.addRole(teamManager);
                 }
                 else{

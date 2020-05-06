@@ -37,7 +37,7 @@ public class AdminSystem {
         }
         return null;
     }
-    public User addNewCoach(User user, String firstName, String lastName, String mail, Coach.TrainingCoach training, String role, double price){
+    public User addNewCoach(User user, String firstName, String lastName, String mail, Coach.TrainingCoach training, Coach.RoleCoach role, double price){
         Role adminRole = user.checkUserRole("Admin");
         if(adminRole instanceof Admin){
             User coachAdded = ((Admin)adminRole).addNewCoach(firstName, lastName, mail, training, role, price);

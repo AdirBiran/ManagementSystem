@@ -58,7 +58,7 @@ public class UnionRepresentativeSystem {
         }
         return null;
     }
-    public User appointReferee(User user, String firstName,String lastName, String mail, String training)
+    public User appointReferee(User user, String firstName,String lastName, String mail, Referee.TrainingReferee training)
     {
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof UnionRepresentative){

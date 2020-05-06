@@ -24,7 +24,7 @@ public class UserFactory {
     public static User getNewPlayer(String firstName, String lastName, String mail, Date birthDate, Player.RolePlayer role, double price){
         try {
         User user = new User(firstName, lastName, "P", mail);
-        Player player = new Player(user.getID(),user.getName(), birthDate, role, price, user);
+        Player player = new Player(user.getID(), birthDate, role, price, user);
         user.addRole(player);
         giveHasPageAuthorization(user);
         return addToDatabase(user, player);
@@ -34,10 +34,10 @@ public class UserFactory {
         }
     }
 
-    public static User getNewCoach(String firstName, String lastName, String mail, Coach.TrainingCoach training, String role, double price){
+    public static User getNewCoach(String firstName, String lastName, String mail, Coach.TrainingCoach training, Coach.RoleCoach role, double price){
         try {
         User user = new User(firstName, lastName, "C", mail);
-        Coach coach = new Coach(user.getID(),user.getName(), training, role, price);
+        Coach coach = new Coach(user.getID(), training, role, price);
         user.addRole(coach);
         giveHasPageAuthorization(user);
         return addToDatabase(user, coach);
@@ -63,7 +63,7 @@ public class UserFactory {
     public static User getNewTeamManager(String firstName, String lastName, String mail, double price, boolean manageAssets , boolean finance){
         try {
         User user = new User(firstName, lastName, "TM", mail);
-        TeamManager teamManager = new TeamManager(user.getID(),user.getName(), price, manageAssets, finance);
+        TeamManager teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
         user.addRole(teamManager);
         return addToDatabase(user, teamManager);
         }
@@ -101,7 +101,7 @@ public class UserFactory {
 
     }
 
-    public static User getNewReferee(String firstName, String lastName, String mail, String training){
+    public static User getNewReferee(String firstName, String lastName, String mail, Referee.TrainingReferee training){
         try {
         User user = new User(firstName, lastName, "R", mail);
         Referee referee = new Referee(training);

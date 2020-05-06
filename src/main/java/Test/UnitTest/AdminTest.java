@@ -35,7 +35,7 @@ public class AdminTest {
 
     @Test
     public void addNewCoach() {
-        assertNotNull(admin.addNewCoach("coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", Coach.TrainingCoach.CertifiedTrainer, "main", 1500));
+        assertNotNull(admin.addNewCoach("coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", Coach.TrainingCoach.UEFA_A, Coach.RoleCoach.main, 1500));
     }
 
     @Test

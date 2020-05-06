@@ -14,15 +14,13 @@ public class Player implements PartOfATeam, Role {
     private RolePlayer roleInTeam;
     private User user;
     private String id;
-    private String name;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
 
 
-    public Player(String id, String name, Date birthDate, RolePlayer role, double price, User user) {
+    public Player(String id, Date birthDate, RolePlayer role, double price, User user) {
         this.id = id;
-        this.name = name;
         this.birthDate = birthDate;
         this.roleInTeam = role;
         this.user = user;
@@ -48,11 +46,6 @@ public class Player implements PartOfATeam, Role {
 
     public User getUser() {
         return user;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
     @Override

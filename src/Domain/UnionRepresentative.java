@@ -40,7 +40,7 @@ public class UnionRepresentative implements Role{
         }
         return false;
     }
-    public User appointReferee(String firstName, String lastName, String mail, String training)
+    public User appointReferee(String firstName, String lastName, String mail, Referee.TrainingReferee training)
     {
         return UserFactory.getNewReferee(firstName, lastName, mail, training);
     }

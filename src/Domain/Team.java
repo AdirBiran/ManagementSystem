@@ -146,7 +146,7 @@ public class Team{
                 teamManager.addTeam(this);
             }
             else{
-                teamManager = new TeamManager(user.getID(),user.getName(), price, manageAssets, finance);
+                teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
                 teamManager.addTeam(this);
                 user.addRole(teamManager);
             }

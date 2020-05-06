@@ -5,22 +5,29 @@ import java.util.HashSet;
 public class Coach implements PartOfATeam, Role {
 
     public enum TrainingCoach {
-        Guide,
-        CertifiedTrainer
+        CDiploma,
+        UEFA_A,
+        UEFA_B,
+        UEFA_PRO
+    }
+
+    public enum RoleCoach{
+        main,
+        assistantCoach,
+        fitness,
+        goalkeeperCoach
     }
 
     private TrainingCoach training;
-    private String roleInTeam;
+    private RoleCoach roleInTeam;
     private String id;
-    private String name;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
 
 
-    public Coach(String id,String name, TrainingCoach training, String role, double price) {
+    public Coach(String id, TrainingCoach training, RoleCoach role, double price) {
         this.id = id;
-        this.name = name;
         this.training = training;
         this.roleInTeam = role;
         this.price = price;
@@ -36,20 +43,15 @@ public class Coach implements PartOfATeam, Role {
     }
 
     public String getRoleInTeam() {
-        return roleInTeam;
+        return roleInTeam.toString();
     }
 
     public void setTraining(TrainingCoach training) {
         this.training = training;
     }
 
-    public void setRoleInTeam(String roleInTeam) {
+    public void setRoleInTeam(RoleCoach roleInTeam) {
         this.roleInTeam = roleInTeam;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
     @Override

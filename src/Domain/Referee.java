@@ -4,10 +4,16 @@ import java.util.HashSet;
 
 public class Referee implements Role{
 
-    private String training;
+    public enum TrainingReferee{
+        referees,
+        linesman,
+        var
+    }
+
+    private TrainingReferee training;
     private HashSet<Game> games;
 
-    public Referee(String training) {
+    public Referee(TrainingReferee training) {
         this.training = training;
         games = new HashSet<>();
     }
@@ -15,10 +21,10 @@ public class Referee implements Role{
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
     public String getTraining() {
-        return training;
+        return training.toString();
     }
 
-    public void setTraining(String training) {
+    public void setTraining(TrainingReferee training) {
         this.training = training;
     }
 

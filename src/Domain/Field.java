@@ -51,11 +51,6 @@ public class Field implements PartOfATeam {
     }
 
     @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
     public String getID() {
         return id;
     }
@@ -98,5 +93,9 @@ public class Field implements PartOfATeam {
     @Override
     public boolean isActive() {
         return isActive;
+    }
+
+    public String getName() {
+        return name;
     }
 }

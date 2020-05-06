@@ -128,7 +128,7 @@ public class UserSystem extends GuestSystem {
         }
         return false;
     }
-    public boolean updateTrainingForReferee(User user, String training) {
+    public boolean updateTrainingForReferee(User user, Referee.TrainingReferee training) {
         Role role = user.checkUserRole("Referee");
         if (role instanceof Referee) {
             ((Referee) role).setTraining(training);
@@ -146,7 +146,7 @@ public class UserSystem extends GuestSystem {
         }
         return false;
     }
-    public boolean updateRoleForCoach(User user, String newRole) {
+    public boolean updateRoleForCoach(User user, Coach.RoleCoach newRole) {
         Role role = user.checkUserRole("Coach");
         if (role instanceof Coach) {
             ((Coach) role).setRoleInTeam(newRole);

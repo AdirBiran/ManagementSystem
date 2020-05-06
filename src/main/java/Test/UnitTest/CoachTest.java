@@ -20,12 +20,12 @@ public class CoachTest {
         LeagueInSeason league = system.dataReboot();
         team = league.getTeams().get(0);
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
-        User coachU= admin.addNewCoach("dor","dor","dor@mail.com", Coach.TrainingCoach.Guide,"main",50000);
+        User coachU= admin.addNewCoach("dor","dor","dor@mail.com", Coach.TrainingCoach.UEFA_B, Coach.RoleCoach.main,50000);
         coach = (Coach) coachU.checkUserRole("Coach");
     }
     @Test
     public void getTraining() {
-        assertEquals(coach.getTraining(), Coach.TrainingCoach.Guide.toString());
+        assertEquals(coach.getTraining(), Coach.TrainingCoach.UEFA_A.toString());
 
     }
 
@@ -36,14 +36,14 @@ public class CoachTest {
 
     @Test
     public void setTraining() {
-        coach.setTraining(Coach.TrainingCoach.CertifiedTrainer);
-        assertEquals(coach.getTraining(), Coach.TrainingCoach.CertifiedTrainer.toString());
+        coach.setTraining(Coach.TrainingCoach.UEFA_PRO);
+        assertEquals(coach.getTraining(), Coach.TrainingCoach.UEFA_PRO.toString());
     }
 
     @Test
     public void setRoleInTeam() {
-        coach.setRoleInTeam("no main");
-        assertEquals(coach.getRoleInTeam(),"no main");
+        coach.setRoleInTeam(Coach.RoleCoach.fitness);
+        assertEquals(coach.getRoleInTeam(),Coach.RoleCoach.fitness.toString());
     }
 
     @Test
