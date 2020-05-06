@@ -29,14 +29,14 @@ public class FanTest {
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
         Guest guest = new Guest();
         user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), "Player", 200000);
+        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
         receiveAlerts = new ReceiveAlerts(true, false);
         Team team0 = league.getTeams().get(0);
         Team team1 = league.getTeams().get(1);
-        Field field = new Field("Tel-Aviv", 10000, 150000);
+        Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
         User mainReferee = league.getReferees().get(0);
         List<User> sideReferees = new LinkedList<>();
         sideReferees.add(league.getReferees().get(1));
@@ -59,7 +59,7 @@ public class FanTest {
     public void followGames() {
         List<Game> games = new LinkedList<>();
         games.add(game);
-        assertFalse(fan.followGames(games, receiveAlerts));
+        assertTrue(fan.followGames(games, receiveAlerts));
     }
 
     @Test

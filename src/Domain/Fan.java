@@ -44,7 +44,7 @@ public class Fan implements Role {
 
     public boolean followGames(List<Game> games , ReceiveAlerts receiveAlerts){
         for(Game game: games) {
-            if(!game.addFanForNotifications(this, receiveAlerts));
+            if(!game.addFanForNotifications(this, receiveAlerts))
                 return false;
         }
         return true;
