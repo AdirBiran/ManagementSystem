@@ -5,7 +5,7 @@ import java.util.HashSet;
 public class Coach implements PartOfATeam, Role {
 
     public enum TrainingCoach {
-        CDiploma,
+        IFA_C,
         UEFA_A,
         UEFA_B,
         UEFA_PRO
