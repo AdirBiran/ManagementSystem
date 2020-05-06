@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
+
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -77,7 +77,9 @@ public class GeneralController {
         subjects.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                clearGridPaneRows(l_viewPane,2);
+                clearMainView(mainView);
+                buildViewInfoScene(l_viewPane, mainView,client);
+
                 String choice = (String)subjects.getValue();
                 showInfo(choice, client, l_viewPane);
             }
@@ -87,18 +89,7 @@ public class GeneralController {
         mainView.getChildren().add(l_viewPane);
     }
 
-    /**
-     * check this function!!!!!!!
-     * @param gridPane
-     * @param startRowIndex
-     */
-    private void clearGridPaneRows(GridPane gridPane, int startRowIndex) {
-        RowConstraints constraints;
-        do{
-            constraints = gridPane.getRowConstraints().remove(startRowIndex);
-        }while (constraints!=null);
 
-    }
 
     private void showInfo(String choice, Client m_client, GridPane l_viewPane) {
         switch(choice){
@@ -143,7 +134,8 @@ public class GeneralController {
             @Override
             public void handle(ActionEvent event) {
                 //do we want spelling correction?
-                clearGridPaneRows(l_searchPane,3);
+                clearMainView(mainView);
+                buildSearchView(l_searchPane, mainView, m_client, userId);
                 List<String> results = m_client.sendToServer("search"+"|"+userId+"|"+searchArea.getText());
                 showListOnScreen(results, l_searchPane, 3);
             }
