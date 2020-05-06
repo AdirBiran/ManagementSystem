@@ -26,10 +26,10 @@ public class Admin implements Role {
         }
         return false;
     }
-    public User addNewPlayer(String firstName, String lastName, String mail, Date birthDate, String role, double price){
+    public User addNewPlayer(String firstName, String lastName, String mail, Date birthDate, Player.RolePlayer role, double price){
         return UserFactory.getNewPlayer(firstName, lastName, mail, birthDate, role, price);
     }
-    public User addNewCoach(String firstName, String lastName, String mail, String training, String role, double price){
+    public User addNewCoach(String firstName, String lastName, String mail, Coach.TrainingCoach training, String role, double price){
         return UserFactory.getNewCoach(firstName, lastName, mail, training, role, price);
     }
     public User addNewTeamOwner(String firstName, String lastName, String mail){

@@ -21,7 +21,7 @@ public class UserFactory {
 
     }
 
-    public static User getNewPlayer(String firstName, String lastName, String mail, Date birthDate, String role, double price){
+    public static User getNewPlayer(String firstName, String lastName, String mail, Date birthDate, Player.RolePlayer role, double price){
         try {
         User user = new User(firstName, lastName, "P", mail);
         Player player = new Player(user.getID(),user.getName(), birthDate, role, price, user);
@@ -34,7 +34,7 @@ public class UserFactory {
         }
     }
 
-    public static User getNewCoach(String firstName, String lastName, String mail, String training, String role, double price){
+    public static User getNewCoach(String firstName, String lastName, String mail, Coach.TrainingCoach training, String role, double price){
         try {
         User user = new User(firstName, lastName, "C", mail);
         Coach coach = new Coach(user.getID(),user.getName(), training, role, price);

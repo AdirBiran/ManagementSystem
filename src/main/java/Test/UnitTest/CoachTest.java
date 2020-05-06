@@ -29,7 +29,7 @@ public class CoachTest {
 
     @Test
     public void getRole() {
-        assertEquals(coach.getRole(),"Coach");
+        assertEquals(coach.getRoleInTeam(),"Coach");
     }
 
     @Test

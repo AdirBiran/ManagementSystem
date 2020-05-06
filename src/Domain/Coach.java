@@ -4,8 +4,13 @@ import java.util.HashSet;
 
 public class Coach implements PartOfATeam, Role {
 
-    private String training;
-    private String role;
+    public enum TrainingCoach {
+        Guide,
+        CertifiedTrainer
+    }
+
+    private TrainingCoach training;
+    private String roleInTeam;
     private String id;
     private String name;
     private HashSet<Team> teams;
@@ -13,11 +18,11 @@ public class Coach implements PartOfATeam, Role {
     private double price;
 
 
-    public Coach(String id,String name, String training, String role, double price) {
+    public Coach(String id,String name, TrainingCoach training, String role, double price) {
         this.id = id;
         this.name = name;
         this.training = training;
-        this.role = role;
+        this.roleInTeam = role;
         this.price = price;
         teams = new HashSet<>();
         this.isActive = true;
@@ -27,19 +32,19 @@ public class Coach implements PartOfATeam, Role {
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
     public String getTraining() {
-        return training;
+        return training.toString();
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleInTeam() {
+        return roleInTeam;
     }
 
-    public void setTraining(String training) {
+    public void setTraining(TrainingCoach training) {
         this.training = training;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleInTeam(String roleInTeam) {
+        this.roleInTeam = roleInTeam;
     }
 
     @Override
@@ -102,7 +107,7 @@ public class Coach implements PartOfATeam, Role {
     public String toString() {
         return "Coach{" +
                 "training='" + training + '\'' +
-                ", role='" + role + '\'' +
+                ", role in team='" + roleInTeam + '\'' +
                 '}';
     }
 }

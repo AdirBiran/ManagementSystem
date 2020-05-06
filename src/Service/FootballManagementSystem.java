@@ -159,7 +159,7 @@ public class FootballManagementSystem {
         return unionRepresentativeSystem.appointReferee(unionRep,"referee", "",+IdGenerator.getNewId()+"@gmail.com", "talented");
     }
     public static List<User> createCoaches() {
-        User Coach = adminSystem.addNewCoach(systemAdmins.get(0),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com","firstOne", "main", 1500);
+        User Coach = adminSystem.addNewCoach(systemAdmins.get(0),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", Domain.Coach.TrainingCoach.CertifiedTrainer, "main", 1500);
         List<User> coaches = new LinkedList<>();
         coaches.add(Coach);
         return coaches;
@@ -168,7 +168,7 @@ public class FootballManagementSystem {
         List<User> players = new LinkedList<>();
         User player;
         for (int i = 0; i <12 ; i++) {
-            player = adminSystem.addNewPlayer(systemAdmins.get(0), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", new Date(99, 1, 1),"role"+i, 3500);
+            player = adminSystem.addNewPlayer(systemAdmins.get(0), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", new Date(99, 1, 1), Player.RolePlayer.attackingPlayer, 3500);
             if(player!=null){
                 players.add(player);
             }

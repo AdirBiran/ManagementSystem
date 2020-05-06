@@ -120,7 +120,7 @@ public class UserSystem extends GuestSystem {
     }
 
 
-    public boolean updateTrainingForCoach(User user, String training) {
+    public boolean updateTrainingForCoach(User user, Coach.TrainingCoach training) {
         Role role = user.checkUserRole("Coach");
         if (role instanceof Coach) {
             ((Coach) role).setTraining(training);
@@ -138,7 +138,7 @@ public class UserSystem extends GuestSystem {
         return false;
     }
 
-    public boolean updateRoleForPlayer(User user, String newRole) {
+    public boolean updateRoleForPlayer(User user, Player.RolePlayer newRole) {
         Role role = user.checkUserRole("Player");
         if (role instanceof Player) {
             ((Player) role).setRole(newRole);
@@ -149,7 +149,7 @@ public class UserSystem extends GuestSystem {
     public boolean updateRoleForCoach(User user, String newRole) {
         Role role = user.checkUserRole("Coach");
         if (role instanceof Coach) {
-            ((Coach) role).setRole(newRole);
+            ((Coach) role).setRoleInTeam(newRole);
             return true;
         }
         return false;
@@ -165,7 +165,7 @@ public class UserSystem extends GuestSystem {
     public String getRoleForCoach(User user) {
         Role role = user.checkUserRole("Coach");
         if (role instanceof Coach) {
-            return ((Coach) role).getRole();
+            return ((Coach) role).getRoleInTeam();
         }
         return "";
     }

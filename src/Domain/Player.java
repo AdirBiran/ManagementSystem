@@ -4,9 +4,14 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class Player implements PartOfATeam, Role {
-
+    public enum RolePlayer {
+        goalkeeper,
+        playerBack,
+        midfielderPlayer,
+        attackingPlayer
+    }
     private Date birthDate;
-    private String role;
+    private RolePlayer roleInTeam;
     private User user;
     private String id;
     private String name;
@@ -15,11 +20,11 @@ public class Player implements PartOfATeam, Role {
     private double price;
 
 
-    public Player(String id,String name, Date birthDate, String role, double price, User user) {
+    public Player(String id, String name, Date birthDate, RolePlayer role, double price, User user) {
         this.id = id;
         this.name = name;
         this.birthDate = birthDate;
-        this.role = role;
+        this.roleInTeam = role;
         this.user = user;
         this.teams = new HashSet<>();
         this.isActive = true;
@@ -34,11 +39,11 @@ public class Player implements PartOfATeam, Role {
     }
 
     public String getRole() {
-        return role;
+        return roleInTeam.toString();
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(RolePlayer role) {
+        this.roleInTeam = role;
     }
 
     public User getUser() {
@@ -104,7 +109,7 @@ public class Player implements PartOfATeam, Role {
     public String toString() {
         return "Player{" +
                 "birthDate=" + birthDate +
-                ", role='" + role + '\'' +
+                ", role in team='" + roleInTeam + '\'' +
                 '}';
     }
 }

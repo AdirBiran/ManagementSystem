@@ -30,12 +30,12 @@ public class AdminTest {
 
     @Test
     public void addNewPlayer() {
-    assertNotNull(admin.addNewPlayer("lionel","mesi","lmesi@gmail.com",new Date(99, 1, 1),"role"+1,300000));
+    assertNotNull(admin.addNewPlayer("lionel","mesi","lmesi@gmail.com",new Date(99, 1, 1), Player.RolePlayer.attackingPlayer,300000));
     }
 
     @Test
     public void addNewCoach() {
-        assertNotNull(admin.addNewCoach("coach1", "coach",+IdGenerator.getNewId()+"@gmail.com","firstOne", "main", 1500));
+        assertNotNull(admin.addNewCoach("coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", Coach.TrainingCoach.CertifiedTrainer, "main", 1500));
     }
 
     @Test
