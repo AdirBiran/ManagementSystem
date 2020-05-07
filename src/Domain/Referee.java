@@ -1,9 +1,6 @@
 package Domain;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class Referee extends Role implements Observer {
 
@@ -45,30 +42,22 @@ public class Referee extends Role implements Observer {
     {
         Event event = new Event(type, minuteInGame, description, game.getEventReport());
         game.getEventReport().addEvent(event);
-        game.notify(); //notify fans
+        game.setNewsFromReferee(event);
     }
     /*
     to edit get event report and edit it only main referee can
      */
+    /*
     public EventReport getEventReport(Game game){
-        if(this.equals(game.getMainReferee())){
-            return game.getEventReport();
-        }
-        return null;
+        return game.getEventReport();
     }
-
+*/
     public boolean changeEvent(Game game, Event event, String change){
-        if(this.equals(game.getMainReferee())){
-            event.setDescription(change);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean changeEvent(Game game, Event event, int minInGame){
-        if(this.equals(game.getMainReferee())){
-            event.setMinuteInGame(minInGame);
-            return true;
+        for (Event event1: game.getEventReport().getEvents()) {
+            if (event1.getId().equals(event.getId())) {
+                event1.setDescription(change);
+                return true;
+            }
         }
         return false;
     }
@@ -97,6 +86,7 @@ public class Referee extends Role implements Observer {
     }
     @Override
     public void update(Observable o, Object arg) {
-        //messageBox.add(new Notice((String)arg));
+        if(!(arg instanceof Event))
+            messageBox.add(new Notice((String)arg));
     }
 }

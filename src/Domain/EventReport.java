@@ -18,4 +18,5 @@ public class EventReport {
     public List<Event> getEvents() {
         return events;
     }
+
 }

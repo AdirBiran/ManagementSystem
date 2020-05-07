@@ -53,7 +53,7 @@ public class UnionRepresentative extends Role{
     {
 
     }
-    public boolean addRefereeToLeague(LeagueInSeason league, User referee)
+    public boolean addRefereeToLeague(LeagueInSeason league, Referee referee)
     {
         return league.addReferee(referee);
     }

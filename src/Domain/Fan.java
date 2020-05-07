@@ -86,10 +86,6 @@ public class Fan extends Role implements Observer {
         return followPages;
     }
 
-    public List<Notice> getMessageBox() {
-        return messageBox;
-    }
-
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Fan;
@@ -110,6 +106,9 @@ public class Fan extends Role implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if(arg instanceof Event) {
+            arg = arg.toString();
+        }
         messageBox.add(new Notice((String)arg));
     }
 }

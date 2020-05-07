@@ -37,8 +37,8 @@ public class FanTest {
         Team team0 = league.getTeams().get(0);
         Team team1 = league.getTeams().get(1);
         Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
-        User mainReferee = league.getReferees().get(0);
-        List<User> sideReferees = new LinkedList<>();
+        Referee mainReferee = league.getReferees().get(0);
+        List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add(league.getReferees().get(1));
         sideReferees.add(league.getReferees().get(2));
         game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, league);
@@ -51,6 +51,7 @@ public class FanTest {
         List<Game> games = new LinkedList<>();
         games.add(game);
         assertTrue(fan.followGames(games, receiveAlerts));
+        /***/
         Field newField = new Field("Jerusalem","Teddy", 10000, 200000);
         game.setField(newField);
         assertEquals(1, fan.getMessageBox().size(),0);
@@ -59,6 +60,10 @@ public class FanTest {
         User user1 = guest1.register("fan1@gmail.com", "Aa1234", "fan1", "fan1", "0500001234", "yosef23");
         Fan fan1 = (Fan) user1.checkUserRole("Fan");
         assertEquals(0, fan1.getMessageBox().size(), 0);
+        Referee mainReferee = game.getMainReferee();
+        mainReferee.addEventToGame(game, Event.EventType.RedCard, 70, "");
+        assertEquals(2, fan.getMessageBox().size(), 0);
+        assertEquals(1, mainReferee.getMessageBox().size(), 0);
     }
 
     @Test

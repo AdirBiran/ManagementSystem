@@ -1,6 +1,5 @@
 package Domain;
 
-import javax.xml.crypto.Data;
 import java.util.*;
 
 public class Game extends Observable {
@@ -11,8 +10,8 @@ public class Game extends Observable {
     private int hostScore;//number of goals
     private int guestScore;//number of goals
     private Field field;
-    private User mainReferee; // exactly 1, check type of referee
-    private List<User> sideReferees; // between 2 and 6, check type of referee
+    private Referee mainReferee; // exactly 1, check type of referee
+    private List<Referee> sideReferees; // between 2 and 6, check type of referee
     private Team hostTeam; // check type of team
     private Team guestTeam; // check type of team
     private HashMap<Fan, ReceiveAlerts> fansForAlerts; //list of fans that signed up to receive game alerts
@@ -20,7 +19,7 @@ public class Game extends Observable {
     private LeagueInSeason league;
 
 
-    public Game(Date date, Field field, User mainReferee, List<User> sideReferees,
+    public Game(Date date, Field field, Referee mainReferee, List<Referee> sideReferees,
                 Team hostTeam, Team guestTeam, LeagueInSeason league) {
         this.league = league;
         league.addGame(this);
@@ -28,10 +27,10 @@ public class Game extends Observable {
         this.date = date;
         this.field = field;
         this.mainReferee = mainReferee;
-        //this.addObserver(mainReferee);
         if(sideReferees==null||sideReferees.size()<2)
             throw new RuntimeException("not enough side referees");
         this.sideReferees = sideReferees;
+        addRefereeToObservers(mainReferee, sideReferees);
         this.hostTeam = hostTeam;
         this.guestTeam = guestTeam;
         this.name = hostTeam.getName() + " and "+ guestTeam.getName();
@@ -40,6 +39,7 @@ public class Game extends Observable {
         guestScore=0;
         fansForAlerts = new HashMap<>();
     }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     @Override
     public String toString() {
@@ -49,6 +49,12 @@ public class Game extends Observable {
                 ", hostTeam=" + hostTeam +
                 ", guestTeam=" + guestTeam +
                 '}';
+    }
+
+    private void addRefereeToObservers(Referee mainReferee, List<Referee> sideReferees) {
+        this.addObserver(mainReferee);
+        this.addObserver(sideReferees.get(0));
+        this.addObserver(sideReferees.get(1));
     }
 
     /**
@@ -65,7 +71,7 @@ public class Game extends Observable {
         return false;
     }
 
-    public List<String> getEventString() {
+    public List<String> getEventReportString() {
         List<String> events = new LinkedList<>();
         for(Event event : eventReport.getEvents())
             events.add(event.toString());
@@ -110,11 +116,11 @@ public class Game extends Observable {
         return field;
     }
 
-    public User getMainReferee() {
+    public Referee getMainReferee() {
         return mainReferee;
     }
 
-    public List<User> getSideReferees() {
+    public List<Referee> getSideReferees() {
         return sideReferees;
     }
 
@@ -138,5 +144,10 @@ public class Game extends Observable {
     public void setField(Field newField) {
         this.field = newField;
         setNews("Location of the game between the teams: " +this.name+ " change to "+this.field.getName()); // referees and fans
+    }
+
+    public void setNewsFromReferee(Object news){
+        setChanged();
+        notifyObservers(news);
     }
 }

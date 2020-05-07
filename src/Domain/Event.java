@@ -31,6 +31,7 @@ public class Event {
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
+
     public EventType getType() {
         return type;
     }

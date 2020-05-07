@@ -29,12 +29,22 @@ public class RefereeSystem {
         }
     }
 
-    public List<String> getGameReport(Game game){
-        List <String> gameReport = new LinkedList<>();
-        String gameInfo = game.toString();
-        gameReport.add(gameInfo);
-        gameReport.addAll(game.getEventString());
+    public List<String> getGameReport(User user, Game game){
+        Role role = (Referee)user.checkUserRole("Referee");
+        if(role instanceof  Referee && game.getMainReferee().equals(role)) {
+            List<String> gameReport = new LinkedList<>();
+            gameReport.addAll(game.getEventReportString());
+            return gameReport;
+        }
+        return null;
+    }
 
-        return gameReport;
+    public boolean changeEvent(User user, Game game, Event event, String newDescription){
+        Referee role = (Referee) user.checkUserRole("Referee");
+        if(role instanceof Referee && game.getMainReferee().equals(role)){
+            role.changeEvent(game, event, newDescription);
+            return true;
+        }
+        return false;
     }
 }

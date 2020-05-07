@@ -79,14 +79,16 @@ public class UnionRepresentativeSystem {
     {
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof UnionRepresentative){
-            boolean success = ((UnionRepresentative)role).addRefereeToLeague(league, referee);
+            Referee refereeRole = (Referee) referee.checkUserRole("Referee");
+            if(refereeRole instanceof Referee) {
+                boolean success = ((UnionRepresentative) role).addRefereeToLeague(league, refereeRole);
+                if (success)
+                    Logger.logEvent(user.getID(), "Assigned Referee " + referee.getID() + " to League");
+                else
+                    Logger.logError("Assigning referee to league Failed");
 
-            if (success)
-                Logger.logEvent(user.getID(), "Assigned Referee " + referee.getID() + " to League");
-            else
-                Logger.logError("Assigning referee to league Failed");
-
-            return success;
+                return success;
+            }
         }
         return false;
     }
