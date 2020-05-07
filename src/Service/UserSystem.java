@@ -79,7 +79,7 @@ public class UserSystem extends GuestSystem {
     public boolean registrationToFollowUp(User user, PersonalPage page) {
         Role role = user.checkUserRole("Fan");
         if(role instanceof Fan) {
-        boolean success = ((Fan)role).followPage(page);
+        boolean success = ((Fan)role).addPageToFollow(page);
         if (success)
             Logger.logEvent(user.getID(), "Follow page Success");
         else

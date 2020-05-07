@@ -5,13 +5,15 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Admin implements Role {
+public class Admin extends Role {
 
     private LinkedList<Team> permanentlyClosedTeams;
 
     public Admin() {
 
         permanentlyClosedTeams = new LinkedList<>();
+        messageBox = new LinkedList<>();
+        myRole = "Admin";
     }
 
     public boolean closeTeamPermanently(Team team)

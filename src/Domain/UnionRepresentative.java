@@ -2,10 +2,15 @@ package Domain;
 
 import Data.Database;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
-public class UnionRepresentative implements Role{
+public class UnionRepresentative extends Role{
 
+    public UnionRepresentative() {
+        messageBox = new LinkedList<>();
+        myRole = "UnionRepresentative";
+    }
 
     public boolean configureNewLeague(String name, String level) {
         League league = new League(name, level);

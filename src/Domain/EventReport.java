@@ -5,11 +5,9 @@ import java.util.LinkedList;
 
 public class EventReport {
 
-    private Game game;
     private List<Event> events;
 
-    public EventReport(Game game) {
-        this.game = game;
+    public EventReport() {
         this.events = new LinkedList<>();
     }
     public void addEvent(Event event){

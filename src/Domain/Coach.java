@@ -1,8 +1,9 @@
 package Domain;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 
-public class Coach implements PartOfATeam, Role {
+public class Coach extends Role implements PartOfATeam {
 
     public enum TrainingCoach {
         IFA_C,
@@ -33,6 +34,8 @@ public class Coach implements PartOfATeam, Role {
         this.price = price;
         teams = new HashSet<>();
         this.isActive = true;
+        messageBox = new LinkedList<>();
+        myRole = "Coach";
     }
 
 

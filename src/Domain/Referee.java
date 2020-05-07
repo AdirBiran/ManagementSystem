@@ -1,8 +1,11 @@
 package Domain;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Referee implements Role{
+public class Referee extends Role implements Observer {
 
     public enum TrainingReferee{
         referees,
@@ -16,6 +19,8 @@ public class Referee implements Role{
     public Referee(TrainingReferee training) {
         this.training = training;
         games = new HashSet<>();
+        messageBox = new LinkedList<>();
+        myRole = "Referee";
     }
 
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
@@ -38,7 +43,9 @@ public class Referee implements Role{
 
     public void addEventToGame(Game game, Event.EventType type, double minuteInGame, String description)
     {
-        new Event(type, minuteInGame, description, game.getEventReport());
+        Event event = new Event(type, minuteInGame, description, game.getEventReport());
+        game.getEventReport().addEvent(event);
+        game.notify(); //notify fans
     }
     /*
     to edit get event report and edit it only main referee can
@@ -87,5 +94,9 @@ public class Referee implements Role{
                 "training='" + training + '\'' +
                 ", games=" + games +
                 '}';
+    }
+    @Override
+    public void update(Observable o, Object arg) {
+        //messageBox.add(new Notice((String)arg));
     }
 }

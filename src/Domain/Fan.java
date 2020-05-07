@@ -3,22 +3,23 @@ package Domain;
 import Data.Database;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Fan implements Role {
-
-
+public class Fan extends Role implements Observer {
 
     private String address;
     private String phone;
     private List<Complaint> complaints;
     private List<PersonalPage> followPages;
 
-
     public Fan(String phone, String address) {
         this.address = address;
         this.phone = phone;
         complaints = new LinkedList<>();
         followPages = new LinkedList<>();
+        messageBox = new LinkedList<>();
+        myRole = "Fan";
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
@@ -36,10 +37,6 @@ public class Fan implements Role {
         user.editPersonalInfo(firstName, lastName);
         this.address = address;
         this.phone = phone;
-    }
-
-    public boolean followPage(PersonalPage page){
-        return addPageToFollow(page);
     }
 
     public boolean followGames(List<Game> games , ReceiveAlerts receiveAlerts){
@@ -89,6 +86,10 @@ public class Fan implements Role {
         return followPages;
     }
 
+    public List<Notice> getMessageBox() {
+        return messageBox;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Fan;
@@ -107,4 +108,8 @@ public class Fan implements Role {
                 '}';
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        messageBox.add(new Notice((String)arg));
+    }
 }

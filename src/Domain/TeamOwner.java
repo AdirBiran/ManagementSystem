@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TeamOwner extends Manager implements Role{
+public class TeamOwner extends Manager{
 
     private List<Team> closedTeams;
     private HashMap<User, Team> appointedTeamOwners;
@@ -20,6 +20,8 @@ public class TeamOwner extends Manager implements Role{
         personalPages = new HashMap<>();
         appointedTeamOwners = new HashMap<>();
         appointedTeamManagers = new HashMap<>();
+        messageBox = new LinkedList<>();
+        myRole = "TeamOwner";
     }
 
     public HashMap<User, Team> getAppointedTeamOwners() {

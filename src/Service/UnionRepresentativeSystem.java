@@ -2,6 +2,7 @@ package Service;
 import Domain.*;
 import Logger.Logger;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Date;
 
@@ -140,6 +141,24 @@ public class UnionRepresentativeSystem {
                 Logger.logError("Assigning games to league Failed");
 
             return success;
+        }
+        return false;
+    }
+
+    public boolean changeGameDate(User user, Game game, Date newDate){
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof UnionRepresentative && game.getDate().after(new Date())){
+            game.setDate(newDate);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean changeGameLocation(User user, Game game, Field newField){
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof UnionRepresentative && newField.isActive()){
+            game.setField(newField);
+            return true;
         }
         return false;
     }

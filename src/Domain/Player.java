@@ -2,8 +2,9 @@ package Domain;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 
-public class Player implements PartOfATeam, Role {
+public class Player extends Role implements PartOfATeam {
     public enum RolePlayer {
         goalkeeper,
         playerBack,
@@ -27,6 +28,8 @@ public class Player implements PartOfATeam, Role {
         this.teams = new HashSet<>();
         this.isActive = true;
         this.price = price;
+        messageBox = new LinkedList<>();
+        myRole = "Player";
 
     }
 

@@ -46,20 +46,25 @@ public class FanTest {
 
     @Test
     public void addPageToFollow() {
+
         assertTrue(fan.addPageToFollow(mesiPage));
+        List<Game> games = new LinkedList<>();
+        games.add(game);
+        assertTrue(fan.followGames(games, receiveAlerts));
+        Field newField = new Field("Jerusalem","Teddy", 10000, 200000);
+        game.setField(newField);
+        assertEquals(1, fan.getMessageBox().size(),0);
+        Guest guest1 = new Guest();
+
+        User user1 = guest1.register("fan1@gmail.com", "Aa1234", "fan1", "fan1", "0500001234", "yosef23");
+        Fan fan1 = (Fan) user1.checkUserRole("Fan");
+        assertEquals(0, fan1.getMessageBox().size(), 0);
     }
 
     @Test
     public void editPersonalInfo() {
         fan.editPersonalInfo(user, "shir", "shir", "ff", "052555654");
         assertEquals(fan.getAddress(), "ff");
-    }
-
-    @Test
-    public void followGames() {
-        List<Game> games = new LinkedList<>();
-        games.add(game);
-        assertTrue(fan.followGames(games, receiveAlerts));
     }
 
     @Test

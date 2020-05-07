@@ -27,7 +27,6 @@ public class Event {
         this.date = new Date();
         this.minuteInGame = minuteInGame;
         this.description = description;
-        eventReport.addEvent(this);
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
