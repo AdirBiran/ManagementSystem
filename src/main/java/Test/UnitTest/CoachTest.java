@@ -25,7 +25,7 @@ public class CoachTest {
     }
     @Test
     public void getTraining() {
-        assertEquals(coach.getTraining(), Coach.TrainingCoach.UEFA_A.toString());
+        assertEquals(coach.getTraining(), Coach.TrainingCoach.UEFA_B.toString());
 
     }
 
