@@ -1,9 +1,13 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -119,5 +123,10 @@ public class TeamOwnerTest {
     @Test
     public void myRole() {
         assertEquals(teamOwner.myRole(),"TeamOwner");
+    }
+
+    @Test
+    public void createTeam() {
+
     }
 }

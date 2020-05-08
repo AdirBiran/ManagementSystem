@@ -2,11 +2,17 @@ package Domain;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 
-public class Player implements PartOfATeam, Role {
-
+public class Player extends Role implements PartOfATeam {
+    public enum RolePlayer {
+        goalkeeper,
+        playerBack,
+        midfielderPlayer,
+        attackingPlayer
+    }
     private Date birthDate;
-    private String role;
+    private RolePlayer roleInTeam;
     private User user;
     private String id;
     private HashSet<Team> teams;
@@ -14,14 +20,16 @@ public class Player implements PartOfATeam, Role {
     private double price;
 
 
-    public Player(String id,Date birthDate, String role, double price, User user) {
+    public Player(String id, Date birthDate, RolePlayer role, double price, User user) {
         this.id = id;
         this.birthDate = birthDate;
-        this.role = role;
+        this.roleInTeam = role;
         this.user = user;
         this.teams = new HashSet<>();
         this.isActive = true;
         this.price = price;
+        messageBox = new LinkedList<>();
+        myRole = "Player";
 
     }
 
@@ -32,11 +40,11 @@ public class Player implements PartOfATeam, Role {
     }
 
     public String getRole() {
-        return role;
+        return roleInTeam.toString();
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(RolePlayer role) {
+        this.roleInTeam = role;
     }
 
     public User getUser() {
@@ -97,7 +105,7 @@ public class Player implements PartOfATeam, Role {
     public String toString() {
         return "Player{" +
                 "birthDate=" + birthDate +
-                ", role='" + role + '\'' +
+                ", role in team='" + roleInTeam + '\'' +
                 '}';
     }
 }

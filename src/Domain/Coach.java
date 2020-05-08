@@ -1,45 +1,61 @@
 package Domain;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 
-public class Coach implements PartOfATeam, Role {
+public class Coach extends Role implements PartOfATeam {
 
-    private String training;
-    private String role;
+    public enum TrainingCoach {
+        IFA_C,
+        UEFA_A,
+        UEFA_B,
+        UEFA_PRO
+    }
+
+    public enum RoleCoach{
+        main,
+        assistantCoach,
+        fitness,
+        goalkeeperCoach
+    }
+
+    private TrainingCoach training;
+    private RoleCoach roleInTeam;
     private String id;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
 
 
-    public Coach(String id,String training, String role, double price) {
+    public Coach(String id, TrainingCoach training, RoleCoach role, double price) {
         this.id = id;
         this.training = training;
-        this.role = role;
+        this.roleInTeam = role;
         this.price = price;
         teams = new HashSet<>();
         this.isActive = true;
+        messageBox = new LinkedList<>();
+        myRole = "Coach";
     }
 
 
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
     public String getTraining() {
-        return training;
+        return training.toString();
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleInTeam() {
+        return roleInTeam.toString();
     }
 
-    public void setTraining(String training) {
+    public void setTraining(TrainingCoach training) {
         this.training = training;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleInTeam(RoleCoach roleInTeam) {
+        this.roleInTeam = roleInTeam;
     }
-
 
     @Override
     public String getID() {
@@ -96,7 +112,7 @@ public class Coach implements PartOfATeam, Role {
     public String toString() {
         return "Coach{" +
                 "training='" + training + '\'' +
-                ", role='" + role + '\'' +
+                ", role in team='" + roleInTeam + '\'' +
                 '}';
     }
 }

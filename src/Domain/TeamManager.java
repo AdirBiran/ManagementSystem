@@ -1,8 +1,9 @@
 package Domain;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 
-public class TeamManager extends Manager implements Role,PartOfATeam {
+public class TeamManager extends Manager implements PartOfATeam {
 
 
     private String id;
@@ -15,13 +16,15 @@ public class TeamManager extends Manager implements Role,PartOfATeam {
 
 
 
-    public TeamManager(String id,double price, boolean manageAssets , boolean finance ) {
+    public TeamManager(String id, double price, boolean manageAssets , boolean finance ) {
         this.id = id;
         teams = new HashSet<>();
         this.price = price;
         isActive = true;
         permissionManageAssets = manageAssets;
         permissionFinance = finance;
+        messageBox = new LinkedList<>();
+        myRole = "TeamManager";
     }
 
     @Override

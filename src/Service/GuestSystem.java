@@ -49,9 +49,9 @@ public class GuestSystem {
     /*
     Search results in a system
      */
-    public List<Object> search( String wordToSearch){
-        Logger.logEvent("(Guest)","Searched " + wordToSearch);
-        return guest.search(wordToSearch);
+
+    public List<String> search( String wordToSearch){
+       return guest.search(wordToSearch);
     }
 
     /*

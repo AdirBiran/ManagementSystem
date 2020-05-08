@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class User extends Guest{
+public class User extends Guest {
+
 
     private String ID; //unique id for system
     private String firstName;
@@ -62,10 +63,10 @@ public class User extends Guest{
         setLastName(lastName);
     }
 
-    public List<Object> search(String wordToSearch)
+    public List<String> search(String wordToSearch)
     {
         addToSearchHistory(wordToSearch);
-        return Database.searchObject(wordToSearch);
+        return super.search(wordToSearch);
     }
 
     public List<String> viewSearchHistory(){
@@ -90,7 +91,7 @@ public class User extends Guest{
         return isActive;
     }
 
-    public void addMessage(Notice notice){
+    public void addMessage(Notice notice){ /***/
         if(notice!=null)
             messageBox.add(notice);
     }
@@ -134,7 +135,9 @@ public class User extends Guest{
         return mail;
     }
 
-    public List<Notice> getMessageBox() {
+    public List<Notice> getMessageBox() { /***/
+        for (Role r : roles)
+            messageBox.addAll(r.messageBox);
         return messageBox;
     }
 
@@ -152,5 +155,4 @@ public class User extends Guest{
             myRoles.add(role.myRole());
         return myRoles;
     }
-
 }

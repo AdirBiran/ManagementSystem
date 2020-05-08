@@ -27,10 +27,10 @@ public class Event {
         this.date = new Date();
         this.minuteInGame = minuteInGame;
         this.description = description;
-        eventReport.addEvent(this);
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
 
     public EventType getType() {
         return type;
@@ -58,5 +58,15 @@ public class Event {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "type=" + type +
+                ", date=" + date +
+                ", minuteInGame=" + minuteInGame +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

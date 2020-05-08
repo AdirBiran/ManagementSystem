@@ -1,7 +1,18 @@
 package Domain;
 
-public interface Role {
+import java.util.List;
+import java.util.Observable;
 
-    String myRole();
+public abstract class Role{
+
+    protected List<Notice> messageBox;
+    protected String myRole;
+
+    public List<Notice> getMessageBox() {
+        return messageBox;
+    }
+    public String myRole(){
+        return myRole;
+    }
 
 }

@@ -4,7 +4,7 @@ import Data.Database;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Manager implements Role {
+public abstract class Manager extends Role{
 
     protected List<Team> teamsToManage;
 

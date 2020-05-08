@@ -27,7 +27,7 @@ public class AdminSystem {
         }
     }
 
-    public User addNewPlayer(User user, String firstName, String lastName, String mail, Date birthDate, String role, double price){
+    public User addNewPlayer(User user, String firstName, String lastName, String mail, Date birthDate, Player.RolePlayer role, double price){
         Role adminRole = user.checkUserRole("Admin");
         if(adminRole instanceof Admin){
             User playerAdded = ((Admin)adminRole).addNewPlayer(firstName, lastName, mail, birthDate, role, price);
@@ -37,7 +37,7 @@ public class AdminSystem {
         }
         return null;
     }
-    public User addNewCoach(User user,String firstName, String lastName, String mail, String training, String role, double price){
+    public User addNewCoach(User user, String firstName, String lastName, String mail, Coach.TrainingCoach training, Coach.RoleCoach role, double price){
         Role adminRole = user.checkUserRole("Admin");
         if(adminRole instanceof Admin){
             User coachAdded = ((Admin)adminRole).addNewCoach(firstName, lastName, mail, training, role, price);

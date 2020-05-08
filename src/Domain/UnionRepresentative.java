@@ -2,10 +2,15 @@ package Domain;
 
 import Data.Database;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
-public class UnionRepresentative implements Role{
+public class UnionRepresentative extends Role{
 
+    public UnionRepresentative() {
+        messageBox = new LinkedList<>();
+        myRole = "UnionRepresentative";
+    }
 
     public boolean configureNewLeague(String name, String level) {
         League league = new League(name, level);
@@ -34,14 +39,13 @@ public class UnionRepresentative implements Role{
 
     public boolean assignGames(LeagueInSeason league, List<Date> dates) {
         List<Game> games =league.getAssignmentPolicy().assignGames(dates, league);
-
         if(games!=null){
             league.setGames(games);
             return true;
         }
         return false;
     }
-    public User appointReferee(String firstName, String lastName, String mail, String training)
+    public User appointReferee(String firstName, String lastName, String mail, Referee.TrainingReferee training)
     {
         return UserFactory.getNewReferee(firstName, lastName, mail, training);
     }
@@ -49,7 +53,7 @@ public class UnionRepresentative implements Role{
     {
 
     }
-    public boolean addRefereeToLeague(LeagueInSeason league, User referee)
+    public boolean addRefereeToLeague(LeagueInSeason league, Referee referee)
     {
         return league.addReferee(referee);
     }
