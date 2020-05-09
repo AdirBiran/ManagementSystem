@@ -21,20 +21,18 @@ public class Coach extends Role implements PartOfATeam {
 
     private TrainingCoach training;
     private RoleCoach roleInTeam;
-    private String id;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
 
 
-    public Coach(String id, TrainingCoach training, RoleCoach role, double price) {
-        this.id = id;
+    public Coach(User user,TrainingCoach training, RoleCoach role, double price) {
+        this.user = user;
         this.training = training;
         this.roleInTeam = role;
         this.price = price;
         teams = new HashSet<>();
         this.isActive = true;
-        messageBox = new LinkedList<>();
         myRole = "Coach";
     }
 
@@ -59,7 +57,7 @@ public class Coach extends Role implements PartOfATeam {
 
     @Override
     public String getID() {
-        return id;
+        return user.getID();
     }
 
     @Override
@@ -110,9 +108,10 @@ public class Coach extends Role implements PartOfATeam {
 
     @Override
     public String toString() {
-        return "Coach{" +
-                "training='" + training + '\'' +
-                ", role in team='" + roleInTeam + '\'' +
-                '}';
+        return "Coach" +
+                ", id= " +user.getID() +
+                ": name=" +user.getName() +
+                ", training='" + training +
+                ", role in team='" + roleInTeam;
     }
 }

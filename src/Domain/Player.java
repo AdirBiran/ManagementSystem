@@ -13,22 +13,19 @@ public class Player extends Role implements PartOfATeam {
     }
     private Date birthDate;
     private RolePlayer roleInTeam;
-    private User user;
     private String id;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
 
 
-    public Player(String id, Date birthDate, RolePlayer role, double price, User user) {
-        this.id = id;
+    public Player(User user, Date birthDate, RolePlayer role, double price) {
+        this.user = user;
         this.birthDate = birthDate;
         this.roleInTeam = role;
-        this.user = user;
         this.teams = new HashSet<>();
         this.isActive = true;
         this.price = price;
-        messageBox = new LinkedList<>();
         myRole = "Player";
 
     }
@@ -47,13 +44,9 @@ public class Player extends Role implements PartOfATeam {
         this.roleInTeam = role;
     }
 
-    public User getUser() {
-        return user;
-    }
-
     @Override
     public String getID() {
-        return id;
+        return user.getID();
     }
 
     @Override
@@ -103,9 +96,10 @@ public class Player extends Role implements PartOfATeam {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "birthDate=" + birthDate +
-                ", role in team='" + roleInTeam + '\'' +
-                '}';
+        return "Player" +
+                ", id= " +user.getID() +
+                ": name=" +user.getName() +
+                ", birthDate=" + birthDate +
+                ", role in team='" + roleInTeam;
     }
 }

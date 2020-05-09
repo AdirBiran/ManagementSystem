@@ -147,7 +147,7 @@ public class LeagueInSeason {
     public String toString() {
         return "LeagueInSeason{" +
                 "league=" + league.getName() +
-                ", season=" + season.getYear() +
+                ":season=" + season.getYear() +
                 '}';
     }
 }
