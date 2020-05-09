@@ -33,12 +33,15 @@ public class Client  {
         try {
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-            if (stringToSend.charAt(stringToSend.length()-1) != '\n')
+            if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
                 stringToSend = stringToSend + "\n";
 
             outputStream.writeBytes(stringToSend);
             outputStream.flush();
-            results.add(receiveFromServer());
+
+            System.out.println("Client sent to server " + stringToSend);
+
+            results = createListFromServerString(receiveFromServer());
 
         }
         catch (Exception e) {
@@ -58,6 +61,7 @@ public class Client  {
             BufferedReader clientReader = new BufferedReader(new InputStreamReader(inputStream));
 
             res = clientReader.readLine();
+
             System.out.println("Client receive from server : "+res);
         }
         catch (Exception e)
@@ -68,6 +72,19 @@ public class Client  {
         return res;
 
     }
+
+    private List<String> createListFromServerString(String ans)
+    {
+        List<String> res = new LinkedList<>();
+
+        String[] split = ans.split("~");
+
+        for (String s : split)
+            res.add(s);
+
+        return res;
+    }
+
 
 }
 
