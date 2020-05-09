@@ -7,10 +7,10 @@ public class IdGenerator {
 
     private static Random random = new Random(1000);
     private static final int PRIME_FACTOR=251;
-    private static HashSet<Integer> givenIds = new HashSet<>();
+    private static HashSet<Long> givenIds = new HashSet<>();
 
-    public static int getNewId(){
-        int id;
+    public static long getNewId(){
+        long id;
         do{
           id = random.nextInt()*PRIME_FACTOR;
           if(!givenIds.contains(id)&& id>0 ){
