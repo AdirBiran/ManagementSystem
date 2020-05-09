@@ -136,6 +136,7 @@ public class GeneralController {
                 //do we want spelling correction?
                 clearMainView(mainView);
                 buildSearchView(l_searchPane, mainView, m_client, userId);
+
                 List<String> results = m_client.sendToServer("search"+"|"+userId+"|"+searchArea.getText());
                 showListOnScreen(results, l_searchPane, 3);
             }
