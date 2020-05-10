@@ -116,6 +116,10 @@ public class Game extends Observable {
         return field;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Referee getMainReferee() {
         return mainReferee;
     }

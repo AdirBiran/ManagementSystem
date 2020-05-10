@@ -2,11 +2,9 @@ package Domain;
 
 import Data.Database;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-public class TeamOwner extends Manager{
+public class TeamOwner extends Manager implements Observer {
 
     private List<Team> closedTeams;
     private HashMap<User, Team> appointedTeamOwners;
@@ -20,7 +18,6 @@ public class TeamOwner extends Manager{
         personalPages = new HashMap<>();
         appointedTeamOwners = new HashMap<>();
         appointedTeamManagers = new HashMap<>();
-        messageBox = new LinkedList<>();
         myRole = "TeamOwner";
     }
 
@@ -135,7 +132,7 @@ public class TeamOwner extends Manager{
         if(teamsToManage.contains(team)){
             if(!team.getTeamManagers().contains(user) && !team.getTeamOwners().contains(user)){
                 if(teamManagerRole==null){
-                    TeamManager teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
+                    TeamManager teamManager = new TeamManager(user, price, manageAssets, finance);
                     user.addRole(teamManager);
                 }
                 else{
@@ -209,4 +206,15 @@ public class TeamOwner extends Manager{
         return "TeamOwner";
     }
 
+    @Override
+    public String toString() {
+        return "TeamOwner" +
+                ", id=" + user.getID() +
+                ": name=" + user.getName();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+    }
 }

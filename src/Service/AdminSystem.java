@@ -17,14 +17,17 @@ public class AdminSystem {
     /*
     Remove user by an administrator
     */
-    public void removeUser(User user, String userId){
+    public boolean removeUser(User user, String userId){
         Role adminRole = user.checkUserRole("Admin");
         if(adminRole instanceof Admin){
             String userMail = ((Admin)adminRole).removeUser(userId);
-            notificationSystem.UserRemovalNotification(userMail);
-
-            Logger.logEvent(user.getID() + " (Admin)", "Removed user " + userId);
+            if(!(userMail.equals(""))) {
+                notificationSystem.UserRemovalNotification(userMail);
+                Logger.logEvent(user.getID() + " (Admin)", "Removed user " + userId);
+                return true;
+            }
         }
+        return false;
     }
 
     public User addNewPlayer(User user, String firstName, String lastName, String mail, Date birthDate, Player.RolePlayer role, double price){
@@ -100,11 +103,11 @@ public class AdminSystem {
         return false;
     }
 
-    public void responseToComplaint(User user, Complaint complaint)
+    public void responseToComplaint(User user, Complaint complaint, String response)
     {
         Role adminRole = user.checkUserRole("Admin");
         if(adminRole instanceof Admin){
-            ((Admin)adminRole).responseToComplaint();
+            ((Admin)adminRole).responseToComplaint(complaint, response);
             Logger.logEvent(user.getID() + " (Admin)", " Responded to complaint");
         }
     }

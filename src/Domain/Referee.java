@@ -13,10 +13,10 @@ public class Referee extends Role implements Observer {
     private TrainingReferee training;
     private HashSet<Game> games;
 
-    public Referee(TrainingReferee training) {
+    public Referee(User user, TrainingReferee training) {
+        this.user = user;
         this.training = training;
         games = new HashSet<>();
-        messageBox = new LinkedList<>();
         myRole = "Referee";
     }
 
@@ -43,14 +43,7 @@ public class Referee extends Role implements Observer {
         game.getEventReport().addEvent(event);
         game.setNewsFromReferee(event);
     }
-    /*
-    to edit get event report and edit it only main referee can
-     */
-    /*
-    public EventReport getEventReport(Game game){
-        return game.getEventReport();
-    }
-*/
+
     public boolean changeEvent(Game game, Event event, String change){
         for (Event event1: game.getEventReport().getEvents()) {
             if (event1.getId().equals(event.getId())) {
@@ -66,6 +59,8 @@ public class Referee extends Role implements Observer {
         if(this.equals(game.getMainReferee())){
             game.setGuestScore(guestScore);
             game.setHostScore(hostScore);
+            String message = game.getName()+": "+ game.getHostTeam()+": "+hostScore+"-"+game.getGuestTeam()+": "+guestScore;
+            game.setNewsFromReferee(message);
             return true;
         }
         return false;
@@ -78,14 +73,14 @@ public class Referee extends Role implements Observer {
 
     @Override
     public String toString() {
-        return "Referee{" +
-                "training='" + training + '\'' +
-                ", games=" + games +
-                '}';
+        return "Referee" +
+                ", id="+user.getID()+
+                ": name="+user.getName()+
+                ", training='" + training;
     }
     @Override
     public void update(Observable o, Object arg) {
         if(!(arg instanceof Event))
-            messageBox.add(new Notice((String)arg));
+            user.addMessage(new Notice((String)arg));
     }
 }

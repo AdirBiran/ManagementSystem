@@ -5,8 +5,6 @@ import java.util.LinkedList;
 
 public class TeamManager extends Manager implements PartOfATeam {
 
-
-    private String id;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
@@ -16,20 +14,18 @@ public class TeamManager extends Manager implements PartOfATeam {
 
 
 
-    public TeamManager(String id, double price, boolean manageAssets , boolean finance ) {
-        this.id = id;
+    public TeamManager(User user, double price, boolean manageAssets , boolean finance ) {
         teams = new HashSet<>();
         this.price = price;
         isActive = true;
         permissionManageAssets = manageAssets;
         permissionFinance = finance;
-        messageBox = new LinkedList<>();
         myRole = "TeamManager";
     }
 
     @Override
     public String getID() {
-        return id;
+        return user.getID();
     }
 
     @Override
@@ -85,4 +81,13 @@ public class TeamManager extends Manager implements PartOfATeam {
         return "TeamManager";
     }
 
+    @Override
+    public String toString() {
+        return "TeamManager" +
+                ", id="+ user.getID()+
+                ": name="+ user.getName()+
+                ", price=" + price +
+                ", permission manage assets=" + permissionManageAssets +
+                ", permission finance=" + permissionFinance;
+    }
 }

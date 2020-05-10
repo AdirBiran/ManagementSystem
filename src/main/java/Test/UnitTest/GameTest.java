@@ -25,7 +25,7 @@ public void init(){
     system = new FootballManagementSystem();
     system.systemInit(true);
     LeagueInSeason league = system.dataReboot();
-     team0 = league.getTeams().get(0);
+    team0 = league.getTeams().get(0);
     team1 = league.getTeams().get(1);
     Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
     Referee mainReferee = league.getReferees().get(0);
@@ -112,6 +112,11 @@ receiveAlerts=new ReceiveAlerts(true,false);
     public void getGuestTeam() {
         assertEquals(game.getGuestTeam().getName(),team1.getName());
 
+    }
+
+    @Test
+    public void getName(){
+        assertEquals(game.getName(), game.getHostTeam().getName() + " and "+ game.getGuestTeam().getName());
     }
 
     @Test

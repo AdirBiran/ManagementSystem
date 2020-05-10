@@ -13,12 +13,12 @@ public class Fan extends Role implements Observer {
     private List<Complaint> complaints;
     private List<PersonalPage> followPages;
 
-    public Fan(String phone, String address) {
+    public Fan(User user, String phone, String address) {
+        this.user = user;
         this.address = address;
         this.phone = phone;
         complaints = new LinkedList<>();
         followPages = new LinkedList<>();
-        messageBox = new LinkedList<>();
         myRole = "Fan";
     }
 
@@ -109,6 +109,7 @@ public class Fan extends Role implements Observer {
         if(arg instanceof Event) {
             arg = arg.toString();
         }
-        messageBox.add(new Notice((String)arg));
+        String news = (String)arg;
+        user.addMessage(new Notice(news));
     }
 }

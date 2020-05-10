@@ -135,9 +135,7 @@ public class User extends Guest {
         return mail;
     }
 
-    public List<Notice> getMessageBox() { /***/
-        for (Role r : roles)
-            messageBox.addAll(r.messageBox);
+    public List<Notice> getMessageBox() {
         return messageBox;
     }
 

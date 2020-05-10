@@ -2,8 +2,9 @@ package Domain;
 
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Observable;
 
-public class Team{
+public class Team extends Observable {
 
     private String id;
     private String name;
@@ -94,31 +95,32 @@ public class Team{
     private void linkTeamOwner() {
         for(User user:teamOwners){
             TeamOwner teamOwner = (TeamOwner) user.checkUserRole("TeamOwner");
-            if(teamOwner!=null)
+            if(teamOwner!=null) {
                 teamOwner.addTeam(this);
+                this.addObserver(teamOwner); // to notify
+            }
         }
     }
 
     @Override
     public String toString() {
-        return "Team{" +
+        return "Team," +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                ": name='" + name + '\'' +
                 ", active=" + active +
-                ", permanentlyClosed=" + permanentlyClosed +
-                '}';
+                ", permanentlyClosed=" + permanentlyClosed;
     }
 
     public void addAWin() {
-        this.wins ++;
+        this.wins++;
     }
 
     public void addALoss() {
-        this.losses ++;
+        this.losses++;
     }
 
     public void addADraw() {
-        this.draws ++;
+        this.draws++;
     }
 
     public boolean addTeamOwner(User user) {
@@ -133,6 +135,7 @@ public class Team{
                 teamOwner.addTeam(this);
                 user.addRole(teamOwner);
             }
+            this.addObserver(teamOwner);
             return true;
         }
         return false;
@@ -146,7 +149,7 @@ public class Team{
                 teamManager.addTeam(this);
             }
             else{
-                teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
+                teamManager = new TeamManager(user, price, manageAssets, finance);
                 teamManager.addTeam(this);
                 user.addRole(teamManager);
             }
@@ -299,6 +302,11 @@ public class Team{
 
     public void setActive(boolean active) {
         this.active = active;
+        setChanged();
+        if(active)
+            notifyObservers(this.name + " is closed");
+        else
+            notifyObservers(this.name+" is open");
     }
 
     public boolean isPermanentlyClosed() {
@@ -307,6 +315,9 @@ public class Team{
 
     public void setPermanentlyClosed(boolean permanentlyClosed) {
         this.permanentlyClosed = permanentlyClosed;
+        if(permanentlyClosed)
+            notifyObservers(this.name + " is permanently closed");
+
     }
 
     public String getID() {

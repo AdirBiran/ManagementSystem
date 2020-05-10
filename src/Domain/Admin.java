@@ -9,10 +9,9 @@ public class Admin extends Role {
 
     private LinkedList<Team> permanentlyClosedTeams;
 
-    public Admin() {
-
+    public Admin(User user) {
+        this.user = user;
         permanentlyClosedTeams = new LinkedList<>();
-        messageBox = new LinkedList<>();
         myRole = "Admin";
     }
 
@@ -22,8 +21,6 @@ public class Admin extends Role {
             team.setActive(false);
             team.setPermanentlyClosed(true);
             permanentlyClosedTeams.add(team);
-            //Maybe add a list of permanently closed teamsToManage to Database
-            //What happens to the members of the teamsToManage???
             return true;
         }
         return false;
@@ -57,7 +54,7 @@ public class Admin extends Role {
             if(teams!=null){
                 for(Team team:teams )
                     if(team.getTeamOwners().size()==1)
-                        return "The user cannot be deleted";
+                        return "";
             }
         }
         return Database.removeUser(userId);
@@ -80,7 +77,13 @@ public class Admin extends Role {
         field.reactivate();
     }
 
-    public void responseToComplaint(){}
+    public boolean responseToComplaint(Complaint complaint, String response){
+        if(complaint!=null){
+            complaint.setResponse(response);
+            return true;
+        }
+        return false;
+    }
     public void viewLog(){}
     public void trainModel(){}
 
@@ -88,6 +91,5 @@ public class Admin extends Role {
     public String myRole() {
         return "Admin";
     }
-
 
 }

@@ -1,14 +1,13 @@
 package Domain;
 
 import Data.Database;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
-public class UnionRepresentative extends Role{
+import java.util.*;
 
-    public UnionRepresentative() {
-        messageBox = new LinkedList<>();
+public class UnionRepresentative extends Role implements Observer {
+
+    public UnionRepresentative(User user) {
+        this.user = user;
         myRole = "UnionRepresentative";
     }
 
@@ -72,6 +71,15 @@ public class UnionRepresentative extends Role{
         team.getBudget().addIncome(payment);
     }
 
+    public List<String> allLeaguesInSeasons() {
+        List<String> allLeagues= new LinkedList<>();
+        for(League league: Database.getLeagues()){
+            for(LeagueInSeason leagueInSeason : league.getLeagueInSeasons())
+                allLeagues.add(leagueInSeason.toString());
+        }
+
+        return allLeagues;
+    }
     @Override
     public boolean equals(Object obj) {
         return obj instanceof UnionRepresentative;
@@ -84,5 +92,17 @@ public class UnionRepresentative extends Role{
     @Override
     public String myRole() {
         return "UnionRepresentative";
+    }
+
+    @Override
+    public String toString() {
+        return "UnionRepresentative" +
+                ", id=" + user.getID() +
+                ": name=" +user.getName();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 }

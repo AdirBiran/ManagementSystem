@@ -231,4 +231,12 @@ public class UnionRepresentativeSystem {
             unionBudget.addPayment( payment);
         }
     }
+
+    public List<String> allLeaguesInSeasons(User user){
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof UnionRepresentative){
+            return ((UnionRepresentative)role).allLeaguesInSeasons();
+        }
+        return null;
+    }
 }

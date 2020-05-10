@@ -5,12 +5,17 @@ import java.util.Observable;
 
 public abstract class Role{
 
-    protected List<Notice> messageBox;
     protected String myRole;
+    protected User user;
+
+    public User getUser() {
+        return user;
+    }
 
     public List<Notice> getMessageBox() {
-        return messageBox;
+        return user.getMessageBox();
     }
+
     public String myRole(){
         return myRole;
     }
