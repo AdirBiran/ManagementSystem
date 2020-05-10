@@ -45,6 +45,7 @@ public class AdminTest {
 
     @Test
     public void addNewTeamManager() {
+        //admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false);
         assertNotNull(admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false));
     }
 

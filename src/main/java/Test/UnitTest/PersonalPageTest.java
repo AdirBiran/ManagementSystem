@@ -17,7 +17,7 @@ public class PersonalPageTest {
     User mesi;
     PersonalPage mesiPage;
     Fan fan;
-  
+
 
     @Before
     public void init() {
@@ -65,7 +65,7 @@ public class PersonalPageTest {
     public void addData() {
         mesiPage.setData("shir");
         mesiPage.addData("ben david");
-        assertEquals(mesiPage.getData(),"shirben david");
+        assertEquals(mesiPage.getData(),"shir ben david");
 
     }
 }

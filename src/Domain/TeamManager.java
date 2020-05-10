@@ -21,6 +21,7 @@ public class TeamManager extends Manager implements PartOfATeam {
         permissionManageAssets = manageAssets;
         permissionFinance = finance;
         myRole = "TeamManager";
+        this.user = user;
     }
 
     @Override
@@ -81,7 +82,7 @@ public class TeamManager extends Manager implements PartOfATeam {
         return "TeamManager";
     }
 
-    @Override
+   /* @Override
     public String toString() {
         return "TeamManager" +
                 ", id="+ user.getID()+
@@ -89,5 +90,5 @@ public class TeamManager extends Manager implements PartOfATeam {
                 ", price=" + price +
                 ", permission manage assets=" + permissionManageAssets +
                 ", permission finance=" + permissionFinance;
-    }
+    }*/
 }

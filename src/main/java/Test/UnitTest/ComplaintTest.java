@@ -50,8 +50,8 @@ public class ComplaintTest {
         complaint.deactivate();
         assertFalse(complaint.getIsActive());
     }
-    @Test
+   /* @Test
     public void setComplaint(Complaint complaint) {
 
-    }
+    }*/
 }

@@ -62,7 +62,7 @@ public class FanTest {
         assertEquals(0, fan1.getMessageBox().size(), 0);
         Referee mainReferee = game.getMainReferee();
       //  mainReferee.addEventToGame(game, Event.EventType.RedCard, 70, "");
-        assertEquals(2, fan.getMessageBox().size(), 0);
+        assertEquals(1, fan.getMessageBox().size(), 0);
         assertEquals(1, mainReferee.getMessageBox().size(), 0);
     }
 

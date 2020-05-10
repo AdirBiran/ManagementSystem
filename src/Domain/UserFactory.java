@@ -129,7 +129,7 @@ public class UserFactory {
             if(Database.addUser(password, user) && Database.addAsset((PartOfATeam)asset)){
                 MailSender.send(user.getMail(), "Welcome!\nUserId is: "+ user.getMail()+"\npassword: " + password);
                 return user;
-            }
+        }
         }
         else{
             if(Database.addUser(password, user)){

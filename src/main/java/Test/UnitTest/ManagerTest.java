@@ -48,7 +48,7 @@ public class ManagerTest {
 
     @Test
     public void addTeamManagerToTeam() {
-        assertTrue(teamOwner.addTeamManagerToTeam(userTeamManager,team,3000,true,true));
+        assertTrue(teamOwner.addTeamManagerToTeam(userTeamManager,team,5,true,true));
     }
 
     @Test
