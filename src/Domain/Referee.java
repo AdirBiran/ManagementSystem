@@ -21,7 +21,6 @@ public class Referee extends Role implements Observer {
     }
 
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
     public String getTraining() {
         return training.toString();
     }

@@ -15,7 +15,7 @@ public class FootballManagementSystem {
     private static GuestSystem guestSystem;
     private static PersonalPageSystem personalPageSystem ;
     private static RefereeSystem refereeSystem;
-    private static UnionRepresentativeSystem unionRepresentativeSystem;
+    public static UnionRepresentativeSystem unionRepresentativeSystem;
     private static UserSystem userSystem;
     private static AdminSystem adminSystem;
     private static TeamManagementSystem teamManagementSystem;
