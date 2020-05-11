@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Event {
 
-    public static Object EventType;
+    //public static Object EventType;
 
     public enum EventType {
         Undefined,

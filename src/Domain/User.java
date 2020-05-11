@@ -69,11 +69,6 @@ public class User extends Guest {
         return super.search(wordToSearch);
     }
 
-    public List<String> viewSearchHistory(){
-        return getSearchHistory();
-    }
-
-
     public boolean changePassword(String oldPassword, String newPassword){
 
         return Database.changePassword(this.mail, oldPassword, newPassword);

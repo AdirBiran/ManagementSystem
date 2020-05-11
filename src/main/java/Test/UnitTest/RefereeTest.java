@@ -70,12 +70,13 @@ public class RefereeTest {
 
     @Test
     public void addEventToGame() {
-      //  referee.addEventToGame(game,Event.EventType.RedCard,50,"");
+
+        referee.addEventToGame(game,Event.EventType.RedCard,50,"");
     }
 
     @Test
     public void changeEvent() {
-    //    Event event = new Event(Event.EventType.Goal, 50, "", game.getEventReport());
+       Event event = new Event(Event.EventType.Goal, 50, "", game.getEventReport());
 
     }
 

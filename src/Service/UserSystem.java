@@ -16,7 +16,7 @@ public class UserSystem extends GuestSystem {
      */
     public List<String> viewSearchHistory(User user) {
         Logger.logEvent(user.getID(), "View Search History");
-        return user.viewSearchHistory();
+        return user.getSearchHistory();
     }
 
     /*
