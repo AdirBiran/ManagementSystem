@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -57,11 +59,13 @@ public class Team extends Observable {
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-    public void addLeague(LeagueInSeason league) {
+    public boolean addLeague(LeagueInSeason league) {
         if(!leagues.contains(league)){
             this.leagues.add(league);
             league.addATeam(this);
+            return true;
         }
+        return false;
     }
 
     private void linkField() {
@@ -94,11 +98,8 @@ public class Team extends Observable {
 
     private void linkTeamOwner() {
         for(User user:teamOwners){
-            TeamOwner teamOwner = (TeamOwner) user.checkUserRole("TeamOwner");
-            if(teamOwner!=null) {
-                teamOwner.addTeam(this);
-                this.addObserver(teamOwner); // to notify
-            }
+            if(user!= null)
+                addTeamOwner(user);
         }
     }
 
@@ -131,7 +132,7 @@ public class Team extends Observable {
                 teamOwner.addTeam(this);
             }
             else{
-                teamOwner = new TeamOwner();
+                teamOwner = new TeamOwner(user);
                 teamOwner.addTeam(this);
                 user.addRole(teamOwner);
             }
@@ -153,6 +154,7 @@ public class Team extends Observable {
                 teamManager.addTeam(this);
                 user.addRole(teamManager);
             }
+            this.addObserver(teamManager);
             return true;
         }
         return false;
@@ -205,8 +207,9 @@ public class Team extends Observable {
     public boolean removeTeamOwner(User teamOwner) {
         if(teamOwners.contains(teamOwner) && teamOwners.size()>1) {
             teamOwners.remove(teamOwner);
-            Role teamOwnerRole = teamOwner.checkUserRole("TeamOwner");
-            ((TeamOwner)teamOwnerRole).removeTeam(this);
+            TeamOwner teamOwnerRole = (TeamOwner) teamOwner.checkUserRole("TeamOwner");
+            teamOwnerRole.removeTeam(this);
+            teamOwnerRole.update(this, "Your subscription has been removed from the team "+this.name);
             return true;
         }
         return false;
@@ -215,8 +218,9 @@ public class Team extends Observable {
     public boolean removeTeamManager(User teamManager) {
         if(teamManagers.contains(teamManager)) {
             teamManagers.remove(teamManager);
-            Role teamManagerRole = teamManager.checkUserRole("TeamManager");
-            ((TeamManager)teamManagerRole).removeTeam(this);
+            TeamManager teamManagerRole = (TeamManager) teamManager.checkUserRole("TeamManager");
+            teamManagerRole.removeTeam(this);
+            teamManagerRole.update(this, "Your subscription has been removed from the team "+this.name);
             return true;
         }
         return false;
@@ -303,10 +307,23 @@ public class Team extends Observable {
     public void setActive(boolean active) {
         this.active = active;
         setChanged();
-        if(active)
+        if(active){
+            notifyObservers(this.name + " is open");
+            updateAllSystemAdmins("team "+this.name+" open");
+        }
+        else {
             notifyObservers(this.name + " is closed");
-        else
-            notifyObservers(this.name+" is open");
+            updateAllSystemAdmins("team "+this.name+" closed");
+        }
+    }
+
+    private void updateAllSystemAdmins(String news) {
+        for(User admin : Database.getSystemAdmins()){
+            Admin adminRole = (Admin)admin.checkUserRole("Admin");
+            if(adminRole instanceof Admin){
+                adminRole.update(this, news);
+            }
+        }
     }
 
     public boolean isPermanentlyClosed() {

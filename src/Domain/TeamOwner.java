@@ -12,13 +12,14 @@ public class TeamOwner extends Manager implements Observer {
     private HashMap<Team,PersonalPage> personalPages;
 
 
-    public TeamOwner() {
+    public TeamOwner(User user) {
         super();
         closedTeams = new LinkedList<>();
         personalPages = new HashMap<>();
         appointedTeamOwners = new HashMap<>();
         appointedTeamManagers = new HashMap<>();
         myRole = "TeamOwner";
+        this.user = user;
     }
 
     public HashMap<User, Team> getAppointedTeamOwners() {
@@ -112,7 +113,7 @@ public class TeamOwner extends Manager implements Observer {
         if(teamsToManage.contains(team)){
             if(!team.getTeamOwners().contains(user)){
                 if(teamOwnerRole==null){
-                    TeamOwner teamOwner = new TeamOwner();
+                    TeamOwner teamOwner = new TeamOwner(user);
                     teamOwner.addTeam(team);
                     user.addRole(teamOwner);
                 }
@@ -215,6 +216,7 @@ public class TeamOwner extends Manager implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        String news = (String)arg;
+        user.addMessage(new Notice(news));
     }
 }

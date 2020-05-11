@@ -1,7 +1,5 @@
 package Domain;
 
-import java.util.List;
-
 public class UnionBudget {
 
     private Budget budget;

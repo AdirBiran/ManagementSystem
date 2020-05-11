@@ -15,7 +15,7 @@ public abstract class Manager extends Role{
     public boolean addPlayerToTeam(User player, Team team){
         Role assetRole = player.checkUserRole("Player");
         if(teamsToManage.contains(team)) {//
-            if (team.getBudget().addExpanse(((PartOfATeam) assetRole).getPrice())) {
+            if (team.getBudget().addExpanse(team, ((PartOfATeam) assetRole).getPrice())) {
                 return team.addPlayer(player);
             }
         }
@@ -25,7 +25,7 @@ public abstract class Manager extends Role{
     public boolean addCoachToTeam(User coach, Team team){
         Role assetRole = coach.checkUserRole("Coach");
         if(teamsToManage.contains(team)) {//
-            if (team.getBudget().addExpanse(((PartOfATeam) assetRole).getPrice())) {
+            if (team.getBudget().addExpanse(team, ((PartOfATeam) assetRole).getPrice())) {
                 return team.addCoach(coach);
             }
         }
@@ -35,7 +35,7 @@ public abstract class Manager extends Role{
     public boolean addTeamManagerToTeam(User teamManager, Team team, double price, boolean manageAssets , boolean finance) {
         Role assetRole = teamManager.checkUserRole("TeamManager");
         if(teamsToManage.contains(team)) {//
-            if (team.getBudget().addExpanse(((PartOfATeam) assetRole).getPrice())) {
+            if (team.getBudget().addExpanse(team, ((PartOfATeam) assetRole).getPrice())) {
                 return team.addTeamManager(teamManager, price, manageAssets, finance);
             }
         }
@@ -97,7 +97,7 @@ public abstract class Manager extends Role{
     }
     public boolean reportExpanse(Team team, double expanse){
         if(teamsToManage.contains(team)){
-            return team.getBudget().addExpanse(expanse);
+            return team.getBudget().addExpanse(team, expanse);
         }
         return false;
     }

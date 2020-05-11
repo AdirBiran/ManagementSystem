@@ -1,7 +1,6 @@
 package UnitTest;
 
-import Domain.LeagueInSeason;
-import Domain.Team;
+import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +29,13 @@ public class BudgetTest {
     @Test
     public void addExpanse() {
         double expanseTeam = team.getBudget().getExpanses();
-        team.getBudget().addExpanse(1000);
+        team.getBudget().addExpanse(team, 1000);
         assertEquals(team.getBudget().getExpanses(), expanseTeam+1000, 0);
+        /*for notification*/
+        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+        team.getBudget().addExpanse(team, 1000000000);
+        assertEquals(union.getMessageBox().size(), 1);
     }
 
     @Test

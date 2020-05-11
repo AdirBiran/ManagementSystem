@@ -1,11 +1,10 @@
 package Domain;
 
 import Data.Database;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
-public class Admin extends Role {
+import java.util.*;
+
+public class Admin extends Role implements Observer {
 
     private LinkedList<Team> permanentlyClosedTeams;
 
@@ -92,4 +91,9 @@ public class Admin extends Role {
         return "Admin";
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(new Notice(news));
+    }
 }

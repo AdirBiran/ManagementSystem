@@ -49,7 +49,7 @@ public class UserFactory {
     public static User getNewTeamOwner(String firstName, String lastName, String mail){
         try {
         User user = new User(firstName, lastName, "TO", mail);
-        TeamOwner authorization = new TeamOwner();
+        TeamOwner authorization = new TeamOwner(user);
         //authorization.fullPermission(true);
         user.addRole(authorization);
         return addToDatabase(user);

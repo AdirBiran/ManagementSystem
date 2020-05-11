@@ -1,9 +1,10 @@
 package Domain;
 
 import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class TeamManager extends Manager implements PartOfATeam {
+public class TeamManager extends Manager implements PartOfATeam, Observer {
 
     private HashSet<Team> teams;
     private boolean isActive;
@@ -90,5 +91,11 @@ public class TeamManager extends Manager implements PartOfATeam {
                 ", price=" + price +
                 ", permission manage assets=" + permissionManageAssets +
                 ", permission finance=" + permissionFinance;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(new Notice(news));
     }
 }

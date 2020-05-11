@@ -168,7 +168,7 @@ public class UnionRepresentativeSystem {
     public boolean addTeamToLeague(User user, LeagueInSeason league, Team team) {
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof UnionRepresentative && team.isActive()){
-            if(team.getBudget().addExpanse(league.getRegistrationFee()))
+            if(team.getBudget().addExpanse(team, league.getRegistrationFee()))
             {
                 unionBudget.addPayment(league.getRegistrationFee());
                 league.addATeam(team);
