@@ -23,7 +23,7 @@ public class Event {
     private String description;
 
 
-    public Event(EventType type, double minuteInGame, String description, EventReport eventReport) {
+    public Event(EventType type, double minuteInGame, String description) {
         this.id = "E"+IdGenerator.getNewId();
         this.type = type;
         this.date = new Date();

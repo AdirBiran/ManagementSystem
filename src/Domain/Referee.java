@@ -39,7 +39,7 @@ public class Referee extends Role implements Observer {
 
     public void addEventToGame(Game game, Event.EventType type, double minuteInGame, String description)
     {
-        Event event = new Event(type, minuteInGame, description, game.getEventReport());
+        Event event = new Event(type, minuteInGame, description);
         game.getEventReport().addEvent(event);
         game.setNewsFromReferee(event);
     }
