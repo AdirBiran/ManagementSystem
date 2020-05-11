@@ -98,7 +98,6 @@ public class UserFactory {
         catch (Exception e){
         return null;
         }
-
     }
 
     public static User getNewReferee(String firstName, String lastName, String mail, Referee.TrainingReferee training){
@@ -106,13 +105,12 @@ public class UserFactory {
         User user = new User(firstName, lastName, "R", mail);
         Referee referee = new Referee(user, training);
         user.addRole(referee);
-        return user;
+        return addToDatabase(user);
         }
         catch (Exception e){
         return null;
         }
     }
-
 
     private static User addToDatabase(User user) {
         String password = PasswordGenerator.generateRandPassword(6);
