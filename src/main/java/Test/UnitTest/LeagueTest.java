@@ -5,7 +5,6 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import static Service.FootballManagementSystem.unionRepresentativeSystem;
 import static org.junit.Assert.*;
 
 public class LeagueTest {
@@ -39,5 +38,10 @@ public class LeagueTest {
     @Test
     public void getLevel() {
         assertEquals(league.getLevel(),"1");
+    }
+
+    @Test
+    public void getId() {
+        assertNotNull(league.getId());
     }
 }

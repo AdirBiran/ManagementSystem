@@ -1,10 +1,7 @@
 package UnitTest;
 
 import Domain.LeagueInSeason;
-import Domain.User;
-import Domain.UserFactory;
 import Service.FootballManagementSystem;
-import Service.UnionRepresentativeSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,5 +37,10 @@ public class SeasonTest {
     @Test
     public void addLeagueInSeason() {
 
+    }
+
+    @Test
+    public void getId(){
+        assertNotNull(leagueInSeason.getSeason().getId());
     }
 }

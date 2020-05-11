@@ -7,6 +7,7 @@ import java.util.Date;
 
 public class Season {
 
+    private String id;
     private int year;
     private Date startDate;
     private List<LeagueInSeason> leagueInSeasons;
@@ -17,6 +18,7 @@ public class Season {
             throw new RuntimeException("year is not valid!");
         this.year = year;
         this.startDate = startDate;
+        this.id = "S"+IdGenerator.getNewId();
         leagueInSeasons = new LinkedList<>();
     }
 
@@ -34,15 +36,20 @@ public class Season {
     public List<LeagueInSeason> getLeagueInSeasons() {
         return leagueInSeasons;
     }
+
+    public String getId() {
+        return id;
+    }
+
     public void addLeagueInSeason(LeagueInSeason leagueInSeason){
         leagueInSeasons.add(leagueInSeason);
     }
 
     @Override
     public String toString() {
-        return "Season{" +
-                "year=" + year +
-                '}';
+        return "Season" +
+                ", id= "+id+
+                ": year=" + year;
     }
 
     @Override
