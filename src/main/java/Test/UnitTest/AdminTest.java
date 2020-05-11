@@ -82,6 +82,11 @@ public class AdminTest {
 
     @Test
     public void responseToComplaint() {
+        Guest guest = new Guest();
+        User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        Fan fan = (Fan) user.checkUserRole("Fan");
+        Complaint complaint = new Complaint("complaint system", fan);
+        assertTrue(admin.responseToComplaint(complaint, "answer"));
     }
 
     @Test

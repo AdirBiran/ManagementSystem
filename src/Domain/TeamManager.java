@@ -90,7 +90,8 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
                 ": name="+ user.getName()+
                 ", price=" + price +
                 ", permission manage assets=" + permissionManageAssets +
-                ", permission finance=" + permissionFinance;
+                ", permission finance=" + permissionFinance+
+                ", teams= "+ teamsString(teams);
     }
 
     @Override

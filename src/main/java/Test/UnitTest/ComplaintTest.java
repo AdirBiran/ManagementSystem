@@ -50,8 +50,10 @@ public class ComplaintTest {
         complaint.deactivate();
         assertFalse(complaint.getIsActive());
     }
-   /* @Test
-    public void setComplaint(Complaint complaint) {
-
-    }*/
+    @Test
+    public void setResponse() {
+        Complaint complaint = new Complaint("complaint system", fan);
+        complaint.setResponse("answer to complaint");
+        assertNotNull(fan.getMessageBox().get(0).getMessage());
+    }
 }

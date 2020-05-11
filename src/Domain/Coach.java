@@ -112,6 +112,7 @@ public class Coach extends Role implements PartOfATeam {
                 ", id= " +user.getID() +
                 ": name=" +user.getName() +
                 ", training='" + training +
-                ", role in team='" + roleInTeam;
+                ", role in team='" + roleInTeam+
+                ", teams= "+ teamsString(teams);
     }
 }

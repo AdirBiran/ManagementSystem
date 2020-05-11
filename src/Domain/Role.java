@@ -1,5 +1,6 @@
 package Domain;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
 
@@ -18,6 +19,14 @@ public abstract class Role{
 
     public String myRole(){
         return myRole;
+    }
+
+    public String teamsString(HashSet<Team> teams){
+        String teamsName="";
+        for (Team team : teams){
+            teamsName = teamsName + team.getName() + ",";
+        }
+        return teamsName;
     }
 
 }

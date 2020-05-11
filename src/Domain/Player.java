@@ -100,6 +100,7 @@ public class Player extends Role implements PartOfATeam {
                 ", id= " +user.getID() +
                 ": name=" +user.getName() +
                 ", birthDate=" + birthDate +
-                ", role in team='" + roleInTeam;
+                ", role in team='" + roleInTeam+
+                ", teams= "+ teamsString(teams);
     }
 }

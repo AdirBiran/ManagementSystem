@@ -241,7 +241,9 @@ public class TeamTest {
 
     @Test
     public void removeField() {
-        team.removeField(team.getField());
-        assertEquals(team.getFields().size(), 0);
+        assertFalse(team.removeField(team.getField()));
+        Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
+        team.addField(field);
+        assertTrue(team.removeField(team.getField()));
     }
 }

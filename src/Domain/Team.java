@@ -361,7 +361,11 @@ public class Team extends Observable {
         return false;
     }
 
-    public void removeField(Field field) {
-        fields.remove(field);
+    public boolean removeField(Field field) {
+        if(fields.size()>1) {
+            fields.remove(field);
+            return true;
+        }
+        return false;
     }
 }
