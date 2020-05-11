@@ -6,18 +6,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class TeamTest {
     FootballManagementSystem system;
     Team team;
     Admin admin;
+    LeagueInSeason league;
     @Before
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
+        league = system.dataReboot();
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin().checkUserRole("Admin");
 
@@ -33,15 +37,23 @@ public class TeamTest {
 
     @Test
     public void addAWin() {
+        int wins = team.getWins();
+        team.addAWin();
+        assertEquals(wins+1, team.getWins());
     }
 
     @Test
     public void addALoss() {
+        int losses = team.getLosses();
+        team.addALoss();
+        assertEquals(losses+1, team.getLosses());
     }
 
     @Test
     public void addADraw() {
-
+        int draws = team.getDraws();
+        team.addADraw();
+        assertEquals(draws+1, team.getDraws());
     }
 
     @Test
@@ -67,12 +79,20 @@ public class TeamTest {
 
     @Test
     public void addCoach() {
-        User user = admin.addNewPlayer("c", "Coach", "c@gmail.com" ,new Date(10,10,1999), Player.RolePlayer.playerBack, 1000);
+        User user = admin.addNewCoach("c", "Coach", "c@gmail.com" , Coach.TrainingCoach.UEFA_PRO , Coach.RoleCoach.assistantCoach,1000);
         assertTrue(team.addCoach(user));
     }
 
     @Test
     public void addGame() {
+        Team team0 = league.getTeams().get(1);
+        Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
+        Referee mainReferee = league.getReferees().get(0);
+        List<Referee> sideReferees = new LinkedList<>();
+        sideReferees.add(league.getReferees().get(1));
+        sideReferees.add(league.getReferees().get(2));
+        Game game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team, team0, league);
+        assertTrue(team.addGame(game));
     }
 
     @Test
@@ -95,93 +115,133 @@ public class TeamTest {
 
     @Test
     public void removePlayer() {
+        User user = admin.addNewPlayer("p", "Player", "p@gmail.com" ,new Date(10,10,1999), Player.RolePlayer.playerBack, 1000);
+        team.addPlayer(user);
+        assertTrue(team.removePlayer(user));
     }
 
     @Test
     public void removeCoach() {
+        User user = admin.addNewCoach("c", "Coach", "c@gmail.com" , Coach.TrainingCoach.UEFA_PRO , Coach.RoleCoach.assistantCoach,1000);
+        team.addCoach(user);
+        assertTrue(team.removeCoach(user));
     }
 
     @Test
     public void getName() {
+        assertEquals(team.getName(), "team0");
     }
 
     @Test
     public void getWins() {
+        team.addAWin();
+        assertEquals(team.getWins(), 1);
     }
 
     @Test
     public void getLosses() {
+        team.addALoss();
+        assertEquals(team.getLosses(), 1);
     }
 
     @Test
     public void getDraws() {
+        team.addADraw();
+        assertEquals(team.getDraws(), 1);
     }
 
     @Test
     public void getPage() {
+        assertNotNull(team.getPage());
     }
 
     @Test
     public void getTeamOwners() {
+        assertEquals(team.getTeamOwners().size(), 1);
     }
 
     @Test
     public void getTeamManagers() {
+        assertEquals(team.getTeamManagers().size(), 0);
     }
 
     @Test
     public void getPlayers() {
+        assertEquals(team.getPlayers().size(), 12);
     }
 
     @Test
     public void getCoaches() {
+        assertEquals(team.getCoaches().size(), 1);
     }
 
     @Test
     public void getBudget() {
+        assertNotNull(team.getBudget());
     }
 
     @Test
     public void getGames() {
+        assertEquals(team.getGames().size(), 0);
     }
 
     @Test
     public void getFields() {
+        assertEquals(team.getFields().size(), 1);
     }
 
     @Test
     public void getField() {
+        assertNotNull(team.getField());
     }
 
     @Test
     public void isActive() {
+        assertTrue(team.isActive());
     }
 
     @Test
     public void setActive() {
+        team.setActive(false);
+        assertFalse(team.isActive());
+        /*for notification*/
+        assertEquals(team.getTeamOwners().get(0).getMessageBox().size(), 1);
+        assertEquals(admin.getMessageBox().size(), 1);
     }
 
     @Test
     public void isPermanentlyClosed() {
+        assertFalse(team.isPermanentlyClosed());
     }
 
     @Test
     public void setPermanentlyClosed() {
+        team.setPermanentlyClosed(true);
+        assertTrue(team.isPermanentlyClosed());
+        /*for notification*/
+        assertEquals(team.getTeamOwners().get(0).getMessageBox().size(), 1);
+        assertEquals(admin.getMessageBox().size(), 1);
     }
 
     @Test
     public void getID() {
+        assertNotNull(team.getID());
     }
 
     @Test
     public void getPrice() {
+        assertNotNull(team.getPrice());
     }
 
     @Test
     public void addField() {
+        Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
+        assertTrue(team.addField(field));
     }
 
     @Test
     public void removeField() {
+        team.removeField(team.getField());
+        assertEquals(team.getFields().size(), 0);
     }
 }

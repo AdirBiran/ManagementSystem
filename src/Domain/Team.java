@@ -30,8 +30,8 @@ public class Team extends Observable {
         this.name = name;
         if(teamOwners==null||teamOwners.size()<1)
            throw new RuntimeException("not enough TeamOwners");
-        this.teamOwners = teamOwners;
-        linkTeamOwner();
+        this.teamOwners = new LinkedList<>();
+        linkTeamOwner(teamOwners);
 
         this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
         teamOwners.get(0).addRole(new HasPage(this.page));
@@ -96,8 +96,8 @@ public class Team extends Observable {
         }
     }
 
-    private void linkTeamOwner() {
-        for(User user:teamOwners){
+    private void linkTeamOwner(List<User> userList) {
+        for(User user : userList){
             if(user!= null)
                 addTeamOwner(user);
         }
@@ -198,9 +198,12 @@ public class Team extends Observable {
         return false;
     }
 
-    public void addGame(Game game) {
-        if(!games.contains(game))
-        this.games.add(game);
+    public boolean addGame(Game game) {
+        if(!games.contains(game)){
+            this.games.add(game);
+            return true;
+        }
+        return false;
     }
 
     /**remove**/
@@ -306,12 +309,13 @@ public class Team extends Observable {
 
     public void setActive(boolean active) {
         this.active = active;
-        setChanged();
         if(active){
+            setChanged();
             notifyObservers(this.name + " is open");
             updateAllSystemAdmins("team "+this.name+" open");
         }
         else {
+            setChanged();
             notifyObservers(this.name + " is closed");
             updateAllSystemAdmins("team "+this.name+" closed");
         }
@@ -332,8 +336,11 @@ public class Team extends Observable {
 
     public void setPermanentlyClosed(boolean permanentlyClosed) {
         this.permanentlyClosed = permanentlyClosed;
-        if(permanentlyClosed)
+        if(permanentlyClosed) {
+            setChanged();
             notifyObservers(this.name + " is permanently closed");
+            updateAllSystemAdmins(this.name + " is permanently closed");
+        }
 
     }
 
@@ -346,10 +353,12 @@ public class Team extends Observable {
         return 0;
     }
 
-    public void addField(Field field) {
-        if(!fields.contains(field))
+    public boolean addField(Field field) {
+        if(!fields.contains(field)) {
             fields.add(field);
-
+            return true;
+        }
+        return false;
     }
 
     public void removeField(Field field) {
