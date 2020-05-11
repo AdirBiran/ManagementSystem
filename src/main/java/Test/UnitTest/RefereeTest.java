@@ -76,7 +76,8 @@ public class RefereeTest {
 
     @Test
     public void changeEvent() {
-       Event event = new Event(Event.EventType.Goal, 50, "", game.getEventReport());
+       /*Event event = new Event(Event.EventType.Goal, 50, "");
+        game.getEventReport().addEvent(event);*/
 
     }
 

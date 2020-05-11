@@ -10,6 +10,8 @@ public class EventReport {
     public EventReport() {
         this.events = new LinkedList<>();
     }
+
+
     public void addEvent(Event event){
         if(!events.contains(event))
             events.add(event);
