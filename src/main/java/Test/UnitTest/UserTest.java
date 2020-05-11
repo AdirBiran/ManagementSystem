@@ -132,5 +132,5 @@ public class UserTest {
     public void getRoles() {
         assertEquals(mesi.getRoles().size(),2);
     }
-    
+
 }

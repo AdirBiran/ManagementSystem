@@ -9,7 +9,6 @@ public class IdGeneratorTest {
 
     @Test
     public void getNewId() {
-        assertNotEquals(-1, IdGenerator.getNewId());
-
+        assertNotEquals(-1,IdGenerator.getNewId());
     }
 }
