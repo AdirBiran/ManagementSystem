@@ -8,3 +8,21 @@
 04.05.2020,  15:38 	 Error: 	 asd
 04.05.2020,  15:43 	 Error: 	 Loading server
 04.05.2020,  15:44 	 Error: 	 Loading server
+05.05.2020,  14:29 	 Error: 	 Server: invalid operation received
+05.05.2020,  14:29 	 Error: 	 Server: invalid operation received
+05.05.2020,  14:52 	 Error: 	 Guest failed Registering
+05.05.2020,  14:52 	 Error: 	 Server: Data reading
+05.05.2020,  17:03 	 Error: 	 Server: invalid operation received
+05.05.2020,  17:37 	 Error: 	 Server: invalid operation received
+05.05.2020,  18:13 	 Error: 	 Server: invalid operation received
+08.05.2020,  16:04 	 Error: 	 Sending Team{id='T2103007911', name='team1', active=true, permanentlyClosed=false}~Team{id='T1951260106', name='team0', active=true, permanentlyClosed=false}~Team{id='T500277781', name='team3', active=true, permanentlyClosed=false}~Team{id='T709567554', name='team13', active=true, permanentlyClosed=false}~Team{id='T2114775277', name='team9', active=true, permanentlyClosed=false}~Team{id='T1361033452', name='team10', active=true, permanentlyClosed=false}~Team{id='T504854132', name='team4', active=true, permanentlyClosed=false}~Team{id='T1603650509', name='team11', active=true, permanentlyClosed=false}~Team{id='T2112045369', name='team6', active=true, permanentlyClosed=false}~Team{id='T392978292', name='team7', active=true, permanentlyClosed=false}~Team{id='T1569706131', name='team8', active=true, permanentlyClosed=false}~Team{id='T1091262636', name='team2', active=true, permanentlyClosed=false}~Team{id='T334255059', name='team5', active=true, permanentlyClosed=false}~Team{id='T1230404553', name='team12', active=true, permanentlyClosed=false}
+ Failed
+08.05.2020,  16:09 	 Error: 	 Sending Team{id='T2103007911', name='team1', active=true, permanentlyClosed=false}~Team{id='T1951260106', name='team0', active=true, permanentlyClosed=false}~Team{id='T500277781', name='team3', active=true, permanentlyClosed=false}~Team{id='T709567554', name='team13', active=true, permanentlyClosed=false}~Team{id='T2114775277', name='team9', active=true, permanentlyClosed=false}~Team{id='T1361033452', name='team10', active=true, permanentlyClosed=false}~Team{id='T504854132', name='team4', active=true, permanentlyClosed=false}~Team{id='T1603650509', name='team11', active=true, permanentlyClosed=false}~Team{id='T2112045369', name='team6', active=true, permanentlyClosed=false}~Team{id='T392978292', name='team7', active=true, permanentlyClosed=false}~Team{id='T1569706131', name='team8', active=true, permanentlyClosed=false}~Team{id='T1091262636', name='team2', active=true, permanentlyClosed=false}~Team{id='T334255059', name='team5', active=true, permanentlyClosed=false}~Team{id='T1230404553', name='team12', active=true, permanentlyClosed=false}
+ Failed
+08.05.2020,  16:17 	 Error: 	 Sending Team{id='T2103007911', name='team1', active=true, permanentlyClosed=false}~Team{id='T1951260106', name='team0', active=true, permanentlyClosed=false}~Team{id='T500277781', name='team3', active=true, permanentlyClosed=false}~Team{id='T709567554', name='team13', active=true, permanentlyClosed=false}~Team{id='T2114775277', name='team9', active=true, permanentlyClosed=false}~Team{id='T1361033452', name='team10', active=true, permanentlyClosed=false}~Team{id='T504854132', name='team4', active=true, permanentlyClosed=false}~Team{id='T1603650509', name='team11', active=true, permanentlyClosed=false}~Team{id='T2112045369', name='team6', active=true, permanentlyClosed=false}~Team{id='T392978292', name='team7', active=true, permanentlyClosed=false}~Team{id='T1569706131', name='team8', active=true, permanentlyClosed=false}~Team{id='T1091262636', name='team2', active=true, permanentlyClosed=false}~Team{id='T334255059', name='team5', active=true, permanentlyClosed=false}~Team{id='T1230404553', name='team12', active=true, permanentlyClosed=false}
+ Failed
+08.05.2020,  16:23 	 Error: 	 Server: Data reading
+08.05.2020,  16:24 	 Error: 	 Sending  Failed
+09.05.2020,  10:06 	 Error: 	 Server: Data reading
+09.05.2020,  11:13 	 Error: 	 Guest failed Login
+12.05.2020,  10:24 	 Error: 	 Server: Data reading

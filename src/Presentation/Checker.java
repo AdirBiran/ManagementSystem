@@ -1,5 +1,8 @@
 package Presentation;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Checker {
 
     public static boolean isValid(Object obj) {
@@ -29,6 +32,16 @@ public class Checker {
 
     }
 
+    public static boolean isValidNumber(String number){
+        if(!isValid(number)) return false;
+        for (int i = 0; i <number.length() ; i++) {
+            char c = number.charAt(i);
+            if(!(c >= '0'&& c <= '9'))
+                return false;
+        }
+        return true;
+    }
+
     public static boolean isValidPassword(String password){
         if(password.length()<6) return false;
         if(!isValid(password))return false;
@@ -40,6 +53,12 @@ public class Checker {
             if(c>='0'&&c<='9') hasNumber = true;
         }
         return hasLowerCase&&hasUpperCase&&hasNumber;
+    }
+
+    public static boolean isValidEmailAddress(String address){
+        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(address);
+        return matcher.find();
     }
 
     private static boolean passNull(Object obj)

@@ -2,8 +2,10 @@ package Presentation;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
+
+
 
 
 public class Client  {
@@ -11,9 +13,9 @@ public class Client  {
     private int serverPort;
     private Socket socket = null;
 
-    public Client (int port)
+    public Client (int serverPort)
     {
-        this.serverPort = port;
+        this.serverPort = serverPort;
 
         try
         {
@@ -26,19 +28,25 @@ public class Client  {
         }
 
     }
+	
 
-    public List<String> requestFromServer(String stringToSend)
+    public List<String> sendToServer(String stringToSend)
     {
         List<String> res = new LinkedList<>();
+
 
         try {
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-            if (stringToSend.charAt(stringToSend.length()-1) != '\n')
+            if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
                 stringToSend = stringToSend + "\n";
 
             outputStream.writeBytes(stringToSend);
             outputStream.flush();
+
+            System.out.println("Client sent to server " + stringToSend);
+
+            res = createListFromServerString(receiveFromServer());
 
         }
         catch (Exception e) {
@@ -46,8 +54,8 @@ public class Client  {
             e.printStackTrace();
         }
 
+        
         return res;
-
     }
 
     public String receiveFromServer()
@@ -60,6 +68,8 @@ public class Client  {
             BufferedReader clientReader = new BufferedReader(new InputStreamReader(inputStream));
 
             res = clientReader.readLine();
+
+            System.out.println("Client receive from server : "+res);
         }
         catch (Exception e)
         {
@@ -69,6 +79,19 @@ public class Client  {
         return res;
 
     }
+
+    private List<String> createListFromServerString(String ans)
+    {
+        List<String> res = new LinkedList<>();
+
+        String[] split = ans.split("~");
+
+        for (String s : split)
+            res.add(s);
+
+        return res;
+    }
+
 
 }
 

@@ -2,7 +2,7 @@ package Service;
 
 import Data.Database;
 import Domain.*;
-import Presentation.*;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -78,7 +78,7 @@ public class FootballManagementSystem {
         return taxLawsSystem;
     }
 
-    public boolean systemInit(boolean firsTime){
+    public static boolean systemInit(boolean firsTime){
         //***data***//
         database = new Database();
         if(!firsTime)

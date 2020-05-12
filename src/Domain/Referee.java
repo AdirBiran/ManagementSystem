@@ -43,6 +43,15 @@ public class Referee extends Role implements Observer {
         game.getEventReport().addEvent(event);
         game.setNewsFromReferee(event);
     }
+    /*
+    to edit get event report and edit it only Main referee can
+     */
+    public EventReport getEventReport(Game game){
+        if(this.equals(game.getMainReferee())){
+            return game.getEventReport();
+        }
+        return null;
+    }
 
     public boolean changeEvent(Game game, Event event, String change){
         for (Event event1: game.getEventReport().getEvents()) {
