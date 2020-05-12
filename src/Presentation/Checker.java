@@ -32,6 +32,16 @@ public class Checker {
 
     }
 
+    public static boolean isValidNumber(String number){
+        if(!isValid(number)) return false;
+        for (int i = 0; i <number.length() ; i++) {
+            char c = number.charAt(i);
+            if(!(c >= '0'&& c <= '9'))
+                return false;
+        }
+        return true;
+    }
+
     public static boolean isValidPassword(String password){
         if(password.length()<6) return false;
         if(!isValid(password))return false;

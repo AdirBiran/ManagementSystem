@@ -86,6 +86,4 @@ public class Admin implements Role {
     public String myRole() {
         return "Admin";
     }
-
-
 }

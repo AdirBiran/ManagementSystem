@@ -191,7 +191,7 @@ public class Server {
                         handleviewSearchHistory(splitLine, clientSocket);
                         break;
 
-                    case "handleaddComplaint": // Done
+                    case "addComplaint": // Done
                         handleaddComplaint(splitLine, clientSocket);
                         break;
 
@@ -800,7 +800,7 @@ public class Server {
             String sendToClient = userid + "|";
 
             for (Role r : roles)
-                sendToClient = sendToClient + r + "|";
+                sendToClient = sendToClient + r.myRole() + "|";
 
             sendLineToClient(sendToClient.substring(0,sendToClient.length()-1), clientSocket);
         }
@@ -906,12 +906,12 @@ public class Server {
 
     private Date stringToDate(String s)
     {
-        String[] split = s.split("\\.");
+        String[] split = s.split("-");
         Calendar cal = Calendar.getInstance();
 
-        int year = Integer.parseInt(split[2]);
+        int year = Integer.parseInt(split[0]);
         int month = Integer.parseInt(split[1]) - 1;
-        int day = Integer.parseInt(split[0]);
+        int day = Integer.parseInt(split[2]);
 
         cal.set(year, month, day);
         Date date = new Date(cal.getTimeInMillis());

@@ -96,7 +96,8 @@ public class Player implements PartOfATeam, Role {
     @Override
     public String toString() {
         return "Player{" +
-                "birthDate=" + birthDate +
+                "name='"+ user.getName()+ '\''+
+                ", birthDate=" + birthDate +
                 ", role='" + role + '\'' +
                 '}';
     }

@@ -59,7 +59,7 @@ public class UserController {
         List<String> history = m_client.sendToServer("viewSearchHistory|"+loggedUser);
         GridPane historyPane = new GridPane();
         mainView1.getChildren().add(historyPane);
-        m_general.showListOnScreen(history, historyPane,0);
+        m_general.showListOnScreen("",history, historyPane,0);
     }
 
     public void logoutButtonPushed(ActionEvent actionEvent) {
@@ -221,14 +221,14 @@ public class UserController {
                         }
                     });
                     ownerMenu.getItems().add(addTeam);
-                    MenuItem getTeamById = new MenuItem("getTeamById");
-                    getTeamById.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            ownership.getTeamById();
-                        }
-                    });
-                    ownerMenu.getItems().add(getTeamById);
+                    //MenuItem getTeamById = new MenuItem("getTeamById");
+                    //getTeamById.setOnAction(new EventHandler<ActionEvent>() {
+                    //    @Override
+                    //    public void handle(ActionEvent event) {
+                    //        ownership.getTeamById();
+                    //    }
+                    //});
+                    //ownerMenu.getItems().add(getTeamById);
                     MenuItem removeTeam = new MenuItem("removeTeam");
                     removeTeam.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -415,11 +415,11 @@ public class UserController {
                         }
                     });
                     refMenu.getItems().add(setScoreInGame);
-                    MenuItem getEventReport = new MenuItem("getEventReport");
+                    MenuItem getEventReport = new MenuItem("getGameReport");
                     getEventReport.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            referee.getEventReport();
+                            referee.getGameReport();
                         }
                     });
                     refMenu.getItems().add(getEventReport);
