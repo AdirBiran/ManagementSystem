@@ -94,9 +94,12 @@ public class GeneralController {
                 name.setCellValueFactory(new PropertyValueFactory("name"));
                 TableColumn birthDate = new TableColumn("Birth Date");
                 birthDate.setCellValueFactory(new PropertyValueFactory("birthDate"));
-                TableColumn role = new TableColumn("role");
+                TableColumn role = new TableColumn("Role");
                 role.setCellValueFactory(new PropertyValueFactory("role"));
-                tableView.getColumns().addAll(name,birthDate,role);
+                TableColumn teams = new TableColumn("Teams");
+                teams.setCellValueFactory(new PropertyValueFactory("teams"));
+
+                tableView.getColumns().addAll(name,birthDate,role,teams);
                 break;
             }
             case ("Coaches"):{
@@ -141,8 +144,8 @@ public class GeneralController {
         values.add("Leagues");
         values.add("Seasons");
         values.add("Referees");
-        ObservableList obList = FXCollections.observableList(values);
-        ChoiceBox subjects = new ChoiceBox(obList);
+        ObservableList<String> obList = FXCollections.observableList(values);
+        ChoiceBox<String> subjects = new ChoiceBox(obList);
         subjects.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -158,8 +161,6 @@ public class GeneralController {
         l_viewPane.setAlignment(Pos.TOP_CENTER);
         mainView.getChildren().add(l_viewPane);
     }
-
-
 
     public void showInfo(String choice, Client m_client, GridPane l_viewPane) {
         switch(choice){
@@ -230,8 +231,8 @@ public class GeneralController {
     private TextField tf_lastName;
     private TextField tf_phone;
     private TextField tf_address;
-    private TextField tf_role;
-    private TextField tf_training;
+    private ChoiceBox<String> tf_role;
+    private ChoiceBox<String> tf_training;
     private TextField tf_price;
     private DatePicker birthDatePicker;
     private CheckBox cb_manage;
@@ -269,13 +270,13 @@ public class GeneralController {
                 l_registerPane.add(birthDate, 0,5);
                 birthDatePicker = new DatePicker();
                 l_registerPane.add(birthDatePicker, 2,5);
-                addRoleField(l_registerPane,0,6);
+                addRoleField(type,l_registerPane,0,6);
                 addPriceField(l_registerPane,0,7);
                 break;
             }
             case "coach":{
-                addTrainingField(l_registerPane, 0, 5);
-                addRoleField(l_registerPane,0,6);
+                addTrainingField(type,l_registerPane, 0, 5);
+                addRoleField(type,l_registerPane,0,6);
                 addPriceField(l_registerPane,0,7);
 
                 break;
@@ -294,7 +295,7 @@ public class GeneralController {
                 break;
             }
             case "referee":{
-                addTrainingField(l_registerPane, 0,5);
+                addTrainingField(type,l_registerPane, 0,5);
                 break;
             }
             case "fan":{
@@ -317,10 +318,27 @@ public class GeneralController {
 
     }
 
-    private void addTrainingField(GridPane l_registerPane, int col, int row) {
+    private void addTrainingField(String type, GridPane l_registerPane, int col, int row) {
         Label training = new Label("Training");
         l_registerPane.add(training, col, row);
-        tf_training = new TextField();
+        tf_training = new ChoiceBox<>();
+        ObservableList<String> trainings = FXCollections.observableArrayList();
+        switch(type){
+            case "coach":{
+                trainings.add("IFA_C");
+                trainings.add("UEFA_A");
+                trainings.add("UEFA_B");
+                trainings.add("UEFA_PRO");
+                break;
+            }
+            case "referee":{
+                trainings.add("referees");
+                trainings.add("linesman");
+                trainings.add("var");
+                break;
+            }
+        }
+        tf_training.setItems(trainings);
         l_registerPane.add(tf_training, col+2, row);
     }
 
@@ -332,10 +350,28 @@ public class GeneralController {
         l_registerPane.add(tf_price, col+2,row);
     }
 
-    private void addRoleField(GridPane l_registerPane, int col, int row) {
+    private void addRoleField(String type, GridPane l_registerPane, int col, int row) {
         Label role = new Label("Role:");
         l_registerPane.add(role, col,row);
-        tf_role = new TextField();
+        tf_role = new ChoiceBox<>();
+        ObservableList<String> roles = FXCollections.observableArrayList();
+        switch(type){
+            case "player":{
+                roles.add("goalkeeper");
+                roles.add("playerBack");
+                roles.add("midfielderPlayer");
+                roles.add("attackingPlayer");
+                break;
+            }
+            case "coach":{
+                roles.add("main");
+                roles.add("assistantCoach");
+                roles.add("fitness");
+                roles.add("goalkeeperCoach");
+                break;
+            }
+        }
+        tf_role.setItems(roles);
         l_registerPane.add(tf_role, col+2,row);
     }
 
@@ -383,7 +419,7 @@ public class GeneralController {
             }
             case "player":{
                 LocalDate birth = birthDatePicker.getValue();
-                String role = tf_role.getText(), price = tf_price.getText();
+                String role = tf_role.getValue(), price = tf_price.getText();
                 if(birth!=null && Checker.isValidNumber(price)&&Checker.isValid(role)){
                     request = "addNewPlayer|"+admin+"|"+firstName+"|"+lastName+"|"+mail+"|"+birth+"|"+role+"|"+price;
                 }
@@ -393,7 +429,7 @@ public class GeneralController {
                 break;
             }
             case "coach":{
-                String role = tf_role.getText(),training = tf_training.getText() , price = tf_price.getText();
+                String role = tf_role.getValue(),training = tf_training.getValue() , price = tf_price.getText();
                 if(Checker.isValid(role)&&Checker.isValid(training)&&Checker.isValidNumber(price)){
                     request = "addNewCoach|"+admin+"|"+firstName+"|"+lastName+"|"+mail+"|"+training+"|"+role+"|"+price;
                 }
@@ -425,7 +461,7 @@ public class GeneralController {
                 break;
             }
             case "referee":{
-                String training = tf_training.getText();
+                String training = tf_training.getValue();
                 if(Checker.isValid(training))
                     request = "appointReferee|"+admin+"|"+firstName+"|"+lastName+"|"+mail+"|"+training;
                 break;
@@ -450,12 +486,6 @@ public class GeneralController {
         else{
             showAlert(split[0], Alert.AlertType.INFORMATION);
         }
-
-
-    }
-
-    private void cantVerifyPassword() {
-        showAlert("Cant verify pssword!", Alert.AlertType.ERROR);
     }
 
     private boolean checkPassword(String password, String password2) {

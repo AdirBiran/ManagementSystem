@@ -1,4 +1,4 @@
-package Presentation;
+package Service;
 
 public class StubAccountingSystem {
 
