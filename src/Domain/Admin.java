@@ -1,17 +1,17 @@
 package Domain;
 
 import Data.Database;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
-public class Admin implements Role {
+import java.util.*;
+
+public class Admin extends Role implements Observer {
 
     private LinkedList<Team> permanentlyClosedTeams;
 
-    public Admin() {
-
+    public Admin(User user) {
+        this.user = user;
         permanentlyClosedTeams = new LinkedList<>();
+        myRole = "Admin";
     }
 
     public boolean closeTeamPermanently(Team team)
@@ -20,16 +20,14 @@ public class Admin implements Role {
             team.setActive(false);
             team.setPermanentlyClosed(true);
             permanentlyClosedTeams.add(team);
-            //Maybe add a list of permanently closed teamsToManage to Database
-            //What happens to the members of the teamsToManage???
             return true;
         }
         return false;
     }
-    public User addNewPlayer(String firstName, String lastName, String mail, Date birthDate, String role, double price){
+    public User addNewPlayer(String firstName, String lastName, String mail, Date birthDate, Player.RolePlayer role, double price){
         return UserFactory.getNewPlayer(firstName, lastName, mail, birthDate, role, price);
     }
-    public User addNewCoach(String firstName, String lastName, String mail, String training, String role, double price){
+    public User addNewCoach(String firstName, String lastName, String mail, Coach.TrainingCoach training, Coach.RoleCoach role, double price){
         return UserFactory.getNewCoach(firstName, lastName, mail, training, role, price);
     }
     public User addNewTeamOwner(String firstName, String lastName, String mail){
@@ -55,7 +53,7 @@ public class Admin implements Role {
             if(teams!=null){
                 for(Team team:teams )
                     if(team.getTeamOwners().size()==1)
-                        return "The user cannot be deleted";
+                        return "";
             }
         }
         return Database.removeUser(userId);
@@ -78,7 +76,13 @@ public class Admin implements Role {
         field.reactivate();
     }
 
-    public void responseToComplaint(){}
+    public boolean responseToComplaint(Complaint complaint, String response){
+        if(complaint!=null){
+            complaint.setResponse(response);
+            return true;
+        }
+        return false;
+    }
     public void viewLog(){}
     public void trainModel(){}
 
@@ -86,4 +90,11 @@ public class Admin implements Role {
     public String myRole() {
         return "Admin";
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(new Notice(news));
+    }
+
 }

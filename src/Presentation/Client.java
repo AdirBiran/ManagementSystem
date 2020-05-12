@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.LinkedList;
+import java.util.List;
+
 
 
 public class Client  {
@@ -26,10 +29,13 @@ public class Client  {
         }
 
     }
+	
 
     public List<String> sendToServer(String stringToSend)
     {
-        List<String> results = new LinkedList<>();
+        List<String> res = new LinkedList<>();
+
+
         try {
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
@@ -48,7 +54,9 @@ public class Client  {
 
             e.printStackTrace();
         }
-        return results;
+
+        
+        return res;
     }
 
     public String receiveFromServer()

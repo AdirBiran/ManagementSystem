@@ -19,17 +19,20 @@ public class AdminSystem {
     /*
     Remove user by an administrator
     */
-    public void removeUser(User user, String userId){
+    public boolean removeUser(User user, String userId){
         Role adminRole = user.checkUserRole("Admin");
         if(adminRole instanceof Admin){
             String userMail = ((Admin)adminRole).removeUser(userId);
-            notificationSystem.UserRemovalNotification(userMail);
-
-            Logger.logEvent(user.getID() + " (Admin)", "Removed user " + userId);
+            if(!(userMail.equals(""))) {
+                notificationSystem.UserRemovalNotification(userMail);
+                Logger.logEvent(user.getID() + " (Admin)", "Removed user " + userId);
+                return true;
+            }
         }
+        return false;
     }
 
-    public User addNewPlayer(User user, String firstName, String lastName, String mail, Date birthDate, String role, double price){
+    public User addNewPlayer(User user, String firstName, String lastName, String mail, Date birthDate, Player.RolePlayer role, double price){
         Role adminRole = user.checkUserRole("Admin");
         if(adminRole instanceof Admin){
             User playerAdded = ((Admin)adminRole).addNewPlayer(firstName, lastName, mail, birthDate, role, price);
@@ -39,7 +42,7 @@ public class AdminSystem {
         }
         return null;
     }
-    public User addNewCoach(User user,String firstName, String lastName, String mail, String training, String role, double price){
+    public User addNewCoach(User user, String firstName, String lastName, String mail, Coach.TrainingCoach training, Coach.RoleCoach role, double price){
         Role adminRole = user.checkUserRole("Admin");
         if(adminRole instanceof Admin){
             User coachAdded = ((Admin)adminRole).addNewCoach(firstName, lastName, mail, training, role, price);
@@ -102,11 +105,11 @@ public class AdminSystem {
         return false;
     }
 
-    public void responseToComplaint(User user, Complaint complaint)
+    public void responseToComplaint(User user, Complaint complaint, String response)
     {
         Role adminRole = user.checkUserRole("Admin");
         if(adminRole instanceof Admin){
-            ((Admin)adminRole).responseToComplaint();
+            ((Admin)adminRole).responseToComplaint(complaint, response);
             Logger.logEvent(user.getID() + " (Admin)", " Responded to complaint");
         }
     }

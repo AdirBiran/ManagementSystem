@@ -15,7 +15,7 @@ public class FootballManagementSystem {
     private static GuestSystem guestSystem;
     private static PersonalPageSystem personalPageSystem ;
     private static RefereeSystem refereeSystem;
-    private static UnionRepresentativeSystem unionRepresentativeSystem;
+    public static UnionRepresentativeSystem unionRepresentativeSystem;
     private static UserSystem userSystem;
     private static AdminSystem adminSystem;
     private static TeamManagementSystem teamManagementSystem;
@@ -140,7 +140,7 @@ public class FootballManagementSystem {
             User owner = adminSystem.addNewTeamOwner(systemAdmins.get(0),"Team","Owner","to"+i+"@gmail.com" );
             if(owner!=null){
                 owners.add(owner);
-                Field field = new Field( "jerusalem", 550, 150000);
+                Field field = new Field("jerusalem","Teddy" ,550, 150000);
                 team = new Team("team"+i,owners,players,coaches, field);
                 team.getBudget().addIncome(1000000000);
                 unionRepresentativeSystem.addTeamToLeague(unionRep,leagueInSeason, team);
@@ -156,10 +156,10 @@ public class FootballManagementSystem {
 
 
     public static User mainReferee(User unionRep) {
-        return unionRepresentativeSystem.appointReferee(unionRep,"referee", "",+IdGenerator.getNewId()+"@gmail.com", "talented");
+        return unionRepresentativeSystem.appointReferee(unionRep,"referee", "",+IdGenerator.getNewId()+"@gmail.com", Referee.TrainingReferee.referees);
     }
     public static List<User> createCoaches() {
-        User Coach = adminSystem.addNewCoach(systemAdmins.get(0),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com","firstOne", "Main", 1500);
+        User Coach = adminSystem.addNewCoach(systemAdmins.get(0),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", Domain.Coach.TrainingCoach.UEFA_A, Domain.Coach.RoleCoach.main, 1500);
         List<User> coaches = new LinkedList<>();
         coaches.add(Coach);
         return coaches;
@@ -168,7 +168,7 @@ public class FootballManagementSystem {
         List<User> players = new LinkedList<>();
         User player;
         for (int i = 0; i <12 ; i++) {
-            player = adminSystem.addNewPlayer(systemAdmins.get(0), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", new Date(99, 1, 1),"role"+i, 3500);
+            player = adminSystem.addNewPlayer(systemAdmins.get(0), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", new Date(99, 1, 1), Player.RolePlayer.attackingPlayer, 3500);
             if(player!=null){
                 players.add(player);
             }

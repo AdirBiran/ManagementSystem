@@ -30,12 +30,12 @@ public class AdminTest {
 
     @Test
     public void addNewPlayer() {
-    assertNotNull(admin.addNewPlayer("lionel","mesi","lmesi@gmail.com",new Date(99, 1, 1),"role"+1,300000));
+    assertNotNull(admin.addNewPlayer("lionel","mesi","lmesi@gmail.com",new Date(99, 1, 1), Player.RolePlayer.attackingPlayer,300000));
     }
 
     @Test
     public void addNewCoach() {
-        assertNotNull(admin.addNewCoach("coach1", "coach",+IdGenerator.getNewId()+"@gmail.com","firstOne", "main", 1500));
+        assertNotNull(admin.addNewCoach("coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", Coach.TrainingCoach.UEFA_A, Coach.RoleCoach.main, 1500));
     }
 
     @Test
@@ -45,6 +45,7 @@ public class AdminTest {
 
     @Test
     public void addNewTeamManager() {
+        //admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false);
         assertNotNull(admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false));
     }
 
@@ -66,7 +67,7 @@ public class AdminTest {
 
     @Test
     public void removeField() {
-     Field  field = new Field("Tel-Aviv", 150000, 125000);
+     Field  field = new Field("Tel-Aviv","Bloomfield", 150000, 125000);
      admin.addField(field);
      admin.removeField(field);
      assertFalse(field.isActive());
@@ -74,13 +75,18 @@ public class AdminTest {
 
     @Test
     public void addField() {
-        Field  field = new Field("Tel-Aviv", 150000, 125000);
+        Field  field = new Field("Tel-Aviv","Bloomfield", 150000, 125000);
         admin.addField(field);
         assertTrue(field.isActive());
     }
 
     @Test
     public void responseToComplaint() {
+        Guest guest = new Guest();
+        User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        Fan fan = (Fan) user.checkUserRole("Fan");
+        Complaint complaint = new Complaint("complaint system", fan);
+        assertTrue(admin.responseToComplaint(complaint, "answer"));
     }
 
     @Test

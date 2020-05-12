@@ -3,22 +3,23 @@ package Domain;
 import Data.Database;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Fan implements Role{
-
-
+public class Fan extends Role implements Observer {
 
     private String address;
     private String phone;
     private List<Complaint> complaints;
     private List<PersonalPage> followPages;
 
-
-    public Fan(String phone, String address) {
+    public Fan(User user, String phone, String address) {
+        this.user = user;
         this.address = address;
         this.phone = phone;
         complaints = new LinkedList<>();
         followPages = new LinkedList<>();
+        myRole = "Fan";
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
@@ -38,13 +39,9 @@ public class Fan implements Role{
         this.phone = phone;
     }
 
-    public boolean followPage(PersonalPage page){
-        return addPageToFollow(page);
-    }
-
     public boolean followGames(List<Game> games , ReceiveAlerts receiveAlerts){
         for(Game game: games) {
-            if(!game.addFanForNotifications(this, receiveAlerts));
+            if(!game.addFanForNotifications(this, receiveAlerts))
                 return false;
         }
         return true;
@@ -55,7 +52,6 @@ public class Fan implements Role{
             return false;
         Complaint complaint = new Complaint(description, this);
         return Database.addComplaint(complaint);
-
     }
 
     public List<String> getFollowedPages(){
@@ -106,5 +102,14 @@ public class Fan implements Role{
                 "address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if(arg instanceof Event) {
+            arg = arg.toString();
+        }
+        String news = (String)arg;
+        user.addMessage(new Notice(news));
     }
 }

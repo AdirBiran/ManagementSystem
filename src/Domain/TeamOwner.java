@@ -2,11 +2,9 @@ package Domain;
 
 import Data.Database;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-public class TeamOwner extends Manager implements Role{
+public class TeamOwner extends Manager implements Observer {
 
     private List<Team> closedTeams;
     private HashMap<User, Team> appointedTeamOwners;
@@ -14,12 +12,14 @@ public class TeamOwner extends Manager implements Role{
     private HashMap<Team,PersonalPage> personalPages;
 
 
-    public TeamOwner() {
+    public TeamOwner(User user) {
         super();
         closedTeams = new LinkedList<>();
         personalPages = new HashMap<>();
         appointedTeamOwners = new HashMap<>();
         appointedTeamManagers = new HashMap<>();
+        myRole = "TeamOwner";
+        this.user = user;
     }
 
     public HashMap<User, Team> getAppointedTeamOwners() {
@@ -55,7 +55,7 @@ public class TeamOwner extends Manager implements Role{
     }
 
 
-    public boolean createTeam(User user , String teamName, String pageData, List<String> players, List<String> coaches, String field){
+    public boolean createTeam(User user , String teamName, List<String> players, List<String> coaches, String field){
         Role teamOwnerRole = user.checkUserRole("TeamOwner");
         if(teamOwnerRole != null){
 
@@ -113,7 +113,7 @@ public class TeamOwner extends Manager implements Role{
         if(teamsToManage.contains(team)){
             if(!team.getTeamOwners().contains(user)){
                 if(teamOwnerRole==null){
-                    TeamOwner teamOwner = new TeamOwner();
+                    TeamOwner teamOwner = new TeamOwner(user);
                     teamOwner.addTeam(team);
                     user.addRole(teamOwner);
                 }
@@ -133,7 +133,7 @@ public class TeamOwner extends Manager implements Role{
         if(teamsToManage.contains(team)){
             if(!team.getTeamManagers().contains(user) && !team.getTeamOwners().contains(user)){
                 if(teamManagerRole==null){
-                    TeamManager teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
+                    TeamManager teamManager = new TeamManager(user, price, manageAssets, finance);
                     user.addRole(teamManager);
                 }
                 else{
@@ -207,4 +207,16 @@ public class TeamOwner extends Manager implements Role{
         return "TeamOwner";
     }
 
+    @Override
+    public String toString() {
+        return "TeamOwner" +
+                ", id=" + user.getID() +
+                ": name=" + user.getName();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(new Notice(news));
+    }
 }

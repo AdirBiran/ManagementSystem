@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class League {
 
+    private String id;
     private String name;
     private String level;
     private List<LeagueInSeason> leagueInSeasons;
@@ -16,6 +17,7 @@ public class League {
     public League(String name, String level) {
         this.name = name;
         this.level = level;
+        this.id = "L" + IdGenerator.getNewId();
         leagueInSeasons = new LinkedList<>();
     }
 
@@ -35,10 +37,10 @@ public class League {
 
     @Override
     public String toString() {
-        return "League{" +
-                "name='" + name + '\'' +
-                ", level='" + level + '\'' +
-                '}';
+        return "League" +
+                ", id= "+ id+
+                ": name=" + name +
+                ", level='" + level;
     }
 
     public String getName() {
@@ -47,5 +49,9 @@ public class League {
 
     public String getLevel() {
         return level;
+    }
+
+    public String getId() {
+        return id;
     }
 }

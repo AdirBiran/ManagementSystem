@@ -89,7 +89,11 @@ public class TeamOwnerTest {
         assertFalse(teamOwner.removeAppointTeamOwner(user,team));
         teamOwner.addTeam(team);
         teamOwner.appointTeamOwner(user,team);
+        TeamOwner teamOwner1 = (TeamOwner) user.checkUserRole("TeamOwner");
+        User user1=new User("shir","ben dor","123456789","shir@gmail.com");
+        teamOwner1.appointTeamManager(user1,team,30,false,false);
         assertTrue(teamOwner.removeAppointTeamOwner(user,team));
+     //   assertEquals(0,teamOwner1.getAppointedTeamManagers().size());
     }
 
     @Test
@@ -119,5 +123,10 @@ public class TeamOwnerTest {
     @Test
     public void myRole() {
         assertEquals(teamOwner.myRole(),"TeamOwner");
+    }
+
+    @Test
+    public void createTeam() {
+
     }
 }

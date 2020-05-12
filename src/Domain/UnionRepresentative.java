@@ -1,11 +1,16 @@
 package Domain;
 
 import Data.Database;
-import java.util.Date;
-import java.util.List;
 
-public class UnionRepresentative implements Role{
+import java.util.*;
 
+public class UnionRepresentative extends Role implements Observer {
+
+    public UnionRepresentative(User user) {
+        this.user = user;
+        myRole = "UnionRepresentative";
+
+    }
 
     public boolean configureNewLeague(String name, String level) {
         League league = new League(name, level);
@@ -34,14 +39,13 @@ public class UnionRepresentative implements Role{
 
     public boolean assignGames(LeagueInSeason league, List<Date> dates) {
         List<Game> games =league.getAssignmentPolicy().assignGames(dates, league);
-
         if(games!=null){
             league.setGames(games);
             return true;
         }
         return false;
     }
-    public User appointReferee(String firstName, String lastName, String mail, String training)
+    public User appointReferee(String firstName, String lastName, String mail, Referee.TrainingReferee training)
     {
         return UserFactory.getNewReferee(firstName, lastName, mail, training);
     }
@@ -49,7 +53,7 @@ public class UnionRepresentative implements Role{
     {
 
     }
-    public boolean addRefereeToLeague(LeagueInSeason league, User referee)
+    public boolean addRefereeToLeague(LeagueInSeason league, Referee referee)
     {
         return league.addReferee(referee);
     }
@@ -68,6 +72,15 @@ public class UnionRepresentative implements Role{
         team.getBudget().addIncome(payment);
     }
 
+    public List<String> allLeaguesInSeasons() {
+        List<String> allLeagues= new LinkedList<>();
+        for(League league: Database.getLeagues()){
+            for(LeagueInSeason leagueInSeason : league.getLeagueInSeasons())
+                allLeagues.add(leagueInSeason.toString());
+        }
+
+        return allLeagues;
+    }
     @Override
     public boolean equals(Object obj) {
         return obj instanceof UnionRepresentative;
@@ -80,5 +93,18 @@ public class UnionRepresentative implements Role{
     @Override
     public String myRole() {
         return "UnionRepresentative";
+    }
+
+    @Override
+    public String toString() {
+        return "UnionRepresentative" +
+                ", id=" + user.getID() +
+                ": name=" +user.getName();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(new Notice(news));
     }
 }

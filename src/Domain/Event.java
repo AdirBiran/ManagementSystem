@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Event {
 
+    //public static Object EventType;
+
     public enum EventType {
         Undefined,
         Goal,
@@ -21,16 +23,16 @@ public class Event {
     private String description;
 
 
-    public Event(EventType type, double minuteInGame, String description, EventReport eventReport) {
+    public Event(EventType type, double minuteInGame, String description) {
         this.id = "E"+IdGenerator.getNewId();
         this.type = type;
         this.date = new Date();
         this.minuteInGame = minuteInGame;
         this.description = description;
-        eventReport.addEvent(this);
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
 
     public EventType getType() {
         return type;
@@ -58,5 +60,15 @@ public class Event {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "type=" + type +
+                ", date=" + date +
+                ", minuteInGame=" + minuteInGame +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

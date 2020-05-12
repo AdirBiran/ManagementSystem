@@ -1,11 +1,11 @@
 package Domain;
 
 import java.util.HashSet;
+import java.util.Observable;
+import java.util.Observer;
 
-public class TeamManager extends Manager implements Role,PartOfATeam {
+public class TeamManager extends Manager implements PartOfATeam, Observer {
 
-
-    private String id;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
@@ -15,18 +15,19 @@ public class TeamManager extends Manager implements Role,PartOfATeam {
 
 
 
-    public TeamManager(String id,double price, boolean manageAssets , boolean finance ) {
-        this.id = id;
+    public TeamManager(User user, double price, boolean manageAssets , boolean finance ) {
         teams = new HashSet<>();
         this.price = price;
         isActive = true;
         permissionManageAssets = manageAssets;
         permissionFinance = finance;
+        myRole = "TeamManager";
+        this.user = user;
     }
 
     @Override
     public String getID() {
-        return id;
+        return user.getID();
     }
 
     @Override
@@ -82,4 +83,20 @@ public class TeamManager extends Manager implements Role,PartOfATeam {
         return "TeamManager";
     }
 
+    @Override
+    public String toString() {
+        return "TeamManager" +
+                ", id="+ user.getID()+
+                ": name="+ user.getName()+
+                ", price=" + price +
+                ", permission manage assets=" + permissionManageAssets +
+                ", permission finance=" + permissionFinance+
+                ", teams= "+ teamsString(teams);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(new Notice(news));
+    }
 }

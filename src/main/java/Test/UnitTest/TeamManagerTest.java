@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
         User userTeamManager= admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false);
         teamManager = (TeamManager)userTeamManager.checkUserRole("TeamManager");
+
     }
 
     @Test

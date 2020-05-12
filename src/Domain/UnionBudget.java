@@ -12,4 +12,5 @@ public class UnionBudget {
     public boolean addPayment(double income){
         return budget.addIncome(income);
     }
+
 }

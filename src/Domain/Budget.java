@@ -1,6 +1,10 @@
 package Domain;
 
-public class Budget {
+import Data.Database;
+
+import java.util.Observable;
+
+public class Budget extends Observable {
 
     private double income;
     private double expanses;
@@ -27,19 +31,26 @@ public class Budget {
 
     }
 
-    public boolean addExpanse(double expense) {
+    public boolean addExpanse(Team team ,double expense) {
         if (expense > 0) {
             this.expanses += expense;
             updateBalance();
             if (balance < 0) {
                 this.expanses -= expense;
                 updateBalance();
+                updateAllUnionRep("The team: "+team.getName()+" has exceeded its budget");
                 return false;
             } else
                 return true;
         }
         return false;
 
+    }
+
+    private void updateAllUnionRep(String news) {
+        for (Role union : Database.getListOfAllSpecificRoles("UnionRepresentative")){
+            ((UnionRepresentative)union).update(this, news);
+        }
     }
 
     private void updateBalance() {

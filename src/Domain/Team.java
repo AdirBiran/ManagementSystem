@@ -1,9 +1,12 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Observable;
 
-public class Team{
+public class Team extends Observable {
 
     private String id;
     private String name;
@@ -27,8 +30,8 @@ public class Team{
         this.name = name;
         if(teamOwners==null||teamOwners.size()<1)
            throw new RuntimeException("not enough TeamOwners");
-        this.teamOwners = teamOwners;
-        linkTeamOwner();
+        this.teamOwners = new LinkedList<>();
+        linkTeamOwner(teamOwners);
 
         this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
         teamOwners.get(0).addRole(new HasPage(this.page));
@@ -56,11 +59,13 @@ public class Team{
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-    public void addLeague(LeagueInSeason league) {
+    public boolean addLeague(LeagueInSeason league) {
         if(!leagues.contains(league)){
             this.leagues.add(league);
             league.addATeam(this);
+            return true;
         }
+        return false;
     }
 
     private void linkField() {
@@ -91,34 +96,32 @@ public class Team{
         }
     }
 
-    private void linkTeamOwner() {
-        for(User user:teamOwners){
-            TeamOwner teamOwner = (TeamOwner) user.checkUserRole("TeamOwner");
-            if(teamOwner!=null)
-                teamOwner.addTeam(this);
+    private void linkTeamOwner(List<User> userList) {
+        for(User user : userList){
+            if(user!= null)
+                addTeamOwner(user);
         }
     }
 
     @Override
     public String toString() {
-        return "Team{" +
+        return "Team," +
                 "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                ": name='" + name + '\'' +
                 ", active=" + active +
-                ", permanentlyClosed=" + permanentlyClosed +
-                '}';
+                ", permanentlyClosed=" + permanentlyClosed;
     }
 
     public void addAWin() {
-        this.wins ++;
+        this.wins++;
     }
 
     public void addALoss() {
-        this.losses ++;
+        this.losses++;
     }
 
     public void addADraw() {
-        this.draws ++;
+        this.draws++;
     }
 
     public boolean addTeamOwner(User user) {
@@ -129,16 +132,17 @@ public class Team{
                 teamOwner.addTeam(this);
             }
             else{
-                teamOwner = new TeamOwner();
+                teamOwner = new TeamOwner(user);
                 teamOwner.addTeam(this);
                 user.addRole(teamOwner);
             }
+            this.addObserver(teamOwner);
             return true;
         }
         return false;
     }
 
-    public boolean addTeamManager(User user,double price,boolean manageAssets , boolean finance) {
+    public boolean addTeamManager(User user, double price,boolean manageAssets , boolean finance) {
         if(!teamManagers.contains(user)) {
             this.teamManagers.add(user);
             TeamManager teamManager = (TeamManager)user.checkUserRole("TeamManager");
@@ -146,10 +150,11 @@ public class Team{
                 teamManager.addTeam(this);
             }
             else{
-                teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
+                teamManager = new TeamManager(user, price, manageAssets, finance);
                 teamManager.addTeam(this);
                 user.addRole(teamManager);
             }
+            this.addObserver(teamManager);
             return true;
         }
         return false;
@@ -193,17 +198,21 @@ public class Team{
         return false;
     }
 
-    public void addGame(Game game) {
-        if(!games.contains(game))
-        this.games.add(game);
+    public boolean addGame(Game game) {
+        if(!games.contains(game)){
+            this.games.add(game);
+            return true;
+        }
+        return false;
     }
 
     /**remove**/
     public boolean removeTeamOwner(User teamOwner) {
         if(teamOwners.contains(teamOwner) && teamOwners.size()>1) {
             teamOwners.remove(teamOwner);
-            Role teamOwnerRole = teamOwner.checkUserRole("TeamOwner");
-            ((TeamOwner)teamOwnerRole).removeTeam(this);
+            TeamOwner teamOwnerRole = (TeamOwner) teamOwner.checkUserRole("TeamOwner");
+            teamOwnerRole.removeTeam(this);
+            teamOwnerRole.update(this, "Your subscription has been removed from the team "+this.name);
             return true;
         }
         return false;
@@ -212,8 +221,9 @@ public class Team{
     public boolean removeTeamManager(User teamManager) {
         if(teamManagers.contains(teamManager)) {
             teamManagers.remove(teamManager);
-            Role teamManagerRole = teamManager.checkUserRole("TeamManager");
-            ((TeamManager)teamManagerRole).removeTeam(this);
+            TeamManager teamManagerRole = (TeamManager) teamManager.checkUserRole("TeamManager");
+            teamManagerRole.removeTeam(this);
+            teamManagerRole.update(this, "Your subscription has been removed from the team "+this.name);
             return true;
         }
         return false;
@@ -299,6 +309,25 @@ public class Team{
 
     public void setActive(boolean active) {
         this.active = active;
+        if(active){
+            setChanged();
+            notifyObservers(this.name + " is open");
+            updateAllSystemAdmins("team "+this.name+" open");
+        }
+        else {
+            setChanged();
+            notifyObservers(this.name + " is closed");
+            updateAllSystemAdmins("team "+this.name+" closed");
+        }
+    }
+
+    private void updateAllSystemAdmins(String news) {
+        for(User admin : Database.getSystemAdmins()){
+            Admin adminRole = (Admin)admin.checkUserRole("Admin");
+            if(adminRole instanceof Admin){
+                adminRole.update(this, news);
+            }
+        }
     }
 
     public boolean isPermanentlyClosed() {
@@ -307,6 +336,12 @@ public class Team{
 
     public void setPermanentlyClosed(boolean permanentlyClosed) {
         this.permanentlyClosed = permanentlyClosed;
+        if(permanentlyClosed) {
+            setChanged();
+            notifyObservers(this.name + " is permanently closed");
+            updateAllSystemAdmins(this.name + " is permanently closed");
+        }
+
     }
 
     public String getID() {
@@ -318,13 +353,19 @@ public class Team{
         return 0;
     }
 
-    public void addField(Field field) {
-        if(!fields.contains(field))
+    public boolean addField(Field field) {
+        if(!fields.contains(field)) {
             fields.add(field);
-
+            return true;
+        }
+        return false;
     }
 
-    public void removeField(Field field) {
-        fields.remove(field);
+    public boolean removeField(Field field) {
+        if(fields.size()>1) {
+            fields.remove(field);
+            return true;
+        }
+        return false;
     }
 }

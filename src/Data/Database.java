@@ -284,13 +284,21 @@ public class Database //maybe generalize with interface? //for now red layer
                 //return listOfUsers;
                 break;
             }
-            case("UnionRepresentative"):{
-                //for(User user : usersInDatabase.values()){
-                //    if(user instanceof UnionRepresentative &&user.isActive())
-                //        listOfUsers.add(user);
-                //}
-                //return listOfUsers;
-                break;
+        }
+        return null;
+    }
+    public static List<Role> getListOfAllSpecificRoles(String userType) {
+        LinkedList<Role> listOfUsers = new LinkedList<>();
+        switch(userType) {
+            case ("UnionRepresentative"): {
+                for (User user : usersInDatabase.values()) {
+                    if (user.isActive()) {
+                        UnionRepresentative union = (UnionRepresentative) user.checkUserRole("UnionRepresentative");
+                        if(union instanceof UnionRepresentative)
+                            listOfUsers.add(union);
+                    }
+                }
+                return listOfUsers;
             }
         }
         return null;

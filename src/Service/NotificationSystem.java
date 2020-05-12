@@ -38,9 +38,9 @@ public class NotificationSystem extends Observable implements Observer {
     }
 
     private void sendNotification(Game game, String msg) {
-        for(User sideRef : game.getSideReferees())
+        /*for(User sideRef : game.getSideReferees())
             sideRef.addMessage(new Notice(msg));
-        game.getMainReferee().addMessage(new Notice(msg));
+        game.getMainReferee().addMessage(new Notice(msg));*/
     }
 
     /*

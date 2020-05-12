@@ -2,6 +2,7 @@ package Service;
 import Domain.*;
 import Logger.Logger;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Date;
 
@@ -58,7 +59,7 @@ public class UnionRepresentativeSystem {
         }
         return null;
     }
-    public User appointReferee(User user, String firstName,String lastName, String mail, String training)
+    public User appointReferee(User user, String firstName,String lastName, String mail, Referee.TrainingReferee training)
     {
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof UnionRepresentative){
@@ -78,14 +79,16 @@ public class UnionRepresentativeSystem {
     {
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof UnionRepresentative){
-            boolean success = ((UnionRepresentative)role).addRefereeToLeague(league, referee);
+            Referee refereeRole = (Referee) referee.checkUserRole("Referee");
+            if(refereeRole instanceof Referee) {
+                boolean success = ((UnionRepresentative) role).addRefereeToLeague(league, refereeRole);
+                if (success)
+                    Logger.logEvent(user.getID(), "Assigned Referee " + referee.getID() + " to League");
+                else
+                    Logger.logError("Assigning referee to league Failed");
 
-            if (success)
-                Logger.logEvent(user.getID(), "Assigned Referee " + referee.getID() + " to League");
-            else
-                Logger.logError("Assigning referee to league Failed");
-
-            return success;
+                return success;
+            }
         }
         return false;
     }
@@ -144,10 +147,28 @@ public class UnionRepresentativeSystem {
         return false;
     }
 
+    public boolean changeGameDate(User user, Game game, Date newDate){
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof UnionRepresentative && game.getDate().after(new Date())){
+            game.setDate(newDate);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean changeGameLocation(User user, Game game, Field newField){
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof UnionRepresentative && newField.isActive()){
+            game.setField(newField);
+            return true;
+        }
+        return false;
+    }
+
     public boolean addTeamToLeague(User user, LeagueInSeason league, Team team) {
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof UnionRepresentative && team.isActive()){
-            if(team.getBudget().addExpanse(league.getRegistrationFee()))
+            if(team.getBudget().addExpanse(team, league.getRegistrationFee()))
             {
                 unionBudget.addPayment(league.getRegistrationFee());
                 league.addATeam(team);
@@ -209,5 +230,13 @@ public class UnionRepresentativeSystem {
         if(role instanceof UnionRepresentative){
             unionBudget.addPayment( payment);
         }
+    }
+
+    public List<String> allLeaguesInSeasons(User user){
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof UnionRepresentative){
+            return ((UnionRepresentative)role).allLeaguesInSeasons();
+        }
+        return null;
     }
 }

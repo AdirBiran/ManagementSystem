@@ -56,6 +56,6 @@ public class PersonalPage {
         this.data = data;
     }
     public void addData(String data) {
-        this.data += data;
+        this.data +=" "+ data;
     }
 }

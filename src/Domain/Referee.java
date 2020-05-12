@@ -1,24 +1,31 @@
 package Domain;
 
-import java.util.HashSet;
+import java.util.*;
 
-public class Referee implements Role{
+public class Referee extends Role implements Observer {
 
-    private String training;
+    public enum TrainingReferee{
+        referees,
+        linesman,
+        var
+    }
+
+    private TrainingReferee training;
     private HashSet<Game> games;
 
-    public Referee(String training) {
+    public Referee(User user, TrainingReferee training) {
+        this.user = user;
         this.training = training;
         games = new HashSet<>();
+        myRole = "Referee";
     }
 
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
     public String getTraining() {
-        return training;
+        return training.toString();
     }
 
-    public void setTraining(String training) {
+    public void setTraining(TrainingReferee training) {
         this.training = training;
     }
 
@@ -32,7 +39,9 @@ public class Referee implements Role{
 
     public void addEventToGame(Game game, Event.EventType type, double minuteInGame, String description)
     {
-        new Event(type, minuteInGame, description, game.getEventReport());
+        Event event = new Event(type, minuteInGame, description);
+        game.getEventReport().addEvent(event);
+        game.setNewsFromReferee(event);
     }
     /*
     to edit get event report and edit it only Main referee can
@@ -45,17 +54,11 @@ public class Referee implements Role{
     }
 
     public boolean changeEvent(Game game, Event event, String change){
-        if(this.equals(game.getMainReferee())){
-            event.setDescription(change);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean changeEvent(Game game, Event event, int minInGame){
-        if(this.equals(game.getMainReferee())){
-            event.setMinuteInGame(minInGame);
-            return true;
+        for (Event event1: game.getEventReport().getEvents()) {
+            if (event1.getId().equals(event.getId())) {
+                event1.setDescription(change);
+                return true;
+            }
         }
         return false;
     }
@@ -65,6 +68,8 @@ public class Referee implements Role{
         if(this.equals(game.getMainReferee())){
             game.setGuestScore(guestScore);
             game.setHostScore(hostScore);
+            String message = game.getName()+": "+ game.getHostTeam()+": "+hostScore+"-"+game.getGuestTeam()+": "+guestScore;
+            game.setNewsFromReferee(message);
             return true;
         }
         return false;
@@ -77,9 +82,14 @@ public class Referee implements Role{
 
     @Override
     public String toString() {
-        return "Referee{" +
-                "training='" + training + '\'' +
-                ", games=" + games +
-                '}';
+        return "Referee" +
+                ", id="+user.getID()+
+                ": name="+user.getName()+
+                ", training='" + training;
+    }
+    @Override
+    public void update(Observable o, Object arg) {
+        if(!(arg instanceof Event))
+            user.addMessage(new Notice((String)arg));
     }
 }

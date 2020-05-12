@@ -2,26 +2,31 @@ package Domain;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 
-public class Player implements PartOfATeam, Role {
-
+public class Player extends Role implements PartOfATeam {
+    public enum RolePlayer {
+        goalkeeper,
+        playerBack,
+        midfielderPlayer,
+        attackingPlayer
+    }
     private Date birthDate;
-    private String role;
-    private User user;
+    private RolePlayer roleInTeam;
     private String id;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;
 
 
-    public Player(String id,Date birthDate, String role, double price, User user) {
-        this.id = id;
-        this.birthDate = birthDate;
-        this.role = role;
+    public Player(User user, Date birthDate, RolePlayer role, double price) {
         this.user = user;
+        this.birthDate = birthDate;
+        this.roleInTeam = role;
         this.teams = new HashSet<>();
         this.isActive = true;
         this.price = price;
+        myRole = "Player";
 
     }
 
@@ -32,20 +37,16 @@ public class Player implements PartOfATeam, Role {
     }
 
     public String getRole() {
-        return role;
+        return roleInTeam.toString();
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public User getUser() {
-        return user;
+    public void setRole(RolePlayer role) {
+        this.roleInTeam = role;
     }
 
     @Override
     public String getID() {
-        return id;
+        return user.getID();
     }
 
     @Override
@@ -95,10 +96,12 @@ public class Player implements PartOfATeam, Role {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "name='"+ user.getName()+ '\''+
+        return "Player" +
+                ", id= " +user.getID() +
+                ": name=" +user.getName() +
                 ", birthDate=" + birthDate +
-                ", role='" + role + '\'' +
-                '}';
+                ", role in team='" + roleInTeam+
+                ", teams= "+ teamsString(teams);
+
     }
 }

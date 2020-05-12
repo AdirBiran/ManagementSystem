@@ -10,7 +10,7 @@ public class LeagueInSeason {
     private League league;
     private Season season;
     private List<Game> games;
-    private List<User> referees;
+    private List<Referee> referees;
     private List<Team> teams;
     private double registrationFee;
 
@@ -79,7 +79,7 @@ public class LeagueInSeason {
         return null;
     }
 
-    public boolean addReferee(User referee) {
+    public boolean addReferee(Referee referee) {
         if(!referees.contains(referee)){
             referees.add(referee);
             return true;
@@ -105,7 +105,7 @@ public class LeagueInSeason {
         return false;
     }
 
-    public List<User> getReferees() {
+    public List<Referee> getReferees() {
         return referees;
     }
 
@@ -147,7 +147,7 @@ public class LeagueInSeason {
     public String toString() {
         return "LeagueInSeason{" +
                 "league=" + league.getName() +
-                ", season=" + season.getYear() +
+                ":season=" + season.getYear() +
                 '}';
     }
 }
