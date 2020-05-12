@@ -9,6 +9,7 @@ public class UnionRepresentative extends Role implements Observer {
     public UnionRepresentative(User user) {
         this.user = user;
         myRole = "UnionRepresentative";
+
     }
 
     public boolean configureNewLeague(String name, String level) {

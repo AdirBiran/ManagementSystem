@@ -72,13 +72,15 @@ public class RefereeTest {
     public void addEventToGame() {
 
         referee.addEventToGame(game,Event.EventType.RedCard,50,"");
+        assertEquals(1,game.getEventReport().getEvents().size());
+
     }
 
     @Test
     public void changeEvent() {
-       /*Event event = new Event(Event.EventType.Goal, 50, "");
-        game.getEventReport().addEvent(event);*/
-
+        referee.addEventToGame(game,Event.EventType.RedCard,50,"");
+       assertTrue( referee.changeEvent(game,game.getEventReport().getEvents().get(0),"yes"));
+       assertEquals(game.getEventReport().getEvents().get(0).getDescription(),"yes");
     }
 
     @Test
