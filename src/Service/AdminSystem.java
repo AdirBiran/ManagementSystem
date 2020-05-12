@@ -1,5 +1,6 @@
 package Service;
 
+import Data.Database;
 import Domain.*;
 import Domain.User;
 import Logger.Logger;
@@ -114,22 +115,14 @@ public class AdminSystem {
         }
     }
 
-    public List<String> viewLog(String type)
+    public List<String> viewLog(String userId, String type)
     {
-        switch (type)
-        {
-            case "Events":
-                return Logger.getEventsLog();
-
-            case "Errors":
-                return Logger.getErrorsLog();
-
-            case "Server":
-                return Logger.getServerLog();
-
-            default:
-                return new LinkedList<>();
+        User user = Database.getUser(userId);
+        Role adminRole = user.checkUserRole("Admin");
+        if(adminRole instanceof Admin) {
+            return ((Admin)adminRole).viewLog(type);
         }
+        return null;
     }
 
     public boolean trainModel(User user)

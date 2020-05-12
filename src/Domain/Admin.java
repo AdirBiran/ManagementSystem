@@ -1,6 +1,7 @@
 package Domain;
 
 import Data.Database;
+import Logger.Logger;
 
 import java.util.*;
 
@@ -83,7 +84,22 @@ public class Admin extends Role implements Observer {
         }
         return false;
     }
-    public void viewLog(){}
+    public List<String> viewLog(String type){
+        switch (type) {
+            case "Events":
+                return Logger.getEventsLog();
+
+            case "Errors":
+                return Logger.getErrorsLog();
+
+            case "Server":
+                return Logger.getServerLog();
+
+            default:
+                return new LinkedList<>();
+        }
+    }
+
     public void trainModel(){}
 
     @Override
