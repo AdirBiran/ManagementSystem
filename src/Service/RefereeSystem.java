@@ -21,29 +21,30 @@ public class RefereeSystem {
         return false;
     }
 
-    public void setScoreInGame(User user,Game game, int hostScore, int guestScore){
+    public void setScoreInGame(String userID,String gameID, int hostScore, int guestScore){
+        User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("Referee");
         if(role instanceof  Referee){
-            ((Referee)role).setScoreInGame(game, hostScore, guestScore);
+            ((Referee)role).setScoreInGame(gameID, hostScore, guestScore);
             Logger.logEvent( user.getID()+ " (Referee)","Set game's score");
 
         }
     }
 
-    public List<String> getGameReport(User user, Game game){
-        Role role = (Referee)user.checkUserRole("Referee");
-        if(role instanceof  Referee && game.getMainReferee().equals(role)) {
-            List<String> gameReport = new LinkedList<>();
-            gameReport.addAll(game.getEventReportString());
-            return gameReport;
+    public List<String> getGameReport(String userID, String gameID){
+        User user= UserFactory.getUser(userID);
+        Role role = user.checkUserRole("Referee");
+        if(role instanceof  Referee ) {
+           return  ((Referee)role).getGameReport(gameID);
         }
         return null;
     }
 
-    public boolean changeEvent(User user, Game game, Event event, String newDescription){
+    public boolean changeEvent(String userID, String gameID, String eventID, String newDescription){
+        User user= UserFactory.getUser(userID);
         Referee role = (Referee) user.checkUserRole("Referee");
-        if(role instanceof Referee && game.getMainReferee().equals(role)){
-            role.changeEvent(game, event, newDescription);
+        if(role instanceof Referee){
+            role.changeEvent(gameID, eventID, newDescription);
             return true;
         }
         return false;
