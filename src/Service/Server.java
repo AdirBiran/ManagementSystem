@@ -634,10 +634,10 @@ public class Server {
 
     private void handleviewLog(String[] splitLine, Socket clientSocket)
     {
-        List<String> res = adminSystem.viewLog(splitLine[1]);
-        String sendToClient = ListToString(res);
+        //List<String> res = adminSystem.viewLog(splitLine[1]);
+        //String sendToClient = ListToString(res);
 
-        sendLineToClient(sendToClient, clientSocket);
+        //sendLineToClient(sendToClient, clientSocket);
     }
 
 
