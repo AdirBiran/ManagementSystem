@@ -572,7 +572,7 @@ public class Server {
     private void handlegetFanPages(String[] splitLine, Socket clientSocket)
     {
 
-        List<String> results = userSystem.getFanPages(Database.getUser(splitLine[1]));
+        List<String> results = userSystem.getFanPages(splitLine[1]);
         String res = ListToString(results);
 
         sendLineToClient(res, clientSocket);
@@ -580,7 +580,7 @@ public class Server {
 
     private void handleaddComplaint(String[] splitLine, Socket clientSocket)
     {
-        boolean success = userSystem.addComplaint(Database.getUser(splitLine[1]), splitLine[2]);
+        boolean success = userSystem.addComplaint(splitLine[1], splitLine[2]);
 
         if (success)
             sendLineToClient("Succeed adding a complaint", clientSocket);
@@ -590,7 +590,7 @@ public class Server {
 
     private void handleeditPersonalInfo(String[] splitLine, Socket clientSocket)
     {
-         userSystem.editPersonalInfo(Database.getUser(splitLine[1]), splitLine[2], splitLine[3]);
+         userSystem.editPersonalInfo(splitLine[1], splitLine[2], splitLine[3]);
 
          sendLineToClient("Succeed Editing personal info", clientSocket);
 
@@ -599,7 +599,7 @@ public class Server {
     private void handleeditFanPersonalDetails(String[] splitLine, Socket clientSocket)
     {
 
-        boolean success = userSystem.editFanPersonalDetails(Database.getUser(splitLine[1]), splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
+        boolean success = userSystem.editFanPersonalDetails(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
         if (success)
             sendLineToClient("Succeed Editing fan personal info", clientSocket);
@@ -609,7 +609,7 @@ public class Server {
 
     private void handleviewSearchHistory(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = userSystem.viewSearchHistory(Database.getUser(splitLine[1]));
+        List<String> results = userSystem.viewSearchHistory(splitLine[1]);
         String res = ListToString(results);
         sendLineToClient(res, clientSocket);
 
@@ -657,7 +657,7 @@ public class Server {
 
     private void handleviewPersonalDetails(String[] splitLine, Socket clientSocket)
     {
-        String res = userSystem.viewPersonalDetails(Database.getUser(splitLine[1]));
+        String res = userSystem.viewPersonalDetails(splitLine[1]);
         sendLineToClient(res, clientSocket);
     }
 

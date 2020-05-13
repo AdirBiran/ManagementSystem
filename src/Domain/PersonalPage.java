@@ -48,7 +48,7 @@ public class PersonalPage {
     public void addAFollower(Fan follower) {
         if(!followers.contains(follower)){
             followers.add(follower);
-            follower.addPageToFollow(this);
+            follower.addPageToFollow(this.getId());
         }
     }
 

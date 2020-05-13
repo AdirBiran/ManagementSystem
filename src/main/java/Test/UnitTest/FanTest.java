@@ -47,9 +47,9 @@ public class FanTest {
     @Test
     public void addPageToFollow() {
 
-        assertTrue(fan.addPageToFollow(mesiPage));
-        List<Game> games = new LinkedList<>();
-        games.add(game);
+        assertTrue(fan.addPageToFollow(mesiPage.getId()));
+        List<String> games = new LinkedList<>();
+        games.add(game.getId());
         assertTrue(fan.followGames(games, receiveAlerts));
 
         /*for notification*/
@@ -81,7 +81,7 @@ public class FanTest {
 
     @Test
     public void getFollowedPages() {
-        fan.addPageToFollow(mesiPage);
+        fan.addPageToFollow(mesiPage.getId());
         assertEquals(fan.getFollowedPages().size(), 1);
     }
 
