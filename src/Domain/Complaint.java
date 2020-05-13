@@ -5,6 +5,7 @@ import java.util.Observable;
 
 public class Complaint extends Observable {
 
+    private String id;
     private Date date;//also shows time
     private String description;
     private boolean isActive;
@@ -12,6 +13,7 @@ public class Complaint extends Observable {
     private String response;
 
     public Complaint(String description, Fan fanComplained) {
+        this.id = "Complaint"+IdGenerator.getNewId();
         this.date = new Date();
         this.description = description;
         this.fanComplained = fanComplained;
@@ -49,5 +51,9 @@ public class Complaint extends Observable {
      */
     public void deactivate(){
         isActive = false;
+    }
+
+    public String getId() {
+        return id;
     }
 }
