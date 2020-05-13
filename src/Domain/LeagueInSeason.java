@@ -137,6 +137,10 @@ public class LeagueInSeason {
         return this.registrationFee;
     }
 
+    public List<Game> getGames() {
+        return games;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
