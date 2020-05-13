@@ -25,9 +25,10 @@ public class PasswordGenerator {
 
     public static String generateRandPassword(int length) {
         String password;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb;
         do{
             password = "";
+            sb = new StringBuilder();
             for (int i = 0; i < length; i++) {
                 int rndCharAt = random.nextInt(passwordAllow.length());
                 char rndChar = passwordAllow.charAt(rndCharAt);

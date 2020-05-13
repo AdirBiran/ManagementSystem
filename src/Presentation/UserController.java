@@ -13,9 +13,7 @@ import javafx.scene.layout.HBox;
 import java.util.List;
 
 public class UserController {
-
-
-
+    
     @FXML private HBox mainView1;
     @FXML private MenuBar mb_mainMenu1;
 
@@ -213,22 +211,14 @@ public class UserController {
                 case("TeamOwner"):{
                     ownership = new OwnershipController(mainView1, loggedUser, m_client);
                     Menu ownerMenu = new Menu("Ownership Actions");
-                    MenuItem addTeam = new MenuItem("addTeam");
+                    MenuItem addTeam = new MenuItem("openNewTeam");
                     addTeam.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            ownership.addTeam();
+                            ownership.openNewTeam();
                         }
                     });
                     ownerMenu.getItems().add(addTeam);
-                    //MenuItem getTeamById = new MenuItem("getTeamById");
-                    //getTeamById.setOnAction(new EventHandler<ActionEvent>() {
-                    //    @Override
-                    //    public void handle(ActionEvent event) {
-                    //        ownership.getTeamById();
-                    //    }
-                    //});
-                    //ownerMenu.getItems().add(getTeamById);
                     MenuItem removeTeam = new MenuItem("removeTeam");
                     removeTeam.setOnAction(new EventHandler<ActionEvent>() {
                         @Override

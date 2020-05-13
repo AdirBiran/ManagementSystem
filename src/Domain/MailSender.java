@@ -7,46 +7,32 @@ import javax.activation.*;
 
 public class MailSender {
 
-    public static boolean send(String mail, String message){
+    public static boolean send(String to, String messageToSend){
+        /*
+        String from = "liatp@post.bgu.ac.il";//change accordingly
+        String host = "localhost";//or IP address
 
-        String from = "liatico77@gmail.com";
-
-        // Assuming you are sending email from localhost-check this
-        String host = "localhost";
-
-        // Get system properties
+        //Get the session object
         Properties properties = System.getProperties();
-
-        // Setup mail server
         properties.setProperty("mail.smtp.host", host);
-
-        // Get the default Session object.
         Session session = Session.getDefaultInstance(properties);
 
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage mimeMessage = new MimeMessage(session);
-
-            // Set From: header field of the header.
-            mimeMessage.setFrom(new InternetAddress(from));
-
-            // Set To: header field of the header.
-            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(mail));
-
-            // Set Subject: header field
-            mimeMessage.setSubject("This is the Subject Line!");
-
-            // Now set the actual message
-            mimeMessage.setText(message);
+        //compose the message
+        try{
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(from));
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(to));
+            message.setSubject("new message from FootballManagementSystem");
+            message.setText(messageToSend);
 
             // Send message
-            Transport.send(mimeMessage);
+            Transport.send(message);
             return true;
 
-        } catch (MessagingException mex) {
+        }catch (MessagingException mex) {
             mex.printStackTrace();
             return false;
         }
-
-    }
+    */
+    return true;}
 }

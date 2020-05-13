@@ -1,16 +1,17 @@
 package Presentation;
 
 import java.util.List;
+import java.util.LinkedList;
 
 public class FootballSpellChecker
 {
 
-    public void addWord(String word){
+    public static void addWord(String word){
 
     }
 
-    public List<String> correct(String word){
-        return null;
+    public static List<String> correct(String word){
+        return new LinkedList<>();
     }
 
 

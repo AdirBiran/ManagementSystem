@@ -38,11 +38,17 @@ public class OwnershipController {
         }
     }
 
-    public void addTeam(){
+    public void openNewTeam(){
         m_general.clearMainView(mainView1);
         //let user select at least 11 players
-        //let user select coach
-        //let User select field
+        //let user select coach/coaches
+        //let User select field/fields
+        //send request to
+
+
+
+        String teamName="";
+        FootballSpellChecker.addWord(teamName);
 
 
     }
@@ -73,7 +79,10 @@ public class OwnershipController {
     }
 
 
-    public void appointTeamOwner(){}
+    public void appointTeamOwner(){
+        //let user select user to appoint
+        //send request to appoint user
+    }
     public void appointTeamManager(){}
     public void closeTeam(){}
     public void reopenTeam(){}

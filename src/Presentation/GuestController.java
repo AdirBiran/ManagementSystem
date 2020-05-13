@@ -24,7 +24,6 @@ public class GuestController {
 
 
     private Client m_client = new Client(7567);//split by |
-
     private GeneralController m_general = new GeneralController();
 
     @FXML private HBox mainView;
@@ -56,13 +55,9 @@ public class GuestController {
 
     }
 
-
-
-
     public void buildRegistrationForm(ActionEvent action) {
         m_general.buildForm("fan", mainView, m_client,"");
     }
-
 
     public void searchButtonPushed(ActionEvent actionEvent){
         m_general.clearMainView(mainView);
