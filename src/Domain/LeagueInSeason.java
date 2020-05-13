@@ -6,6 +6,7 @@ import java.util.*;
 
 public class LeagueInSeason {
 
+    private String id;
     private GameAssignmentPolicy assignmentPolicy;
     private ScorePolicy scorePolicy;
     private Queue<ScoreTableRecord> scoreTable;
@@ -18,6 +19,7 @@ public class LeagueInSeason {
 
 
     public LeagueInSeason(GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, League league, Season season, double registrationFee) {
+        this.id = league.getId()+season.getId();
         this.assignmentPolicy = assignmentPolicy;
         this.scorePolicy = scorePolicy;
         this.registrationFee = registrationFee;
@@ -140,6 +142,10 @@ public class LeagueInSeason {
 
     public List<Game> getGames() {
         return games;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override

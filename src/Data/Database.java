@@ -28,6 +28,7 @@ public class Database //maybe generalize with interface? //for now red layer
         assetsInDatabase = new HashMap<>();
         gamesInDatabase = new HashMap<>();
         pagesInDatabase = new HashMap<>();
+        leaguesInSeasons = new HashMap<>();
         leagues = new HashSet<>();
         seasons = new HashSet<>();
         complaints = new HashMap<>();
@@ -71,7 +72,7 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
-        String id = leagueInSeason.getLeague().getId()+leagueInSeason.getSeason().getId();
+        String id = leagueInSeason.getId();
         if(!leaguesInSeasons.containsKey(id)){
             leaguesInSeasons.put(id, leagueInSeason);
             return true;

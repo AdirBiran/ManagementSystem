@@ -32,10 +32,12 @@ public class UnionRepresentative extends Role implements Observer {
     public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double registrationFee) {
         League league = Database.getLeague(nameOfLeague);
         Season season = Database.getSeason(yearOfSeason);
-        if(league==null||season==null||assignmentPolicy==null||scorePolicy==null)return null;
+        if(league==null||season==null||assignmentPolicy==null||scorePolicy==null)
+            return null;
         LeagueInSeason leagueInSeason = new LeagueInSeason(assignmentPolicy, scorePolicy, league, season, registrationFee);
         league.addLeagueInSeason(leagueInSeason);
         season.addLeagueInSeason(leagueInSeason);
+        Database.addLeagueInSeason(leagueInSeason);
         return leagueInSeason;
     }
 
@@ -154,7 +156,7 @@ public class UnionRepresentative extends Role implements Observer {
         Team team = Database.getTeam(teamId);
         if(team!=null && league!=null && team.isActive()) {
             if (team.getBudget().addExpanse(team, league.getRegistrationFee())) {
-                StubAccountingSystem.addPayment(team.getName(),new Date() ,league.getRegistrationFee());
+                StubAccountingSystem.addPayment(team.getName(),(new Date()).toString() ,league.getRegistrationFee());
                 league.addATeam(team);
                 Logger.logEvent(user.getID(), "Added team " + team.getName() + " to league");
                 return true;

@@ -129,9 +129,9 @@ public class FootballManagementSystem {
 
     public static LeagueInSeason dataReboot(){
         User unionRep = UserFactory.getNewUnionRepresentative("", "","mail@mail.com");
-        unionRepresentativeSystem.configureNewSeason(unionRep,2020, new Date(120, 4, 1));
-        unionRepresentativeSystem.configureNewLeague(unionRep,"Haal", "3");
-        LeagueInSeason leagueInSeason = unionRepresentativeSystem.configureLeagueInSeason(unionRep,"Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        unionRepresentativeSystem.configureNewSeason(unionRep.getID(),2020, new Date(120, 4, 1));
+        unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "3");
+        LeagueInSeason leagueInSeason = unionRepresentativeSystem.configureLeagueInSeason(unionRep.getID(),"Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         Team team;
         for (int i = 0; i < 14; i++) {
             List<User> players = createPlayers();
@@ -141,22 +141,25 @@ public class FootballManagementSystem {
             if(owner!=null){
                 owners.add(owner);
                 Field field = new Field("jerusalem","Teddy" ,550, 150000);
-                team = new Team("team"+i,owners,players,coaches, field);
+                //team = new Team("team"+i,owners,players,coaches, field);
+                TeamOwner teamOwner = (TeamOwner)owner.checkUserRole("TeamOwner");
+                teamOwner.createTeam(owner,"team"+i, players, coaches, field);
+                team = teamOwner.getTeamsToManage().get(0);
                 team.getBudget().addIncome(1000000000);
-                unionRepresentativeSystem.addTeamToLeague(unionRep,leagueInSeason, team);
+                unionRepresentativeSystem.addTeamToLeague(unionRep.getID(),leagueInSeason.getId(), team.getID());
             }
 
         }
         for (int i = 0; i <10 ; i++) {
             User ref = mainReferee(unionRep);
-            unionRepresentativeSystem.assignRefToLeague(unionRep,leagueInSeason, ref);
+            unionRepresentativeSystem.assignRefToLeague(unionRep.getID(),leagueInSeason.getId(), ref.getID());
         }
         return leagueInSeason;
     }
 
 
     public static User mainReferee(User unionRep) {
-        return unionRepresentativeSystem.appointReferee(unionRep,"referee", "",+IdGenerator.getNewId()+"@gmail.com", Referee.TrainingReferee.referees);
+        return unionRepresentativeSystem.appointReferee(unionRep.getID(),"referee", "",+IdGenerator.getNewId()+"@gmail.com", "referees");
     }
     public static List<User> createCoaches() {
         User Coach = adminSystem.addNewCoach(systemAdmins.get(0).getID(),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", "UEFA_A", "main", 1500);

@@ -39,7 +39,7 @@ public class RefereeTest {
         sideReferees.add(league.getReferees().get(2));
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        unionRole.assignGames(league,system.getDates());
+        unionRole.assignGames(league.getId(),system.getDates());
         game=league.getGames().get(0);
         referee=game.getMainReferee();
     }
