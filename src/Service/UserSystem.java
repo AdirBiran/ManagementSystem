@@ -14,9 +14,13 @@ public class UserSystem extends GuestSystem {
     /*
     View fan search history
      */
-    public List<String> viewSearchHistory(User user) {
-        Logger.logEvent(user.getID(), "View Search History");
-        return user.getSearchHistory();
+    public List<String> viewSearchHistory(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Logger.logEvent(user.getID(), "View Search History");
+            return user.getSearchHistory();
+        }
+        return null;
     }
 
     /*
@@ -31,22 +35,27 @@ public class UserSystem extends GuestSystem {
     /*
     View user's personal information
      */
-    public String viewPersonalDetails(User user) {
-        Logger.logEvent(user.getID(), "View Personal Details");
-
-        return user.toString(); // toString by user!?!?
+    public String viewPersonalDetails(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Logger.logEvent(user.getID(), "View Personal Details");
+            return user.toString(); // toString by user!?!?
+        }
+        return "";
     }
 
     /*
     Edit fan personal information
      */
-    public boolean editFanPersonalDetails(User user, String firstName, String lastName, String phone, String address) {
-        Role role = user.checkUserRole("Fan");
-        if(role instanceof Fan) {
-            ((Fan)role).editPersonalInfo(user, firstName, lastName, phone, address);
-            Logger.logEvent(user.getID(), "Edit Fan Personal Details");
-            return true;
-
+    public boolean editFanPersonalDetails(String userId, String firstName, String lastName, String phone, String address) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                ((Fan) role).editPersonalInfo(user, firstName, lastName, phone, address);
+                Logger.logEvent(user.getID(), "Edit Fan Personal Details");
+                return true;
+            }
         }
         Logger.logError("Failed editing fan's personal details");
         return false;
@@ -55,49 +64,56 @@ public class UserSystem extends GuestSystem {
     /*
     Edit user personal information
      */
-    public void editPersonalInfo(User user, String firstName, String lastName) {
-        user.editPersonalInfo(firstName, lastName);
-        Logger.logEvent(user.getID(), "Edit Personal Details");
-
+    public void editPersonalInfo(String userId, String firstName, String lastName) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            user.editPersonalInfo(firstName, lastName);
+            Logger.logEvent(user.getID(), "Edit Personal Details");
+        }
     }
 
     /*
     user adds a complaint to the system
      */
-    public boolean addComplaint(User user, String description) {
-        Role role = user.checkUserRole("Fan");
-        if(role instanceof Fan) {
-            ((Fan)role).submitComplaint(description);
-            Logger.logEvent(user.getID(), "Added Complaint");
-            return true;
+    public boolean addComplaint(String userId, String description) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                ((Fan) role).submitComplaint(description);
+                Logger.logEvent(user.getID(), "Added Complaint");
+                return true;
+            }
         }
-
         Logger.logEvent(user.getID(), "Adding complaint Failed");
         return false;
     }
 
-    public boolean registrationToFollowUp(User user, PersonalPage page) {
-        Role role = user.checkUserRole("Fan");
-        if(role instanceof Fan) {
-        boolean success = ((Fan)role).addPageToFollow(page);
-        if (success)
-            Logger.logEvent(user.getID(), "Follow page Success");
-        else
-            Logger.logError("Follow page Failed");
+    public boolean registrationToFollowUp(String userId, String pageId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                boolean success = ((Fan) role).addPageToFollow(pageId);
+                if (success)
+                    Logger.logEvent(user.getID(), "Follow page Success");
+                else
+                    Logger.logError("Follow page Failed");
 
-            return success;
+                return success;
+            }
         }
-
-
         return false;
-
     }
 
-    public List<String> getFanPages(User user) {
-        Role role = user.checkUserRole("Fan");
-        if(role instanceof Fan) {
-            Logger.logEvent(user.getID(), "Requested followed pages");
-            return ((Fan)role).getFollowedPages();
+    public List<String> getFanPages(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                Logger.logEvent(user.getID(), "Requested followed pages");
+                return ((Fan) role).getFollowedPages();
+            }
         }
         return null;
     }
@@ -105,67 +121,89 @@ public class UserSystem extends GuestSystem {
     /*
     Fan registration for alerts for games you've selected
      */
-    public boolean registrationForGamesAlerts(User user, List<Game> games, ReceiveAlerts receive) {
-        Role role = user.checkUserRole("Fan");
-        if(role instanceof Fan) {
-            boolean success = ((Fan)role).followGames(games, receive);
-            if (success)
-                Logger.logEvent(user.getID(), "Game Alerts Registration Success");
-            else
-                Logger.logError("Game Alerts Registration Failed");
+    public boolean registrationForGamesAlerts(String userId, List<String> gamesId, boolean toMail, boolean toPhone) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                ReceiveAlerts receive = new ReceiveAlerts(toMail, toPhone);
+                boolean success = ((Fan) role).followGames(gamesId, receive);
+                if (success)
+                    Logger.logEvent(user.getID(), "Game Alerts Registration Success");
+                else
+                    Logger.logError("Game Alerts Registration Failed");
 
-            return success;
+                return success;
+            }
         }
         return false;
     }
 
 
-    public boolean updateTrainingForCoach(User user, Coach.TrainingCoach training) {
-        Role role = user.checkUserRole("Coach");
-        if (role instanceof Coach) {
-            ((Coach) role).setTraining(training);
-            return true;
+    public boolean updateTrainingForCoach(String userId, Coach.TrainingCoach training) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Coach");
+            if (role instanceof Coach) {
+                ((Coach) role).setTraining(training);
+                return true;
+            }
         }
         return false;
     }
-    public boolean updateTrainingForReferee(User user, Referee.TrainingReferee training) {
-        Role role = user.checkUserRole("Referee");
-        if (role instanceof Referee) {
-            ((Referee) role).setTraining(training);
+    public boolean updateTrainingForReferee(String userId, Referee.TrainingReferee training) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Referee");
+            if (role instanceof Referee) {
+                ((Referee) role).setTraining(training);
 
-            return true;
-        }
-        return false;
-    }
-
-    public boolean updateRoleForPlayer(User user, Player.RolePlayer newRole) {
-        Role role = user.checkUserRole("Player");
-        if (role instanceof Player) {
-            ((Player) role).setRole(newRole);
-            return true;
-        }
-        return false;
-    }
-    public boolean updateRoleForCoach(User user, Coach.RoleCoach newRole) {
-        Role role = user.checkUserRole("Coach");
-        if (role instanceof Coach) {
-            ((Coach) role).setRoleInTeam(newRole);
-            return true;
+                return true;
+            }
         }
         return false;
     }
 
-    public String getRoleForPlayer(User user) {
-        Role role = user.checkUserRole("Player");
-        if (role instanceof Player) {
-            return ((Player) role).getRole();
+    public boolean updateRoleForPlayer(String userId, Player.RolePlayer newRole) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Player");
+            if (role instanceof Player) {
+                ((Player) role).setRole(newRole);
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean updateRoleForCoach(String userId, Coach.RoleCoach newRole) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Coach");
+            if (role instanceof Coach) {
+                ((Coach) role).setRoleInTeam(newRole);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getRoleForPlayer(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Player");
+            if (role instanceof Player) {
+                return ((Player) role).getRole();
+            }
         }
         return "";
     }
-    public String getRoleForCoach(User user) {
-        Role role = user.checkUserRole("Coach");
-        if (role instanceof Coach) {
-            return ((Coach) role).getRoleInTeam();
+    public String getRoleForCoach(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Coach");
+            if (role instanceof Coach) {
+                return ((Coach) role).getRoleInTeam();
+            }
         }
         return "";
     }
@@ -173,10 +211,13 @@ public class UserSystem extends GuestSystem {
      /*
     Search results in a system
      */
-    public List<String> search(User user,  String wordToSearch){
-        Logger.logEvent(user.getID(), "Searched " + wordToSearch);
-        return user.search(wordToSearch);
-
+    public List<String> search(String userId,  String wordToSearch){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Logger.logEvent(user.getID(), "Searched " + wordToSearch);
+            return user.search(wordToSearch);
+        }
+        return null;
     }
 
 }

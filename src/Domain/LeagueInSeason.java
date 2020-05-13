@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.*;
 
 public class LeagueInSeason {
@@ -56,6 +58,8 @@ public class LeagueInSeason {
 
     public void setGames(List<Game> games) {
         this.games = games;
+        for (Game game : games)
+            Database.addGame(game);
     }
 
     public void addGame(Game game) {

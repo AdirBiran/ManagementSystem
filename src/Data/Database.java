@@ -116,8 +116,8 @@ public class Database //maybe generalize with interface? //for now red layer
     this function gets a userId and return its personalPage if exists
     if page not exists the function returns null
      */
-    public static PersonalPage getPage(String userId){
-        return (PersonalPage)search("Page", userId);
+    public static PersonalPage getPage(String pageId){
+        return (PersonalPage)search("Page", pageId);
     }
     /*
     this function returns all games in database
@@ -417,9 +417,9 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
 
-    public static boolean addComplaint(String complaintId, Complaint complaint){
-        if(!complaints.containsKey(complaintId)){
-            complaints.put(complaintId, complaint);
+    public static boolean addComplaint(Complaint complaint){
+        if(!complaints.containsKey(complaint.getId())){
+            complaints.put(complaint.getId(), complaint);
             return true;
         }
         return false;

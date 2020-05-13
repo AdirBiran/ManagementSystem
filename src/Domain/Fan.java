@@ -24,10 +24,11 @@ public class Fan extends Role implements Observer {
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-    public boolean addPageToFollow(PersonalPage page){
-        if(!followPages.contains(page)){
-            followPages.add(page);
-            page.addAFollower(this);
+    public boolean addPageToFollow(String pageId){
+        PersonalPage personalPage = Database.getPage(pageId);
+        if(!followPages.contains(personalPage)){
+            followPages.add(personalPage);
+            personalPage.addAFollower(this);
             return true;
         }
         return false;
@@ -39,8 +40,9 @@ public class Fan extends Role implements Observer {
         this.phone = phone;
     }
 
-    public boolean followGames(List<Game> games , ReceiveAlerts receiveAlerts){
-        for(Game game: games) {
+    public boolean followGames(List<String> gamesId , ReceiveAlerts receiveAlerts){
+        for(String gameId: gamesId) {
+            Game game = Database.getGame(gameId);
             if(!game.addFanForNotifications(this, receiveAlerts))
                 return false;
         }
@@ -51,7 +53,7 @@ public class Fan extends Role implements Observer {
         if(description.length()<1)
             return false;
         Complaint complaint = new Complaint(description, this);
-        return Database.addComplaint(complaint.getId(), complaint);
+        return Database.addComplaint(complaint);
     }
 
     public List<String> getFollowedPages(){
