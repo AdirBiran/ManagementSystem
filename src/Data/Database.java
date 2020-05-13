@@ -16,6 +16,7 @@ public class Database //maybe generalize with interface? //for now red layer
     private static HashMap<String, PersonalPage> pagesInDatabase;//-<userId, PersonalPage>
     private static HashSet<League> leagues;
     private static HashSet<Season> seasons;
+    private static HashMap<String, LeagueInSeason> leaguesInSeasons; //-<id, LeagueInSeason>
     private static HashMap<String , Complaint> complaints; //-<complaintId, Complaint>
     private static HashMap<String, Team> teams;
     private static HashMap<User, Referee> referees;
@@ -68,8 +69,22 @@ public class Database //maybe generalize with interface? //for now red layer
 
         return false;
     }
+
+    public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
+        String id = leagueInSeason.getLeague().getId()+leagueInSeason.getSeason().getId();
+        if(!leaguesInSeasons.containsKey(id)){
+            leaguesInSeasons.put(id, leagueInSeason);
+            return true;
+        }
+        return false;
+    }
+
+    public static LeagueInSeason getLeagueInSeason(String leagueInSeasonId){
+        return leaguesInSeasons.get(leagueInSeasonId);
+    }
+
     public static Team getTeam(String teamId){
-        return (Team)search("Team", teamId);
+        return teams.get(teamId);
     }
 
     public static List<Team> getTeams() {
@@ -154,6 +169,10 @@ public class Database //maybe generalize with interface? //for now red layer
         assetsInDatabase.put(assetID, asset);
 
         return true;
+    }
+
+    public static PartOfATeam getAssetById(String assetId){
+        return assetsInDatabase.get(assetId);
     }
     /*
     adds a user to the database

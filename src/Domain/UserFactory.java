@@ -50,7 +50,6 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "TO", mail);
         TeamOwner authorization = new TeamOwner(user);
-        //authorization.fullPermission(true);
         user.addRole(authorization);
         return addToDatabase(user);
     }

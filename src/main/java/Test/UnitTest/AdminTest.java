@@ -85,7 +85,8 @@ public class AdminTest {
         Guest guest = new Guest();
         User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         Fan fan = (Fan) user.checkUserRole("Fan");
-        Complaint complaint = new Complaint("complaint system", fan);
+        fan.submitComplaint("complaint to system");
+        Complaint complaint = fan.getComplaints().get(0);
         assertTrue(admin.responseToComplaint(complaint.getId(), "answer"));
     }
 

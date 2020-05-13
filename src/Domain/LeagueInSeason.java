@@ -52,6 +52,7 @@ public class LeagueInSeason {
         if(!teams.contains(team)){
             teams.add(team);
             team.addLeague(this);
+            Database.addTeam(team);
         }
 
     }

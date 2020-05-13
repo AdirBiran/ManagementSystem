@@ -140,23 +140,25 @@ public class UserSystem extends GuestSystem {
     }
 
 
-    public boolean updateTrainingForCoach(String userId, Coach.TrainingCoach training) {
+    public boolean updateTrainingForCoach(String userId, String training) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Coach");
             if (role instanceof Coach) {
-                ((Coach) role).setTraining(training);
+                Coach.TrainingCoach trainingCoach = Coach.TrainingCoach.valueOf(training);
+                ((Coach) role).setTraining(trainingCoach);
                 return true;
             }
         }
         return false;
     }
-    public boolean updateTrainingForReferee(String userId, Referee.TrainingReferee training) {
+    public boolean updateTrainingForReferee(String userId, String training) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Referee");
             if (role instanceof Referee) {
-                ((Referee) role).setTraining(training);
+                Referee.TrainingReferee trainingReferee = Referee.TrainingReferee.valueOf(training);
+                ((Referee) role).setTraining(trainingReferee);
 
                 return true;
             }
@@ -164,23 +166,25 @@ public class UserSystem extends GuestSystem {
         return false;
     }
 
-    public boolean updateRoleForPlayer(String userId, Player.RolePlayer newRole) {
+    public boolean updateRoleForPlayer(String userId, String newRole) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Player");
             if (role instanceof Player) {
-                ((Player) role).setRole(newRole);
+                Player.RolePlayer rolePlayer = Player.RolePlayer.valueOf(newRole);
+                ((Player) role).setRole(rolePlayer);
                 return true;
             }
         }
         return false;
     }
-    public boolean updateRoleForCoach(String userId, Coach.RoleCoach newRole) {
+    public boolean updateRoleForCoach(String userId, String newRole) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Coach");
             if (role instanceof Coach) {
-                ((Coach) role).setRoleInTeam(newRole);
+                Coach.RoleCoach roleCoach = Coach.RoleCoach.valueOf(newRole);
+                ((Coach) role).setRoleInTeam(roleCoach);
                 return true;
             }
         }
