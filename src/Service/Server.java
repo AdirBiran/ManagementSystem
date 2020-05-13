@@ -634,7 +634,7 @@ public class Server {
 
     private void handleviewLog(String[] splitLine, Socket clientSocket)
     {
-        List<String> res = adminSystem.viewLog(splitLine[1]);
+        List<String> res = adminSystem.viewLog(splitLine[1], splitLine[2]);
         String sendToClient = ListToString(res);
 
         sendLineToClient(sendToClient, clientSocket);
