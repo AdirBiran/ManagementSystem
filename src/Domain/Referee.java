@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.*;
 
 public class Referee extends Role implements Observer {
@@ -37,8 +39,9 @@ public class Referee extends Role implements Observer {
     public HashSet<Game> viewGames(){return games;}
 
 
-    public void addEventToGame(Game game, Event.EventType type, double minuteInGame, String description)
+    public void addEventToGame(String gameID, Event.EventType type, double minuteInGame, String description)
     {
+        Game game= Database.getGame(gameID);
         Event event = new Event(type, minuteInGame, description);
         game.getEventReport().addEvent(event);
         game.setNewsFromReferee(event);
