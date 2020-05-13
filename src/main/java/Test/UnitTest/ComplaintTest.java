@@ -52,8 +52,12 @@ public class ComplaintTest {
     }
     @Test
     public void setResponse() {
-        Complaint complaint = new Complaint("complaint system", fan);
         complaint.setResponse("answer to complaint");
         assertNotNull(fan.getMessageBox().get(0).getMessage());
+    }
+
+    @Test
+    public void getId(){
+        assertNotNull(complaint.getId());
     }
 }
