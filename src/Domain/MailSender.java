@@ -8,7 +8,7 @@ import javax.activation.*;
 public class MailSender {
 
     public static boolean send(String mail, String message){
-
+/*
         String from = "liatico77@gmail.com";
 
         // Assuming you are sending email from localhost-check this
@@ -47,6 +47,7 @@ public class MailSender {
             mex.printStackTrace();
             return false;
         }
-
+*/
+        return true;
     }
 }

@@ -22,7 +22,6 @@ public class PlayerTest {
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
         mesiU = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         mesi=(Player) mesiU.checkUserRole("Player");
-
     }
 
     @Test

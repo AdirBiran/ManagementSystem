@@ -144,4 +144,8 @@ public class UserFactory {
         HasPage authorization = new HasPage(page);
         user.addRole(authorization);
     }
+
+    public static User getUser(String userId) {
+        return Database.getUser(userId);
+    }
 }

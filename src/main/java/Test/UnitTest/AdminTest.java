@@ -24,8 +24,8 @@ public class AdminTest {
     }
     @Test
     public void closeTeamPermanently() {
-        assertTrue(admin.closeTeamPermanently(team));
-        assertFalse(admin.closeTeamPermanently(team));
+        assertTrue(admin.closeTeamPermanently(team.getID()));
+        assertFalse(admin.closeTeamPermanently(team.getID()));
     }
 
     @Test
@@ -86,7 +86,7 @@ public class AdminTest {
         User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         Fan fan = (Fan) user.checkUserRole("Fan");
         Complaint complaint = new Complaint("complaint system", fan);
-        assertTrue(admin.responseToComplaint(complaint, "answer"));
+        assertTrue(admin.responseToComplaint(complaint.getId(), "answer"));
     }
 
     @Test

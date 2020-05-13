@@ -51,7 +51,7 @@ public class Fan extends Role implements Observer {
         if(description.length()<1)
             return false;
         Complaint complaint = new Complaint(description, this);
-        return Database.addComplaint(complaint);
+        return Database.addComplaint(complaint.getId(), complaint);
     }
 
     public List<String> getFollowedPages(){

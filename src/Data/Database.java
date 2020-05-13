@@ -16,7 +16,7 @@ public class Database //maybe generalize with interface? //for now red layer
     private static HashMap<String, PersonalPage> pagesInDatabase;//-<userId, PersonalPage>
     private static HashSet<League> leagues;
     private static HashSet<Season> seasons;
-    private static HashSet<Complaint> complaints;
+    private static HashMap<String , Complaint> complaints; //-<complaintId, Complaint>
     private static HashMap<String, Team> teams;
     private static HashMap<User, Referee> referees;
 
@@ -29,7 +29,7 @@ public class Database //maybe generalize with interface? //for now red layer
         pagesInDatabase = new HashMap<>();
         leagues = new HashSet<>();
         seasons = new HashSet<>();
-        complaints = new HashSet<>();
+        complaints = new HashMap<>();
         teams = new HashMap<>();
         admins = new HashMap<>();
         referees = new HashMap<>();
@@ -411,13 +411,19 @@ public class Database //maybe generalize with interface? //for now red layer
         return (Season)search("Season", yearOfSeason);
     }
 
-    public static HashSet<Complaint> getComplaints() {
-        return complaints;
+    public static Complaint getComplaints(String id) {
+        return complaints.get(id);
     }
 
 
 
-    public static boolean addComplaint(Complaint complaint){return complaints.add(complaint);}
+    public static boolean addComplaint(String complaintId, Complaint complaint){
+        if(!complaints.containsKey(complaintId)){
+            complaints.put(complaintId, complaint);
+            return true;
+        }
+        return false;
+    }
 
     public static void writeToDatabaseDisk(){
         //*
