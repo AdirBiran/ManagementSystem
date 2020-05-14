@@ -92,6 +92,23 @@ public class Client  {
         return res;
     }
 
+    public String ListToString(List<String> list)
+    {
+
+        String res = "";
+
+        if (list.size() == 0)
+            return res;
+
+        for (String s : list)
+            res = res + s + "~";
+
+        res = res.substring(0, res.length()-1);
+        res = res + "\n";
+
+        return res;
+    }
+
 
 }
 

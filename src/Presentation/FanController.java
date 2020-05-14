@@ -15,8 +15,16 @@ public class FanController {
         this.client = client;
     }
 
-    public void followPage(){}
-    public void followGames(){}
+    public void followPage(){
+        //show all pages
+        //let user select page
+        //send request to server with fan and page
+    }
+    public void followGames(){
+        //show all games
+        //let user select game/games/add all?
+        //send request to server with fan and games
+    }
     public void editPersonalInfo(){}
     public void submitComplaint(){}
 }

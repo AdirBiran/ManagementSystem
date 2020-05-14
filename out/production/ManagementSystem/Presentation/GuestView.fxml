@@ -73,7 +73,7 @@
    <top>
       <ToolBar prefHeight="0.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <items>
-            <Label text="System Name" />
+            <Label fx:id="l_systemName" />
             <MenuBar fx:id="mb_mainMenu" prefHeight="0.0" prefWidth="443.0">
               <menus>
                 <Menu mnemonicParsing="false" text="File">

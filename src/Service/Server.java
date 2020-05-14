@@ -360,6 +360,8 @@ public class Server {
 
                     default:
                         Logger.logError("Server: invalid operation received");
+                        //Liat added this line to test presentation stuff
+                        sendLineToClient("", clientSocket);
                         System.out.println("Invalid operation received: " + operation);
                         break;
 
