@@ -1,6 +1,9 @@
 package Presentation;
 
 
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.layout.HBox;
 
 public class AdminController {
@@ -15,6 +18,7 @@ public class AdminController {
         this.loggedUser = loggedUser;
         this.client = m_client;
     }
+
 
     public void closeTeamPermanently(){
         //show all teams with selection option maybe choicebox
@@ -84,8 +88,6 @@ public class AdminController {
         //let user select a complaint to response to
         //create text area for the user to write his response
     }
-
-
 
 
 }

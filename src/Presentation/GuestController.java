@@ -2,8 +2,10 @@ package Presentation;
 
 import java.io.IOException;
 
+import java.net.URL;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-public class GuestController {
+public class GuestController implements Initializable {
 
 
     private Client m_client = new Client(7567);//split by |
@@ -29,6 +32,7 @@ public class GuestController {
     @FXML private HBox mainView;
     @FXML private TextField tf_email;
     @FXML private PasswordField tf_password;
+    @FXML private Label l_systemName;
 
 
     public void loginButtonPushed(ActionEvent action){
@@ -75,8 +79,8 @@ public class GuestController {
     }
 
 
-
-
-
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        l_systemName.setText(Main.SYSTEM_NAME);
+    }
 }

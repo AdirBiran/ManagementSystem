@@ -14,7 +14,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class Main extends Application {
-    private final String SYSTEM_NAME = "SystemName";
+
+
+    final static String SYSTEM_NAME = "Team 5 Football System";
     private static Server server  = new Server(7567, 10);
 
     private static Stage stage;
@@ -50,6 +52,7 @@ public class Main extends Application {
         FootballManagementSystem.systemInit(true);
         FootballManagementSystem.dataReboot();
         UserFactory.getNewAdmin("aA123456", "adminush", "ush", "m@m.com");
+        UserFactory.getNewTeamOwner( "Liat", "Cohen", "liatico77@gmail.com");
         launch(args);
     }
 }
