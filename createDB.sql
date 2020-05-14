@@ -1,6 +1,6 @@
-Create Database ManagementSystemDB;
+Create Database FootballManagementDB1;
 GO
-USE [ManagementSystemDB]
+USE [FootballManagementDB1]
 GO
 
 CREATE TABLE [Admins](
@@ -10,6 +10,7 @@ CREATE TABLE [Admins](
 CREATE TABLE [Passwords](
 	[ID] [char](30)  Primary key,
 	[Password] [char](255) ,
+
 );
 
 CREATE TABLE [Users](
@@ -20,6 +21,8 @@ CREATE TABLE [Users](
 	[isActive] [bit] ,
 	[Roles] [varchar](255) ,
 	[searchHistories] [varchar](1000) ,
+	--FOREIGN KEY (ID) REFERENCES [Passwords] (ID)
+	FOREIGN KEY([ID]) REFERENCES [dbo].[Passwords] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
 );
 
 CREATE TABLE [Referees](
