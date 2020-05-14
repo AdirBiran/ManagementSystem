@@ -50,7 +50,6 @@ public class UserFactory {
         try {
         User user = new User(firstName, lastName, "TO", mail);
         TeamOwner authorization = new TeamOwner(user);
-        //authorization.fullPermission(true);
         user.addRole(authorization);
         return addToDatabase(user);
     }
@@ -141,7 +140,12 @@ public class UserFactory {
     private static void giveHasPageAuthorization(User user) {
         String data = "This is "+ user.getName()+"'s Personal Page! ";
         PersonalPage page = new PersonalPage(data, user);
+        Database.addPage(page);
         HasPage authorization = new HasPage(page);
         user.addRole(authorization);
+    }
+
+    public static User getUser(String userId) {
+        return Database.getUser(userId);
     }
 }

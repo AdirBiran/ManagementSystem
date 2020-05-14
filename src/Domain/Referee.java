@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.*;
 
 public class Referee extends Role implements Observer {
@@ -37,8 +39,9 @@ public class Referee extends Role implements Observer {
     public HashSet<Game> viewGames(){return games;}
 
 
-    public void addEventToGame(Game game, Event.EventType type, double minuteInGame, String description)
+    public void addEventToGame(String gameID, Event.EventType type, double minuteInGame, String description)
     {
+        Game game= Database.getGame(gameID);
         Event event = new Event(type, minuteInGame, description);
         game.getEventReport().addEvent(event);
         game.setNewsFromReferee(event);
@@ -53,18 +56,23 @@ public class Referee extends Role implements Observer {
         return null;
     }
 
-    public boolean changeEvent(Game game, Event event, String change){
-        for (Event event1: game.getEventReport().getEvents()) {
-            if (event1.getId().equals(event.getId())) {
-                event1.setDescription(change);
-                return true;
+    public boolean changeEvent(String gameID, String eventID, String change){
+        Game game= Database.getGame(gameID);
+        Event event=game.getEventReport().gerEventById(eventID);
+        if (event!=null) {
+            for (Event event1 : game.getEventReport().getEvents()) {
+                if (event1.getId().equals(event.getId())) {
+                    event1.setDescription(change);
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public boolean setScoreInGame(Game game,int hostScore, int guestScore)
+    public boolean setScoreInGame(String gameID,int hostScore, int guestScore)
     {
+        Game game= Database.getGame(gameID);
         if(this.equals(game.getMainReferee())){
             game.setGuestScore(guestScore);
             game.setHostScore(hostScore);
@@ -73,6 +81,15 @@ public class Referee extends Role implements Observer {
             return true;
         }
         return false;
+    }
+
+    public List<String> getGameReport(String gameID) {
+        List<String> gameReport = new LinkedList<>();
+        Game game= Database.getGame(gameID);
+        if(game.getMainReferee().equals(this)) {
+            gameReport.addAll(game.getEventReportString());
+        }
+        return gameReport;
     }
 
     @Override

@@ -17,7 +17,8 @@ public class Database //maybe generalize with interface? //for now red layer
     private static HashMap<String, PersonalPage> pagesInDatabase;//-<userId, PersonalPage>
     private static HashSet<League> leagues;
     private static HashSet<Season> seasons;
-    private static HashSet<Complaint> complaints;
+    private static HashMap<String, LeagueInSeason> leaguesInSeasons; //-<id, LeagueInSeason>
+    private static HashMap<String , Complaint> complaints; //-<complaintId, Complaint>
     private static HashMap<String, Team> teams;
     private static HashMap<User, Referee> referees;
     
@@ -29,9 +30,10 @@ public class Database //maybe generalize with interface? //for now red layer
         assetsInDatabase = new HashMap<>();
         gamesInDatabase = new HashMap<>();
         pagesInDatabase = new HashMap<>();
+        leaguesInSeasons = new HashMap<>();
         leagues = new HashSet<>();
         seasons = new HashSet<>();
-        complaints = new HashSet<>();
+        complaints = new HashMap<>();
         teams = new HashMap<>();
         admins = new HashMap<>();
         referees = new HashMap<>();
@@ -70,8 +72,22 @@ public class Database //maybe generalize with interface? //for now red layer
 
         return false;
     }
+
+    public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
+        String id = leagueInSeason.getId();
+        if(!leaguesInSeasons.containsKey(id)){
+            leaguesInSeasons.put(id, leagueInSeason);
+            return true;
+        }
+        return false;
+    }
+
+    public static LeagueInSeason getLeagueInSeason(String leagueInSeasonId){
+        return leaguesInSeasons.get(leagueInSeasonId);
+    }
+
     public static Team getTeam(String teamId){
-        return (Team)search("Team", teamId);
+        return teams.get(teamId);
     }
 
     public static List<Team> getTeams() {
@@ -118,8 +134,8 @@ public class Database //maybe generalize with interface? //for now red layer
     this function gets a userId and return its personalPage if exists
     if page not exists the function returns null
      */
-    public static PersonalPage getPage(String userId){
-        return (PersonalPage)search("Page", userId);
+    public static PersonalPage getPage(String pageId){
+        return (PersonalPage)search("Page", pageId);
     }
     /*
     this function returns all games in database
@@ -156,6 +172,10 @@ public class Database //maybe generalize with interface? //for now red layer
         assetsInDatabase.put(assetID, asset);
 
         return true;
+    }
+
+    public static PartOfATeam getAssetById(String assetId){
+        return assetsInDatabase.get(assetId);
     }
     /*
     adds a user to the database
@@ -413,13 +433,19 @@ public class Database //maybe generalize with interface? //for now red layer
         return (Season)search("Season", yearOfSeason);
     }
 
-    public static HashSet<Complaint> getComplaints() {
-        return complaints;
+    public static Complaint getComplaints(String id) {
+        return complaints.get(id);
     }
 
 
 
-    public static boolean addComplaint(Complaint complaint){return complaints.add(complaint);}
+    public static boolean addComplaint(Complaint complaint){
+        if(!complaints.containsKey(complaint.getId())){
+            complaints.put(complaint.getId(), complaint);
+            return true;
+        }
+        return false;
+    }
 
     public static void writeToDatabaseDisk(){
         //*

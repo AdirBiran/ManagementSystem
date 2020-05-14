@@ -60,13 +60,13 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
 
     @Override
     public void addTeam(Team team) {
-        teams.add(team);
+        teams.add(team); ///
     }
 
     @Override
     public void removeTeam(Team team) {
         teams.remove(team);
-    }
+    } ///
 
     @Override
     public boolean isActive() {

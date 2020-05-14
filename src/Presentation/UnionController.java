@@ -38,11 +38,8 @@ public class UnionController {
         pane.add(level, 0, 1);
         ChoiceBox<String> cb_level = new ChoiceBox<>();
         pane.add(cb_level, 2, 1);
-        ObservableList<String> levels = FXCollections.observableArrayList();
-        levels.add("level 1");
-        levels.add("level 2");
-        levels.add("level 3");
-        levels.add("level 4");
+        ObservableList<String> levels = FXCollections.observableArrayList("level 1","level 2", "level 3","level 4");
+        cb_level.setItems(levels);
         Button b_add = new Button("Add");
         b_add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -51,13 +48,8 @@ public class UnionController {
                 if(Checker.isValid(name)&& level.length()>0){
                     String request = "configureNewLeague|"+loggedUser+"|"+name+"|"+level;
                     List<String> response = client.sendToServer(request);
-                    if(response.get(0).contains("Succeed")){
-                        m_general.showAlert("New league was added!", Alert.AlertType.INFORMATION);
-                        m_general.clearMainView(mainView1);
-                    }
-                    else
-                        m_general.showAlert("Failed to add new league", Alert.AlertType.ERROR);
-
+                    m_general.showAlert(response.get(0), Alert.AlertType.INFORMATION);
+                    m_general.clearMainView(mainView1);
                 }
                 else
                     m_general.showAlert("Invalid name or level", Alert.AlertType.ERROR);
@@ -65,14 +57,48 @@ public class UnionController {
         });
 
     }
-    public void configureNewSeason(){}
-    public void configureLeagueInSeason(){}
-    public void assignGames(){}
+    public void configureNewSeason(){
+        GridPane pane = new GridPane();
+        Label label = new Label("Please select year and start date:");
+        pane.add(label, 0,0);
+        Label year = new Label("Season Year:");
+        pane.add(year, 0,1);
+        Label date = new Label("Season Start Date:");
+        pane.add(date, 0,2);
+        TextField tf_year = new TextField();
+        pane.add(tf_year, 1,1);
+        DatePicker dp_start = new DatePicker();
+        pane.add(dp_start, 1,2);
+        Button addBtn = new Button("Add");
+        addBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String year = tf_year.getText(), date = dp_start.getValue().toString();
+                if(Checker.isValidNumber(year) && Checker.isValidNumber(date)){
+                    String request = "configureNewSeason|"+loggedUser+"|"+year+"|"+date;
+                    List<String> receive = client.sendToServer(request);
+                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                }
+            }
+        });
+    }
+    public void configureLeagueInSeason(){
+        //let user select a league
+        //let user select season
+        //send request to configure league in season
+        //show ack to user
+    }
+    public void assignGames(){
+        //let user select a league in season - from leagues without games
+        //send request to assign games
+        //show ack to user
+    }
+
     public void appointReferee()
     {
         m_general.buildForm("referee", mainView1, client, loggedUser);
-
     }
+
     public void addRefereeToLeague(){
         GridPane pane = new GridPane();
         addLeaguesToPane(pane);
@@ -103,17 +129,45 @@ public class UnionController {
 
 
 
-    public void addTUTUPaymentToTeam(){}
-    public void addPaymentsFromTheTUTU(){}
-    public void addTeamToLeague(){}
-    public void calculateLeagueScore(){}
-    public void calculateGameScore(){}
-    public void changeRegistrationFee(){}
+    public void addTUTUPaymentToTeam(){
+        //let user select a team and amount
+        //send request to add payment to team
+    }
+    public void addPaymentsFromTheTUTU(){
+        //let user enter a double that represents the amount to add to union accounting system
+        //show ack to user
+    }
+    public void addTeamToLeague(){
+        //let user select a team
+        //let user select league in season
+        //send request to add team to league
+        //send ack to user
+    }
+    public void calculateLeagueScore()
+    {
+        //select league
+        //send request to server
+        //show league score table
+    }
+
+    public void calculateGameScore()
+    {
+        //select league
+        //select game/all games/some games?
+        //send request to server to calculate score
+    }
+    public void changeRegistrationFee(){
+        //select league
+        //show fee
+        //les user enter new fee
+        //check fee
+        //send request to change fee
+    }
 
 
     //make getAllLeagues()return a list of <League.name:season.year> of all LeagueInSeason
     private void addLeaguesToPane(GridPane pane) {
-        List<String> receiveLeagues = client.sendToServer("getAllLeagues|"+loggedUser);
+        List<String> receiveLeagues = client.sendToServer("allLeaguesInSeasons|"+loggedUser);
         Label league = new Label("League:");
         pane.add(league, 0, 1);
         ObservableList<String> leagues = FXCollections.observableArrayList(receiveLeagues);

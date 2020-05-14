@@ -34,22 +34,19 @@ public class FanTest {
         mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
         receiveAlerts = new ReceiveAlerts(true, false);
-        Team team0 = league.getTeams().get(0);
-        Team team1 = league.getTeams().get(1);
-        Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
-        Referee mainReferee = league.getReferees().get(0);
-        List<Referee> sideReferees = new LinkedList<>();
-        sideReferees.add(league.getReferees().get(1));
-        sideReferees.add(league.getReferees().get(2));
-        game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, league);
+        /*create games*/
+        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
+        unionRole.assignGames(league.getId(), system.getDates());
+        game = league.getGames().get(0);
     }
 
     @Test
     public void addPageToFollow() {
 
-        assertTrue(fan.addPageToFollow(mesiPage));
-        List<Game> games = new LinkedList<>();
-        games.add(game);
+        assertTrue(fan.addPageToFollow(mesiPage.getId()));
+        List<String> games = new LinkedList<>();
+        games.add(game.getId());
         assertTrue(fan.followGames(games, receiveAlerts));
 
         /*for notification*/
@@ -62,7 +59,7 @@ public class FanTest {
         Fan fan1 = (Fan) user1.checkUserRole("Fan");
         assertEquals(0, fan1.getMessageBox().size(), 0);
         Referee mainReferee = game.getMainReferee();
-        mainReferee.addEventToGame(game, Event.EventType.RedCard, 70, "");
+        mainReferee.addEventToGame(game.getId(), Event.EventType.RedCard, 70, "");
         assertEquals(2, fan.getMessageBox().size(), 0);
         assertEquals(1, mainReferee.getMessageBox().size(), 0);
     }
@@ -81,7 +78,7 @@ public class FanTest {
 
     @Test
     public void getFollowedPages() {
-        fan.addPageToFollow(mesiPage);
+        fan.addPageToFollow(mesiPage.getId());
         assertEquals(fan.getFollowedPages().size(), 1);
     }
 

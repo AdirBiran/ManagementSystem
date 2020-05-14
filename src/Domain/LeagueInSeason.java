@@ -1,9 +1,12 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.*;
 
 public class LeagueInSeason {
 
+    private String id;
     private GameAssignmentPolicy assignmentPolicy;
     private ScorePolicy scorePolicy;
     private Queue<ScoreTableRecord> scoreTable;
@@ -16,6 +19,7 @@ public class LeagueInSeason {
 
 
     public LeagueInSeason(GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, League league, Season season, double registrationFee) {
+        this.id = league.getId()+season.getId();
         this.assignmentPolicy = assignmentPolicy;
         this.scorePolicy = scorePolicy;
         this.registrationFee = registrationFee;
@@ -50,12 +54,15 @@ public class LeagueInSeason {
         if(!teams.contains(team)){
             teams.add(team);
             team.addLeague(this);
+            Database.addTeam(team);
         }
 
     }
 
     public void setGames(List<Game> games) {
         this.games = games;
+        for (Game game : games)
+            Database.addGame(game);
     }
 
     public void addGame(Game game) {
@@ -131,6 +138,14 @@ public class LeagueInSeason {
 
     public double getRegistrationFee() {
         return this.registrationFee;
+    }
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @Override

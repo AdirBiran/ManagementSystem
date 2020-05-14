@@ -2,6 +2,8 @@ package Presentation;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -10,14 +12,15 @@ import javafx.event.ActionEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class UserController {
-
-
-
+public class UserController implements Initializable {
+    
     @FXML private HBox mainView1;
     @FXML private MenuBar mb_mainMenu1;
+    @FXML private Label l_systemName;
 
 
     private Client m_client;
@@ -213,30 +216,14 @@ public class UserController {
                 case("TeamOwner"):{
                     ownership = new OwnershipController(mainView1, loggedUser, m_client);
                     Menu ownerMenu = new Menu("Ownership Actions");
-                    MenuItem addTeam = new MenuItem("addTeam");
+                    MenuItem addTeam = new MenuItem("openNewTeam");
                     addTeam.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            ownership.addTeam();
+                            ownership.openNewTeam();
                         }
                     });
                     ownerMenu.getItems().add(addTeam);
-                    //MenuItem getTeamById = new MenuItem("getTeamById");
-                    //getTeamById.setOnAction(new EventHandler<ActionEvent>() {
-                    //    @Override
-                    //    public void handle(ActionEvent event) {
-                    //        ownership.getTeamById();
-                    //    }
-                    //});
-                    //ownerMenu.getItems().add(getTeamById);
-                    MenuItem removeTeam = new MenuItem("removeTeam");
-                    removeTeam.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            ownership.removeTeam();
-                        }
-                    });
-                    ownerMenu.getItems().add(removeTeam);
                     MenuItem appointTeamOwner = new MenuItem("appointTeamOwner");
                     appointTeamOwner.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -523,4 +510,8 @@ public class UserController {
         mb_mainMenu1.getMenus().add(manageMenu);
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        l_systemName.setText(Main.SYSTEM_NAME);
+    }
 }

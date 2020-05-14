@@ -111,7 +111,7 @@ public class RefereeController {
             Label lb_events = new Label("Events:");
             pane.add(lb_events, 0,1);
             ChoiceBox<String> events = new ChoiceBox<>();
-            pane.add(events, 1,1);
+
             ObservableList<String> listEvents = FXCollections.observableArrayList();
             pane.setAlignment(Pos.CENTER);
             List<String> gameReport = client.sendToServer("getEventReport|"+loggedUser+"|"+game);
@@ -125,9 +125,35 @@ public class RefereeController {
                 }
             }
             events.setItems(listEvents);
-           // pane.add(events, );
+            pane.add(events, 1,1);
             mainView1.getChildren().add(pane);
+            events.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    m_general.clearMainView(pane);
+                    changeEvent();
+                    showEventDetails(pane,events.getValue(),game,2);
+                }
+            });
         }
+    }
+
+    private void showEventDetails(GridPane pane, String eventString,String game, int startRow) {
+        Label event = new Label(eventString);
+        pane.add(event,0,startRow);
+        Label description = new Label("Description:");
+        TextField tf_description = new TextField();
+        pane.add(description,0,startRow+1);
+        pane.add(tf_description,1,startRow+1);
+        Button change = new Button("Change");
+        change.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String request = "changeEvent|"+loggedUser+"|"+game+"|"+eventString+"|"+tf_description.getText();
+                List<String> receive =client.sendToServer(request);
+                m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+            }
+        });
     }
 
     private ObservableList<String> addScores() {

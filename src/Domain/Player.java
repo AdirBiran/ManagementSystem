@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 public class Player extends Role implements PartOfATeam {
+
     public enum RolePlayer {
         goalkeeper,
         playerBack,

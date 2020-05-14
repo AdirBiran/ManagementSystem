@@ -1,8 +1,6 @@
 package Presentation;
 
-import Presentation.Records.PlayerRecord;
-import Presentation.Records.Record;
-import Presentation.Records.TeamRecord;
+import Presentation.Records.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -61,28 +60,30 @@ public class GeneralController {
         }
         ObservableList<Record> data = FXCollections.observableArrayList();
         TableView tableView = new TableView();
+        Label tableLabel = new Label();
+        tableLabel.setFont(new Font("Tahoma", 16));
+        tableLabel.setAlignment(Pos.CENTER);
         switch(type){
             case ("Teams"):{
+                tableLabel.setText("Teams:");
                 ArrayList<TeamRecord> teams = new ArrayList<>();
                 for(String string: list){
                     TeamRecord record = new TeamRecord(string);
                     teams.add(record);
                 }
                 data.addAll(teams);
-                //columns
-                TableColumn id = new TableColumn("Id");
-                id.setCellValueFactory(new PropertyValueFactory("id"));
-                TableColumn name = new TableColumn("Name");
-                name.setCellValueFactory(new PropertyValueFactory("name"));
+
                 TableColumn active = new TableColumn("Active");
                 active.setCellValueFactory(new PropertyValueFactory("active"));
                 TableColumn permanentlyClosed = new TableColumn("Permanently Closed");
                 permanentlyClosed.setCellValueFactory(new PropertyValueFactory("permanentlyClosed"));
-                tableView.getColumns().addAll(id,name,active,permanentlyClosed);
+
+                tableView.getColumns().addAll(getNameColumn(),active,permanentlyClosed);
 
                 break;
             }
             case ("Players"):{
+                tableLabel.setText("Players:");
                 ArrayList<PlayerRecord> players = new ArrayList<>();
                 for(String string: list){
                     PlayerRecord record = new PlayerRecord(string);
@@ -90,28 +91,64 @@ public class GeneralController {
                 }
                 data.addAll(players);
                 //columns
-                TableColumn name = new TableColumn("Name");
-                name.setCellValueFactory(new PropertyValueFactory("name"));
                 TableColumn birthDate = new TableColumn("Birth Date");
                 birthDate.setCellValueFactory(new PropertyValueFactory("birthDate"));
-                TableColumn role = new TableColumn("Role");
-                role.setCellValueFactory(new PropertyValueFactory("role"));
-                TableColumn teams = new TableColumn("Teams");
-                teams.setCellValueFactory(new PropertyValueFactory("teams"));
+                getTeamsColumn();
 
-                tableView.getColumns().addAll(name,birthDate,role,teams);
+                tableView.getColumns().addAll(getNameColumn(),birthDate,getRoleColumn(), getTeamsColumn());
                 break;
             }
             case ("Coaches"):{
+                tableLabel.setText("Coaches:");
+                ArrayList<CoachRecord> coaches = new ArrayList<>();
+                for(String string: list){
+                    CoachRecord record = new CoachRecord(string);
+                    coaches.add(record);
+                }
+                data.addAll(coaches);
+                tableView.getColumns().addAll(getNameColumn(),getTrainingColumn(),getRoleColumn(), getTeamsColumn());
                 break;
             }
             case ("Leagues"):{
+                tableLabel.setText("Leagues:");
+                ArrayList<LeagueRecord> leagues = new ArrayList<>();
+                for(String string: list){
+                    LeagueRecord record = new LeagueRecord(string);
+                    leagues.add(record);
+                }
+                data.addAll(leagues);
+                TableColumn level = new TableColumn("Level");
+                level.setCellValueFactory(new PropertyValueFactory("level"));
+
+                tableView.getColumns().addAll(getNameColumn(),level);
                 break;
             }
             case ("Seasons"):{
+                tableLabel.setText("Seasons:");
+                ArrayList<SeasonRecord> seasons = new ArrayList<>();
+                for(String string: list){
+                    SeasonRecord record = new SeasonRecord(string);
+                    seasons.add(record);
+                }
+                data.addAll(seasons);
+                TableColumn year = new TableColumn("Year");
+                year.setCellValueFactory(new PropertyValueFactory("year"));
+
+                tableView.getColumns().add(year);
                 break;
             }
             case ("Referees"):{
+                tableLabel.setText("Referees:");
+                ArrayList<RefereeRecord> referees = new ArrayList<>();
+                for(String string: list){
+                    RefereeRecord record = new RefereeRecord(string);
+                    referees.add(record);
+                }
+                data.addAll(referees);
+                getNameColumn();
+                getTrainingColumn();
+
+
                 break;
             }
             default:{
@@ -124,9 +161,11 @@ public class GeneralController {
         }
 
         tableView.setItems(data);
-        gridPane.add(tableView, 0, startIndex);
+        gridPane.add(tableLabel, 0, startIndex);
+        gridPane.add(tableView, 0, startIndex+1);
 
     }
+
 
     public void showAlert(String s, Alert.AlertType type) {
         Alert alert = new Alert(type,s);
@@ -208,9 +247,14 @@ public class GeneralController {
                 clearMainView(mainView);
                 clearMainView(l_searchPane);
                 buildSearchView(l_searchPane, mainView, m_client, userId);
+                String searchWord = searchArea.getText();
 
-                if(Checker.isValid(searchArea.getText())){
-                    List<String> results = m_client.sendToServer("search"+"|"+userId+"|"+searchArea.getText());
+                if(Checker.isValid(searchWord)){
+                    List<String> correction = FootballSpellChecker.correct(searchWord);
+                    if(correction.size()>0){
+                        //suggest corrections to user
+                    }
+                    List<String> results = m_client.sendToServer("search"+"|"+userId+"|"+searchWord);
                     showListOnScreen("",results, l_searchPane, 3);
                 }
                 else
@@ -316,6 +360,14 @@ public class GeneralController {
         l_registerPane.setAlignment(Pos.CENTER);
         view.getChildren().add(l_registerPane);
 
+    }
+    public List<String> getRolesFromSplitedText(String[] split, int startIndex) {
+        List<String> result = new LinkedList<>();
+        new LinkedList<>();
+        for (int i = startIndex; i < split.length; i++) {
+            result.add(split[i]);
+        }
+        return result;
     }
 
     private void addTrainingField(String type, GridPane l_registerPane, int col, int row) {
@@ -467,6 +519,9 @@ public class GeneralController {
                 break;
             }
         }
+        //if(!type.equals("fan") &&!type.equals("admin")&&!type.equals("representative"))
+        //    FootballSpellChecker.addWord(firstName+" "+lastName);
+
         register = m_client.sendToServer(request);
         String[]split = register.get(0).split("\\|");
         if(type.equals("fan")) {
@@ -480,8 +535,10 @@ public class GeneralController {
                 showAlert("registration failed - user already exists or invalid arguments",Alert.AlertType.ERROR);
         }
         if(split[0].contains("Succeed")){
-            showAlert("success Alert!", Alert.AlertType.INFORMATION);
+            showAlert(split[0], Alert.AlertType.INFORMATION);
             clearMainView(view);
+            if(type.equals("player")||type.equals("coach"))
+                FootballSpellChecker.addWord(firstName+" "+lastName);
         }
         else{
             showAlert(split[0], Alert.AlertType.INFORMATION);
@@ -500,12 +557,31 @@ public class GeneralController {
         return true;
     }
 
-    public List<String> getRolesFromSplitedText(String[] split, int startIndex) {
-        List<String> result = new LinkedList<>();
-        new LinkedList<>();
-        for (int i = startIndex; i < split.length; i++) {
-            result.add(split[i]);
-        }
-        return result;
+    private TableColumn getRoleColumn() {
+        TableColumn role = new TableColumn("Role");
+        role.setCellValueFactory(new PropertyValueFactory("roleInTeam"));
+        return role;
     }
+
+    private TableColumn getTrainingColumn() {
+        TableColumn training = new TableColumn("training");
+        training.setCellValueFactory(new PropertyValueFactory("training"));
+        return training;
+    }
+
+    private TableColumn getNameColumn() {
+        TableColumn name = new TableColumn("Name");
+        name.setCellValueFactory(new PropertyValueFactory("name"));
+        return name;
+    }
+
+    private TableColumn getTeamsColumn() {
+        TableColumn teams = new TableColumn("Teams");
+        teams.setCellValueFactory(new PropertyValueFactory("teams"));
+        return teams;
+    }
+
+
+
+
 }

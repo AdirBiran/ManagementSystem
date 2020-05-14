@@ -34,14 +34,14 @@ public class RefereeTest {
         mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
         receiveAlerts = new ReceiveAlerts(true, false);
-        Team team0 = league.getTeams().get(0);
-        Team team1 = league.getTeams().get(1);
-        Field field = new Field("Tel-Aviv", "Bloomfield", 10000, 150000);
-        referee = league.getReferees().get(0);
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add(league.getReferees().get(1));
         sideReferees.add(league.getReferees().get(2));
-        game = new Game(new Date(120, 4, 25, 20, 0), field, referee, sideReferees, team0, team1, league);
+        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
+        unionRole.assignGames(league.getId(),system.getDates());
+        game=league.getGames().get(0);
+        referee=game.getMainReferee();
     }
 
     @Test
@@ -71,20 +71,20 @@ public class RefereeTest {
     @Test
     public void addEventToGame() {
 
-        referee.addEventToGame(game,Event.EventType.RedCard,50,"");
+        referee.addEventToGame(game.getId(),Event.EventType.RedCard,50,"");
         assertEquals(1,game.getEventReport().getEvents().size());
 
     }
 
     @Test
     public void changeEvent() {
-        referee.addEventToGame(game,Event.EventType.RedCard,50,"");
-       assertTrue( referee.changeEvent(game,game.getEventReport().getEvents().get(0),"yes"));
+        referee.addEventToGame(game.getId(),Event.EventType.RedCard,50,"");
+       assertTrue( referee.changeEvent(game.getId(),game.getEventReport().getEvents().get(0).getId(),"yes"));
        assertEquals(game.getEventReport().getEvents().get(0).getDescription(),"yes");
     }
 
     @Test
     public void setScoreInGame() {
-        assertTrue(referee.setScoreInGame(game,3,2));
+        assertTrue(referee.setScoreInGame(game.getId(),3,2));
     }
 }

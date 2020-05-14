@@ -15,12 +15,15 @@ public class Admin extends Role implements Observer {
         myRole = "Admin";
     }
 
-    public boolean closeTeamPermanently(Team team)
+    public boolean closeTeamPermanently(String teamId)
     {
+        Team team = Database.getTeam(teamId);
         if(!team.isPermanentlyClosed() && !permanentlyClosedTeams.contains(team)) {
             team.setActive(false);
             team.setPermanentlyClosed(true);
             permanentlyClosedTeams.add(team);
+            Logger.logEvent(user.getID() + " (Admin)", " Closed Team " + team.getName() + " permanently");
+
             return true;
         }
         return false;
@@ -77,7 +80,8 @@ public class Admin extends Role implements Observer {
         field.reactivate();
     }
 
-    public boolean responseToComplaint(Complaint complaint, String response){
+    public boolean responseToComplaint(String complaintId, String response){
+        Complaint complaint = Database.getComplaints(complaintId);
         if(complaint!=null){
             complaint.setResponse(response);
             return true;
@@ -99,8 +103,6 @@ public class Admin extends Role implements Observer {
                 return new LinkedList<>();
         }
     }
-
-    public void trainModel(){}
 
     @Override
     public String myRole() {

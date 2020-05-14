@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -49,7 +50,7 @@
     <top>
         <ToolBar prefHeight="0.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <items>
-                <Label text="System Name" />
+                <Label fx:id="l_systemName" />
                 <MenuBar fx:id="mb_mainMenu1" prefHeight="0.0" prefWidth="443.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
@@ -81,5 +82,8 @@
     <center>
         <HBox fx:id="mainView1" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
     </center>
+   <right>
+      <ScrollBar orientation="VERTICAL" BorderPane.alignment="CENTER" />
+   </right>
 
 </BorderPane>
