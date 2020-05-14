@@ -11,6 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.event.ActionEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.WindowEvent;
 
 import java.net.URL;
 import java.util.List;
@@ -513,5 +514,12 @@ public class UserController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         l_systemName.setText(Main.SYSTEM_NAME);
+        Main.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                logoutButtonPushed(null);
+                //logout somehow
+            }
+        });
     }
 }

@@ -37,11 +37,11 @@ public class RefereeController {
             ObservableList<String> types = FXCollections.observableArrayList("Goal", "Offside", "Foul", "RedCard", "YellowCard","Injury", "Replacement");
             ChoiceBox<String> cb_types = new ChoiceBox<>(types);
             grid.add(cb_types, 1,1);
-            Label minInGame = new Label("Minute In Game:");
-            grid.add(minInGame, 0,2);
-            ObservableList<String> minutes = FXCollections.observableArrayList();
-            ChoiceBox<String> cb_minutes = new ChoiceBox<>(addMinutes());
-            grid.add(cb_minutes, 1, 2);
+            //Label minInGame = new Label("Minute In Game:");
+            //grid.add(minInGame, 0,2);
+            //ObservableList<String> minutes = FXCollections.observableArrayList();
+            //ChoiceBox<String> cb_minutes = new ChoiceBox<>(addMinutes());
+            //grid.add(cb_minutes, 1, 2);
             Label description = new Label("Description:");
             grid.add(description,0,3);
             TextArea t_description = new TextArea();
@@ -50,8 +50,8 @@ public class RefereeController {
             addBtn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    if(cb_types.getValue().length()>0&&cb_minutes.getValue().length()>0&&t_description.getText().length()>0){
-                        List<String> receive = client.sendToServer("addEventToGame|"+loggedUser+"|"+game+"|"+cb_types.getValue()+"|"+cb_minutes.getValue()+"|"+t_description.getText());
+                    if(cb_types.getValue().length()>0&&t_description.getText().length()>0){
+                        List<String> receive = client.sendToServer("addEventToGame|"+loggedUser+"|"+game+"|"+cb_types.getValue()+"|"+t_description.getText());
                         m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                     }
                 }

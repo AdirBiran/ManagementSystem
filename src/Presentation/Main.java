@@ -27,14 +27,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("GuestView.fxml"));
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                server.stop();
-                //logout somehow
 
-            }
-        });
         primaryStage.setTitle(SYSTEM_NAME);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();

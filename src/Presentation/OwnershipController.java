@@ -59,7 +59,6 @@ public class OwnershipController {
         List<String> coaches = m_client.sendToServer("getAllCoaches|"+loggedUser);
         List<String> fields = m_client.sendToServer("getAllFields|"+loggedUser);
 
-
         ObservableList<PlayerRecord> playerRecordArrayList = FXCollections.observableArrayList();
         for(String player: players){
             if(player.length()>0){
