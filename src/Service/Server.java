@@ -574,7 +574,7 @@ public class Server {
     private void handlegetFanPages(String[] splitLine, Socket clientSocket)
     {
 
-        List<String> results = userSystem.getFanPages(Database.getUser(splitLine[1]));
+        List<String> results = userSystem.getFanPages(splitLine[1]);
         String res = ListToString(results);
 
         sendLineToClient(res, clientSocket);
@@ -582,7 +582,7 @@ public class Server {
 
     private void handleaddComplaint(String[] splitLine, Socket clientSocket)
     {
-        boolean success = userSystem.addComplaint(Database.getUser(splitLine[1]), splitLine[2]);
+        boolean success = userSystem.addComplaint(splitLine[1], splitLine[2]);
 
         if (success)
             sendLineToClient("Succeed adding a complaint", clientSocket);
@@ -592,7 +592,7 @@ public class Server {
 
     private void handleeditPersonalInfo(String[] splitLine, Socket clientSocket)
     {
-         userSystem.editPersonalInfo(Database.getUser(splitLine[1]), splitLine[2], splitLine[3]);
+         userSystem.editPersonalInfo(splitLine[1], splitLine[2], splitLine[3]);
 
          sendLineToClient("Succeed Editing personal info", clientSocket);
 
@@ -601,7 +601,7 @@ public class Server {
     private void handleeditFanPersonalDetails(String[] splitLine, Socket clientSocket)
     {
 
-        boolean success = userSystem.editFanPersonalDetails(Database.getUser(splitLine[1]), splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
+        boolean success = userSystem.editFanPersonalDetails(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
         if (success)
             sendLineToClient("Succeed Editing fan personal info", clientSocket);
@@ -611,7 +611,7 @@ public class Server {
 
     private void handleviewSearchHistory(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = userSystem.viewSearchHistory(Database.getUser(splitLine[1]));
+        List<String> results = userSystem.viewSearchHistory(splitLine[1]);
         String res = ListToString(results);
         sendLineToClient(res, clientSocket);
 
@@ -624,7 +624,7 @@ public class Server {
 
     private void handletrainModel(String[] splitLine, Socket clientSocket)
     {
-        boolean success = adminSystem.trainModel(Database.getUser(splitLine[1]));
+        boolean success = adminSystem.trainModel(splitLine[1]);
 
         if (success)
             sendLineToClient("Succeed activating the training model", clientSocket);
@@ -636,8 +636,10 @@ public class Server {
 
     private void handleviewLog(String[] splitLine, Socket clientSocket)
     {
-        List<String> res = adminSystem.viewLog(splitLine[1]);
+
+        List<String> res = adminSystem.viewLog(splitLine[1], splitLine[2]);
         String sendToClient = ListToString(res);
+
 
         sendLineToClient(sendToClient, clientSocket);
     }
@@ -657,7 +659,7 @@ public class Server {
 
     private void handleviewPersonalDetails(String[] splitLine, Socket clientSocket)
     {
-        String res = userSystem.viewPersonalDetails(Database.getUser(splitLine[1]));
+        String res = userSystem.viewPersonalDetails(splitLine[1]);
         sendLineToClient(res, clientSocket);
     }
 
@@ -670,10 +672,10 @@ public class Server {
 
     private void handlepermanentlyCloseTeam(String[] splitLine, Socket clientSocket)
     {
-        User admin = Database.getUser(splitLine[1]);
+        //User admin = Database.getUser(splitLine[1]);
         Team team = Database.getTeam(splitLine[2]);
 
-        boolean success = adminSystem.permanentlyCloseTeam(admin, team);
+        boolean success = adminSystem.permanentlyCloseTeam(splitLine[1], splitLine[2]);
         if (success)
             sendLineToClient("Succeed closing the team " + team.getName(), clientSocket);
         else
@@ -682,8 +684,8 @@ public class Server {
 
     private void handleaddNewAdmin(String[] splitLine, Socket clientSocket)
     {
-        User admin = Database.getUser(splitLine[1]);
-        User addedAdmin = adminSystem.addNewAdmin(admin, splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
+        //User admin = Database.getUser(splitLine[1]);
+        User addedAdmin = adminSystem.addNewAdmin(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
         if (addedAdmin == null)
             sendLineToClient("Failed adding a new Admin", clientSocket);
@@ -693,8 +695,8 @@ public class Server {
 
     private void handleaddNewUnionRepresentative(String[] splitLine, Socket clientSocket)
     {
-        User admin = Database.getUser(splitLine[1]);
-        User addedRepresentative = adminSystem.addNewUnionRepresentative(admin, splitLine[2], splitLine[3], splitLine[4]);
+        //User admin = Database.getUser(splitLine[1]);
+        User addedRepresentative = adminSystem.addNewUnionRepresentative(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
 
         if (addedRepresentative == null)
             sendLineToClient("Failed adding a new Union Representative", clientSocket);
@@ -704,8 +706,8 @@ public class Server {
 
     private void handleaddNewTeamManager(String[] splitLine, Socket clientSocket)
     {
-        User admin = Database.getUser(splitLine[1]);
-        User addedTeamManager = adminSystem.addNewTeamManager(admin, splitLine[2], splitLine[3], splitLine[4], Double.parseDouble(splitLine[5]), stringToBoolean(splitLine[6]), stringToBoolean(splitLine[7]));
+        //User admin = Database.getUser(splitLine[1]);
+        User addedTeamManager = adminSystem.addNewTeamManager(splitLine[1], splitLine[2], splitLine[3], splitLine[4], Double.parseDouble(splitLine[5]), stringToBoolean(splitLine[6]), stringToBoolean(splitLine[7]));
 
         if (addedTeamManager == null)
             sendLineToClient("Failed adding a new Team Manager", clientSocket);
@@ -715,8 +717,8 @@ public class Server {
 
     private void handleaddNewTeamOwner(String[] splitLine, Socket clientSocket)
     {
-        User admin = Database.getUser(splitLine[1]);
-        User addedTeamOwner = adminSystem.addNewTeamOwner(admin, splitLine[2], splitLine[3], splitLine[4]);
+        //User admin = Database.getUser(splitLine[1]);
+        User addedTeamOwner = adminSystem.addNewTeamOwner(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
 
         if (addedTeamOwner == null)
             sendLineToClient("Failed adding a new Team Owner", clientSocket);
@@ -726,10 +728,10 @@ public class Server {
 
     private void handleaddNewCoach(String[] splitLine, Socket clientSocket)
     {
-        User admin = Database.getUser(splitLine[1]);
-        Coach.TrainingCoach training = getCoachTraining(splitLine[5]);
-        Coach.RoleCoach role = getCoachRole(splitLine[6]);
-        User addedCoach = adminSystem.addNewCoach(admin, splitLine[2], splitLine[3], splitLine[4],training ,role, Double.parseDouble(splitLine[7]));
+        //User admin = Database.getUser(splitLine[1]);
+        //Coach.TrainingCoach training = getCoachTraining(splitLine[5]);
+        //Coach.RoleCoach role = getCoachRole(splitLine[6]);
+        User addedCoach = adminSystem.addNewCoach(splitLine[1], splitLine[2], splitLine[3], splitLine[4],splitLine[5] ,splitLine[6], Double.parseDouble(splitLine[7]));
 
         if (addedCoach == null)
             sendLineToClient("Failed adding a new Coach", clientSocket);
@@ -777,7 +779,7 @@ public class Server {
     {
         User admin = Database.getUser(splitLine[1]);
         Player.RolePlayer role = getPlayerRole(splitLine[6]);
-        User addedPlayer = adminSystem.addNewPlayer(admin, splitLine[2], splitLine[3], splitLine[4], stringToDate(splitLine[5]), role, Double.parseDouble(splitLine[7]));
+        User addedPlayer = adminSystem.addNewPlayer(splitLine[1], splitLine[2], splitLine[3], splitLine[4], stringToDate(splitLine[5]), splitLine[6], Double.parseDouble(splitLine[7]));
 
         if (addedPlayer == null)
             sendLineToClient("Failed adding a new Player", clientSocket);

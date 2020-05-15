@@ -3,7 +3,7 @@ package Domain;
 
 public class MailSender {
 
-    private static boolean reallySend =true;
+    private static boolean reallySend = false;
 
     public static boolean send(String to, String messageToSend){
         if(reallySend){
@@ -25,7 +25,9 @@ public class MailSender {
 
     }
 
+
     public static void setReallySend(boolean reallySend) {
         MailSender.reallySend = reallySend;
     }
+
 }

@@ -4,7 +4,7 @@ public class UserRecord implements Record {
 
     private String id;
     private String name;
-
+    private String roles;
 
     public UserRecord(String userToString) {
     }

@@ -24,6 +24,7 @@ public class ManagementController {
     }
 
     public void addPlayerToTeam(){
+        m_general.clearMainView(mainView1);
         //show all authorized teams
         //show all players
         //let user select team and player
@@ -32,16 +33,19 @@ public class ManagementController {
     }
     public void addCoachToTeam()
     {
+        m_general.clearMainView(mainView1);
         //show all authorized teams
         //show all coaches
         //let user select team and coach
     }
     public void addFieldToTeam(){
+        m_general.clearMainView(mainView1);
         //show all authorized teams
         //show all fields
         //let user select team and field
     }
     public void updateAsset(){
+        m_general.clearMainView(mainView1);
         //show all authorized teams
         //let user select team
         //show list of assets of team
@@ -50,18 +54,21 @@ public class ManagementController {
 
     }
     public void reportIncome(){
+        m_general.clearMainView(mainView1);
         //show all authorized teams
         //let user select team
         //let user enter income
 
     }
     public void reportExpanse(){
+        m_general.clearMainView(mainView1);
         //show all authorized teams
         //let user select team
         //let user enter expanse
 
     }
     public void getBalance(){
+        m_general.clearMainView(mainView1);
         //show all authorized teams
         //let user select team
         //show team balance

@@ -130,37 +130,41 @@ public class FootballManagementSystem {
     public static LeagueInSeason dataReboot(){
         MailSender.setReallySend(false);
         User unionRep = UserFactory.getNewUnionRepresentative("", "","mail@mail.com");
-        unionRepresentativeSystem.configureNewSeason(unionRep,2020, new Date(120, 4, 1));
-        unionRepresentativeSystem.configureNewLeague(unionRep,"Haal", "3");
-        LeagueInSeason leagueInSeason = unionRepresentativeSystem.configureLeagueInSeason(unionRep,"Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        unionRepresentativeSystem.configureNewSeason(unionRep.getID(),2020, new Date(120, 4, 1));
+        unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "3");
+        LeagueInSeason leagueInSeason = unionRepresentativeSystem.configureLeagueInSeason(unionRep.getID(),"Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
         Team team;
         for (int i = 0; i < 14; i++) {
             List<User> players = createPlayers();
             List<User> coaches = createCoaches();
             List<User> owners = new LinkedList<>();
-            User owner = adminSystem.addNewTeamOwner(systemAdmins.get(0),"Team","Owner","to"+i+"@gmail.com" );
+            User owner = adminSystem.addNewTeamOwner(systemAdmins.get(0).getID(),"Team","Owner","to"+i+"@gmail.com" );
             if(owner!=null){
                 owners.add(owner);
                 Field field = new Field("jerusalem","Teddy" ,550, 150000);
-                team = new Team("team"+i,owners,players,coaches, field);
+                //team = new Team("team"+i,owners,players,coaches, field);
+                TeamOwner teamOwner = (TeamOwner)owner.checkUserRole("TeamOwner");
+                teamOwner.createTeam(owner,"team"+i, players, coaches, field);
+                team = teamOwner.getTeamsToManage().get(0);
                 team.getBudget().addIncome(1000000000);
-                unionRepresentativeSystem.addTeamToLeague(unionRep,leagueInSeason, team);
+                unionRepresentativeSystem.addTeamToLeague(unionRep.getID(),leagueInSeason.getId(), team.getID());
             }
 
         }
         for (int i = 0; i <10 ; i++) {
             User ref = mainReferee(unionRep);
-            unionRepresentativeSystem.assignRefToLeague(unionRep,leagueInSeason, ref);
+            unionRepresentativeSystem.assignRefToLeague(unionRep.getID(),leagueInSeason.getId(), ref.getID());
         }
+        //unionRepresentativeSystem.assignGames(unionRep.getID(),leagueInSeason.getId(), getDates());
         return leagueInSeason;
     }
 
 
     public static User mainReferee(User unionRep) {
-        return unionRepresentativeSystem.appointReferee(unionRep,"referee", "",+IdGenerator.getNewId()+"@gmail.com", Referee.TrainingReferee.referees);
+        return unionRepresentativeSystem.appointReferee(unionRep.getID(),"referee", "",+IdGenerator.getNewId()+"@gmail.com", "referees");
     }
     public static List<User> createCoaches() {
-        User Coach = adminSystem.addNewCoach(systemAdmins.get(0),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", Domain.Coach.TrainingCoach.UEFA_A, Domain.Coach.RoleCoach.main, 1500);
+        User Coach = adminSystem.addNewCoach(systemAdmins.get(0).getID(),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", "UEFA_A", "main", 1500);
         List<User> coaches = new LinkedList<>();
         coaches.add(Coach);
         return coaches;
@@ -169,7 +173,7 @@ public class FootballManagementSystem {
         List<User> players = new LinkedList<>();
         User player;
         for (int i = 0; i <12 ; i++) {
-            player = adminSystem.addNewPlayer(systemAdmins.get(0), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", new Date(99, 1, 1), Player.RolePlayer.attackingPlayer, 3500);
+            player = adminSystem.addNewPlayer(systemAdmins.get(0).getID(), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", new Date(99, 1, 1), "attackingPlayer", 3500);
             if(player!=null){
                 players.add(player);
             }

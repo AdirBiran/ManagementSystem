@@ -1,7 +1,9 @@
 package Presentation;
 
 import Data.Database;
+import Domain.Referee;
 import Domain.Team;
+import Domain.User;
 import Domain.UserFactory;
 import Service.FootballManagementSystem;
 import Service.Server;
@@ -45,7 +47,6 @@ public class Main extends Application {
         FootballManagementSystem.systemInit(true);
         FootballManagementSystem.dataReboot();
         UserFactory.getNewAdmin("aA123456", "adminush", "ush", "m@m.com");
-        UserFactory.getNewTeamOwner( "Liat", "Cohen", "liatico77@gmail.com");
         launch(args);
     }
 }

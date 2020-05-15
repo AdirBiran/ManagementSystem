@@ -171,7 +171,7 @@ public class TeamManagementSystem {
     }
 
 
-    public boolean createTeam(User user , String teamName, List<String> players, List<String> coaches, String field){
+    public boolean createTeam(User user , String teamName, List<User> players, List<User> coaches, Field field){
         Role role = user.checkUserRole("TeamOwner");
         if(role instanceof TeamOwner){
             if (((TeamOwner) role).createTeam(user , teamName ,players,coaches,field)) {

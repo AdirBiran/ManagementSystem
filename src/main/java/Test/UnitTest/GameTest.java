@@ -51,8 +51,6 @@ receiveAlerts=new ReceiveAlerts(true,false);
 
     @Test
     public void setNews() {
-        game.setNews("update news to observers");
-        assertEquals(1, game.getMainReferee().getMessageBox().size(), 0);
     }
 
     @Test
@@ -141,12 +139,5 @@ receiveAlerts=new ReceiveAlerts(true,false);
 
     @Test
     public void setNewsFromReferee() {
-        List<Game> gameList = new LinkedList<>();
-        gameList.add(game);
-        fan.followGames(gameList, new ReceiveAlerts(true, true));
-        assertEquals(fan.getMessageBox().size(), 0);
-        Event event = new Event(Event.EventType.RedCard, 70, "description");
-        game.setNewsFromReferee(event);
-        assertEquals(fan.getMessageBox().size(), 1);
     }
 }

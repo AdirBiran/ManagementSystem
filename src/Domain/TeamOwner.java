@@ -55,7 +55,7 @@ public class TeamOwner extends Manager implements Observer {
     }
 
 
-    public boolean createTeam(User user , String teamName, List<String> players, List<String> coaches, String field){
+    public boolean createTeam(User user , String teamName, List<User> players, List<User> coaches, Field field){
         Role teamOwnerRole = user.checkUserRole("TeamOwner");
         if(teamOwnerRole != null){
 
@@ -65,27 +65,27 @@ public class TeamOwner extends Manager implements Observer {
 
             /**find the player in the system and add him to the list of players
              * if one of the players doesnt exist, return false*/
-            List<User> teamPlayers =  findPartOfTeam(players);
+            /*List<User> teamPlayers =  findPartOfTeam(players);
             if(teamPlayers == null){
                 return false;
-            }
+            }*/
 
             /**find the player in the system and add him to the list of players
              * if one of the players doesnt exist, return false*/
-            List<User> teamCoaches = findPartOfTeam(coaches);
+            /*List<User> teamCoaches = findPartOfTeam(coaches);
             if(teamCoaches == null){
                 return false;
-            }
+            }*/
 
             /**find the field in the system and add it to the team
              * if the field doesnt exist, return false*/
-            PartOfATeam teamField = Database.getAsset(field);
+            /*PartOfATeam teamField = Database.getAssetById(field);
             if(teamField == null){
                 return false;
-            }
+            }*/
 
             /**create new team*/
-            Team team = new Team(teamName ,teamOwner ,teamPlayers,teamCoaches, (Field) teamField);
+            Team team = new Team(teamName ,teamOwner ,players,coaches, field);
             return Database.addTeam(team);
         }
         return false;
@@ -118,7 +118,7 @@ public class TeamOwner extends Manager implements Observer {
                     user.addRole(teamOwner);
                 }
                 else{
-                    ((TeamOwner)teamOwnerRole).addTeam(team);
+                    ((TeamOwner)teamOwnerRole).addTeam(team); ///
                 }
                 team.addTeamOwner(user);
                 appointedTeamOwners.put(user, team);
@@ -137,7 +137,7 @@ public class TeamOwner extends Manager implements Observer {
                     user.addRole(teamManager);
                 }
                 else{
-                    ((TeamManager)teamManagerRole).addTeam(team);
+                    ((TeamManager)teamManagerRole).addTeam(team); ////
                 }
                 team.addTeamManager(user, price, manageAssets, finance);
                 appointedTeamManagers.put(user,team);

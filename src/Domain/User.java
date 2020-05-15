@@ -89,6 +89,7 @@ public class User extends Guest {
     public void addMessage(Notice notice){ /***/
         if(notice!=null)
             messageBox.add(notice);
+        //serviceNotification.notifyUser()
     }
 
     @Override

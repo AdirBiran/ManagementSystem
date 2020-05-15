@@ -27,6 +27,7 @@ public class RefereeController {
     //a game that he is assign to and is occurring now + 5 hours
     //if you cant find any return ""
     public void  addEventToGame(){
+        m_general.clearMainView(mainView1);
         GridPane grid = new GridPane();
         String game = getOccurringGame();
         if(game.length()>0){
@@ -63,6 +64,7 @@ public class RefereeController {
     }
 
     public void  setScoreInGame(){
+        m_general.clearMainView(mainView1);
         GridPane grid = new GridPane();
         String game = getOccurringGame();
         if(game.length()>0){
@@ -95,6 +97,7 @@ public class RefereeController {
     }
 
     public void getGameReport(){
+        m_general.clearMainView(mainView1);
         //show all past games
         //let user select a game
         //send request for game report
@@ -103,6 +106,7 @@ public class RefereeController {
 
     }
     public void  changeEvent(){
+        m_general.clearMainView(mainView1);
         String game = getOccurringGame();
         if(game.length()>0){
             GridPane pane = new GridPane();

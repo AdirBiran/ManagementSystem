@@ -35,4 +35,9 @@ public class EventReportTest {
     public void getEvents() {
         assertNotNull(eventReport.getEvents());
     }
+
+    @Test
+    public void getId(){
+        assertNotNull(eventReport.getId());
+    }
 }

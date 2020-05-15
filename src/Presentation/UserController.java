@@ -38,6 +38,7 @@ public class UserController implements Initializable {
     private UnionController union;
 
     public void editPersonalInfoButtonPushed(ActionEvent action){
+        m_general.clearMainView(mainView1);
         //show users info
         //let user select what to change - name, password etr
         //send request to change info
@@ -59,7 +60,7 @@ public class UserController implements Initializable {
     }
 
     public void viewSearchHistoryButtonPushed(ActionEvent actionEvent){
-
+        m_general.clearMainView(mainView1);
         List<String> history = m_client.sendToServer("viewSearchHistory|"+loggedUser);
         GridPane historyPane = new GridPane();
         mainView1.getChildren().add(historyPane);
@@ -81,6 +82,7 @@ public class UserController implements Initializable {
     }
 
     public void buildPresentation(List<String> roles) {
+        m_general.clearMainView(mainView1);
         for(String role : roles){
             switch(role){
                 case("Fan"):{
@@ -207,13 +209,6 @@ public class UserController implements Initializable {
                     mb_mainMenu1.getMenus().add(adminMenu);
                     break;
                 }
-                //case("Coach"):{
-                //    Menu coachMenu = new Menu("Coach Actions");
-                //    break;
-                //}
-                //case("Player"):{
-                //    break;
-                //}
                 case("TeamOwner"):{
                     ownership = new OwnershipController(mainView1, loggedUser, m_client);
                     Menu ownerMenu = new Menu("Ownership Actions");
