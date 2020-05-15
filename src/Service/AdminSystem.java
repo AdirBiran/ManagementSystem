@@ -171,7 +171,7 @@ public class AdminSystem {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Admin");
-            if (role instanceof UnionRepresentative) {
+            if (role instanceof Admin) {
                 return role.getAllDetailsAboutOpenTeams();
             }
         }
@@ -182,8 +182,30 @@ public class AdminSystem {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Admin");
-            if (role instanceof UnionRepresentative) {
+            if (role instanceof Admin) {
                 return role.getAllOpenTeams();
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAllDetailsAboutCloseTeams(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Admin");
+            if (role instanceof Admin) {
+                return ((Admin)role).getAllDetailsAboutCloseTeams();
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAllCloseTeams(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Admin");
+            if (role instanceof Admin) {
+                return role.getAllCloseTeams();
             }
         }
         return null;

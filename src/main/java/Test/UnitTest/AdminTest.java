@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -104,5 +105,14 @@ public class AdminTest {
     public void myRole() {
         assertEquals(admin.myRole(),"Admin");
 
+    }
+    @Test
+    public void getAllDetailsAboutCloseTeams(){
+        assertNotNull(admin.getAllDetailsAboutCloseTeams());
+    }
+    @Test
+    public void getAllCloseTeams() {
+        assertNotNull(admin.getAllCloseTeams());
+    }
     }
 }

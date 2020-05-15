@@ -114,4 +114,18 @@ public class Admin extends Role implements Observer {
         String news = (String)arg;
         user.addMessage(new Notice(news));
     }
+
+    public List<String> getAllDetailsAboutCloseTeams() {
+        List<String> details = new LinkedList<>();
+        for (Team team : Database.getCloseTeams())
+            details.add(team.toString() + " " + team.AllDetailsAboutTeam());
+        return details;
+    }
+
+    public List<String> getAllCloseTeams() {
+        List<String> details = new LinkedList<>();
+        for (Team team : Database.getCloseTeams())
+            details.add(team.toString());
+        return details;
+    }
 }
