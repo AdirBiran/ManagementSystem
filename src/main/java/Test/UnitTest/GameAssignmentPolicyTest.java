@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -26,7 +27,8 @@ public class GameAssignmentPolicyTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team0 = league.getTeams().get(0);
         team1 = league.getTeams().get(1);
         Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);

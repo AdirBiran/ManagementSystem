@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -12,14 +13,22 @@ public class EventReportTest {
     FootballManagementSystem system;
     EventReport eventReport;
     Event event;
+    Game game;
 
     @Before
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
-        eventReport = new EventReport();
-        event = new Event(Event.EventType.Foul , 30 ,"data" );
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        /*create games*/
+        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
+        unionRole.assignGames(league.getId(), system.getDates());
+        game = league.getGames().get(0);
+        eventReport = game.getEventReport();
+        event = new Event(Event.EventType.RedCard, game, "add event");
 
     }
 

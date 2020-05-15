@@ -471,6 +471,14 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+    public static List<Team> getOpenTeams() {
+        List<Team> openTeams = new LinkedList<>();
+        for(Team team : teams.values()){
+            if(team.isActive() && !team.isPermanentlyClosed())
+                openTeams.add(team);
+        }
+        return openTeams;
+    }
 }
 
 

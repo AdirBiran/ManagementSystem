@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.LeagueInSeason;
 import Domain.ScoreTableRecord;
 import Domain.Team;
@@ -17,7 +18,8 @@ public class ScoreTableRecordTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         record = new ScoreTableRecord(team, 3);
     }

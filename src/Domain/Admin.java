@@ -114,5 +114,4 @@ public class Admin extends Role implements Observer {
         String news = (String)arg;
         user.addMessage(new Notice(news));
     }
-
 }

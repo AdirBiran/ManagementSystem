@@ -25,7 +25,8 @@ public class CupScorePolicyTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         score = new CupScorePolicy();
         league.changeScorePolicy(score);
         team0 = league.getTeams().get(0);

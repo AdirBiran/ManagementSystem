@@ -29,16 +29,22 @@ public class UnionRepresentative extends Role implements Observer {
         }
     }
 
-    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double registrationFee) {
+    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, String assignmentPolicy, String scorePolicy, double registrationFee) {
         League league = Database.getLeague(nameOfLeague);
         Season season = Database.getSeason(yearOfSeason);
-        if(league==null||season==null||assignmentPolicy==null||scorePolicy==null)
-            return null;
-        LeagueInSeason leagueInSeason = new LeagueInSeason(assignmentPolicy, scorePolicy, league, season, registrationFee);
-        league.addLeagueInSeason(leagueInSeason);
-        season.addLeagueInSeason(leagueInSeason);
-        Database.addLeagueInSeason(leagueInSeason);
-        return leagueInSeason;
+
+        if(league!=null && season!=null && assignmentPolicy!=null && scorePolicy!=null) {
+            GameAssignmentPolicy gameAssignmentPolicy = GameAssignmentPolicy.chackPolicy(assignmentPolicy);
+            ScorePolicy gameScorePolicy = ScorePolicy.checkPolicy(scorePolicy);
+            if (gameAssignmentPolicy != null && gameScorePolicy != null) {
+                LeagueInSeason leagueInSeason = new LeagueInSeason(gameAssignmentPolicy, gameScorePolicy, league, season, registrationFee);
+                league.addLeagueInSeason(leagueInSeason);
+                season.addLeagueInSeason(leagueInSeason);
+                Database.addLeagueInSeason(leagueInSeason);
+                return leagueInSeason;
+            }
+        }
+        return null;
     }
 
     public boolean assignGames(String leagueId, List<Date> dates) {
@@ -65,18 +71,20 @@ public class UnionRepresentative extends Role implements Observer {
     }
 
 
-    public boolean changeScorePolicy(String leagueId, ScorePolicy policy)
+    public boolean changeScorePolicy(String leagueId, String policy)
     {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        if(league!=null)
-            return league.changeScorePolicy(policy);
+        ScorePolicy scorePolicy = ScorePolicy.checkPolicy(policy);
+        if(league!=null && scorePolicy!=null)
+            return league.changeScorePolicy(scorePolicy);
         return false;
     }
-    public boolean changeAssignmentPolicy(String leagueId, GameAssignmentPolicy policy)
+    public boolean changeAssignmentPolicy(String leagueId, String policy)
     {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        if(league!=null)
-            return league.changeAssignmentPolicy(policy);
+        GameAssignmentPolicy assignmentPolicy = GameAssignmentPolicy.chackPolicy(policy);
+        if(league!=null && assignmentPolicy!=null)
+            return league.changeAssignmentPolicy(assignmentPolicy);
         return false;
     }
 
@@ -165,6 +173,11 @@ public class UnionRepresentative extends Role implements Observer {
         Logger.logError("Adding Team to league failed");
         return false;
     }
+
+    public boolean addFieldToSystem(String location,String fieldName, int capacity, double price){
+        Field field = new Field(location, fieldName, capacity, price);
+        return Database.addAsset(field);
+    }
     @Override
     public String myRole() {
         return "UnionRepresentative";
@@ -183,4 +196,17 @@ public class UnionRepresentative extends Role implements Observer {
         user.addMessage(new Notice(news));
     }
 
+    public List<String> getAllDetailsAboutOpenTeams() {
+        List<String> details = new LinkedList<>();
+        for(Team team : Database.getOpenTeams())
+            details.add(team.toString() +" " + team.AllDetailsAboutTeam());
+        return details;
+    }
+
+    public List<String> getAllOpenTeams() {
+        List<String> details = new LinkedList<>();
+        for(Team team : Database.getOpenTeams())
+            details.add(team.toString());
+        return details;
+    }
 }

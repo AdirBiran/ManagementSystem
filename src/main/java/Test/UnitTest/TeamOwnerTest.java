@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -17,7 +18,8 @@ public class TeamOwnerTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
         User userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");

@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -18,7 +19,8 @@ public class AdminTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin().checkUserRole("Admin");
     }

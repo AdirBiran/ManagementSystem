@@ -1,6 +1,7 @@
 package Domain;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class Event {
 
@@ -23,11 +24,12 @@ public class Event {
     private String description;
 
 
-    public Event(EventType type, double minuteInGame, String description) {
+    public Event(EventType type,Game game, String description) {
         this.id = "E"+IdGenerator.getNewId();
         this.type = type;
         this.date = new Date();
-        this.minuteInGame = minuteInGame;
+        long diffInMillies = Math.abs(date.getTime() - game.getDate().getTime());
+        this.minuteInGame = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         this.description = description;
     }
 
@@ -48,10 +50,6 @@ public class Event {
 
     public String getDescription() {
         return description;
-    }
-
-    public void setMinuteInGame(double minuteInGame) {
-        this.minuteInGame = minuteInGame;
     }
 
     public void setDescription(String description) {

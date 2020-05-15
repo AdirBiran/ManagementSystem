@@ -40,7 +40,7 @@ public class League {
         return "League" +
                 ", id= "+ id+
                 ": name=" + name +
-                ", level='" + level;
+                ", level=" + level;
     }
 
     public String getName() {

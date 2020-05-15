@@ -95,9 +95,9 @@ public class User extends Guest {
     @Override
     public String toString() {
         String userToString="User{" +
-                "ID='" + ID + '\'' +
-                ", first name='" + firstName + '\'' +
-                ", last name='" + lastName + '\'' +
+                ", ID=" + ID +
+                ", first name=" + firstName +
+                ", last name=" + lastName +
                 ", isActive=" + isActive;
 
         for(Role role : roles){

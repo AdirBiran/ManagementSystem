@@ -16,7 +16,7 @@ public class GuestSystem {
     /*
     Guest registration for the system
      */
-    public User register(String mail, String password, String firstName, String lastName,
+    public String register(String mail, String password, String firstName, String lastName,
                                         String phone, String address){
 
         User registeredUser = guest.register(mail, password, firstName, lastName, phone, address);
@@ -25,7 +25,7 @@ public class GuestSystem {
         else
             Logger.logError("Guest failed Registering");
 
-        return registeredUser;
+        return registeredUser.getID();
 
     }
 
@@ -34,7 +34,7 @@ public class GuestSystem {
      * if exists return connected user
      * if the password is invalid or there is no such email in the system return null
      */
-    public User logIn( String mail, String password){
+    public String logIn( String mail, String password){
 
         User loginUser = guest.login(mail, password);
 
@@ -43,7 +43,7 @@ public class GuestSystem {
         else
             Logger.logError("Guest failed Login");
 
-        return loginUser;
+        return loginUser.getID();
     }
 
     /*
