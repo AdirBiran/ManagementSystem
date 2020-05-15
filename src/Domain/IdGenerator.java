@@ -6,7 +6,7 @@ import java.util.Random;
 public class IdGenerator {
 
     private static Random random = new Random(1000);
-    private static final int PRIME_FACTOR=251;
+    private static final int PRIME_FACTOR=127;
     private static HashSet<Long> givenIds = new HashSet<>();
 
     public static long getNewId(){

@@ -55,9 +55,11 @@ public class UnionController {
                     m_general.showAlert("Invalid name or level", Alert.AlertType.ERROR);
             }
         });
-
+        pane.add(b_add, 2,2);
+        mainView1.getChildren().add(pane);
     }
     public void configureNewSeason(){
+        m_general.clearMainView(mainView1);
         GridPane pane = new GridPane();
         Label label = new Label("Please select year and start date:");
         pane.add(label, 0,0);
@@ -74,21 +76,26 @@ public class UnionController {
             @Override
             public void handle(ActionEvent event) {
                 String year = tf_year.getText(), date = dp_start.getValue().toString();
-                if(Checker.isValidNumber(year) && Checker.isValidNumber(date)){
+                if(Checker.isValidNumber(year) && date.length()>0){
                     String request = "configureNewSeason|"+loggedUser+"|"+year+"|"+date;
                     List<String> receive = client.sendToServer(request);
                     m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    m_general.clearMainView(mainView1);
                 }
             }
         });
+        pane.add(addBtn, 1,3);
+        mainView1.getChildren().add(pane);
     }
     public void configureLeagueInSeason(){
+        m_general.clearMainView(mainView1);
         //let user select a league
         //let user select season
         //send request to configure league in season
         //show ack to user
     }
     public void assignGames(){
+        m_general.clearMainView(mainView1);
         //let user select a league in season - from leagues without games
         //send request to assign games
         //show ack to user
@@ -100,8 +107,10 @@ public class UnionController {
     }
 
     public void addRefereeToLeague(){
+        m_general.clearMainView(mainView1);
+        //let user select a league in season
         GridPane pane = new GridPane();
-        addLeaguesToPane(pane);
+        addLeaguesInSeasonToPane(pane);
 
     }
 
@@ -109,8 +118,9 @@ public class UnionController {
     private ChoiceBox<String> cb_policies;
 
     public void changeScorePolicy(){
+        m_general.clearMainView(mainView1);
         GridPane pane = new GridPane();
-        addLeaguesToPane(pane);
+        addLeaguesInSeasonToPane(pane);
         addPolicyToPane("getAllScorePolicies", pane, "Please select league and score policy", "Score Policy:");
         addChangeButton(pane);
         pane.setAlignment(Pos.TOP_CENTER);
@@ -119,8 +129,9 @@ public class UnionController {
     }
 
     public void changeAssignmentPolicy(){
+        m_general.clearMainView(mainView1);
         GridPane pane = new GridPane();
-        addLeaguesToPane(pane);
+        addLeaguesInSeasonToPane(pane);
         addPolicyToPane("getAllAssignmentsPolicies", pane, "Please select league and assignment policy", "Assignment Policy:");
         addChangeButton(pane);
         pane.setAlignment(Pos.TOP_CENTER);
@@ -130,14 +141,17 @@ public class UnionController {
 
 
     public void addTUTUPaymentToTeam(){
+        m_general.clearMainView(mainView1);
         //let user select a team and amount
         //send request to add payment to team
     }
     public void addPaymentsFromTheTUTU(){
+        m_general.clearMainView(mainView1);
         //let user enter a double that represents the amount to add to union accounting system
         //show ack to user
     }
     public void addTeamToLeague(){
+        m_general.clearMainView(mainView1);
         //let user select a team
         //let user select league in season
         //send request to add team to league
@@ -145,6 +159,7 @@ public class UnionController {
     }
     public void calculateLeagueScore()
     {
+        m_general.clearMainView(mainView1);
         //select league
         //send request to server
         //show league score table
@@ -152,11 +167,13 @@ public class UnionController {
 
     public void calculateGameScore()
     {
+        m_general.clearMainView(mainView1);
         //select league
         //select game/all games/some games?
         //send request to server to calculate score
     }
     public void changeRegistrationFee(){
+        m_general.clearMainView(mainView1);
         //select league
         //show fee
         //les user enter new fee
@@ -166,7 +183,7 @@ public class UnionController {
 
 
     //make getAllLeagues()return a list of <League.name:season.year> of all LeagueInSeason
-    private void addLeaguesToPane(GridPane pane) {
+    private void addLeaguesInSeasonToPane(GridPane pane) {
         List<String> receiveLeagues = client.sendToServer("allLeaguesInSeasons|"+loggedUser);
         Label league = new Label("League:");
         pane.add(league, 0, 1);
@@ -191,7 +208,7 @@ public class UnionController {
             @Override
             public void handle(ActionEvent event) {
                 if(cb_leagues.getValue().length()<1|| cb_policies.getValue().length()<1){
-                    m_general.showAlert("No league or policy eas selected!", Alert.AlertType.ERROR);
+                    m_general.showAlert("No league or policy was selected!", Alert.AlertType.ERROR);
                     return;
                 }
                 List<String> receive = client.sendToServer("changeScorePolicy|"+loggedUser+"|"+cb_leagues.getValue()+"|"+cb_policies.getValue());

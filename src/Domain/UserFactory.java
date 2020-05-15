@@ -114,6 +114,7 @@ public class UserFactory {
     private static User addToDatabase(User user) {
         String password = PasswordGenerator.generateRandPassword(6);
         if(Database.addUser(password, user)){
+            System.out.println(user.getStringRoles().get(0)+" "+user.getMail()+" "+password);//Liat added this.. delete before submitting!
             MailSender.send(user.getMail(), "Welcome!\nUserId is: "+ user.getMail()+"\npassword: " + password);
             return user;
         }

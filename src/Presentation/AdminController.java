@@ -21,6 +21,7 @@ public class AdminController {
 
 
     public void closeTeamPermanently(){
+        m_general.clearMainView(mainView1);
         //show all teams with selection option maybe choicebox
         //let user select a team to close
         //sent request to close team
@@ -29,64 +30,51 @@ public class AdminController {
     public void addNewPlayer(){
         //show registration form for player
         m_general.buildForm("player", mainView1, client,loggedUser);
-        //check arguments
-        //send request to server
-        //return ack - success or failure
+
     }
-
-
 
     public void addNewCoach(){
-        //show registration form for player
+        //show registration form for coach
         m_general.buildForm("coach", mainView1, client,loggedUser);
-        //check arguments
-        //send request to server
-        //return ack - success or failure
+
     }
     public void addNewTeamOwner(){
-        //show registration form for player
+        //show registration form for teamOwner
         m_general.buildForm("teamOwner", mainView1, client,loggedUser);
-        //check arguments
-        //send request to server
-        //return ack - success or failure
+
     }
     public void addNewTeamManager(){
-        //show registration form for player
+        //show registration form for teamManager
         m_general.buildForm("teamManager", mainView1, client,loggedUser);
-        //check arguments
-        //send request to server
-        //return ack - success or failure
     }
     public void addNewUnionRepresentative(){
-        //show registration form for player
+        //show registration form for representative
         m_general.buildForm("representative", mainView1, client,loggedUser);
-        //check arguments
-        //send request to server
-        //return ack - success or failure
+
     }
     public void addNewAdmin(){
-        //show registration form for player
+        //show registration form for admin
         m_general.buildForm("admin", mainView1, client,loggedUser);
-        //check arguments
-        //send request to server
-        //return ack - success or failure
     }
     public void removeUser(){
-        
+        m_general.clearMainView(mainView1);
         //show all users?? - table view?
         //let user select a user to remove
         //send request to remove user
         //return ack - success or failure
     }
     public void viewLog(){
+        m_general.clearMainView(mainView1);
         //send request to get log
         //show log? open in a new window?
         //maybe in table view?
     }
     public void responseToComplaint(){
+        m_general.clearMainView(mainView1);
         //show all active complaints
         //let user select a complaint to response to
         //create text area for the user to write his response
+        //send response to server
     }
 
 

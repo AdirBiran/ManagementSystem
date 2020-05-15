@@ -557,6 +557,13 @@ public class GeneralController {
         return true;
     }
 
+    public void linkSelectionLists(ListView lv_players, ListView lv_selectedPlayers) {
+        lv_players.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        lv_players.getSelectionModel().selectedItemProperty().addListener((obs,ov,nv)-> {
+            lv_selectedPlayers.setItems(lv_players.getSelectionModel().getSelectedItems());
+        });
+    }
+
     private TableColumn getRoleColumn() {
         TableColumn role = new TableColumn("Role");
         role.setCellValueFactory(new PropertyValueFactory("roleInTeam"));
