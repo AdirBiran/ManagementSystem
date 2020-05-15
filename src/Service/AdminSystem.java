@@ -205,7 +205,7 @@ public class AdminSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Admin");
             if (role instanceof Admin) {
-                return role.getAllCloseTeams();
+                return ((Admin)role).getAllCloseTeams();
             }
         }
         return null;

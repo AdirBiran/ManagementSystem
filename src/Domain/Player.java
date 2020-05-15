@@ -103,6 +103,5 @@ public class Player extends Role implements PartOfATeam {
                 ", birthDate=" + birthDate +
                 ", role in team=" + roleInTeam+
                 ", teams= "+ teamsString(teams);
-
     }
 }

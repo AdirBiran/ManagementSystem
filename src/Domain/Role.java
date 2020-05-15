@@ -32,19 +32,15 @@ public abstract class Role{
     }
     public List<String> getAllDetailsAboutOpenTeams() {
         List<String> details = new LinkedList<>();
-        if(this instanceof Admin || this instanceof UnionRepresentative) {
-            for (Team team : Database.getOpenTeams())
-                details.add(team.toString() + " " + team.AllDetailsAboutTeam());
-        }
+        for (Team team : Database.getOpenTeams())
+            details.add(team.toString() + " " + team.AllDetailsAboutTeam());
         return details;
     }
 
     public List<String> getAllOpenTeams() {
         List<String> details = new LinkedList<>();
-        if(this instanceof Admin || this instanceof UnionRepresentative) {
-            for (Team team : Database.getOpenTeams())
-                details.add(team.toString());
-        }
+        for (Team team : Database.getOpenTeams())
+            details.add(team.toString());
         return details;
     }
 }
