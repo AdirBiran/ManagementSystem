@@ -9,16 +9,16 @@ CREATE TABLE [Admins](
 
 CREATE TABLE [Passwords](
 	[ID] [char](30)  Primary key,
-	[Password] [char](255) ,
+	[Password] [char](255) NOT NULL,
 
 );
 
 CREATE TABLE [Users](
 	[ID] [char](30)  Primary key,
-	[FirstName] [varchar](255) ,
-	[LastName] [varchar](255) ,
-	[Mail] [varchar](255) ,
-	[isActive] [bit] ,
+	[FirstName] [varchar](255) NOT NULL,
+	[LastName] [varchar](255) NOT NULL,
+	[Mail] [varchar](255) NOT NULL unique,
+	[isActive] [bit] NOT NULL,
 	[Roles] [varchar](255) ,
 	[searchHistories] [varchar](1000) ,
 	--FOREIGN KEY (ID) REFERENCES [Passwords] (ID)
@@ -27,8 +27,8 @@ CREATE TABLE [Users](
 
 CREATE TABLE [Referees](
 	[ID] [char](30)  Primary key,
-	[Training] [varchar](50) ,
-	[Games] [varchar](255) ,
+	[Training] [varchar](50) NOT NULL,
+	[Games] [varchar](255) NOT NULL,
 );
 
 CREATE TABLE [UnionRepresentatives](
@@ -37,48 +37,50 @@ CREATE TABLE [UnionRepresentatives](
 
 CREATE TABLE [Coaches](
 	[ID] [char](30)  Primary key,
-	[Training] [varchar](50) ,
-	[Teams] [varchar](255) ,
-	[isActive] [bit] ,
-	[Price] [real] ,
+	[Training] [varchar](50) NOT NULL,
+	[Teams] [varchar](255) NOT NULL,
+	[isActive] [bit] NOT NULL,
+	[Price] [real] NOT NULL,
 );
 
 CREATE TABLE [Fans](
 	[ID] [char](30)  Primary key,
-	[Address] [varchar](255) ,
-	[Phone] [varchar](50) ,
+	[Address] [varchar](255) NOT NULL,
+	[Phone] [varchar](50) NOT NULL unique,
 	[FollowedPagesIDs] [varchar](255) ,
 );
 
 CREATE TABLE [Fields](
 	[ID] [char](30)  Primary key,
-	[Location] [char](50) ,
-	[Capacity] [int] ,
-	[Teams] [varchar](255) ,
-	[isActive] [bit] ,
-	[Price] [real] ,
+	[Location] [char](50) NOT NULL,
+	[Capacity] [int] NOT NULL,
+	[Teams] [varchar](255) NOT NULL,
+	[isActive] [bit] NOT NULL,
+	[Price] [real] NOT NULL,
+	FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
 );
 
 CREATE TABLE [Players](
 	[ID] [char](30)  Primary key,
-	[Birthdate] [date] ,
-	[Teams] [varchar](255) ,
-	[isActive] [bit] ,
-	[Price] [real] ,
+	[Birthdate] [date] NOT NULL,
+	[Teams] [varchar](255) NOT NULL,
+	[isActive] [bit] NOT NULL,
+	[Price] [real] NOT NULL,
+	FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
 );
 
 CREATE TABLE [TeamManagers](
 	[ID] [char](30)  Primary key,
-	[Teams] [varchar](255) ,
-	[isActive] [bit] ,
-	[Price] [real] ,
-	[ManageAssets] [bit] ,
+	[Teams] [varchar](255) NOT NULL,
+	[isActive] [bit] NOT NULL,
+	[Price] [real] NOT NULL,
+	[ManageAssets] [bit] NOT NULL,
 	[Finance] [bit] ,
 );
 
 CREATE TABLE [TeamOwners](
 	[ID] [char](30)  Primary key,
-	[Teams] [varchar](255) ,
+	[Teams] [varchar](255) NOT NULL,
 	[ClosedTeams] [varchar](255) ,
 	[AppointedTeamOwners] [varchar] ,
 	[AppointedTeamManagers] [varchar](255) ,
@@ -86,93 +88,93 @@ CREATE TABLE [TeamOwners](
 
 CREATE TABLE [PersonalPages](
 	[ID] [char](30)  Primary key,
-	[OwnerID] [char](30) ,
+	[OwnerID] [char](30) NOT NULL unique,
 	[PageData] [varchar](max) ,
 	[Followers] [varchar](max) ,
 );
 
 CREATE TABLE [Teams](
 	[ID] [char](30)  Primary key,
-	[Name] [varchar](50) ,
-	[Wins] [int] ,
-	[Losses] [int] ,
-	[Draws] [int] ,
-	[PersonalPageID] [char] (30) ,
-	[TeamOwners] [varchar](255) ,
-	[TeamManagers] [varchar](255) ,
-	[Players] [varchar](255) ,
-	[Coaches] [varchar](255) ,
-	[Budget] [real] ,
-	[GamesIDs] [varchar] (255) ,
-	[Fields] [varchar] (255) ,
-	[LeaguesInSeasons] [varchar] (255) ,
-	[isActive] [bit] ,
-	[isPermanentlyClosed] [bit] ,
+	[Name] [varchar](50) NOT NULL,
+	[Wins] [int] NOT NULL,
+	[Losses] [int] NOT NULL,
+	[Draws] [int] NOT NULL,
+	[PersonalPageID] [char] (30) NOT NULL,
+	[TeamOwners] [varchar](255) NOT NULL ,
+	[TeamManagers] [varchar](255) NOT NULL,
+	[Players] [varchar](255) NOT NULL,
+	[Coaches] [varchar](255) NOT NULL,
+	[Budget] [real] NOT NULL,
+	[GamesIDs] [varchar] (255) NOT NULL,
+	[Fields] [varchar] (255) NOT NULL,
+	[LeaguesInSeasons] [varchar] (255) NOT NULL,
+	[isActive] [bit] NOT NULL,
+	[isPermanentlyClosed] [bit] NOT NULL,
 );
 
 CREATE TABLE [Leagues](
 	[ID] [char](30)  Primary key,
-	[Name] [varchar](50) ,
-	[LeagueLevel] [varchar](50) ,
-	[SeasonsIDs] [varchar](255) ,
+	[Name] [varchar](50) NOT NULL,
+	[LeagueLevel] [varchar](50) NOT NULL,
+	[SeasonsIDs] [varchar](255) NOT NULL,
 );
 
 CREATE TABLE [Seasons](
 	[ID] [char](30)  Primary key,
-	[SeasonYear] [int] ,
-	[StartDate] [date] ,
-	[LeaguesIDs] [varchar](255)
+	[SeasonYear] [int] NOT NULL,
+	[StartDate] [date] NOT NULL,
+	[LeaguesIDs] [varchar](255) NOT NULL,
 );
 
 CREATE TABLE [LeaguesInSeasons](
 	[ID] [char](30)  Primary key,
-	[AssignmentPolicy] [char](255) ,
-	[ScorePolicy] [char](255) ,
-	[GamesIDs] [varchar](255) ,
-	[RefereesIDs] [varchar](255) ,
-	[TeamsIDs] [varchar](255) ,
-	[RegistrationFee] [real] ,
-	[Records] [varchar](1000) ,
+	[AssignmentPolicy] [char](255) NOT NULL,
+	[ScorePolicy] [char](255) NOT NULL,
+	[GamesIDs] [varchar](255) NOT NULL,
+	[RefereesIDs] [varchar](255) NOT NULL,
+	[TeamsIDs] [varchar](255) NOT NULL,
+	[RegistrationFee] [real] NOT NULL,
+	[Records] [varchar](1000) NOT NULL,
 );
 
 CREATE TABLE [Complaints](
 	[ID] [char](30)  Primary key,
-	[ComplaintDate] [date] ,
-	[isActive] [bit] ,
-	[Description] [varchar] (1000) ,
-	[ComplainedFanID] [char](50) ,
+	[ComplaintDate] [date] NOT NULL,
+	[isActive] [bit] NOT NULL,
+	[Description] [varchar] (1000)NOT NULL ,
+	[ComplainedFanID] [char](50) NOT NULL,
 );
 
 CREATE TABLE [Games](
 	[ID] [char](30)  Primary key,
-	[GameDate] [date] ,
-	[HostScore] [int] ,
-	[GuestScore] [int] ,
-	[FieldID] [char] (50) ,
-	[MainRefereeID] [char] (50) ,
-	[SideRefereesIDs] [char] (50) ,
-	[HostTeamID] [char] (50) ,
-	[GuestTeamID] [char] (50) ,
-	[AlertsFansIDs] [varchar](max) ,
-	[EventReportID] [char] (50) ,
-	[LeagueInSeasonID] [char] (50) ,
+	[GameDate] [date] NOT NULL,
+	[HostScore] [int] NOT NULL,
+	[GuestScore] [int] NOT NULL,
+	[FieldID] [char] (50) NOT NULL,
+	[MainRefereeID] [char] (50) NOT NULL,
+	[SideRefereesIDs] [char] (50) NOT NULL,
+	[HostTeamID] [char] (50) NOT NULL,
+	[GuestTeamID] [char] (50) NOT NULL,
+	[AlertsFansIDs] [varchar](max) NOT NULL,
+	[EventReportID] [char] (50) NOT NULL,
+	[LeagueInSeasonID] [char] (50) NOT NULL,
 );
 
 CREATE TABLE [EventReports](
 	[ID] [char](30)  Primary key,
-	[GameID] [char](30) ,
-	[EventsIDs] [varchar](max) ,
+	[GameID] [char](30) NOT NULL,
+	[EventsIDs] [varchar](max) NOT NULL,
 );
 
 CREATE TABLE [OfflineUsersNotifications](
 	[ID] [char](30)  Primary key,
-	[Notifications] [varchar](max) ,
+	[Notifications] [varchar](max) NOT NULL,
 );
 
 CREATE TABLE [Events](
 	[ID] [char](30)  Primary key,
-	[EventType] [char](50) ,
-	[EventDate] [date] ,
-	[MinutesInGame] [real] ,
-	[Description] [varchar](max) ,
+	[EventType] [char](50) NOT NULL,
+	[EventDate] [date] NOT NULL,
+	[MinutesInGame] [real] NOT NULL,
+	[Description] [varchar](max) NOT NULL,
 );

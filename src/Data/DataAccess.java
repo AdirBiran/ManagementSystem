@@ -212,8 +212,6 @@ public class DataAccess {
             {
                 val = values[i];
 
-                System.out.println("VAL:"+val+"***");
-
                 if (isBoolean(val))
                     ps.setBoolean(i+1, stringToBoolean(val));
 

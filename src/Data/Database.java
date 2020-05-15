@@ -2,6 +2,7 @@ package Data;
 import Domain.*;
 
 import java.security.MessageDigest;
+import java.sql.PreparedStatement;
 import java.util.*;
 
 
@@ -20,6 +21,7 @@ public class Database //maybe generalize with interface? //for now red layer
     private static HashMap<String , Complaint> complaints; //-<complaintId, Complaint>
     private static HashMap<String, Team> teams;
     private static HashMap<User, Referee> referees;
+    
 
     public Database() {
         mailsAndPasswords = new HashMap<>();
