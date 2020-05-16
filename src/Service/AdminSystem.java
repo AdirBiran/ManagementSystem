@@ -211,4 +211,15 @@ public class AdminSystem {
         return null;
     }
 
+    public List<String> getAllUsers(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Admin");
+            if (role instanceof Admin) {
+                ((Admin)role).getAllUsers();
+            }
+        }
+        return null;
+    }
+
 }
