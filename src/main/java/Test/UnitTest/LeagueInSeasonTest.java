@@ -21,7 +21,7 @@ public class LeagueInSeasonTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
         String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        leagueInSeason = Database.getLeagueInSeason(leagueId);
     }
 
     @Test
