@@ -307,7 +307,7 @@ public class DataAccess {
     }
 
 
-    public void updateCellValue(String TableName, String ColumnName, String ID, String valueToSet)
+    public boolean updateCellValue(String TableName, String ColumnName, String ID, String valueToSet)
     {
         PreparedStatement ps = null;
 
@@ -318,12 +318,14 @@ public class DataAccess {
             ps.setString(2, ID);
             ps.executeUpdate();
             closePS(ps);
+            return true;
 
         }
         catch (Exception e)
         {
             closePS(ps);
             e.printStackTrace();
+            return false;
         }
 
     }

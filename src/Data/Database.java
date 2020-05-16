@@ -21,7 +21,8 @@ public class Database //maybe generalize with interface? //for now red layer
     private static HashMap<String , Complaint> complaints; //-<complaintId, Complaint>
     private static HashMap<String, Team> teams;
     private static HashMap<User, Referee> referees;
-    
+
+    private static DataAccess dataAccess;
 
     public Database() {
         mailsAndPasswords = new HashMap<>();
@@ -37,6 +38,165 @@ public class Database //maybe generalize with interface? //for now red layer
         teams = new HashMap<>();
         admins = new HashMap<>();
         referees = new HashMap<>();
+
+        dataAccess = new DataAccess();
+    }
+
+
+    public static boolean updateObject(Object object){
+
+        //אדמין מיותר כי הID לא משתנה רק דוגמא
+       /* if(object instanceof Admin){
+            return dataAccess.updateCellValue("Admins" ,"ID" ,((Admin) object).getUser().getID() , ((Admin) object).getUser().getID());
+        }*/
+        if(object instanceof Coach){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             * [Training] [varchar](50) NOT NULL,
+             * 	[Teams] [varchar](255) NOT NULL,
+             * 	[isActive] [bit] NOT NULL,
+             * 	[Price] [real] NOT NULL,
+             * 	*/
+            ans1 = dataAccess.updateCellValue("Coaches" ,"Training" ,((Coach) object).getID() ,((Coach) object).getTraining() );
+            //ans2 = dataAccess.updateCellValue("Coaches" ,"Teams" ,((Coach) object).getID() ,((Coach) object).getTeams() ); not sure what to do with the list of teams
+            ans3 = dataAccess.updateCellValue("Coaches" ,"isActive" ,((Coach) object).getID() ,""+((Coach) object).isActive() );
+            ans4 = dataAccess.updateCellValue("Coaches" ,"Price" ,((Coach) object).getID() ,""+((Coach) object).getPrice() );
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
+        if(object instanceof Complaint){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             * [ComplaintDate] [date] NOT NULL,
+             * 	[isActive] [bit] NOT NULL,
+             * 	[Description] [varchar] (1000)NOT NULL ,
+             * 	[ComplainedFanID] [char](50) NOT NULL,
+             * */
+
+           // ans1 = dataAccess.updateCellValue("Complaints" ,"ComplaintDate" ,((Complaint) object).getId() ,""+((Complaint) object).getDate() );
+            ans2 = dataAccess.updateCellValue("Complaints" ,"isActive" ,((Complaint) object).getId() ,""+((Complaint) object).getIsActive());
+            ans3 = dataAccess.updateCellValue("Complaints" ,"Description" ,((Complaint) object).getId() ,((Complaint) object).getDescription() );
+            ans4 = dataAccess.updateCellValue("Complaints" ,"ComplainedFanID" ,((Complaint) object).getId() ,((Complaint) object).getFanComplained().getUser().getID() );
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
+
+        if(object instanceof Event){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             *
+             * [EventType] [char](50) NOT NULL,
+             * 	[EventDate] [date] NOT NULL,
+             * 	[MinutesInGame] [real] NOT NULL,
+             * 	[Description] [varchar](max) NOT NULL,
+             * */
+
+            ans1 = dataAccess.updateCellValue("Events","EventType",((Event) object).getId() ,""+((Event) object).getType());
+            //ans2 = dataAccess.updateCellValue("Events","EventDate", ((Event) object).getId(),""+((Event) object).getDate());
+            ans3 = dataAccess.updateCellValue("Events","MinutesInGame",((Event) object).getId(),""+((Event) object).getMinuteInGame());
+            ans4 = dataAccess.updateCellValue("Events","Description" ,((Event) object).getId(),((Event) object).getDescription());
+
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
+        if(object instanceof EventReport){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             *
+             * [GameID] [char](30) NOT NULL,
+             * 	[EventsIDs] [varchar](max) NOT NULL,
+             * */
+
+            //ans1 = dataAccess.updateCellValue("EventReports","GameID", ,);
+            //ans2 = dataAccess.updateCellValue("EventReports","EventsIDs", ,);
+
+
+            //return ans1 && ans2 && ans3 && ans4 ;
+        }
+        if(object instanceof Fan){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             * [Address] [varchar](255) NOT NULL,
+             * 	[Phone] [varchar](50) NOT NULL unique,
+             * 	[FollowedPagesIDs] [varchar](255) ,
+             * */
+
+            ans2 = dataAccess.updateCellValue("Fans" ,"Address" , ((Fan)object).getUser().getID(),((Fan) object).getAddress() );
+            ans3 = dataAccess.updateCellValue("Fans" ,"Phone" ,((Fan)object).getUser().getID() , ((Fan) object).getPhone());
+            //ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), ((Fan) object).getFollowPages());
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
+        if(object instanceof Field){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true;
+            /**
+             *
+             * [Location] [char](50) NOT NULL,
+             * 	[Capacity] [int] NOT NULL,
+             * 	[Teams] [varchar](255) NOT NULL,
+             * 	[isActive] [bit] NOT NULL,
+             * 	[Price] [real] NOT NULL,
+             * */
+
+            ans1 = dataAccess.updateCellValue("Fields","Location",((Field) object).getID() ,((Field) object).getLocation());
+            ans2 = dataAccess.updateCellValue("Fields","Capacity", ((Field) object).getID(),""+((Field) object).getCapacity());
+            //ans3 = dataAccess.updateCellValue("Fields","Teams", ((Field) object).getID(),((Field) object).getTeams());
+            ans4 = dataAccess.updateCellValue("Fields","isActive" ,((Field) object).getID(),""+((Field) object).isActive());
+            ans5 = dataAccess.updateCellValue("Fields","Price" ,((Field) object).getID(),""+((Field) object).getPrice());
+
+
+            return ans1 && ans2 && ans3 && ans4  && ans5;
+        }
+        if(object instanceof Game){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,
+                    ans5=true,ans6=true,ans7=true,ans8=true,
+                    ans9=true,ans10=true ,ans11=true;
+            /**
+             *
+             [GameDate] [date] NOT NULL,
+             [HostScore] [int] NOT NULL,
+             [GuestScore] [int] NOT NULL,
+             [FieldID] [char] (50) NOT NULL,
+             [MainRefereeID] [char] (50) NOT NULL,
+             [SideRefereesIDs] [char] (50) NOT NULL,
+             [HostTeamID] [char] (50) NOT NULL,
+             [GuestTeamID] [char] (50) NOT NULL,
+             [AlertsFansIDs] [varchar](max) NOT NULL,
+             [EventReportID] [char] (50) NOT NULL,
+             [LeagueInSeasonID] [char] (50) NOT NULL,
+             * */
+
+            //ans1 = dataAccess.updateCellValue("Games","GameDate",((Game) object).getId() ,((Game) object).getDate());
+            ans2 = dataAccess.updateCellValue("Games","HostScore", ((Game) object).getId(),""+((Game) object).hostScore());
+            ans3 = dataAccess.updateCellValue("Games","GuestScore", ((Game) object).getId(),""+((Game) object).guestScore());
+            ans4 = dataAccess.updateCellValue("Games","FieldID" ,((Game) object).getId(),((Game) object).getField().getID());
+            ans5 = dataAccess.updateCellValue("Games","MainRefereeID" ,((Game) object).getId(),((Game) object).getMainReferee().getUser().getID());
+            //ans6 = dataAccess.updateCellValue("Games","SideRefereesIDs" ,((Game) object).getId(),((Game) object).getSideReferees());
+            ans7 = dataAccess.updateCellValue("Games","HostTeamID" ,((Game) object).getId(),((Game) object).getHostTeam().getID());
+            ans8 = dataAccess.updateCellValue("Games","GuestTeamID" ,((Game) object).getId(),((Game) object).getGuestTeam().getID());
+            //ans9 = dataAccess.updateCellValue("Games","AlertsFansIDs" ,((Game) object).getId(),object.);
+            ans10 = dataAccess.updateCellValue("Games","EventReportID" ,((Game) object).getId(),((Game) object).getEventReport().getId());
+            //ans11 = dataAccess.updateCellValue("Games","LeagueInSeasonID" ,((Game) object).getId(),);
+
+
+            return ans1 && ans2 && ans3 && ans4  && ans5 &&
+                    ans6 && ans7 && ans8 && ans9  && ans10 && ans11;
+        }
+
+        return false;
+
+    }
+
+    private String listToString(List<Object> objects){
+        String listOfStrings="";
+        for (Object object:objects) {
+            if(listOfStrings.equals("")){
+                listOfStrings= listOfStrings +object;
+            }else {
+                listOfStrings = listOfStrings + "," + object;
+            }
+        }
+
     }
 
     public static boolean addReferee(User user, Referee referee){
