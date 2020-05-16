@@ -105,4 +105,9 @@ public class ManagerTest {
     public void getBalance() {
         assertNotEquals(teamOwner.getBalance(team),-1);
     }
+
+    @Test
+    public void getTeamsToManage(){
+     assertNotNull(teamOwner.getStringTeams());
+    }
 }

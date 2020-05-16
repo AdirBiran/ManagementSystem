@@ -2,6 +2,7 @@ package UnitTest;
 
 import Data.Database;
 import Domain.*;
+import Presentation.Records.UserRecord;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,9 @@ import static org.junit.Assert.*;
 public class TeamOwnerTest {
     TeamOwner teamOwner;
     FootballManagementSystem system;
+    Admin admin;
     Team team;
+    User userTeamOwner;
     User user;
 
     @Before
@@ -21,10 +24,10 @@ public class TeamOwnerTest {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
-        User userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
+        admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
-        user=new User("shir","ben dor","123456789","shir@gmail.com");
+        user=admin.addNewTeamManager("team", "management", "manage@gmail.com", 1200, false, false);
     }
 
     @Test
@@ -88,14 +91,14 @@ public class TeamOwnerTest {
 
     @Test
     public void removeAppointTeamOwner() {
-        assertFalse(teamOwner.removeAppointTeamOwner(user,team));
-        teamOwner.addTeam(team);
-        teamOwner.appointTeamOwner(user,team);
+        team.addTeamOwner(userTeamOwner);
+        teamOwner.appointTeamOwner(user, team);
         TeamOwner teamOwner1 = (TeamOwner) user.checkUserRole("TeamOwner");
-        User user1=new User("shir","ben dor","123456789","shir@gmail.com");
+        User user1 = admin.addNewCoach("new", "user", "coach@gamil.com", Coach.TrainingCoach.UEFA_B, Coach.RoleCoach.main, 1100);
         teamOwner1.appointTeamManager(user1,team,30,false,false);
         assertTrue(teamOwner.removeAppointTeamOwner(user,team));
-     //   assertEquals(0,teamOwner1.getAppointedTeamManagers().size());
+        assertNull(user.checkUserRole("TeamOwner"));
+        assertNull(user1.checkUserRole("TeamManager"));
     }
 
     @Test

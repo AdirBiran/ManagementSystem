@@ -274,4 +274,14 @@ public class TeamManagementSystem {
         return false;
     }
 
+    public List<String> getTeams(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Team");
+            if (role instanceof Manager) {
+                return ((Manager)role).getStringTeams();
+            }
+        }
+        return null;
+    }
 }
