@@ -115,4 +115,3 @@ public class AdminTest {
         assertNotNull(admin.getAllCloseTeams());
     }
     }
-}
