@@ -1,5 +1,6 @@
 package Data;
 import Domain.*;
+import org.jboss.shrinkwrap.api.Domain;
 
 import java.security.MessageDigest;
 import java.sql.PreparedStatement;
@@ -58,7 +59,8 @@ public class Database //maybe generalize with interface? //for now red layer
              * 	[Price] [real] NOT NULL,
              * 	*/
             ans1 = dataAccess.updateCellValue("Coaches" ,"Training" ,((Coach) object).getID() ,((Coach) object).getTraining() );
-            //ans2 = dataAccess.updateCellValue("Coaches" ,"Teams" ,((Coach) object).getID() ,((Coach) object).getTeams() ); not sure what to do with the list of teams
+            //not sure what to do with the list of teams
+            ans2 = dataAccess.updateCellValue("Coaches" ,"Teams" ,((Coach) object).getID() ,listToString( ((Coach) object).getTeams() ));
             ans3 = dataAccess.updateCellValue("Coaches" ,"isActive" ,((Coach) object).getID() ,""+((Coach) object).isActive() );
             ans4 = dataAccess.updateCellValue("Coaches" ,"Price" ,((Coach) object).getID() ,""+((Coach) object).getPrice() );
 
@@ -73,7 +75,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * 	[ComplainedFanID] [char](50) NOT NULL,
              * */
 
-           // ans1 = dataAccess.updateCellValue("Complaints" ,"ComplaintDate" ,((Complaint) object).getId() ,""+((Complaint) object).getDate() );
+            ans1 = dataAccess.updateCellValue("Complaints" ,"ComplaintDate" ,((Complaint) object).getId() ,""+((Complaint) object).getDate() );
             ans2 = dataAccess.updateCellValue("Complaints" ,"isActive" ,((Complaint) object).getId() ,""+((Complaint) object).getIsActive());
             ans3 = dataAccess.updateCellValue("Complaints" ,"Description" ,((Complaint) object).getId() ,((Complaint) object).getDescription() );
             ans4 = dataAccess.updateCellValue("Complaints" ,"ComplainedFanID" ,((Complaint) object).getId() ,((Complaint) object).getFanComplained().getUser().getID() );
@@ -92,7 +94,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
             ans1 = dataAccess.updateCellValue("Events","EventType",((Event) object).getId() ,""+((Event) object).getType());
-            //ans2 = dataAccess.updateCellValue("Events","EventDate", ((Event) object).getId(),""+((Event) object).getDate());
+            ans2 = dataAccess.updateCellValue("Events","EventDate", ((Event) object).getId(),""+((Event) object).getDate());
             ans3 = dataAccess.updateCellValue("Events","MinutesInGame",((Event) object).getId(),""+((Event) object).getMinuteInGame());
             ans4 = dataAccess.updateCellValue("Events","Description" ,((Event) object).getId(),((Event) object).getDescription());
 
@@ -107,8 +109,8 @@ public class Database //maybe generalize with interface? //for now red layer
              * 	[EventsIDs] [varchar](max) NOT NULL,
              * */
 
-            //ans1 = dataAccess.updateCellValue("EventReports","GameID", ,);
-            //ans2 = dataAccess.updateCellValue("EventReports","EventsIDs", ,);
+           // ans1 = dataAccess.updateCellValue("EventReports","GameID",((EventReport) object).getId() ,);
+            //ans2 = dataAccess.updateCellValue("EventReports","EventsIDs",((EventReport) object).getId() ,);
 
 
             //return ans1 && ans2 && ans3 && ans4 ;
@@ -123,7 +125,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             ans2 = dataAccess.updateCellValue("Fans" ,"Address" , ((Fan)object).getUser().getID(),((Fan) object).getAddress() );
             ans3 = dataAccess.updateCellValue("Fans" ,"Phone" ,((Fan)object).getUser().getID() , ((Fan) object).getPhone());
-            //ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), ((Fan) object).getFollowPages());
+            ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), listToString(((Fan) object).getFollowPages()));
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
@@ -140,7 +142,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             ans1 = dataAccess.updateCellValue("Fields","Location",((Field) object).getID() ,((Field) object).getLocation());
             ans2 = dataAccess.updateCellValue("Fields","Capacity", ((Field) object).getID(),""+((Field) object).getCapacity());
-            //ans3 = dataAccess.updateCellValue("Fields","Teams", ((Field) object).getID(),((Field) object).getTeams());
+            ans3 = dataAccess.updateCellValue("Fields","Teams", ((Field) object).getID(),listToString(((Field) object).getTeams()) );
             ans4 = dataAccess.updateCellValue("Fields","isActive" ,((Field) object).getID(),""+((Field) object).isActive());
             ans5 = dataAccess.updateCellValue("Fields","Price" ,((Field) object).getID(),""+((Field) object).getPrice());
 
@@ -166,12 +168,12 @@ public class Database //maybe generalize with interface? //for now red layer
              [LeagueInSeasonID] [char] (50) NOT NULL,
              * */
 
-            //ans1 = dataAccess.updateCellValue("Games","GameDate",((Game) object).getId() ,((Game) object).getDate());
+            ans1 = dataAccess.updateCellValue("Games","GameDate",((Game) object).getId() ,""+((Game) object).getDate());
             ans2 = dataAccess.updateCellValue("Games","HostScore", ((Game) object).getId(),""+((Game) object).hostScore());
             ans3 = dataAccess.updateCellValue("Games","GuestScore", ((Game) object).getId(),""+((Game) object).guestScore());
             ans4 = dataAccess.updateCellValue("Games","FieldID" ,((Game) object).getId(),((Game) object).getField().getID());
             ans5 = dataAccess.updateCellValue("Games","MainRefereeID" ,((Game) object).getId(),((Game) object).getMainReferee().getUser().getID());
-            //ans6 = dataAccess.updateCellValue("Games","SideRefereesIDs" ,((Game) object).getId(),((Game) object).getSideReferees());
+            ans6 = dataAccess.updateCellValue("Games","SideRefereesIDs" ,((Game) object).getId(),listToString(((Game) object).getSideReferees()) );
             ans7 = dataAccess.updateCellValue("Games","HostTeamID" ,((Game) object).getId(),((Game) object).getHostTeam().getID());
             ans8 = dataAccess.updateCellValue("Games","GuestTeamID" ,((Game) object).getId(),((Game) object).getGuestTeam().getID());
             //ans9 = dataAccess.updateCellValue("Games","AlertsFansIDs" ,((Game) object).getId(),object.);
@@ -187,7 +189,9 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    private String listToString(List<Object> objects){
+
+
+    private static String listToString(Collection objects){
         String listOfStrings="";
         for (Object object:objects) {
             if(listOfStrings.equals("")){
@@ -196,8 +200,22 @@ public class Database //maybe generalize with interface? //for now red layer
                 listOfStrings = listOfStrings + "," + object;
             }
         }
+        return listOfStrings;
 
     }
+
+    /*private static String listToStringHashSet(Collection objects){
+        String listOfStrings="";
+        for (Object object:objects) {
+            if(listOfStrings.equals("")){
+                listOfStrings= listOfStrings +object;
+            }else {
+                listOfStrings = listOfStrings + "," + object;
+            }
+        }
+        return listOfStrings;
+
+    }*/
 
     public static boolean addReferee(User user, Referee referee){
         if(referees.containsKey(user))return false;
@@ -632,6 +650,7 @@ public class Database //maybe generalize with interface? //for now red layer
         return result;
 
     }
+
 
 }
 

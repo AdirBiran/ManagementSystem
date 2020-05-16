@@ -17,6 +17,7 @@ public class DataAccess {
     {
         DataAccess dao = new DataAccess();
 
+
         // Add Cell
         dao.addCell("Complaints", "123456", "5.01.2001", "true", "text text text", "ididid");
 
