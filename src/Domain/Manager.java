@@ -107,4 +107,12 @@ public abstract class Manager extends Role{
             return team.getBudget().getBalance();
         return -1;
     }
+    public List<String> getStringTeams(){
+        List<String> teams = new LinkedList<>();
+        for(Team team : teamsToManage)
+            teams.add(team.toString());
+        return teams;
+    }
+
+    public List<Team> getTeamsToManage(){return teamsToManage;}
 }

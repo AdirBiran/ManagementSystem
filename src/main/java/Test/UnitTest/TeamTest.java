@@ -23,7 +23,7 @@ public class TeamTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
         String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin().checkUserRole("Admin");
 

@@ -114,5 +114,4 @@ public class AdminTest {
     public void getAllCloseTeams() {
         assertNotNull(admin.getAllCloseTeams());
     }
-
-}
+    }
