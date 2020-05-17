@@ -151,10 +151,13 @@ public class TeamOwner extends Manager implements Observer {
         return false;
     }
     public boolean removeAppointTeamManager(User user, Team team){
-        if(teamsToManage.contains(team) && appointedTeamManagers.containsKey(user)){
+        TeamManager teamManagerRole = (TeamManager) user.checkUserRole("TeamManager");
+        if(teamManagerRole.getTeamsToManage().contains(team) ){ //&& teamManagerRole.appointedTeamManagers.containsKey(user)
             if(team.getTeamManagers().contains(user)){
                 team.removeTeamManager(user);
                 appointedTeamManagers.remove(user);
+                if(teamManagerRole.getTeamsToManage().size()==0)
+                    user.getRoles().remove(teamManagerRole);
                 return true;
             }
         }

@@ -155,5 +155,11 @@ public class Game extends Observable {
         notifyObservers(news);
     }
 
+    public LeagueInSeason getLeague() {
+        return league;
+    }
 
+    public HashMap<Fan, ReceiveAlerts> getFansForAlerts() {
+        return fansForAlerts;
+    }
 }

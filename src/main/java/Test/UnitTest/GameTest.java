@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -141,5 +142,15 @@ receiveAlerts=new ReceiveAlerts(true,false);
 
     @Test
     public void setNewsFromReferee() {
+    }
+
+    @Test
+    public void getLeague() {
+
+    }
+
+    @Test
+    public void getFansForAlerts() {
+
     }
 }
