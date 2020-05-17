@@ -729,6 +729,13 @@ public class Database //maybe generalize with interface? //for now red layer
                 //return listOfUsers;
                 break;
             }
+            case ("Field"):{
+                for(PartOfATeam asset : assetsInDatabase.values()){
+                    if(asset instanceof Field && asset.isActive())
+                        listOfAssets.add(asset);
+                }
+                return listOfAssets;
+            }
         }
         return null;
     }
