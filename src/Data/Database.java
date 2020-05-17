@@ -176,7 +176,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans8 = dataAccess.updateCellValue("Games","GuestTeamID" ,((Game) object).getId(),((Game) object).getGuestTeam().getID());
             ans9 = dataAccess.updateCellValue("Games","AlertsFansIDs" ,((Game) object).getId(),((Game) object).getAlertsFansId());
             ans10 = dataAccess.updateCellValue("Games","EventReportID" ,((Game) object).getId(),((Game) object).getEventReport().getId());
-            //ans11 = dataAccess.updateCellValue("Games","LeagueInSeasonID" ,((Game) object).getId(),);
+            ans11 = dataAccess.updateCellValue("Games","LeagueInSeasonID" ,((Game) object).getId(),((Game) object).getLeague().getId());
 
 
             return ans1 && ans2 && ans3 && ans4  && ans5 &&
