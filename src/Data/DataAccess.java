@@ -194,7 +194,7 @@ public class DataAccess {
 
     }
 
-    public void addCell(String TableName, String ... values)
+    public boolean addCell(String TableName, String ... values)
     {
         PreparedStatement ps = null;
 
@@ -238,7 +238,9 @@ public class DataAccess {
         {
             closePS(ps);
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     private Date stringToDate(String val)

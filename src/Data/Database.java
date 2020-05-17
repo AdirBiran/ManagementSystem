@@ -44,10 +44,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static boolean updateObject(Object object){
 
-        //אדמין מיותר כי הID לא משתנה רק דוגמא
-       /* if(object instanceof Admin){
-            return dataAccess.updateCellValue("Admins" ,"ID" ,((Admin) object).getUser().getID() , ((Admin) object).getUser().getID());
-        }*/
+
         if(object instanceof Coach){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
@@ -403,7 +400,7 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
 
-    private static String listToStringForEventsID(List<Event> events){
+   /* private static String listToStringForEventsID(List<Event> events){
         String listOfStrings="";
         for (Event event:events) {
             if(listOfStrings.equals("")){
@@ -414,11 +411,12 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return listOfStrings;
 
-    }
+    }*/
 
     public static boolean addReferee(User user, Referee referee){
         if(referees.containsKey(user))return false;
         referees.put(user, referee);
+        //dataAccess.addCell("Referees" ,);
         return true;
     }
 
@@ -427,27 +425,75 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static boolean addLeague(League league) {
-        if(!leagues.contains(league)){
+        /**
+         *
+         * [ID] [char](30)  Primary key,
+         * 	[Name] [varchar](50) NOT NULL,
+         * 	[LeagueLevel] [varchar](50) NOT NULL,
+         * 	[SeasonsIDs] [varchar](255) NOT NULL,
+         *
+         * 	*/
+
+        //SeasonsIDs? last cell
+        return dataAccess.addCell("Leagues" ,league.getId() , league.getName() , league.getLevel());
+
+        /*if(!leagues.contains(league)){
             leagues.add(league);
             return true;
         }
-        return false;
+        return false;*/
     }
+
     public static boolean addSeason(Season season) {
-        if(!seasons.contains(season)){
+
+        /**
+         * [ID] [char](30)  Primary key,
+         * 	[SeasonYear] [int] NOT NULL,
+         * 	[StartDate] [date] NOT NULL,
+         * 	[LeaguesIDs] [varchar](255) NOT NULL,
+         * 	*/
+
+        return dataAccess.addCell("Seasons" ,season.getId(),""+season.getYear(),""+season.getStartDate() ,season.getLeaguesId() );
+       /* if(!seasons.contains(season)){
             seasons.add(season);
             return true;
         }
-        return false;
+        return false;*/
     }
 
     public static boolean addTeam(Team team){
-        if(!teams.containsKey(team.getID())){
+
+        /**
+         * [ID] [char](30)  Primary key,
+         * 	[Name] [varchar](50) NOT NULL,
+         * 	[Wins] [int] NOT NULL,
+         * 	[Losses] [int] NOT NULL,
+         * 	[Draws] [int] NOT NULL,
+         * 	[PersonalPageID] [char] (30) NOT NULL,
+         * 	[TeamOwners] [varchar](255) NOT NULL ,
+         * 	[TeamManagers] [varchar](255) NOT NULL,
+         * 	[Players] [varchar](255) NOT NULL,
+         * 	[Coaches] [varchar](255) NOT NULL,
+         * 	[Budget] [real] NOT NULL,
+         * 	[GamesIDs] [varchar] (255) NOT NULL,
+         * 	[Fields] [varchar] (255) NOT NULL,
+         * 	[LeaguesInSeasons] [varchar] (255) NOT NULL,
+         * 	[isActive] [bit] NOT NULL,
+         * 	[isPermanentlyClosed] [bit] NOT NULL,
+         * 	*/
+
+        //Budget?
+        //LeaguesInSeasons?
+        return dataAccess.addCell(team.getID(),team.getName(),""+team.getWins(),""+team.getLosses(),
+                ""+team.getDraws(),team.getPage().getId() ,listToString(team.getTeamOwners()),
+                listToString(team.getTeamManagers()) , listToString(team.getPlayers()) , listToString(team.getCoaches()) ,
+                        ""+team.getBudget().getBalance() ,team.getGamesId() , listToString(team.getFields()) , ""+team.isActive() , ""+team.isPermanentlyClosed());
+        /*if(!teams.containsKey(team.getID())){
             teams.put(team.getID(), team);
             return true;
         }
 
-        return false;
+        return false;*/
     }
 
     public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
