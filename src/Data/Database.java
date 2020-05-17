@@ -125,7 +125,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             ans2 = dataAccess.updateCellValue("Fans" ,"Address" , ((Fan)object).getUser().getID(),((Fan) object).getAddress() );
             ans3 = dataAccess.updateCellValue("Fans" ,"Phone" ,((Fan)object).getUser().getID() , ((Fan) object).getPhone());
-            ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), listToString(((Fan) object).getFollowPages()));
+           // ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), listToString(((Fan) object).getFollowPages()));
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
