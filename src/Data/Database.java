@@ -64,7 +64,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
-        if(object instanceof Complaint){
+        else if(object instanceof Complaint){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              * [ComplaintDate] [date] NOT NULL,
@@ -81,7 +81,7 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4 ;
         }
 
-        if(object instanceof Event){
+        else if(object instanceof Event){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              *
@@ -99,7 +99,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
-        if(object instanceof EventReport){
+        else if(object instanceof EventReport){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              *
@@ -113,7 +113,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
-        if(object instanceof Fan){
+        else if(object instanceof Fan){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              * [Address] [varchar](255) NOT NULL,
@@ -127,7 +127,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
-        if(object instanceof Field){
+        else if(object instanceof Field){
             boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true;
             /**
              *
@@ -147,7 +147,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4  && ans5;
         }
-        if(object instanceof Game){
+        else if(object instanceof Game){
             boolean ans1=true,ans2=true,ans3=true,ans4=true,
                     ans5=true,ans6=true,ans7=true,ans8=true,
                     ans9=true,ans10=true ,ans11=true;
@@ -182,7 +182,7 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4  && ans5 &&
                     ans6 && ans7 && ans8 && ans9  && ans10 && ans11;
         }
-        if(object instanceof League){
+        else if(object instanceof League){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              [Name] [varchar](50) NOT NULL,
@@ -196,7 +196,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
-        if(object instanceof LeagueInSeason){
+        else if(object instanceof LeagueInSeason){
             boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true ,ans6=true,ans7=true;
             /**
              *
@@ -220,7 +220,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  && ans7;
         }
-        if(object instanceof PersonalPage){
+        else if(object instanceof PersonalPage){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              [OwnerID] [char](30) NOT NULL unique,
@@ -234,7 +234,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
-        if(object instanceof Player){
+        else  if(object instanceof Player){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              [Birthdate] [date] NOT NULL,
@@ -250,7 +250,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
-        if(object instanceof Referee){
+        else if(object instanceof Referee){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              [Training] [varchar](50) NOT NULL,
@@ -262,7 +262,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
-        if(object instanceof Season){
+        else if(object instanceof Season){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              [SeasonYear] [int] NOT NULL,
@@ -276,7 +276,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
-        if(object instanceof Team){
+        else if(object instanceof Team){
             boolean ans1=true,ans2=true,ans3=true,ans4=true,
                     ans5=true,ans6=true,ans7=true,ans8=true,
                     ans9=true,ans10=true ,ans11=true, ans12=true,
@@ -322,6 +322,66 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4  && ans5 &&
                     ans6 && ans7 && ans8 && ans9  && ans10 && ans11
                     && ans12 && ans13  && ans14 && ans15;
+        }
+        else if(object instanceof TeamManager){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true;
+            /**
+             [Teams] [varchar](255) NOT NULL,
+             [isActive] [bit] NOT NULL,
+             [Price] [real] NOT NULL,
+             [ManageAssets] [bit] NOT NULL,
+             [Finance] [bit] ,
+             * */
+
+            ans1 = dataAccess.updateCellValue("TeamManagers" ,"Teams" , ((TeamManager) object).getID() , listToString(((TeamManager) object).getTeams()));
+            ans2 = dataAccess.updateCellValue("TeamManagers" ,"isActive" ,((TeamManager) object).getID() , ""+((TeamManager) object).isActive());
+            ans3 = dataAccess.updateCellValue("TeamManagers" ,"Price" , ((TeamManager) object).getID(), ""+((TeamManager) object).getPrice());
+           //ManageAssets?
+            // ans4 = dataAccess.updateCellValue("TeamManagers" ,"ManageAssets" , ((TeamManager) object).getID(), );
+            //Finance?
+            //ans5 = dataAccess.updateCellValue("TeamManagers" ,"Finance" , ((TeamManager) object).getID(), );
+
+            return ans1 && ans2 && ans3 && ans4 && ans5 ;
+        }
+        else if(object instanceof TeamOwner){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             [Teams] [varchar](255) NOT NULL,
+             [ClosedTeams] [varchar](255) ,
+             [AppointedTeamOwners] [varchar] ,
+             [AppointedTeamManagers] [varchar](255) ,
+             * */
+
+            ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), listToString(((TeamOwner) object).getTeamsToManage()));
+            ans2 = dataAccess.updateCellValue("TeamOwners" ,"ClosedTeams" , ((TeamOwner) object).getUser().getID(), listToString(((TeamOwner) object).getClosedTeams()) );
+
+            //HashMap for user and team, need to save them together
+            //ans3 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamOwners" , ((TeamOwner) object).getUser().getID(), listToString(((TeamOwner) object).getAppointedTeamOwners().keySet()));
+            //ans4 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamManagers" , ((TeamOwner) object).getUser().getID(), );
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
+        else if(object instanceof User){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true ,ans6=true;
+            /**
+             *
+             [FirstName] [varchar](255) NOT NULL,
+             [LastName] [varchar](255) NOT NULL,
+             [Mail] [varchar](255) NOT NULL unique,
+             [isActive] [bit] NOT NULL,
+             [Roles] [varchar](255) ,
+             [searchHistories] [varchar](1000) ,
+             * */
+
+            ans1 = dataAccess.updateCellValue("Users","FirstName",((User) object).getID() , ((User) object).getFirstName());
+            ans2 = dataAccess.updateCellValue("Users","LastName", ((User) object).getID(),((User) object).getLastName());
+            ans3 = dataAccess.updateCellValue("Users","Mail", ((User) object).getID(), ((User) object).getMail());
+            ans4 = dataAccess.updateCellValue("Users","isActive" ,((User) object).getID(), ""+((User) object).isActive());
+            ans5 = dataAccess.updateCellValue("Users","Roles" ,((User) object).getID(), listToString(((User) object).getRoles()));
+            ans6 = dataAccess.updateCellValue("Users","searchHistories" ,((User) object).getID(), listToString(((User) object).getSearchHistory()));
+
+
+            return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  ;
         }
         return false;
 

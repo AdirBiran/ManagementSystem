@@ -115,6 +115,16 @@ public class User extends Guest {
         return firstName+" "+lastName;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

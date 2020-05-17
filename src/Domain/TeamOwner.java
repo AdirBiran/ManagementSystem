@@ -198,6 +198,10 @@ public class TeamOwner extends Manager implements Observer {
         return false;
     }
 
+    public List<Team> getClosedTeams() {
+        return closedTeams;
+    }
+
     @Override
     public String myRole() {
         return "TeamOwner";
