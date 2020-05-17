@@ -3,7 +3,7 @@ package Domain;
 
 public class MailSender {
 
-    private static boolean reallySend =true;
+    private static boolean reallySend = false;
 
     public static boolean send(String to, String messageToSend){
         if(reallySend){

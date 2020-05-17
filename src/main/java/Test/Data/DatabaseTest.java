@@ -24,7 +24,12 @@ public class DatabaseTest {
 
         system = new FootballManagementSystem();
         system.systemInit(true);
+<<<<<<< HEAD
         LeagueInSeason league = system.dataReboot();
+=======
+        String leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+>>>>>>> domain&service
         team = league.getTeams().get(0);
         team1 = league.getTeams().get(1);
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
@@ -37,8 +42,12 @@ public class DatabaseTest {
 
     @Test
     public void updateObject(){
+<<<<<<< HEAD
 
         database.updateObject(coach);
+=======
+        //database.updateObject(coach);
+>>>>>>> domain&service
     }
 
 }

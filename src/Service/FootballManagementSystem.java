@@ -155,6 +155,7 @@ public class FootballManagementSystem {
             User ref = mainReferee(unionRep);
             unionRepresentativeSystem.assignRefToLeague(unionRep.getID(),leagueInSeason.getId(), ref.getID());
         }
+        //unionRepresentativeSystem.assignGames(unionRep.getID(),leagueInSeason.getId(), getDates());
         return leagueInSeason;
     }
 

@@ -22,11 +22,10 @@ public class PersonalPage {
 
     @Override
     public String toString() {
-        return "PersonalPage{" +
-                "id='" + id + '\'' +
-                ", data='" + data + '\'' +
-                ", user=" + user +
-                '}';
+        return "PersonalPage" +
+                ", id=" + id +
+                ", data=" + data +
+                ", user=" + user.getName();
     }
 
     public String getId() {

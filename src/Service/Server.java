@@ -640,7 +640,6 @@ public class Server {
         List<String> res = adminSystem.viewLog(splitLine[1], splitLine[2]);
         String sendToClient = ListToString(res);
 
-
         sendLineToClient(sendToClient, clientSocket);
     }
 
@@ -672,8 +671,7 @@ public class Server {
 
     private void handlepermanentlyCloseTeam(String[] splitLine, Socket clientSocket)
     {
-        //User admin = Database.getUser(splitLine[1]);
-        Team team = Database.getTeam(splitLine[2]);
+        Team team = Database.getTeam(splitLine[2]); /**/
 
         boolean success = adminSystem.permanentlyCloseTeam(splitLine[1], splitLine[2]);
         if (success)
@@ -684,10 +682,9 @@ public class Server {
 
     private void handleaddNewAdmin(String[] splitLine, Socket clientSocket)
     {
-        //User admin = Database.getUser(splitLine[1]);
-        User addedAdmin = adminSystem.addNewAdmin(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
+        String addedAdminId = adminSystem.addNewAdmin(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
-        if (addedAdmin == null)
+        if (addedAdminId == null)
             sendLineToClient("Failed adding a new Admin", clientSocket);
         else
             sendLineToClient("Succeed adding a new Admin", clientSocket);
@@ -695,10 +692,9 @@ public class Server {
 
     private void handleaddNewUnionRepresentative(String[] splitLine, Socket clientSocket)
     {
-        //User admin = Database.getUser(splitLine[1]);
-        User addedRepresentative = adminSystem.addNewUnionRepresentative(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
+        String addedRepresentativeId = adminSystem.addNewUnionRepresentative(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
 
-        if (addedRepresentative == null)
+        if (addedRepresentativeId == null)
             sendLineToClient("Failed adding a new Union Representative", clientSocket);
         else
             sendLineToClient("Succeed adding a new Union Representative", clientSocket);
@@ -706,10 +702,9 @@ public class Server {
 
     private void handleaddNewTeamManager(String[] splitLine, Socket clientSocket)
     {
-        //User admin = Database.getUser(splitLine[1]);
-        User addedTeamManager = adminSystem.addNewTeamManager(splitLine[1], splitLine[2], splitLine[3], splitLine[4], Double.parseDouble(splitLine[5]), stringToBoolean(splitLine[6]), stringToBoolean(splitLine[7]));
+        String addedTeamManagerId = adminSystem.addNewTeamManager(splitLine[1], splitLine[2], splitLine[3], splitLine[4], Double.parseDouble(splitLine[5]), stringToBoolean(splitLine[6]), stringToBoolean(splitLine[7]));
 
-        if (addedTeamManager == null)
+        if (addedTeamManagerId == null)
             sendLineToClient("Failed adding a new Team Manager", clientSocket);
         else
             sendLineToClient("Succeed adding a new Team Manager", clientSocket);
@@ -717,10 +712,9 @@ public class Server {
 
     private void handleaddNewTeamOwner(String[] splitLine, Socket clientSocket)
     {
-        //User admin = Database.getUser(splitLine[1]);
-        User addedTeamOwner = adminSystem.addNewTeamOwner(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
+        String addedTeamOwnerId = adminSystem.addNewTeamOwner(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
 
-        if (addedTeamOwner == null)
+        if (addedTeamOwnerId == null)
             sendLineToClient("Failed adding a new Team Owner", clientSocket);
         else
             sendLineToClient("Succeed adding a new Team Owner", clientSocket);
@@ -728,101 +722,41 @@ public class Server {
 
     private void handleaddNewCoach(String[] splitLine, Socket clientSocket)
     {
-        //User admin = Database.getUser(splitLine[1]);
-        //Coach.TrainingCoach training = getCoachTraining(splitLine[5]);
-        //Coach.RoleCoach role = getCoachRole(splitLine[6]);
-        User addedCoach = adminSystem.addNewCoach(splitLine[1], splitLine[2], splitLine[3], splitLine[4],splitLine[5] ,splitLine[6], Double.parseDouble(splitLine[7]));
+        String addedCoachId = adminSystem.addNewCoach(splitLine[1], splitLine[2], splitLine[3], splitLine[4],splitLine[5] ,splitLine[6], Double.parseDouble(splitLine[7]));
 
-        if (addedCoach == null)
+        if (addedCoachId == null)
             sendLineToClient("Failed adding a new Coach", clientSocket);
         else
             sendLineToClient("Succeed adding a new Coach", clientSocket);
     }
 
-    private Coach.RoleCoach getCoachRole(String s) {
-        switch (s){
-            case("main"):{
-                return Coach.RoleCoach.main;
-            }
-            case("assistantCoach"):{
-                return Coach.RoleCoach.assistantCoach;
-            }
-            case("fitness"):{
-                return Coach.RoleCoach.fitness;
-            }
-            case("goalkeeperCoach"):{
-                return Coach.RoleCoach.goalkeeperCoach;
-            }
-        }
-        return null;
-    }
-
-    private Coach.TrainingCoach getCoachTraining(String s) {
-        switch (s){
-            case("IFA_C"):{
-                return Coach.TrainingCoach.IFA_C;
-            }
-            case("UEFA_A"):{
-                return Coach.TrainingCoach.UEFA_A;
-            }
-            case("UEFA_B"):{
-                return Coach.TrainingCoach.UEFA_B;
-            }
-            case("UEFA_PRO"):{
-                return Coach.TrainingCoach.UEFA_PRO;
-            }
-        }
-        return null;
-    }
-
     private void handleaddNewPlayer(String[] splitLine, Socket clientSocket)
     {
-        User admin = Database.getUser(splitLine[1]);
-        Player.RolePlayer role = getPlayerRole(splitLine[6]);
-        User addedPlayer = adminSystem.addNewPlayer(splitLine[1], splitLine[2], splitLine[3], splitLine[4], stringToDate(splitLine[5]), splitLine[6], Double.parseDouble(splitLine[7]));
-
-        if (addedPlayer == null)
+        String addedPlayerId = adminSystem.addNewPlayer(splitLine[1], splitLine[2], splitLine[3], splitLine[4], stringToDate(splitLine[5]), splitLine[6], Double.parseDouble(splitLine[7]));
+        if (addedPlayerId == null)
             sendLineToClient("Failed adding a new Player", clientSocket);
         else
             sendLineToClient("Succeed adding a new Player", clientSocket);
 
     }
 
-    private Player.RolePlayer getPlayerRole(String s) {
-        switch(s){
-            case"goalkeeper":{
-                return Player.RolePlayer.goalkeeper;
-            }
-            case"playerBack":{
-                return Player.RolePlayer.playerBack;
-            }
-            case"midfielderPlayer":{
-                return Player.RolePlayer.midfielderPlayer;
-            }
-            case"attackingPlayer":{
-                return Player.RolePlayer.attackingPlayer;
-            }
-        }
-        return null;
-    }
 
     private void handleRegister(String[] splitLine, Socket clientSocket)
     {
-        User user = guestSystem.register(splitLine[1],splitLine[2],splitLine[3],splitLine[4],splitLine[5], splitLine[6]);
-        String id="";
-        if(user == null){
+        String userId = guestSystem.register(splitLine[1],splitLine[2],splitLine[3],splitLine[4],splitLine[5], splitLine[6]);
+        if(userId == null){
             sendLineToClient("Registration Failed!", clientSocket);
             return;
         }
-        id = user.getID();
-        List<Role> roles = user.getRoles();
 
-        if (!loggedUsers.contains(id))
-            loggedUsers.add(id);
+        List<String> roles = userSystem.getUserRoles(userId); /**/
 
-        String sendToClient = id + "|";
+        if (!loggedUsers.contains(userId))
+            loggedUsers.add(userId);
 
-        for (Role r : roles)
+        String sendToClient = userId + "|";
+
+        for (String r : roles)
             sendToClient = sendToClient + r + "|";
 
         sendLineToClient(sendToClient.substring(0,sendToClient.length()-1), clientSocket);
@@ -841,25 +775,22 @@ public class Server {
 
     private void handleLogin(String[] splitLine, Socket clientSocket)
     {
-        User loggedUser = guestSystem.logIn(splitLine[1], splitLine[2]);
-
-        if (loggedUser == null)
+        String loggedUserId = guestSystem.logIn(splitLine[1], splitLine[2]);
+        if (loggedUserId == null)
         {
             sendLineToClient("Login Failed", clientSocket);
         }
         else
         {
-            List<Role> roles = loggedUser.getRoles();
+            List<String> roles = userSystem.getUserRoles(loggedUserId); /**/
 
-            String userid = loggedUser.getID();
+            if (!loggedUsers.contains(loggedUserId))
+                loggedUsers.add(loggedUserId);
 
-            if (!loggedUsers.contains(userid))
-                loggedUsers.add(userid);
+            String sendToClient = loggedUserId + "|";
 
-            String sendToClient = userid + "|";
-
-            for (Role r : roles)
-                sendToClient = sendToClient + r.myRole() + "|";
+            for (String r : roles)
+                sendToClient = sendToClient + r + "|";
 
             sendLineToClient(sendToClient.substring(0,sendToClient.length()-1), clientSocket);
         }
@@ -870,7 +801,6 @@ public class Server {
     private void handleviewInformationAboutReferees(Socket clientSocket)
     {
         List<String> res = guestSystem.viewInformationAboutReferees();
-
         String result = ListToString(res);
         sendLineToClient(result, clientSocket);
 

@@ -43,11 +43,11 @@ public class Field implements PartOfATeam {
 
     @Override
     public String toString() {
-        return "Field{" +
-                "id='" + id + '\'' +
-                ", location='" + location + '\'' +
-                ", capacity=" + capacity +
-                '}';
+        return "Field" +
+                ", id=" + id +
+                ": name=" +name +
+                ", location=" + location +
+                ", capacity=" + capacity;
     }
 
     @Override

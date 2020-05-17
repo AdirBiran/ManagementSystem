@@ -43,12 +43,12 @@ public class Game extends Observable {
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     @Override
     public String toString() {
-        return "Game{" +
-                "id='" + id + '\'' +
+        return "Game" +
+                ", id=" + id +
+                ": name=" +name +
                 ", date=" + date +
                 ", hostTeam=" + hostTeam +
-                ", guestTeam=" + guestTeam +
-                '}';
+                ", guestTeam=" + guestTeam;
     }
 
     private void addRefereeToObservers(Referee mainReferee, List<Referee> sideReferees) {
@@ -140,6 +140,7 @@ public class Game extends Observable {
         return eventReport;
     }
 
+
     public void setDate(Date newDate) {
         this.date = newDate;
         setNews("Date of the game between the teams: " +this.name+ " change to "+this.date); // referees and fans
@@ -155,5 +156,11 @@ public class Game extends Observable {
         notifyObservers(news);
     }
 
+    public LeagueInSeason getLeague() {
+        return league;
+    }
 
+    public HashMap<Fan, ReceiveAlerts> getFansForAlerts() {
+        return fansForAlerts;
+    }
 }

@@ -40,8 +40,6 @@ public class TeamOwner extends Manager implements Observer {
         personalPages.put(team , personalPage);
     }
 
-    public List<Team> getTeamsToManage(){return teamsToManage;}
-
     public Team getTeamById(String id){
         for(Team team : teamsToManage){
             if(team.getID().equals(id))
@@ -114,12 +112,10 @@ public class TeamOwner extends Manager implements Observer {
             if(!team.getTeamOwners().contains(user)){
                 if(teamOwnerRole==null){
                     TeamOwner teamOwner = new TeamOwner(user);
-                    teamOwner.addTeam(team);
                     user.addRole(teamOwner);
+                    teamOwnerRole = user.checkUserRole("TeamOwner");
                 }
-                else{
-                    ((TeamOwner)teamOwnerRole).addTeam(team); ///
-                }
+                ((TeamOwner)teamOwnerRole).addTeam(team);
                 team.addTeamOwner(user);
                 appointedTeamOwners.put(user, team);
                 return true;
@@ -135,9 +131,6 @@ public class TeamOwner extends Manager implements Observer {
                 if(teamManagerRole==null){
                     TeamManager teamManager = new TeamManager(user, price, manageAssets, finance);
                     user.addRole(teamManager);
-                }
-                else{
-                    ((TeamManager)teamManagerRole).addTeam(team); ////
                 }
                 team.addTeamManager(user, price, manageAssets, finance);
                 appointedTeamManagers.put(user,team);
@@ -158,10 +151,13 @@ public class TeamOwner extends Manager implements Observer {
         return false;
     }
     public boolean removeAppointTeamManager(User user, Team team){
-        if(teamsToManage.contains(team)&& appointedTeamManagers.containsKey(user)){
+        TeamManager teamManagerRole = (TeamManager) user.checkUserRole("TeamManager");
+        if(teamManagerRole.getTeamsToManage().contains(team) ){ //&& teamManagerRole.appointedTeamManagers.containsKey(user)
             if(team.getTeamManagers().contains(user)){
                 team.removeTeamManager(user);
                 appointedTeamManagers.remove(user);
+                if(teamManagerRole.getTeamsToManage().size()==0)
+                    user.getRoles().remove(teamManagerRole);
                 return true;
             }
         }

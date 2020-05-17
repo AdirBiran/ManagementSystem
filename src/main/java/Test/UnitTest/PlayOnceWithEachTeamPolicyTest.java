@@ -19,7 +19,8 @@ public class PlayOnceWithEachTeamPolicyTest {
         PlayOnceWithEachTeamPolicy one = new PlayOnceWithEachTeamPolicy();
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason haal = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason haal = Database.getLeagueInSeason(leagueId);
         List<Date> dates = system.getDates();
         assertNotNull(one.assignGames(dates,haal));
 

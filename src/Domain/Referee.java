@@ -39,10 +39,10 @@ public class Referee extends Role implements Observer {
     public HashSet<Game> viewGames(){return games;}
 
 
-    public void addEventToGame(String gameID, Event.EventType type, double minuteInGame, String description)
+    public void addEventToGame(String gameID, Event.EventType type, String description)
     {
         Game game= Database.getGame(gameID);
-        Event event = new Event(type, minuteInGame, description);
+        Event event = new Event(type, game, description);
         game.getEventReport().addEvent(event);
         game.setNewsFromReferee(event);
     }
@@ -92,6 +92,19 @@ public class Referee extends Role implements Observer {
         return gameReport;
     }
 
+    public String getGamesId(){
+        String listOfId = "";
+        for (Game game: games) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+game.getId();
+            }
+            else {
+                listOfId = listOfId + ","+game.getId();
+            }
+        }
+        return listOfId;
+    }
+
     @Override
     public String myRole() {
         return "Referee";
@@ -102,7 +115,7 @@ public class Referee extends Role implements Observer {
         return "Referee" +
                 ", id="+user.getID()+
                 ": name="+user.getName()+
-                ", training='" + training;
+                ", training=" + training;
     }
     @Override
     public void update(Observable o, Object arg) {
