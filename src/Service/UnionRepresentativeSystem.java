@@ -195,7 +195,14 @@ public class UnionRepresentativeSystem {
         }
         return false;
     }
-
+    public List<String> getAllPastGames(String userID){
+        User user= UserFactory.getUser(userID);
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof  UnionRepresentative ) {
+            return  ((UnionRepresentative)role).getAllPastGames();
+        }
+        return null;
+    }
     public void calculateLeagueScore(String userId, String leagueId)
     {
         User user = UserFactory.getUser(userId);

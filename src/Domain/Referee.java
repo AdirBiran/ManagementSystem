@@ -91,7 +91,13 @@ public class Referee extends Role implements Observer {
         }
         return gameReport;
     }
-
+    public List<String> getAllPastGames() {
+        List<String> game = new LinkedList<>();
+        for(Game g: Database.getAllPastGames()) {
+            game.add(g.toString());
+        }
+        return game;
+    }
     @Override
     public String myRole() {
         return "Referee";
