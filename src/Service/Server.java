@@ -1,8 +1,5 @@
 package Service;
 
-
-import Data.Database;
-import Domain.*;
 import Logger.Logger;
 
 import java.io.*;
@@ -382,13 +379,13 @@ public class Server {
 
     private void handlegetBalance(String[] splitLine, Socket clientSocket)
     {
-        double budget = financeTransactionsSystem.getBalance(Database.getUser(splitLine[1]), Database.getTeam(splitLine[2]));
+        double budget = financeTransactionsSystem.getBalance(splitLine[1], splitLine[2]);
         sendLineToClient("" + budget, clientSocket);
     }
 
     private void handlereportNewExpanse(String[] splitLine, Socket clientSocket)
     {
-        boolean success = financeTransactionsSystem.reportNewExpanse(Database.getUser(splitLine[1]), Database.getTeam(splitLine[2]), Double.parseDouble(splitLine[3]));
+        boolean success = financeTransactionsSystem.reportNewExpanse(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
 
         if (success)
             sendLineToClient("Succeed reporting new expanse", clientSocket);
@@ -398,7 +395,7 @@ public class Server {
 
     private void handlereportNewIncome(String[] splitLine, Socket clientSocket)
     {
-        boolean success = financeTransactionsSystem.reportNewIncome(Database.getUser(splitLine[1]), Database.getTeam(splitLine[2]), Double.parseDouble(splitLine[3]));
+        boolean success = financeTransactionsSystem.reportNewIncome(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
 
         if (success)
             sendLineToClient("Succeed reporting new income", clientSocket);
@@ -409,7 +406,7 @@ public class Server {
     private void handleuploadToPage(String[] splitLine, Socket clientSocket)
     {
 
-        boolean success = personalPageSystem.uploadToPage(Database.getUser(splitLine[1]), splitLine[2]);
+        boolean success = personalPageSystem.uploadToPage(splitLine[1], splitLine[2]);
 
         if (success)
             sendLineToClient("Succeed uploading to personal page", clientSocket);
@@ -419,7 +416,7 @@ public class Server {
 
     private void handleaddAssetPlayer(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.addAssetPlayer(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.addAssetPlayer(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed adding a Player to team", clientSocket);
@@ -429,7 +426,7 @@ public class Server {
 
     private void handleaddAssetCoach(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.addAssetCoach(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.addAssetCoach(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed adding a Coach to team", clientSocket);
@@ -439,7 +436,7 @@ public class Server {
 
     private void handleaddAssetTeamManager(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.addAssetTeamManager(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]), Double.parseDouble(splitLine[4]),stringToBoolean(splitLine[5]), stringToBoolean(splitLine[6]));
+        boolean success = teamSystem.addAssetTeamManager(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]),stringToBoolean(splitLine[5]), stringToBoolean(splitLine[6]));
 
         if (success)
             sendLineToClient("Succeed adding a Team Manager to team", clientSocket);
@@ -449,7 +446,7 @@ public class Server {
 
     private void handleaddField(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.addField(Database.getUser(splitLine[1]), (Field)(Database.getAsset(splitLine[2])), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.addField(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed adding a Field to team", clientSocket);
@@ -459,7 +456,7 @@ public class Server {
 
     private void handleremoveField(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.removeField(Database.getUser(splitLine[1]), (Field)(Database.getAsset(splitLine[2])), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.removeField(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed removing a Field from team", clientSocket);
@@ -469,7 +466,7 @@ public class Server {
 
     private void handleremoveAssetPlayer(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.removeAssetPlayer(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.removeAssetPlayer(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed removing a Player from team", clientSocket);
@@ -479,7 +476,7 @@ public class Server {
 
     private void handleremoveAssetCoach(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.removeAssetCoach(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.removeAssetCoach(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed removing a Coach from team", clientSocket);
@@ -489,7 +486,7 @@ public class Server {
 
     private void handleremoveAssetTeamManager(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.removeAssetTeamManager(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.removeAssetTeamManager(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed removing a Team Manager from team", clientSocket);
@@ -499,7 +496,7 @@ public class Server {
 
     private void handleupdateAsset(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.updateAsset(Database.getUser(splitLine[1]), splitLine[2], splitLine[3], splitLine[4]);
+        boolean success = teamSystem.updateAsset(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
 
         if (success)
             sendLineToClient("Succeed updating asset", clientSocket);
@@ -513,7 +510,7 @@ public class Server {
 
     private void handleappointmentTeamOwner(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.appointmentTeamOwner(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.appointmentTeamOwner(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed appointing a Team Owner to team", clientSocket);
@@ -523,7 +520,7 @@ public class Server {
 
     private void handleappointmentTeamManager(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.appointmentTeamManager(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]), Double.parseDouble(splitLine[4]), stringToBoolean(splitLine[5]), stringToBoolean(splitLine[6]));
+        boolean success = teamSystem.appointmentTeamManager(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), stringToBoolean(splitLine[5]), stringToBoolean(splitLine[6]));
 
         if (success)
             sendLineToClient("Succeed appointing a Team Manager to team", clientSocket);
@@ -533,7 +530,7 @@ public class Server {
 
     private void handleremoveAppointmentTeamOwner(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.removeAppointmentTeamOwner(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.removeAppointmentTeamOwner(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed removing appointed Team Owner from team", clientSocket);
@@ -543,7 +540,7 @@ public class Server {
 
     private void handleremoveAppointmentTeamManager(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.removeAppointmentTeamManager(Database.getUser(splitLine[1]), Database.getUser(splitLine[2]), Database.getTeam(splitLine[3]));
+        boolean success = teamSystem.removeAppointmentTeamManager(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
             sendLineToClient("Succeed removing appointed Team Manager from team", clientSocket);
@@ -553,7 +550,7 @@ public class Server {
 
     private void handlecloseTeam(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.closeTeam(Database.getUser(splitLine[1]), Database.getTeam(splitLine[2]));
+        boolean success = teamSystem.closeTeam(splitLine[1], splitLine[2]);
 
         if (success)
             sendLineToClient("Succeed closing team", clientSocket);
@@ -563,7 +560,7 @@ public class Server {
 
     private void handlereOpeningTeam(String[] splitLine, Socket clientSocket)
     {
-        boolean success = teamSystem.reOpeningTeam(Database.getUser(splitLine[1]), Database.getTeam(splitLine[2]));
+        boolean success = teamSystem.reOpeningTeam(splitLine[1], splitLine[2]);
 
         if (success)
             sendLineToClient("Succeed reopening team", clientSocket);
@@ -671,13 +668,11 @@ public class Server {
 
     private void handlepermanentlyCloseTeam(String[] splitLine, Socket clientSocket)
     {
-        Team team = Database.getTeam(splitLine[2]); /**/
-
-        boolean success = adminSystem.permanentlyCloseTeam(splitLine[1], splitLine[2]);
-        if (success)
-            sendLineToClient("Succeed closing the team " + team.getName(), clientSocket);
+        String teamName = adminSystem.permanentlyCloseTeam(splitLine[1], splitLine[2]);
+        if (teamName!=null)
+            sendLineToClient("Succeed closing the team " + teamName, clientSocket);
         else
-            sendLineToClient("Failed closing the team " + team.getName(), clientSocket);
+            sendLineToClient("Failed closing the team ", clientSocket);
     }
 
     private void handleaddNewAdmin(String[] splitLine, Socket clientSocket)

@@ -304,6 +304,13 @@ public class Database //maybe generalize with interface? //for now red layer
                 //return listOfUsers;
                 break;
             }
+            case ("Field"):{
+                for(PartOfATeam asset : assetsInDatabase.values()){
+                    if(asset instanceof Field && asset.isActive())
+                        listOfAssets.add(asset);
+                }
+                return listOfAssets;
+            }
         }
         return null;
     }
@@ -339,7 +346,7 @@ public class Database //maybe generalize with interface? //for now red layer
             switch(whatType){
                 case("PartOfATeam"):{
                     for(String nameOfAsset : assetsInDatabase.keySet()) {
-                        if (searchWord.equals(nameOfAsset))
+                        if (searchWord.contains(nameOfAsset))
                             return assetsInDatabase.get(searchWord);
                     }
                     break;

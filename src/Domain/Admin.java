@@ -15,7 +15,7 @@ public class Admin extends Role implements Observer {
         myRole = "Admin";
     }
 
-    public boolean closeTeamPermanently(String teamId)
+    public String closeTeamPermanently(String teamId)
     {
         Team team = Database.getTeam(teamId);
         if(!team.isPermanentlyClosed() && !permanentlyClosedTeams.contains(team)) {
@@ -24,9 +24,9 @@ public class Admin extends Role implements Observer {
             permanentlyClosedTeams.add(team);
             Logger.logEvent(user.getID() + " (Admin)", " Closed Team " + team.getName() + " permanently");
 
-            return true;
+            return team.getName();
         }
-        return false;
+        return null;
     }
     public User addNewPlayer(String firstName, String lastName, String mail, Date birthDate, Player.RolePlayer role, double price){
         return UserFactory.getNewPlayer(firstName, lastName, mail, birthDate, role, price);

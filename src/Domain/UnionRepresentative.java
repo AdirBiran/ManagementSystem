@@ -30,9 +30,9 @@ public class UnionRepresentative extends Role implements Observer {
     }
     public List<String> getAllPastGames() {
         List<String> game = new LinkedList<>();
-        for(Game g: Database.getAllPastGames()) {
+        /*for(Game g: Database.getAllPastGames()) {
             game.add(g.toString());
-        }
+        }*/
         return game;
     }
     public List<String> getAllLeagues() {
@@ -127,17 +127,17 @@ public class UnionRepresentative extends Role implements Observer {
 
     public List<String> getAllScorePolicies() {
         List<String> scorePolicies= new LinkedList<>();
-        for(ScorePolicy s: Database.getAllScorePolicies()){
+        /*for(ScorePolicy s: Database.getAllScorePolicies()){
             scorePolicies.add(s.getName());
-        }
+        }*/
         return scorePolicies;
     }
 ////////////////////////////////////////////////// assignmentsPolicies.getNAme();
     public List<String> getAllAssignmentsPolicies() {
         List<String> assignmentsPolicies= new LinkedList<>();
-        for(GameAssignmentPolicy assignmentsPolicie: Database.getAllAssignmentsPolicies()){
+        /*for(GameAssignmentPolicy assignmentsPolicie: Database.getAllAssignmentsPolicies()){
             assignmentsPolicies.add(assignmentsPolicies.toString());
-        }
+        }*/
         return assignmentsPolicies;
     }
 ///////////////////////////////////////////////////

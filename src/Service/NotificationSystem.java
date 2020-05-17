@@ -19,8 +19,8 @@ public class NotificationSystem extends Observable implements Observer {
     /*
         When a team is closed / permanently closed or reopened, alerts are sent accordingly
          */
-    public boolean openORCloseTeam(String option, Team team, boolean permanently){
-        return alertBudgetException(option, team, permanently);
+    public boolean openORCloseTeam(String option, String teamId, boolean permanently){
+        return alertBudgetException(option, teamId, permanently);
     }
     /*
     Send alerts to the referee when there is a change in game date
@@ -46,11 +46,12 @@ public class NotificationSystem extends Observable implements Observer {
     /*
     Send notifications to union representatives when a team exceeds the budget
      */
-    public void exceededBudget(Team team){
+    public void exceededBudget(String teamId){
+        /*
         String msg = "Exception in the team budget"+team.getName()+", the budget is "+team.getBudget().getBalance();
         for(User owner : team.getTeamOwners()){
             owner.addMessage(new Notice(msg));
-        }
+        }*/
     }
     /*
     Send a notification to the user when the administrator removes it
@@ -73,8 +74,8 @@ public class NotificationSystem extends Observable implements Observer {
     /*
     When a team is closed / permanently closed or reopened, alerts are sent accordingly
      */
-    public boolean alertBudgetException(String option, Team team, boolean permanently) {
-        if((!team.isActive() && option.equals("closed")) || (team.isActive() && option.equals("open"))) {
+    public boolean alertBudgetException(String option, String teamId, boolean permanently) {
+        /*if((!team.isActive() && option.equals("closed")) || (team.isActive() && option.equals("open"))) {
             for (User owner : team.getTeamOwners()) {
                 owner.addMessage(new Notice("team " + option + " : " + team.getName()));
             }
@@ -86,7 +87,7 @@ public class NotificationSystem extends Observable implements Observer {
                     admin.addMessage(new Notice("team " + option + " : " + team.getName()));
             }
             return true;
-        }
+        }*/
         return false;
     }
 }

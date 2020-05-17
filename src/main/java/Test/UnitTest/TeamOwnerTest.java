@@ -76,53 +76,54 @@ public class TeamOwnerTest {
 
     @Test
     public void appointTeamOwner() {
-        assertFalse(teamOwner.appointTeamOwner(user,team));
+        assertFalse(teamOwner.appointTeamOwner(user,team.getID()));
         teamOwner.addTeam(team);
-        assertTrue(teamOwner.appointTeamOwner(user,team));
+        assertTrue(teamOwner.appointTeamOwner(user,team.getID()));
 
     }
 
     @Test
     public void appointTeamManager() {
-        assertFalse(teamOwner.appointTeamManager(user,team,30,false,false));
+        assertFalse(teamOwner.appointTeamManager(user,team.getID(),30,false,false));
         teamOwner.addTeam(team);
-        assertTrue(teamOwner.appointTeamManager(user,team,30,false,false));
+        assertTrue(teamOwner.appointTeamManager(user,team.getID(),30,false,false));
     }
 
     @Test
     public void removeAppointTeamOwner() {
         team.addTeamOwner(userTeamOwner);
-        teamOwner.appointTeamOwner(user, team);
-        TeamOwner teamOwner1 = (TeamOwner) user.checkUserRole("TeamOwner");
         User user1 = admin.addNewCoach("new", "user", "coach@gamil.com", Coach.TrainingCoach.UEFA_B, Coach.RoleCoach.main, 1100);
-        teamOwner1.appointTeamManager(user1,team,30,false,false);
-        assertTrue(teamOwner.removeAppointTeamOwner(user,team));
+        teamOwner.appointTeamOwner(user1,team.getID());
+        TeamOwner teamOwner1 = (TeamOwner) user1.checkUserRole("TeamOwner");
+        teamOwner1.appointTeamOwner(user, team.getID());
+        assertTrue(teamOwner.removeAppointTeamOwner(user1,team.getID()));
+        assertNull(user1.checkUserRole("TeamOwner"));
         assertNull(user.checkUserRole("TeamOwner"));
-        assertNull(user1.checkUserRole("TeamManager"));
     }
 
     @Test
     public void removeAppointTeamManager() {
-        assertFalse(teamOwner.removeAppointTeamManager(user,team));
-        teamOwner.addTeam(team);
-        teamOwner.appointTeamManager(user,team,30,false,false);
-        assertTrue(teamOwner.removeAppointTeamManager(user,team));
+        assertFalse(teamOwner.removeAppointTeamManager(user,team.getID()));
+        team.addTeamOwner(userTeamOwner);
+        teamOwner.appointTeamManager(user,team.getID(),30,false,false);
+        assertTrue(teamOwner.removeAppointTeamManager(user,team.getID()));
+        assertNull(user.checkUserRole("TeamManager"));
     }
 
     @Test
     public void closeTeam() {
-        assertFalse(teamOwner.closeTeam(team));
+        assertFalse(teamOwner.closeTeam(team.getID()));
         teamOwner.addTeam(team);
-        assertTrue(teamOwner.closeTeam(team));
+        assertTrue(teamOwner.closeTeam(team.getID()));
     }
 
     @Test
     public void reopenTeam() {
-        assertFalse(teamOwner.reopenTeam(team));
+        assertFalse(teamOwner.reopenTeam(team.getID()));
         teamOwner.addTeam(team);
-        assertFalse(teamOwner.reopenTeam(team));
-        teamOwner.closeTeam(team);
-        assertTrue(teamOwner.reopenTeam(team));
+        assertFalse(teamOwner.reopenTeam(team.getID()));
+        teamOwner.closeTeam(team.getID());
+        assertTrue(teamOwner.reopenTeam(team.getID()));
     }
 
     @Test
