@@ -51,6 +51,10 @@ public class PersonalPage {
         }
     }
 
+    public List<Fan> getFollowers(){
+        return followers;
+    }
+
     public void setData(String data) {
         this.data = data;
     }
