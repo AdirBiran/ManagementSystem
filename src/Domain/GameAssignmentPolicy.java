@@ -6,7 +6,7 @@ import java.util.Date;
 
 public abstract class GameAssignmentPolicy {
 
-    public static GameAssignmentPolicy chackPolicy(String assignmentPolicy) {
+    public static GameAssignmentPolicy checkPolicy(String assignmentPolicy) {
         switch (assignmentPolicy){
             case "PlayOnceWithEachTeamPolicy":
                 return new PlayOnceWithEachTeamPolicy();
