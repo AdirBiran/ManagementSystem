@@ -110,10 +110,10 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
            // ans1 = dataAccess.updateCellValue("EventReports","GameID",((EventReport) object).getId() ,);
-            //ans2 = dataAccess.updateCellValue("EventReports","EventsIDs",((EventReport) object).getId() ,);
+            ans2 = dataAccess.updateCellValue("EventReports","EventsIDs",((EventReport) object).getId() ,listToStringForEventsID(((EventReport) object).getEvents()));
 
 
-            //return ans1 && ans2 && ans3 && ans4 ;
+            return ans1 && ans2 && ans3 && ans4 ;
         }
         if(object instanceof Fan){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
@@ -184,7 +184,44 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4  && ans5 &&
                     ans6 && ans7 && ans8 && ans9  && ans10 && ans11;
         }
+        if(object instanceof League){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             [Name] [varchar](50) NOT NULL,
+             [LeagueLevel] [varchar](50) NOT NULL,
+             [SeasonsIDs] [varchar](255) NOT NULL,
+             * */
 
+            ans1 = dataAccess.updateCellValue("Leagues" ,"Name" , ((League) object).getId() , ((League) object).getName());
+            ans2 = dataAccess.updateCellValue("Leagues" ,"LeagueLevel" ,((League) object).getId() ,((League) object).getLevel() );
+            //ans4 = dataAccess.updateCellValue("Leagues" ,"SeasonsIDs" , ((League) object).getId(),object. );
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
+        if(object instanceof LeagueInSeason){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true ,ans6=true,ans7=true;
+            /**
+             *
+             [AssignmentPolicy] [char](255) NOT NULL,
+             [ScorePolicy] [char](255) NOT NULL,
+             [GamesIDs] [varchar](255) NOT NULL,
+             [RefereesIDs] [varchar](255) NOT NULL,
+             [TeamsIDs] [varchar](255) NOT NULL,
+             [RegistrationFee] [real] NOT NULL,
+             [Records] [varchar](1000) NOT NULL,
+             * */
+
+            //ans1 = dataAccess.updateCellValue("LeaguesInSeasons","AssignmentPolicy", ((LeagueInSeason) object).getId() ,((LeagueInSeason) object).getAssignmentPolicy());
+           // ans2 = dataAccess.updateCellValue("LeaguesInSeasons","ScorePolicy", ((LeagueInSeason) object).getId(),((LeagueInSeason) object).getScorePolicy());
+            ans3 = dataAccess.updateCellValue("LeaguesInSeasons","GamesIDs", ((LeagueInSeason) object).getId(), listToStringForGamesID(((LeagueInSeason) object).getGames()));
+           // ans4 = dataAccess.updateCellValue("LeaguesInSeasons","RefereesIDs" ,((LeagueInSeason) object).getId(),);
+           // ans5 = dataAccess.updateCellValue("LeaguesInSeasons","TeamsIDs" ,((LeagueInSeason) object).getId(),);
+            ans6 = dataAccess.updateCellValue("LeaguesInSeasons","RegistrationFee" ,((LeagueInSeason) object).getId(),""+((LeagueInSeason) object).getRegistrationFee());
+            //ans7 = dataAccess.updateCellValue("LeaguesInSeasons","Records" ,((LeagueInSeason) object).getId(),);
+
+
+            return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  && ans7;
+        }
         return false;
 
     }
@@ -204,18 +241,35 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    /*private static String listToStringHashSet(Collection objects){
+
+    private static String listToStringForEventsID(List<Event> events){
         String listOfStrings="";
-        for (Object object:objects) {
+        for (Event event:events) {
             if(listOfStrings.equals("")){
-                listOfStrings= listOfStrings +object;
+                listOfStrings= listOfStrings +event.getId();
             }else {
-                listOfStrings = listOfStrings + "," + object;
+                listOfStrings = listOfStrings + "," + event.getId();
             }
         }
         return listOfStrings;
 
-    }*/
+    }
+
+    private static String listToStringForGamesID(List<Game> games){
+        String listOfStrings="";
+        for (Game game:games) {
+            if(listOfStrings.equals("")){
+                listOfStrings= listOfStrings +game.getId();
+            }else {
+                listOfStrings = listOfStrings + "," + game.getId();
+            }
+        }
+        return listOfStrings;
+
+    }
+
+
+
 
     public static boolean addReferee(User user, Referee referee){
         if(referees.containsKey(user))return false;
