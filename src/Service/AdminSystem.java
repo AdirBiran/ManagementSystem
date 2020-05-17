@@ -221,5 +221,14 @@ public class AdminSystem {
         }
         return null;
     }
-
+    public List<String> getAllActiveComplaints(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Admin");
+            if (role instanceof Admin) {
+                ((Admin)role).getAllActiveComplaints();
+            }
+        }
+        return null;
+    }
 }

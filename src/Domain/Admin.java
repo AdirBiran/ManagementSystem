@@ -141,4 +141,13 @@ public class Admin extends Role implements Observer {
         }
         return users;
     }
+    public List<String> getAllActiveComplaints(){
+        List<String> complaints = new LinkedList<>();
+        String details=new String();
+        for (Complaint c : Database.getAllActiveComplaints()){
+            complaints.add(c.toString());
+        }
+        return complaints;
+    }
+
 }
