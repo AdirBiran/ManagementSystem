@@ -117,6 +117,17 @@ public class UserSystem extends GuestSystem {
         }
         return null;
     }
+    public List<String> getAllPages(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                Logger.logEvent(user.getID(), "Requested all the personal pages in the system");
+                return ((Fan) role).getAllPages();
+            }
+        }
+        return null;
+    }
 
     /*
     Fan registration for alerts for games you've selected

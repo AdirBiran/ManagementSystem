@@ -64,6 +64,12 @@ public class Fan extends Role implements Observer {
         return pages;
     }
 
+    public List<String> getAllPages(){
+        List<String> pages = new LinkedList<>();
+        for(PersonalPage p: Database.getAllPages)
+            pages.add(p.toString());
+        return pages;
+    }
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public void setAddress(String address) {
         this.address = address;

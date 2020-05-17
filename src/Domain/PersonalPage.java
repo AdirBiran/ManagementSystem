@@ -22,10 +22,8 @@ public class PersonalPage {
 
     @Override
     public String toString() {
-        return "PersonalPage" +
-                ", id=" + id +
-                ", data=" + data +
-                ", user=" + user.getName();
+        return  id +","+user.getName()+","+data;
+
     }
 
     public String getId() {
