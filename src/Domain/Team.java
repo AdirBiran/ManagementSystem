@@ -322,6 +322,18 @@ public class Team extends Observable {
     public Budget getBudget() {
         return budget;
     }
+    public String getGamesId(){
+        String listOfId = "";
+        for (Game game: games) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + game.getId();
+            }
+            else {
+                listOfId = listOfId + ","+game.getId();
+            }
+        }
+        return listOfId;
+    }
 
     public List<Game> getGames() {
         return games;

@@ -276,6 +276,53 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
+        if(object instanceof Team){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,
+                    ans5=true,ans6=true,ans7=true,ans8=true,
+                    ans9=true,ans10=true ,ans11=true, ans12=true,
+                    ans13=true,ans14=true ,ans15=true;
+            /**
+             *
+             [Name] [varchar](50) NOT NULL,
+             [Wins] [int] NOT NULL,
+             [Losses] [int] NOT NULL,
+             [Draws] [int] NOT NULL,
+             [PersonalPageID] [char] (30) NOT NULL,
+             [TeamOwners] [varchar](255) NOT NULL ,
+             [TeamManagers] [varchar](255) NOT NULL,
+             [Players] [varchar](255) NOT NULL,
+             [Coaches] [varchar](255) NOT NULL,
+             [Budget] [real] NOT NULL,
+             [GamesIDs] [varchar] (255) NOT NULL,
+             [Fields] [varchar] (255) NOT NULL,
+             [LeaguesInSeasons] [varchar] (255) NOT NULL,
+             [isActive] [bit] NOT NULL,
+             [isPermanentlyClosed] [bit] NOT NULL,
+             * */
+
+            ans1 = dataAccess.updateCellValue("Teams","Name", ((Team) object).getID(), ((Team) object).getName());
+            ans2 = dataAccess.updateCellValue("Teams","Wins", ((Team) object).getID(), ""+((Team) object).getWins());
+            ans3 = dataAccess.updateCellValue("Teams","Losses", ((Team) object).getID(), ""+((Team) object).getLosses());
+            ans4 = dataAccess.updateCellValue("Teams","Draws", ((Team) object).getID(), ""+((Team) object).getDraws());
+            ans5 = dataAccess.updateCellValue("Teams","PersonalPageID", ((Team) object).getID(),((Team) object).getPage().getId() );
+            ans6 = dataAccess.updateCellValue("Teams","TeamOwners", ((Team) object).getID(), listToString(((Team) object).getTeamOwners()));
+            ans7 = dataAccess.updateCellValue("Teams","TeamManagers", ((Team) object).getID(), listToString(((Team) object).getTeamManagers()));
+            ans8 = dataAccess.updateCellValue("Teams","Players", ((Team) object).getID(), listToString(((Team) object).getPlayers())  );
+            ans9 = dataAccess.updateCellValue("Teams","Coaches",((Team) object).getID() , listToString(((Team) object).getCoaches()));
+           //מה לשים בטבלה מבחינת ה buget
+            // ans10 = dataAccess.updateCellValue("Teams","Budget" , ((Team) object).getID(), ""+((Team) object).getBudget().getBalance());
+            ans11 = dataAccess.updateCellValue("Teams","GamesIDs" , ((Team) object).getID(), ((Team) object).getGamesId() );
+            ans12 = dataAccess.updateCellValue("Teams","Fields" , ((Team) object).getID(), listToString(((Team) object).getFields()) );
+            //לא הבנתי מה הכוונה
+            //ans13 = dataAccess.updateCellValue("Teams","LeaguesInSeasons" , ((Team) object).getID(), );
+            ans14 = dataAccess.updateCellValue("Teams","isActive" ,((Team) object).getID() , ""+((Team) object).isActive());
+            ans15 = dataAccess.updateCellValue("Teams","isPermanentlyClosed" , ((Team) object).getID(), ""+((Team) object).isPermanentlyClosed());
+
+
+            return ans1 && ans2 && ans3 && ans4  && ans5 &&
+                    ans6 && ans7 && ans8 && ans9  && ans10 && ans11
+                    && ans12 && ans13  && ans14 && ans15;
+        }
         return false;
 
     }
