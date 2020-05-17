@@ -262,6 +262,20 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
+        if(object instanceof Season){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             [SeasonYear] [int] NOT NULL,
+             [StartDate] [date] NOT NULL,
+             [LeaguesIDs] [varchar](255) NOT NULL,
+             * */
+
+            ans1 = dataAccess.updateCellValue("Seasons" ,"SeasonYear" , ((Season) object).getId() ,""+((Season) object).getYear() );
+            ans2 = dataAccess.updateCellValue("Seasons" ,"StartDate" , ((Season) object).getId(), ""+((Season) object).getStartDate() );
+            ans3 = dataAccess.updateCellValue("Seasons" ,"LeaguesIDs" , ((Season) object).getId(), ((Season) object).getLeaguesId() );
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
         return false;
 
     }
