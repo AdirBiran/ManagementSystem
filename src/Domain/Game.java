@@ -140,6 +140,7 @@ public class Game extends Observable {
         return eventReport;
     }
 
+
     public void setDate(Date newDate) {
         this.date = newDate;
         setNews("Date of the game between the teams: " +this.name+ " change to "+this.date); // referees and fans
