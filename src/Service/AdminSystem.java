@@ -211,7 +211,7 @@ public class AdminSystem {
         return null;
     }
 
-    public List<String> getAllUsers(String userId){
+   /* public List<String> getAllUsers(String userId){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Admin");
@@ -230,5 +230,5 @@ public class AdminSystem {
             }
         }
         return null;
-    }
+    }*/
 }

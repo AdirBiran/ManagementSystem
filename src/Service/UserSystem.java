@@ -117,13 +117,24 @@ public class UserSystem extends GuestSystem {
         }
         return null;
     }
-    public List<String> getAllPages(String userId) {
+   /* public List<String> getAllPages(String userId) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Fan");
             if (role instanceof Fan) {
                 Logger.logEvent(user.getID(), "Requested all the personal pages in the system");
                 return ((Fan) role).getAllPages();
+            }
+        }
+        return null;
+    }*/
+    public List<String> getAllFutureGames(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                Logger.logEvent(user.getID(), "Requested all the future games");
+                return ((Fan) role).getAllFutureGames();
             }
         }
         return null;

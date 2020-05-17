@@ -64,11 +64,18 @@ public class Fan extends Role implements Observer {
         return pages;
     }
 
-    public List<String> getAllPages(){
+   /* public List<String> getAllPages(){
         List<String> pages = new LinkedList<>();
         for(PersonalPage p: Database.getAllPages)
             pages.add(p.toString());
         return pages;
+    }*/
+
+    public List<String> getAllFutureGames(){
+        List<String> games = new LinkedList<>();
+        for(Game g: Database.getAllFutureGames())
+            games.add(g.toString());
+        return games;
     }
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public void setAddress(String address) {

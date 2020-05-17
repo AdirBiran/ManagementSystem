@@ -43,7 +43,7 @@ public class Game extends Observable {
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     @Override
     public String toString() {
-        return id +name +date;
+        return id +","+name +","+date;
 
     }
 
