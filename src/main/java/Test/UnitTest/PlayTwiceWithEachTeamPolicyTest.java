@@ -19,7 +19,8 @@ public class PlayTwiceWithEachTeamPolicyTest {
         PlayTwiceWithEachTeamPolicy one = new PlayTwiceWithEachTeamPolicy();
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason haal =system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason haal = Database.getLeagueInSeason(leagueId);
         List <Team> teams = haal.getTeams();
         List<Date> dates = system.getDates();
         List<Game> games = one.assignGames( dates, haal);

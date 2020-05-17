@@ -101,10 +101,9 @@ public class Fan extends Role implements Observer {
 
     @Override
     public String toString() {
-        return "Fan{" +
-                "address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+        return "Fan" +
+                ", address=" + address +
+                ", phone=" + phone;
     }
 
     @Override

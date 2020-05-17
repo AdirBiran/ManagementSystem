@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.LeagueInSeason;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -16,7 +17,9 @@ public class SeasonTest {
     public void init() {
         system = new FootballManagementSystem();
         system.systemInit(true);
-        leagueInSeason = system.dataReboot();}
+        String  leagueId = system.dataReboot();
+        leagueInSeason = Database.getLeagueInSeason(leagueId);
+    }
 
 
     @Test

@@ -105,11 +105,44 @@ public class Team extends Observable {
 
     @Override
     public String toString() {
-        return "Team," +
-                "id='" + id + '\'' +
-                ": name='" + name + '\'' +
-                ", active=" + active +
-                ", permanentlyClosed=" + permanentlyClosed;
+        return "Team" +
+                ", id=" + id +
+                ": name=" + name;
+    }
+
+    public String AllDetailsAboutTeam(){
+        return "Team Owners: " + printTeamOwners() +
+                "Players: " + printPlayers() +
+                "Coaches: " +printCoaches() +
+                "Games: " +printGames();
+    }
+
+    private String printGames() {
+        String printNames = "";
+        for(Game game : games)
+            printNames= printNames + game.getName() +",";
+        return printNames;
+    }
+
+    private String printCoaches() {
+        String printNames = "";
+        for(User user : coaches)
+            printNames= printNames + user.getName() +",";
+        return printNames;
+    }
+
+    private String printPlayers() {
+        String printNames = "";
+        for(User user : players)
+            printNames= printNames + user.getName() +",";
+        return printNames;
+    }
+
+    private String printTeamOwners() {
+        String printNames = "";
+        for(User user : teamOwners)
+            printNames= printNames + user.getName() +",";
+        return printNames;
     }
 
     public void addAWin() {

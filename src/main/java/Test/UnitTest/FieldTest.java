@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.Field;
 import Domain.LeagueInSeason;
 import Domain.Team;
@@ -18,7 +19,8 @@ public class FieldTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         field = new Field("Tel-Aviv","Bloomfield", 150000, 125000);
     }

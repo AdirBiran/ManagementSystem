@@ -1,11 +1,13 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +26,8 @@ public class GameTest {
 public void init(){
     system = new FootballManagementSystem();
     system.systemInit(true);
-    LeagueInSeason league = system.dataReboot();
+    String  leagueId = system.dataReboot();
+    LeagueInSeason league = Database.getLeagueInSeason(leagueId);
     team0 = league.getTeams().get(0);
     team1 = league.getTeams().get(1);
     Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
@@ -139,5 +142,15 @@ receiveAlerts=new ReceiveAlerts(true,false);
 
     @Test
     public void setNewsFromReferee() {
+    }
+
+    @Test
+    public void getLeague() {
+
+    }
+
+    @Test
+    public void getFansForAlerts() {
+
     }
 }

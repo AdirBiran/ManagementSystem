@@ -160,9 +160,8 @@ public class LeagueInSeason {
 
     @Override
     public String toString() {
-        return "LeagueInSeason{" +
-                "league=" + league.getName() +
-                ":season=" + season.getYear() +
-                '}';
+        return "LeagueInSeason" +
+                ", league=" + league.getName() +
+                ", season=" + season.getYear();
     }
 }

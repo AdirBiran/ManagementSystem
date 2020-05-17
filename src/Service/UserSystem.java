@@ -224,4 +224,11 @@ public class UserSystem extends GuestSystem {
         return null;
     }
 
+    public List<String> getUserRoles(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            return user.getStringRoles();
+        }
+        return null;
+    }
 }

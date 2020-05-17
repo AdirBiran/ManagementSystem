@@ -12,7 +12,7 @@ public class StubAccountingSystem {
 
     public static boolean addPayment(String teamName, String date, double amount){
         associationBudget+=amount;
-      //  Logger.logEvent(user.getID() + " (Admin)", "Removed user " + userId);
+        //Logger.logEvent();
         return true;
     }
 
