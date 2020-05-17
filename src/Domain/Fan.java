@@ -64,9 +64,6 @@ public class Fan extends Role implements Observer {
         return pages;
     }
 
-    public String getFollowedPagesId(){
-
-    }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public void setAddress(String address) {

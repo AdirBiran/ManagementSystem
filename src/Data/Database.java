@@ -1,9 +1,7 @@
 package Data;
 import Domain.*;
-import org.jboss.shrinkwrap.api.Domain;
 
 import java.security.MessageDigest;
-import java.sql.PreparedStatement;
 import java.util.*;
 
 
@@ -109,7 +107,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * 	[EventsIDs] [varchar](max) NOT NULL,
              * */
 
-           // ans1 = dataAccess.updateCellValue("EventReports","GameID",((EventReport) object).getId() ,);
+            // ans1 = dataAccess.updateCellValue("EventReports","GameID",((EventReport) object).getId() ,);
             ans2 = dataAccess.updateCellValue("EventReports","EventsIDs",((EventReport) object).getId() ,listToStringForEventsID(((EventReport) object).getEvents()));
 
 
@@ -125,7 +123,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             ans2 = dataAccess.updateCellValue("Fans" ,"Address" , ((Fan)object).getUser().getID(),((Fan) object).getAddress() );
             ans3 = dataAccess.updateCellValue("Fans" ,"Phone" ,((Fan)object).getUser().getID() , ((Fan) object).getPhone());
-           // ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), listToString(((Fan) object).getFollowPages()));
+            // ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), listToString(((Fan) object).getFollowPages()));
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
@@ -212,10 +210,10 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
             //ans1 = dataAccess.updateCellValue("LeaguesInSeasons","AssignmentPolicy", ((LeagueInSeason) object).getId() ,((LeagueInSeason) object).getAssignmentPolicy());
-           // ans2 = dataAccess.updateCellValue("LeaguesInSeasons","ScorePolicy", ((LeagueInSeason) object).getId(),((LeagueInSeason) object).getScorePolicy());
+            // ans2 = dataAccess.updateCellValue("LeaguesInSeasons","ScorePolicy", ((LeagueInSeason) object).getId(),((LeagueInSeason) object).getScorePolicy());
             ans3 = dataAccess.updateCellValue("LeaguesInSeasons","GamesIDs", ((LeagueInSeason) object).getId(), listToStringForGamesID(((LeagueInSeason) object).getGames()));
-           // ans4 = dataAccess.updateCellValue("LeaguesInSeasons","RefereesIDs" ,((LeagueInSeason) object).getId(),);
-           // ans5 = dataAccess.updateCellValue("LeaguesInSeasons","TeamsIDs" ,((LeagueInSeason) object).getId(),);
+            // ans4 = dataAccess.updateCellValue("LeaguesInSeasons","RefereesIDs" ,((LeagueInSeason) object).getId(),);
+            // ans5 = dataAccess.updateCellValue("LeaguesInSeasons","TeamsIDs" ,((LeagueInSeason) object).getId(),);
             ans6 = dataAccess.updateCellValue("LeaguesInSeasons","RegistrationFee" ,((LeagueInSeason) object).getId(),""+((LeagueInSeason) object).getRegistrationFee());
             //ans7 = dataAccess.updateCellValue("LeaguesInSeasons","Records" ,((LeagueInSeason) object).getId(),);
 
@@ -297,22 +295,6 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    private static String listToStringForGamesID(List<Game> games){
-        String listOfStrings="";
-        for (Game game:games) {
-            if(listOfStrings.equals("")){
-                listOfStrings= listOfStrings +game.getId();
-            }else {
-                listOfStrings = listOfStrings + "," + game.getId();
-            }
-        }
-        return listOfStrings;
-
-    }
-
-
-
-
     public static boolean addReferee(User user, Referee referee){
         if(referees.containsKey(user))return false;
         referees.put(user, referee);
@@ -380,7 +362,7 @@ public class Database //maybe generalize with interface? //for now red layer
             return null if cant find asset
              */
     public static PartOfATeam getAsset(String name){
-       return (PartOfATeam)search("PartOfATeam", name);
+        return (PartOfATeam)search("PartOfATeam", name);
     }
     /*
     this function gets a user id and returns a pointer to the object of this user
@@ -565,11 +547,11 @@ public class Database //maybe generalize with interface? //for now red layer
                 break;
             }
             case("TeamManager"):{
-               for(PartOfATeam user : assetsInDatabase.values()){
-                   if(user instanceof TeamManager &&user.isActive())
-                       listOfAssets.add(user);
-               }
-               return listOfAssets;
+                for(PartOfATeam user : assetsInDatabase.values()){
+                    if(user instanceof TeamManager &&user.isActive())
+                        listOfAssets.add(user);
+                }
+                return listOfAssets;
 
             }
             case("TeamOwner"):{
@@ -612,69 +594,69 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     private static Object search(String whatType, String searchWord){
-            switch(whatType){
-                case("PartOfATeam"):{
-                    for(String nameOfAsset : assetsInDatabase.keySet()) {
-                        if (searchWord.equals(nameOfAsset))
-                            return assetsInDatabase.get(searchWord);
-                    }
-                    break;
+        switch(whatType){
+            case("PartOfATeam"):{
+                for(String nameOfAsset : assetsInDatabase.keySet()) {
+                    if (searchWord.equals(nameOfAsset))
+                        return assetsInDatabase.get(searchWord);
                 }
-                case("User"):{
-                    for(String userId : usersInDatabase.keySet()) {
-                        if (searchWord.equals(userId)) {
-                            if(usersInDatabase.get(searchWord).isActive())
-                                return usersInDatabase.get(searchWord);
-                        }
-                    }
-                    break;
-                }
-                case ("Mail"):{
-                    if(mailsAndUserID.containsKey(searchWord)){
-                        return usersInDatabase.get(mailsAndUserID.get(searchWord));
-                    }
-                    break;
-                }
-                case("Game"):{
-                    for(String gameId:gamesInDatabase.keySet()){
-                        if(searchWord.equals(gameId))
-                            return gamesInDatabase.get(gameId);
-                    }
-                    break;
-                }
-                case("Page"):{
-                    for(String userId:pagesInDatabase.keySet()){
-                        if(searchWord.equals(userId))
-                            return pagesInDatabase.get(userId);
-                    }
-                    break;
-                }
-                case("League"):{
-                    for(League league:leagues){
-                        if(searchWord.equals(league.getName()))
-                            return league;
+                break;
+            }
+            case("User"):{
+                for(String userId : usersInDatabase.keySet()) {
+                    if (searchWord.equals(userId)) {
+                        if(usersInDatabase.get(searchWord).isActive())
+                            return usersInDatabase.get(searchWord);
                     }
                 }
-                case("Season"):{
-                    String year="";
-                    for(Season season:seasons){
-                        year =""+season.getYear();
-                        if(searchWord.equals(year))
-                            return season;
-                    }
+                break;
+            }
+            case ("Mail"):{
+                if(mailsAndUserID.containsKey(searchWord)){
+                    return usersInDatabase.get(mailsAndUserID.get(searchWord));
                 }
-                case("Team"):{
-                    for(Team team:teams.values()){
-                        if(searchWord.equals(team.getID())&&team.isActive())
-                            return team;
-                    }
+                break;
+            }
+            case("Game"):{
+                for(String gameId:gamesInDatabase.keySet()){
+                    if(searchWord.equals(gameId))
+                        return gamesInDatabase.get(gameId);
                 }
-                case("Password"):{
-                    //think about it
-                    break;
+                break;
+            }
+            case("Page"):{
+                for(String userId:pagesInDatabase.keySet()){
+                    if(searchWord.equals(userId))
+                        return pagesInDatabase.get(userId);
+                }
+                break;
+            }
+            case("League"):{
+                for(League league:leagues){
+                    if(searchWord.equals(league.getName()))
+                        return league;
                 }
             }
-            return null;
+            case("Season"):{
+                String year="";
+                for(Season season:seasons){
+                    year =""+season.getYear();
+                    if(searchWord.equals(year))
+                        return season;
+                }
+            }
+            case("Team"):{
+                for(Team team:teams.values()){
+                    if(searchWord.equals(team.getID())&&team.isActive())
+                        return team;
+                }
+            }
+            case("Password"):{
+                //think about it
+                break;
+            }
+        }
+        return null;
 
     }
 
@@ -689,8 +671,8 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     /*
-    *
-    * */
+     *
+     * */
     public static void removeAsset(String assetId) {
         PartOfATeam asset = assetsInDatabase.get(assetId);
         if(asset!=null){
@@ -747,7 +729,23 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+    public static List<Team> getOpenTeams() {
+        List<Team> openTeams = new LinkedList<>();
+        for(Team team : teams.values()){
+            if(team.isActive() && !team.isPermanentlyClosed())
+                openTeams.add(team);
+        }
+        return openTeams;
+    }
 
+    public static List<Team> getCloseTeams() {
+        List<Team> closeTeams = new LinkedList<>();
+        for(Team team : teams.values()){
+            if(team.isActive() && !team.isPermanentlyClosed())
+                closeTeams.add(team);
+        }
+        return closeTeams;
+    }
 }
 
 
