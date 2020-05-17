@@ -222,6 +222,48 @@ public class Database //maybe generalize with interface? //for now red layer
 
             return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  && ans7;
         }
+        if(object instanceof PersonalPage){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             [OwnerID] [char](30) NOT NULL unique,
+             [PageData] [varchar](max) ,
+             [Followers] [varchar](max) ,
+             * */
+
+            ans1 = dataAccess.updateCellValue("PersonalPages" ,"OwnerID" , ((PersonalPage) object).getId() ,((PersonalPage) object).getUser().getID() );
+            ans2 = dataAccess.updateCellValue("PersonalPages" ,"PageData" ,((PersonalPage) object).getId() , ((PersonalPage) object).getData() );
+            //ans3 = dataAccess.updateCellValue("PersonalPages" ,"Followers" , ((PersonalPage) object).getId(), );
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
+        if(object instanceof Player){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             [Birthdate] [date] NOT NULL,
+             [Teams] [varchar](255) NOT NULL,
+             [isActive] [bit] NOT NULL,
+             [Price] [real] NOT NULL,
+             * */
+
+            ans1 = dataAccess.updateCellValue("Players" ,"Birthdate" ,((Player) object).getID() , ""+((Player) object).getBirthDate());
+            ans2 = dataAccess.updateCellValue("Players" ,"Teams" , ((Player) object).getID(), listToString(((Player) object).getTeams()));
+            ans3 = dataAccess.updateCellValue("Players" ,"isActive" , ((Player) object).getID(), ""+((Player) object).isActive());
+            ans4 = dataAccess.updateCellValue("Players" ,"Price" , ((Player) object).getID(), ""+((Player) object).getPrice());
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
+        if(object instanceof Referee){
+            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            /**
+             [Training] [varchar](50) NOT NULL,
+             [Games] [varchar](255) NOT NULL,
+             * */
+
+            ans1 = dataAccess.updateCellValue("Referees" ,"Training" , ((Referee) object).getUser().getID() ,((Referee) object).getTraining() );
+            ans2 = dataAccess.updateCellValue("Referees" ,"Games" , ((Referee) object).getUser().getID(), listToString(((Referee) object).viewGames()) );
+
+            return ans1 && ans2 && ans3 && ans4 ;
+        }
         return false;
 
     }
