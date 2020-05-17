@@ -47,9 +47,9 @@ public class Season {
 
     @Override
     public String toString() {
-        return "Season" +
-                ", id= "+id+
-                ": year=" + year;
+        return
+                id+
+                ":" + year;
     }
 
     @Override
