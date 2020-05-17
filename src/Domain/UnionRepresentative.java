@@ -35,6 +35,14 @@ public class UnionRepresentative extends Role implements Observer {
         }
         return game;
     }
+    public List<String> getAllLeagues() {
+        List<String> leagues = new LinkedList<>();
+        for(League l: Database.getLeagues()) {
+            leagues.add(l.toString());
+        }
+        return leagues;
+    }
+
     public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, String assignmentPolicy, String scorePolicy, double registrationFee) {
         League league = Database.getLeague(nameOfLeague);
         Season season = Database.getSeason(yearOfSeason);
