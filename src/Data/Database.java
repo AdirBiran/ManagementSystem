@@ -171,10 +171,10 @@ public class Database //maybe generalize with interface? //for now red layer
             ans3 = dataAccess.updateCellValue("Games","GuestScore", ((Game) object).getId(),""+((Game) object).guestScore());
             ans4 = dataAccess.updateCellValue("Games","FieldID" ,((Game) object).getId(),((Game) object).getField().getID());
             ans5 = dataAccess.updateCellValue("Games","MainRefereeID" ,((Game) object).getId(),((Game) object).getMainReferee().getUser().getID());
-            ans6 = dataAccess.updateCellValue("Games","SideRefereesIDs" ,((Game) object).getId(),listToString(((Game) object).getSideReferees()) );
+            ans6 = dataAccess.updateCellValue("Games","SideRefereesIDs" ,((Game) object).getId(),((Game) object).getSideRefereesId() );
             ans7 = dataAccess.updateCellValue("Games","HostTeamID" ,((Game) object).getId(),((Game) object).getHostTeam().getID());
             ans8 = dataAccess.updateCellValue("Games","GuestTeamID" ,((Game) object).getId(),((Game) object).getGuestTeam().getID());
-            //ans9 = dataAccess.updateCellValue("Games","AlertsFansIDs" ,((Game) object).getId(),object.);
+            ans9 = dataAccess.updateCellValue("Games","AlertsFansIDs" ,((Game) object).getId(),((Game) object).getAlertsFansId());
             ans10 = dataAccess.updateCellValue("Games","EventReportID" ,((Game) object).getId(),((Game) object).getEventReport().getId());
             //ans11 = dataAccess.updateCellValue("Games","LeagueInSeasonID" ,((Game) object).getId(),);
 

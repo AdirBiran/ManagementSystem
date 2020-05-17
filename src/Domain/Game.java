@@ -140,6 +140,34 @@ public class Game extends Observable {
         return eventReport;
     }
 
+    public String getSideRefereesId(){
+        String listOfId = "";
+        for (Referee referee: sideReferees) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+referee.getUser().getID();
+            }
+            else {
+                listOfId = listOfId + ","+referee.getUser().getID();
+            }
+        }
+        return listOfId;
+    }
+
+    public String getAlertsFansId(){
+        String listOfId = "";
+        for (Fan fan: fansForAlerts.keySet()) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+fan.getUser().getID();
+            }
+            else {
+                listOfId = listOfId + ","+fan.getUser().getID();
+            }
+        }
+        return listOfId;
+    }
+
+
+
 
     public void setDate(Date newDate) {
         this.date = newDate;
