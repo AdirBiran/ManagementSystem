@@ -124,6 +124,23 @@ public class UnionRepresentative extends Role implements Observer {
         return allLeagues;
     }
 
+
+    public List<String> getAllScorePolicies() {
+        List<String> scorePolicies= new LinkedList<>();
+        for(ScorePolicy s: Database.getAllScorePolicies()){
+            scorePolicies.add(s.getName());
+        }
+        return scorePolicies;
+    }
+////////////////////////////////////////////////// assignmentsPolicies.getNAme();
+    public List<String> getAllAssignmentsPolicies() {
+        List<String> assignmentsPolicies= new LinkedList<>();
+        for(GameAssignmentPolicy assignmentsPolicie: Database.getAllAssignmentsPolicies()){
+            assignmentsPolicies.add(assignmentsPolicies.toString());
+        }
+        return assignmentsPolicies;
+    }
+///////////////////////////////////////////////////
     public boolean changeGameDate(String gameId, Date newDate) {
         Game game = Database.getGame(gameId);
         if(game.getDate().after(new Date())) {

@@ -17,6 +17,7 @@ public abstract class GameAssignmentPolicy {
     }
 
     public abstract List<Game> assignGames(List<Date> dates, LeagueInSeason league);
+    public abstract String getName();
 
      protected boolean checkForDuplicates(List<Game> games, Team team1, Team team2) {
           for(Game game : games){
