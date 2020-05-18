@@ -165,7 +165,7 @@ CREATE TABLE [Games](
 
 CREATE TABLE [EventReports](
 	[ID] [char](30)  Primary key,
-	[GameID] [char](30) NOT NULL,
+	--[GameID] [char](30) NOT NULL,
 	[EventsIDs] [varchar](max) NOT NULL,
 );
 
