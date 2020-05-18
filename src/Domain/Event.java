@@ -33,6 +33,14 @@ public class Event {
         this.description = description;
     }
 
+    public Event(String id, String type, Date date, double minuteInGame, String description)
+    {
+        this.id = id;
+        this.type = EventType.valueOf(type);
+        this.date = date;
+        this.minuteInGame = minuteInGame;
+        this.description = description;
+    }
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
 

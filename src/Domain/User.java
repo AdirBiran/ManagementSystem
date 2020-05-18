@@ -44,6 +44,18 @@ public class User extends Guest {
 
     }
 
+    public User(String id, String firstName, String lastName, String mail, boolean isActive, List<Role> roles, List<String> searchHistory)
+    {
+        this.ID = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mail = mail;
+        this.isActive = isActive;
+        this.roles = roles;
+        this.searchHistory = searchHistory;
+        this.messageBox = new LinkedList<>();
+    }
+
     public Role checkUserRole (String userRole) {
         for(Role role : roles){
             if(role.myRole().contains(userRole))

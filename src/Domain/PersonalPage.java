@@ -17,6 +17,14 @@ public class PersonalPage {
         followers = new LinkedList<>();
     }
 
+    public PersonalPage(String id, User owner, String data, List<Fan> followers)
+    {
+        this.id = id;
+        this.user = owner;
+        this.data = data;
+        this.followers = followers;
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 

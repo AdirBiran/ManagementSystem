@@ -25,6 +25,15 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
         this.user = user;
     }
 
+    public TeamManager(User user, HashSet<Team> teams, boolean isActive, double price, boolean manageAssets, boolean finance)
+    {
+        this.user = user;
+        this.teams = teams;
+        this.isActive = isActive;
+        this.price = price;
+        this.permissionManageAssets = manageAssets;
+        this.permissionFinance = finance;
+    }
     @Override
     public String getID() {
         return user.getID();

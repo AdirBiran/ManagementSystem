@@ -22,6 +22,15 @@ public class Fan extends Role implements Observer {
         myRole = "Fan";
     }
 
+    public Fan(User user, String address, String phone, List<PersonalPage> personalPages, List<Complaint> complaints)
+    {
+        this.user = user;
+        this.address = address;
+        this.phone = phone;
+        this.followPages = personalPages;
+        this.complaints = complaints;
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
     public boolean addPageToFollow(String pageId){
@@ -64,6 +73,18 @@ public class Fan extends Role implements Observer {
         return pages;
     }
 
+    public String getComplaintsId(){
+        String listOfId = "";
+        for (Complaint comp: complaints) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + comp.getId();
+            }
+            else {
+                listOfId = listOfId + ","+comp.getId();
+            }
+        }
+        return listOfId;
+    }
 
     public String getfollowPagesId(){
         String listOfId = "";

@@ -36,6 +36,19 @@ public class LeagueInSeason {
         this.referees = new LinkedList<>();
         this.teams = new LinkedList<>();
     }
+
+    public LeagueInSeason(String id, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, List<Game> games, List<Referee> referees, List<Team> teams, double registrationFee, Queue<ScoreTableRecord> tableRecord)
+    {
+        this.id = id;
+        this.assignmentPolicy = assignmentPolicy;
+        this.scorePolicy = scorePolicy;
+        this.games = games;
+        this.referees = referees;
+        this.teams = teams;
+        this.registrationFee = registrationFee;
+        this.scoreTable = tableRecord;
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
     public void changeRegistrationFee(double registrationFee) {

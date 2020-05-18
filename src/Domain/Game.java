@@ -40,6 +40,22 @@ public class Game extends Observable {
         fansForAlerts = new HashMap<>();
     }
 
+    public Game(String id, Date date, int hostScore, int guestScore, Field field, Referee mainReferee, List<Referee> sideReferees, Team hostTeam, Team guestTeam, HashMap<Fan,Boolean> fansAlerts, EventReport eventReport, LeagueInSeason lis)
+    {
+        this.id = id;
+        this.date = date;
+        this.hostScore = hostScore;
+        this.guestScore = guestScore;
+        this.field = field;
+        this.mainReferee = mainReferee;
+        this.sideReferees = sideReferees;
+        this.hostTeam = hostTeam;
+        this.guestTeam = guestTeam;
+        this.fansForAlerts = fansAlerts;
+        this.eventReport = eventReport;
+        this.league = lis;
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     @Override
     public String toString() {

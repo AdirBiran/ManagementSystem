@@ -22,6 +22,13 @@ public class Referee extends Role implements Observer {
         myRole = "Referee";
     }
 
+    public Referee(User user, String training, HashSet<Game> games)
+    {
+        this.user = user;
+        this.training = TrainingReferee.valueOf(training);
+        this.games = games;
+    }
+
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     public String getTraining() {
         return training.toString();
