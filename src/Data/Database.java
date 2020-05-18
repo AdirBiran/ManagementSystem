@@ -46,20 +46,22 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
         if(object instanceof Coach){
-            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true;
             /**
              * [Training] [varchar](50) NOT NULL,
+             * [RoleInTeam] [varchar](50) NOT NULL,
              * 	[Teams] [varchar](255) NOT NULL,
              * 	[isActive] [bit] NOT NULL,
              * 	[Price] [real] NOT NULL,
              * 	*/
             ans1 = dataAccess.updateCellValue("Coaches" ,"Training" ,((Coach) object).getID() ,((Coach) object).getTraining() );
+            ans2 = dataAccess.updateCellValue("Coaches" ,"RoleInTeam" ,((Coach) object).getID() ,((Coach) object).getRoleInTeam() );
             //not sure what to do with the list of teams
-            ans2 = dataAccess.updateCellValue("Coaches" ,"Teams" ,((Coach) object).getID() ,listToString( ((Coach) object).getTeams() ));
-            ans3 = dataAccess.updateCellValue("Coaches" ,"isActive" ,((Coach) object).getID() ,""+((Coach) object).isActive() );
-            ans4 = dataAccess.updateCellValue("Coaches" ,"Price" ,((Coach) object).getID() ,""+((Coach) object).getPrice() );
+            ans3 = dataAccess.updateCellValue("Coaches" ,"Teams" ,((Coach) object).getID() ,listToString( ((Coach) object).getTeams() ));
+            ans4 = dataAccess.updateCellValue("Coaches" ,"isActive" ,((Coach) object).getID() ,""+((Coach) object).isActive() );
+            ans5 = dataAccess.updateCellValue("Coaches" ,"Price" ,((Coach) object).getID() ,""+((Coach) object).getPrice() );
 
-            return ans1 && ans2 && ans3 && ans4 ;
+            return ans1 && ans2 && ans3 && ans4 && ans5;
         }
         else if(object instanceof Complaint){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
@@ -125,10 +127,11 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4 ;
         }
         else if(object instanceof Field){
-            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true;
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true,ans6=true;
             /**
              *
              * [Location] [char](50) NOT NULL,
+             * 	[Name] [char](50) NOT NULL,
              * 	[Capacity] [int] NOT NULL,
              * 	[Teams] [varchar](255) NOT NULL,
              * 	[isActive] [bit] NOT NULL,
@@ -136,13 +139,14 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
             ans1 = dataAccess.updateCellValue("Fields","Location",((Field) object).getID() ,((Field) object).getLocation());
-            ans2 = dataAccess.updateCellValue("Fields","Capacity", ((Field) object).getID(),""+((Field) object).getCapacity());
-            ans3 = dataAccess.updateCellValue("Fields","Teams", ((Field) object).getID(),listToString(((Field) object).getTeams()) );
-            ans4 = dataAccess.updateCellValue("Fields","isActive" ,((Field) object).getID(),""+((Field) object).isActive());
-            ans5 = dataAccess.updateCellValue("Fields","Price" ,((Field) object).getID(),""+((Field) object).getPrice());
+            ans2 = dataAccess.updateCellValue("Fields","Name",((Field) object).getID() ,((Field) object).getName());
+            ans3 = dataAccess.updateCellValue("Fields","Capacity", ((Field) object).getID(),""+((Field) object).getCapacity());
+            ans4 = dataAccess.updateCellValue("Fields","Teams", ((Field) object).getID(),listToString(((Field) object).getTeams()) );
+            ans5 = dataAccess.updateCellValue("Fields","isActive" ,((Field) object).getID(),""+((Field) object).isActive());
+            ans6 = dataAccess.updateCellValue("Fields","Price" ,((Field) object).getID(),""+((Field) object).getPrice());
 
 
-            return ans1 && ans2 && ans3 && ans4  && ans5;
+            return ans1 && ans2 && ans3 && ans4  && ans5 && ans6;
         }
         else if(object instanceof Game){
             boolean ans1=true,ans2=true,ans3=true,ans4=true,
@@ -206,12 +210,20 @@ public class Database //maybe generalize with interface? //for now red layer
              [Records] [varchar](1000) NOT NULL,
              * */
 
+            if(((LeagueInSeason) object).getAssignmentPolicy() instanceof PlayOnceWithEachTeamPolicy){
+                //PlayOnceWithEachTeamPolicy
+            }
+            else if(((LeagueInSeason) object).getAssignmentPolicy() instanceof PlayTwiceWithEachTeamPolicy){
+                //PlayTwiceWithEachTeamPolicy
+            }
             //ans1 = dataAccess.updateCellValue("LeaguesInSeasons","AssignmentPolicy", ((LeagueInSeason) object).getId() ,((LeagueInSeason) object).getAssignmentPolicy());
             // ans2 = dataAccess.updateCellValue("LeaguesInSeasons","ScorePolicy", ((LeagueInSeason) object).getId(),((LeagueInSeason) object).getScorePolicy());
             ans3 = dataAccess.updateCellValue("LeaguesInSeasons","GamesIDs", ((LeagueInSeason) object).getId(), ((LeagueInSeason) object).getGamesId());
             ans4 = dataAccess.updateCellValue("LeaguesInSeasons","RefereesIDs" ,((LeagueInSeason) object).getId(),((LeagueInSeason) object).getRefereesId());
             ans5 = dataAccess.updateCellValue("LeaguesInSeasons","TeamsIDs" ,((LeagueInSeason) object).getId(),((LeagueInSeason) object).getTeamsId());
             ans6 = dataAccess.updateCellValue("LeaguesInSeasons","RegistrationFee" ,((LeagueInSeason) object).getId(),""+((LeagueInSeason) object).getRegistrationFee());
+
+            //score table
             //ans7 = dataAccess.updateCellValue("LeaguesInSeasons","Records" ,((LeagueInSeason) object).getId(),);
 
 
@@ -232,20 +244,22 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4 ;
         }
         else  if(object instanceof Player){
-            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            boolean ans1=true,ans2=true,ans3=true,ans4=true ,ans5=true;
             /**
              [Birthdate] [date] NOT NULL,
              [Teams] [varchar](255) NOT NULL,
+             [RoleInTeam] [varchar](255) NOT NULL,
              [isActive] [bit] NOT NULL,
              [Price] [real] NOT NULL,
              * */
 
             ans1 = dataAccess.updateCellValue("Players" ,"Birthdate" ,((Player) object).getID() , ""+((Player) object).getBirthDate());
             ans2 = dataAccess.updateCellValue("Players" ,"Teams" , ((Player) object).getID(), listToString(((Player) object).getTeams()));
-            ans3 = dataAccess.updateCellValue("Players" ,"isActive" , ((Player) object).getID(), ""+((Player) object).isActive());
-            ans4 = dataAccess.updateCellValue("Players" ,"Price" , ((Player) object).getID(), ""+((Player) object).getPrice());
+            ans3 = dataAccess.updateCellValue("Players" ,"RoleInTeam" , ((Player) object).getID(), ((Player) object).getRole());
+            ans4 = dataAccess.updateCellValue("Players" ,"isActive" , ((Player) object).getID(), ""+((Player) object).isActive());
+            ans5 = dataAccess.updateCellValue("Players" ,"Price" , ((Player) object).getID(), ""+((Player) object).getPrice());
 
-            return ans1 && ans2 && ans3 && ans4 ;
+            return ans1 && ans2 && ans3 && ans4 && ans5 ;
         }
         else if(object instanceof Referee){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
@@ -330,6 +344,7 @@ public class Database //maybe generalize with interface? //for now red layer
              [Finance] [bit] ,
              * */
 
+
             ans1 = dataAccess.updateCellValue("TeamManagers" ,"Teams" , ((TeamManager) object).getID() , listToString(((TeamManager) object).getTeams()));
             ans2 = dataAccess.updateCellValue("TeamManagers" ,"isActive" ,((TeamManager) object).getID() , ""+((TeamManager) object).isActive());
             ans3 = dataAccess.updateCellValue("TeamManagers" ,"Price" , ((TeamManager) object).getID(), ""+((TeamManager) object).getPrice());
@@ -337,6 +352,8 @@ public class Database //maybe generalize with interface? //for now red layer
             // ans4 = dataAccess.updateCellValue("TeamManagers" ,"ManageAssets" , ((TeamManager) object).getID(), );
             //Finance?
             //ans5 = dataAccess.updateCellValue("TeamManagers" ,"Finance" , ((TeamManager) object).getID(), );
+            // private boolean permissionManageAssets;
+            //    private boolean permissionFinance;
 
             return ans1 && ans2 && ans3 && ans4 && ans5 ;
         }
@@ -497,6 +514,18 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
+
+        /**
+         * [ID] [char](30)  Primary key,
+         * 	[AssignmentPolicy] [char](255) NOT NULL,
+         * 	[ScorePolicy] [char](255) NOT NULL,
+         * 	[GamesIDs] [varchar](255) NOT NULL,
+         * 	[RefereesIDs] [varchar](255) NOT NULL,
+         * 	[TeamsIDs] [varchar](255) NOT NULL,
+         * 	[RegistrationFee] [real] NOT NULL,
+         * 	[Records] [varchar](1000) NOT NULL,
+         * */
+        //dataAccess.addCell("LeaguesInSeasons" , leagueInSeason.getId(),);
         String id = leagueInSeason.getId();
         if(!leaguesInSeasons.containsKey(id)){
             leaguesInSeasons.put(id, leagueInSeason);
@@ -510,10 +539,18 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static Team getTeam(String teamId){
-        return teams.get(teamId);
+        List<String> team;
+        team = dataAccess.getAllCellValues("Teams" ,teamId);
+        return (Team) createObject("Team" , team);
+
+        //return teams.get(teamId);
     }
 
     public static List<Team> getTeams() {
+        //List<String> teams;
+        //teams=dataAccess.getAllTableValues("Teams");
+
+
         return new LinkedList<>(teams.values());
     }
 
@@ -917,6 +954,27 @@ public class Database //maybe generalize with interface? //for now red layer
     public static List<User> getAllUsers(){
         return null;
     }
+
+
+    public static Object createObject(String type,List<String> object){
+        User user;
+        switch (type){
+            case "Admin":
+               // user = new User(object.get(0) , object.get(1) , object.get());
+              //  Admin admin = new Admin()
+              //  return null;
+                break;
+            case "Coach":
+                break;
+
+        }
+        return null;
+
+    }
+
+    /*private Field createField (String fieldId){
+        dataAccess
+    }*/
 }
 
 

@@ -9,7 +9,7 @@ CREATE TABLE [Admins](
 
 CREATE TABLE [Passwords](
 	[ID] [char](30)  Primary key,
-	[Password] [char](255) NOT NULL,
+	[Password] [varchar](255) NOT NULL,
 
 );
 
@@ -38,6 +38,7 @@ CREATE TABLE [UnionRepresentatives](
 CREATE TABLE [Coaches](
 	[ID] [char](30)  Primary key,
 	[Training] [varchar](50) NOT NULL,
+	[RoleInTeam] [varchar](50) NOT NULL,
 	[Teams] [varchar](255) NOT NULL,
 	[isActive] [bit] NOT NULL,
 	[Price] [real] NOT NULL,
@@ -53,6 +54,7 @@ CREATE TABLE [Fans](
 CREATE TABLE [Fields](
 	[ID] [char](30)  Primary key,
 	[Location] [char](50) NOT NULL,
+	[Name] [char](50) NOT NULL,
 	[Capacity] [int] NOT NULL,
 	[Teams] [varchar](255) NOT NULL,
 	[isActive] [bit] NOT NULL,
@@ -64,6 +66,7 @@ CREATE TABLE [Players](
 	[ID] [char](30)  Primary key,
 	[Birthdate] [date] NOT NULL,
 	[Teams] [varchar](255) NOT NULL,
+	[RoleInTeam] [varchar](255) NOT NULL,
 	[isActive] [bit] NOT NULL,
 	[Price] [real] NOT NULL,
 	FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
