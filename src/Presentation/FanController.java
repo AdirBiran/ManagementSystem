@@ -47,14 +47,18 @@ public class FanController {
         pane.add(lv_games, 0, rowIdx);
         pane.add(lv_selectedGames, 1, rowIdx);
         rowIdx++;
+        CheckBox email = new CheckBox("send notification to your Email");
+        pane.add(email, 0, rowIdx);
+        rowIdx++;
         Button followBtn = new Button("Follow");
         followBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 List<String> selected = lv_selectedGames.getItems();
                 if(selected.size()>0){
+                    boolean cb_email = email.isSelected();
                     String strGames = client.ListToString(selected);
-                    List<String> receive = client.sendToServer("followGames|"+loggedUser+"|"+strGames);
+                    List<String> receive = client.sendToServer("followGames|"+loggedUser+"|"+strGames+"|"+cb_email);
                     m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else
