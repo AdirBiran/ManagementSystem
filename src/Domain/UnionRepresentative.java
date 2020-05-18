@@ -139,11 +139,10 @@ public class UnionRepresentative extends Role implements Observer {
         }*/
         return scorePolicies;
     }
-////////////////////////////////////////////////// assignmentsPolicies.getNAme();
     public List<String> getAllAssignmentsPolicies() {
         List<String> assignmentsPolicies= new LinkedList<>();
-        /*for(GameAssignmentPolicy assignmentsPolicie: Database.getAllAssignmentsPolicies()){
-            assignmentsPolicies.add(assignmentsPolicies.toString());
+       /* for(GameAssignmentPolicy a: Database.getAllAssignmentsPolicies()){
+            assignmentsPolicies.add(a.getName());
         }*/
         return assignmentsPolicies;
     }

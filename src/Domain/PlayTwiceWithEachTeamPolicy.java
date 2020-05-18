@@ -6,6 +6,10 @@ import java.util.List;
 
 public class PlayTwiceWithEachTeamPolicy extends GameAssignmentPolicy {
 
+    public PlayTwiceWithEachTeamPolicy(){
+        name="PlayTwiceWithEachTeamPolicy";
+    }
+
     @Override
     public List<Game> assignGames(List<Date> dates, LeagueInSeason league) {
         if(league.getTeams().size()>2){
@@ -35,7 +39,5 @@ public class PlayTwiceWithEachTeamPolicy extends GameAssignmentPolicy {
     public boolean equals(Object obj) {
         return (obj instanceof PlayTwiceWithEachTeamPolicy);
     }
-    public String getName(){
-        return "PlayTwiceWithEachTeamPolicy";
-    }
+
 }
