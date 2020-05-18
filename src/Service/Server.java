@@ -902,6 +902,9 @@ public class Server {
         return date;
     }
 
+    public static boolean checkUserOnline(String id, String message) {
+    }
+    
     private boolean stringToBoolean(String s)
     {
         if (s.toLowerCase().equals("true"))
@@ -909,8 +912,6 @@ public class Server {
 
         return false;
     }
-
-
 
     public void stop() {
 

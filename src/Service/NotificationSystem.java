@@ -13,6 +13,9 @@ public class NotificationSystem {
 
     public static boolean notifyUser(User user, String message) {
 
-        return false;
+        if(!(Server.checkUserOnline(user.getID(),message)))
+            return false;
+
+        return true;
     }
 }
