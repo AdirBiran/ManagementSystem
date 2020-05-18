@@ -36,10 +36,10 @@ public void init(){
     sideReferees.add(league.getReferees().get(1));
     sideReferees.add(league.getReferees().get(2));
     game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, league);
-        Guest guest = new Guest();
-        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        fan = (Fan) user.checkUserRole("Fan");
-receiveAlerts=new ReceiveAlerts(true,false);
+    Guest guest = new Guest();
+    user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+    fan = (Fan) user.checkUserRole("Fan");
+    receiveAlerts=new ReceiveAlerts(true,false);
     }
 
     @Test
@@ -119,7 +119,7 @@ receiveAlerts=new ReceiveAlerts(true,false);
 
     @Test
     public void getName(){
-        assertEquals(game.getName(), game.getHostTeam().getName() + " and "+ game.getGuestTeam().getName());
+        assertEquals(game.getName(), game.getHostTeam().getName() + " VS "+ game.getGuestTeam().getName());
     }
 
     @Test

@@ -105,6 +105,15 @@ public class Referee extends Role implements Observer {
         return listOfId;
     }
 
+
+    public List<String> getAllPastGames() {
+        List<String> game = new LinkedList<>();
+        for(Game g: Database.getAllPastGames()) {
+            game.add(g.toString());
+        }
+        return game;
+    }
+
     @Override
     public String myRole() {
         return "Referee";
@@ -120,6 +129,6 @@ public class Referee extends Role implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if(!(arg instanceof Event))
-            user.addMessage(new Notice((String)arg));
+            user.addMessage((String)arg);
     }
 }

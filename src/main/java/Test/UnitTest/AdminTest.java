@@ -27,8 +27,8 @@ public class AdminTest {
     }
     @Test
     public void closeTeamPermanently() {
-        assertTrue(admin.closeTeamPermanently(team.getID()));
-        assertFalse(admin.closeTeamPermanently(team.getID()));
+        assertNotNull(admin.closeTeamPermanently(team.getID()));
+        assertNull(admin.closeTeamPermanently(team.getID()));
     }
 
     @Test

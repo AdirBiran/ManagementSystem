@@ -806,23 +806,23 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     private static Object search(String whatType, String searchWord){
-        switch(whatType){
-            case("PartOfATeam"):{
-                for(String nameOfAsset : assetsInDatabase.keySet()) {
-                    if (searchWord.equals(nameOfAsset))
-                        return assetsInDatabase.get(searchWord);
-                }
-                break;
-            }
-            case("User"):{
-                for(String userId : usersInDatabase.keySet()) {
-                    if (searchWord.equals(userId)) {
-                        if(usersInDatabase.get(searchWord).isActive())
-                            return usersInDatabase.get(searchWord);
+            switch(whatType){
+                case("PartOfATeam"):{
+                    for(String nameOfAsset : assetsInDatabase.keySet()) {
+                        if (searchWord.contains(nameOfAsset))
+                            return assetsInDatabase.get(searchWord);
                     }
+                    break;
                 }
-                break;
-            }
+                case("User"): {
+                    for (String userId : usersInDatabase.keySet()) {
+                        if (searchWord.equals(userId)) {
+                            if (usersInDatabase.get(searchWord).isActive())
+                                return usersInDatabase.get(searchWord);
+                        }
+                    }
+                    break;
+                }
             case ("Mail"):{
                 if(mailsAndUserID.containsKey(searchWord)){
                     return usersInDatabase.get(mailsAndUserID.get(searchWord));
@@ -964,6 +964,7 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
 
+
     public static Object createObject(String type,List<String> object){
         User user;
         switch (type){
@@ -983,6 +984,19 @@ public class Database //maybe generalize with interface? //for now red layer
     /*private Field createField (String fieldId){
         dataAccess
     }*/
+
+    public static List<Game> getAllPastGames() {
+        return null;
+    }
+
+    public static List<PersonalPage> getAllPages() {
+        return null;
+    }
+
+    public static List<Complaint> getAllActiveComplaints() {
+        return null;
+    }
+
 }
 
 

@@ -82,8 +82,7 @@ public class UserTest {
 
     @Test
     public void addMessage() {
-        Notice notice=new Notice("shalom");
-        mesi.addMessage(notice);
+        mesi.addMessage("shalom");
         assertEquals(mesi.getMessageBox().size(),1);
     }
 

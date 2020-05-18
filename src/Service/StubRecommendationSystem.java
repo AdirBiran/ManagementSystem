@@ -1,10 +1,10 @@
 package Service;
 
-public class StubRecommendationSystem {
+public class StubRecommendationSystem implements StubSystem{
 
     public StubRecommendationSystem() {
     }
-
+    @Override
     public boolean connect(){
         return true;
     }
