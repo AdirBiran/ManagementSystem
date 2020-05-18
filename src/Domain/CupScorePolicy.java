@@ -15,7 +15,9 @@ public class CupScorePolicy implements ScorePolicy {
             game.getGuestTeam().addALoss();
         }
     }
-
+    public String getName() {
+        return "CupScorePolicy";
+    }
     @Override
     public void calculateLeagueScore(LeagueInSeason league) {
         List<Team> teams = league.getTeams();

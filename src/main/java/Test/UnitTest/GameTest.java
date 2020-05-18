@@ -1,11 +1,13 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +26,8 @@ public class GameTest {
 public void init(){
     system = new FootballManagementSystem();
     system.systemInit(true);
-    LeagueInSeason league = system.dataReboot();
+    String  leagueId = system.dataReboot();
+    LeagueInSeason league = Database.getLeagueInSeason(leagueId);
     team0 = league.getTeams().get(0);
     team1 = league.getTeams().get(1);
     Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
@@ -33,10 +36,10 @@ public void init(){
     sideReferees.add(league.getReferees().get(1));
     sideReferees.add(league.getReferees().get(2));
     game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, league);
-        Guest guest = new Guest();
-        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        fan = (Fan) user.checkUserRole("Fan");
-receiveAlerts=new ReceiveAlerts(true,false);
+    Guest guest = new Guest();
+    user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+    fan = (Fan) user.checkUserRole("Fan");
+    receiveAlerts=new ReceiveAlerts(true,false);
     }
 
     @Test
@@ -116,7 +119,7 @@ receiveAlerts=new ReceiveAlerts(true,false);
 
     @Test
     public void getName(){
-        assertEquals(game.getName(), game.getHostTeam().getName() + " and "+ game.getGuestTeam().getName());
+        assertEquals(game.getName(), game.getHostTeam().getName() + " VS "+ game.getGuestTeam().getName());
     }
 
     @Test
@@ -139,5 +142,15 @@ receiveAlerts=new ReceiveAlerts(true,false);
 
     @Test
     public void setNewsFromReferee() {
+    }
+
+    @Test
+    public void getLeague() {
+
+    }
+
+    @Test
+    public void getFansForAlerts() {
+
     }
 }

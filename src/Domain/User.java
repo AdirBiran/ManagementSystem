@@ -1,6 +1,8 @@
 package Domain;
 
 import Data.Database;
+import Service.NotificationSystem;
+
 import java.util.List;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -13,7 +15,7 @@ public class User extends Guest {
     private String firstName;
     private String lastName;
     private String mail;
-    private List<Notice> messageBox;
+    private List<String> messageBox;
     private boolean isActive;
     private List<Role> roles;
     private List<String> searchHistory;
@@ -86,18 +88,21 @@ public class User extends Guest {
         return isActive;
     }
 
-    public void addMessage(Notice notice){ /***/
-        if(notice!=null)
+    public void addMessage(String message){ /***/
+        if(NotificationSystem.notifyUser(this, message)){
+
+        }
+        /*if(notice!=null)
             messageBox.add(notice);
-        //serviceNotification.notifyUser()
+        serviceNotification.notifyUser()*/
     }
 
     @Override
     public String toString() {
         String userToString="User{" +
-                "ID='" + ID + '\'' +
-                ", first name='" + firstName + '\'' +
-                ", last name='" + lastName + '\'' +
+                ", ID=" + ID +
+                ", first name=" + firstName +
+                ", last name=" + lastName +
                 ", isActive=" + isActive;
 
         for(Role role : roles){
@@ -115,6 +120,16 @@ public class User extends Guest {
         return firstName+" "+lastName;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -131,7 +146,7 @@ public class User extends Guest {
         return mail;
     }
 
-    public List<Notice> getMessageBox() {
+    public List<String> getMessageBox() {
         return messageBox;
     }
 

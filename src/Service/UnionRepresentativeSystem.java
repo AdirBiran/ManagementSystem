@@ -44,7 +44,7 @@ public class UnionRepresentativeSystem {
         return false;
     }
 
-    public LeagueInSeason configureLeagueInSeason(String userId, String nameOfLeague, String yearOfSeason, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, double fee){
+    public String configureLeagueInSeason(String userId, String nameOfLeague, String yearOfSeason, String assignmentPolicy, String scorePolicy, double fee){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             if (assignmentPolicy == null || scorePolicy == null)
@@ -58,12 +58,12 @@ public class UnionRepresentativeSystem {
                 else
                     Logger.logError("Configuring league in season Failed");
 
-                return lis;
+                return lis.getId();
             }
         }
         return null;
     }
-    public User appointReferee(String userId, String firstName,String lastName, String mail, String training)
+    public String appointReferee(String userId, String firstName,String lastName, String mail, String training)
     {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
@@ -77,7 +77,7 @@ public class UnionRepresentativeSystem {
                 else
                     Logger.logError("Appointing Referee Failed");
 
-                return appointedRef;
+                return appointedRef.getID();
             }
         }
         return null;
@@ -106,7 +106,7 @@ public class UnionRepresentativeSystem {
     }
 
 
-    public boolean changeScorePolicy(String userId, String leagueId, ScorePolicy policy)
+    public boolean changeScorePolicy(String userId, String leagueId, String policy)
     {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
@@ -124,7 +124,7 @@ public class UnionRepresentativeSystem {
         return false;
     }
 
-    public boolean changeAssignmentPolicy(String userId, String leagueId, GameAssignmentPolicy policy)
+    public boolean changeAssignmentPolicy(String userId, String leagueId, String policy)
     {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
@@ -195,7 +195,14 @@ public class UnionRepresentativeSystem {
         }
         return false;
     }
-
+    public List<String> getAllPastGames(String userID){
+        User user= UserFactory.getUser(userID);
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof  UnionRepresentative ) {
+            return  ((UnionRepresentative)role).getAllPastGames();
+        }
+        return null;
+    }
     public void calculateLeagueScore(String userId, String leagueId)
     {
         User user = UserFactory.getUser(userId);
@@ -271,6 +278,67 @@ public class UnionRepresentativeSystem {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
                 return ((UnionRepresentative) role).allLeaguesInSeasons();
+            }
+        }
+        return null;
+    }
+    public List<String> getAllLeagues(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                return ((UnionRepresentative) role).getAllLeagues();
+            }
+        }
+        return null;
+    }
+    public List<String> getAllSeasons(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                return ((UnionRepresentative) role).getAllSeasons();
+            }
+        }
+        return null;
+    }
+    public List<String> getAllScorePolicies(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                return ((UnionRepresentative) role).getAllScorePolicies();
+            }
+        }
+        return null;
+    }
+    public boolean addFieldToSystem(String userId,String location,String fieldName, int capacity, double price){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                return ((UnionRepresentative)role).addFieldToSystem(location, fieldName, capacity, price);
+            }
+        }
+        return false;
+    }
+    public List<String> getAllDetailsAboutOpenTeams(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                return role.getAllDetailsAboutOpenTeams();
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAllOpenTeams(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                return role.getAllOpenTeams();
             }
         }
         return null;

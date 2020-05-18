@@ -33,7 +33,7 @@ public class Game extends Observable {
         addRefereeToObservers(mainReferee, sideReferees);
         this.hostTeam = hostTeam;
         this.guestTeam = guestTeam;
-        this.name = hostTeam.getName() + " and "+ guestTeam.getName();
+        this.name = hostTeam.getName() + " VS "+ guestTeam.getName();
         eventReport = new EventReport();
         hostScore=0;
         guestScore=0;
@@ -43,12 +43,8 @@ public class Game extends Observable {
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     @Override
     public String toString() {
-        return "Game{" +
-                "id='" + id + '\'' +
-                ", date=" + date +
-                ", hostTeam=" + hostTeam +
-                ", guestTeam=" + guestTeam +
-                '}';
+        return id +","+name +","+date;
+
     }
 
     private void addRefereeToObservers(Referee mainReferee, List<Referee> sideReferees) {
@@ -140,6 +136,35 @@ public class Game extends Observable {
         return eventReport;
     }
 
+    public String getSideRefereesId(){
+        String listOfId = "";
+        for (Referee referee: sideReferees) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+referee.getUser().getID();
+            }
+            else {
+                listOfId = listOfId + ","+referee.getUser().getID();
+            }
+        }
+        return listOfId;
+    }
+
+    public String getAlertsFansId(){
+        String listOfId = "";
+        for (Fan fan: fansForAlerts.keySet()) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+fan.getUser().getID();
+            }
+            else {
+                listOfId = listOfId + ","+fan.getUser().getID();
+            }
+        }
+        return listOfId;
+    }
+
+
+
+
     public void setDate(Date newDate) {
         this.date = newDate;
         setNews("Date of the game between the teams: " +this.name+ " change to "+this.date); // referees and fans
@@ -155,5 +180,11 @@ public class Game extends Observable {
         notifyObservers(news);
     }
 
+    public LeagueInSeason getLeague() {
+        return league;
+    }
 
+    public HashMap<Fan, ReceiveAlerts> getFansForAlerts() {
+        return fansForAlerts;
+    }
 }

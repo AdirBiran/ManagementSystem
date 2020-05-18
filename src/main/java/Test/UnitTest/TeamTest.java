@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -21,7 +22,8 @@ public class TeamTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin().checkUserRole("Admin");
 
@@ -31,7 +33,7 @@ public class TeamTest {
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
         unionRole.configureNewSeason(2021, new Date(120, 4, 1));
-        LeagueInSeason leagueInSeason = unionRole.configureLeagueInSeason("Haal", "2021", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
+        LeagueInSeason leagueInSeason = unionRole.configureLeagueInSeason("Haal", "2021","PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         assertTrue(team.addLeague(leagueInSeason));
     }
 
@@ -245,5 +247,10 @@ public class TeamTest {
         Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
         team.addField(field);
         assertTrue(team.removeField(team.getField()));
+    }
+
+    @Test
+    public void AllDetailsAboutTeam(){
+        assertNotNull(team.AllDetailsAboutTeam());
     }
 }

@@ -148,6 +148,47 @@ public class LeagueInSeason {
         return id;
     }
 
+    public String getGamesId(){
+        String listOfId = "";
+        for (Game game: games) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + game.getId();
+            }
+            else {
+                listOfId = listOfId + ","+game.getId();
+            }
+        }
+        return listOfId;
+    }
+
+    public String getRefereesId(){
+        String listOfId = "";
+        for (Referee referee: referees) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+referee.getUser().getID();
+            }
+            else {
+                listOfId = listOfId + ","+referee.getUser().getID();
+            }
+        }
+        return listOfId;
+    }
+
+    public String getTeamsId(){
+        String listOfId = "";
+        for (Team team: teams) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+team.getID();
+            }
+            else {
+                listOfId = listOfId + ","+team.getID();
+            }
+        }
+        return listOfId;
+    }
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -160,9 +201,8 @@ public class LeagueInSeason {
 
     @Override
     public String toString() {
-        return "LeagueInSeason{" +
-                "league=" + league.getName() +
-                ":season=" + season.getYear() +
-                '}';
+        return "LeagueInSeason" +
+                ", league=" + league.getName() +
+                ", season=" + season.getYear();
     }
 }

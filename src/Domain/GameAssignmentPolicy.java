@@ -6,7 +6,18 @@ import java.util.Date;
 
 public abstract class GameAssignmentPolicy {
 
-     public abstract List<Game> assignGames(List<Date> dates, LeagueInSeason league);
+    public static GameAssignmentPolicy checkPolicy(String assignmentPolicy) {
+        switch (assignmentPolicy){
+            case "PlayOnceWithEachTeamPolicy":
+                return new PlayOnceWithEachTeamPolicy();
+            case "PlayTwiceWithEachTeamPolicy":
+                return new PlayTwiceWithEachTeamPolicy();
+        }
+        return null;
+    }
+
+    public abstract List<Game> assignGames(List<Date> dates, LeagueInSeason league);
+    public abstract String getName();
 
      protected boolean checkForDuplicates(List<Game> games, Team team1, Team team2) {
           for(Game game : games){

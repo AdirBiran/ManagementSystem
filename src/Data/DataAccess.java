@@ -17,6 +17,7 @@ public class DataAccess {
     {
         DataAccess dao = new DataAccess();
 
+
         // Add Cell
         dao.addCell("Complaints", "123456", "5.01.2001", "true", "text text text", "ididid");
 
@@ -38,7 +39,7 @@ public class DataAccess {
 
     public DataAccess()
     {
-
+/*
         try
         {
             Class.forName(className);
@@ -49,7 +50,7 @@ public class DataAccess {
             e.printStackTrace();
         }
 
-
+*/
     }
 
     public List<String> getAllTableValues(String TableName)
@@ -307,7 +308,7 @@ public class DataAccess {
     }
 
 
-    public void updateCellValue(String TableName, String ColumnName, String ID, String valueToSet)
+    public boolean updateCellValue(String TableName, String ColumnName, String ID, String valueToSet)
     {
         PreparedStatement ps = null;
 
@@ -318,12 +319,14 @@ public class DataAccess {
             ps.setString(2, ID);
             ps.executeUpdate();
             closePS(ps);
+            return true;
 
         }
         catch (Exception e)
         {
             closePS(ps);
             e.printStackTrace();
+            return false;
         }
 
     }

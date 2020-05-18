@@ -40,8 +40,6 @@ public class TeamOwner extends Manager implements Observer {
         personalPages.put(team , personalPage);
     }
 
-    public List<Team> getTeamsToManage(){return teamsToManage;}
-
     public Team getTeamById(String id){
         for(Team team : teamsToManage){
             if(team.getID().equals(id))
@@ -55,34 +53,15 @@ public class TeamOwner extends Manager implements Observer {
     }
 
 
-    public boolean createTeam(User user , String teamName, List<User> players, List<User> coaches, Field field){
+    public boolean createTeam(User user , String teamName, List<String> playersId, List<String> coachesId, String fieldId){
         Role teamOwnerRole = user.checkUserRole("TeamOwner");
         if(teamOwnerRole != null){
-
-            /**add the user that create the team as a teamOwner*/
             List<User> teamOwner = new LinkedList<>();
             teamOwner.add(user);
 
-            /**find the player in the system and add him to the list of players
-             * if one of the players doesnt exist, return false*/
-            /*List<User> teamPlayers =  findPartOfTeam(players);
-            if(teamPlayers == null){
-                return false;
-            }*/
-
-            /**find the player in the system and add him to the list of players
-             * if one of the players doesnt exist, return false*/
-            /*List<User> teamCoaches = findPartOfTeam(coaches);
-            if(teamCoaches == null){
-                return false;
-            }*/
-
-            /**find the field in the system and add it to the team
-             * if the field doesnt exist, return false*/
-            /*PartOfATeam teamField = Database.getAssetById(field);
-            if(teamField == null){
-                return false;
-            }*/
+            Field field = (Field) Database.getAssetById(fieldId);
+            List<User> players = findUsers(playersId);
+            List<User> coaches = findUsers(coachesId);
 
             /**create new team*/
             Team team = new Team(teamName ,teamOwner ,players,coaches, field);
@@ -91,115 +70,131 @@ public class TeamOwner extends Manager implements Observer {
         return false;
     }
 
-
-    private List<User> findPartOfTeam(List<String> list){
-        List<User> listOfAssets = new LinkedList<>();
-        for(int i=0 ; i<list.size() ; i++){
-            String assetName = list.get(i);
-            User asset = Database.getUser(assetName);
-            if( asset == null){
-                //return false or create player?
-                return null;
-            }
-            else{
-                listOfAssets.add(asset);
+    private List<User> findUsers(List<String> usersId) {
+        List<User> listOfUsers = new LinkedList<>();
+        for (String id : usersId){
+            User user = Database.getUser(id);
+            if(user!=null){
+                listOfUsers.add(user);
             }
         }
-        return listOfAssets;
+        return listOfUsers;
     }
 
-    public boolean appointTeamOwner(User user, Team team){
-        Role teamOwnerRole = user.checkUserRole("TeamOwner");
-        if(teamsToManage.contains(team)){
-            if(!team.getTeamOwners().contains(user)){
-                if(teamOwnerRole==null){
-                    TeamOwner teamOwner = new TeamOwner(user);
-                    teamOwner.addTeam(team);
-                    user.addRole(teamOwner);
+    public boolean appointTeamOwner(User user, String teamId){
+        Team team = Database.getTeam(teamId);
+        if(team!=null) {
+            Role teamOwnerRole = user.checkUserRole("TeamOwner");
+            if (teamsToManage.contains(team)) {
+                if (!team.getTeamOwners().contains(user)) {
+                    if (teamOwnerRole == null) {
+                        TeamOwner teamOwner = new TeamOwner(user);
+                        user.addRole(teamOwner);
+                        teamOwnerRole = user.checkUserRole("TeamOwner");
+                    }
+                    ((TeamOwner) teamOwnerRole).addTeam(team);
+                    team.addTeamOwner(user);
+                    appointedTeamOwners.put(user, team);
+                    return true;
                 }
-                else{
-                    ((TeamOwner)teamOwnerRole).addTeam(team); ///
+            }
+        }
+        return false;
+    }
+
+    public boolean appointTeamManager(User user, String teamId, double price, boolean manageAssets , boolean finance){
+        Team team = Database.getTeam(teamId);
+        if(team!=null) {
+            Role teamManagerRole = user.checkUserRole("TeamManager");
+            if (teamsToManage.contains(team)) {
+                if (!team.getTeamManagers().contains(user) && !team.getTeamOwners().contains(user)) {
+                    if (teamManagerRole == null) {
+                        TeamManager teamManager = new TeamManager(user, price, manageAssets, finance);
+                        user.addRole(teamManager);
+                    }
+                    team.addTeamManager(user, price, manageAssets, finance);
+                    appointedTeamManagers.put(user, team);
+                    return true;
                 }
-                team.addTeamOwner(user);
-                appointedTeamOwners.put(user, team);
+            }
+        }
+        return false;
+    }
+    public boolean removeAppointTeamOwner(User user, String teamId){
+        Team team = Database.getTeam(teamId);
+        if(team!=null) {
+            TeamOwner teamOwnerRole = (TeamOwner) user.checkUserRole("TeamOwner");
+            if (this.teamsToManage.contains(team) && this.appointedTeamOwners.containsKey(user)) {
+                if (team.getTeamOwners().contains(user)) {
+                    this.appointedTeamOwners.remove(user);
+                    removeAllAppoint(user, team.getID());
+                    team.removeTeamOwner(user);
+                    if (teamOwnerRole.getTeamsToManage().size() == 0)
+                        user.getRoles().remove(teamOwnerRole);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean removeAppointTeamManager(User user, String teamId){
+        Team team = Database.getTeam(teamId);
+        if(team!=null) {
+            TeamManager teamManagerRole = (TeamManager) user.checkUserRole("TeamManager");
+            if (this.teamsToManage.contains(team) && this.appointedTeamManagers.containsKey(user)) {
+                if (team.getTeamManagers().contains(user)) {
+                    team.removeTeamManager(user);
+                    this.appointedTeamManagers.remove(user);
+                    if (teamManagerRole.getTeamsToManage().size() == 0)
+                        user.getRoles().remove(teamManagerRole);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void removeAllAppoint(User user, String teamId){
+        Team team = Database.getTeam(teamId);
+        if(team!=null) {
+            TeamOwner teamOwnerRole = (TeamOwner) user.checkUserRole("TeamOwner");
+
+            for (User userTO : teamOwnerRole.getAppointedTeamOwners().keySet()) {
+                teamOwnerRole.removeAppointTeamOwner(userTO, team.getID());
+            }
+            for (User userTM : teamOwnerRole.getAppointedTeamManagers().keySet()) {
+                teamOwnerRole.removeAppointTeamManager(userTM, team.getID());
+            }
+        }
+    }
+
+    public boolean closeTeam(String teamId){
+        Team team = Database.getTeam(teamId);
+        if(team!=null) {
+            if (teamsToManage.contains(team) && !closedTeams.contains(team)) {
+                team.setActive(false);
+                teamsToManage.remove(team);
+                closedTeams.add(team);
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean reopenTeam(String teamId){
+        Team team = Database.getTeam(teamId);
+        if(team!=null) {
+            if (closedTeams.contains(team) && !team.isActive() && !team.isPermanentlyClosed()) {
+                team.setActive(true);
+                closedTeams.remove(team);
+                teamsToManage.add(team);
                 return true;
             }
         }
         return false;
     }
 
-    public boolean appointTeamManager(User user, Team team, double price, boolean manageAssets , boolean finance){
-        Role teamManagerRole = user.checkUserRole("TeamManager");
-        if(teamsToManage.contains(team)){
-            if(!team.getTeamManagers().contains(user) && !team.getTeamOwners().contains(user)){
-                if(teamManagerRole==null){
-                    TeamManager teamManager = new TeamManager(user, price, manageAssets, finance);
-                    user.addRole(teamManager);
-                }
-                else{
-                    ((TeamManager)teamManagerRole).addTeam(team); ////
-                }
-                team.addTeamManager(user, price, manageAssets, finance);
-                appointedTeamManagers.put(user,team);
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean removeAppointTeamOwner(User user, Team team){
-        if(teamsToManage.contains(team) && appointedTeamOwners.containsKey(user)){
-            if(team.getTeamOwners().contains(user)){
-                team.removeTeamOwner(user);
-                appointedTeamOwners.remove(user);
-                removeAllAppoint(user, team);
-                return true;
-            }
-        }
-        return false;
-    }
-    public boolean removeAppointTeamManager(User user, Team team){
-        if(teamsToManage.contains(team)&& appointedTeamManagers.containsKey(user)){
-            if(team.getTeamManagers().contains(user)){
-                team.removeTeamManager(user);
-                appointedTeamManagers.remove(user);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void removeAllAppoint(User user, Team team){
-        TeamOwner teamOwnerRole = (TeamOwner) user.checkUserRole("TeamOwner");
-
-        teamOwnerRole.removeTeam(team);
-        if(teamOwnerRole.getTeamsToManage().size()==0)
-            user.getRoles().remove(teamOwnerRole);
-
-        for(User userTO : teamOwnerRole.getAppointedTeamOwners().keySet()){
-            teamOwnerRole.removeAppointTeamOwner(userTO,team);
-        }
-        for(User userTM : teamOwnerRole.getAppointedTeamManagers().keySet()){
-            teamOwnerRole.removeAppointTeamManager(userTM, team);
-        }
-    }
-
-    public boolean closeTeam(Team team){
-        if(teamsToManage.contains(team)&& !closedTeams.contains(team)){
-            team.setActive(false);
-            teamsToManage.remove(team);
-            closedTeams.add(team);
-            return true;
-        }
-        return false;
-    }
-    public boolean reopenTeam(Team team){
-        if(closedTeams.contains(team) &&!team.isActive() &&!team.isPermanentlyClosed()){
-            team.setActive(true);
-            closedTeams.remove(team);
-            teamsToManage.add(team);
-            return true;
-        }
-        return false;
+    public List<Team> getClosedTeams() {
+        return closedTeams;
     }
 
     @Override
@@ -217,6 +212,6 @@ public class TeamOwner extends Manager implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(new Notice(news));
+        user.addMessage(news);
     }
 }

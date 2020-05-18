@@ -33,6 +33,11 @@ public class StandardScorePolicy implements ScorePolicy {
     }
 
     @Override
+    public String getName() {
+        return "StandardScorePolicy";
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if(obj instanceof StandardScorePolicy) return true;
         return false;

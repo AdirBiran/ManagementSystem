@@ -39,4 +39,8 @@ public class PlayOnceWithEachTeamPolicy extends GameAssignmentPolicy {
     public boolean equals(Object obj) {
         return (obj instanceof PlayOnceWithEachTeamPolicy) ;
     }
+
+    public String getName(){
+        return "PlayOnceWithEachTeamPolicy";
+    }
 }

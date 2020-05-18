@@ -22,11 +22,8 @@ public class PersonalPage {
 
     @Override
     public String toString() {
-        return "PersonalPage{" +
-                "id='" + id + '\'' +
-                ", data='" + data + '\'' +
-                ", user=" + user +
-                '}';
+        return  id +","+user.getName()+","+data;
+
     }
 
     public String getId() {
@@ -50,6 +47,10 @@ public class PersonalPage {
             followers.add(follower);
             follower.addPageToFollow(this.getId());
         }
+    }
+
+    public List<Fan> getFollowers(){
+        return followers;
     }
 
     public void setData(String data) {

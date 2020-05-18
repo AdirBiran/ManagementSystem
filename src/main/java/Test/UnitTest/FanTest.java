@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -25,7 +26,8 @@ public class FanTest {
     public void init() {
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
         Guest guest = new Guest();
         user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
@@ -59,7 +61,7 @@ public class FanTest {
         Fan fan1 = (Fan) user1.checkUserRole("Fan");
         assertEquals(0, fan1.getMessageBox().size(), 0);
         Referee mainReferee = game.getMainReferee();
-        mainReferee.addEventToGame(game.getId(), Event.EventType.RedCard, 70, "");
+        mainReferee.addEventToGame(game.getId(), Event.EventType.RedCard, "");
         assertEquals(2, fan.getMessageBox().size(), 0);
         assertEquals(1, mainReferee.getMessageBox().size(), 0);
     }
@@ -76,6 +78,10 @@ public class FanTest {
         assertFalse(fan.submitComplaint(""));
     }
 
+    @Test
+    public void getAllFutureGames(){
+        assertNotNull((fan.getAllFutureGames()));
+    }
     @Test
     public void getFollowedPages() {
         fan.addPageToFollow(mesiPage.getId());

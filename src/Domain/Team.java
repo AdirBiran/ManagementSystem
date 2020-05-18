@@ -105,11 +105,44 @@ public class Team extends Observable {
 
     @Override
     public String toString() {
-        return "Team," +
-                "id='" + id + '\'' +
-                ": name='" + name + '\'' +
-                ", active=" + active +
-                ", permanentlyClosed=" + permanentlyClosed;
+        return "Team" +
+                ", id=" + id +
+                ": name=" + name;
+    }
+
+    public String AllDetailsAboutTeam(){
+        return "Team Owners: " + printTeamOwners() +
+                "Players: " + printPlayers() +
+                "Coaches: " +printCoaches() +
+                "Games: " +printGames();
+    }
+
+    private String printGames() {
+        String printNames = "";
+        for(Game game : games)
+            printNames= printNames + game.getName() +",";
+        return printNames;
+    }
+
+    private String printCoaches() {
+        String printNames = "";
+        for(User user : coaches)
+            printNames= printNames + user.getName() +",";
+        return printNames;
+    }
+
+    private String printPlayers() {
+        String printNames = "";
+        for(User user : players)
+            printNames= printNames + user.getName() +",";
+        return printNames;
+    }
+
+    private String printTeamOwners() {
+        String printNames = "";
+        for(User user : teamOwners)
+            printNames= printNames + user.getName() +",";
+        return printNames;
     }
 
     public void addAWin() {
@@ -137,6 +170,7 @@ public class Team extends Observable {
                 user.addRole(teamOwner);
             }
             this.addObserver(teamOwner);
+            teamOwner.update(this, "You've added a team owner appointment to team " +this.getName());
             return true;
         }
         return false;
@@ -155,6 +189,7 @@ public class Team extends Observable {
                 user.addRole(teamManager);
             }
             this.addObserver(teamManager);
+            teamManager.update(this, "You've added a team manager appointment to team " +this.getName());
             return true;
         }
         return false;
@@ -213,6 +248,7 @@ public class Team extends Observable {
             TeamOwner teamOwnerRole = (TeamOwner) teamOwner.checkUserRole("TeamOwner");
             teamOwnerRole.removeTeam(this);
             teamOwnerRole.update(this, "Your subscription has been removed from the team "+this.name);
+            this.deleteObserver(teamOwnerRole);
             return true;
         }
         return false;
@@ -224,6 +260,7 @@ public class Team extends Observable {
             TeamManager teamManagerRole = (TeamManager) teamManager.checkUserRole("TeamManager");
             teamManagerRole.removeTeam(this);
             teamManagerRole.update(this, "Your subscription has been removed from the team "+this.name);
+            this.deleteObserver(teamManagerRole);
             return true;
         }
         return false;
@@ -288,6 +325,18 @@ public class Team extends Observable {
 
     public Budget getBudget() {
         return budget;
+    }
+    public String getGamesId(){
+        String listOfId = "";
+        for (Game game: games) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + game.getId();
+            }
+            else {
+                listOfId = listOfId + ","+game.getId();
+            }
+        }
+        return listOfId;
     }
 
     public List<Game> getGames() {

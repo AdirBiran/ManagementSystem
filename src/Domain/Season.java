@@ -41,15 +41,28 @@ public class Season {
         return id;
     }
 
+    public String getLeaguesId(){
+        String listOfId = "";
+        for (LeagueInSeason leagueInSeason: leagueInSeasons) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + leagueInSeason.getLeague().getId();
+            }
+            else {
+                listOfId = listOfId + ","+leagueInSeason.getLeague().getId();
+            }
+        }
+        return listOfId;
+    }
+
     public void addLeagueInSeason(LeagueInSeason leagueInSeason){
         leagueInSeasons.add(leagueInSeason);
     }
 
     @Override
     public String toString() {
-        return "Season" +
-                ", id= "+id+
-                ": year=" + year;
+        return
+                id+
+                ":" + year;
     }
 
     @Override

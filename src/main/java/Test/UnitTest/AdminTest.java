@@ -1,11 +1,13 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -18,14 +20,15 @@ public class AdminTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin().checkUserRole("Admin");
     }
     @Test
     public void closeTeamPermanently() {
-        assertTrue(admin.closeTeamPermanently(team.getID()));
-        assertFalse(admin.closeTeamPermanently(team.getID()));
+        assertNotNull(admin.closeTeamPermanently(team.getID()));
+        assertNull(admin.closeTeamPermanently(team.getID()));
     }
 
     @Test
@@ -103,4 +106,12 @@ public class AdminTest {
         assertEquals(admin.myRole(),"Admin");
 
     }
-}
+    @Test
+    public void getAllDetailsAboutCloseTeams(){
+        assertNotNull(admin.getAllDetailsAboutCloseTeams());
+    }
+    @Test
+    public void getAllCloseTeams() {
+        assertNotNull(admin.getAllCloseTeams());
+    }
+    }

@@ -10,11 +10,11 @@ public class RefereeSystem {
     public RefereeSystem() {
     }
 
-    public boolean addEventToGame(String userID, String gameID, String event, double minuteInGame, String description){
+    public boolean addEventToGame(String userID, String gameID, String event, String description){
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("Referee");
         if(role instanceof  Referee){
-            ((Referee)role).addEventToGame(gameID, Event.EventType.valueOf(event), minuteInGame, description);
+            ((Referee)role).addEventToGame(gameID, Event.EventType.valueOf(event), description);
             Logger.logEvent( user.getID()+ " (Referee)","Added Event to Game");
             return true;
         }
@@ -39,6 +39,14 @@ public class RefereeSystem {
         }
         return null;
     }
+    public List<String> getAllPastGames(String userID){
+        User user= UserFactory.getUser(userID);
+        Role role = user.checkUserRole("Referee");
+        if(role instanceof  Referee ) {
+            return  ((Referee)role).getAllPastGames();
+        }
+        return null;
+    }
 
     public boolean changeEvent(String userID, String gameID, String eventID, String newDescription){
         User user= UserFactory.getUser(userID);
@@ -49,4 +57,6 @@ public class RefereeSystem {
         }
         return false;
     }
+
+
 }

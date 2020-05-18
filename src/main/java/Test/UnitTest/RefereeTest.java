@@ -1,5 +1,6 @@
 package UnitTest;
 
+import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -25,7 +26,8 @@ public class RefereeTest {
     public void init() {
         system = new FootballManagementSystem();
         system.systemInit(true);
-        LeagueInSeason league = system.dataReboot();
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
         Guest guest = new Guest();
         user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
@@ -70,15 +72,14 @@ public class RefereeTest {
 
     @Test
     public void addEventToGame() {
-
-        referee.addEventToGame(game.getId(),Event.EventType.RedCard,50,"");
+        game.getDate().setHours((new Date()).getHours());
+        referee.addEventToGame(game.getId(),Event.EventType.RedCard,"");
         assertEquals(1,game.getEventReport().getEvents().size());
-
     }
 
     @Test
     public void changeEvent() {
-        referee.addEventToGame(game.getId(),Event.EventType.RedCard,50,"");
+        referee.addEventToGame(game.getId(),Event.EventType.RedCard,"");
        assertTrue( referee.changeEvent(game.getId(),game.getEventReport().getEvents().get(0).getId(),"yes"));
        assertEquals(game.getEventReport().getEvents().get(0).getDescription(),"yes");
     }
