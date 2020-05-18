@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Date;
 
 public abstract class GameAssignmentPolicy {
+    String name;
 
     public static GameAssignmentPolicy checkPolicy(String assignmentPolicy) {
         switch (assignmentPolicy){
@@ -15,9 +16,10 @@ public abstract class GameAssignmentPolicy {
         }
         return null;
     }
-
+    public String getName(){
+        return name;
+    }
     public abstract List<Game> assignGames(List<Date> dates, LeagueInSeason league);
-    public abstract String getName();
 
      protected boolean checkForDuplicates(List<Game> games, Team team1, Team team2) {
           for(Game game : games){
