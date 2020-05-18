@@ -118,6 +118,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * [Address] [varchar](255) NOT NULL,
              * 	[Phone] [varchar](50) NOT NULL unique,
              * 	[FollowedPagesIDs] [varchar](255) ,
+             *
              * */
 
             ans2 = dataAccess.updateCellValue("Fans" ,"Address" , ((Fan)object).getUser().getID(),((Fan) object).getAddress() );
