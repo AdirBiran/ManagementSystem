@@ -101,12 +101,11 @@ public class User extends Guest {
     }
 
     public void addMessage(String message){ /***/
-        /*if(NotificationSystem.notifyUser(this, message)){
-
-        }*/
-        if(message!=null)
-            messageBox.add(message);
-        //serviceNotification.notifyUser()
+        if(!(NotificationSystem.notifyUser(this, message))){
+            if(message!=null)
+                messageBox.add(message);
+                //change in user - update database
+        }
     }
 
     @Override

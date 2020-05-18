@@ -112,9 +112,13 @@ public class UnionRepresentative extends Role implements Observer {
         return false;
     }
 
-    public void addTUTUPayment(String teamId, double payment) {
+    public boolean addTUTUPayment(String teamId, double payment) {
         Team team = Database.getTeam(teamId);
-        team.getBudget().addIncome(payment);
+        if(team!=null) {
+            team.getBudget().addIncome(payment);
+            return true;
+        }
+        return false;
     }
 
     public List<String> allLeaguesInSeasons() {
@@ -163,10 +167,13 @@ public class UnionRepresentative extends Role implements Observer {
         return false;
     }
 
-    public void calculateLeagueScore(String leagueId) {
+    public boolean calculateLeagueScore(String leagueId) {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        if(league!=null)
+        if(league!=null) {
             league.getScorePolicy().calculateLeagueScore(league);
+            return true;
+        }
+        return false;
     }
 
     @Override

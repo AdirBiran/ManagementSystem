@@ -162,10 +162,8 @@ public class Fan extends Role implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof Event) {
-            arg = arg.toString();
-        }
         String news = (String)arg;
         user.addMessage(news);
+
     }
 }
