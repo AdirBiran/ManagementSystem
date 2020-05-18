@@ -129,7 +129,7 @@ public class Admin extends Role implements Observer {
         return details;
     }
 
-   /* public List<String> getAllUsers(){
+    public List<String> getAllUsers(){
         List<String> users = new LinkedList<>();
         String details=new String();
         for (User user : Database.getAllUsers()){
@@ -148,6 +148,6 @@ public class Admin extends Role implements Observer {
             complaints.add(c.toString());
         }
         return complaints;
-    }*/
+    }
 
 }

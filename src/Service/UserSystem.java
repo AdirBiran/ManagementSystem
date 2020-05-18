@@ -117,7 +117,7 @@ public class UserSystem extends GuestSystem {
         }
         return null;
     }
-   /* public List<String> getAllPages(String userId) {
+    public List<String> getAllPages(String userId) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Fan");
@@ -127,7 +127,7 @@ public class UserSystem extends GuestSystem {
             }
         }
         return null;
-    }*/
+    }
     public List<String> getAllFutureGames(String userId) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
