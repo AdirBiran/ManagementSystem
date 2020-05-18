@@ -44,6 +44,7 @@ public class UnionRepresentativeSystem {
         return false;
     }
 
+
     public String configureLeagueInSeason(String userId, String nameOfLeague, String yearOfSeason, String assignmentPolicy, String scorePolicy, double fee){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
