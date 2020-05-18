@@ -170,6 +170,7 @@ public class Team extends Observable {
                 user.addRole(teamOwner);
             }
             this.addObserver(teamOwner);
+            teamOwner.update(this, "You've added a team owner appointment to team " +this.getName());
             return true;
         }
         return false;
@@ -188,6 +189,7 @@ public class Team extends Observable {
                 user.addRole(teamManager);
             }
             this.addObserver(teamManager);
+            teamManager.update(this, "You've added a team manager appointment to team " +this.getName());
             return true;
         }
         return false;
@@ -246,6 +248,7 @@ public class Team extends Observable {
             TeamOwner teamOwnerRole = (TeamOwner) teamOwner.checkUserRole("TeamOwner");
             teamOwnerRole.removeTeam(this);
             teamOwnerRole.update(this, "Your subscription has been removed from the team "+this.name);
+            this.deleteObserver(teamOwnerRole);
             return true;
         }
         return false;
@@ -257,6 +260,7 @@ public class Team extends Observable {
             TeamManager teamManagerRole = (TeamManager) teamManager.checkUserRole("TeamManager");
             teamManagerRole.removeTeam(this);
             teamManagerRole.update(this, "Your subscription has been removed from the team "+this.name);
+            this.deleteObserver(teamManagerRole);
             return true;
         }
         return false;

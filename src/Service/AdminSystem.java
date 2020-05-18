@@ -24,7 +24,6 @@ public class AdminSystem {
             if(adminRole instanceof Admin){
                 String userMail = ((Admin)adminRole).removeUser(userId);
                 if(!(userMail.equals(""))) {
-                    notificationSystem.UserRemovalNotification(userMail);
                     Logger.logEvent(user.getID() + " (Admin)", "Removed user " + userId);
                     return true;
                 }

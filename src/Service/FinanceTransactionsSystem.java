@@ -52,8 +52,7 @@ public class FinanceTransactionsSystem
                     Logger.logEvent(user.getID(), "Reported expense " + expanse);
                     return true;
 
-                } else
-                    notificationSystem.exceededBudget(teamId);
+                }
             }
         }
         Logger.logError("Reporting new expense Failed");

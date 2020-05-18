@@ -221,7 +221,6 @@ public class TeamManagementSystem {
             if (role instanceof TeamOwner) {
                 User userToAppoint = UserFactory.getUser(userIdToAppoint);
                 if (((TeamOwner) role).appointTeamOwner(userToAppoint, teamId)) {
-                    notificationSystem.notificationForAppointment(userToAppoint, true);
                     Logger.logEvent(userId, "Appointed Team Owner " + userIdToAppoint);
                     return true;
                 }
@@ -239,7 +238,6 @@ public class TeamManagementSystem {
             if (role instanceof TeamOwner) {
                 User userToAppoint = UserFactory.getUser(userIdToAppoint);
                 if (((TeamOwner) role).appointTeamManager(userToAppoint, teamId, price, manageAssets, finance)) {
-                    notificationSystem.notificationForAppointment(userToAppoint, true);
                     Logger.logEvent(userId, "Appointed Team Manager " + userIdToAppoint);
                     return true;
                 }
@@ -257,7 +255,6 @@ public class TeamManagementSystem {
             if (role instanceof TeamOwner) {
                 User userToRemove = UserFactory.getUser(userIdToRemove);
                 if (((TeamOwner) role).removeAppointTeamOwner(userToRemove, teamId)) {
-                    notificationSystem.notificationForAppointment(userToRemove, false);
                     Logger.logEvent(userId, "Removed Team Owner " + userIdToRemove);
                     return true;
                 }
@@ -275,7 +272,6 @@ public class TeamManagementSystem {
             if (role instanceof TeamOwner) {
                 User userToRemove = UserFactory.getUser(userIdToRemove);
                 if (((TeamOwner) role).removeAppointTeamManager(userToRemove, teamId)) {
-                    notificationSystem.notificationForAppointment(userToRemove, false);
                     Logger.logEvent(user.getID(), "Removed Team Manager " + userToRemove.getID());
                     return true;
                 }
@@ -293,7 +289,6 @@ public class TeamManagementSystem {
             Role role = user.checkUserRole("TeamOwner");
             if (role instanceof TeamOwner) {
                 if (((TeamOwner) role).closeTeam(teamId)) {
-                    notificationSystem.openORCloseTeam("closed", teamId, false);
                     Logger.logEvent(user.getID(), "Closed Team " + teamId);
                     return true;
                 }
@@ -310,7 +305,6 @@ public class TeamManagementSystem {
             Role role = user.checkUserRole("TeamOwner");
             if (role instanceof TeamOwner) {
                 if (((TeamOwner) role).reopenTeam(teamId)) {
-                    notificationSystem.openORCloseTeam("open", teamId, false);
                     Logger.logEvent(user.getID(), "Reopened Team " + teamId);
                     return true;
                 }
