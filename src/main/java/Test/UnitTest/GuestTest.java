@@ -18,7 +18,6 @@ public class GuestTest {
     User mesi;
     PersonalPage mesiPage;
     Fan fan;
-    ReceiveAlerts receiveAlerts;
     Game game;
     Guest guest;
 
@@ -33,15 +32,10 @@ public class GuestTest {
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();
-        Team team0 = league.getTeams().get(0);
-        Team team1 = league.getTeams().get(1);
-        Field field = new Field("Tel-Aviv", "Bloomfield", 10000, 150000);
-        Referee mainReferee = league.getReferees().get(0);
-        List<Referee> sideReferees = new LinkedList<>();
-        sideReferees.add(league.getReferees().get(1));
-        sideReferees.add(league.getReferees().get(2));
-        game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, league);
-    }
+        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
+        unionRole.assignGames(league.getId(), system.getDates());
+        game = league.getGames().get(0);}
     @Test
     public void search() {
         assertNotNull(guest.search("mesiPage"));

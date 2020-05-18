@@ -89,12 +89,12 @@ public class User extends Guest {
     }
 
     public void addMessage(String message){ /***/
-        if(NotificationSystem.notifyUser(this, message)){
+        /*if(NotificationSystem.notifyUser(this, message)){
 
-        }
-        /*if(notice!=null)
-            messageBox.add(notice);
-        serviceNotification.notifyUser()*/
+        }*/
+        if(message!=null)
+            messageBox.add(message);
+        //serviceNotification.notifyUser()
     }
 
     @Override

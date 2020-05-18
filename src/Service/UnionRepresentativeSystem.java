@@ -195,14 +195,7 @@ public class UnionRepresentativeSystem {
         }
         return false;
     }
-    public List<String> getAllPastGames(String userID){
-        User user= UserFactory.getUser(userID);
-        Role role = user.checkUserRole("UnionRepresentative");
-        if(role instanceof  UnionRepresentative ) {
-            return  ((UnionRepresentative)role).getAllPastGames();
-        }
-        return null;
-    }
+
     public void calculateLeagueScore(String userId, String leagueId)
     {
         User user = UserFactory.getUser(userId);
@@ -272,6 +265,17 @@ public class UnionRepresentativeSystem {
         }
     }
 
+    public boolean addFieldToSystem(String userId,String location,String fieldName, int capacity, double price){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                return ((UnionRepresentative)role).addFieldToSystem(location, fieldName, capacity, price);
+            }
+        }
+        return false;
+    }
+
     public List<String> allLeaguesInSeasons(String userId){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
@@ -312,16 +316,7 @@ public class UnionRepresentativeSystem {
         }
         return null;
     }
-    public boolean addFieldToSystem(String userId,String location,String fieldName, int capacity, double price){
-        User user = UserFactory.getUser(userId);
-        if(user!=null) {
-            Role role = user.checkUserRole("UnionRepresentative");
-            if (role instanceof UnionRepresentative) {
-                return ((UnionRepresentative)role).addFieldToSystem(location, fieldName, capacity, price);
-            }
-        }
-        return false;
-    }
+
     public List<String> getAllDetailsAboutOpenTeams(String userId){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
@@ -340,6 +335,15 @@ public class UnionRepresentativeSystem {
             if (role instanceof UnionRepresentative) {
                 return role.getAllOpenTeams();
             }
+        }
+        return null;
+    }
+
+    public List<String> getAllPastGames(String userID){
+        User user= UserFactory.getUser(userID);
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof  UnionRepresentative ) {
+            return  ((UnionRepresentative)role).getAllPastGames();
         }
         return null;
     }

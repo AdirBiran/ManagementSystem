@@ -40,7 +40,7 @@ public class Fan extends Role implements Observer {
         this.phone = phone;
     }
 
-    public boolean followGames(List<String> gamesId , ReceiveAlerts receiveAlerts){
+    public boolean followGames(List<String> gamesId , boolean receiveAlerts){
         for(String gameId: gamesId) {
             Game game = Database.getGame(gameId);
             if(!game.addFanForNotifications(this, receiveAlerts))

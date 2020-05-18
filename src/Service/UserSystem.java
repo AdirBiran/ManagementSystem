@@ -143,13 +143,12 @@ public class UserSystem extends GuestSystem {
     /*
     Fan registration for alerts for games you've selected
      */
-    public boolean registrationForGamesAlerts(String userId, List<String> gamesId, boolean toMail, boolean toPhone) {
+    public boolean registrationForGamesAlerts(String userId, List<String> gamesId, boolean toMail) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Fan");
             if (role instanceof Fan) {
-                ReceiveAlerts receive = new ReceiveAlerts(toMail, toPhone);
-                boolean success = ((Fan) role).followGames(gamesId, receive);
+                boolean success = ((Fan) role).followGames(gamesId, toMail);
                 if (success)
                     Logger.logEvent(user.getID(), "Game Alerts Registration Success");
                 else

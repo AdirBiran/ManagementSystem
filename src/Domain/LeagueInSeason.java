@@ -74,10 +74,6 @@ public class LeagueInSeason {
         return scoreTable;
     }
 
-    public List<Game> getAllGames() {
-        return games;
-    }
-
     public Game getGameById(String gameId){
         for(Game game: games){
             if(game.getId().equals(gameId))

@@ -14,7 +14,7 @@ public class Game extends Observable {
     private List<Referee> sideReferees; // between 2 and 6, check type of referee
     private Team hostTeam; // check type of team
     private Team guestTeam; // check type of team
-    private HashMap<Fan, ReceiveAlerts> fansForAlerts; //list of fans that signed up to receive game alerts
+    private HashMap<Fan, Boolean> fansForAlerts; //list of fans that signed up to receive game alerts
     private EventReport eventReport;
     private LeagueInSeason league;
 
@@ -58,9 +58,9 @@ public class Game extends Observable {
      * @param receiveAlerts- how to get the alerts
      * @return true- if the fan is added to list to receive game alerts
      */
-    public boolean addFanForNotifications(Fan fan, ReceiveAlerts receiveAlerts) {
+    public boolean addFanForNotifications(Fan fan, boolean toMail) {
         if(fansForAlerts.get(fan)==null) {
-            fansForAlerts.put(fan, receiveAlerts);
+            fansForAlerts.put(fan, toMail);
             this.addObserver(fan);
             return true;
         }
@@ -184,7 +184,7 @@ public class Game extends Observable {
         return league;
     }
 
-    public HashMap<Fan, ReceiveAlerts> getFansForAlerts() {
+    public HashMap<Fan, Boolean> getFansForAlerts() {
         return fansForAlerts;
     }
 }

@@ -214,4 +214,5 @@ public class TeamOwner extends Manager implements Observer {
         String news = (String)arg;
         user.addMessage(news);
     }
+
 }
