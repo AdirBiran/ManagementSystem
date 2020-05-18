@@ -113,6 +113,6 @@ public class Referee extends Role implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if(!(arg instanceof Event))
-            user.addMessage(new Notice((String)arg));
+            user.addMessage((String)arg);
     }
 }

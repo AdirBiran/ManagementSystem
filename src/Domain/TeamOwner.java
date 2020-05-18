@@ -208,6 +208,6 @@ public class TeamOwner extends Manager implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(new Notice(news));
+        user.addMessage(news);
     }
 }

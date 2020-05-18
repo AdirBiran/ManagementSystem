@@ -15,7 +15,7 @@ public abstract class Role{
         return user;
     }
 
-    public List<Notice> getMessageBox() {
+    public List<String> getMessageBox() {
         return user.getMessageBox();
     }
 

@@ -125,6 +125,6 @@ public class Fan extends Role implements Observer {
             arg = arg.toString();
         }
         String news = (String)arg;
-        user.addMessage(new Notice(news));
+        user.addMessage(news);
     }
 }

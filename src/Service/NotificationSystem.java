@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
-public class NotificationSystem extends Observable implements Observer {
+public class NotificationSystem {
 
     public NotificationSystem() {
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
+    public static boolean notifyUser(User user, String message) {
 
+        return false;
     }
 }
