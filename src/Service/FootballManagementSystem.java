@@ -114,11 +114,11 @@ public class FootballManagementSystem {
         return systemAdmins.get(0);
     }
 
-    public boolean connectToOuterSystems(boolean flag)
+    public boolean connectToOuterSystems()
     {
 
-        boolean con1 = accountingSystem.connect(flag);
-        boolean con2 = taxLawsSystem.connect(flag);
+        boolean con1 = accountingSystem.connect();
+        boolean con2 = taxLawsSystem.connect();
 
         if (con1 && con2)
             return true;

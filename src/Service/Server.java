@@ -903,6 +903,7 @@ public class Server {
     }
 
     public static boolean checkUserOnline(String id, String message) {
+        return false;
     }
     
     private boolean stringToBoolean(String s)
