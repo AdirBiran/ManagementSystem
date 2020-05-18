@@ -1,6 +1,7 @@
 package Presentation.Records;
 
 public class TeamRecord implements Record{
+
     private String id;
     private String name;
     private boolean active;

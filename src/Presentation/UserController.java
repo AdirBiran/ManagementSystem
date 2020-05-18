@@ -39,6 +39,9 @@ public class UserController implements Initializable {
 
     public void editPersonalInfoButtonPushed(ActionEvent action){
         m_general.clearMainView(mainView1);
+        List<String> userInfo = m_client.sendToServer("getUserInfo|"+loggedUser);
+        String[]split = userInfo.get(0).split(",");
+
         //show users info
         //let user select what to change - name, password etr
         //send request to change info
