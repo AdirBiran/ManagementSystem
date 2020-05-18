@@ -99,6 +99,6 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(new Notice(news));
+        user.addMessage(news);
     }
 }

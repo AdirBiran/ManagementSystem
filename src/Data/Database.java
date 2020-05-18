@@ -683,6 +683,13 @@ public class Database //maybe generalize with interface? //for now red layer
                 //return listOfUsers;
                 break;
             }
+            case ("Field"):{
+                for(PartOfATeam asset : assetsInDatabase.values()){
+                    if(asset instanceof Field && asset.isActive())
+                        listOfAssets.add(asset);
+                }
+                return listOfAssets;
+            }
         }
         return null;
     }
@@ -715,23 +722,23 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     private static Object search(String whatType, String searchWord){
-        switch(whatType){
-            case("PartOfATeam"):{
-                for(String nameOfAsset : assetsInDatabase.keySet()) {
-                    if (searchWord.equals(nameOfAsset))
-                        return assetsInDatabase.get(searchWord);
-                }
-                break;
-            }
-            case("User"):{
-                for(String userId : usersInDatabase.keySet()) {
-                    if (searchWord.equals(userId)) {
-                        if(usersInDatabase.get(searchWord).isActive())
-                            return usersInDatabase.get(searchWord);
+            switch(whatType){
+                case("PartOfATeam"):{
+                    for(String nameOfAsset : assetsInDatabase.keySet()) {
+                        if (searchWord.contains(nameOfAsset))
+                            return assetsInDatabase.get(searchWord);
                     }
+                    break;
                 }
-                break;
-            }
+                case("User"): {
+                    for (String userId : usersInDatabase.keySet()) {
+                        if (searchWord.equals(userId)) {
+                            if (usersInDatabase.get(searchWord).isActive())
+                                return usersInDatabase.get(searchWord);
+                        }
+                    }
+                    break;
+                }
             case ("Mail"):{
                 if(mailsAndUserID.containsKey(searchWord)){
                     return usersInDatabase.get(mailsAndUserID.get(searchWord));
@@ -869,6 +876,18 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static List<User> getAllUsers(){
+        return null;
+    }
+
+    public static List<Game> getAllPastGames() {
+        return null;
+    }
+
+    public static List<PersonalPage> getAllPages() {
+        return null;
+    }
+
+    public static List<Complaint> getAllActiveComplaints() {
         return null;
     }
 }

@@ -33,7 +33,7 @@ public class Game extends Observable {
         addRefereeToObservers(mainReferee, sideReferees);
         this.hostTeam = hostTeam;
         this.guestTeam = guestTeam;
-        this.name = hostTeam.getName() + " and "+ guestTeam.getName();
+        this.name = hostTeam.getName() + " VS "+ guestTeam.getName();
         eventReport = new EventReport();
         hostScore=0;
         guestScore=0;
@@ -43,12 +43,8 @@ public class Game extends Observable {
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     @Override
     public String toString() {
-        return "Game" +
-                ", id=" + id +
-                ": name=" +name +
-                ", date=" + date +
-                ", hostTeam=" + hostTeam +
-                ", guestTeam=" + guestTeam;
+        return id +","+name +","+date;
+
     }
 
     private void addRefereeToObservers(Referee mainReferee, List<Referee> sideReferees) {

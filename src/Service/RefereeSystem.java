@@ -39,6 +39,14 @@ public class RefereeSystem {
         }
         return null;
     }
+    public List<String> getAllPastGames(String userID){
+        User user= UserFactory.getUser(userID);
+        Role role = user.checkUserRole("Referee");
+        if(role instanceof  Referee ) {
+            return  ((Referee)role).getAllPastGames();
+        }
+        return null;
+    }
 
     public boolean changeEvent(String userID, String gameID, String eventID, String newDescription){
         User user= UserFactory.getUser(userID);
@@ -49,4 +57,6 @@ public class RefereeSystem {
         }
         return false;
     }
+
+
 }

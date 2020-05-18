@@ -18,6 +18,8 @@ public class ManagerTest {
     User mesi;
     User coachU;
     User userTeamManager;
+    UnionRepresentative unionRole;
+    Game game;
 
 
     @Before
@@ -35,54 +37,57 @@ public class ManagerTest {
         teamOwner.addTeam(team);
         userTeamManager= admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false);
 
+        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+        unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
     }
 
     @Test
     public void addPlayerToTeam() {
-        assertTrue(teamOwner.addPlayerToTeam(mesi,team));
+        assertTrue(teamOwner.addPlayerToTeam(mesi.getID(),team.getID()));
     }
 
 
     @Test
     public void addCoachToTeam() {
-        assertTrue(teamOwner.addCoachToTeam(coachU,team));
+        assertTrue(teamOwner.addCoachToTeam(coachU.getID(),team.getID()));
     }
 
     @Test
     public void addTeamManagerToTeam() {
-        assertTrue(teamOwner.addTeamManagerToTeam(userTeamManager,team,5,true,true));
+        assertTrue(teamOwner.addTeamManagerToTeam(userTeamManager.getID(),team.getID(),5,true,true));
     }
 
     @Test
     public void addFieldToTeam() {
-        Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
-        assertTrue(teamOwner.addFieldToTeam(field,team));
+        unionRole.addFieldToSystem("Tel-Aviv","Bloomfield", 10000, 150000);
+        Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(1);
+        assertTrue(teamOwner.addFieldToTeam(field.getID(),team.getID()));
     }
 
     @Test
     public void removeFieldFromTeam() {
-        Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
-        teamOwner.addFieldToTeam(field,team);
-        assertTrue(teamOwner.removeFieldFromTeam(field,team));
+        unionRole.addFieldToSystem("Tel-Aviv","Bloomfield", 10000, 150000);
+        Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(1);
+        assertTrue(teamOwner.removeFieldFromTeam(field.getID(),team.getID()));
     }
 
     @Test
     public void removePlayerFormTeam() {
-        teamOwner.addPlayerToTeam(mesi,team);
-        assertTrue(teamOwner.removePlayerFormTeam(mesi,team));
+        teamOwner.addPlayerToTeam(mesi.getID(),team.getID());
+        assertTrue(teamOwner.removePlayerFormTeam(mesi.getID(),team.getID()));
     }
 
     @Test
     public void removeCoachFormTeam() {
-        teamOwner.addCoachToTeam(coachU,team);
-        assertTrue(teamOwner.removeCoachFormTeam(coachU,team));
+        teamOwner.addCoachToTeam(coachU.getID(),team.getID());
+        assertTrue(teamOwner.removeCoachFormTeam(coachU.getID(),team.getID()));
 
     }
 
     @Test
     public void removeTeamManagerFormTeam() {
-        teamOwner.addTeamManagerToTeam(userTeamManager,team,3000,true,true);
-        assertTrue(teamOwner.removeTeamManagerFormTeam(userTeamManager,team));
+        teamOwner.addTeamManagerToTeam(userTeamManager.getID(),team.getID(),3000,true,true);
+        assertTrue(teamOwner.removeTeamManagerFormTeam(userTeamManager.getID(),team.getID()));
 
     }
 
@@ -93,17 +98,17 @@ public class ManagerTest {
 
     @Test
     public void reportIncome() {
-        assertTrue(teamOwner.reportIncome(team,30));
+        assertTrue(teamOwner.reportIncome(team.getID(),30));
     }
 
     @Test
     public void reportExpanse() {
-        assertTrue(teamOwner.reportExpanse(team,30));
+        assertTrue(teamOwner.reportExpanse(team.getID(),30));
     }
 
     @Test
     public void getBalance() {
-        assertNotEquals(teamOwner.getBalance(team),-1);
+        assertNotEquals(teamOwner.getBalance(team.getID()),-1);
     }
 
     @Test

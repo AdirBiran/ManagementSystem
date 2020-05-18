@@ -19,13 +19,14 @@ public class AdminSystem {
     */
     public boolean removeUser(String adminId, String userId){
         User user = UserFactory.getUser(adminId);
-        Role adminRole = user.checkUserRole("Admin");
-        if(adminRole instanceof Admin){
-            String userMail = ((Admin)adminRole).removeUser(userId);
-            if(!(userMail.equals(""))) {
-                notificationSystem.UserRemovalNotification(userMail);
-                Logger.logEvent(user.getID() + " (Admin)", "Removed user " + userId);
-                return true;
+        if (user != null) {
+            Role adminRole = user.checkUserRole("Admin");
+            if(adminRole instanceof Admin){
+                String userMail = ((Admin)adminRole).removeUser(userId);
+                if(!(userMail.equals(""))) {
+                    Logger.logEvent(user.getID() + " (Admin)", "Removed user " + userId);
+                    return true;
+                }
             }
         }
         return false;
@@ -114,18 +115,16 @@ public class AdminSystem {
     /*
     Permanently close a group only by an administrator
     */
-    public boolean permanentlyCloseTeam(String adminId, String teamId){
+    public String permanentlyCloseTeam(String adminId, String teamId){
         User user = UserFactory.getUser(adminId);
         if(user!=null) {
             Role adminRole = user.checkUserRole("Admin");
             if (adminRole instanceof Admin) {
-                if (((Admin) adminRole).closeTeamPermanently(teamId)) {
+                return  (((Admin) adminRole).closeTeamPermanently(teamId));
                     //notificationSystem.openORCloseTeam("closed", team, true);
-                    return true;
-                }
             }
         }
-        return false;
+        return null;
     }
 
     public void responseToComplaint(String adminId, String complaintId, String response)
@@ -221,5 +220,14 @@ public class AdminSystem {
         }
         return null;
     }
-
+    public List<String> getAllActiveComplaints(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Admin");
+            if (role instanceof Admin) {
+                ((Admin)role).getAllActiveComplaints();
+            }
+        }
+        return null;
+    }
 }

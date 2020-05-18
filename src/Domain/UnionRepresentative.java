@@ -28,7 +28,28 @@ public class UnionRepresentative extends Role implements Observer {
             return false;
         }
     }
+    public List<String> getAllPastGames() {
+        List<String> game = new LinkedList<>();
+        /*for(Game g: Database.getAllPastGames()) {
+            game.add(g.toString());
+        }*/
+        return game;
+    }
+    public List<String> getAllLeagues() {
+        List<String> leagues = new LinkedList<>();
+        for(League l: Database.getLeagues()) {
+            leagues.add(l.toString());
+        }
+        return leagues;
+    }
 
+    public List<String> getAllSeasons() {
+        List<String> seasons = new LinkedList<>();
+        for(Season s: Database.getSeasons()) {
+            seasons.add(s.toString());
+        }
+        return seasons;
+    }
     public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, String assignmentPolicy, String scorePolicy, double registrationFee) {
         League league = Database.getLeague(nameOfLeague);
         Season season = Database.getSeason(yearOfSeason);
@@ -103,6 +124,23 @@ public class UnionRepresentative extends Role implements Observer {
         return allLeagues;
     }
 
+
+    public List<String> getAllScorePolicies() {
+        List<String> scorePolicies= new LinkedList<>();
+        /*for(ScorePolicy s: Database.getAllScorePolicies()){
+            scorePolicies.add(s.getName());
+        }*/
+        return scorePolicies;
+    }
+////////////////////////////////////////////////// assignmentsPolicies.getNAme();
+    public List<String> getAllAssignmentsPolicies() {
+        List<String> assignmentsPolicies= new LinkedList<>();
+        /*for(GameAssignmentPolicy assignmentsPolicie: Database.getAllAssignmentsPolicies()){
+            assignmentsPolicies.add(assignmentsPolicies.toString());
+        }*/
+        return assignmentsPolicies;
+    }
+///////////////////////////////////////////////////
     public boolean changeGameDate(String gameId, Date newDate) {
         Game game = Database.getGame(gameId);
         if(game.getDate().after(new Date())) {
@@ -193,7 +231,7 @@ public class UnionRepresentative extends Role implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(new Notice(news));
+        user.addMessage(news);
     }
 
 }

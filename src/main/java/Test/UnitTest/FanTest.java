@@ -79,6 +79,10 @@ public class FanTest {
     }
 
     @Test
+    public void getAllFutureGames(){
+        assertNotNull((fan.getAllFutureGames()));
+    }
+    @Test
     public void getFollowedPages() {
         fan.addPageToFollow(mesiPage.getId());
         assertEquals(fan.getFollowedPages().size(), 1);

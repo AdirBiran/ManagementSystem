@@ -64,6 +64,7 @@ public class Fan extends Role implements Observer {
         return pages;
     }
 
+
     public String getfollowPagesId(){
         String listOfId = "";
         for (PersonalPage page: followPages) {
@@ -75,6 +76,21 @@ public class Fan extends Role implements Observer {
             }
         }
         return listOfId;
+    }
+
+
+    public List<String> getAllPages(){
+        List<String> pages = new LinkedList<>();
+        for(PersonalPage p: Database.getAllPages())
+            pages.add(p.toString());
+        return pages;
+    }
+
+    public List<String> getAllFutureGames(){
+        List<String> games = new LinkedList<>();
+        for(Game g: Database.getAllFutureGames())
+            games.add(g.toString());
+        return games;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
@@ -125,6 +141,6 @@ public class Fan extends Role implements Observer {
             arg = arg.toString();
         }
         String news = (String)arg;
-        user.addMessage(new Notice(news));
+        user.addMessage(news);
     }
 }

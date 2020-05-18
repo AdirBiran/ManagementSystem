@@ -37,10 +37,9 @@ public class League {
 
     @Override
     public String toString() {
-        return "League" +
-                ", id= "+ id+
-                ": name=" + name +
-                ", level=" + level;
+        return  id+
+                ":" + name +
+                "," + level;
     }
 
     public String getName() {
