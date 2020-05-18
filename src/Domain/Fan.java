@@ -1,10 +1,8 @@
 package Domain;
 
 import Data.Database;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+
+import java.util.*;
 
 public class Fan extends Role implements Observer {
 
@@ -107,11 +105,17 @@ public class Fan extends Role implements Observer {
         return pages;
     }
 
-    public List<String> getAllFutureGames(){
-        List<String> games = new LinkedList<>();
-        for(Game g: Database.getAllFutureGames())
-            games.add(g.toString());
-        return games;
+    /*
+    this function returns a list of all future games
+     */
+    public static LinkedList<String> getAllFutureGames(){
+        Date today = new Date();
+        LinkedList<String> futureGames = new LinkedList<>();
+        for(Game game : Database.getAllGames()){
+            if(today.before(game.getDate()))
+                futureGames.add(game.toString());
+        }
+        return futureGames;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++

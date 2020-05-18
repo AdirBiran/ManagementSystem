@@ -28,13 +28,16 @@ public class UnionRepresentative extends Role implements Observer {
             return false;
         }
     }
-    public List<String> getAllPastGames() {
-        List<String> game = new LinkedList<>();
-        /*for(Game g: Database.getAllPastGames()) {
-            game.add(g.toString());
-        }*/
-        return game;
+    public static LinkedList<String> getAllPastGames(){
+        Date today = new Date();
+        LinkedList<String> pastGames = new LinkedList<>();
+        for(Game game : Database.getAllGames()){
+            if(today.after(game.getDate()))
+                pastGames.add(game.toString());
+        }
+        return pastGames;
     }
+
     public List<String> getAllLeagues() {
         List<String> leagues = new LinkedList<>();
         for(League l: Database.getLeagues()) {
