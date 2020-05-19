@@ -953,9 +953,8 @@ public class Database //maybe generalize with interface? //for now red layer
         User user;
         switch (type){
             case "Admin":
-              //  user = new User(object.get(0) , object.get(1) , object.get());
-              //  Admin admin = new Admin()
-              //  return null;
+                user = createUser(object.get(0));
+                //Admin admin = new Admin()
                 break;
             case "Coach":
                 user = createUser(object.get(0));
@@ -995,6 +994,7 @@ public class Database //maybe generalize with interface? //for now red layer
             case "UnionRepresentative":
                 break;
             case "User":
+                //user = new User(object.get(0))
                 break;
 
         }
