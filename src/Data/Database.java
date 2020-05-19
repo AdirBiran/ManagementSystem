@@ -950,10 +950,9 @@ public class Database //maybe generalize with interface? //for now red layer
                 Coach coach = new Coach(user, getEnumTraining(object.get(1)) ,getEnumRole(object.get(2)), Integer.parseInt(object.get(3)));
                 return coach;
             case "Complaint":
-                Fan fan =getFan(object.get(4));
                 Complaint complaint = new Complaint(object.get(0),
                         dataAccess.stringToDate(object.get(1)) ,Boolean.parseBoolean(object.get(2)),
-                        object.get(3),fan);
+                        object.get(3),getFan(object.get(4)));
                 return complaint;
             case "Event":
                 Event event = new Event(object.get(0) ,object.get(1) , dataAccess.stringToDate(object.get(2)),
@@ -963,6 +962,8 @@ public class Database //maybe generalize with interface? //for now red layer
                 EventReport eventReport = new EventReport(object.get(0),listOfEvents(object.get(1)));
                 return eventReport;
             case "Fan":
+                user= createUser(object.get(0));
+                Fan fan = new Fan(user , object.get(1),object.get(2) , );
                 break;
             case "Field":
                 //Field field = new Field(object.get(0),object.get(1),object.get(2),object.get(3));
@@ -1049,6 +1050,18 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+    private static List<PersonalPage> listOfPersonalPage(String personalPage){
+        List<String> listOfPersonalPage = split(personalPage);
+        List<Event> allPersonalPage = new LinkedList<>();
+
+        for (String pageId : listOfPersonalPage){
+            allPersonalPage.add(getPersonalPage(pageId));
+        }
+
+        return allPersonalPage;
+
+    }
+
     private static List<String> split(String roles){
         List<String> listOfRoles = new LinkedList<>();
         String[] split = roles.split(",");
@@ -1130,6 +1143,14 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
         return new LinkedList<>(teams.values());
+    }
+
+
+
+    public static PersonalPage getPersonalPage(String pageId){
+        List<String> personalPage;
+        personalPage = dataAccess.getAllCellValues("PersonalPages" ,pageId );
+        return (PersonalPage) createObject("PersonalPage" , personalPage);
     }
 
     public static Event getEvent(String eventId){
