@@ -228,6 +228,19 @@ public class TeamOwner extends Manager implements Observer {
 
     public String getTeamsId(){
         String listOfId = "";
+        for (Team team: teamsToManage) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+team.getID();
+            }
+            else {
+                listOfId = listOfId + ","+team.getID();
+            }
+        }
+        return listOfId;
+    }
+
+    public String getClosedTeamsId(){
+        String listOfId = "";
         for (Team team: closedTeams) {
             if(listOfId.equals("")){
                 listOfId = listOfId+team.getID();
