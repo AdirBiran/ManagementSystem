@@ -877,9 +877,7 @@ public class Database //maybe generalize with interface? //for now red layer
         return (Season)search("Season", yearOfSeason);
     }
 
-    public static Complaint getComplaints(String id) {
-        return complaints.get(id);
-    }
+
 
 
 
@@ -963,7 +961,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 return eventReport;
             case "Fan":
                 user= createUser(object.get(0));
-                Fan fan = new Fan(user , object.get(1),object.get(2) , );
+                Fan fan = new Fan(user , object.get(1),object.get(2) ,listOfPersonalPage(object.get(3)), listOfComplaintts(object.get(4)));
                 break;
             case "Field":
                 //Field field = new Field(object.get(0),object.get(1),object.get(2),object.get(3));
@@ -1052,7 +1050,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
     private static List<PersonalPage> listOfPersonalPage(String personalPage){
         List<String> listOfPersonalPage = split(personalPage);
-        List<Event> allPersonalPage = new LinkedList<>();
+        List<PersonalPage> allPersonalPage = new LinkedList<>();
 
         for (String pageId : listOfPersonalPage){
             allPersonalPage.add(getPersonalPage(pageId));
@@ -1060,6 +1058,17 @@ public class Database //maybe generalize with interface? //for now red layer
 
         return allPersonalPage;
 
+    }
+
+    private static List<Complaint> listOfComplaintts(String complaintId){
+        List<String> listOfComplaint = split(complaintId);
+        List<Complaint> allComplaints = new LinkedList<>();
+
+        for (String s : listOfComplaint){
+            allComplaints.add(getComplaints(s));
+        }
+
+        return allComplaints;
     }
 
     private static List<String> split(String roles){
@@ -1145,7 +1154,12 @@ public class Database //maybe generalize with interface? //for now red layer
         return new LinkedList<>(teams.values());
     }
 
+    public static Complaint getComplaints(String complaintid) {
+        List<String> complaint;
+        complaint = dataAccess.getAllCellValues("Complaints" ,complaintid );
+        return (Complaint) createObject("Complaint" , complaint);
 
+    }
 
     public static PersonalPage getPersonalPage(String pageId){
         List<String> personalPage;
