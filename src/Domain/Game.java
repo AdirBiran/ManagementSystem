@@ -71,7 +71,6 @@ public class Game extends Observable {
 
     /**
      * @param fan - signed up for game alerts
-     * @param receiveAlerts- how to get the alerts
      * @return true- if the fan is added to list to receive game alerts
      */
     public boolean addFanForNotifications(Fan fan, boolean toMail) {

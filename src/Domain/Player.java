@@ -114,4 +114,17 @@ public class Player extends Role implements PartOfATeam {
                 ", role in team=" + roleInTeam+
                 ", teams= "+ teamsString(teams);
     }
+
+    public String getTeamsId(){
+        String listOfId = "";
+        for (Team team: teams) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+team.getID();
+            }
+            else {
+                listOfId = listOfId + ","+team.getID();
+            }
+        }
+        return listOfId;
+    }
 }
