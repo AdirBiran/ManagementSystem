@@ -393,7 +393,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans2 = dataAccess.updateCellValue("Users","LastName", ((User) object).getID(),((User) object).getLastName());
             ans3 = dataAccess.updateCellValue("Users","Mail", ((User) object).getID(), ((User) object).getMail());
             ans4 = dataAccess.updateCellValue("Users","isActive" ,((User) object).getID(), ""+((User) object).isActive());
-            ans5 = dataAccess.updateCellValue("Users","Roles" ,((User) object).getID(), listToString(((User) object).getRoles()));
+            ans5 = dataAccess.updateCellValue("Users","Roles" ,((User) object).getID(), listToString(((User) object).getStringRoles()));
             ans6 = dataAccess.updateCellValue("Users","searchHistories" ,((User) object).getID(), listToString(((User) object).getSearchHistory()));
 
 
@@ -943,18 +943,25 @@ public class Database //maybe generalize with interface? //for now red layer
         switch (type){
             case "Admin":
                 user = createUser(object.get(0));
-                //Admin admin = new Admin()
-                break;
+                Admin admin = new Admin(user);
+                return admin;
             case "Coach":
                 user = createUser(object.get(0));
                 Coach coach = new Coach(user, getEnumTraining(object.get(1)) ,getEnumRole(object.get(2)), Integer.parseInt(object.get(3)));
                 return coach;
             case "Complaint":
-                break;
+                Fan fan =getFan(object.get(4));
+                Complaint complaint = new Complaint(object.get(0),
+                        dataAccess.stringToDate(object.get(1)) ,Boolean.parseBoolean(object.get(2)),
+                        object.get(3),fan);
+                return complaint;
             case "Event":
-                break;
+                Event event = new Event(object.get(0) ,object.get(1) , dataAccess.stringToDate(object.get(2)),
+                        Double.parseDouble(object.get(3)) ,object.get(4));
+                return event;
             case "EventReport":
-                break;
+                EventReport eventReport = new EventReport(object.get(0),listOfEvents(object.get(1)));
+                return eventReport;
             case "Fan":
                 break;
             case "Field":
@@ -983,13 +990,101 @@ public class Database //maybe generalize with interface? //for now red layer
             case "UnionRepresentative":
                 break;
             case "User":
-                //user = new User(object.get(0))
-                break;
+                user = new User(object.get(0) ,object.get(1),object.get(2),object.get(3),
+                        Boolean.parseBoolean(object.get(4)) ,createList(object.get(5) , object.get(0)),
+                        split(object.get(6)));
+                return user;
 
         }
         return null;
 
     }
+
+    private static List<Role> createList(String roles ,String userId) {
+        List<String> listOfRoles = split(roles);
+        List<Role> allRoles = new LinkedList<>();
+
+        for(String s : listOfRoles){
+            switch (s){
+                case "Admin":
+                    allRoles.add(getAdmin(userId));
+                    break;
+                case "Coach":
+                    allRoles.add(getCoach(userId));
+                    break;
+                case "Fan":
+                    allRoles.add(getFan(userId));
+                    break;
+                case "Player":
+                    allRoles.add(getPlayer(userId));
+                    break;
+                case "Referee":
+                    allRoles.add(getReferee(userId));
+                    break;
+                case "TeamManager":
+                    allRoles.add(getTeamManager(userId));
+                    break;
+                case "TeamOwner":
+                    allRoles.add(getTeamOwner(userId));
+                    break;
+                case "UnionRepresentative":
+                    allRoles.add(getUnionRepresentative(userId));
+                    break;
+            }
+        }
+        return allRoles;
+
+    }
+
+
+    private static List<Event> listOfEvents(String events){
+        List<String> listOfEvents = split(events);
+        List<Event> allEvents = new LinkedList<>();
+
+        for (String eventId : listOfEvents){
+            allEvents.add(getEvent(eventId));
+        }
+
+        return allEvents;
+
+    }
+
+    private static List<String> split(String roles){
+        List<String> listOfRoles = new LinkedList<>();
+        String[] split = roles.split(",");
+
+        for (String s: split){
+            listOfRoles.add(s);
+        }
+        return listOfRoles;
+    }
+
+    /*private List<String> stringToList(String ans) {
+        List<String> res = new LinkedList<>();
+
+        String[] split = ans.split("~");
+
+        for (String s : split)
+            res.add(s);
+
+        return res;
+    }
+
+    private String ListToString(List<String> list) {
+
+        String res = "";
+
+        if (list.size() == 0)
+            return res;
+
+        for (String s : list)
+            res = res + s + "~";
+
+        res = res.substring(0, res.length() - 1);
+        res = res + "\n";
+
+        return res;
+    }*/
 
 
     private static Coach.TrainingCoach getEnumTraining(String enumTraining) {
@@ -1036,6 +1131,56 @@ public class Database //maybe generalize with interface? //for now red layer
 
         return new LinkedList<>(teams.values());
     }
+
+    public static Event getEvent(String eventId){
+        List<String> event;
+        event = dataAccess.getAllCellValues("Events" ,eventId);
+        return (Event) createObject("Event" , event);
+    }
+
+    public static Admin getAdmin(String userId){
+        List<String> admin;
+        admin = dataAccess.getAllCellValues("Admins" ,userId);
+        return (Admin) createObject("Admin" , admin);
+    }
+
+    public static Coach getCoach(String userId){
+        List<String> coach;
+        coach = dataAccess.getAllCellValues("Coaches" ,userId);
+        return (Coach) createObject("Coach" , coach);
+    }
+
+    public static Fan getFan(String userId){
+        List<String> fan;
+        fan = dataAccess.getAllCellValues("Fans" ,userId);
+        return (Fan) createObject("Fan" , fan);
+    }
+    public static Player getPlayer(String userId){
+        List<String> player;
+        player = dataAccess.getAllCellValues("Players" ,userId);
+        return (Player) createObject("Player" , player);
+    }
+    public static Referee getReferee(String userId){
+        List<String> referee;
+        referee = dataAccess.getAllCellValues("Referees" ,userId);
+        return (Referee) createObject("Referee" , referee);
+    }
+    public static TeamManager getTeamManager(String userId){
+        List<String> teamManager;
+        teamManager = dataAccess.getAllCellValues("TeamManagers" ,userId);
+        return (TeamManager) createObject("TeamManager" , teamManager);
+    }
+    public static TeamOwner getTeamOwner(String userId){
+        List<String> teamOwner;
+        teamOwner = dataAccess.getAllCellValues("TeamOwners" ,userId);
+        return (TeamOwner) createObject("TeamOwner" , teamOwner);
+    }
+    public static UnionRepresentative getUnionRepresentative(String userId){
+        List<String> unionRepresentative;
+        unionRepresentative = dataAccess.getAllCellValues("UnionRepresentatives" ,userId);
+        return (UnionRepresentative) createObject("UnionRepresentative" , unionRepresentative);
+    }
+
 
     private static User createUser(String userId) {
         List<String> user;

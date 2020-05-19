@@ -243,7 +243,7 @@ public class DataAccess {
         return true;
     }
 
-    private Date stringToDate(String val)
+    public Date stringToDate(String val)
     {
         String[] split = val.split("\\.");
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
