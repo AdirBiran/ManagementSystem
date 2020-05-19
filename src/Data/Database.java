@@ -57,7 +57,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans1 = dataAccess.updateCellValue("Coaches" ,"Training" ,((Coach) object).getID() ,((Coach) object).getTraining() );
             ans2 = dataAccess.updateCellValue("Coaches" ,"RoleInTeam" ,((Coach) object).getID() ,((Coach) object).getRoleInTeam() );
             //not sure what to do with the list of teams
-            ans3 = dataAccess.updateCellValue("Coaches" ,"Teams" ,((Coach) object).getID() ,listToString( ((Coach) object).getTeams() ));
+            ans3 = dataAccess.updateCellValue("Coaches" ,"Teams" ,((Coach) object).getID() , ((Coach) object).getTeamsId() );
             ans4 = dataAccess.updateCellValue("Coaches" ,"isActive" ,((Coach) object).getID() ,""+((Coach) object).isActive() );
             ans5 = dataAccess.updateCellValue("Coaches" ,"Price" ,((Coach) object).getID() ,""+((Coach) object).getPrice() );
 
@@ -256,7 +256,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
             ans1 = dataAccess.updateCellValue("Players" ,"Birthdate" ,((Player) object).getID() , ""+((Player) object).getBirthDate());
-            ans2 = dataAccess.updateCellValue("Players" ,"Teams" , ((Player) object).getID(), listToString(((Player) object).getTeams()));
+            ans2 = dataAccess.updateCellValue("Players" ,"Teams" , ((Player) object).getID(), ((Player) object).getTeamsId());
             ans3 = dataAccess.updateCellValue("Players" ,"RoleInTeam" , ((Player) object).getID(), ((Player) object).getRole());
             ans4 = dataAccess.updateCellValue("Players" ,"isActive" , ((Player) object).getID(), ""+((Player) object).isActive());
             ans5 = dataAccess.updateCellValue("Players" ,"Price" , ((Player) object).getID(), ""+((Player) object).getPrice());
@@ -322,8 +322,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans7 = dataAccess.updateCellValue("Teams","TeamManagers", ((Team) object).getID(), listToString(((Team) object).getTeamManagers()));
             ans8 = dataAccess.updateCellValue("Teams","Players", ((Team) object).getID(), listToString(((Team) object).getPlayers())  );
             ans9 = dataAccess.updateCellValue("Teams","Coaches",((Team) object).getID() , listToString(((Team) object).getCoaches()));
-           //מה לשים בטבלה מבחינת ה buget
-            // ans10 = dataAccess.updateCellValue("Teams","Budget" , ((Team) object).getID(), ""+((Team) object).getBudget().getBalance());
+            ans10 = dataAccess.updateCellValue("Teams","Budget" , ((Team) object).getID(), ""+((Team) object).getBudget().getBalance());
             ans11 = dataAccess.updateCellValue("Teams","GamesIDs" , ((Team) object).getID(), ((Team) object).getGamesId() );
             ans12 = dataAccess.updateCellValue("Teams","Fields" , ((Team) object).getID(), listToString(((Team) object).getFields()) );
             //לא הבנתי מה הכוונה
@@ -347,7 +346,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
 
-            ans1 = dataAccess.updateCellValue("TeamManagers" ,"Teams" , ((TeamManager) object).getID() , listToString(((TeamManager) object).getTeams()));
+            ans1 = dataAccess.updateCellValue("TeamManagers" ,"Teams" , ((TeamManager) object).getID() , ((TeamManager) object).getTeamsId());
             ans2 = dataAccess.updateCellValue("TeamManagers" ,"isActive" ,((TeamManager) object).getID() , ""+((TeamManager) object).isActive());
             ans3 = dataAccess.updateCellValue("TeamManagers" ,"Price" , ((TeamManager) object).getID(), ""+((TeamManager) object).getPrice());
            //ManageAssets?
@@ -368,8 +367,8 @@ public class Database //maybe generalize with interface? //for now red layer
              [AppointedTeamManagers] [varchar](255) ,
              * */
 
-            ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), listToString(((TeamOwner) object).getTeamsToManage()));
-            ans2 = dataAccess.updateCellValue("TeamOwners" ,"ClosedTeams" , ((TeamOwner) object).getUser().getID(), listToString(((TeamOwner) object).getClosedTeams()) );
+            ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), ((TeamOwner) object).getTeamsId());
+            //ans2 = dataAccess.updateCellValue("TeamOwners" ,"ClosedTeams" , ((TeamOwner) object).getUser().getID(),  );
 
             //HashMap for user and team, need to save them together
             //ans3 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamOwners" , ((TeamOwner) object).getUser().getID(), listToString(((TeamOwner) object).getAppointedTeamOwners().keySet()));
