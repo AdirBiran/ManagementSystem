@@ -22,6 +22,17 @@ public class Complaint extends Observable {
         this.response = "";
     }
 
+    public Complaint(String id, Date date, boolean isActive, String description, Fan fanComplained)
+    {
+        this.id = id;
+        this.date = date;
+        this.description = description;
+        this.fanComplained = fanComplained;
+        this.addObserver(fanComplained);
+        this.isActive = isActive;
+        this.response = "";
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     public Date getDate() {
         return date;

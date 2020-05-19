@@ -22,6 +22,17 @@ public class TeamOwner extends Manager implements Observer {
         this.user = user;
     }
 
+    public TeamOwner(User user, List<Team> teams, List<Team> closedTeams, HashMap<User, Team> appointedTeamOwners, HashMap<User, Team> appointedTeamManagers, HashMap<Team, PersonalPage> personalPages)
+    {
+        this.user = user;
+        this.teamsToManage = teams;
+        this.closedTeams = closedTeams;
+        this.appointedTeamOwners = appointedTeamOwners;
+        this.appointedTeamManagers = appointedTeamManagers;
+        this.personalPages = personalPages;
+    }
+
+
     public HashMap<User, Team> getAppointedTeamOwners() {
         return appointedTeamOwners;
     }
@@ -214,4 +225,5 @@ public class TeamOwner extends Manager implements Observer {
         String news = (String)arg;
         user.addMessage(news);
     }
+
 }

@@ -22,6 +22,14 @@ public class Season {
         leagueInSeasons = new LinkedList<>();
     }
 
+    public Season(String id, int year, Date date, List<LeagueInSeason> lis)
+    {
+        this.id = id;
+        this.year = year;
+        this.startDate = date;
+        this.leagueInSeasons = lis;
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
 

@@ -19,7 +19,6 @@ public class FanTest {
     User mesi;
     PersonalPage mesiPage;
     Fan fan;
-    ReceiveAlerts receiveAlerts;
     Game game;
 
     @Before
@@ -35,7 +34,6 @@ public class FanTest {
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
-        receiveAlerts = new ReceiveAlerts(true, false);
         /*create games*/
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
@@ -49,7 +47,7 @@ public class FanTest {
         assertTrue(fan.addPageToFollow(mesiPage.getId()));
         List<String> games = new LinkedList<>();
         games.add(game.getId());
-        assertTrue(fan.followGames(games, receiveAlerts));
+        assertTrue(fan.followGames(games, true));
 
         /*for notification*/
         Field newField = new Field("Jerusalem","Teddy", 10000, 200000);

@@ -14,7 +14,7 @@ public class Game extends Observable {
     private List<Referee> sideReferees; // between 2 and 6, check type of referee
     private Team hostTeam; // check type of team
     private Team guestTeam; // check type of team
-    private HashMap<Fan, ReceiveAlerts> fansForAlerts; //list of fans that signed up to receive game alerts
+    private HashMap<Fan, Boolean> fansForAlerts; //list of fans that signed up to receive game alerts
     private EventReport eventReport;
     private LeagueInSeason league;
 
@@ -40,6 +40,22 @@ public class Game extends Observable {
         fansForAlerts = new HashMap<>();
     }
 
+    public Game(String id, Date date, int hostScore, int guestScore, Field field, Referee mainReferee, List<Referee> sideReferees, Team hostTeam, Team guestTeam, HashMap<Fan,Boolean> fansAlerts, EventReport eventReport, LeagueInSeason lis)
+    {
+        this.id = id;
+        this.date = date;
+        this.hostScore = hostScore;
+        this.guestScore = guestScore;
+        this.field = field;
+        this.mainReferee = mainReferee;
+        this.sideReferees = sideReferees;
+        this.hostTeam = hostTeam;
+        this.guestTeam = guestTeam;
+        this.fansForAlerts = fansAlerts;
+        this.eventReport = eventReport;
+        this.league = lis;
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     @Override
     public String toString() {
@@ -58,9 +74,9 @@ public class Game extends Observable {
      * @param receiveAlerts- how to get the alerts
      * @return true- if the fan is added to list to receive game alerts
      */
-    public boolean addFanForNotifications(Fan fan, ReceiveAlerts receiveAlerts) {
+    public boolean addFanForNotifications(Fan fan, boolean toMail) {
         if(fansForAlerts.get(fan)==null) {
-            fansForAlerts.put(fan, receiveAlerts);
+            fansForAlerts.put(fan, toMail);
             this.addObserver(fan);
             return true;
         }
@@ -77,6 +93,7 @@ public class Game extends Observable {
     public void setNews(String news) {
         setChanged();
         notifyObservers(news);
+        sendMailToFan(news);
     }
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getId() {
@@ -162,9 +179,6 @@ public class Game extends Observable {
         return listOfId;
     }
 
-
-
-
     public void setDate(Date newDate) {
         this.date = newDate;
         setNews("Date of the game between the teams: " +this.name+ " change to "+this.date); // referees and fans
@@ -177,14 +191,22 @@ public class Game extends Observable {
 
     public void setNewsFromReferee(Object news){
         setChanged();
-        notifyObservers(news);
+        notifyObservers(news.toString());
+        sendMailToFan(news.toString());
+    }
+
+    /*alert for game, sent to mail if fan want get alert to mail*/
+    private void sendMailToFan(String news) {
+        for (Fan fan : fansForAlerts.keySet())
+            if (fansForAlerts.get(fan).equals(true))
+                MailSender.send(fan.getUser().getMail(), "New Alert for game "+this.name+":\nnews");
     }
 
     public LeagueInSeason getLeague() {
         return league;
     }
 
-    public HashMap<Fan, ReceiveAlerts> getFansForAlerts() {
+    public HashMap<Fan, Boolean> getFansForAlerts() {
         return fansForAlerts;
     }
 }

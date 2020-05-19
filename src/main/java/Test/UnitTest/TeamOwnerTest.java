@@ -2,7 +2,6 @@ package UnitTest;
 
 import Data.Database;
 import Domain.*;
-import Presentation.Records.UserRecord;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;

@@ -324,4 +324,15 @@ public class TeamManagementSystem {
         }
         return null;
     }
+
+    public List<String> getAllUsers(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("TeamOwner");
+            if (role instanceof Admin) {
+                role.getAllUsers();
+            }
+        }
+        return null;
+    }
 }

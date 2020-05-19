@@ -58,6 +58,27 @@ public class Team extends Observable {
         this.leagues = new LinkedList<>();
     }
 
+    public Team(String id, String name, int wins, int losses, int draws, PersonalPage page, List<User> teamOwners, List<User> teamManagers, List<User> players, List<User> coaches, Budget budget, List<Game> games, List<Field> fields, List<LeagueInSeason> lis, boolean isActive, boolean isPermanentlyClosed)
+    {
+        this.id = id;
+        this.name = name;
+        this.wins = wins;
+        this.losses = losses;
+        this.draws = draws;
+        this.page = page;
+        this.teamOwners = teamOwners;
+        this.teamManagers = teamManagers;
+        this.players = players;
+        this.coaches = coaches;
+        this.budget = budget;
+        this.games = games;
+        this.fields = fields;
+        this.leagues = lis;
+        this.active = isActive;
+        this.permanentlyClosed = isPermanentlyClosed;
+    }
+
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     public boolean addLeague(LeagueInSeason league) {
         if(!leagues.contains(league)){

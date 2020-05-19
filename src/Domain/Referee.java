@@ -22,6 +22,13 @@ public class Referee extends Role implements Observer {
         myRole = "Referee";
     }
 
+    public Referee(User user, String training, HashSet<Game> games)
+    {
+        this.user = user;
+        this.training = TrainingReferee.valueOf(training);
+        this.games = games;
+    }
+
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     public String getTraining() {
         return training.toString();
@@ -105,13 +112,14 @@ public class Referee extends Role implements Observer {
         return listOfId;
     }
 
-
-    public List<String> getAllPastGames() {
-        List<String> game = new LinkedList<>();
-        for(Game g: Database.getAllPastGames()) {
-            game.add(g.toString());
+    public static LinkedList<String> getAllPastGames(){
+        Date today = new Date();
+        LinkedList<String> pastGames = new LinkedList<>();
+        for(Game game : Database.getAllGames()){
+            if(today.after(game.getDate()))
+                pastGames.add(game.toString());
         }
-        return game;
+        return pastGames;
     }
 
     @Override

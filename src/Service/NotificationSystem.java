@@ -13,7 +13,7 @@ public class NotificationSystem {
 
     public static boolean notifyUser(User user, String message) {
 
-        if(!(Server.checkUserOnline(user.getID(),message)))
+        if(!(Server.sendNotification(user.getID(),message)))
             return false;
 
         return true;

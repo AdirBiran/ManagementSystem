@@ -215,7 +215,7 @@ public class AdminSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Admin");
             if (role instanceof Admin) {
-                ((Admin)role).getAllUsers();
+               role.getAllUsers();
             }
         }
         return null;

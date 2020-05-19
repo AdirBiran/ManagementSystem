@@ -129,18 +129,6 @@ public class Admin extends Role implements Observer {
         return details;
     }
 
-    public List<String> getAllUsers(){
-        List<String> users = new LinkedList<>();
-        String details=new String();
-        for (User user : Database.getAllUsers()){
-            details= user.getID()+":"+ user.getName()+",";
-            for(Role role : user.getRoles()){
-                details=details+role.myRole+":";
-            }
-            users.add(details);
-        }
-        return users;
-    }
     public List<String> getAllActiveComplaints(){
         List<String> complaints = new LinkedList<>();
         String details=new String();

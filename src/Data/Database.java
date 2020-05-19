@@ -591,18 +591,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static LinkedList<Game> getAllGames(){
         return new LinkedList<>(gamesInDatabase.values());
     }
-    /*
-    this function returns a list of all future games
-     */
-    public static LinkedList<Game> getAllFutureGames(){
-        Date today = new Date();// Calendar.getInstance().getTime();
-        LinkedList<Game> futureGames = new LinkedList<>();
-        for(Game game : gamesInDatabase.values()){
-            if(today.before(game.getDate()))
-                futureGames.add(game);
-        }
-        return futureGames;
-    }
+
 
     public static HashMap<String, PartOfATeam> getAssetsInDatabase() {
         return assetsInDatabase;

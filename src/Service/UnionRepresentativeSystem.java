@@ -44,6 +44,7 @@ public class UnionRepresentativeSystem {
         return false;
     }
 
+
     public String configureLeagueInSeason(String userId, String nameOfLeague, String yearOfSeason, String assignmentPolicy, String scorePolicy, double fee){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
@@ -195,48 +196,49 @@ public class UnionRepresentativeSystem {
         }
         return false;
     }
-    public List<String> getAllPastGames(String userID){
-        User user= UserFactory.getUser(userID);
-        Role role = user.checkUserRole("UnionRepresentative");
-        if(role instanceof  UnionRepresentative ) {
-            return  ((UnionRepresentative)role).getAllPastGames();
-        }
-        return null;
-    }
-    public void calculateLeagueScore(String userId, String leagueId)
+
+    public boolean calculateLeagueScore(String userId, String leagueId)
     {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                ((UnionRepresentative)role).calculateLeagueScore(leagueId);
-                Logger.logEvent(user.getID(), "Calculated league score");
+                boolean success = ((UnionRepresentative)role).calculateLeagueScore(leagueId);
+                if(success)
+                    Logger.logEvent(user.getID(), "Calculated league score");
             }
         }
+        return false;
     }
 
-    public void calculateGameScore(String userId, String leagueId,String gameId){
+    public boolean calculateGameScore(String userId, String leagueId,String gameId){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
                 boolean success = ((UnionRepresentative)role).calculateGameScore(leagueId, gameId);
-                if(success)
+                if(success) {
                     Logger.logEvent(user.getID(), "Calculated game score");
+                    return true;
+                }
             }
         }
+        return false;
     }
-    public void changeRegistrationFee(String userId, String leagueId, double newFee)
+    public boolean changeRegistrationFee(String userId, String leagueId, double newFee)
     {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
                 boolean success = ((UnionRepresentative)role).changeRegistrationFee(leagueId, newFee);
-                if(success)
+                if(success) {
                     Logger.logEvent(user.getID(), "Changed registration fee to " + newFee);
+                    return true;
+                }
             }
         }
+        return false;
     }
 
     public double getRegistrationFee(String userId,String leagueId)
@@ -252,24 +254,40 @@ public class UnionRepresentativeSystem {
         return -1;
     }
 
-    public void addTUTUPayment(String userId, String teamId, double payment){
+    public boolean addTUTUPayment(String userId, String teamId, double payment){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                ((UnionRepresentative) role).addTUTUPayment(teamId, payment);
-                Logger.logEvent(user.getID(), "Added TUTU payment of " + payment);
+                boolean success = ((UnionRepresentative) role).addTUTUPayment(teamId, payment);
+                if(success) {
+                    Logger.logEvent(user.getID(), "Added TUTU payment of " + payment);
+                    return true;
+                }
             }
         }
+        return false;
     }
-    public void addPaymentsFromTheTUTU(String userId, String teamName, String date ,double payment){
+    public boolean addPaymentsFromTheTUTU(String userId, String teamName, String date ,double payment){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                StubAccountingSystem.addPayment(teamName, date, payment);
+                return StubAccountingSystem.addPayment(teamName, date, payment);
             }
         }
+        return false;
+    }
+
+    public boolean addFieldToSystem(String userId,String location,String fieldName, int capacity, double price){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                return ((UnionRepresentative)role).addFieldToSystem(location, fieldName, capacity, price);
+            }
+        }
+        return false;
     }
 
     public List<String> allLeaguesInSeasons(String userId){
@@ -312,16 +330,7 @@ public class UnionRepresentativeSystem {
         }
         return null;
     }
-    public boolean addFieldToSystem(String userId,String location,String fieldName, int capacity, double price){
-        User user = UserFactory.getUser(userId);
-        if(user!=null) {
-            Role role = user.checkUserRole("UnionRepresentative");
-            if (role instanceof UnionRepresentative) {
-                return ((UnionRepresentative)role).addFieldToSystem(location, fieldName, capacity, price);
-            }
-        }
-        return false;
-    }
+
     public List<String> getAllDetailsAboutOpenTeams(String userId){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
@@ -340,6 +349,15 @@ public class UnionRepresentativeSystem {
             if (role instanceof UnionRepresentative) {
                 return role.getAllOpenTeams();
             }
+        }
+        return null;
+    }
+
+    public List<String> getAllPastGames(String userID){
+        User user= UserFactory.getUser(userID);
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof  UnionRepresentative ) {
+            return  ((UnionRepresentative)role).getAllPastGames();
         }
         return null;
     }

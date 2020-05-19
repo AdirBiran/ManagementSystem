@@ -44,6 +44,19 @@ public class User extends Guest {
 
     }
 
+    public User(String id, String firstName, String lastName, String mail, boolean isActive, List<Role> roles, List<String> searchHistory)
+    {
+        this.ID = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mail = mail;
+        this.isActive = isActive;
+        this.roles = roles;
+        this.searchHistory = searchHistory;
+        this.messageBox = new LinkedList<>();
+        //commit
+    }
+
     public Role checkUserRole (String userRole) {
         for(Role role : roles){
             if(role.myRole().contains(userRole))
@@ -89,12 +102,11 @@ public class User extends Guest {
     }
 
     public void addMessage(String message){ /***/
-        if(NotificationSystem.notifyUser(this, message)){
-
+        if(!(NotificationSystem.notifyUser(this, message))){
+            if(message!=null)
+                messageBox.add(message);
+                //change in user - update database
         }
-        /*if(notice!=null)
-            messageBox.add(notice);
-        serviceNotification.notifyUser()*/
     }
 
     @Override
