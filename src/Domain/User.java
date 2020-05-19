@@ -54,6 +54,7 @@ public class User extends Guest {
         this.roles = roles;
         this.searchHistory = searchHistory;
         this.messageBox = new LinkedList<>();
+        //commit
     }
 
     public Role checkUserRole (String userRole) {
