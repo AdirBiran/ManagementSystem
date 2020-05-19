@@ -49,6 +49,7 @@ CREATE TABLE [Fans](
 	[Address] [varchar](255) NOT NULL,
 	[Phone] [varchar](50) NOT NULL unique,
 	[FollowedPagesIDs] [varchar](255) ,
+	[ComplaintsIDs] [varchar](255) ,
 	--[isMailAlerts] [bit] ,
 );
 

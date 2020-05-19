@@ -113,19 +113,20 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4 ;
         }
         else if(object instanceof Fan){
-            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            boolean ans1=true,ans2=true,ans3=true,ans4=true ,ans5=true;
             /**
              * [Address] [varchar](255) NOT NULL,
              * 	[Phone] [varchar](50) NOT NULL unique,
              * 	[FollowedPagesIDs] [varchar](255) ,
-             *
+             *[ComplaintsIDs] [varchar](255) ,
              * */
 
             ans2 = dataAccess.updateCellValue("Fans" ,"Address" , ((Fan)object).getUser().getID(),((Fan) object).getAddress() );
             ans3 = dataAccess.updateCellValue("Fans" ,"Phone" ,((Fan)object).getUser().getID() , ((Fan) object).getPhone());
             ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), ((Fan) object).getfollowPagesId());
+            //ans4 = dataAccess.updateCellValue("Fans" ,"ComplaintsIDs" , ((Fan)object).getUser().getID(), ((Fan) object).);
 
-            return ans1 && ans2 && ans3 && ans4 ;
+            return ans1 && ans2 && ans3 && ans4 && ans5;
         }
         else if(object instanceof Field){
             boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true,ans6=true;
@@ -539,21 +540,7 @@ public class Database //maybe generalize with interface? //for now red layer
         return leaguesInSeasons.get(leagueInSeasonId);
     }
 
-    public static Team getTeam(String teamId){
-        List<String> team;
-        team = dataAccess.getAllCellValues("Teams" ,teamId);
-        return (Team) createObject("Team" , team);
 
-        //return teams.get(teamId);
-    }
-
-    public static List<Team> getTeams() {
-        //List<String> teams;
-        //teams=dataAccess.getAllTableValues("Teams");
-
-
-        return new LinkedList<>(teams.values());
-    }
 
     public static List<League> getLeagues(){ return new LinkedList<>(leagues);}
 
@@ -959,9 +946,6 @@ public class Database //maybe generalize with interface? //for now red layer
         return closeTeams;
     }
 
-    public static List<User> getAllUsers(){
-        return null;
-    }
 
 
 
@@ -969,11 +953,48 @@ public class Database //maybe generalize with interface? //for now red layer
         User user;
         switch (type){
             case "Admin":
-               // user = new User(object.get(0) , object.get(1) , object.get());
+              //  user = new User(object.get(0) , object.get(1) , object.get());
               //  Admin admin = new Admin()
               //  return null;
                 break;
             case "Coach":
+                user = createUser(object.get(0));
+                Coach coach = new Coach(user, getEnumTraining(object.get(1)) ,getEnumRole(object.get(2)))
+                break;
+            case "Complaint":
+                break;
+            case "Event":
+                break;
+            case "EventReport":
+                break;
+            case "Fan":
+                break;
+            case "Field":
+                //Field field = new Field(object.get(0),object.get(1),object.get(2),object.get(3));
+                break;
+            case "Game":
+                break;
+            case "League":
+                break;
+            case "LeagueInSeason":
+                break;
+            case "PersonalPage":
+                break;
+            case "Player":
+                break;
+            case "Referee":
+                break;
+            case "Season":
+                break;
+            case "Team":
+                break;
+            case "TeamManager":
+                break;
+            case "TeamOwner":
+                break;
+            case "UnionRepresentative":
+                break;
+            case "User":
                 break;
 
         }
@@ -981,9 +1002,69 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    /*private Field createField (String fieldId){
-        dataAccess
-    }*/
+
+    private static Object getEnumTraining(String enumTraining) {
+        switch (enumTraining){
+            case "IFA_C":
+                return Coach.TrainingCoach.IFA_C;
+            case "UEFA_A":
+                return Coach.TrainingCoach.UEFA_A;
+            case "UEFA_B":
+                return Coach.TrainingCoach.UEFA_B;
+            case "UEFA_PRO":
+                return Coach.TrainingCoach.UEFA_PRO;
+        }
+        return "";
+    }
+
+    private static Object getEnumRole(String enumRoleCoach) {
+        switch (enumRoleCoach){
+            case "main":
+                return Coach.RoleCoach.main;
+            case "assistantCoach":
+                return Coach.RoleCoach.assistantCoach;
+            case "fitness":
+                return Coach.RoleCoach.fitness;
+            case "goalkeeperCoach":
+                return Coach.RoleCoach.goalkeeperCoach;
+        }
+        return "";
+    }
+
+   
+    public static Team getTeam(String teamId){
+        List<String> team;
+        team = dataAccess.getAllCellValues("Teams" ,teamId);
+        return (Team) createObject("Team" , team);
+
+        //return teams.get(teamId);
+    }
+
+    public static List<Team> getTeams() {
+        //List<String> teams;
+        //teams=dataAccess.getAllTableValues("Teams");
+
+
+        return new LinkedList<>(teams.values());
+    }
+
+    private static User createUser(String userId) {
+        List<String> user;
+        user = dataAccess.getAllCellValues("Users" ,userId);
+        return (User) createObject("User" , user);
+    }
+
+    private Field createField (String fieldId){
+        List<String> field;
+        field = dataAccess.getAllCellValues("Fields" ,fieldId);
+        return (Field) createObject("Field" ,field);
+    }
+
+
+
+    public static List<User> getAllUsers(){
+        return null;
+    }
 
     public static List<Game> getAllPastGames() {
         return null;
