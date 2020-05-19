@@ -158,4 +158,17 @@ public abstract class Manager extends Role{
     }
 
     public List<Team> getTeamsToManage(){return teamsToManage;}
+
+    public String getTeamsId(){
+        String listOfId = "";
+        for (Team team: teamsToManage) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+team.getID();
+            }
+            else {
+                listOfId = listOfId + ","+team.getID();
+            }
+        }
+        return listOfId;
+    }
 }
