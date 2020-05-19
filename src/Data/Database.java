@@ -964,7 +964,9 @@ public class Database //maybe generalize with interface? //for now red layer
                 Fan fan = new Fan(user , object.get(1),object.get(2) ,listOfPersonalPage(object.get(3)), listOfComplaintts(object.get(4)));
                 break;
             case "Field":
-                //Field field = new Field(object.get(0),object.get(1),object.get(2),object.get(3));
+                Field field = new Field(object.get(0) , object.get(1) , object.get(2),
+                        Integer.parseInt(object.get(3)) ,teamHashSet(object.get(4)) ,Boolean.parseBoolean(object.get(5)) ,
+                        Double.parseDouble(object.get(6)));
                 break;
             case "Game":
                 break;
@@ -1035,6 +1037,16 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+
+    private static HashSet<Team> teamHashSet(String teams){
+        List<String> listOfTeams = split(teams);
+        HashSet<Team> allTeams = new HashSet<>();
+
+        for(String teamId : listOfTeams){
+            allTeams.add(getTeam(teamId));
+        }
+        return allTeams;
+    }
 
     private static List<Event> listOfEvents(String events){
         List<String> listOfEvents = split(events);
