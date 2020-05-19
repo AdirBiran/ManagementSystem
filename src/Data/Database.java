@@ -959,8 +959,8 @@ public class Database //maybe generalize with interface? //for now red layer
                 break;
             case "Coach":
                 user = createUser(object.get(0));
-                Coach coach = new Coach(user, getEnumTraining(object.get(1)) ,getEnumRole(object.get(2)))
-                break;
+                Coach coach = new Coach(user, getEnumTraining(object.get(1)) ,getEnumRole(object.get(2)), Integer.parseInt(object.get(3)));
+                return coach;
             case "Complaint":
                 break;
             case "Event":
@@ -1003,7 +1003,7 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
 
-    private static Object getEnumTraining(String enumTraining) {
+    private static Coach.TrainingCoach getEnumTraining(String enumTraining) {
         switch (enumTraining){
             case "IFA_C":
                 return Coach.TrainingCoach.IFA_C;
@@ -1014,10 +1014,10 @@ public class Database //maybe generalize with interface? //for now red layer
             case "UEFA_PRO":
                 return Coach.TrainingCoach.UEFA_PRO;
         }
-        return "";
+        return Coach.TrainingCoach.IFA_C;
     }
 
-    private static Object getEnumRole(String enumRoleCoach) {
+    private static Coach.RoleCoach getEnumRole(String enumRoleCoach) {
         switch (enumRoleCoach){
             case "main":
                 return Coach.RoleCoach.main;
@@ -1028,10 +1028,10 @@ public class Database //maybe generalize with interface? //for now red layer
             case "goalkeeperCoach":
                 return Coach.RoleCoach.goalkeeperCoach;
         }
-        return "";
+        return Coach.RoleCoach.assistantCoach;
     }
 
-   
+
     public static Team getTeam(String teamId){
         List<String> team;
         team = dataAccess.getAllCellValues("Teams" ,teamId);
