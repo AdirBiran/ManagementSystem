@@ -56,8 +56,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * 	*/
             ans1 = dataAccess.updateCellValue("Coaches" ,"Training" ,((Coach) object).getID() ,((Coach) object).getTraining() );
             ans2 = dataAccess.updateCellValue("Coaches" ,"RoleInTeam" ,((Coach) object).getID() ,((Coach) object).getRoleInTeam() );
-            //not sure what to do with the list of teams
-            ans3 = dataAccess.updateCellValue("Coaches" ,"Teams" ,((Coach) object).getID() , ((Coach) object).getTeamsId() );
+            ans3 = dataAccess.updateCellValue("Coaches" ,"Teams" ,((Coach) object).getID() , listOfTeamsToStringIDs(((Coach) object).getTeams()) );
             ans4 = dataAccess.updateCellValue("Coaches" ,"isActive" ,((Coach) object).getID() ,""+((Coach) object).isActive() );
             ans5 = dataAccess.updateCellValue("Coaches" ,"Price" ,((Coach) object).getID() ,""+((Coach) object).getPrice() );
 
@@ -102,11 +101,9 @@ public class Database //maybe generalize with interface? //for now red layer
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
             /**
              *
-             * [GameID] [char](30) NOT NULL,
              * 	[EventsIDs] [varchar](max) NOT NULL,
              * */
 
-            // ans1 = dataAccess.updateCellValue("EventReports","GameID",((EventReport) object).getId() ,);
             ans2 = dataAccess.updateCellValue("EventReports","EventsIDs",((EventReport) object).getId() , ((EventReport) object).getEventsId());
 
 
@@ -124,7 +121,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans2 = dataAccess.updateCellValue("Fans" ,"Address" , ((Fan)object).getUser().getID(),((Fan) object).getAddress() );
             ans3 = dataAccess.updateCellValue("Fans" ,"Phone" ,((Fan)object).getUser().getID() , ((Fan) object).getPhone());
             ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), ((Fan) object).getfollowPagesId());
-            //ans4 = dataAccess.updateCellValue("Fans" ,"ComplaintsIDs" , ((Fan)object).getUser().getID(), ((Fan) object).);
+            ans4 = dataAccess.updateCellValue("Fans" ,"ComplaintsIDs" , ((Fan)object).getUser().getID(), ((Fan) object).getComplaintsId());
 
             return ans1 && ans2 && ans3 && ans4 && ans5;
         }
@@ -143,7 +140,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans1 = dataAccess.updateCellValue("Fields","Location",((Field) object).getID() ,((Field) object).getLocation());
             ans2 = dataAccess.updateCellValue("Fields","Name",((Field) object).getID() ,((Field) object).getName());
             ans3 = dataAccess.updateCellValue("Fields","Capacity", ((Field) object).getID(),""+((Field) object).getCapacity());
-            ans4 = dataAccess.updateCellValue("Fields","Teams", ((Field) object).getID(),listToString(((Field) object).getTeams()) );
+            ans4 = dataAccess.updateCellValue("Fields","Teams", ((Field) object).getID(),listOfTeamsToStringIDs(((Field) object).getTeams()) );
             ans5 = dataAccess.updateCellValue("Fields","isActive" ,((Field) object).getID(),""+((Field) object).isActive());
             ans6 = dataAccess.updateCellValue("Fields","Price" ,((Field) object).getID(),""+((Field) object).getPrice());
 
@@ -195,7 +192,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             ans1 = dataAccess.updateCellValue("Leagues" ,"Name" , ((League) object).getId() , ((League) object).getName());
             ans2 = dataAccess.updateCellValue("Leagues" ,"LeagueLevel" ,((League) object).getId() ,((League) object).getLevel() );
-            //ans4 = dataAccess.updateCellValue("Leagues" ,"SeasonsIDs" , ((League) object).getId(),object. );
+            ans4 = dataAccess.updateCellValue("Leagues" ,"SeasonsIDs" , ((League) object).getId(),getSeasonsFromLeagueInSeasons(((League) object).getLeagueInSeasons()) );
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
@@ -211,18 +208,26 @@ public class Database //maybe generalize with interface? //for now red layer
              [RegistrationFee] [real] NOT NULL,
              [Records] [varchar](1000) NOT NULL,
              * */
-
+            String assignmentPolicy ="null";
+            String scorePolicy ="null";
             if(((LeagueInSeason) object).getAssignmentPolicy() instanceof PlayOnceWithEachTeamPolicy){
-                //PlayOnceWithEachTeamPolicy
+                assignmentPolicy ="PlayOnceWithEachTeamPolicy";
             }
             else if(((LeagueInSeason) object).getAssignmentPolicy() instanceof PlayTwiceWithEachTeamPolicy){
-                //PlayTwiceWithEachTeamPolicy
+                assignmentPolicy = "PlayTwiceWithEachTeamPolicy";
             }
-            //ans1 = dataAccess.updateCellValue("LeaguesInSeasons","AssignmentPolicy", ((LeagueInSeason) object).getId() ,((LeagueInSeason) object).getAssignmentPolicy());
-            // ans2 = dataAccess.updateCellValue("LeaguesInSeasons","ScorePolicy", ((LeagueInSeason) object).getId(),((LeagueInSeason) object).getScorePolicy());
+
+            if(((LeagueInSeason) object).getScorePolicy() instanceof StandardScorePolicy){
+                assignmentPolicy ="StandardScorePolicy";
+            }
+            else if(((LeagueInSeason) object).getScorePolicy() instanceof CupScorePolicy){
+                assignmentPolicy = "CupScorePolicy";
+            }
+            ans1 = dataAccess.updateCellValue("LeaguesInSeasons","AssignmentPolicy", ((LeagueInSeason) object).getId() ,assignmentPolicy);
+            ans2 = dataAccess.updateCellValue("LeaguesInSeasons","ScorePolicy", ((LeagueInSeason) object).getId(),scorePolicy);
             ans3 = dataAccess.updateCellValue("LeaguesInSeasons","GamesIDs", ((LeagueInSeason) object).getId(), ((LeagueInSeason) object).getGamesId());
             ans4 = dataAccess.updateCellValue("LeaguesInSeasons","RefereesIDs" ,((LeagueInSeason) object).getId(),((LeagueInSeason) object).getRefereesId());
-            ans5 = dataAccess.updateCellValue("LeaguesInSeasons","TeamsIDs" ,((LeagueInSeason) object).getId(),((LeagueInSeason) object).getTeamsId());
+            ans5 = dataAccess.updateCellValue("LeaguesInSeasons","TeamsIDs" ,((LeagueInSeason) object).getId(),listOfTeamsToStringIDs(((LeagueInSeason) object).getTeams()));
             ans6 = dataAccess.updateCellValue("LeaguesInSeasons","RegistrationFee" ,((LeagueInSeason) object).getId(),""+((LeagueInSeason) object).getRegistrationFee());
 
             //score table
@@ -256,7 +261,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
             ans1 = dataAccess.updateCellValue("Players" ,"Birthdate" ,((Player) object).getID() , ""+((Player) object).getBirthDate());
-            ans2 = dataAccess.updateCellValue("Players" ,"Teams" , ((Player) object).getID(), ((Player) object).getTeamsId());
+            ans2 = dataAccess.updateCellValue("Players" ,"Teams" , ((Player) object).getID(), listOfTeamsToStringIDs(((Player) object).getTeams()));
             ans3 = dataAccess.updateCellValue("Players" ,"RoleInTeam" , ((Player) object).getID(), ((Player) object).getRole());
             ans4 = dataAccess.updateCellValue("Players" ,"isActive" , ((Player) object).getID(), ""+((Player) object).isActive());
             ans5 = dataAccess.updateCellValue("Players" ,"Price" , ((Player) object).getID(), ""+((Player) object).getPrice());
@@ -346,7 +351,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
 
-            ans1 = dataAccess.updateCellValue("TeamManagers" ,"Teams" , ((TeamManager) object).getID() , ((TeamManager) object).getTeamsId());
+            ans1 = dataAccess.updateCellValue("TeamManagers" ,"Teams" , ((TeamManager) object).getID() , listOfTeamsToStringIDs(((TeamManager) object).getTeams()));
             ans2 = dataAccess.updateCellValue("TeamManagers" ,"isActive" ,((TeamManager) object).getID() , ""+((TeamManager) object).isActive());
             ans3 = dataAccess.updateCellValue("TeamManagers" ,"Price" , ((TeamManager) object).getID(), ""+((TeamManager) object).getPrice());
            //ManageAssets?
@@ -367,7 +372,7 @@ public class Database //maybe generalize with interface? //for now red layer
              [AppointedTeamManagers] [varchar](255) ,
              * */
 
-            ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), ((Manager) object).getTeamsId());
+            ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), listOfTeamsToStringIDs(((TeamManager) object).getTeams()));
             ans2 = dataAccess.updateCellValue("TeamOwners" ,"ClosedTeams" , ((TeamOwner) object).getUser().getID(), object. );
 
             //HashMap for user and team, need to save them together
@@ -402,6 +407,16 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+    private static String getSeasonsFromLeagueInSeasons(List<LeagueInSeason> leagueInSeasons) {
+        String listOfStrings="";
+        for (LeagueInSeason leagueInSeason : leagueInSeasons) {
+            if(listOfStrings.equals("")){
+                listOfStrings= listOfStrings +leagueInSeason.getSeason().getId();
+            }else {
+                listOfStrings = listOfStrings + "," + leagueInSeason.getSeason().getId();
+            }
+        }
+    }
 
 
     private static String listToString(Collection objects){
@@ -417,7 +432,18 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+    private static String listOfTeamsToStringIDs(Collection<Team> teams){
+        String listOfStringsID="";
+        for (Team team:teams) {
+            if(listOfStringsID.equals("")){
+                listOfStringsID= listOfStringsID +team.getID();
+            }else {
+                listOfStringsID = listOfStringsID + "," + team.getID();
+            }
+        }
+        return listOfStringsID;
 
+    }
    /* private static String listToStringForEventsID(List<Event> events){
         String listOfStrings="";
         for (Event event:events) {
