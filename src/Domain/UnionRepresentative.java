@@ -14,7 +14,7 @@ public class UnionRepresentative extends Role implements Observer {
 
     }
 
-    public boolean configureNewLeague(String name, String level) {
+    public boolean configureNewLeague(String name, League.LevelLeague level) {
         League league = new League(name, level);
         return Database.addLeague(league);
     }
@@ -243,4 +243,10 @@ public class UnionRepresentative extends Role implements Observer {
         user.addMessage(news);
     }
 
+    public List<String> getAllReferees() {
+        List<String> referees = new LinkedList<>();
+        /*for (Referee referee : Database.getAllReferees())
+            referees.add(referee.toString());*/
+        return referees;
+    }
 }

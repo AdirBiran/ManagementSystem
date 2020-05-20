@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 public class HasPage extends Role{
 
     private PersonalPage page;
@@ -26,5 +28,12 @@ public class HasPage extends Role{
     @Override
     public String myRole() {
         return "HasPage";
+    }
+
+    public String viewPage(String pageId) {
+        PersonalPage personalPage = Database.getPage(pageId);
+        if (personalPage!=null)
+            return personalPage.toString();
+        return null;
     }
 }

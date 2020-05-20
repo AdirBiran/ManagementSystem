@@ -159,16 +159,40 @@ public abstract class Manager extends Role{
 
     public List<Team> getTeamsToManage(){return teamsToManage;}
 
-    public String getTeamsId(){
-        String listOfId = "";
-        for (Team team: teamsToManage) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
+    public List<String> getAllPlayers(){
+        List<String> players = new LinkedList<>();
+        /*for(Player player : Database.getAllPlayers())
+            players.add(player.toString());*/
+        return players;
+    }
+
+    public List<String> getAllCoaches() {
+        List<String> coaches = new LinkedList<>();
+        /*for(Player player : Database.getAllCoaches())
+            coaches.add(player.toString());*/
+        return coaches;
+    }
+
+    public List<String> getAllFields() {
+        List<String> fields = new LinkedList<>();
+        /*for(Player player : Database.getAllFields())
+            fields.add(player.toString());*/
+        return fields;
+    }
+
+    public List<String> getAllTeamAssets(String teamId) {
+        List<String> teamAssets = new LinkedList<>();
+        Team team = Database.getTeam(teamId);
+        if(team!=null){
+            for(User teamManager: team.getTeamManagers())
+                teamAssets.add(teamManager.toString());
+            for(User coach : team.getCoaches())
+                teamAssets.add(coach.toString());
+            for (User player : team.getPlayers())
+                teamAssets.add(player.toString());
+            for(Field field : team.getFields())
+                teamAssets.add(field.toString());
         }
-        return listOfId;
+        return teamAssets;
     }
 }

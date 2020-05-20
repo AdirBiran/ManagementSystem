@@ -47,7 +47,7 @@ public class Fan extends Role implements Observer {
         this.phone = phone;
     }
 
-    public boolean followGames(List<String> gamesId , boolean receiveAlerts){
+    public boolean registrationForGamesAlerts(List<String> gamesId , boolean receiveAlerts){
         for(String gameId: gamesId) {
             Game game = Database.getGame(gameId);
             if(!game.addFanForNotifications(this, receiveAlerts))
@@ -69,6 +69,26 @@ public class Fan extends Role implements Observer {
         for(PersonalPage p: followPages)
             pages.add(p.toString());
         return pages;
+    }
+
+    public List<String> getAllPages(){
+        List<String> pages = new LinkedList<>();
+        for(PersonalPage p: Database.getAllPages())
+            pages.add(p.toString());
+        return pages;
+    }
+
+    /*
+    this function returns a list of all future games
+     */
+    public static LinkedList<String> getAllFutureGames(){
+        Date today = new Date();
+        LinkedList<String> futureGames = new LinkedList<>();
+        for(Game game : Database.getAllGames()){
+            if(today.before(game.getDate()))
+                futureGames.add(game.toString());
+        }
+        return futureGames;
     }
 
     public String getComplaintsId(){
@@ -95,27 +115,6 @@ public class Fan extends Role implements Observer {
             }
         }
         return listOfId;
-    }
-
-
-    public List<String> getAllPages(){
-        List<String> pages = new LinkedList<>();
-        for(PersonalPage p: Database.getAllPages())
-            pages.add(p.toString());
-        return pages;
-    }
-
-    /*
-    this function returns a list of all future games
-     */
-    public static LinkedList<String> getAllFutureGames(){
-        Date today = new Date();
-        LinkedList<String> futureGames = new LinkedList<>();
-        for(Game game : Database.getAllGames()){
-            if(today.before(game.getDate()))
-                futureGames.add(game.toString());
-        }
-        return futureGames;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
@@ -164,6 +163,13 @@ public class Fan extends Role implements Observer {
     public void update(Observable o, Object arg) {
         String news = (String)arg;
         user.addMessage(news);
+    }
 
+    public String getUserInfo() {
+        return "Fan" +
+                ", firstName=" + user.getFirstName() +
+                ", lastName=" + user.getLastName() +
+                ", phone=" + phone +
+                ", address=" + address;
     }
 }
