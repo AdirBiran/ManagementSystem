@@ -174,7 +174,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans6 = dataAccess.updateCellValue("Games","SideRefereesIDs" ,((Game) object).getId(),((Game) object).getSideRefereesId() );
             ans7 = dataAccess.updateCellValue("Games","HostTeamID" ,((Game) object).getId(),((Game) object).getHostTeam().getID());
             ans8 = dataAccess.updateCellValue("Games","GuestTeamID" ,((Game) object).getId(),((Game) object).getGuestTeam().getID());
-            ans9 = dataAccess.updateCellValue("Games","AlertsFansIDs" ,((Game) object).getId(),((Game) object).getAlertsFansId());
+            ans9 = dataAccess.updateCellValue("Games","AlertsFansIDs" ,((Game) object).getId(),getfansForAlerts(((Game) object).getFansForAlerts()));
             ans10 = dataAccess.updateCellValue("Games","EventReportID" ,((Game) object).getId(),((Game) object).getEventReport().getId());
             ans11 = dataAccess.updateCellValue("Games","LeagueInSeasonID" ,((Game) object).getId(),((Game) object).getLeague().getId());
 
@@ -402,6 +402,23 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+
+    private static String getfansForAlerts(HashMap<Fan, Boolean> fansForAlerts) {
+        String listOfStrings="";
+
+        for (HashMap.Entry<Fan, Boolean> entry : fansForAlerts.entrySet()) {
+
+            Fan fan = entry.getKey();
+            Boolean bool = entry.getValue();
+            if(listOfStrings.equals("")){
+                listOfStrings= listOfStrings + fan.getUser().getID() +":"+ bool;
+            }else {
+                listOfStrings = listOfStrings + "," + fan.getUser().getID() +":"+ bool;
+            }
+        }
+        return listOfStrings;
+    }
+
     private static String appointmentUsersIds(HashMap<User, Team> appointedTeamOwners) {
         String listOfStrings="";
 
@@ -476,6 +493,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 listOfStrings = listOfStrings + "," + leagueInSeason.getSeason().getId();
             }
         }
+        return listOfStrings;
     }
 
 
@@ -1046,7 +1064,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 return eventReport;
             case "Fan":
                 user= createUser(object.get(0));
-                Fan fan = new Fan(user , object.get(1),object.get(2) ,listOfPersonalPage(object.get(3)), listOfComplaintts(object.get(4)));
+                Fan fan = new Fan(user , object.get(1),object.get(2) ,listOfPersonalPage(object.get(3)), listOfComplaints(object.get(4)));
                 return fan;
             case "Field":
                 Field field = new Field(object.get(0) , object.get(1) , object.get(2),
@@ -1058,8 +1076,9 @@ public class Database //maybe generalize with interface? //for now red layer
                         Integer.parseInt(object.get(2)) , Integer.parseInt(object.get(3)),
                         getField(object.get(4)) ,getReferee(object.get(5))
                         ,createSideReferees(object.get(6)),getTeam(object.get(7)), getTeam(object.get(8)),
-                         );
-                break;
+                        getFansForAlertsHashMap(object.get(9)) ,getEventReport(object.get(10)) ,
+                        getLeagueInSeason(object.get(11)));
+                return game;
             case "League":
                 break;
             case "LeagueInSeason":
@@ -1091,8 +1110,8 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    private static Object createFansAlert(String s) {
-    }
+
+
 
     private static  List<Referee> createSideReferees(String referees) {
         List<String> listOfStrings = split(referees);
@@ -1176,7 +1195,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    private static List<Complaint> listOfComplaintts(String complaintId){
+    private static List<Complaint> listOfComplaints(String complaintId){
         List<String> listOfComplaint = split(complaintId);
         List<Complaint> allComplaints = new LinkedList<>();
 
@@ -1195,6 +1214,39 @@ public class Database //maybe generalize with interface? //for now red layer
             listOfRoles.add(s);
         }
         return listOfRoles;
+    }
+
+    private static List<String> splitHashMap(String fansForAlerts){
+        List<String> listOfFansForAlerts = new LinkedList<>();
+        String[] split = fansForAlerts.split(":");
+
+        for (String s: split){
+            listOfFansForAlerts.add(s);
+        }
+        return listOfFansForAlerts;
+    }
+
+    private static HashMap<Fan ,Boolean> getFansForAlertsHashMap(String fansForAlerts) {
+
+        HashMap<Fan ,Boolean> hashMapFansForAlerts = new HashMap<>();
+        List<String> temp;
+        //fansForAlerts= fanId1:boolean,fanId2:boolean,..
+
+        /**
+         * after split =>
+         * fansAndAlerts.get(0) = fanId1:boolean
+         * fansAndAlerts.get(0) = fanId2:boolean
+         * ...
+         */
+        List<String> fansAndAlerts = split(fansForAlerts);
+
+        for(String s : fansAndAlerts){
+            temp=splitHashMap(s);
+            Fan fan = getFan(temp.get(0));
+            Boolean bool = Boolean.parseBoolean(temp.get(1));
+            hashMapFansForAlerts.put(fan,bool);
+        }
+        return hashMapFansForAlerts;
     }
 
     /*private List<String> stringToList(String ans) {
@@ -1295,6 +1347,12 @@ public class Database //maybe generalize with interface? //for now red layer
         return (Event) createObject("Event" , event);
     }
 
+    public static EventReport getEventReport(String eventReportId){
+        List<String> eventReport;
+        eventReport = dataAccess.getAllCellValues("EventReports" ,eventReportId);
+        return (EventReport) createObject("EventReport" , eventReport);
+    }
+
     public static Admin getAdmin(String userId){
         List<String> admin;
         admin = dataAccess.getAllCellValues("Admins" ,userId);
@@ -1345,11 +1403,11 @@ public class Database //maybe generalize with interface? //for now red layer
         return (User) createObject("User" , user);
     }
 
-    private Field createField (String fieldId){
+   /* private Field createField (String fieldId){
         List<String> field;
         field = dataAccess.getAllCellValues("Fields" ,fieldId);
         return (Field) createObject("Field" ,field);
-    }
+    }*/
 
 
 
