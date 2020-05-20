@@ -367,8 +367,8 @@ public class Database //maybe generalize with interface? //for now red layer
              [AppointedTeamManagers] [varchar](255) ,
              * */
 
-            ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), ((TeamOwner) object).getTeamsId());
-            //ans2 = dataAccess.updateCellValue("TeamOwners" ,"ClosedTeams" , ((TeamOwner) object).getUser().getID(),  );
+            ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), ((Manager) object).getTeamsId());
+            ans2 = dataAccess.updateCellValue("TeamOwners" ,"ClosedTeams" , ((TeamOwner) object).getUser().getID(), object. );
 
             //HashMap for user and team, need to save them together
             //ans3 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamOwners" , ((TeamOwner) object).getUser().getID(), listToString(((TeamOwner) object).getAppointedTeamOwners().keySet()));
