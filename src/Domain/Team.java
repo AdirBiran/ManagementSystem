@@ -347,6 +347,7 @@ public class Team extends Observable {
     public Budget getBudget() {
         return budget;
     }
+
     public String getGamesId(){
         String listOfId = "";
         for (Game game: games) {
@@ -437,5 +438,9 @@ public class Team extends Observable {
             return true;
         }
         return false;
+    }
+
+    public List<LeagueInSeason> getLeaguesInSeason() {
+        return leagues;
     }
 }

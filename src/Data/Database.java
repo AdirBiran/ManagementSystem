@@ -274,7 +274,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
             ans1 = dataAccess.updateCellValue("Referees" ,"Training" , ((Referee) object).getUser().getID() ,((Referee) object).getTraining() );
-            ans2 = dataAccess.updateCellValue("Referees" ,"Games" , ((Referee) object).getUser().getID(), listToString(((Referee) object).viewGames()) );
+            ans2 = dataAccess.updateCellValue("Referees" ,"Games" , ((Referee) object).getUser().getID(), ((Referee) object).getGamesId() );
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
@@ -321,15 +321,14 @@ public class Database //maybe generalize with interface? //for now red layer
             ans3 = dataAccess.updateCellValue("Teams","Losses", ((Team) object).getID(), ""+((Team) object).getLosses());
             ans4 = dataAccess.updateCellValue("Teams","Draws", ((Team) object).getID(), ""+((Team) object).getDraws());
             ans5 = dataAccess.updateCellValue("Teams","PersonalPageID", ((Team) object).getID(),((Team) object).getPage().getId() );
-            ans6 = dataAccess.updateCellValue("Teams","TeamOwners", ((Team) object).getID(), listToString(((Team) object).getTeamOwners()));
-            ans7 = dataAccess.updateCellValue("Teams","TeamManagers", ((Team) object).getID(), listToString(((Team) object).getTeamManagers()));
-            ans8 = dataAccess.updateCellValue("Teams","Players", ((Team) object).getID(), listToString(((Team) object).getPlayers())  );
-            ans9 = dataAccess.updateCellValue("Teams","Coaches",((Team) object).getID() , listToString(((Team) object).getCoaches()));
+            ans6 = dataAccess.updateCellValue("Teams","TeamOwners", ((Team) object).getID(), getUserId(((Team) object).getTeamOwners()));
+            ans7 = dataAccess.updateCellValue("Teams","TeamManagers", ((Team) object).getID(), getUserId(((Team) object).getTeamManagers()));
+            ans8 = dataAccess.updateCellValue("Teams","Players", ((Team) object).getID(), getUserId(((Team) object).getPlayers())  );
+            ans9 = dataAccess.updateCellValue("Teams","Coaches",((Team) object).getID() , getUserId(((Team) object).getCoaches()));
             ans10 = dataAccess.updateCellValue("Teams","Budget" , ((Team) object).getID(), ""+((Team) object).getBudget().getBalance());
             ans11 = dataAccess.updateCellValue("Teams","GamesIDs" , ((Team) object).getID(), ((Team) object).getGamesId() );
-            ans12 = dataAccess.updateCellValue("Teams","Fields" , ((Team) object).getID(), listToString(((Team) object).getFields()) );
-            //לא הבנתי מה הכוונה
-            //ans13 = dataAccess.updateCellValue("Teams","LeaguesInSeasons" , ((Team) object).getID(), );
+            ans12 = dataAccess.updateCellValue("Teams","Fields" , ((Team) object).getID(), getFieldsIds(((Team) object).getFields()) );
+            ans13 = dataAccess.updateCellValue("Teams","LeaguesInSeasons" , ((Team) object).getID(), getLeagueInSeasonIds(((Team) object).getLeaguesInSeason()));
             ans14 = dataAccess.updateCellValue("Teams","isActive" ,((Team) object).getID() , ""+((Team) object).isActive());
             ans15 = dataAccess.updateCellValue("Teams","isPermanentlyClosed" , ((Team) object).getID(), ""+((Team) object).isPermanentlyClosed());
 
@@ -352,12 +351,10 @@ public class Database //maybe generalize with interface? //for now red layer
             ans1 = dataAccess.updateCellValue("TeamManagers" ,"Teams" , ((TeamManager) object).getID() , listOfTeamsToStringIDs(((TeamManager) object).getTeams()));
             ans2 = dataAccess.updateCellValue("TeamManagers" ,"isActive" ,((TeamManager) object).getID() , ""+((TeamManager) object).isActive());
             ans3 = dataAccess.updateCellValue("TeamManagers" ,"Price" , ((TeamManager) object).getID(), ""+((TeamManager) object).getPrice());
-           //ManageAssets?
-            // ans4 = dataAccess.updateCellValue("TeamManagers" ,"ManageAssets" , ((TeamManager) object).getID(), );
-            //Finance?
-            //ans5 = dataAccess.updateCellValue("TeamManagers" ,"Finance" , ((TeamManager) object).getID(), );
-            // private boolean permissionManageAssets;
-            //    private boolean permissionFinance;
+
+            //ManageAssets and Finance are permissionManageAssets and permissionFinance
+            ans4 = dataAccess.updateCellValue("TeamManagers" ,"ManageAssets" , ((TeamManager) object).getID(), ""+((TeamManager) object).isPermissionManageAssets());
+            ans5 = dataAccess.updateCellValue("TeamManagers" ,"Finance" , ((TeamManager) object).getID(), ""+((TeamManager) object).isPermissionFinance());
 
             return ans1 && ans2 && ans3 && ans4 && ans5 ;
         }
@@ -403,6 +400,42 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return false;
 
+    }
+
+    private static String getLeagueInSeasonIds(List<LeagueInSeason> leaguesInSeason) {
+        String listOfStringsID="";
+        for (LeagueInSeason league:leaguesInSeason) {
+            if(listOfStringsID.equals("")){
+                listOfStringsID= listOfStringsID +league.getId();
+            }else {
+                listOfStringsID = listOfStringsID + "," + league.getId();
+            }
+        }
+        return listOfStringsID;
+    }
+
+    private static String getFieldsIds(List<Field> fields) {
+        String listOfStringsID="";
+        for (Field field:fields) {
+            if(listOfStringsID.equals("")){
+                listOfStringsID= listOfStringsID +field.getID();
+            }else {
+                listOfStringsID = listOfStringsID + "," + field.getID();
+            }
+        }
+        return listOfStringsID;
+    }
+
+    private static String getUserId(List<User> users) {
+        String listOfStringsID="";
+        for (User user:users) {
+            if(listOfStringsID.equals("")){
+                listOfStringsID= listOfStringsID +user.getID();
+            }else {
+                listOfStringsID = listOfStringsID + "," + user.getID();
+            }
+        }
+        return listOfStringsID;
     }
 
     private static String createScoreTable(Queue<ScoreTableRecord> scoreTable) {
