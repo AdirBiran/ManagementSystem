@@ -190,7 +190,8 @@ public class Game extends Observable {
 
     public void setNewsFromReferee(Object news){
         setChanged();
-        notifyObservers(news.toString());
+        for (Fan fan : fansForAlerts.keySet())
+            fan.update(this, news.toString());
         sendMailToFan(news.toString());
     }
 
