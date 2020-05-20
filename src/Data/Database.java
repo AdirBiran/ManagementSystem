@@ -244,7 +244,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
             ans1 = dataAccess.updateCellValue("PersonalPages" ,"OwnerID" , ((PersonalPage) object).getId() ,((PersonalPage) object).getUser().getID() );
             ans2 = dataAccess.updateCellValue("PersonalPages" ,"PageData" ,((PersonalPage) object).getId() , ((PersonalPage) object).getData() );
-            ans3 = dataAccess.updateCellValue("PersonalPages" ,"Followers" , ((PersonalPage) object).getId(), listToString(((PersonalPage) object).getFollowers()));
+            ans3 = dataAccess.updateCellValue("PersonalPages" ,"Followers" , ((PersonalPage) object).getId(), ((PersonalPage) object).getFollowersIds());
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
