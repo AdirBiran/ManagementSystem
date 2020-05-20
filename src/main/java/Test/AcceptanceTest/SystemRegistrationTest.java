@@ -29,6 +29,7 @@ public class SystemRegistrationTest {
         Guest guest = new Guest();
         User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         assertNotNull(user);
+
     }
 
 

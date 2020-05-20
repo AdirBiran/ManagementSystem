@@ -80,9 +80,12 @@ public class UserSystem extends GuestSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Fan");
             if (role instanceof Fan) {
-                ((Fan) role).submitComplaint(description);
-                Logger.logEvent(user.getID(), "Added Complaint");
-                return true;
+                Boolean ans=  ((Fan) role).submitComplaint(description);
+                if (ans)
+                    Logger.logEvent(user.getID(), "Added Complaint");
+                else
+                    Logger.logEvent(user.getID(), "Adding complaint Failed");
+                return ans;
             }
         }
         Logger.logEvent(user.getID(), "Adding complaint Failed");

@@ -3,6 +3,7 @@ package AcceptanceTest;
 import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
+import Service.UserSystem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,10 +18,12 @@ public class FollowPageTest {
     User mesi;
     PersonalPage mesiPage;
     Fan fan;
-
+    UserSystem userSystem;
 
     @Before
     public void init() {
+        userSystem=new UserSystem();
+
         system = new FootballManagementSystem();
         system.systemInit(true);
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
@@ -36,7 +39,7 @@ public class FollowPageTest {
     public void followPageSuccess_9()
     {
         assertTrue(fan.addPageToFollow(mesiPage.getId()));
-
+        assertEquals(userSystem.getFanPages(user.getID()).size(),1);
     }
 
     @Test
@@ -44,6 +47,7 @@ public class FollowPageTest {
     {
         fan.addPageToFollow(mesiPage.getId());
         assertFalse(fan.addPageToFollow(mesiPage.getId()));
+        assertEquals(userSystem.getFanPages(user.getID()).size(),1);
 
     }
 }

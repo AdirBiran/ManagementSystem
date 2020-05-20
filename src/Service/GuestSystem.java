@@ -38,12 +38,14 @@ public class GuestSystem {
 
         User loginUser = guest.login(mail, password);
 
-        if (loginUser != null)
-            Logger.logEvent(loginUser.getID() + " (Guest)","Login Success");
-        else
+        if (loginUser != null) {
+            Logger.logEvent(loginUser.getID() + " (Guest)", "Login Success");
+            return loginUser.getID();
+        }
+        else {
             Logger.logError("Guest failed Login");
-
-        return loginUser.getID();
+            return null;
+        }
     }
 
     /*
