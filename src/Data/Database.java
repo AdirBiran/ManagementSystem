@@ -1047,13 +1047,18 @@ public class Database //maybe generalize with interface? //for now red layer
             case "Fan":
                 user= createUser(object.get(0));
                 Fan fan = new Fan(user , object.get(1),object.get(2) ,listOfPersonalPage(object.get(3)), listOfComplaintts(object.get(4)));
-                break;
+                return fan;
             case "Field":
                 Field field = new Field(object.get(0) , object.get(1) , object.get(2),
                         Integer.parseInt(object.get(3)) ,teamHashSet(object.get(4)) ,Boolean.parseBoolean(object.get(5)) ,
                         Double.parseDouble(object.get(6)));
-                break;
+                return field;
             case "Game":
+                Game game = new Game(object.get(0),dataAccess.stringToDate(object.get(1)),
+                        Integer.parseInt(object.get(2)) , Integer.parseInt(object.get(3)),
+                        getField(object.get(4)) ,getReferee(object.get(5))
+                        ,createSideReferees(object.get(6)),getTeam(object.get(7)), getTeam(object.get(8)),
+                         );
                 break;
             case "League":
                 break;
@@ -1077,7 +1082,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 break;
             case "User":
                 user = new User(object.get(0) ,object.get(1),object.get(2),object.get(3),
-                        Boolean.parseBoolean(object.get(4)) ,createList(object.get(5) , object.get(0)),
+                        Boolean.parseBoolean(object.get(4)) ,createListOfRoles(object.get(5) , object.get(0)),
                         split(object.get(6)));
                 return user;
 
@@ -1086,7 +1091,21 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    private static List<Role> createList(String roles ,String userId) {
+    private static Object createFansAlert(String s) {
+    }
+
+    private static  List<Referee> createSideReferees(String referees) {
+        List<String> listOfStrings = split(referees);
+        List<Referee> sideReferees = new LinkedList<>();
+        Referee sideR1 = getReferee(listOfStrings.get(0));
+        Referee sideR2 = getReferee(listOfStrings.get(1));
+        sideReferees.add(sideR1);
+        sideReferees.add(sideR2);
+
+        return sideReferees;
+    }
+
+    private static List<Role> createListOfRoles(String roles ,String userId) {
         List<String> listOfRoles = split(roles);
         List<Role> allRoles = new LinkedList<>();
 
@@ -1251,9 +1270,15 @@ public class Database //maybe generalize with interface? //for now red layer
         return new LinkedList<>(teams.values());
     }
 
-    public static Complaint getComplaints(String complaintid) {
+    public static Field getField(String fieldId) {
+        List<String> field;
+        field = dataAccess.getAllCellValues("Fields" ,fieldId );
+        return (Field) createObject("Field" , field);
+
+    }
+    public static Complaint getComplaints(String complaintId) {
         List<String> complaint;
-        complaint = dataAccess.getAllCellValues("Complaints" ,complaintid );
+        complaint = dataAccess.getAllCellValues("Complaints" ,complaintId );
         return (Complaint) createObject("Complaint" , complaint);
 
     }
