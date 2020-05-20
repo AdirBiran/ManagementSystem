@@ -368,11 +368,11 @@ public class Database //maybe generalize with interface? //for now red layer
              * */
 
             ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), listOfTeamsToStringIDs(((TeamManager) object).getTeams()));
-            ans2 = dataAccess.updateCellValue("TeamOwners" ,"ClosedTeams" , ((TeamOwner) object).getUser().getID(), object. );
+            ans2 = dataAccess.updateCellValue("TeamOwners" ,"ClosedTeams" , ((TeamOwner) object).getUser().getID(), ((TeamOwner) object).getClosedTeamsId() );
 
             //HashMap for user and team, need to save them together
-            //ans3 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamOwners" , ((TeamOwner) object).getUser().getID(), listToString(((TeamOwner) object).getAppointedTeamOwners().keySet()));
-            //ans4 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamManagers" , ((TeamOwner) object).getUser().getID(), );
+            ans3 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamOwners" , ((TeamOwner) object).getUser().getID(), appointmentUsersIds(((TeamOwner) object).getAppointedTeamOwners()));
+            ans4 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamManagers" , ((TeamOwner) object).getUser().getID(), appointmentUsersIds(((TeamOwner) object).getAppointedTeamManagers()));
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
@@ -400,6 +400,22 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return false;
 
+    }
+
+    private static String appointmentUsersIds(HashMap<User, Team> appointedTeamOwners) {
+        String listOfStrings="";
+
+        for (HashMap.Entry<User, Team> entry : appointedTeamOwners.entrySet()) {
+
+            User user = entry.getKey();
+            Team team = entry.getValue();
+            if(listOfStrings.equals("")){
+                listOfStrings= listOfStrings + user.getID() +":"+ team.getID();
+            }else {
+                listOfStrings = listOfStrings + "," + user.getID() +":"+ team.getID();
+            }
+        }
+        return listOfStrings;
     }
 
     private static String getLeagueInSeasonIds(List<LeagueInSeason> leaguesInSeason) {
