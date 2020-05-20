@@ -31,11 +31,13 @@ public class DatabaseTest {
         coach = (Coach) coachU.checkUserRole("Coach");
         coach.addTeam(team);
         coach.addTeam(team1);
+        dataAccess.createDB();
 
     }
 
     @Test
     public void updateObject(){
+
         database.updateObject(coach);
     }
 

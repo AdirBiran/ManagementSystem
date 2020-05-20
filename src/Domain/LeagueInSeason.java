@@ -183,21 +183,6 @@ public class LeagueInSeason {
         return listOfId;
     }
 
-    public String getTeamsId(){
-        String listOfId = "";
-        for (Team team: teams) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
-        }
-        return listOfId;
-    }
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -57,4 +57,9 @@ public abstract class Role{
         return users;
     }
 
+    public String getUserInfo() {
+        return "Fan" +
+                ", firstName=" + user.getFirstName() +
+                ", lastName=" + user.getLastName() ;
+    }
 }

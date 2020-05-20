@@ -16,7 +16,8 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                boolean success = ((UnionRepresentative) role).configureNewLeague(name, level);
+                League.LevelLeague levelLeague = League.LevelLeague.valueOf(level);
+                boolean success = ((UnionRepresentative) role).configureNewLeague(name, levelLeague);
 
                 if (success)
                     Logger.logEvent(user.getID(), "Configured new League");
@@ -358,6 +359,15 @@ public class UnionRepresentativeSystem {
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof  UnionRepresentative ) {
             return  ((UnionRepresentative)role).getAllPastGames();
+        }
+        return null;
+    }
+
+    public List<String> getAllReferees(String userID){
+        User user= UserFactory.getUser(userID);
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof  UnionRepresentative ) {
+            return ((UnionRepresentative)role).getAllReferees();
         }
         return null;
     }

@@ -335,4 +335,59 @@ public class TeamManagementSystem {
         }
         return null;
     }
+
+    public List<String> getAllPlayers(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Team");
+            if (role instanceof Manager) {
+                return ((Manager)role).getAllPlayers();
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAllCoaches(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Team");
+            if (role instanceof Manager) {
+                return ((Manager)role).getAllCoaches();
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAllFields(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Team");
+            if (role instanceof Manager) {
+                return ((Manager)role).getAllFields();
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAllTeamAssets(String userId, String teamId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Team");
+            if (role instanceof Manager) {
+                return ((Manager)role).getAllTeamAssets(teamId);
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAllClosedTeam(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("TeamOwner");
+            if (role instanceof TeamOwner) {
+                return ((TeamOwner)role).getAllClosedTeam();
+            }
+        }
+        return null;
+    }
 }
