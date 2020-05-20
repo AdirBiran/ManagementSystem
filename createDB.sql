@@ -1,6 +1,6 @@
-Create Database FootballManagementDB1;
+Create Database ManagementSystemDB;
 GO
-USE [FootballManagementDB1]
+USE [ManagementSystemDB]
 GO
 
 CREATE TABLE [Admins](
@@ -22,7 +22,7 @@ CREATE TABLE [Users](
 	[Roles] [varchar](255) ,
 	[searchHistories] [varchar](1000) ,
 	--FOREIGN KEY (ID) REFERENCES [Passwords] (ID)
-	FOREIGN KEY([ID]) REFERENCES [dbo].[Passwords] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
+	--FOREIGN KEY([ID]) REFERENCES [dbo].[Passwords] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
 );
 
 CREATE TABLE [Referees](
@@ -61,7 +61,7 @@ CREATE TABLE [Fields](
 	[Teams] [varchar](255) NOT NULL,
 	[isActive] [bit] NOT NULL,
 	[Price] [real] NOT NULL,
-	FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
+	--FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
 );
 
 CREATE TABLE [Players](
@@ -71,7 +71,7 @@ CREATE TABLE [Players](
 	[RoleInTeam] [varchar](255) NOT NULL,
 	[isActive] [bit] NOT NULL,
 	[Price] [real] NOT NULL,
-	FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
+	--FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
 );
 
 CREATE TABLE [TeamManagers](

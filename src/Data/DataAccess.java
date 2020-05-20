@@ -39,7 +39,7 @@ public class DataAccess {
 
     public DataAccess()
     {
-/*
+
         try
         {
             Class.forName(className);
@@ -50,7 +50,7 @@ public class DataAccess {
             e.printStackTrace();
         }
 
-*/
+
     }
 
     public List<String> getAllTableValues(String TableName)

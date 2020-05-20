@@ -557,13 +557,13 @@ public class Database //maybe generalize with interface? //for now red layer
          * 	*/
 
         //SeasonsIDs? last cell
-        return dataAccess.addCell("Leagues" ,league.getId() , league.getName() , league.getLevel());
+//        return dataAccess.addCell("Leagues" ,league.getId() , league.getName() , league.getLevel());
 
-        /*if(!leagues.contains(league)){
+        if(!leagues.contains(league)){
             leagues.add(league);
             return true;
         }
-        return false;*/
+        return false;
     }
 
     public static boolean addSeason(Season season) {
@@ -575,12 +575,12 @@ public class Database //maybe generalize with interface? //for now red layer
          * 	[LeaguesIDs] [varchar](255) NOT NULL,
          * 	*/
 
-        return dataAccess.addCell("Seasons" ,season.getId(),""+season.getYear(),""+season.getStartDate() ,season.getLeaguesId() );
-       /* if(!seasons.contains(season)){
+       // return dataAccess.addCell("Seasons" ,season.getId(),""+season.getYear(),""+season.getStartDate() ,season.getLeaguesId() );
+        if(!seasons.contains(season)){
             seasons.add(season);
             return true;
         }
-        return false;*/
+        return false;
     }
 
     public static boolean addTeam(Team team){
@@ -606,16 +606,17 @@ public class Database //maybe generalize with interface? //for now red layer
 
         //Budget?
         //LeaguesInSeasons?
-        return dataAccess.addCell(team.getID(),team.getName(),""+team.getWins(),""+team.getLosses(),
+      /*  return dataAccess.addCell(team.getID(),team.getName(),""+team.getWins(),""+team.getLosses(),
                 ""+team.getDraws(),team.getPage().getId() ,listToString(team.getTeamOwners()),
                 listToString(team.getTeamManagers()) , listToString(team.getPlayers()) , listToString(team.getCoaches()) ,
                         ""+team.getBudget().getBalance() ,team.getGamesId() , listToString(team.getFields()) , ""+team.isActive() , ""+team.isPermanentlyClosed());
-        /*if(!teams.containsKey(team.getID())){
+        */
+        if(!teams.containsKey(team.getID())){
             teams.put(team.getID(), team);
             return true;
         }
 
-        return false;*/
+        return false;
     }
 
     public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
@@ -1307,11 +1308,11 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
     public static Team getTeam(String teamId){
-        List<String> team;
+       /* List<String> team;
         team = dataAccess.getAllCellValues("Teams" ,teamId);
         return (Team) createObject("Team" , team);
-
-        //return teams.get(teamId);
+*/
+        return teams.get(teamId);
     }
 
     public static List<Team> getTeams() {
