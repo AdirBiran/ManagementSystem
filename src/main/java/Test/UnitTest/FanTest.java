@@ -47,7 +47,7 @@ public class FanTest {
         assertTrue(fan.addPageToFollow(mesiPage.getId()));
         List<String> games = new LinkedList<>();
         games.add(game.getId());
-        assertTrue(fan.followGames(games, true));
+        assertTrue(fan.registrationForGamesAlerts(games, true));
 
         /*for notification*/
         Field newField = new Field("Jerusalem","Teddy", 10000, 200000);
