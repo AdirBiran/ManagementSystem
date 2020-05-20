@@ -229,9 +229,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans4 = dataAccess.updateCellValue("LeaguesInSeasons","RefereesIDs" ,((LeagueInSeason) object).getId(),((LeagueInSeason) object).getRefereesId());
             ans5 = dataAccess.updateCellValue("LeaguesInSeasons","TeamsIDs" ,((LeagueInSeason) object).getId(),listOfTeamsToStringIDs(((LeagueInSeason) object).getTeams()));
             ans6 = dataAccess.updateCellValue("LeaguesInSeasons","RegistrationFee" ,((LeagueInSeason) object).getId(),""+((LeagueInSeason) object).getRegistrationFee());
-
-            //score table
-            //ans7 = dataAccess.updateCellValue("LeaguesInSeasons","Records" ,((LeagueInSeason) object).getId(),);
+            ans7 = dataAccess.updateCellValue("LeaguesInSeasons","Records" ,((LeagueInSeason) object).getId(), createScoreTable(((LeagueInSeason) object).getScoreTable()));
 
 
             return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  && ans7;
@@ -404,6 +402,19 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  ;
         }
         return false;
+
+    }
+
+    private static String createScoreTable(Queue<ScoreTableRecord> scoreTable) {
+        String listOfStrings="";
+        for (ScoreTableRecord scoreTableRecord : scoreTable) {
+            if(listOfStrings.equals("")){
+                listOfStrings= listOfStrings +scoreTableRecord.getTeam() +":"+scoreTableRecord.getTotalScore();
+            }else {
+                listOfStrings = listOfStrings + "," +scoreTableRecord.getTeam() +":"+scoreTableRecord.getTotalScore();
+            }
+        }
+        return listOfStrings;
 
     }
 
