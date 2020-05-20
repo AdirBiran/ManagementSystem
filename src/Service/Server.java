@@ -22,7 +22,7 @@ public class Server {
     private FinanceTransactionsSystem financeTransactionsSystem;
     private UnionRepresentativeSystem unionRepresentativeSystem;
 
-    private static HashMap<String, Socket> loggedUsers;
+    private static HashMap<String, Socket> loggedUsers= new HashMap<>();
 
 
     public static void main(String[] args) {
@@ -46,7 +46,7 @@ public class Server {
         financeTransactionsSystem = new FinanceTransactionsSystem(notificationSystem);
         unionRepresentativeSystem = new UnionRepresentativeSystem();
 
-        loggedUsers = new HashMap<>();
+        //loggedUsers = new HashMap<>();
 
         this.maxUsers = maxUsers;
 

@@ -28,6 +28,8 @@ public void init(){
     String  leagueId = system.dataReboot();
     LeagueInSeason league = Database.getLeagueInSeason(leagueId);
     Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+    team0=league.getTeams().get(0);
+    team1=league.getTeams().get(1);;
     User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
     UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
     unionRole.assignGames(league.getId(), system.getDates());
