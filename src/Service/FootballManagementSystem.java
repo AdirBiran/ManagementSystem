@@ -148,7 +148,7 @@ public class FootballManagementSystem {
                 teamOwner.createTeam(owner,"team"+i, players, coaches, field.getID());
                 team = teamOwner.getTeamsToManage().get(0);
                 team.getBudget().addIncome(1000000000);
-                unionRepresentativeSystem.addTeamToLeague(unionRep.getID(),leagueInSeasonId, team.getID());
+                unionRepresentativeSystem.addTeamToLeague(unionRep.getID(),leagueInSeasonId, team.getID(), accountingSystem);
             }
 
         }

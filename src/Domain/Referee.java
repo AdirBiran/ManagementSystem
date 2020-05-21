@@ -47,12 +47,17 @@ public class Referee extends Role implements Observer {
     public HashSet<Game> viewGames(){return games;}
 
 
-    public void addEventToGame(String gameID, Event.EventType type, String description)
+    public void addEventToGame(String gameID, Event.EventType type, String playerId, String teamId)
     {
         Game game= Database.getGame(gameID);
-        Event event = new Event(type, game, description);
-        game.getEventReport().addEvent(event);
-        game.setNewsFromReferee(event.createMessage());
+        Team team = Database.getTeam(teamId);
+        Player player = (Player) Database.getAssetById(playerId);
+        if(game!=null && team!=null && player!=null) {
+            String description = player.getUser().getName() + " from team "+ team.getName();
+            Event event = new Event(type, game, description);
+            game.getEventReport().addEvent(event);
+            game.setNewsFromReferee(event.createMessage());
+        }
     }
     /*
     to edit get event report and edit it only Main referee can
