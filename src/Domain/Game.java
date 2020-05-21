@@ -33,7 +33,7 @@ public class Game extends Observable {
         addRefereeToObservers(mainReferee, sideReferees);
         this.hostTeam = hostTeam;
         this.guestTeam = guestTeam;
-        this.name = hostTeam.getName() + " VS "+ guestTeam.getName();
+        this.name = hostTeam.getID() + ":" + hostTeam.getName() + " VS " + guestTeam.getID() + ":" + guestTeam.getName();
         eventReport = new EventReport();
         hostScore=0;
         guestScore=0;
@@ -91,7 +91,7 @@ public class Game extends Observable {
 
     public void setNews(String news) {
         setChanged();
-        news = "New Alert for game "+this.name+":\n" + news;
+        news = "New Alert for game "+this.name+":\n"+ new Date() + ": " + news;
         notifyObservers(news);
         sendMailToFan(news);
     }
@@ -200,7 +200,7 @@ public class Game extends Observable {
     /*alert for game, sent to mail if fan want get alert to mail*/
     private void sendMailToFan(String news) {
         for (Fan fan : fansForAlerts.keySet())
-            if (fansForAlerts.get(fan).equals(true))
+            if (fansForAlerts.get(fan))
                 MailSender.send(fan.getUser().getMail(), news);
     }
 

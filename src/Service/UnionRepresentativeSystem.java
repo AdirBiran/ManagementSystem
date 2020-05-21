@@ -2,7 +2,6 @@ package Service;
 import Domain.*;
 import Logger.Logger;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Date;
 
@@ -274,7 +273,7 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                return StubAccountingSystem.addPayment(teamName, date, payment);
+                return ProxyAccountingSystem.addPayment(teamName, date, payment);
             }
         }
         return false;

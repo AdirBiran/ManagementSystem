@@ -2,7 +2,7 @@ package Domain;
 
 import Data.Database;
 import Logger.Logger;
-import Service.StubAccountingSystem;
+import Service.ProxyAccountingSystem;
 
 import java.util.*;
 
@@ -211,7 +211,7 @@ public class UnionRepresentative extends Role implements Observer {
         Team team = Database.getTeam(teamId);
         if(team!=null && league!=null && team.isActive()) {
             if (team.getBudget().addExpanse(team, league.getRegistrationFee())) {
-                StubAccountingSystem.addPayment(team.getName(),(new Date()).toString() ,league.getRegistrationFee());
+                ProxyAccountingSystem.addPayment(team.getName(),(new Date()).toString() ,league.getRegistrationFee());
                 league.addATeam(team);
                 Logger.logEvent(user.getID(), "Added team " + team.getName() + " to league");
                 return true;
