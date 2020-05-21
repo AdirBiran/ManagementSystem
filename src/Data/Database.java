@@ -508,8 +508,10 @@ public class Database //maybe generalize with interface? //for now red layer
                 temp=splitHashMap(s);
                 Team team = getTeam(temp.get(0));
                 int score = Integer.parseInt(temp.get(1));
-                ScoreTableRecord scoreTableRecord = new ScoreTableRecord(team,score);
-                ((LinkedList<ScoreTableRecord>) scoreTableQueue).add(scoreTableRecord);
+                if(team != null) {
+                    ScoreTableRecord scoreTableRecord = new ScoreTableRecord(team, score);
+                    ((LinkedList<ScoreTableRecord>) scoreTableQueue).add(scoreTableRecord);
+                }
             }
             return scoreTableQueue;
     }
@@ -1235,7 +1237,10 @@ public class Database //maybe generalize with interface? //for now red layer
         List<Referee> allReferees = new LinkedList<>();
 
         for (String refereeId : listOfReferees){
-            allReferees.add(getReferee(refereeId));
+            Referee referee = getReferee(refereeId);
+            if(referee != null) {
+                allReferees.add(referee);
+            }
         }
 
         return allReferees;
@@ -1246,7 +1251,11 @@ public class Database //maybe generalize with interface? //for now red layer
         List<Game> allGames = new LinkedList<>();
 
         for (String gameId : listOfGames){
-            allGames.add(getGame(gameId));
+            Game game = getGame(gameId);
+            if(game != null) {
+                allGames.add(game);
+            }
+           // allGames.add(getGame(gameId));
         }
 
         return allGames;
@@ -1257,7 +1266,11 @@ public class Database //maybe generalize with interface? //for now red layer
         HashSet<Team> allTeams = new HashSet<>();
 
         for(String teamId : listOfTeams){
-            allTeams.add(getTeam(teamId));
+            Team team = getTeam(teamId);
+            if(team != null){
+                allTeams.add(team);
+            }
+            //allTeams.add(getTeam(teamId));
         }
         return allTeams;
     }
@@ -1267,7 +1280,11 @@ public class Database //maybe generalize with interface? //for now red layer
         List<Team> allTeams = new LinkedList<>();
 
         for(String teamId : listOfTeams){
-            allTeams.add(getTeam(teamId));
+            Team team = getTeam(teamId);
+            if(team != null){
+                allTeams.add(team);
+            }
+            //allTeams.add(getTeam(teamId));
         }
         return allTeams;
     }
@@ -1277,7 +1294,11 @@ public class Database //maybe generalize with interface? //for now red layer
         List<Event> allEvents = new LinkedList<>();
 
         for (String eventId : listOfEvents){
-            allEvents.add(getEvent(eventId));
+            Event event = getEvent(eventId);
+            if(event != null){
+                allEvents.add(event);
+            }
+            //allEvents.add(getEvent(eventId));
         }
 
         return allEvents;
@@ -1289,7 +1310,11 @@ public class Database //maybe generalize with interface? //for now red layer
         List<PersonalPage> allPersonalPage = new LinkedList<>();
 
         for (String pageId : listOfPersonalPage){
-            allPersonalPage.add(getPersonalPage(pageId));
+            PersonalPage page = getPersonalPage(pageId);
+            if (page != null){
+                allPersonalPage.add(page);
+            }
+           // allPersonalPage.add(getPersonalPage(pageId));
         }
 
         return allPersonalPage;
@@ -1301,7 +1326,11 @@ public class Database //maybe generalize with interface? //for now red layer
         List<Complaint> allComplaints = new LinkedList<>();
 
         for (String s : listOfComplaint){
-            allComplaints.add(getComplaints(s));
+            Complaint complaint = getComplaints(complaintId);
+            if (complaint != null){
+                allComplaints.add(complaint);
+            }
+           // allComplaints.add(getComplaints(s));
         }
 
         return allComplaints;
