@@ -581,9 +581,11 @@ public class Database //maybe generalize with interface? //for now red layer
     }*/
 
     public static boolean addReferee(User user, Referee referee){
-        if(referees.containsKey(user))return false;
+        if(referees.containsKey(user))
+            return false;
         referees.put(user, referee);
         //dataAccess.addCell("Referees" ,);
+        //dataAccess.addCell("Referees")
         return true;
     }
 
@@ -601,8 +603,7 @@ public class Database //maybe generalize with interface? //for now red layer
          *
          * 	*/
 
-        //SeasonsIDs? last cell
-//        return dataAccess.addCell("Leagues" ,league.getId() , league.getName() , league.getLevel());
+        //return dataAccess.addCell("Leagues" ,league.getId() , league.getName() , league.getLevel(),listToString(league.getLeagueInSeasons()));
 
         if(!leagues.contains(league)){
             leagues.add(league);
