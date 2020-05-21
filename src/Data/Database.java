@@ -1085,6 +1085,7 @@ public class Database //maybe generalize with interface? //for now red layer
                         getLeagueInSeason(object.get(11)));
                 return game;
             case "League":
+                //League league = new League(object.get(0) , object.get(1) ,getEnumLevelLeague(object.get(2)), );
                 break;
             case "LeagueInSeason":
                 break;
@@ -1106,7 +1107,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 break;
             case "User":
                 user = new User(object.get(0) ,object.get(1),object.get(2),object.get(3),
-                        Boolean.parseBoolean(object.get(4)) ,createListOfRoles(object.get(5) , object.get(0)),
+                        stringToBoolean(object.get(4)) ,createListOfRoles(object.get(5) , object.get(0)),
                         split(object.get(6)));
                 return user;
 
@@ -1115,7 +1116,14 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+    private static boolean stringToBoolean(String s) {
+        if(s.equals("1")){
+            return true;
+        }else{
+            return false;
+        }
 
+    }
 
 
     private static  List<Referee> createSideReferees(String referees) {
@@ -1282,6 +1290,8 @@ public class Database //maybe generalize with interface? //for now red layer
     }*/
 
 
+
+
     private static Coach.TrainingCoach getEnumTraining(String enumTraining) {
         switch (enumTraining){
             case "IFA_C":
@@ -1310,14 +1320,37 @@ public class Database //maybe generalize with interface? //for now red layer
         return Coach.RoleCoach.assistantCoach;
     }
 
+    private static League.LevelLeague getEnumLevelLeague(String enumLevelLeague) {
+        switch (enumLevelLeague){
+            case "level1":
+                return League.LevelLeague.level1;
+            case "level2":
+                return League.LevelLeague.level2;
+            case "level3":
+                return League.LevelLeague.level3;
+            case "level4":
+                return League.LevelLeague.level4;
+            case "level5":
+                return League.LevelLeague.level5;
+        }
+        return League.LevelLeague.level1;
+    }
 
-    public static Team getTeam(String teamId){
+   /* public static Team getTeam(String teamId){
        List<String> team;
         team = dataAccess.getAllCellValues("Teams" ,teamId);
         return (Team) createObject("Team" , team);
         //return teams.get(teamId);
+    }*/
+    public static Team getTeam(String teamId){
+
+        return teams.get(teamId);
     }
 
+    public static List<Team> getTeams(){
+
+        return new LinkedList<>(teams.values());
+    }
 
 
     public static Field getField(String fieldId) {
@@ -1596,6 +1629,8 @@ public class Database //maybe generalize with interface? //for now red layer
 
         return allReferees;
     }
+
+
 
 
 

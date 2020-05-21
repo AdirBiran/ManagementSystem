@@ -37,7 +37,7 @@ public class DatabaseTest {
 
         //dataAccess.createDB();
 
-        dataAccess.createDB();
+        //dataAccess.createDB();
 
 
     }
@@ -50,8 +50,8 @@ public class DatabaseTest {
 
     @Test
     public void getAllUsers(){
-        dataAccess.addCell("Users","123","doron","doron","doron@gmail.com","true","TeamOwner","aa");
-        dataAccess.addCell("Users","456","Saly","Saly","Saly@gmail.com","true","TeamOwner","aa");
+       // dataAccess.addCell("Users","123","doron","doron","doron@gmail.com","true","TeamOwner","aa");
+       // dataAccess.addCell("Users","456","Saly","Saly","Saly@gmail.com","true","TeamOwner","aa");
         List<User> users = Database.getAllUsers();
 
         System.out.println(Boolean.parseBoolean("true"));
