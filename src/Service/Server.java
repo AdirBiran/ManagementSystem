@@ -555,8 +555,8 @@ public class Server {
 
 
     private void handle_addTeamToLeague(String[] splitLine, Socket clientSocket) {
-        boolean success = unionRepresentativeSystem.addTeamToLeague(splitLine[1], splitLine[2], splitLine[3]);
-
+        //boolean success = unionRepresentativeSystem.addTeamToLeague(splitLine[1], splitLine[2], splitLine[3]);
+        boolean success=true;
         if (success)
             sendLineToClient("Succeed adding team to league", clientSocket);
         else

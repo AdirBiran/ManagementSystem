@@ -68,13 +68,13 @@ public class RefereeTest {
     @Test
     public void addEventToGame() {
         game.getDate().setHours((new Date()).getHours());
-        referee.addEventToGame(game.getId(),Event.EventType.RedCard,"");
+        referee.addEventToGame(game.getId(),Event.EventType.RedCard,game.getHostTeam().getPlayers().get(0).getID(), game.getHostTeam().getID());
         assertEquals(1,game.getEventReport().getEvents().size());
     }
 
     @Test
     public void changeEvent() {
-        referee.addEventToGame(game.getId(),Event.EventType.RedCard,"");
+        referee.addEventToGame(game.getId(),Event.EventType.RedCard,game.getHostTeam().getPlayers().get(0).getID(), game.getHostTeam().getID());
        assertTrue( referee.changeEvent(game.getId(),game.getEventReport().getEvents().get(0).getId(),"yes"));
        assertEquals(game.getEventReport().getEvents().get(0).getDescription(),"yes");
     }
