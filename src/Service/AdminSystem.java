@@ -8,10 +8,8 @@ import java.util.List;
 
 public class AdminSystem {
 
-    private NotificationSystem notificationSystem;
+    public AdminSystem() {
 
-    public AdminSystem(NotificationSystem notificationSystem) {
-        this.notificationSystem = notificationSystem;
     }
 
     /*

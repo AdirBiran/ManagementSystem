@@ -19,7 +19,7 @@ public class LeagueTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         leagueInSeason = Database.getLeagueInSeason(leagueId);
-        league=new League("Haal", League.LevelLeague.Liga_Leumit);
+        league=new League("Haal", League.LevelLeague.level2);
     }
     @Test
     public void addLeagueInSeason() {
@@ -39,7 +39,7 @@ public class LeagueTest {
 
     @Test
     public void getLevel() {
-        assertEquals(league.getLevel(), "Liga_Leumit");
+        assertEquals(league.getLevel(), "level2");
     }
 
     @Test

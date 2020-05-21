@@ -5,10 +5,8 @@ import Logger.Logger;
 
 public class FinanceTransactionsSystem
 {
-    private NotificationSystem notificationSystem;
 
-    public FinanceTransactionsSystem(NotificationSystem notificationSystem) {
-        this.notificationSystem = notificationSystem;
+    public FinanceTransactionsSystem() {
     }
 
     /*

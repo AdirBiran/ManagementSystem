@@ -52,7 +52,7 @@ public class Referee extends Role implements Observer {
         Game game= Database.getGame(gameID);
         Event event = new Event(type, game, description);
         game.getEventReport().addEvent(event);
-        game.setNewsFromReferee(event);
+        game.setNewsFromReferee(event.createMessage());
     }
     /*
     to edit get event report and edit it only Main referee can

@@ -29,13 +29,13 @@ public class FanTest {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
         Guest guest = new Guest();
-        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
         /*create games*/
-        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+        User union = admin.addNewUnionRepresentative("Union", "Rep", "union@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
         unionRole.assignGames(league.getId(), system.getDates());
         game = league.getGames().get(0);
@@ -55,7 +55,7 @@ public class FanTest {
         assertEquals(1, fan.getMessageBox().size(),0);
 
         Guest guest1 = new Guest();
-        User user1 = guest1.register("fan1@gmail.com", "Aa1234", "fan1", "fan1", "0500001234", "yosef23");
+        User user1 = guest1.register("newfam@gmail.com", "Aa1234", "fan1", "fan1", "0500001234", "yosef23");
         Fan fan1 = (Fan) user1.checkUserRole("Fan");
         assertEquals(0, fan1.getMessageBox().size(), 0);
         Referee mainReferee = game.getMainReferee();

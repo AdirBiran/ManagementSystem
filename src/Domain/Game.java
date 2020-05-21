@@ -91,6 +91,7 @@ public class Game extends Observable {
 
     public void setNews(String news) {
         setChanged();
+        news = "New Alert for game "+this.name+":\n" + news;
         notifyObservers(news);
         sendMailToFan(news);
     }
@@ -188,18 +189,19 @@ public class Game extends Observable {
         setNews("Location of the game between the teams: " +this.name+ " change to "+this.field.getName()); // referees and fans
     }
 
-    public void setNewsFromReferee(Object news){
+    public void setNewsFromReferee(String news){
         setChanged();
+        news = "New Alert for game "+this.name+":\n" + news;
         for (Fan fan : fansForAlerts.keySet())
-            fan.update(this, news.toString());
-        sendMailToFan(news.toString());
+            fan.update(this, news);
+        sendMailToFan(news);
     }
 
     /*alert for game, sent to mail if fan want get alert to mail*/
     private void sendMailToFan(String news) {
         for (Fan fan : fansForAlerts.keySet())
             if (fansForAlerts.get(fan).equals(true))
-                MailSender.send(fan.getUser().getMail(), "New Alert for game "+this.name+":\nnews");
+                MailSender.send(fan.getUser().getMail(), news);
     }
 
     public LeagueInSeason getLeague() {

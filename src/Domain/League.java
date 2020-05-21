@@ -7,9 +7,11 @@ import java.util.Objects;
 public class League {
 
     public enum LevelLeague {
-        Premier_League,
-        Liga_Leumit
-
+        level1,
+        level2,
+        level3,
+        level4,
+        level5
     }
 
     private String id;

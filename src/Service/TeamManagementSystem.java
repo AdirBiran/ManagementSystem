@@ -1,6 +1,5 @@
 package Service;
 
-import Data.Database;
 import Domain.*;
 import Domain.User;
 import Logger.Logger;
@@ -9,10 +8,8 @@ import java.util.List;
 
 public class TeamManagementSystem {
 
-    private NotificationSystem notificationSystem;
+    public TeamManagementSystem() {
 
-    public TeamManagementSystem(NotificationSystem notificationSystem) {
-        this.notificationSystem = notificationSystem;
     }
     /*
     this function adds a new asset to the system
