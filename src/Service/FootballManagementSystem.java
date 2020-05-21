@@ -128,7 +128,7 @@ public class FootballManagementSystem {
     }
 
     public static String dataReboot(){
-        MailSender.setReallySend(true);
+        MailSender.setReallySend(false);
         User unionRep = UserFactory.getNewUnionRepresentative("", "","mail@mail.com");
         unionRepresentativeSystem.configureNewSeason(unionRep.getID(),2020, new Date(120, 4, 1));
         unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "level1");
