@@ -1464,7 +1464,8 @@ public class Database //maybe generalize with interface? //for now red layer
                 activeComplaints.add(complaint);
             }
         }
-        return activeComplaints;    }
+        return activeComplaints;
+    }
 
     public static List<Complaint> getAllComplaints() {
         List<String> complaints;
