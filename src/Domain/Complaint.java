@@ -54,7 +54,7 @@ public class Complaint extends Observable {
         this.response = response;
         this.isActive = false;
         setChanged();
-        notifyObservers("Response to your complaint from the date"+this.date+": "+response);
+        notifyObservers("Response to your complaint from the date"+this.date+": \n"+response);
     }
 
     /**

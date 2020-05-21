@@ -2,6 +2,7 @@ package Domain;
 
 import Data.Database;
 
+import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -191,7 +192,7 @@ public class Team extends Observable {
                 user.addRole(teamOwner);
             }
             this.addObserver(teamOwner);
-            teamOwner.update(this, "You've added a team owner appointment to team " +this.getName());
+            teamOwner.update(this, new Date() + ":" + "You've added a team owner appointment to team " +this.getName());
             return true;
         }
         return false;
@@ -210,7 +211,7 @@ public class Team extends Observable {
                 user.addRole(teamManager);
             }
             this.addObserver(teamManager);
-            teamManager.update(this, "You've added a team manager appointment to team " +this.getName());
+            teamManager.update(this, new Date() + ":" + "You've added a team manager appointment to team " +this.getName());
             return true;
         }
         return false;
@@ -268,7 +269,7 @@ public class Team extends Observable {
             teamOwners.remove(teamOwner);
             TeamOwner teamOwnerRole = (TeamOwner) teamOwner.checkUserRole("TeamOwner");
             teamOwnerRole.removeTeam(this);
-            teamOwnerRole.update(this, "Your subscription has been removed from the team "+this.name);
+            teamOwnerRole.update(this, new Date() + ":" + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamOwnerRole);
             return true;
         }
@@ -280,7 +281,7 @@ public class Team extends Observable {
             teamManagers.remove(teamManager);
             TeamManager teamManagerRole = (TeamManager) teamManager.checkUserRole("TeamManager");
             teamManagerRole.removeTeam(this);
-            teamManagerRole.update(this, "Your subscription has been removed from the team "+this.name);
+            teamManagerRole.update(this, new Date() + ":" + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamManagerRole);
             return true;
         }
@@ -387,7 +388,7 @@ public class Team extends Observable {
         }
         else {
             setChanged();
-            notifyObservers(this.name + " is closed");
+            notifyObservers(new Date() + ":" + this.name + " is closed");
             updateAllSystemAdmins("team "+this.name+" closed");
         }
     }
@@ -409,8 +410,8 @@ public class Team extends Observable {
         this.permanentlyClosed = permanentlyClosed;
         if(permanentlyClosed) {
             setChanged();
-            notifyObservers(this.name + " is permanently closed");
-            updateAllSystemAdmins(this.name + " is permanently closed");
+            notifyObservers(new Date() + ":" + this.name + " is permanently closed");
+            updateAllSystemAdmins(new Date() + ":" + this.name + " is permanently closed");
         }
 
     }
