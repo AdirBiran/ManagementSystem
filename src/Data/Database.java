@@ -1430,11 +1430,54 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
     public static List<Game> getAllPastGames() {
-        return null;
+        List<Game> games = getAllGames();
+        Date currentDate = new Date();
+        List<Game> pastGames = new LinkedList<>();
+
+        for(Game game : games){
+            if(currentDate.after(game.getDate())){
+                pastGames.add(game);
+            }
+        }
+        return pastGames;
+    }
+
+    public static List<Game> getAllFutureGames() {
+        List<Game> games = getAllGames();
+        Date currentDate = new Date();
+        List<Game> futureGames = new LinkedList<>();
+
+        for(Game game : games){
+            if(currentDate.after(game.getDate())){
+                futureGames.add(game);
+            }
+        }
+        return futureGames;
     }
 
     public static List<Complaint> getAllActiveComplaints() {
-        return null;
+        List<Complaint> complaints = getAllComplaints();
+        List<Complaint> activeComplaints = new LinkedList<>();
+
+        for(Complaint complaint : complaints){
+            if(complaint.getIsActive()){
+                activeComplaints.add(complaint);
+            }
+        }
+        return activeComplaints;    }
+
+    public static List<Complaint> getAllComplaints() {
+        List<String> complaints;
+        List<Complaint> allComplaints = new LinkedList<>();
+
+        complaints = dataAccess.getAllTableValues("Complaints");
+
+        for(String userString : complaints){
+            List<String> tempUser = split(userString);
+            allComplaints.add((Complaint) createObject("Complaint" , tempUser));
+        }
+
+        return allComplaints;
     }
 
     public static List<Game> getAllGames() {
@@ -1464,6 +1507,92 @@ public class Database //maybe generalize with interface? //for now red layer
 
         return allPersonalPages;
     }
+
+    public static List<Player> getAllPlayers() {
+        List<String> players;
+        List<Player> allPlayers = new LinkedList<>();
+
+        players = dataAccess.getAllTableValues("Players");
+
+        for(String userString : players){
+            List<String> tempUser = split(userString);
+            allPlayers.add((Player) createObject("Player" , tempUser));
+        }
+
+        return allPlayers;
+    }
+
+    public static List<Coach> getAllCoaches() {
+        List<String> coaches;
+        List<Coach> allCoaches = new LinkedList<>();
+
+        coaches = dataAccess.getAllTableValues("Coaches");
+
+        for(String userString : coaches){
+            List<String> tempUser = split(userString);
+            allCoaches.add((Coach) createObject("Coach" , tempUser));
+        }
+
+        return allCoaches;
+    }
+
+    public static List<Field> getAllFields() {
+        List<String> fields;
+        List<Field> allFields = new LinkedList<>();
+
+        fields = dataAccess.getAllTableValues("Fields");
+
+        for(String userString : fields){
+            List<String> tempUser = split(userString);
+            allFields.add((Field) createObject("Field" , tempUser));
+        }
+
+        return allFields;
+    }
+
+    public static List<League> getAllLeagues() {
+        List<String> leagues;
+        List<League> allLeagues = new LinkedList<>();
+
+        leagues = dataAccess.getAllTableValues("Leagues");
+
+        for(String userString : leagues){
+            List<String> tempUser = split(userString);
+            allLeagues.add((League) createObject("League" , tempUser));
+        }
+
+        return allLeagues;
+    }
+
+    public static List<Season> getAllSeasons() {
+        List<String> seasons;
+        List<Season> allSeasons = new LinkedList<>();
+
+        seasons = dataAccess.getAllTableValues("Seasons");
+
+        for(String userString : seasons){
+            List<String> tempUser = split(userString);
+            allSeasons.add((Season) createObject("Season" , tempUser));
+        }
+
+        return allSeasons;
+    }
+
+    public static List<Referee> getAllReferees() {
+        List<String> referees;
+        List<Referee> allReferees = new LinkedList<>();
+
+        referees = dataAccess.getAllTableValues("Referees");
+
+        for(String userString : referees){
+            List<String> tempUser = split(userString);
+            allReferees.add((Referee) createObject("Referee" , tempUser));
+        }
+
+        return allReferees;
+    }
+
+
 
 }
 
