@@ -39,6 +39,7 @@ public class TeamManagementTest {
         admin = (Admin) system.getAdmin().checkUserRole("Admin");
         userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
+        userTeamOwner= team.getTeamOwners().get(0);
         mesiU = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         mesi=(Player) mesiU.checkUserRole("Player");
         }
@@ -58,7 +59,8 @@ public class TeamManagementTest {
     @Test
     public void manageAssets_26()
     {
-       teamOwner.addTeam(team);
+       // userTeamOwner= team.getTeamOwners().get(0);
+      // teamOwner.addTeam(team);
         teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID());
         assertFalse(teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID()));
     }
