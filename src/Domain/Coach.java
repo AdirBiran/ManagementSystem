@@ -127,16 +127,4 @@ public class Coach extends Role implements PartOfATeam {
                 ", teams= "+ teamsString(teams);
     }
 
-    public String getTeamsId(){
-        String listOfId = "";
-        for (Team team: teams) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
-        }
-        return listOfId;
-    }
 }

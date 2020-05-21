@@ -68,6 +68,7 @@ public class ManagerTest {
     public void removeFieldFromTeam() {
         unionRole.addFieldToSystem("Tel-Aviv","Bloomfield", 10000, 150000);
         Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(1);
+        teamOwner.addFieldToTeam(field.getID(), team.getID());
         assertTrue(teamOwner.removeFieldFromTeam(field.getID(),team.getID()));
     }
 

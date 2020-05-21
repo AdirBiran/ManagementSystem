@@ -85,14 +85,14 @@ public class FootballManagementSystem {
             database.loadDatabaseFromDisk("");
         //***service***//
         notificationSystem = new NotificationSystem();
-        adminSystem = new AdminSystem(notificationSystem);
-        financeTransactionsSystem = new FinanceTransactionsSystem(notificationSystem);
+        adminSystem = new AdminSystem();
+        financeTransactionsSystem = new FinanceTransactionsSystem();
         guestSystem = new GuestSystem();
         personalPageSystem = new PersonalPageSystem();
         refereeSystem = new RefereeSystem();
         unionRepresentativeSystem = new UnionRepresentativeSystem();
         userSystem = new UserSystem();
-        teamManagementSystem = new TeamManagementSystem(notificationSystem);
+        teamManagementSystem = new TeamManagementSystem();
         //***presentation***//
         systemAdmins = new LinkedList<>();
         if(firsTime){
@@ -128,10 +128,10 @@ public class FootballManagementSystem {
     }
 
     public static String dataReboot(){
-        MailSender.setReallySend(false);
+        MailSender.setReallySend(true);
         User unionRep = UserFactory.getNewUnionRepresentative("", "","mail@mail.com");
         unionRepresentativeSystem.configureNewSeason(unionRep.getID(),2020, new Date(120, 4, 1));
-        unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "3");
+        unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "level1");
         String leagueInSeasonId = unionRepresentativeSystem.configureLeagueInSeason(unionRep.getID(),"Haal", "2020", "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         unionRepresentativeSystem.addFieldToSystem(unionRep.getID(),"jerusalem","Teddy" ,550, 150000);
         Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(0);

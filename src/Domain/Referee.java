@@ -3,6 +3,7 @@ package Domain;
 import Data.Database;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Referee extends Role implements Observer {
 
@@ -51,7 +52,7 @@ public class Referee extends Role implements Observer {
         Game game= Database.getGame(gameID);
         Event event = new Event(type, game, description);
         game.getEventReport().addEvent(event);
-        game.setNewsFromReferee(event);
+        game.setNewsFromReferee(event.createMessage());
     }
     /*
     to edit get event report and edit it only Main referee can
@@ -66,11 +67,14 @@ public class Referee extends Role implements Observer {
     public boolean changeEvent(String gameID, String eventID, String change){
         Game game= Database.getGame(gameID);
         Event event=game.getEventReport().gerEventById(eventID);
-        if (event!=null) {
-            for (Event event1 : game.getEventReport().getEvents()) {
-                if (event1.getId().equals(event.getId())) {
-                    event1.setDescription(change);
-                    return true;
+        if (event!=null && this.equals(game.getMainReferee())) {
+            long time = new Date().getTime();
+            if(TimeUnit.DAYS.convert(Math.abs(time - game.getDate().getTime()), TimeUnit.MILLISECONDS)<=300) {
+                for (Event event1 : game.getEventReport().getEvents()) {
+                    if (event1.getId().equals(event.getId())) {
+                        event1.setDescription(change);
+                        return true;
+                    }
                 }
             }
         }
@@ -120,6 +124,15 @@ public class Referee extends Role implements Observer {
                 pastGames.add(game.toString());
         }
         return pastGames;
+    }
+
+    public String getAllOccurringGame() {
+        long time = new Date().getTime();
+        for(Game game : Database.getAllGames()){
+            if(TimeUnit.DAYS.convert(Math.abs(time - game.getDate().getTime()), TimeUnit.MILLISECONDS)<=120)
+                return game.toString();
+        }
+        return null;
     }
 
     @Override

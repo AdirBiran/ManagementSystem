@@ -6,22 +6,30 @@ import java.util.Objects;
 
 public class League {
 
+    public enum LevelLeague {
+        level1,
+        level2,
+        level3,
+        level4,
+        level5
+    }
+
     private String id;
     private String name;
-    private String level;
+    private LevelLeague level;
     private List<LeagueInSeason> leagueInSeasons;
 
     /*
     create each league once and for every season add new leagueInSeason
      */
-    public League(String name, String level) {
+    public League(String name, LevelLeague level) {
         this.name = name;
         this.level = level;
         this.id = "L" + IdGenerator.getNewId();
         leagueInSeasons = new LinkedList<>();
     }
 
-    public League(String id, String name, String level, List<LeagueInSeason> lis)
+    public League(String id, String name, LevelLeague level, List<LeagueInSeason> lis)
     {
         this.id = id;
         this.name = name;
@@ -55,7 +63,7 @@ public class League {
     }
 
     public String getLevel() {
-        return level;
+        return level.toString();
     }
 
     public String getId() {

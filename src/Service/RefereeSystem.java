@@ -58,5 +58,12 @@ public class RefereeSystem {
         return false;
     }
 
-
+    public String getAllOccurringGame(String userID){
+        User user= UserFactory.getUser(userID);
+        Role role = user.checkUserRole("Referee");
+        if(role instanceof  Referee ) {
+            return ((Referee)role).getAllOccurringGame();
+        }
+        return null;
+    }
 }

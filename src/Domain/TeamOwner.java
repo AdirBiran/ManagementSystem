@@ -226,29 +226,12 @@ public class TeamOwner extends Manager implements Observer {
         user.addMessage(news);
     }
 
-    public String getTeamsId(){
-        String listOfId = "";
-        for (Team team: teamsToManage) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
+    public List<String> getAllClosedTeam() {
+        List <String> closed = new LinkedList<>();
+        for (Team team : closedTeams) {
+            if (!team.isPermanentlyClosed())
+                closed.add(team.toString());
         }
-        return listOfId;
-    }
-
-    public String getClosedTeamsId(){
-        String listOfId = "";
-        for (Team team: closedTeams) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
-        }
-        return listOfId;
+        return closed;
     }
 }

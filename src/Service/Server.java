@@ -40,10 +40,10 @@ public class Server {
         userSystem = new UserSystem();
         guestSystem = new GuestSystem();
         notificationSystem = new NotificationSystem();
-        adminSystem = new AdminSystem(notificationSystem);
-        teamSystem = new TeamManagementSystem(notificationSystem);
+        adminSystem = new AdminSystem();
+        teamSystem = new TeamManagementSystem();
         personalPageSystem = new PersonalPageSystem();
-        financeTransactionsSystem = new FinanceTransactionsSystem(notificationSystem);
+        financeTransactionsSystem = new FinanceTransactionsSystem();
         unionRepresentativeSystem = new UnionRepresentativeSystem();
 
         //loggedUsers = new HashMap<>();

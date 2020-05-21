@@ -111,16 +111,4 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
         user.addMessage(news);
     }
 
-    public String getTeamsId(){
-        String listOfId = "";
-        for (Team team: teams) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
-        }
-        return listOfId;
-    }
 }
