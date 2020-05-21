@@ -22,8 +22,8 @@ public class FootballManagementSystem {
     //***presentation***//
     private static List<User> systemAdmins;
     //***External systems***//
-    private static StubAccountingSystem accountingSystem;
-    private static StubIsraeliTaxLawsSystem taxLawsSystem;
+    private static ProxyAccountingSystem accountingSystem;
+    private static ProxyIsraeliTaxLawsSystem taxLawsSystem;
 
     public Database getDatabase()
     {
@@ -70,11 +70,11 @@ public class FootballManagementSystem {
         return systemAdmins;
     }
 
-    public static StubAccountingSystem getAccountingSystem() {
+    public static ProxyAccountingSystem getAccountingSystem() {
         return accountingSystem;
     }
 
-    public static StubIsraeliTaxLawsSystem getTaxLawsSystem() {
+    public static ProxyIsraeliTaxLawsSystem getTaxLawsSystem() {
         return taxLawsSystem;
     }
 
@@ -104,8 +104,8 @@ public class FootballManagementSystem {
         }
 
 
-        accountingSystem = new StubAccountingSystem();
-        taxLawsSystem = new StubIsraeliTaxLawsSystem();
+        accountingSystem = new ProxyAccountingSystem();
+        taxLawsSystem = new ProxyIsraeliTaxLawsSystem();
 
         return true;
     }

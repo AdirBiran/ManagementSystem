@@ -116,7 +116,8 @@ public void init(){
 
     @Test
     public void getName(){
-        assertEquals(game.getName(), game.getHostTeam().getName() + " VS "+ game.getGuestTeam().getName());
+        assertEquals(game.getName(), game.getHostTeam().getID() + ":" + game.getHostTeam().getName()
+                + " VS " + game.getGuestTeam().getID() + ":" + game.getGuestTeam().getName());
     }
 
     @Test
