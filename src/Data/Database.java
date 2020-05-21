@@ -692,9 +692,9 @@ public class Database //maybe generalize with interface? //for now red layer
     /*
     this function returns all games in database
      */
-    public static LinkedList<Game> getAllGames(){
+   /* public static LinkedList<Game> getAllGames(){
         return new LinkedList<>(gamesInDatabase.values());
-    }
+    }*/
 
 
     public static HashMap<String, PartOfATeam> getAssetsInDatabase() {
@@ -1308,20 +1308,13 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
     public static Team getTeam(String teamId){
-       /* List<String> team;
+       List<String> team;
         team = dataAccess.getAllCellValues("Teams" ,teamId);
         return (Team) createObject("Team" , team);
-*/
-        return teams.get(teamId);
+        //return teams.get(teamId);
     }
 
-    public static List<Team> getTeams() {
-        //List<String> teams;
-        //teams=dataAccess.getAllTableValues("Teams");
 
-
-        return new LinkedList<>(teams.values());
-    }
 
     public static Field getField(String fieldId) {
         List<String> field;
@@ -1419,17 +1412,57 @@ public class Database //maybe generalize with interface? //for now red layer
         return allUsers;
     }
 
+    public static List<Team> getAllTeams() {
+        List<String> teams;
+        List<Team> allTeams = new LinkedList<>();
+
+        teams = dataAccess.getAllTableValues("Teams");
+
+        for(String userString : teams){
+            List<String> tempUser = split(userString);
+            allTeams.add((Team) createObject("Team" , tempUser));
+        }
+
+        return allTeams;
+
+        //return new LinkedList<>(teams.values());
+    }
+
 
     public static List<Game> getAllPastGames() {
         return null;
     }
 
-    public static List<PersonalPage> getAllPages() {
+    public static List<Complaint> getAllActiveComplaints() {
         return null;
     }
 
-    public static List<Complaint> getAllActiveComplaints() {
-        return null;
+    public static List<Game> getAllGames() {
+        List<String> games;
+        List<Game> allGames = new LinkedList<>();
+
+        games = dataAccess.getAllTableValues("Games");
+
+        for(String userString : games){
+            List<String> tempUser = split(userString);
+            allGames.add((Game) createObject("Game" , tempUser));
+        }
+
+        return allGames;
+    }
+
+    public static List<PersonalPage> getAllPages() {
+        List<String> personalPages;
+        List<PersonalPage> allPersonalPages = new LinkedList<>();
+
+        personalPages = dataAccess.getAllTableValues("PersonalPages");
+
+        for(String userString : personalPages){
+            List<String> tempUser = split(userString);
+            allPersonalPages.add((PersonalPage) createObject("PersonalPage" , tempUser));
+        }
+
+        return allPersonalPages;
     }
 
 }
