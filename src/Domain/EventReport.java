@@ -13,6 +13,11 @@ public class EventReport {
         this.events = new LinkedList<>();
     }
 
+    public EventReport(String id, List<Event> events)
+    {
+        this.id = id;
+        this.events = events;
+    }
 
     public void addEvent(Event event){
         if(!events.contains(event))

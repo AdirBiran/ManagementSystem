@@ -28,13 +28,16 @@ public class UnionRepresentative extends Role implements Observer {
             return false;
         }
     }
-    public List<String> getAllPastGames() {
-        List<String> game = new LinkedList<>();
-        /*for(Game g: Database.getAllPastGames()) {
-            game.add(g.toString());
-        }*/
-        return game;
+    public static LinkedList<String> getAllPastGames(){
+        Date today = new Date();
+        LinkedList<String> pastGames = new LinkedList<>();
+        for(Game game : Database.getAllGames()){
+            if(today.after(game.getDate()))
+                pastGames.add(game.toString());
+        }
+        return pastGames;
     }
+
     public List<String> getAllLeagues() {
         List<String> leagues = new LinkedList<>();
         for(League l: Database.getLeagues()) {
@@ -109,9 +112,13 @@ public class UnionRepresentative extends Role implements Observer {
         return false;
     }
 
-    public void addTUTUPayment(String teamId, double payment) {
+    public boolean addTUTUPayment(String teamId, double payment) {
         Team team = Database.getTeam(teamId);
-        team.getBudget().addIncome(payment);
+        if(team!=null) {
+            team.getBudget().addIncome(payment);
+            return true;
+        }
+        return false;
     }
 
     public List<String> allLeaguesInSeasons() {
@@ -132,11 +139,10 @@ public class UnionRepresentative extends Role implements Observer {
         }*/
         return scorePolicies;
     }
-////////////////////////////////////////////////// assignmentsPolicies.getNAme();
     public List<String> getAllAssignmentsPolicies() {
         List<String> assignmentsPolicies= new LinkedList<>();
-        /*for(GameAssignmentPolicy assignmentsPolicie: Database.getAllAssignmentsPolicies()){
-            assignmentsPolicies.add(assignmentsPolicies.toString());
+       /* for(GameAssignmentPolicy a: Database.getAllAssignmentsPolicies()){
+            assignmentsPolicies.add(a.getName());
         }*/
         return assignmentsPolicies;
     }
@@ -160,10 +166,13 @@ public class UnionRepresentative extends Role implements Observer {
         return false;
     }
 
-    public void calculateLeagueScore(String leagueId) {
+    public boolean calculateLeagueScore(String leagueId) {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        if(league!=null)
+        if(league!=null) {
             league.getScorePolicy().calculateLeagueScore(league);
+            return true;
+        }
+        return false;
     }
 
     @Override

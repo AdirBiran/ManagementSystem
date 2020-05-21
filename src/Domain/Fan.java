@@ -1,10 +1,8 @@
 package Domain;
 
 import Data.Database;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+
+import java.util.*;
 
 public class Fan extends Role implements Observer {
 
@@ -20,6 +18,15 @@ public class Fan extends Role implements Observer {
         complaints = new LinkedList<>();
         followPages = new LinkedList<>();
         myRole = "Fan";
+    }
+
+    public Fan(User user, String address, String phone, List<PersonalPage> personalPages, List<Complaint> complaints)
+    {
+        this.user = user;
+        this.address = address;
+        this.phone = phone;
+        this.followPages = personalPages;
+        this.complaints = complaints;
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
@@ -40,7 +47,7 @@ public class Fan extends Role implements Observer {
         this.phone = phone;
     }
 
-    public boolean followGames(List<String> gamesId , ReceiveAlerts receiveAlerts){
+    public boolean followGames(List<String> gamesId , boolean receiveAlerts){
         for(String gameId: gamesId) {
             Game game = Database.getGame(gameId);
             if(!game.addFanForNotifications(this, receiveAlerts))
@@ -64,6 +71,18 @@ public class Fan extends Role implements Observer {
         return pages;
     }
 
+    public String getComplaintsId(){
+        String listOfId = "";
+        for (Complaint comp: complaints) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + comp.getId();
+            }
+            else {
+                listOfId = listOfId + ","+comp.getId();
+            }
+        }
+        return listOfId;
+    }
 
     public String getfollowPagesId(){
         String listOfId = "";
@@ -86,11 +105,17 @@ public class Fan extends Role implements Observer {
         return pages;
     }
 
-    public List<String> getAllFutureGames(){
-        List<String> games = new LinkedList<>();
-        for(Game g: Database.getAllFutureGames())
-            games.add(g.toString());
-        return games;
+    /*
+    this function returns a list of all future games
+     */
+    public static LinkedList<String> getAllFutureGames(){
+        Date today = new Date();
+        LinkedList<String> futureGames = new LinkedList<>();
+        for(Game game : Database.getAllGames()){
+            if(today.before(game.getDate()))
+                futureGames.add(game.toString());
+        }
+        return futureGames;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
@@ -137,10 +162,8 @@ public class Fan extends Role implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if(arg instanceof Event) {
-            arg = arg.toString();
-        }
         String news = (String)arg;
         user.addMessage(news);
+
     }
 }

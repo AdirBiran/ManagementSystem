@@ -36,6 +36,17 @@ public class Coach extends Role implements PartOfATeam {
         myRole = "Coach";
     }
 
+    public Coach(User user, TrainingCoach training, RoleCoach role, HashSet<Team> teams, boolean isActive, double price)
+    {
+        this.user = user;
+        this.training = training;
+        this.roleInTeam = role;
+        this.price = price;
+        this.teams = teams;
+        this.isActive = isActive;
+        myRole = "Coach";
+    }
+
 
 // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
@@ -114,5 +125,18 @@ public class Coach extends Role implements PartOfATeam {
                 ", training=" + training +
                 ", role in team=" + roleInTeam+
                 ", teams= "+ teamsString(teams);
+    }
+
+    public String getTeamsId(){
+        String listOfId = "";
+        for (Team team: teams) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+team.getID();
+            }
+            else {
+                listOfId = listOfId + ","+team.getID();
+            }
+        }
+        return listOfId;
     }
 }

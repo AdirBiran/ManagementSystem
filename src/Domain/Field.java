@@ -27,6 +27,19 @@ public class Field implements PartOfATeam {
         this.price = price;
         isActive = true;
     }
+
+    public Field(String id, String location, String name, int capacity, HashSet<Team> teams, boolean isActive, double price)
+    {
+        this.id = id;
+        this.location = location;
+        this.name = name;
+        this.capacity = capacity;
+        this.teams = teams;
+        this.isActive = isActive;
+        this.price = price;
+
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
     public String getLocation() {

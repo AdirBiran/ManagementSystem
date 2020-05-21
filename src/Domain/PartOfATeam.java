@@ -13,4 +13,5 @@ public interface PartOfATeam {
     void addTeam(Team team);
     void removeTeam(Team team);
     boolean isActive();
+
 }

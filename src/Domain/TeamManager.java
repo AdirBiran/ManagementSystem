@@ -25,6 +25,15 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
         this.user = user;
     }
 
+    public TeamManager(User user, HashSet<Team> teams, boolean isActive, double price, boolean manageAssets, boolean finance)
+    {
+        this.user = user;
+        this.teams = teams;
+        this.isActive = isActive;
+        this.price = price;
+        this.permissionManageAssets = manageAssets;
+        this.permissionFinance = finance;
+    }
     @Override
     public String getID() {
         return user.getID();
@@ -100,5 +109,18 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
     public void update(Observable o, Object arg) {
         String news = (String)arg;
         user.addMessage(news);
+    }
+
+    public String getTeamsId(){
+        String listOfId = "";
+        for (Team team: teams) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+team.getID();
+            }
+            else {
+                listOfId = listOfId + ","+team.getID();
+            }
+        }
+        return listOfId;
     }
 }

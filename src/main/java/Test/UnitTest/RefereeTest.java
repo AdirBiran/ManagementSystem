@@ -18,7 +18,6 @@ public class RefereeTest {
     User mesi;
     PersonalPage mesiPage;
     Fan fan;
-    ReceiveAlerts receiveAlerts;
     Game game;
     Referee referee;
 
@@ -35,10 +34,6 @@ public class RefereeTest {
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
-        receiveAlerts = new ReceiveAlerts(true, false);
-        List<Referee> sideReferees = new LinkedList<>();
-        sideReferees.add(league.getReferees().get(1));
-        sideReferees.add(league.getReferees().get(2));
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
         unionRole.assignGames(league.getId(),system.getDates());

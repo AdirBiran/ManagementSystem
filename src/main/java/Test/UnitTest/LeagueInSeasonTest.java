@@ -66,7 +66,7 @@ leagueInSeason.addATeam(team0);
         List<Game> games=new LinkedList<>();
         games.add(game);
         leagueInSeason.setGames(games);
-        assertEquals(leagueInSeason.getAllGames().size(),1);
+        assertEquals(leagueInSeason.getGames().size(),1);
 
     }
 
@@ -81,7 +81,7 @@ leagueInSeason.addATeam(team0);
         sideReferees.add(leagueInSeason.getReferees().get(2));
         Game  game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
         leagueInSeason.addGame(game);
-        assertEquals(leagueInSeason.getAllGames().size(),1);
+        assertEquals(leagueInSeason.getGames().size(),1);
 
     }
 
@@ -92,7 +92,7 @@ leagueInSeason.addATeam(team0);
 
     @Test
     public void getAllGames() {
-        assertEquals(leagueInSeason.getAllGames().size(),0);
+        assertEquals(leagueInSeason.getGames().size(),0);
 
     }
 

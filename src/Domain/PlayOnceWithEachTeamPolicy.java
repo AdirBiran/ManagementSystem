@@ -3,7 +3,9 @@ package Domain;
 import java.util.*;
 
 public class PlayOnceWithEachTeamPolicy extends GameAssignmentPolicy {
-
+    public PlayOnceWithEachTeamPolicy() {
+        name = "PlayOnceWithEachTeamPolicy";
+    }
     @Override
     public List<Game> assignGames(List<Date> dates, LeagueInSeason league) {
         if(league.getTeams().size()>2) {
@@ -40,7 +42,5 @@ public class PlayOnceWithEachTeamPolicy extends GameAssignmentPolicy {
         return (obj instanceof PlayOnceWithEachTeamPolicy) ;
     }
 
-    public String getName(){
-        return "PlayOnceWithEachTeamPolicy";
-    }
+
 }

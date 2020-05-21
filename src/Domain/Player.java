@@ -31,6 +31,16 @@ public class Player extends Role implements PartOfATeam {
 
     }
 
+    public Player(User user, Date birthDate, HashSet<Team> teams, String roleInTeam, boolean isActive, double price)
+    {
+        this.user = user;
+        this.birthDate = birthDate;
+        this.teams = teams;
+        this.roleInTeam = RolePlayer.valueOf(roleInTeam);
+        this.isActive = isActive;
+        this.price = price;
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
     public Date getBirthDate() {
@@ -103,5 +113,18 @@ public class Player extends Role implements PartOfATeam {
                 ", birthDate=" + birthDate +
                 ", role in team=" + roleInTeam+
                 ", teams= "+ teamsString(teams);
+    }
+
+    public String getTeamsId(){
+        String listOfId = "";
+        for (Team team: teams) {
+            if(listOfId.equals("")){
+                listOfId = listOfId+team.getID();
+            }
+            else {
+                listOfId = listOfId + ","+team.getID();
+            }
+        }
+        return listOfId;
     }
 }

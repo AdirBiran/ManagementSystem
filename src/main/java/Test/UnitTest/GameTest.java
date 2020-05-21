@@ -18,7 +18,6 @@ public class GameTest {
     FootballManagementSystem system;
     User user;
     Fan fan;
-    ReceiveAlerts receiveAlerts;
     Team team0;
     Team team1;
 
@@ -28,23 +27,19 @@ public void init(){
     system.systemInit(true);
     String  leagueId = system.dataReboot();
     LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-    team0 = league.getTeams().get(0);
-    team1 = league.getTeams().get(1);
-    Field field = new Field("Tel-Aviv","Bloomfield", 10000, 150000);
-    Referee mainReferee = league.getReferees().get(0);
-    List<Referee> sideReferees = new LinkedList<>();
-    sideReferees.add(league.getReferees().get(1));
-    sideReferees.add(league.getReferees().get(2));
-    game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, league);
+    Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+    User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+    UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
+    unionRole.assignGames(league.getId(), system.getDates());
+    game = league.getGames().get(0);
     Guest guest = new Guest();
     user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
     fan = (Fan) user.checkUserRole("Fan");
-    receiveAlerts=new ReceiveAlerts(true,false);
     }
 
     @Test
     public void addFanForNotifications() {
-        assertTrue(game.addFanForNotifications(fan,receiveAlerts));
+        assertTrue(game.addFanForNotifications(fan,true));
     }
 
     @Test
@@ -93,7 +88,7 @@ public void init(){
 
     @Test
     public void getField() {
-        assertEquals(game.getField().getName(),"Bloomfield");
+        assertEquals(game.getField().getName(),"Teddy");
     }
 
     @Test
