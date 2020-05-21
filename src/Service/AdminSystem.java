@@ -155,7 +155,7 @@ public class AdminSystem {
         if(user!=null) {
             Role adminRole = user.checkUserRole("Admin");
             if (adminRole instanceof Admin) {
-                StubRecommendationSystem recommendationSystem = new StubRecommendationSystem();
+                ProxyRecommendationSystem recommendationSystem = new ProxyRecommendationSystem();
                 recommendationSystem.connect();
                 Logger.logEvent(user.getID() + " (Admin)", " activated the training model");
                 return recommendationSystem.trainModel();

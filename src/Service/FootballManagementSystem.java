@@ -22,8 +22,8 @@ public class FootballManagementSystem {
     //***presentation***//
     private static List<User> systemAdmins;
     //***External systems***//
-    private static StubAccountingSystem accountingSystem;
-    private static StubIsraeliTaxLawsSystem taxLawsSystem;
+    private static ProxyAccountingSystem accountingSystem;
+    private static ProxyIsraeliTaxLawsSystem taxLawsSystem;
 
     public Database getDatabase()
     {
@@ -70,11 +70,11 @@ public class FootballManagementSystem {
         return systemAdmins;
     }
 
-    public static StubAccountingSystem getAccountingSystem() {
+    public static ProxyAccountingSystem getAccountingSystem() {
         return accountingSystem;
     }
 
-    public static StubIsraeliTaxLawsSystem getTaxLawsSystem() {
+    public static ProxyIsraeliTaxLawsSystem getTaxLawsSystem() {
         return taxLawsSystem;
     }
 
@@ -104,8 +104,8 @@ public class FootballManagementSystem {
         }
 
 
-        accountingSystem = new StubAccountingSystem();
-        taxLawsSystem = new StubIsraeliTaxLawsSystem();
+        accountingSystem = new ProxyAccountingSystem();
+        taxLawsSystem = new ProxyIsraeliTaxLawsSystem();
 
         return true;
     }
@@ -128,7 +128,7 @@ public class FootballManagementSystem {
     }
 
     public static String dataReboot(){
-        MailSender.setReallySend(true);
+        MailSender.setReallySend(false);
         User unionRep = UserFactory.getNewUnionRepresentative("", "","mail@mail.com");
         unionRepresentativeSystem.configureNewSeason(unionRep.getID(),2020, new Date(120, 4, 1));
         unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "level1");
@@ -148,7 +148,7 @@ public class FootballManagementSystem {
                 teamOwner.createTeam(owner,"team"+i, players, coaches, field.getID());
                 team = teamOwner.getTeamsToManage().get(0);
                 team.getBudget().addIncome(1000000000);
-                unionRepresentativeSystem.addTeamToLeague(unionRep.getID(),leagueInSeasonId, team.getID());
+                unionRepresentativeSystem.addTeamToLeague(unionRep.getID(),leagueInSeasonId, team.getID(), accountingSystem);
             }
 
         }

@@ -2,6 +2,7 @@ package Domain;
 
 import Data.Database;
 
+import java.util.Date;
 import java.util.Observable;
 
 public class Budget extends Observable {
@@ -38,7 +39,7 @@ public class Budget extends Observable {
             if (balance < 0) {
                 this.expanses -= expense;
                 updateBalance();
-                updateAllUnionRep("The team: "+team.getName()+" has exceeded its budget");
+                updateAllUnionRep(new Date() + "The team: "+team.getName()+" has exceeded its budget");
                 return false;
             } else
                 return true;

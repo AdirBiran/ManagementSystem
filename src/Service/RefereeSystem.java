@@ -10,11 +10,11 @@ public class RefereeSystem {
     public RefereeSystem() {
     }
 
-    public boolean addEventToGame(String userID, String gameID, String event, String description){
+    public boolean addEventToGame(String userID, String gameID, String event, String playerId, String teamId){
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("Referee");
         if(role instanceof  Referee){
-            ((Referee)role).addEventToGame(gameID, Event.EventType.valueOf(event), description);
+            ((Referee)role).addEventToGame(gameID, Event.EventType.valueOf(event), playerId, teamId);
             Logger.logEvent( user.getID()+ " (Referee)","Added Event to Game");
             return true;
         }

@@ -2,7 +2,6 @@ package Service;
 import Domain.*;
 import Logger.Logger;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Date;
 
@@ -187,12 +186,12 @@ public class UnionRepresentativeSystem {
         return false;
     }
 
-    public boolean addTeamToLeague(String userId, String leagueId, String teamId) {
+    public boolean addTeamToLeague(String userId, String leagueId, String teamId, ProxyAccountingSystem proxyAccountingSystem) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                return  ((UnionRepresentative)role).addTeamToLeague(leagueId, teamId);
+                return  ((UnionRepresentative)role).addTeamToLeague(leagueId, teamId, proxyAccountingSystem);
             }
         }
         return false;
@@ -269,12 +268,12 @@ public class UnionRepresentativeSystem {
         }
         return false;
     }
-    public boolean addPaymentsFromTheTUTU(String userId, String teamName, String date ,double payment){
+    public boolean addPaymentsFromTheTUTU(String userId, String teamName, String date ,double payment, ProxyAccountingSystem proxyAccountingSystem){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                return StubAccountingSystem.addPayment(teamName, date, payment);
+                return proxyAccountingSystem.addPayment(teamName, date, payment);
             }
         }
         return false;

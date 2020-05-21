@@ -79,6 +79,6 @@ public class Event {
     }
 
     public String createMessage(){
-        return date + ": " + minuteInGame + ", " + type + ", " + description;
+        return date + ": " + minuteInGame + ", " + type + "- " + description;
     }
 }
