@@ -1085,8 +1085,9 @@ public class Database //maybe generalize with interface? //for now red layer
                         getLeagueInSeason(object.get(11)));
                 return game;
             case "League":
-                //League league = new League(object.get(0) , object.get(1) ,getEnumLevelLeague(object.get(2)), );
-                break;
+                League league = new League(object.get(0) , object.get(1) ,getEnumLevelLeague(object.get(2)),
+                        getListOfLeagueInSeason(object.get(3)));
+                return league;
             case "LeagueInSeason":
                 break;
             case "PersonalPage":
@@ -1114,6 +1115,16 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return null;
 
+    }
+
+    private static List<LeagueInSeason> getListOfLeagueInSeason(String leagueInSeasonIds) {
+        List<String> leagueInSeason = split(leagueInSeasonIds);
+        List<LeagueInSeason> allLeagueInSeason = new LinkedList<>();
+
+        for (String leagueId : leagueInSeason){
+            allLeagueInSeason.add(getLeagueInSeason(leagueId));
+        }
+        return allLeagueInSeason;
     }
 
     private static boolean stringToBoolean(String s) {
@@ -1428,7 +1439,7 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
 
-    private static User createUser(String userId) {
+    public static User createUser(String userId) {
         List<String> user;
         user = dataAccess.getAllCellValues("Users" ,userId);
         return (User) createObject("User" , user);
@@ -1631,6 +1642,34 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
 
+/*
+    public static void addMessageToUser(String userId , String message){
+        String oldMessages = "";
+        //if userId exsist
+        if(dataAccess.userIdExist(userId)){
+            oldMessages = getMessages(userId);
+            dataAccess.updateCellValue("OfflineUsersNotifications" ,"Notifications" ,
+                    userId ,oldMessages +"," +message);
+        }
+
+    }
+
+    private static String getMessages(String userId){
+        if(dataAccess.userIdExist(userId)){
+           return dataAccess.getCellValue("OfflineUsersNotifications" ,"Notifications" ,userId);
+        }
+        return "";
+    }
+
+    public static List<String> getAllMessages(String userId){
+        if(dataAccess.userIdExist(userId)) {
+            List<String> allMessages = split(getMessages(userId));
+            return allMessages;
+        }
+        return null;
+
+    }
+*/
 
 
 

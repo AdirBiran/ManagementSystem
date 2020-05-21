@@ -58,4 +58,9 @@ public class DatabaseTest {
 
         assertEquals(2,users.size());
     }
+
+    @Test
+    public void getUser(){
+        User user = Database.createUser("888");
+    }
 }
