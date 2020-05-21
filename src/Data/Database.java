@@ -1404,17 +1404,21 @@ public class Database //maybe generalize with interface? //for now red layer
         return (User) createObject("User" , user);
     }
 
-   /* private Field createField (String fieldId){
-        List<String> field;
-        field = dataAccess.getAllCellValues("Fields" ,fieldId);
-        return (Field) createObject("Field" ,field);
-    }*/
-
-
 
     public static List<User> getAllUsers(){
-        return null;
+
+        List<String> users;
+        List<User> allUsers = new LinkedList<>();
+        users = dataAccess.getAllTableValues("Users");
+
+        for(String userString : users){
+            List<String> tempUser = split(userString);
+            allUsers.add((User) createObject("User" , tempUser));
+        }
+
+        return allUsers;
     }
+
 
     public static List<Game> getAllPastGames() {
         return null;
