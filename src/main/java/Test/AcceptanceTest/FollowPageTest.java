@@ -38,15 +38,15 @@ public class FollowPageTest {
     @Test
     public void followPageSuccess_9()
     {
-        assertTrue(fan.addPageToFollow(mesiPage.getId()));
+        assertTrue(userSystem.registrationToFollowUp(user.getID(),mesiPage.getId()));
         assertEquals(userSystem.getFanPages(user.getID()).size(),1);
     }
 
     @Test
     public void followPageFail_10()
     {
-        fan.addPageToFollow(mesiPage.getId());
-        assertFalse(fan.addPageToFollow(mesiPage.getId()));
+        userSystem.registrationToFollowUp(user.getID(),mesiPage.getId());
+        assertFalse(userSystem.registrationToFollowUp(user.getID(),mesiPage.getId()));
         assertEquals(userSystem.getFanPages(user.getID()).size(),1);
 
     }

@@ -59,8 +59,6 @@ public class TeamManagementTest {
     @Test
     public void manageAssets_26()
     {
-       // userTeamOwner= team.getTeamOwners().get(0);
-      // teamOwner.addTeam(team);
         teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID());
         assertFalse(teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID()));
     }
@@ -68,7 +66,6 @@ public class TeamManagementTest {
     @Test
     public void manageAssets_27()
     {
-        teamOwner.addTeam(team);
         teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID());
        assertTrue(teamManagementSystem.removeAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID()));
 
@@ -100,8 +97,7 @@ public class TeamManagementTest {
     {
         teamOwner.addTeam(team);
         teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID());
-        teamManagementSystem.updateAsset(userTeamOwner.getID(),mesiU.getID(),"","");
-
+        teamManagementSystem.updateAsset(userTeamOwner.getID(),mesiU.getID(),"Price","30");
        /* List<User> owners = new LinkedList<>();
         owners.add(owner);
         PersonalPage page = new PersonalPage("", owner);
@@ -123,7 +119,6 @@ public class TeamManagementTest {
     @Test
     public void manageAssets_31()
     {
-        teamOwner.addTeam(team);
         assertTrue(teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID()));
         assertEquals(mesi.getTeams().size(),1);
     }
