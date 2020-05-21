@@ -157,9 +157,11 @@ public class UnionController {
         ObservableList<String> refList = FXCollections.observableArrayList();
         List<RefereeRecord> refRecords = new LinkedList<>();
         for(String ref: referees){
-            RefereeRecord record = new RefereeRecord(ref);
-            refList.add(record.getName());
-            refRecords.add(record);
+            if(ref.length()>0){
+                RefereeRecord record = new RefereeRecord(ref);
+                refList.add(record.getName());
+                refRecords.add(record);
+            }
         }
         ChoiceBox<String> cb_referees = new ChoiceBox<>(refList);
         Label ref = new Label("Referee:");
@@ -216,7 +218,7 @@ public class UnionController {
         Label label = new Label("please select League and a team");
         pane.add(label, 0,0);
         addLeaguesInSeasonToPane(pane);
-        List<String> teams = client.sendToServer("getAllOpenTeams|"+loggedUser);
+        List<String> teams = client.sendToServer("getAllOpenTeams_Union|"+loggedUser);
         ObservableList<String> ol_teams = FXCollections.observableArrayList();
         List<TeamRecord> teamRecords = new LinkedList<>();
         for(String team : teams){
@@ -252,6 +254,8 @@ public class UnionController {
     {
         m_general.clearMainView(mainView1);
         //select league
+        GridPane pane = new GridPane();
+        addLeaguesInSeasonToPane(pane);
         //send request to server
         //show league score table
     }
@@ -259,6 +263,7 @@ public class UnionController {
     public void calculateGameScore()
     {
         m_general.clearMainView(mainView1);
+
         //select league
         //select game/all games/some games?
         //send request to server to calculate score
@@ -272,6 +277,29 @@ public class UnionController {
         //send request to change fee
     }
 
+    private void calculate(String type){
+        GridPane pane = new GridPane();
+        addLeaguesInSeasonToPane(pane);
+        Label label =null;
+        StringBuilder request = new StringBuilder();
+        switch (type){
+            case "league":{
+                label = new Label("select league to calculate its total score");
+                request.append("calculateLeagueScore|");
+                break;
+            }
+            case "game":{
+                label = new Label("select league to calculate its game's score");
+                request.append("calculateGameScore|");
+                List<String> games = client.sendToServer("getAllPastGames|"+loggedUser);
+                ChoiceBox<String> cb_games = new ChoiceBox<>(FXCollections.observableArrayList(games));
+                
+                break;
+            }
+        }
+        pane.add(label,0,0);
+
+    }
 
     //make getAllLeagues()return a list of <League.name:season.year> of all LeagueInSeason
     private void addLeaguesInSeasonToPane(GridPane pane) {

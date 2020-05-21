@@ -1,5 +1,7 @@
 package Presentation;
 
+import javafx.scene.control.Alert;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.List;
@@ -68,7 +70,14 @@ public class Client  {
             BufferedReader clientReader = new BufferedReader(new InputStreamReader(inputStream));
 
             res = clientReader.readLine();
-
+            //if (res.split("\\|")[0].equals("Notification"))
+            //{
+            //    String notification = res.split("\\|")[1];
+            //    sendNotification(notification);
+//
+            //}
+//
+            //res = clientReader.readLine();
             System.out.println("Client receive from server : "+res);
         }
         catch (Exception e)
@@ -109,6 +118,13 @@ public class Client  {
         return res;
     }
 
-
+    /**
+     * use this function to show notification to user:
+     */
+    private void sendNotification(String notification){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,notification);
+        alert.setHeaderText("System Notification!");
+        alert.show();
+    }
 }
 

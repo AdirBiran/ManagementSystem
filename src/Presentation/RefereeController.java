@@ -38,11 +38,8 @@ public class RefereeController {
             ObservableList<String> types = FXCollections.observableArrayList("Goal", "Offside", "Foul", "RedCard", "YellowCard","Injury", "Replacement");
             ChoiceBox<String> cb_types = new ChoiceBox<>(types);
             grid.add(cb_types, 1,1);
-            //Label minInGame = new Label("Minute In Game:");
-            //grid.add(minInGame, 0,2);
-            //ObservableList<String> minutes = FXCollections.observableArrayList();
-            //ChoiceBox<String> cb_minutes = new ChoiceBox<>(addMinutes());
-            //grid.add(cb_minutes, 1, 2);
+            //let user select team-
+            //let user select player
             Label description = new Label("Description:");
             grid.add(description,0,3);
             TextArea t_description = new TextArea();

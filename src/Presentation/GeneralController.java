@@ -21,9 +21,11 @@ import javafx.scene.text.Font;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class GeneralController {
 
@@ -151,6 +153,11 @@ public class GeneralController {
 
                 break;
             }
+            case ("Pages"):{
+                tableLabel.setText("Pages:");
+                //implement (the results of search)
+                break;
+            }
             default:{
                 for(String string: list){
                     Label label = new Label(string);
@@ -254,8 +261,15 @@ public class GeneralController {
                     if(correction.size()>0){
                         //suggest corrections to user
                     }
-                    List<String> results = m_client.sendToServer("search"+"|"+userId+"|"+searchWord);
-                    showListOnScreen("",results, l_searchPane, 3);
+                    String request="";
+                    if(userId.length()>0){
+                        request = "userSearch|"+userId+"|"+searchWord;
+                    }
+                    else
+                        request = "guestSearch|"+searchWord;
+
+                    List<String> results = m_client.sendToServer(request);
+                    showListOnScreen("Pages",results, l_searchPane, 3);
                 }
                 else
                     showAlert("Invalid search", Alert.AlertType.ERROR);
@@ -506,6 +520,7 @@ public class GeneralController {
                 break;
             }
             case "admin":{
+                //fix first time problem, how to add system admin without an authorized admin?
                 String password = tf_passwordInForm.getText();
                 if(checkPassword(password, tf_passwordAgain.getText())){
                     request = "addNewAdmin|"+admin+"|"+password+"|"+firstName+"|"+lastName+"|"+mail;
@@ -589,6 +604,31 @@ public class GeneralController {
     }
 
 
+    public HashMap<String, String> initHashSet(List<String> received) {
+        HashMap<String, String>  teams = new HashMap<>();
+        for(String team: received){
+            if(team.length()>0){
+                String[] split = team.split(":");
+                teams.put(split[0], split[1]);
+            }
+        }
+        return teams;
+    }
 
+    public void addTeamsChoiceBox(GridPane pane, ChoiceBox cb_teams ,int rowIdx, Collection<String> teams) {
+        Label l_teams = new Label("Teams: ");
+        pane.add(l_teams,0,rowIdx);
+        cb_teams = new ChoiceBox(FXCollections.observableArrayList(teams));
+        pane.add(cb_teams,1,rowIdx);
 
+    }
+
+    public String getIdFromName(String teamName, HashMap<String, String> teams) {
+        for(String id : teams.keySet()){
+            if(teams.get(id).equals(teamName)){
+                return id;
+            }
+        }
+        return "";
+    }
 }

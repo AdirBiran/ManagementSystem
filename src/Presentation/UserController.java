@@ -91,7 +91,7 @@ public class UserController implements Initializable {
                 case("Fan"):{
                     fan = new FanController(mainView1, loggedUser, m_client);
                     Menu fanMenu = new Menu("Fan Actions");
-                    MenuItem followPage = new MenuItem("followPage");
+                    MenuItem followPage = new MenuItem("Follow Page");
                     followPage.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -99,7 +99,7 @@ public class UserController implements Initializable {
                         }
                     });
                     fanMenu.getItems().add(followPage);
-                    MenuItem followGames = new MenuItem("followGames");
+                    MenuItem followGames = new MenuItem("Follow Games");
                     followGames.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -107,7 +107,7 @@ public class UserController implements Initializable {
                         }
                     });
                     fanMenu.getItems().add(followGames);
-                    MenuItem editPersonalInfo = new MenuItem("editPersonalInfo");
+                    MenuItem editPersonalInfo = new MenuItem("Edit Personal Info");
                     editPersonalInfo.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -115,7 +115,7 @@ public class UserController implements Initializable {
                         }
                     });
                     fanMenu.getItems().add(editPersonalInfo);
-                    MenuItem submitComplaint = new MenuItem("submitComplaint");
+                    MenuItem submitComplaint = new MenuItem("Submit Complaint");
                     submitComplaint.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -129,7 +129,7 @@ public class UserController implements Initializable {
                 case("Admin"):{
                     admin = new AdminController(mainView1, loggedUser, m_client);
                     Menu adminMenu = new Menu("Admin Actions");
-                    MenuItem closeTeamPermanently = new MenuItem("closeTeamPermanently");
+                    MenuItem closeTeamPermanently = new MenuItem("Close Team Permanently");
                     closeTeamPermanently.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -137,7 +137,7 @@ public class UserController implements Initializable {
                         }
                     });
                     adminMenu.getItems().add(closeTeamPermanently);
-                    MenuItem addNewPlayer = new MenuItem("addNewPlayer");
+                    MenuItem addNewPlayer = new MenuItem("Add New Player");
                     addNewPlayer.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -145,7 +145,7 @@ public class UserController implements Initializable {
                         }
                     });
                     adminMenu.getItems().add(addNewPlayer);
-                    MenuItem addNewCoach = new MenuItem("addNewCoach");
+                    MenuItem addNewCoach = new MenuItem("Add New Coach");
                     addNewCoach.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -153,7 +153,7 @@ public class UserController implements Initializable {
                         }
                     });
                     adminMenu.getItems().add(addNewCoach);
-                    MenuItem addNewTeamOwner = new MenuItem("addNewTeamOwner");
+                    MenuItem addNewTeamOwner = new MenuItem("Add New TeamOwner");
                     addNewTeamOwner.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -161,7 +161,7 @@ public class UserController implements Initializable {
                         }
                     });
                     adminMenu.getItems().add(addNewTeamOwner);
-                    MenuItem addNewTeamManager = new MenuItem("addNewTeamManager");
+                    MenuItem addNewTeamManager = new MenuItem("Add New TeamManager");
                     addNewTeamManager.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -169,7 +169,7 @@ public class UserController implements Initializable {
                         }
                     });
                     adminMenu.getItems().add(addNewTeamManager);
-                    MenuItem addNewUnionRepresentative = new MenuItem("addNewUnionRepresentative");
+                    MenuItem addNewUnionRepresentative = new MenuItem("Add New UnionRepresentative");
                     addNewUnionRepresentative.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -177,7 +177,7 @@ public class UserController implements Initializable {
                         }
                     });
                     adminMenu.getItems().add(addNewUnionRepresentative);
-                    MenuItem addNewAdmin = new MenuItem("addNewAdmin");
+                    MenuItem addNewAdmin = new MenuItem("Add New Admin");
                     addNewAdmin.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -185,7 +185,7 @@ public class UserController implements Initializable {
                         }
                     });
                     adminMenu.getItems().add(addNewAdmin);
-                    MenuItem removeUser = new MenuItem("removeUser");
+                    MenuItem removeUser = new MenuItem("Remove User");
                     removeUser.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -193,7 +193,7 @@ public class UserController implements Initializable {
                         }
                     });
                     adminMenu.getItems().add(removeUser);
-                    MenuItem viewLog = new MenuItem("viewLog");
+                    MenuItem viewLog = new MenuItem("View Log");
                     viewLog.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -201,7 +201,7 @@ public class UserController implements Initializable {
                         }
                     });
                     adminMenu.getItems().add(viewLog);
-                    MenuItem responseToComplaint = new MenuItem("responseToComplaint");
+                    MenuItem responseToComplaint = new MenuItem("Response To Complaint");
                     responseToComplaint.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -215,7 +215,7 @@ public class UserController implements Initializable {
                 case("TeamOwner"):{
                     ownership = new OwnershipController(mainView1, loggedUser, m_client);
                     Menu ownerMenu = new Menu("Ownership Actions");
-                    MenuItem addTeam = new MenuItem("openNewTeam");
+                    MenuItem addTeam = new MenuItem("Open New Team");
                     addTeam.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -223,7 +223,7 @@ public class UserController implements Initializable {
                         }
                     });
                     ownerMenu.getItems().add(addTeam);
-                    MenuItem appointTeamOwner = new MenuItem("appointTeamOwner");
+                    MenuItem appointTeamOwner = new MenuItem("Appoint TeamOwner");
                     appointTeamOwner.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -231,7 +231,7 @@ public class UserController implements Initializable {
                         }
                     });
                     ownerMenu.getItems().add(appointTeamOwner);
-                    MenuItem appointTeamManager = new MenuItem("appointTeamManager");
+                    MenuItem appointTeamManager = new MenuItem("Appoint TeamManager");
                     appointTeamManager.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -239,7 +239,7 @@ public class UserController implements Initializable {
                         }
                     });
                     ownerMenu.getItems().add(appointTeamManager);
-                    MenuItem closeTeam = new MenuItem("closeTeam");
+                    MenuItem closeTeam = new MenuItem("Close Team");
                     closeTeam.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -247,7 +247,7 @@ public class UserController implements Initializable {
                         }
                     });
                     ownerMenu.getItems().add(closeTeam);
-                    MenuItem reopenTeam = new MenuItem("reopenTeam");
+                    MenuItem reopenTeam = new MenuItem("Reopen Team");
                     reopenTeam.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -267,7 +267,7 @@ public class UserController implements Initializable {
                 case("UnionRepresentative"):{
                     union = new UnionController(mainView1, loggedUser, m_client);
                     Menu unionMenu = new Menu("Union Actions");
-                    MenuItem configureNewLeague = new MenuItem("configureNewLeague");
+                    MenuItem configureNewLeague = new MenuItem("Configure New League");
                     configureNewLeague.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -275,7 +275,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(configureNewLeague);
-                    MenuItem configureNewSeason = new MenuItem("configureNewSeason");
+                    MenuItem configureNewSeason = new MenuItem("Configure New Season");
                     configureNewSeason.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -283,14 +283,14 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(configureNewSeason);
-                    MenuItem configureLeagueInSeason = new MenuItem("configureLeagueInSeason");
+                    MenuItem configureLeagueInSeason = new MenuItem("Configure LeagueInSeason");
                     configureLeagueInSeason.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
                             union.configureLeagueInSeason();
                         }
                     });
-                    MenuItem addTeamToLeague = new MenuItem("addTeamToLeague");
+                    MenuItem addTeamToLeague = new MenuItem("Add Team To League");
                     addTeamToLeague.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -299,7 +299,7 @@ public class UserController implements Initializable {
                     });
                     unionMenu.getItems().add(addTeamToLeague);
                     unionMenu.getItems().add(configureLeagueInSeason);
-                    MenuItem assignGames = new MenuItem("assignGames");
+                    MenuItem assignGames = new MenuItem("Assign Games");
                     assignGames.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -307,7 +307,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(assignGames);
-                    MenuItem appointReferee = new MenuItem("appointReferee");
+                    MenuItem appointReferee = new MenuItem("Appoint Referee");
                     appointReferee.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -315,7 +315,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(appointReferee);
-                    MenuItem addRefereeToLeague = new MenuItem("addRefereeToLeague");
+                    MenuItem addRefereeToLeague = new MenuItem("Add Referee To League");
                     addRefereeToLeague.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -323,7 +323,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(addRefereeToLeague);
-                    MenuItem changeScorePolicy = new MenuItem("changeScorePolicy");
+                    MenuItem changeScorePolicy = new MenuItem("Change Score Policy");
                     changeScorePolicy.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -331,7 +331,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(changeScorePolicy);
-                    MenuItem changeAssignmentPolicy = new MenuItem("changeAssignmentPolicy");
+                    MenuItem changeAssignmentPolicy = new MenuItem("Change Assignment Policy");
                     changeAssignmentPolicy.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -339,7 +339,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(changeAssignmentPolicy);
-                    MenuItem addTUTUPaymentToTeam = new MenuItem("addTUTUPaymentToTeam");
+                    MenuItem addTUTUPaymentToTeam = new MenuItem("Add TUTU Payment To Team");
                     addTUTUPaymentToTeam.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -347,7 +347,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(addTUTUPaymentToTeam);
-                    MenuItem addPaymentsFromTheTUTU = new MenuItem("addPaymentsFromTheTUTU");
+                    MenuItem addPaymentsFromTheTUTU = new MenuItem("Add Payments From The TUTU");
                     addPaymentsFromTheTUTU.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -355,7 +355,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(addPaymentsFromTheTUTU);
-                    MenuItem calculateLeagueScore = new MenuItem("calculateLeagueScore");
+                    MenuItem calculateLeagueScore = new MenuItem("Calculate League Score");
                     calculateLeagueScore.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -363,7 +363,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(calculateLeagueScore);
-                    MenuItem calculateGameScore = new MenuItem("calculateGameScore");
+                    MenuItem calculateGameScore = new MenuItem("Calculate Game Score");
                     calculateGameScore.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -371,7 +371,7 @@ public class UserController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(calculateGameScore);
-                    MenuItem changeRegistrationFee = new MenuItem("changeRegistrationFee");
+                    MenuItem changeRegistrationFee = new MenuItem("Change Registration Fee");
                     changeRegistrationFee.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -385,7 +385,7 @@ public class UserController implements Initializable {
                 case("Referee"):{
                     referee = new RefereeController(mainView1, loggedUser, m_client);
                     Menu refMenu = new Menu("Referee Actions");
-                    MenuItem addEventToGame = new MenuItem("addEventToGame");
+                    MenuItem addEventToGame = new MenuItem("Add Event To Game");
                     addEventToGame.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -393,7 +393,7 @@ public class UserController implements Initializable {
                         }
                     });
                     refMenu.getItems().add(addEventToGame);
-                    MenuItem setScoreInGame = new MenuItem("setScoreInGame");
+                    MenuItem setScoreInGame = new MenuItem("Set Score In Game");
                     setScoreInGame.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -401,7 +401,7 @@ public class UserController implements Initializable {
                         }
                     });
                     refMenu.getItems().add(setScoreInGame);
-                    MenuItem getEventReport = new MenuItem("getGameReport");
+                    MenuItem getEventReport = new MenuItem("View Game Report");
                     getEventReport.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -409,7 +409,7 @@ public class UserController implements Initializable {
                         }
                     });
                     refMenu.getItems().add(getEventReport);
-                    MenuItem changeEvent = new MenuItem("changeEvent");
+                    MenuItem changeEvent = new MenuItem("Change Event");
                     changeEvent.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -423,7 +423,7 @@ public class UserController implements Initializable {
                 case("HasPage"):{
                     page = new HasPageController(mainView1, loggedUser, m_client);
                     Menu pageMenu = new Menu("Page Management");
-                    MenuItem viewPage = new MenuItem("viewPage");
+                    MenuItem viewPage = new MenuItem("View Personal Page");
                     viewPage.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -431,7 +431,7 @@ public class UserController implements Initializable {
                         }
                     });
                     pageMenu.getItems().add(viewPage);
-                    MenuItem uploadToPage = new MenuItem("uploadToPage");
+                    MenuItem uploadToPage = new MenuItem("Upload To Page");
                     uploadToPage.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -450,7 +450,7 @@ public class UserController implements Initializable {
     private void addManagement() {
         management = new ManagementController(mainView1, loggedUser, m_client);
         Menu manageMenu = new Menu("Management Actions");
-        MenuItem addPlayerToTeam = new MenuItem("addPlayerToTeam");
+        MenuItem addPlayerToTeam = new MenuItem("Add Player To Team");
         addPlayerToTeam.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -458,7 +458,7 @@ public class UserController implements Initializable {
             }
         });
         manageMenu.getItems().add(addPlayerToTeam);
-        MenuItem addCoachToTeam = new MenuItem("addCoachToTeam");
+        MenuItem addCoachToTeam = new MenuItem("Add Coach To Team");
         addCoachToTeam.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -466,7 +466,7 @@ public class UserController implements Initializable {
             }
         });
         manageMenu.getItems().add(addCoachToTeam);
-        MenuItem addFieldToTeam = new MenuItem("addFieldToTeam");
+        MenuItem addFieldToTeam = new MenuItem("Add Field To Team");
         addFieldToTeam.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -474,7 +474,7 @@ public class UserController implements Initializable {
             }
         });
         manageMenu.getItems().add(addFieldToTeam);
-        MenuItem updateAsset = new MenuItem("updateAsset");
+        MenuItem updateAsset = new MenuItem("Update Asset");
         updateAsset.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -482,7 +482,7 @@ public class UserController implements Initializable {
             }
         });
         manageMenu.getItems().add(updateAsset);
-        MenuItem reportIncome = new MenuItem("reportIncome");
+        MenuItem reportIncome = new MenuItem("Report Income");
         reportIncome.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -490,7 +490,7 @@ public class UserController implements Initializable {
             }
         });
         manageMenu.getItems().add(reportIncome);
-        MenuItem reportExpanse = new MenuItem("reportExpanse");
+        MenuItem reportExpanse = new MenuItem("Report Expanse");
         reportExpanse.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -498,7 +498,7 @@ public class UserController implements Initializable {
             }
         });
         manageMenu.getItems().add(reportExpanse);
-        MenuItem getBalance = new MenuItem("getBalance");
+        MenuItem getBalance = new MenuItem("Show Team Balance");
         getBalance.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -516,7 +516,6 @@ public class UserController implements Initializable {
             @Override
             public void handle(WindowEvent event) {
                 logoutButtonPushed(null);
-                //logout somehow
             }
         });
     }

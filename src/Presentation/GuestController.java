@@ -26,7 +26,7 @@ import javafx.scene.layout.Pane;
 public class GuestController implements Initializable {
 
 
-    private Client m_client = new Client(7567);//split by |
+    private Client m_client;//split by |
     private GeneralController m_general = new GeneralController();
 
     @FXML private HBox mainView;
@@ -67,8 +67,6 @@ public class GuestController implements Initializable {
         m_general.clearMainView(mainView);
         GridPane l_searchPane = new GridPane();
         m_general.buildSearchView(l_searchPane, mainView, m_client,"");
-
-
     }
 
     public void viewInfoButtonPushed(ActionEvent actionEvent){
@@ -82,5 +80,6 @@ public class GuestController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         l_systemName.setText(Main.SYSTEM_NAME);
+        m_client = new Client(7567);
     }
 }

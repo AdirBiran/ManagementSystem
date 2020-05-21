@@ -31,16 +31,10 @@ public class OwnershipController {
         this.mainView1 = mainView1;
         this.loggedUser = loggedUser;
         this.m_client = m_client;
-        initHashSet(m_client.sendToServer("getTeams|"+loggedUser));;
+        this.teams = m_general.initHashSet(m_client.sendToServer("getTeams|"+loggedUser));
     }
 
-    private void initHashSet(List<String> received) {
-        this.teams = new HashMap<>();
-        for(String team: received){
-            String[] split = team.split(":");
-            this.teams.put(split[0], split[1]);
-        }
-    }
+
 
     public void openNewTeam(){
         int rowCount=0;
@@ -130,33 +124,34 @@ public class OwnershipController {
 
     public void appointTeamOwner(){
         m_general.clearMainView(mainView1);
-        //let user select user to appoint
-        //send request to appoint user
+        appoint("owner");
     }
-    public void appointTeamManager(){m_general.clearMainView(mainView1);}
+
+
+    public void appointTeamManager(){
+        m_general.clearMainView(mainView1);
+        appoint("manager");
+
+    }
+
+
     public void closeTeam()
     {
         m_general.clearMainView(mainView1);
         GridPane gridPane = new GridPane();
         Label label = new Label("Please select team to close");
-        ObservableList<String> list = FXCollections.observableArrayList(teams.values());
-        ChoiceBox<String> choiceBox = new ChoiceBox<>(list);
-        gridPane.add(label, 0,0);
-        gridPane.add(choiceBox,0,1);
+        gridPane.add(label,0,0);
+        m_general.addTeamsChoiceBox(gridPane,cb_teams, 1, teams.values());
         Button addBtn = new Button("Close");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String teamName = choiceBox.getValue();
-                for(String id: teams.keySet()){
-                    if(teamName.equals(teams.get(id))){
-                        List<String> receive =  m_client.sendToServer("closeTeam|"+loggedUser+"|"+id);
-                        m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
-                    }
-                }
+                String teamName = cb_teams.getValue() , id = m_general.getIdFromName(teamName, teams);
+                List<String> receive =  m_client.sendToServer("closeTeam|"+loggedUser+"|"+id);
+                m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
             }
         });
-
+        gridPane.add(addBtn,0,2);
         mainView1.getChildren().add(gridPane);
     }
     public void reopenTeam(){
@@ -177,5 +172,66 @@ public class OwnershipController {
     private void addToPane(GridPane pane,Node object ,Node selected, int col, int row){
         pane.add(object ,col,row);
         pane.add(selected ,col+1,row);
+    }
+
+    private ChoiceBox<String> cb_teams;
+    private ChoiceBox<String> cb_users;
+
+
+    private void addUsersChoiceBox(GridPane pane, int rowIdx) {
+        List<String> users = m_client.sendToServer("getAllUsers_Team|"+loggedUser);
+        List<UserRecord> userRecords = new ArrayList<>();
+        ObservableList<String> ol_users = FXCollections.observableArrayList();
+        for(String user:users){
+            UserRecord record = new UserRecord(user);
+            ol_users.add(record.getName());
+            userRecords.add(record);
+        }
+        Label l_users = new Label("Users: ");
+        pane.add(l_users,0,rowIdx);
+        cb_users = new ChoiceBox(ol_users);
+        pane.add(cb_users,1,rowIdx);
+    }
+
+    private void appoint(String type) {
+        int rowIdx= 0;
+        StringBuilder request = new StringBuilder();
+        GridPane pane = new GridPane();
+        Label label = new Label("");
+        switch (type){
+            case "manager":{
+                label = new Label("please select team and user to appoint as team manager");
+                request.append("appointTeamManager|");
+                break;
+            }
+            case "owner":{
+                label = new Label("please select team and user to appoint as team owner");
+                request.append("appointTeamOwner|");
+                break;
+            }
+        }
+        pane.add(label,0,rowIdx);
+        rowIdx++;
+        m_general.addTeamsChoiceBox(pane,cb_teams, rowIdx, teams.values());
+        rowIdx++;
+        addUsersChoiceBox(pane, rowIdx);
+        rowIdx++;
+        Button appointBtn = new Button("Appoint");
+        appointBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String team=cb_teams.getValue(), user=cb_users.getValue() , id = m_general.getIdFromName(team, teams);
+                if(Checker.isValid(team)&&Checker.isValid(user)){
+                    request.append(loggedUser+"|"+user+"|"+id);
+                    List<String> receive = m_client.sendToServer(request.toString());
+                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                }
+                else{
+                    m_general.showAlert("Invalid values selection!", Alert.AlertType.ERROR);
+                }
+            }
+        });
+        pane.add(appointBtn,0,rowIdx);
+        mainView1.getChildren().add(pane);
     }
 }

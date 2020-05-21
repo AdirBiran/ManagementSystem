@@ -23,6 +23,8 @@ public class AdminController {
     public void closeTeamPermanently(){
         m_general.clearMainView(mainView1);
         //show all teams with selection option maybe choicebox
+        String request = "getAllOpenTeams_Admin|"+loggedUser;
+
         //let user select a team to close
         //sent request to close team
         //return ack - success or failure
@@ -58,6 +60,7 @@ public class AdminController {
     }
     public void removeUser(){
         m_general.clearMainView(mainView1);
+        String request = "getAllUsers_Admin|"+loggedUser;
         //show all users?? - table view?
         //let user select a user to remove
         //send request to remove user
