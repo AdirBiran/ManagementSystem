@@ -187,12 +187,13 @@ public class Database //maybe generalize with interface? //for now red layer
             /**
              [Name] [varchar](50) NOT NULL,
              [LeagueLevel] [varchar](50) NOT NULL,
-             [SeasonsIDs] [varchar](255) NOT NULL,
+             [LeaguesInSeasonsIDs] [varchar](255) NOT NULL,
              * */
 
             ans1 = dataAccess.updateCellValue("Leagues" ,"Name" , ((League) object).getId() , ((League) object).getName());
             ans2 = dataAccess.updateCellValue("Leagues" ,"LeagueLevel" ,((League) object).getId() ,((League) object).getLevel() );
-            ans4 = dataAccess.updateCellValue("Leagues" ,"SeasonsIDs" , ((League) object).getId(),getSeasonsFromLeagueInSeasons(((League) object).getLeagueInSeasons()) );
+            ans3 = dataAccess.updateCellValue("Leagues" ,"LeaguesInSeasonsIDs" ,((League) object).getId() ,leagueInSeasonToStringIDs(((League) object).getLeagueInSeasons()) );
+            //ans4 = dataAccess.updateCellValue("Leagues" ,"SeasonsIDs" , ((League) object).getId(),getSeasonsFromLeagueInSeasons(((League) object).getLeagueInSeasons()) );
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
@@ -287,12 +288,13 @@ public class Database //maybe generalize with interface? //for now red layer
             /**
              [SeasonYear] [int] NOT NULL,
              [StartDate] [date] NOT NULL,
-             [LeaguesIDs] [varchar](255) NOT NULL,
+             [LeaguesInSeasonsIDs] [varchar](255) NOT NULL,
              * */
 
             ans1 = dataAccess.updateCellValue("Seasons" ,"SeasonYear" , ((Season) object).getId() ,""+((Season) object).getYear() );
             ans2 = dataAccess.updateCellValue("Seasons" ,"StartDate" , ((Season) object).getId(), ""+((Season) object).getStartDate() );
-            ans3 = dataAccess.updateCellValue("Seasons" ,"LeaguesIDs" , ((Season) object).getId(), ((Season) object).getLeaguesId() );
+            ans3 = dataAccess.updateCellValue("Seasons" ,"LeaguesInSeasonsIDs" , ((Season) object).getId(), leagueInSeasonToStringIDs(((Season) object).getLeagueInSeasons()) );
+            //ans3 = dataAccess.updateCellValue("Seasons" ,"LeaguesIDs" , ((Season) object).getId(), ((Season) object).getLeaguesId() );
 
             return ans1 && ans2 && ans3 && ans4 ;
         }
@@ -479,13 +481,37 @@ public class Database //maybe generalize with interface? //for now red layer
         String listOfStrings="";
         for (ScoreTableRecord scoreTableRecord : scoreTable) {
             if(listOfStrings.equals("")){
-                listOfStrings= listOfStrings +scoreTableRecord.getTeam() +":"+scoreTableRecord.getTotalScore();
+                listOfStrings= listOfStrings +scoreTableRecord.getTeam().getID() +":"+scoreTableRecord.getTotalScore();
             }else {
-                listOfStrings = listOfStrings + "," +scoreTableRecord.getTeam() +":"+scoreTableRecord.getTotalScore();
+                listOfStrings = listOfStrings + "," +scoreTableRecord.getTeam().getID() +":"+scoreTableRecord.getTotalScore();
             }
         }
         return listOfStrings;
 
+    }
+
+        private static Queue<ScoreTableRecord> getScoreTableQueue(String scoreTable) {
+
+            Queue<ScoreTableRecord> scoreTableQueue = new LinkedList<>();
+            List<String> temp;
+            //scoreTable= teamID1:score,teamID2:score,..
+
+            /**
+            * after split =>
+            * scoreTableList.get(0) = teamID1:score
+            * scoreTableList.get(1) = teamID2:score
+            * ...
+            */
+            List<String> scoreTableList = split(scoreTable);
+
+            for(String s : scoreTableList){
+                temp=splitHashMap(s);
+                Team team = getTeam(temp.get(0));
+                int score = Integer.parseInt(temp.get(1));
+                ScoreTableRecord scoreTableRecord = new ScoreTableRecord(team,score);
+                ((LinkedList<ScoreTableRecord>) scoreTableQueue).add(scoreTableRecord);
+            }
+            return scoreTableQueue;
     }
 
     private static String getSeasonsFromLeagueInSeasons(List<LeagueInSeason> leagueInSeasons) {
@@ -521,6 +547,19 @@ public class Database //maybe generalize with interface? //for now red layer
                 listOfStringsID= listOfStringsID +team.getID();
             }else {
                 listOfStringsID = listOfStringsID + "," + team.getID();
+            }
+        }
+        return listOfStringsID;
+
+    }
+
+    private static String leagueInSeasonToStringIDs(List<LeagueInSeason> leagueInSeasons){
+        String listOfStringsID="";
+        for (LeagueInSeason leagueInSeason:leagueInSeasons) {
+            if(listOfStringsID.equals("")){
+                listOfStringsID= listOfStringsID +leagueInSeason.getId();
+            }else {
+                listOfStringsID = listOfStringsID + "," + leagueInSeason.getId();
             }
         }
         return listOfStringsID;
@@ -997,9 +1036,7 @@ public class Database //maybe generalize with interface? //for now red layer
         return false;
     }
 
-    public static void writeToDatabaseDisk(){
-        //*
-    }
+
     public static void loadDatabaseFromDisk(String path){
         //*
     }
@@ -1080,15 +1117,18 @@ public class Database //maybe generalize with interface? //for now red layer
                 Game game = new Game(object.get(0),dataAccess.stringToDate(object.get(1)),
                         Integer.parseInt(object.get(2)) , Integer.parseInt(object.get(3)),
                         getField(object.get(4)) ,getReferee(object.get(5))
-                        ,createSideReferees(object.get(6)),getTeam(object.get(7)), getTeam(object.get(8)),
+                        ,listOfReferees(object.get(6)),getTeam(object.get(7)), getTeam(object.get(8)),
                         getFansForAlertsHashMap(object.get(9)) ,getEventReport(object.get(10)) ,
                         getLeagueInSeason(object.get(11)));
                 return game;
             case "League":
                 League league = new League(object.get(0) , object.get(1) ,getEnumLevelLeague(object.get(2)),
-                        getListOfLeagueInSeason(object.get(3)));
+                        listOfLeagueInSeason(object.get(3)));
                 return league;
             case "LeagueInSeason":
+                LeagueInSeason leagueInSeason = new LeagueInSeason(object.get(0) ,getGameAssignmentPolicy(object.get(1)),
+                        getScorePolicy(object.get(2)) ,listOfGames(object.get(3)) ,listOfReferees(object.get(4)),
+                        listOfTeams(object.get(5)) , Double.parseDouble(object.get(6)) ,getScoreTableQueue(object.get(7)));
                 break;
             case "PersonalPage":
                 break;
@@ -1117,15 +1157,9 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    private static List<LeagueInSeason> getListOfLeagueInSeason(String leagueInSeasonIds) {
-        List<String> leagueInSeason = split(leagueInSeasonIds);
-        List<LeagueInSeason> allLeagueInSeason = new LinkedList<>();
 
-        for (String leagueId : leagueInSeason){
-            allLeagueInSeason.add(getLeagueInSeason(leagueId));
-        }
-        return allLeagueInSeason;
-    }
+
+
 
     private static boolean stringToBoolean(String s) {
         if(s.equals("1")){
@@ -1137,16 +1171,6 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
 
-    private static  List<Referee> createSideReferees(String referees) {
-        List<String> listOfStrings = split(referees);
-        List<Referee> sideReferees = new LinkedList<>();
-        Referee sideR1 = getReferee(listOfStrings.get(0));
-        Referee sideR2 = getReferee(listOfStrings.get(1));
-        sideReferees.add(sideR1);
-        sideReferees.add(sideR2);
-
-        return sideReferees;
-    }
 
     private static List<Role> createListOfRoles(String roles ,String userId) {
         List<String> listOfRoles = split(roles);
@@ -1184,10 +1208,63 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+    private static List<LeagueInSeason> listOfLeagueInSeason(String leagueInSeasonIds) {
+        List<String> leagueInSeason = split(leagueInSeasonIds);
+        List<LeagueInSeason> allLeagueInSeason = new LinkedList<>();
+
+        for (String leagueId : leagueInSeason){
+            allLeagueInSeason.add(getLeagueInSeason(leagueId));
+        }
+        return allLeagueInSeason;
+    }
+
+    /*private static  List<Referee> createSideReferees(String referees) {
+        List<String> listOfStrings = split(referees);
+        List<Referee> sideReferees = new LinkedList<>();
+        Referee sideR1 = getReferee(listOfStrings.get(0));
+        Referee sideR2 = getReferee(listOfStrings.get(1));
+        sideReferees.add(sideR1);
+        sideReferees.add(sideR2);
+
+        return sideReferees;
+    }*/
+
+
+    private static List<Referee> listOfReferees(String referees){
+        List<String> listOfReferees = split(referees);
+        List<Referee> allReferees = new LinkedList<>();
+
+        for (String refereeId : listOfReferees){
+            allReferees.add(getReferee(refereeId));
+        }
+
+        return allReferees;
+    }
+
+    private static List<Game> listOfGames(String games){
+        List<String> listOfGames = split(games);
+        List<Game> allGames = new LinkedList<>();
+
+        for (String gameId : listOfGames){
+            allGames.add(getGame(gameId));
+        }
+
+        return allGames;
+    }
 
     private static HashSet<Team> teamHashSet(String teams){
         List<String> listOfTeams = split(teams);
         HashSet<Team> allTeams = new HashSet<>();
+
+        for(String teamId : listOfTeams){
+            allTeams.add(getTeam(teamId));
+        }
+        return allTeams;
+    }
+
+    private static List<Team> listOfTeams(String teams){
+        List<String> listOfTeams = split(teams);
+        List<Team> allTeams = new LinkedList<>();
 
         for(String teamId : listOfTeams){
             allTeams.add(getTeam(teamId));
@@ -1272,6 +1349,31 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return hashMapFansForAlerts;
     }
+
+
+/*    private static HashMap<Fan ,Boolean> getScoreTableHashMap(String fansForAlerts) {
+
+        HashMap<Fan ,Boolean> hashMapFansForAlerts = new HashMap<>();
+        List<String> temp;
+        //fansForAlerts= fanId1:boolean,fanId2:boolean,..
+
+        *//**
+         * after split =>
+         * fansAndAlerts.get(0) = fanId1:boolean
+         * fansAndAlerts.get(0) = fanId2:boolean
+         * ...
+         *//*
+        List<String> fansAndAlerts = split(fansForAlerts);
+
+        for(String s : fansAndAlerts){
+            temp=splitHashMap(s);
+            Fan fan = getFan(temp.get(0));
+            Boolean bool = Boolean.parseBoolean(temp.get(1));
+            hashMapFansForAlerts.put(fan,bool);
+        }
+        return hashMapFansForAlerts;
+    }*/
+
 
     /*private List<String> stringToList(String ans) {
         List<String> res = new LinkedList<>();
@@ -1363,6 +1465,27 @@ public class Database //maybe generalize with interface? //for now red layer
         return new LinkedList<>(teams.values());
     }
 
+    public static ScorePolicy getScorePolicy(String scorePolicyName) {
+
+        if(scorePolicyName.equals("StandardScorePolicy")){
+            StandardScorePolicy standardScorePolicy = new StandardScorePolicy();
+            return standardScorePolicy;
+        }else{
+            CupScorePolicy cupScorePolicy = new CupScorePolicy();
+            return cupScorePolicy;
+        }
+    }
+
+    public static GameAssignmentPolicy getGameAssignmentPolicy(String gameAssignmentPolicy) {
+
+        if(gameAssignmentPolicy.equals("PlayOnceWithEachTeamPolicy")){
+            PlayOnceWithEachTeamPolicy playOnceWithEachTeamPolicy = new PlayOnceWithEachTeamPolicy();
+            return playOnceWithEachTeamPolicy;
+        }else{
+            PlayTwiceWithEachTeamPolicy playTwiceWithEachTeamPolicy = new PlayTwiceWithEachTeamPolicy();
+            return playTwiceWithEachTeamPolicy;
+        }
+    }
 
     public static Field getField(String fieldId) {
         List<String> field;

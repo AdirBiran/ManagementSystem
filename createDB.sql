@@ -121,14 +121,14 @@ CREATE TABLE [Leagues](
 	[ID] [char](30)  Primary key,
 	[Name] [varchar](50) NOT NULL,
 	[LeagueLevel] [varchar](50) NOT NULL,
-	[SeasonsIDs] [varchar](255) NOT NULL,
+	[LeaguesInSeasonsIDs] [varchar](255) NOT NULL,
 );
 
 CREATE TABLE [Seasons](
 	[ID] [char](30)  Primary key,
 	[SeasonYear] [int] NOT NULL,
 	[StartDate] [date] NOT NULL,
-	[LeaguesIDs] [varchar](255) NOT NULL,
+	[LeaguesInSeasonsIDs] [varchar](255) NOT NULL,
 );
 
 CREATE TABLE [LeaguesInSeasons](
