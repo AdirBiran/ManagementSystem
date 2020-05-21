@@ -103,7 +103,7 @@ public class TeamTest {
         team.addTeamOwner(userTeamOwner);
         assertTrue(team.removeTeamOwner(userTeamOwner));
         /*for notification*/
-        assertEquals(userTeamOwner.getMessageBox().size(), 1);
+        assertEquals(userTeamOwner.getMessageBox().size(), 2);
     }
 
     @Test
@@ -112,7 +112,7 @@ public class TeamTest {
         team.addTeamManager(userTeamManager, 10000, true, false);
         assertTrue(team.removeTeamManager(userTeamManager));
         /*for notification*/
-        assertEquals(userTeamManager.getMessageBox().size(), 1);
+        assertEquals(userTeamManager.getMessageBox().size(), 2);
     }
 
     @Test
@@ -207,7 +207,7 @@ public class TeamTest {
         team.setActive(false);
         assertFalse(team.isActive());
         /*for notification*/
-        assertEquals(team.getTeamOwners().get(0).getMessageBox().size(), 1);
+        assertEquals(team.getTeamOwners().get(0).getMessageBox().size(), 2);
         assertEquals(admin.getMessageBox().size(), 1);
     }
 
@@ -221,7 +221,7 @@ public class TeamTest {
         team.setPermanentlyClosed(true);
         assertTrue(team.isPermanentlyClosed());
         /*for notification*/
-        assertEquals(team.getTeamOwners().get(0).getMessageBox().size(), 1);
+        assertEquals(team.getTeamOwners().get(0).getMessageBox().size(), 2);
         assertEquals(admin.getMessageBox().size(), 1);
     }
 
