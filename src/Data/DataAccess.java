@@ -39,7 +39,7 @@ public class DataAccess {
 
     public DataAccess()
     {
-/*
+
         try
         {
             Class.forName(className);
@@ -50,7 +50,7 @@ public class DataAccess {
             e.printStackTrace();
         }
 
-*/
+
     }
 
     public List<String> getAllTableValues(String TableName)
@@ -194,7 +194,7 @@ public class DataAccess {
 
     }
 
-    public void addCell(String TableName, String ... values)
+    public boolean addCell(String TableName, String ... values)
     {
         PreparedStatement ps = null;
 
@@ -238,10 +238,12 @@ public class DataAccess {
         {
             closePS(ps);
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
-    private Date stringToDate(String val)
+    public Date stringToDate(String val)
     {
         String[] split = val.split("\\.");
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -427,4 +429,8 @@ public class DataAccess {
 
     }
 
+    public boolean isIDExists(String tableName, String id)
+    {
+        return true;
+    }
 }

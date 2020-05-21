@@ -61,6 +61,19 @@ public class PersonalPage {
         return followers;
     }
 
+    public String getFollowersIds(){
+        String listOfId = "";
+        for (Fan fan: followers) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + fan.getUser().getID();
+            }
+            else {
+                listOfId = listOfId + ","+fan.getUser().getID();
+            }
+        }
+        return listOfId;
+    }
+
     public void setData(String data) {
         this.data = data;
     }

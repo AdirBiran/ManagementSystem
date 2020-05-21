@@ -5,7 +5,10 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class DatabaseTest {
 
@@ -31,7 +34,11 @@ public class DatabaseTest {
         coach = (Coach) coachU.checkUserRole("Coach");
         coach.addTeam(team);
         coach.addTeam(team1);
-        dataAccess.createDB();
+
+        //dataAccess.createDB();
+
+        //dataAccess.createDB();
+
 
     }
 
@@ -41,4 +48,19 @@ public class DatabaseTest {
         database.updateObject(coach);
     }
 
+    @Test
+    public void getAllUsers(){
+       // dataAccess.addCell("Users","123","doron","doron","doron@gmail.com","true","TeamOwner","aa");
+       // dataAccess.addCell("Users","456","Saly","Saly","Saly@gmail.com","true","TeamOwner","aa");
+        List<User> users = Database.getAllUsers();
+
+        System.out.println(Boolean.parseBoolean("true"));
+
+        assertEquals(2,users.size());
+    }
+
+    @Test
+    public void getUser(){
+        User user = Database.createUser("888");
+    }
 }
