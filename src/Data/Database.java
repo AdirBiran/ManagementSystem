@@ -174,7 +174,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans6 = dataAccess.updateCellValue("Games","SideRefereesIDs" ,((Game) object).getId(),((Game) object).getSideRefereesId() );
             ans7 = dataAccess.updateCellValue("Games","HostTeamID" ,((Game) object).getId(),((Game) object).getHostTeam().getID());
             ans8 = dataAccess.updateCellValue("Games","GuestTeamID" ,((Game) object).getId(),((Game) object).getGuestTeam().getID());
-            ans9 = dataAccess.updateCellValue("Games","AlertsFansIDs" ,((Game) object).getId(),getfansForAlerts(((Game) object).getFansForAlerts()));
+            ans9 = dataAccess.updateCellValue("Games","AlertsFansIDs" ,((Game) object).getId(),getFansForAlerts(((Game) object).getFansForAlerts()));
             ans10 = dataAccess.updateCellValue("Games","EventReportID" ,((Game) object).getId(),((Game) object).getEventReport().getId());
             ans11 = dataAccess.updateCellValue("Games","LeagueInSeasonID" ,((Game) object).getId(),((Game) object).getLeague().getId());
 
@@ -403,7 +403,7 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
 
-    private static String getfansForAlerts(HashMap<Fan, Boolean> fansForAlerts) {
+    private static String getFansForAlerts(HashMap<Fan, Boolean> fansForAlerts) {
         String listOfStrings="";
 
         for (HashMap.Entry<Fan, Boolean> entry : fansForAlerts.entrySet()) {
