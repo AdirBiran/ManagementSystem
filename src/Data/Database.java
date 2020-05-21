@@ -1488,84 +1488,131 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static Field getField(String fieldId) {
-        List<String> field;
-        field = dataAccess.getAllCellValues("Fields" ,fieldId );
-        return (Field) createObject("Field" , field);
+        if(dataAccess.isIDExists("Fields" ,fieldId)) {
+            List<String> field;
+            field = dataAccess.getAllCellValues("Fields", fieldId);
+            return (Field) createObject("Field", field);
+        }
+        return null;
 
     }
     public static Complaint getComplaints(String complaintId) {
-        List<String> complaint;
-        complaint = dataAccess.getAllCellValues("Complaints" ,complaintId );
-        return (Complaint) createObject("Complaint" , complaint);
-
+        if(dataAccess.isIDExists("Complaints" ,complaintId)) {
+            List<String> complaint;
+            complaint = dataAccess.getAllCellValues("Complaints" ,complaintId );
+            return (Complaint) createObject("Complaint" , complaint);
+        }
+        return null;
     }
 
     public static PersonalPage getPersonalPage(String pageId){
-        List<String> personalPage;
-        personalPage = dataAccess.getAllCellValues("PersonalPages" ,pageId );
-        return (PersonalPage) createObject("PersonalPage" , personalPage);
+        if(dataAccess.isIDExists("PersonalPages" ,pageId)) {
+            List<String> personalPage;
+            personalPage = dataAccess.getAllCellValues("PersonalPages" ,pageId );
+            return (PersonalPage) createObject("PersonalPage" , personalPage);
+        }
+        return null;
     }
 
     public static Event getEvent(String eventId){
-        List<String> event;
-        event = dataAccess.getAllCellValues("Events" ,eventId);
-        return (Event) createObject("Event" , event);
+        if(dataAccess.isIDExists("Events" ,eventId)) {
+            List<String> event;
+            event = dataAccess.getAllCellValues("Events" ,eventId);
+            return (Event) createObject("Event" , event);
+        }
+        return null;
     }
 
     public static EventReport getEventReport(String eventReportId){
-        List<String> eventReport;
-        eventReport = dataAccess.getAllCellValues("EventReports" ,eventReportId);
-        return (EventReport) createObject("EventReport" , eventReport);
+        if(dataAccess.isIDExists("EventReports" ,eventReportId)) {
+            List<String> eventReport;
+            eventReport = dataAccess.getAllCellValues("EventReports" ,eventReportId);
+            return (EventReport) createObject("EventReport" , eventReport);
+        }
+        return null;
     }
 
     public static Admin getAdmin(String userId){
-        List<String> admin;
-        admin = dataAccess.getAllCellValues("Admins" ,userId);
-        return (Admin) createObject("Admin" , admin);
+        if(dataAccess.isIDExists("Admins" ,userId)) {
+            List<String> admin;
+            admin = dataAccess.getAllCellValues("Admins", userId);
+            return (Admin) createObject("Admin", admin);
+        }
+        return null;
+
     }
 
     public static Coach getCoach(String userId){
-        List<String> coach;
-        coach = dataAccess.getAllCellValues("Coaches" ,userId);
-        return (Coach) createObject("Coach" , coach);
+        if(dataAccess.isIDExists("Coaches" ,userId)) {
+            List<String> coach;
+            coach = dataAccess.getAllCellValues("Coaches", userId);
+            return (Coach) createObject("Coach", coach);
+        }
+        return null;
     }
 
     public static Fan getFan(String userId){
-        List<String> fan;
-        fan = dataAccess.getAllCellValues("Fans" ,userId);
-        return (Fan) createObject("Fan" , fan);
+        if(dataAccess.isIDExists("Fans" ,userId)) {
+            List<String> fan;
+            fan = dataAccess.getAllCellValues("Fans", userId);
+            return (Fan) createObject("Fan", fan);
+        }
+        return null;
     }
+
     public static Player getPlayer(String userId){
-        List<String> player;
-        player = dataAccess.getAllCellValues("Players" ,userId);
-        return (Player) createObject("Player" , player);
+        if(dataAccess.isIDExists("Players" ,userId)) {
+            List<String> player;
+            player = dataAccess.getAllCellValues("Players", userId);
+            return (Player) createObject("Player", player);
+        }
+        return null;
     }
+
     public static Referee getReferee(String userId){
-        List<String> referee;
-        referee = dataAccess.getAllCellValues("Referees" ,userId);
-        return (Referee) createObject("Referee" , referee);
+        if(dataAccess.isIDExists("Referees" ,userId)) {
+            List<String> referee;
+            referee = dataAccess.getAllCellValues("Referees", userId);
+            return (Referee) createObject("Referee", referee);
+        }
+        return null;
     }
+
     public static TeamManager getTeamManager(String userId){
-        List<String> teamManager;
-        teamManager = dataAccess.getAllCellValues("TeamManagers" ,userId);
-        return (TeamManager) createObject("TeamManager" , teamManager);
+        if(dataAccess.isIDExists("TeamManagers" ,userId)) {
+            List<String> teamManager;
+            teamManager = dataAccess.getAllCellValues("TeamManagers", userId);
+            return (TeamManager) createObject("TeamManager", teamManager);
+        }
+        return null;
     }
+
     public static TeamOwner getTeamOwner(String userId){
-        List<String> teamOwner;
-        teamOwner = dataAccess.getAllCellValues("TeamOwners" ,userId);
-        return (TeamOwner) createObject("TeamOwner" , teamOwner);
+        if(dataAccess.isIDExists("TeamOwners" ,userId)) {
+            List<String> teamOwner;
+            teamOwner = dataAccess.getAllCellValues("TeamOwners", userId);
+            return (TeamOwner) createObject("TeamOwner", teamOwner);
+        }
+        return null;
     }
+
     public static UnionRepresentative getUnionRepresentative(String userId){
-        List<String> unionRepresentative;
-        unionRepresentative = dataAccess.getAllCellValues("UnionRepresentatives" ,userId);
-        return (UnionRepresentative) createObject("UnionRepresentative" , unionRepresentative);
+        if(dataAccess.isIDExists("UnionRepresentatives" ,userId)) {
+            List<String> unionRepresentative;
+            unionRepresentative = dataAccess.getAllCellValues("UnionRepresentatives", userId);
+            return (UnionRepresentative) createObject("UnionRepresentative", unionRepresentative);
+        }
+        return null;
     }
 
 
     public static User createUser(String userId) {
-        List<String> user;
-        user = dataAccess.getAllCellValues("Users" ,userId);
-        return (User) createObject("User" , user);
+        if(dataAccess.isIDExists("UnionRepresentatives" ,userId)) {
+            List<String> user;
+            user = dataAccess.getAllCellValues("Users", userId);
+            return (User) createObject("User", user);
+        }
+        return null;
     }
 
 
@@ -1769,7 +1816,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static void addMessageToUser(String userId , String message){
         String oldMessages = "";
         //if userId exsist
-        if(dataAccess.userIdExist(userId)){
+        if(dataAccess.isIDExists("OfflineUsersNotifications",userId)){
             oldMessages = getMessages(userId);
             dataAccess.updateCellValue("OfflineUsersNotifications" ,"Notifications" ,
                     userId ,oldMessages +"," +message);
@@ -1778,14 +1825,14 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     private static String getMessages(String userId){
-        if(dataAccess.userIdExist(userId)){
+        if(dataAccess.isIDExists("OfflineUsersNotifications",userId)){
            return dataAccess.getCellValue("OfflineUsersNotifications" ,"Notifications" ,userId);
         }
         return "";
     }
 
     public static List<String> getAllMessages(String userId){
-        if(dataAccess.userIdExist(userId)) {
+        if(dataAccess.isIDExists("OfflineUsersNotifications",userId)) {
             List<String> allMessages = split(getMessages(userId));
             return allMessages;
         }

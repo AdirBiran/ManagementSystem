@@ -429,5 +429,8 @@ public class DataAccess {
 
     }
 
-
+    public boolean isIDExists(String tableName, String id)
+    {
+        return true;
+    }
 }
