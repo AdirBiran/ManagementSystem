@@ -19,6 +19,12 @@ public class Budget extends Observable {
         balance = 0;
     }
 
+    public Budget(double income,double expanses){
+        this.income=income;
+        this.expanses=expanses;
+        this.balance=income - expanses;
+    }
+
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
