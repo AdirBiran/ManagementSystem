@@ -366,12 +366,13 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4 && ans5 ;
         }
         else if(object instanceof TeamOwner){
-            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true;
             /**
              [Teams] [varchar](255) NOT NULL,
              [ClosedTeams] [varchar](255) ,
              [AppointedTeamOwners] [varchar] ,
              [AppointedTeamManagers] [varchar](255) ,
+             [PersonalPageIDs] [varchar](255) ,
              * */
 
             ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), listOfTeamsToStringIDs(((Manager) object).getTeamsToManage()));
@@ -380,8 +381,9 @@ public class Database //maybe generalize with interface? //for now red layer
             //HashMap for user and team, need to save them together
             ans3 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamOwners" , ((TeamOwner) object).getUser().getID(), appointmentUsersIds(((TeamOwner) object).getAppointedTeamOwners()));
             ans4 = dataAccess.updateCellValue("TeamOwners" ,"AppointedTeamManagers" , ((TeamOwner) object).getUser().getID(), appointmentUsersIds(((TeamOwner) object).getAppointedTeamManagers()));
+            ans5 = dataAccess.updateCellValue("TeamOwners" ,"PersonalPageIDs" , ((TeamOwner) object).getUser().getID(), personalPagesOfTeamOwner(((TeamOwner) object).getPersonalPages()));
 
-            return ans1 && ans2 && ans3 && ans4 ;
+            return ans1 && ans2 && ans3 && ans4 && ans5;
         }
         else if(object instanceof User){
             boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true ,ans6=true;
@@ -437,6 +439,22 @@ public class Database //maybe generalize with interface? //for now red layer
                 listOfStrings= listOfStrings + user.getID() +":"+ team.getID();
             }else {
                 listOfStrings = listOfStrings + "," + user.getID() +":"+ team.getID();
+            }
+        }
+        return listOfStrings;
+    }
+
+    private static String personalPagesOfTeamOwner(HashMap<Team, PersonalPage> personalPageAndTeam) {
+        String listOfStrings="";
+
+        for (HashMap.Entry<Team, PersonalPage> entry : personalPageAndTeam.entrySet()) {
+
+            Team team = entry.getKey();
+            PersonalPage personalPage = entry.getValue();
+            if(listOfStrings.equals("")){
+                listOfStrings= listOfStrings + team.getID() +":"+ personalPage.getId();
+            }else {
+                listOfStrings = listOfStrings + "," + team.getID() +":"+ personalPage.getId();
             }
         }
         return listOfStrings;
@@ -831,8 +849,18 @@ public class Database //maybe generalize with interface? //for now red layer
                         stringToBoolean(object.get(15)));
                 return team;
             case "TeamManager":
-                break;
+                user = getUser(object.get(0));
+                TeamManager teamManager = new TeamManager(user,
+                        teamHashSet(object.get(1)),stringToBoolean(object.get(2)),
+                        Double.parseDouble(object.get(3)),
+                        stringToBoolean(object.get(4)),stringToBoolean(object.get(5)));
+                return teamManager;
             case "TeamOwner":
+                user = getUser(object.get(0));
+                TeamOwner teamOwner = new TeamOwner(user,listOfTeams(object.get(1)),
+                        listOfTeams(object.get(2)),hashMapUserAndTeam(object.get(3)),
+                        hashMapUserAndTeam(object.get(4)),
+                        hashMapTeamAndPersonalPage(object.get(5)));
                 break;
             case "UnionRepresentative":
                 break;
