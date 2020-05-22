@@ -67,7 +67,7 @@ public class Guest {
         return stringOfSeasons;
     }
     public List<String> viewInfoAboutReferees(){
-        List<Referee> referees = Database.getReferees();
+        List<Referee> referees = Database.getAllReferees();
         List <String> stringOfReferees = new LinkedList<>();
         for(Referee r : referees)
             stringOfReferees.add(r.toString());
