@@ -373,7 +373,7 @@ public class Database //maybe generalize with interface? //for now red layer
              [AppointedTeamManagers] [varchar](255) ,
              * */
 
-            ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), listOfTeamsToStringIDs(((TeamManager) object).getTeams()));
+            ans1 = dataAccess.updateCellValue("TeamOwners" ,"Teams" , ((TeamOwner) object).getUser().getID(), listOfTeamsToStringIDs(((Manager) object).getTeamsToManage()));
             ans2 = dataAccess.updateCellValue("TeamOwners" ,"ClosedTeams" , ((TeamOwner) object).getUser().getID(), listOfTeamsToStringIDs(((TeamOwner) object).getClosedTeams()) );
 
             //HashMap for user and team, need to save them together
@@ -1771,10 +1771,14 @@ public class Database //maybe generalize with interface? //for now red layer
         if(!dataAccess.isIDExists("Users",user.getID())){
 
             //users table
-            dataAccess.addCell();
+            dataAccess.addCell("Users" ,user.getID(),
+                    user.getFirstName(),user.getLastName(),
+                    user.getMail(),""+user.isActive(),listToString(user.getStringRoles()),
+                    listToString(user.getSearchHistory()));
 
             //passwords table
-            dataAccess.addCell();
+            String encryptPassword = encrypt(password);
+            dataAccess.addCell("Passwords",user.getID() , encryptPassword);
 
             //every role table
             List<Role> userRoles = user.getRoles();
@@ -1785,19 +1789,24 @@ public class Database //maybe generalize with interface? //for now red layer
                         dataAccess.addCell("Admins",user.getID());
                         break;
                     case "Coach":
-                        addAsset();
+                        addAsset((Coach)role);
                         break;
                     case "Fan":
+                        addFan((Fan)role);
                         break;
                     case "Player":
+                        addAsset((Player)role);
                         break;
                     case "Referee":
                         break;
                     case "TeamManager":
+                        addTeamManager((TeamManager)role);
                         break;
                     case "TeamOwner":
+                        addTeamOwner((TeamOwner) role);
                         break;
                     case "UnionRepresentative":
+                        dataAccess.addCell("UnionRepresentatives", user.getID());
                         break;
                 }
             }
@@ -1821,7 +1830,6 @@ public class Database //maybe generalize with interface? //for now red layer
 
         if(asset instanceof Field){
             return addField((Field) asset);
-
         }
         else if(asset instanceof Player){
             return addPlayer((Player)asset);
@@ -1848,12 +1856,26 @@ public class Database //maybe generalize with interface? //for now red layer
         return false;
     }
 
+
+    public static boolean addTeamOwner(TeamOwner teamOwner){
+
+        if(!dataAccess.isIDExists("TeamOwners", teamOwner.getUser().getID())){
+            dataAccess.addCell("TeamOwners", teamOwner.getUser().getID(),
+                    listOfTeamsToStringIDs(teamOwner.getTeamsToManage()),
+                    listOfTeamsToStringIDs(teamOwner.getClosedTeams()),
+                    appointmentUsersIds(teamOwner.getAppointedTeamOwners()),
+                    appointmentUsersIds(teamOwner.getAppointedTeamManagers()));
+            return true;
+        }
+        return false;
+    }
+
     public static boolean addPlayer(Player player){
 
         if(!dataAccess.isIDExists("Players", player.getID())){
-           dataAccess.addCell(player.getID(),""+player.getBirthDate(),
-                   listOfTeamsToStringIDs(player.getTeams()) , player.getRole(),
-                   ""+player.isActive() , ""+player.getPrice());
+            dataAccess.addCell("Players",player.getID(),""+player.getBirthDate(),
+                    listOfTeamsToStringIDs(player.getTeams()) , player.getRole(),
+                    ""+player.isActive() , ""+player.getPrice());
             return true;
         }
         return false;
@@ -1862,7 +1884,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static boolean addTeamManager(TeamManager teamManager){
 
         if(!dataAccess.isIDExists("TeamManagers", teamManager.getID())){
-            dataAccess.addCell(teamManager.getID(),
+            dataAccess.addCell("TeamManagers",teamManager.getID(),
                     listOfTeamsToStringIDs(teamManager.getTeams()),
                      ""+teamManager.isActive(),""+teamManager.getPrice()
                     , ""+teamManager.isPermissionManageAssets() ,""+ teamManager.isPermissionFinance());
@@ -1874,9 +1896,20 @@ public class Database //maybe generalize with interface? //for now red layer
     public static boolean addCoach(Coach coach){
 
         if(!dataAccess.isIDExists("Coaches", coach.getID())){
-            dataAccess.addCell(coach.getID(),coach.getTraining(),
+            dataAccess.addCell("Coaches",coach.getID(),coach.getTraining(),
                      coach.getRoleInTeam(), listOfTeamsToStringIDs(coach.getTeams()),
                     ""+coach.isActive() , ""+coach.getPrice());
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean addFan(Fan fan){
+
+        if(!dataAccess.isIDExists("Fans", fan.getUser().getID())){
+            dataAccess.addCell("Fans",fan.getUser().getID(),
+                    fan.getAddress() , fan.getPhone() , fan.getfollowPagesId(),
+                    fan.getComplaintsId());
             return true;
         }
         return false;
