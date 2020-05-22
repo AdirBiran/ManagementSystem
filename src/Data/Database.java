@@ -583,60 +583,49 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
 
-    /*
-            this function gets a name of an asset and returns a pointer to the object of this asset
-            for example input: "Blumfield stadium" - the output will be a pointer to Blumfield stadium object or Null if it doesn't exists
-            return null if cant find asset
-             */
+
     public static PartOfATeam getAsset(String assetId){
         //switch case: look for the id in: Player, coach, TM
-        return (PartOfATeam)search("PartOfATeam", assetId);
+
+        //תכלס יכולים להיות גם שניים עם אותה ID איך יודעים את מי להחזיר
+        Player player = getPlayer(assetId);
+        Coach coach = getCoach(assetId);
+        TeamManager teamManager = getTeamManager(assetId);
+        Field field = getField(assetId);
+
+        if(player != null){
+            return player;
+        }
+        if(coach != null){
+           return coach;
+        }
+        if(teamManager != null){
+            return teamManager;
+        }
+        if(field != null){
+            return field;
+        }
+
+        return null;
+
     }
-    /*
-    this function gets a user id and returns a pointer to the object of this user
-    for example input: "Leonardo Messi" - the output will be a pointer to messi's user or Null if it doesn't exists
-    return null if cant find user
-     */
-   /* public static User getUser(String userId){
-        return (User)search("User", userId);
-    }*/
+
 
     public static User getUserByMail(String mail , String password){
-        if(authenticationCheck(mail, password)) {
-            return (User) search("Mail", mail);
+        List<User> users = getAllUsers();
+        String userPassword="";
+        String encryptPassword = encrypt(password);
+        for (User user : users){
+            if(user.isActive()) {
+                if (user.getMail().equals(mail)) {
+                    userPassword = dataAccess.getCellValue("Passwords", "Password", user.getID());
+                    if (userPassword.equals(encryptPassword)) {
+                        return user;
+                    }
+                }
+            }
         }
         return null;
-    }
-    /*
-    this function gets a gameId - Game.toString (its address in memory) and returns a pointer to the object of this game
-    return null if cant find game
-    */
-   /* public static Game getGame(String gameId){
-        return (Game)search("Game", gameId);
-    }*/
-    /*
-    this function gets a userId and return its personalPage if exists
-    if page not exists the function returns null
-     */
-    /*public static PersonalPage getPage(String pageId){
-        return (PersonalPage)search("Page", pageId);
-    }*/
-    /*
-    this function returns all games in database
-     */
-   /* public static LinkedList<Game> getAllGames(){
-        return new LinkedList<>(gamesInDatabase.values());
-    }*/
-
-
-   /* public static HashMap<String, PartOfATeam> getAssetsInDatabase() {
-        return assetsInDatabase;
-    }
-*/
-
-
-    public static PartOfATeam getAssetById(String assetId){
-        return assetsInDatabase.get(assetId);
     }
 
 
@@ -675,165 +664,6 @@ public class Database //maybe generalize with interface? //for now red layer
         return false;
 
     }
-    /*
-    this function returns a list of users of a specific type. for example all admins, all players ext.
-    the input is a string of the type "Admin", "Player"
-    if there aren't any users of this type - the list will be empty
-    if the string type is wrong the function will return null
-     */
-
-    //delete
-    public static List<PartOfATeam> getListOfAllSpecificAssets(String userType){
-        LinkedList<PartOfATeam> listOfAssets = new LinkedList<>();
-        switch(userType){
-            case("Coach"):{
-                for(PartOfATeam asset : assetsInDatabase.values()){
-                    if(asset instanceof Coach &&asset.isActive())
-                        listOfAssets.add(asset);
-                }
-                return listOfAssets;
-
-            }
-            case("Fan"):{
-                //for(User user : usersInDatabase.values()){
-                //    if(user instanceof Fan &&user.isActive())
-                //        listOfUsers.add(user);
-                //}
-                //return listOfUsers;
-                break;
-
-            }
-            case("Player"):{
-                for(PartOfATeam user : assetsInDatabase.values()){
-                    if(user instanceof Player &&user.isActive())
-                        listOfAssets.add(user);
-                }
-                return listOfAssets;
-            }
-            case("Referee"):{
-                //for(User user : usersInDatabase.values()){
-                //    if(user instanceof Referee &&user.isActive())
-                //        listOfUsers.add(user);
-                //}
-                //return listOfUsers;
-                break;
-            }
-            case("TeamManager"):{
-                for(PartOfATeam user : assetsInDatabase.values()){
-                    if(user instanceof TeamManager &&user.isActive())
-                        listOfAssets.add(user);
-                }
-                return listOfAssets;
-
-            }
-            case("TeamOwner"):{
-                //for(User user : usersInDatabase.values()){
-                //    if(user instanceof TeamOwner &&user.isActive())
-                //        listOfUsers.add(user);
-                //}
-                //return listOfUsers;
-                break;
-            }
-            case ("Field"):{
-                for(PartOfATeam asset : assetsInDatabase.values()){
-                    if(asset instanceof Field && asset.isActive())
-                        listOfAssets.add(asset);
-                }
-                return listOfAssets;
-            }
-        }
-        return null;
-    }
-    /*public static List<Role> getListOfAllSpecificRoles(String userType) {
-        LinkedList<Role> listOfUsers = new LinkedList<>();
-        switch(userType) {
-            case ("UnionRepresentative"): {
-                for (User user : usersInDatabase.values()) {
-                    if (user.isActive()) {
-                        UnionRepresentative union = (UnionRepresentative) user.checkUserRole("UnionRepresentative");
-                        if(union instanceof UnionRepresentative)
-                            listOfUsers.add(union);
-                    }
-                }
-                return listOfUsers;
-            }
-        }
-        return null;
-    }*/
-
-    /*public static List<User> getSystemAdmins(){
-        LinkedList<User> ListOfUsers = new LinkedList(admins.values());
-
-        return ListOfUsers;
-    }*/
-
-
-    /*private static Object search(String whatType, String searchWord){
-            switch(whatType){
-                case("PartOfATeam"):{
-                    for(String nameOfAsset : assetsInDatabase.keySet()) {
-                        if (searchWord.contains(nameOfAsset))
-                            return assetsInDatabase.get(searchWord);
-                    }
-                    break;
-                }
-                case("User"): {
-                    for (String userId : usersInDatabase.keySet()) {
-                        if (searchWord.equals(userId)) {
-                            if (usersInDatabase.get(searchWord).isActive())
-                                return usersInDatabase.get(searchWord);
-                        }
-                    }
-                    break;
-                }
-            case ("Mail"):{
-                if(mailsAndUserID.containsKey(searchWord)){
-                    return usersInDatabase.get(mailsAndUserID.get(searchWord));
-                }
-                break;
-            }
-            case("Game"):{
-                for(String gameId:gamesInDatabase.keySet()){
-                    if(searchWord.equals(gameId))
-                        return gamesInDatabase.get(gameId);
-                }
-                break;
-            }
-            case("Page"):{
-                for(String userId:pagesInDatabase.keySet()){
-                    if(searchWord.equals(userId))
-                        return pagesInDatabase.get(userId);
-                }
-                break;
-            }
-            case("League"):{
-                for(League league:leagues){
-                    if(searchWord.equals(league.getName()))
-                        return league;
-                }
-            }
-            case("Season"):{
-                String year="";
-                for(Season season:seasons){
-                    year =""+season.getYear();
-                    if(searchWord.equals(year))
-                        return season;
-                }
-            }
-            case("Team"):{
-                for(Team team:teams.values()){
-                    if(searchWord.equals(team.getID())&&team.isActive())
-                        return team;
-                }
-            }
-            case("Password"):{
-                //think about it
-                break;
-            }
-        }
-        return null;
-
-    }*/
 
     public static String removeUser(String userId) {
         User user = getUser(userId);
@@ -861,6 +691,12 @@ public class Database //maybe generalize with interface? //for now red layer
         Coach coach = getCoach(assetId);
         TeamManager teamManager = getTeamManager(assetId);
         Field field = getField(assetId);
+       /* List<Object> assets = new LinkedList<>();
+        assets.add(player);
+        assets.add(coach);
+        assets.add(teamManager);
+        assets.add(field);*/
+
         User user = getUser(assetId);
         //List<Role> userRoles = user.getRoles();
         //האם התפקיד שהופכים ללא פעיל מוסר כבר בדומיין מרשימת התפקידים?
@@ -882,79 +718,12 @@ public class Database //maybe generalize with interface? //for now red layer
             updateObject(field);
         }
 
-       /* List<Player> players = getAllPlayers();
-        List<Coach> coaches = getAllCoaches();
-        List<TeamManager> teamManagers = getAllTeamManagers();
-        List<Field> fields = getAllFields();
-
-
-        for(Player player: players){
-            if(player.getID().equals(assetId)){
-                player.deactivate();
-                updateObject(player);
-            }
-        }
-
-        for(Coach coach: coaches){
-            if(coach.getID().equals(assetId)){
-                coach.deactivate();
-                updateObject(coach);
-            }
-        }
-
-        for(TeamManager teamManager: teamManagers){
-            if(teamManager.getID().equals(assetId)){
-                teamManager.deactivate();
-                updateObject(teamManager);
-            }
-        }
-
-        for(Field field: fields){
-            if(field.getID().equals(assetId)){
-                field.deactivate();
-                updateObject(field);
-            }
-        }*/
-
-        /*PartOfATeam asset = assetsInDatabase.get(assetId);
-        if(asset!=null){
-            asset.deactivate();
-        }*/
-
-    }
-
-   /* public static League getLeague(String nameOfLeague) {
-        return (League)search("League", nameOfLeague);
-    }
-
-    public static Season getSeason(String yearOfSeason) {
-        return (Season)search("Season", yearOfSeason);
-    }
-*/
-
-    public static void loadDatabaseFromDisk(String path){
-        //*
     }
 
     public static List<Object> searchObject(String searchWord){
 
         //search page
 
-       /* List<Object> result = new LinkedList<>();
-        for(User user : usersInDatabase.values()){
-            if(searchWord.contains(user.getName())||searchWord.contains(user.getMail()))
-                result.add(user);
-        }
-        for(Team team : teams.values()){
-            if(searchWord.contains(team.getName()))
-                result.add(team);
-        }
-        for(PartOfATeam asset : assetsInDatabase.values()){
-            if(asset instanceof Field && ((Field)asset).getLocation().contains(searchWord)){
-                result.add(asset);
-            }
-        }
-        return result;*/
        return null;
     }
 
@@ -975,8 +744,6 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return closeTeams;
     }
-
-
 
 
     public static Object createObject(String type,List<String> object){
@@ -1147,7 +914,6 @@ public class Database //maybe generalize with interface? //for now red layer
             if(game != null) {
                 allGames.add(game);
             }
-           // allGames.add(getGame(gameId));
         }
 
         return allGames;
@@ -1162,7 +928,6 @@ public class Database //maybe generalize with interface? //for now red layer
             if(team != null){
                 allTeams.add(team);
             }
-            //allTeams.add(getTeam(teamId));
         }
         return allTeams;
     }
@@ -1190,7 +955,6 @@ public class Database //maybe generalize with interface? //for now red layer
             if(event != null){
                 allEvents.add(event);
             }
-            //allEvents.add(getEvent(eventId));
         }
 
         return allEvents;
@@ -1206,7 +970,6 @@ public class Database //maybe generalize with interface? //for now red layer
             if (page != null){
                 allPersonalPage.add(page);
             }
-           // allPersonalPage.add(getPersonalPage(pageId));
         }
 
         return allPersonalPage;
@@ -1318,14 +1081,6 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
     /*******************GET OBJECT FROM DATABASE START****************/
-
-   /* public static Team getTeam(String teamId){
-       List<String> team;
-        team = dataAccess.getAllCellValues("Teams" ,teamId);
-        return (Team) createObject("Team" , team);
-        //return teams.get(teamId);
-    }*/
-
 
     public static ScorePolicy getScorePolicy(String scorePolicyName) {
 
@@ -1531,7 +1286,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
 /*******************MESSAGES STSRT****************/
 
-/*
+
     public static void addMessageToUser(String userId , String message){
         String oldMessages = "";
         //if userId exsist
@@ -1558,21 +1313,13 @@ public class Database //maybe generalize with interface? //for now red layer
         return null;
 
     }
-*/
+
 
 /******************* MESSAGES END ****************/
 
 
 /*************** GET ALL FUNCTION BEGIN ******************/
 
-    /*public static List<Referee> getReferees() {
-         return new LinkedList<>(referees.values());
-    }*/
-
-    /*public static List<Team> getTeams(){
-
-        return new LinkedList<>(teams.values());
-    }*/
 
     public static List<Team> getAllTeams() {
         List<String> teams;
@@ -1585,6 +1332,11 @@ public class Database //maybe generalize with interface? //for now red layer
             allTeams.add((Team) createObject("Team" , tempUser));
         }
 
+        for(Team team : allTeams){
+            if(!team.isActive()){
+                allTeams.remove(team);
+            }
+        }
         return allTeams;
 
     }
@@ -1600,7 +1352,52 @@ public class Database //maybe generalize with interface? //for now red layer
             allUsers.add((User) createObject("User" , tempUser));
         }
 
+        for(User user : allUsers){
+            if(!user.isActive()){
+                allUsers.remove(user);
+            }
+        }
+
         return allUsers;
+    }
+
+    public static List<TeamOwner> getAllTeamOwners(){
+
+        List<String> teamOwners;
+        List<TeamOwner> allTeamOwners = new LinkedList<>();
+        teamOwners = dataAccess.getAllTableValues("TeamOwners");
+
+        for(String userString : teamOwners){
+            List<String> tempUser = split(userString);
+            allTeamOwners.add((TeamOwner) createObject("TeamOwner" , tempUser));
+        }
+
+        for(TeamOwner teamOwner : allTeamOwners){
+            if(!teamOwner.getUser().isActive()){
+                allTeamOwners.remove(teamOwner);
+            }
+        }
+        return allTeamOwners;
+    }
+
+    public static List<Fan> getAllFans(){
+
+        List<String> fans;
+        List<Fan> allFans = new LinkedList<>();
+        fans = dataAccess.getAllTableValues("Fans");
+
+        for(String userString : fans){
+            List<String> tempUser = split(userString);
+            allFans.add((Fan) createObject("Fan" , tempUser));
+        }
+
+
+        for(Fan fan : allFans){
+            if(!fan.getUser().isActive()){
+                allFans.remove(fan);
+            }
+        }
+        return allFans;
     }
 
     public static List<UnionRepresentative> getAllUnions(){
@@ -1614,6 +1411,11 @@ public class Database //maybe generalize with interface? //for now red layer
             allUnions.add((UnionRepresentative) createObject("UnionRepresentative" , tempUser));
         }
 
+        for(UnionRepresentative union : allUnions){
+            if(!union.getUser().isActive()){
+                allUnions.remove(union);
+            }
+        }
         return allUnions;
     }
 
@@ -1665,7 +1467,7 @@ public class Database //maybe generalize with interface? //for now red layer
         List<Game> futureGames = new LinkedList<>();
 
         for(Game game : games){
-            if(currentDate.after(game.getDate())){
+            if(currentDate.before(game.getDate())){
                 futureGames.add(game);
             }
         }
@@ -1724,6 +1526,12 @@ public class Database //maybe generalize with interface? //for now red layer
             allTeamManagers.add((TeamManager) createObject("TeamManager" , tempUser));
         }
 
+        for(TeamManager teamManager : allTeamManagers){
+            if(!teamManager.isActive()){
+                allTeamManagers.remove(teamManager);
+            }
+        }
+
         return allTeamManagers;
     }
 
@@ -1738,6 +1546,12 @@ public class Database //maybe generalize with interface? //for now red layer
             allPersonalPages.add((PersonalPage) createObject("PersonalPage" , tempUser));
         }
 
+        /*for(PersonalPage personalPage : allPersonalPages){
+            if(!personalPage.getUser().isActive()){
+                allPersonalPages.remove(personalPage);
+            }
+        }
+*/
         return allPersonalPages;
     }
 
@@ -1752,6 +1566,11 @@ public class Database //maybe generalize with interface? //for now red layer
             allPlayers.add((Player) createObject("Player" , tempUser));
         }
 
+        for(Player player : allPlayers){
+            if(!player.getUser().isActive()){
+                allPlayers.remove(player);
+            }
+        }
         return allPlayers;
     }
     public static List<Admin> getAllAdmins() {
@@ -1765,6 +1584,11 @@ public class Database //maybe generalize with interface? //for now red layer
             allAdmins.add((Admin) createObject("Admin" , tempUser));
         }
 
+        for(Admin admin : allAdmins){
+            if(!admin.getUser().isActive()){
+                allAdmins.remove(admin);
+            }
+        }
         return allAdmins;
     }
 
@@ -1777,6 +1601,12 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String userString : coaches){
             List<String> tempUser = split(userString);
             allCoaches.add((Coach) createObject("Coach" , tempUser));
+        }
+
+        for(Coach coach : allCoaches){
+            if(!coach.getUser().isActive()){
+                allCoaches.remove(coach);
+            }
         }
 
         return allCoaches;
@@ -1793,36 +1623,13 @@ public class Database //maybe generalize with interface? //for now red layer
             allFields.add((Field) createObject("Field" , tempUser));
         }
 
+        for(Field field : allFields){
+            if(!field.isActive()){
+                allFields.remove(field);
+            }
+        }
         return allFields;
     }
-
-    /*public static List<League> getAllLeagues() {
-        List<String> leagues;
-        List<League> allLeagues = new LinkedList<>();
-
-        leagues = dataAccess.getAllTableValues("Leagues");
-
-        for(String userString : leagues){
-            List<String> tempUser = split(userString);
-            allLeagues.add((League) createObject("League" , tempUser));
-        }
-
-        return allLeagues;
-    }
-
-    public static List<Season> getAllSeasons() {
-        List<String> seasons;
-        List<Season> allSeasons = new LinkedList<>();
-
-        seasons = dataAccess.getAllTableValues("Seasons");
-
-        for(String userString : seasons){
-            List<String> tempUser = split(userString);
-            allSeasons.add((Season) createObject("Season" , tempUser));
-        }
-
-        return allSeasons;
-    }*/
 
     public static List<Referee> getAllReferees() {
         List<String> referees;
@@ -1835,6 +1642,11 @@ public class Database //maybe generalize with interface? //for now red layer
             allReferees.add((Referee) createObject("Referee" , tempUser));
         }
 
+        for(Referee referee : allReferees){
+            if(!referee.getUser().isActive()){
+                allReferees.remove(referee);
+            }
+        }
         return allReferees;
     }
 
