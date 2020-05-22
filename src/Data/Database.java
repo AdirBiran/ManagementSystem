@@ -64,7 +64,6 @@ public class Database //maybe generalize with interface? //for now red layer
         switch (numOfArgs)
         {
 
-
             case 3:
                 year = args[0];
                 month = args[1] - 1;
@@ -89,7 +88,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static int getCurrentYear()
     {
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
-        Date date = new Date();
+        Date date = getCurrentDate();
         int year = Integer.parseInt(sdf.format(date));
         return year;
     }
@@ -97,7 +96,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static int getCurrentMonth()
     {
         SimpleDateFormat sdf = new SimpleDateFormat("MM");
-        Date date = new Date();
+        Date date = getCurrentDate();
         int month = Integer.parseInt(sdf.format(date));
         return month;
     }
@@ -105,7 +104,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static int getCurrentDay()
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd");
-        Date date = new Date();
+        Date date = getCurrentDate();
         int day = Integer.parseInt(sdf.format(date));
         return day;
     }
