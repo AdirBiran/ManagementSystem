@@ -1819,17 +1819,67 @@ public class Database //maybe generalize with interface? //for now red layer
         */
     public static boolean addAsset(PartOfATeam asset){
 
-        //לעשות switch case ולקרוא לפונקציות של האובייקטים כמו: שחקן, מאמן וכו
+        if(asset instanceof Field){
+            return addField((Field) asset);
 
-
-
-        /*String assetID = asset.getID();
-        if(assetsInDatabase.containsKey(assetID)){
-            return false;
         }
-        assetsInDatabase.put(assetID, asset);
+        else if(asset instanceof Player){
+            return addPlayer((Player)asset);
+        }
+        else if(asset instanceof Coach){
+            return addCoach((Coach)asset);
+        }
+        else if(asset instanceof TeamManager){
+            return addTeamManager((TeamManager)asset);
+        }
+        return false;
 
-        return true;*/
+    }
+
+    public static boolean addField(Field field){
+
+        if(!dataAccess.isIDExists("Fields", field.getID())){
+            dataAccess.addCell(field.getID(),field.getLocation(),field.getName(),
+                    ""+field.getCapacity(),listOfTeamsToStringIDs(field.getTeams()),
+                            ""+field.isActive(),""+field.getPrice() );
+
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean addPlayer(Player player){
+
+        if(!dataAccess.isIDExists("Players", player.getID())){
+           dataAccess.addCell(player.getID(),""+player.getBirthDate(),
+                   listOfTeamsToStringIDs(player.getTeams()) , player.getRole(),
+                   ""+player.isActive() , ""+player.getPrice());
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean addTeamManager(TeamManager teamManager){
+
+        if(!dataAccess.isIDExists("TeamManagers", teamManager.getID())){
+            dataAccess.addCell(teamManager.getID(),
+                    listOfTeamsToStringIDs(teamManager.getTeams()),
+                     ""+teamManager.isActive(),""+teamManager.getPrice()
+                    , ""+teamManager.isPermissionManageAssets() ,""+ teamManager.isPermissionFinance());
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean addCoach(Coach coach){
+
+        if(!dataAccess.isIDExists("Coaches", coach.getID())){
+            dataAccess.addCell(coach.getID(),coach.getTraining(),
+                     coach.getRoleInTeam(), listOfTeamsToStringIDs(coach.getTeams()),
+                    ""+coach.isActive() , ""+coach.getPrice());
+            return true;
+        }
+        return false;
     }
 
    /* public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
