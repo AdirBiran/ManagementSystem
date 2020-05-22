@@ -1655,8 +1655,10 @@ public class Database //maybe generalize with interface? //for now red layer
     /**ADD FUNCTION BEGIN*/
     public static boolean addReferee(User user, Referee referee){
 
-        if(dataAccess.isIDExists("Referees" ,referee.getUser().getID())) {
-            return dataAccess.addCell("Referees", referee.getUser().getID(), referee.getTraining(), referee.getGamesId());
+        if(!dataAccess.isIDExists("Referees" ,referee.getUser().getID())) {
+            dataAccess.addCell("Referees", referee.getUser().getID(),
+                    referee.getTraining(), referee.getGamesId());
+            return true;
         }
         return false;
     }
@@ -1665,8 +1667,9 @@ public class Database //maybe generalize with interface? //for now red layer
 
         if(!dataAccess.isIDExists("Leagues" ,league.getId() )) {
 
-            return dataAccess.addCell("Leagues", league.getId(), league.getName(),
+            dataAccess.addCell("Leagues", league.getId(), league.getName(),
                     league.getLevel(), listToString(league.getLeagueInSeasons()));
+            return true;
         }
         return false;
     }
@@ -1675,8 +1678,9 @@ public class Database //maybe generalize with interface? //for now red layer
 
         if(!dataAccess.isIDExists("Seasons" ,season.getId() )) {
 
-            return dataAccess.addCell("Seasons", season.getId(), "" + season.getYear(),
+            dataAccess.addCell("Seasons", season.getId(), "" + season.getYear(),
                     "" + season.getStartDate(), season.getLeaguesId());
+            return true;
         }
         return false;
     }
@@ -1685,10 +1689,11 @@ public class Database //maybe generalize with interface? //for now red layer
 
         if(!dataAccess.isIDExists("Teams" ,team.getID() )) {
 
-            return dataAccess.addCell("Teams",team.getID(), team.getName(), "" + team.getWins(), "" + team.getLosses(),
+            dataAccess.addCell("Teams",team.getID(), team.getName(), "" + team.getWins(), "" + team.getLosses(),
                     "" + team.getDraws(), team.getPage().getId(), listToString(team.getTeamOwners()),
                     listToString(team.getTeamManagers()), listToString(team.getPlayers()), listToString(team.getCoaches()),
                     "" + team.getBudget().getBalance(), team.getGamesId(), listToString(team.getFields()), leagueInSeasonToStringIDs(team.getLeaguesInSeason()), "" + team.isActive(), "" + team.isPermanentlyClosed());
+            return true;
         }
         return false;
 
@@ -1697,10 +1702,11 @@ public class Database //maybe generalize with interface? //for now red layer
     public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
         if(!dataAccess.isIDExists("LeaguesInSeasons" ,leagueInSeason.getId())) {
 
-            return dataAccess.addCell("LeaguesInSeasons", leagueInSeason.getId(), leagueInSeason.getAssignmentPolicy().getName(),
+            dataAccess.addCell("LeaguesInSeasons", leagueInSeason.getId(), leagueInSeason.getAssignmentPolicy().getName(),
                     leagueInSeason.getScorePolicy().getName(), leagueInSeason.getGamesId(), leagueInSeason.getRefereesId(),
                     listOfTeamsToStringIDs(leagueInSeason.getTeams()), "" + leagueInSeason.getRegistrationFee(),
                     createScoreTable(leagueInSeason.getScoreTable()));
+            return true;
         }
         return false;
     }
@@ -1712,64 +1718,100 @@ public class Database //maybe generalize with interface? //for now red layer
 
             dataAccess.addCell("Passwords", admin.getID() ,password);
 
-            return dataAccess.addCell("Users", admin.getID(), admin.getFirstName(),
+            dataAccess.addCell("Users", admin.getID(), admin.getFirstName(),
                     admin.getLastName(), admin.getMail(), "" + admin.isActive(),
                     listToString(admin.getStringRoles()), listToString(admin.getStringRoles()));
-        }
-        return false;
-    }
-    /*public static boolean addAdmin(String password, User admin){
-        admins.put(admin.getID(), admin);
-        return addUser(password, admin);
-    }*/
-
-    public static boolean addComplaint(Complaint complaint){
-        if(!complaints.containsKey(complaint.getId())){
-            complaints.put(complaint.getId(), complaint);
             return true;
         }
         return false;
     }
 
-    /*
-    this function adds a game to the database according to its toString() value
-    returns false if the game already exists
-    */
+    public static boolean addComplaint(Complaint complaint){
+
+        if(!dataAccess.isIDExists("Complaints" , complaint.getId())) {
+            dataAccess.addCell("Complaints", complaint.getId(), "" + complaint.getDate(),
+                    "" + complaint.getIsActive(), complaint.getDescription(), complaint.getFanComplained().getUser().getID());
+            return true;
+        }
+        return false;
+    }
+
+
     public static boolean addGame(Game game){
-        if(gamesInDatabase.containsKey(game.getId()))
-            return false;
-        gamesInDatabase.put(game.getId(), game);
 
-        addTeam(game.getGuestTeam());
-        addTeam(game.getHostTeam());
-        return true;
-    }
-    /*
-    this function adds a new personal page to the database according to the user id
-     */
-    public static boolean addPage(PersonalPage page){
-        String userId = page.getId();
-        if(pagesInDatabase.containsKey(userId))
-            return false;
-        pagesInDatabase.put(userId, page);
-        return true;
+        if(!dataAccess.isIDExists("Games",game.getId())) {
+            dataAccess.addCell("Games", game.getId(), "" + game.getDate(),
+                    "" + game.hostScore(), "" + game.guestScore(), game.getField().getID(),
+                    game.getMainReferee().getUser().getID(), game.getSideRefereesId(),
+                    game.getHostTeam().getID(), game.getGuestTeam().getID(),
+                    game.getAlertsFansId(), game.getEventReport().getId(), game.getLeague().getId());
+
+            addTeam(game.getHostTeam());
+            addTeam(game.getGuestTeam());
+            return true;
+        }
+        return false;
+
     }
 
-    /*
-   adds a user to the database
-   returns false if the user already exists
-    */
+    public static boolean addPersonalPage(PersonalPage page){
+
+        if(!dataAccess.isIDExists("PersonalPages", page.getId())){
+            dataAccess.addCell(page.getId(),page.getUser().getID(),
+                    page.getData(),page.getFollowersIds());
+            return true;
+        }
+        return false;
+    }
+
     public static boolean addUser(String password, User user){
         //add to User SQL Tables
         //and his Role to the correct taable: payler to Players
-        if(!mailsAndUserID.containsKey(user.getMail())&& user.isActive()){
+
+        if(!dataAccess.isIDExists("Users",user.getID())){
+
+            //users table
+            dataAccess.addCell();
+
+            //passwords table
+            dataAccess.addCell();
+
+            //every role table
+            List<Role> userRoles = user.getRoles();
+
+            for (Role role : userRoles){
+                switch (role.myRole()){
+                    case "Admin":
+                        dataAccess.addCell("Admins",user.getID());
+                        break;
+                    case "Coach":
+                        addAsset();
+                        break;
+                    case "Fan":
+                        break;
+                    case "Player":
+                        break;
+                    case "Referee":
+                        break;
+                    case "TeamManager":
+                        break;
+                    case "TeamOwner":
+                        break;
+                    case "UnionRepresentative":
+                        break;
+                }
+            }
+        }
+        return false;
+
+        /*if(!mailsAndUserID.containsKey(user.getMail())&& user.isActive()){
             String encryptedPassword = encrypt(password);
             mailsAndPasswords.put(user.getMail(), encryptedPassword);
             mailsAndUserID.put(user.getMail(), user.getID());
             usersInDatabase.put(user.getID(), user);
             return true;
         }
-        return false;
+        return false;*/
     }
     /*
        adds an asset to the database
@@ -1778,15 +1820,17 @@ public class Database //maybe generalize with interface? //for now red layer
     public static boolean addAsset(PartOfATeam asset){
 
         //לעשות switch case ולקרוא לפונקציות של האובייקטים כמו: שחקן, מאמן וכו
-        String assetID = asset.getID();
+
+
+
+        /*String assetID = asset.getID();
         if(assetsInDatabase.containsKey(assetID)){
             return false;
         }
         assetsInDatabase.put(assetID, asset);
 
-        return true;
+        return true;*/
     }
-
 
    /* public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
      String id = leagueInSeason.getId();
