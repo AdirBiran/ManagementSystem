@@ -5,8 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Event {
 
-    //public static Object EventType;
-
     public enum EventType {
         Undefined,
         Goal,
@@ -41,8 +39,22 @@ public class Event {
         this.minuteInGame = minuteInGame;
         this.description = description;
     }
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "type=" + type +
+                ", date=" + date +
+                ", minuteInGame=" + minuteInGame +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    public String createMessage(){
+        return date + ": " + minuteInGame + ", " + type + "- " + description;
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     public EventType getType() {
         return type;
@@ -66,19 +78,5 @@ public class Event {
 
     public String getId() {
         return id;
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "type=" + type +
-                ", date=" + date +
-                ", minuteInGame=" + minuteInGame +
-                ", description='" + description + '\'' +
-                '}';
-    }
-
-    public String createMessage(){
-        return date + ": " + minuteInGame + ", " + type + "- " + description;
     }
 }

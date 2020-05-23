@@ -33,6 +33,10 @@ public class Complaint extends Observable {
         this.response = "";
     }
 
+    public void deactivate(){
+        isActive = false;
+    }
+
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     public Date getDate() {
         return date;
@@ -54,14 +58,7 @@ public class Complaint extends Observable {
         this.response = response;
         this.isActive = false;
         setChanged();
-        notifyObservers("Response to your complaint from the date"+this.date+": \n"+response);
-    }
-
-    /**
-     * this function turns a complaint not active
-     */
-    public void deactivate(){
-        isActive = false;
+        notifyObservers(new Date() + ":Response to your complaint from the date"+this.date+": \n"+response);
     }
 
     public String getId() {

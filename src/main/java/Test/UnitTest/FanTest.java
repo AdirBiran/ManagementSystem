@@ -87,18 +87,6 @@ public class FanTest {
     }
 
     @Test
-    public void setAddress() {
-        fan.setAddress("beer");
-        assertEquals(fan.getAddress(), "beer");
-    }
-
-    @Test
-    public void setPhone() {
-        fan.setPhone("052-5468972");
-        assertEquals(fan.getPhone(), "052-5468972");
-    }
-
-    @Test
     public void getAddress() {
         assertNotNull(fan.getAddress());
     }

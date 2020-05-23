@@ -192,7 +192,7 @@ public class Team extends Observable {
                 user.addRole(teamOwner);
             }
             this.addObserver(teamOwner);
-            teamOwner.update(this, new Date() + ":" + "You've added a team owner appointment to team " +this.getName());
+            teamOwner.update(this, new Date() + ": " + "You've added a team owner appointment to team " +this.getName());
             return true;
         }
         return false;
@@ -211,7 +211,7 @@ public class Team extends Observable {
                 user.addRole(teamManager);
             }
             this.addObserver(teamManager);
-            teamManager.update(this, new Date() + ":" + "You've added a team manager appointment to team " +this.getName());
+            teamManager.update(this, new Date() + ": " + "You've added a team manager appointment to team " +this.getName());
             return true;
         }
         return false;
@@ -269,7 +269,7 @@ public class Team extends Observable {
             teamOwners.remove(teamOwner);
             TeamOwner teamOwnerRole = (TeamOwner) teamOwner.checkUserRole("TeamOwner");
             teamOwnerRole.removeTeam(this);
-            teamOwnerRole.update(this, new Date() + ":" + "Your subscription has been removed from the team "+this.name);
+            teamOwnerRole.update(this, new Date() + ": " + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamOwnerRole);
             return true;
         }
@@ -281,7 +281,7 @@ public class Team extends Observable {
             teamManagers.remove(teamManager);
             TeamManager teamManagerRole = (TeamManager) teamManager.checkUserRole("TeamManager");
             teamManagerRole.removeTeam(this);
-            teamManagerRole.update(this, new Date() + ":" + "Your subscription has been removed from the team "+this.name);
+            teamManagerRole.update(this, new Date() + ": " + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamManagerRole);
             return true;
         }
@@ -383,13 +383,13 @@ public class Team extends Observable {
         this.active = active;
         if(active){
             setChanged();
-            notifyObservers(this.name + " is open");
-            updateAllSystemAdmins("team "+this.name+" open");
+            notifyObservers(new Date() + ": " + this.name + " is open");
+            updateAllSystemAdmins(new Date() + ": " + "team " + this.name + " open");
         }
         else {
             setChanged();
-            notifyObservers(new Date() + ":" + this.name + " is closed");
-            updateAllSystemAdmins("team "+this.name+" closed");
+            notifyObservers(new Date() + ": " + this.name + " is closed");
+            updateAllSystemAdmins(new Date() + ": " + "team " + this.name + " closed");
         }
     }
 
@@ -410,8 +410,8 @@ public class Team extends Observable {
         this.permanentlyClosed = permanentlyClosed;
         if(permanentlyClosed) {
             setChanged();
-            notifyObservers(new Date() + ":" + this.name + " is permanently closed");
-            updateAllSystemAdmins(new Date() + ":" + this.name + " is permanently closed");
+            notifyObservers(new Date() + ": " + this.name + " is permanently closed");
+            updateAllSystemAdmins(new Date() + ": " + this.name + " is permanently closed");
         }
 
     }

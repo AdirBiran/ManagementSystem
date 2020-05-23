@@ -24,6 +24,8 @@ public class EventReport {
             events.add(event);
     }
 
+    // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++
+
     public List<Event> getEvents() {
         return events;
     }

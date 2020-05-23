@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.Date;
 import java.util.Observable;
 
@@ -18,9 +17,6 @@ public class Budget extends Observable {
         expanses = 0;
         balance = 0;
     }
-
-
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
     public boolean addIncome(double income) {
         if (income > 0) {
@@ -57,6 +53,7 @@ public class Budget extends Observable {
     private void updateBalance() {
         balance = income - expanses;
     }
+
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     public double getBalance() {

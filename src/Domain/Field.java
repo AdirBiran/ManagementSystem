@@ -6,7 +6,6 @@ import java.util.LinkedList;
 
 public class Field implements PartOfATeam {
 
-
     private String location;
     private String name;
     private int capacity;
@@ -42,18 +41,6 @@ public class Field implements PartOfATeam {
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
 
-    public String getLocation() {
-        return location;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public List<Game> getGames() {
-        return games;
-    }
-
     @Override
     public String toString() {
         return "Field" +
@@ -64,11 +51,6 @@ public class Field implements PartOfATeam {
     }
 
     @Override
-    public String getID() {
-        return id;
-    }
-
-    @Override
     public void deactivate() {
         isActive = false;
     }
@@ -76,6 +58,39 @@ public class Field implements PartOfATeam {
     @Override
     public void reactivate() {
         isActive = true;
+    }
+
+    @Override
+    public void addTeam(Team team) {
+        teams.add(team);
+    }
+
+    @Override
+    public void removeTeam(Team team) {
+        teams.remove(team);
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Game> getGames() {
+        return games;
+    }
+
+    @Override
+    public String getID() {
+        return id;
     }
 
     @Override
@@ -94,21 +109,8 @@ public class Field implements PartOfATeam {
     }
 
     @Override
-    public void addTeam(Team team) {
-        teams.add(team);
-    }
-
-    @Override
-    public void removeTeam(Team team) {
-        teams.remove(team);
-    }
-
-    @Override
     public boolean isActive() {
         return isActive;
     }
 
-    public String getName() {
-        return name;
-    }
 }

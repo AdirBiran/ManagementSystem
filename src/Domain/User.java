@@ -105,7 +105,7 @@ public class User extends Guest {
         if(!(NotificationSystem.notifyUser(this, message))){
             if(message!=null)
                 messageBox.add(message);
-                //change in user - update database
+                //Database.addMessageToUser(this.ID, message);
         }
     }
 

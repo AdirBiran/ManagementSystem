@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.*;
 
 public class Fan extends Role implements Observer {
@@ -29,13 +28,13 @@ public class Fan extends Role implements Observer {
         this.complaints = complaints;
     }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
     public boolean addPageToFollow(String pageId){
         PersonalPage personalPage = Database.getPage(pageId);
         if(!followPages.contains(personalPage)){
             followPages.add(personalPage);
             personalPage.addAFollower(this);
+            //Database.updateObject(this);
+            //Database.updateObject(personalPage);
             return true;
         }
         return false;
@@ -45,6 +44,7 @@ public class Fan extends Role implements Observer {
         user.editPersonalInfo(firstName, lastName);
         this.address = address;
         this.phone = phone;
+        //Database.updateObject(this);
     }
 
     public boolean registrationForGamesAlerts(List<String> gamesId , boolean receiveAlerts){
@@ -61,8 +61,42 @@ public class Fan extends Role implements Observer {
             return false;
         Complaint complaint = new Complaint(description, this);
         complaints.add(complaint);
+        Database.updateObject(this);
         return Database.addComplaint(complaint);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof Fan;
+    }
+
+    @Override
+    public String myRole() {
+        return "Fan";
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(news);
+    }
+
+    @Override
+    public String toString() {
+        return "Fan" +
+                ", address=" + address +
+                ", phone=" + phone;
+    }
+
+    public String getUserInfo() {
+        return "Fan" +
+                ", firstName=" + user.getFirstName() +
+                ", lastName=" + user.getLastName() +
+                ", phone=" + phone +
+                ", address=" + address;
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     public List<String> getFollowedPages(){
         List<String> pages = new LinkedList<>();
@@ -117,15 +151,6 @@ public class Fan extends Role implements Observer {
         return listOfId;
     }
 
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -140,36 +165,5 @@ public class Fan extends Role implements Observer {
 
     public List<PersonalPage> getFollowPages() {
         return followPages;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Fan;
-    }
-
-    @Override
-    public String myRole() {
-        return "Fan";
-    }
-
-    @Override
-    public String toString() {
-        return "Fan" +
-                ", address=" + address +
-                ", phone=" + phone;
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        String news = (String)arg;
-        user.addMessage(news);
-    }
-
-    public String getUserInfo() {
-        return "Fan" +
-                ", firstName=" + user.getFirstName() +
-                ", lastName=" + user.getLastName() +
-                ", phone=" + phone +
-                ", address=" + address;
     }
 }

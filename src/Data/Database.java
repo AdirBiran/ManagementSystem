@@ -1842,7 +1842,7 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
 
-/*
+
     public static void addMessageToUser(String userId , String message){
         String oldMessages = "";
         //if userId exsist
@@ -1869,7 +1869,7 @@ public class Database //maybe generalize with interface? //for now red layer
         return null;
 
     }
-*/
+
 
 
 

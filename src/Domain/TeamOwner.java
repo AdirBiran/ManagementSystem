@@ -234,4 +234,8 @@ public class TeamOwner extends Manager implements Observer {
         }
         return closed;
     }
+
+    public HashMap<Team, PersonalPage> getPersonalPages() {
+        return personalPages;
+    }
 }

@@ -14,7 +14,6 @@ public class Player extends Role implements PartOfATeam {
     }
     private Date birthDate;
     private RolePlayer roleInTeam;
-    private String id;
     private HashSet<Team> teams;
     private boolean isActive;
     private double price;

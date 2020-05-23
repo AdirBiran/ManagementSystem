@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.*;
 
 public class Game extends Observable {
@@ -77,16 +79,11 @@ public class Game extends Observable {
         if(fansForAlerts.get(fan)==null) {
             fansForAlerts.put(fan, toMail);
             this.addObserver(fan);
+            Database.updateObject(this);
+
             return true;
         }
         return false;
-    }
-
-    public List<String> getEventReportString() {
-        List<String> events = new LinkedList<>();
-        for(Event event : eventReport.getEvents())
-            events.add(event.toString());
-        return events;
     }
 
     public void setNews(String news) {
@@ -95,7 +92,23 @@ public class Game extends Observable {
         notifyObservers(news);
         sendMailToFan(news);
     }
+
+    /*alert for game, sent to mail if fan want get alert to mail*/
+    private void sendMailToFan(String news) {
+        for (Fan fan : fansForAlerts.keySet())
+            if (fansForAlerts.get(fan))
+                MailSender.send(fan.getUser().getMail(), news);
+    }
+
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
+    public List<String> getEventReportString() {
+        List<String> events = new LinkedList<>();
+        for(Event event : eventReport.getEvents())
+            events.add(event.toString());
+        return events;
+    }
+
     public String getId() {
         return id;
     }
@@ -195,13 +208,6 @@ public class Game extends Observable {
         for (Fan fan : fansForAlerts.keySet())
             fan.update(this, news);
         sendMailToFan(news);
-    }
-
-    /*alert for game, sent to mail if fan want get alert to mail*/
-    private void sendMailToFan(String news) {
-        for (Fan fan : fansForAlerts.keySet())
-            if (fansForAlerts.get(fan))
-                MailSender.send(fan.getUser().getMail(), news);
     }
 
     public LeagueInSeason getLeague() {
