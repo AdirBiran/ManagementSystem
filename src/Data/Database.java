@@ -702,15 +702,7 @@ public class Database //maybe generalize with interface? //for now red layer
     this function perform a authentication check for username an password
     returns true if this is the correct credentials and false otherwise
      */
-    private static boolean authenticationCheck(String mail, String password){
-        /*if(mailsAndPasswords.containsKey(mail) && usersInDatabase.get(mailsAndUserID.get(mail)).isActive()){
-            String encryptedPassword = encrypt(password);
-            String passwordInSystem = mailsAndPasswords.get(mail);
-            return passwordInSystem.equals(encryptedPassword);
-        }
-        return false;*/
-        return true;
-    }
+
     public static boolean changePassword(String mail,String oldPassword , String newPassword){
        /* if(authenticationCheck(mail , oldPassword)) {
             if (mailsAndPasswords.containsKey(mail)) {
