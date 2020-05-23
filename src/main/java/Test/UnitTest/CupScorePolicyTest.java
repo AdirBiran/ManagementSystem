@@ -37,7 +37,7 @@ public class CupScorePolicyTest {
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add(league.getReferees().get(1));
         sideReferees.add(league.getReferees().get(2));
-        game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees ,team0, team1,league);
+        game = new Game(Database.getDate(2020, 5, 25, 20, 0), field, mainReferee, sideReferees ,team0, team1,league);
     }
     @Test
     public void calculateScore() {

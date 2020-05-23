@@ -32,7 +32,7 @@ public class TeamTest {
     public void addLeague() {
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        unionRole.configureNewSeason(2021, new Date(120, 4, 1));
+        unionRole.configureNewSeason(2021, Database.getDate(2020, 5, 1));
         LeagueInSeason leagueInSeason = unionRole.configureLeagueInSeason("Haal", "2021","PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         assertTrue(team.addLeague(leagueInSeason));
     }
@@ -74,7 +74,7 @@ public class TeamTest {
 
     @Test
     public void addPlayer() {
-        User user = admin.addNewPlayer("p", "Player", "p@gmail.com" ,new Date(10,10,1999), Player.RolePlayer.playerBack, 1000);
+        User user = admin.addNewPlayer("p", "Player", "p@gmail.com" ,Database.getDate(1999, 10, 10), Player.RolePlayer.playerBack, 1000);
         assertTrue(team.addPlayer(user));
 
     }
@@ -93,7 +93,7 @@ public class TeamTest {
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add(league.getReferees().get(1));
         sideReferees.add(league.getReferees().get(2));
-        Game game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team, team0, league);
+        Game game = new Game(Database.getDate(2020, 5, 25, 20, 0), field, mainReferee, sideReferees, team, team0, league);
         assertTrue(team.addGame(game));
     }
 
@@ -117,7 +117,7 @@ public class TeamTest {
 
     @Test
     public void removePlayer() {
-        User user = admin.addNewPlayer("p", "Player", "p@gmail.com" ,new Date(10,10,1999), Player.RolePlayer.playerBack, 1000);
+        User user = admin.addNewPlayer("p", "Player", "p@gmail.com" ,Database.getDate(1999, 10, 10), Player.RolePlayer.playerBack, 1000);
         team.addPlayer(user);
         assertTrue(team.removePlayer(user));
     }

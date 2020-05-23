@@ -5,6 +5,7 @@ import Presentation.Client;
 
 import java.io.*;
 import java.net.*;
+import java.security.cert.LDAPCertStoreParameters;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -21,8 +22,10 @@ public class Server {
     private PersonalPageSystem personalPageSystem;
     private FinanceTransactionsSystem financeTransactionsSystem;
     private UnionRepresentativeSystem unionRepresentativeSystem;
+    // private ProxyAccountingSystem proxyAccountingSystem;
 
-    private static HashMap<String, Socket> loggedUsers;
+    private static HashMap<String, Socket> loggedUsers = new HashMap<>();
+    private static HashMap<String, String> loggedUsersNotifications = new HashMap<>();
 
 
     public static void main(String[] args) {
@@ -46,7 +49,7 @@ public class Server {
         financeTransactionsSystem = new FinanceTransactionsSystem(notificationSystem);
         unionRepresentativeSystem = new UnionRepresentativeSystem();
 
-        loggedUsers = new HashMap<>();
+        // proxyAccountingSystem = new ProxyAccountingSystem();
 
         this.maxUsers = maxUsers;
 
@@ -128,6 +131,10 @@ public class Server {
 
 
                 switch (operation) {
+
+                    case "checkNotifications":
+                        handle_checkNotifications(splitLine, clientSocket);
+                        break;
 
                     // ------------------- GUEST -------------------
                     case "logIn": // Done
@@ -425,50 +432,50 @@ public class Server {
                     // ------------------- Union Representative System -------------------
 
 
-                    case "configureNewLeague":
+                    case "configureNewLeague": // Done
                         handle_configureNewLeague(splitLine, clientSocket);
                         break;
 
-                    case "configureNewSeason":
+                    case "configureNewSeason": // Done
                         handle_configureNewSeason(splitLine, clientSocket);
                         break;
 
-                    case "configureLeagueInSeason":
+                    case "configureLeagueInSeason": // Done
                         handle_configureLeagueInSeason(splitLine, clientSocket);
                         break;
 
-                    case "appointReferee":
+                    case "appointReferee": // Done
                         handle_appointReferee(splitLine, clientSocket);
                         break;
 
-                    case "assignRefToLeague":
+                    case "assignRefToLeague": // Done
                         handle_assignRefToLeague(splitLine, clientSocket);
                         break;
 
-                    case "changeScorePolicy":
+                    case "changeScorePolicy": // Done
                         handle_changeScorePolicy(splitLine, clientSocket);
                         break;
 
-                    case "changeAssignmentPolicy":
+                    case "changeAssignmentPolicy": // Done
                         handle_changeAssignmentPolicy(splitLine, clientSocket);
                         break;
 
-                    case "assignGames":
+                    case "assignGames": // Done
                         handle_assignGames(splitLine, clientSocket);
                         break;
 
-                    case "changeGameDate":
+                    case "changeGameDate": // Done
                         handle_changeGameDate(splitLine, clientSocket);
                         break;
 
-                    case "changeGameLocation":
+                    case "changeGameLocation": // Done
                         handle_changeGameLocation(splitLine, clientSocket);
                         break;
 
-                    case "addTeamToLeague":
+                    case "addTeamToLeague": // Done
                         handle_addTeamToLeague(splitLine, clientSocket);
                         break;
-/*
+
                     case "calculateLeagueScore":
                         handle_calculateLeagueScore(splitLine, clientSocket);
                         break;
@@ -481,7 +488,7 @@ public class Server {
                         handle_changeRegistrationFee(splitLine, clientSocket);
                         break;
 
-                    case "getRegistrationFee":
+                    case "getRegistrationFee": // Done
                         handle_getRegistrationFee(splitLine, clientSocket);
                         break;
 
@@ -524,7 +531,7 @@ public class Server {
                     case "getAllPastGames":
                         handle_getAllPastGames(splitLine, clientSocket);
                         break;
-*/
+
 
                     // ------------------- Default -------------------
 
@@ -547,14 +554,162 @@ public class Server {
 
     }
 
+    private void handle_checkNotifications(String[] splitLine, Socket clientSocket)
+    {
+        String userID = splitLine[1];
+
+        if (loggedUsers.containsKey(userID))
+            if (!loggedUsersNotifications.get(userID).equals(""))
+            {
+                sendLineToClient(loggedUsersNotifications.get(userID), clientSocket);
+                loggedUsersNotifications.put(userID, "");
+            }
+
+    }
+
+    private void handle_addPaymentsFromTheTUTU(String[] splitLine, Socket clientSocket)
+    {
+        // boolean success = unionRepresentativeSystem.addPaymentsFromTheTUTU(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), proxyAccountingSystem);
+        boolean success = unionRepresentativeSystem.addPaymentsFromTheTUTU(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]));
+
+        if (success)
+            sendLineToClient("Succeed adding payments from TUTU", clientSocket);
+        else
+            sendLineToClient("Failed adding payments from TUTU", clientSocket);
+    }
+
+    private void handle_addTUTUPayment(String[] splitLine, Socket clientSocket)
+    {
+        boolean success = unionRepresentativeSystem.addTUTUPayment(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
+
+        if (success)
+            sendLineToClient("Succeed adding TUTU Payment", clientSocket);
+        else
+            sendLineToClient("Failed adding TUTU Payment", clientSocket);
+    }
+
+    private void handle_getAllPastGames(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = unionRepresentativeSystem.getAllPastGames(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all past games", clientSocket);
+    }
+
+    private void handle_getAllOpenTeams_Union(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = unionRepresentativeSystem.getAllOpenTeams(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all open teams", clientSocket);
+    }
+
+    private void handle_getAllDetailsAboutOpenTeams_Union(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = unionRepresentativeSystem.getAllDetailsAboutOpenTeams(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting open teams details", clientSocket);
+    }
+
+    private void handle_getAllScorePolicies(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = unionRepresentativeSystem.getAllScorePolicies(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting Score Policies", clientSocket);
+    }
+
+    private void handle_getAllSeasons(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = unionRepresentativeSystem.getAllSeasons(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all Seasons", clientSocket);
+    }
+
+    private void handle_getAllLeagues(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = unionRepresentativeSystem.getAllLeagues(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all Leagues", clientSocket);
+    }
+
+    private void handle_allLeaguesInSeasons(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = unionRepresentativeSystem.allLeaguesInSeasons(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all leagues in seasons", clientSocket);
+    }
+
+    private void handle_addFieldToSystem(String[] splitLine, Socket clientSocket)
+    {
+        boolean success = unionRepresentativeSystem.addFieldToSystem(splitLine[1], splitLine[2], splitLine[3], Integer.parseInt(splitLine[4]), Double.parseDouble(splitLine[5]));
+
+        if (success)
+            sendLineToClient("Succeed adding field to system", clientSocket);
+        else
+            sendLineToClient("Failed adding field to system", clientSocket);
+    }
+
+    private void handle_changeRegistrationFee(String[] splitLine, Socket clientSocket)
+    {
+        boolean success = unionRepresentativeSystem.changeRegistrationFee(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
+
+        if (success)
+            sendLineToClient("Succeed changing Registration Fee", clientSocket);
+        else
+            sendLineToClient("Failed changing Registration Fee", clientSocket);
+    }
+
+    private void handle_calculateGameScore(String[] splitLine, Socket clientSocket)
+    {
+        boolean success = unionRepresentativeSystem.calculateGameScore(splitLine[1], splitLine[2], splitLine[3]);
+
+        if (success)
+            sendLineToClient("Succeed calculating game's score", clientSocket);
+        else
+            sendLineToClient("Failed calculating game's score", clientSocket);
+    }
+
+    private void handle_calculateLeagueScore(String[] splitLine, Socket clientSocket)
+    {
+        boolean success = unionRepresentativeSystem.calculateLeagueScore(splitLine[1], splitLine[2]);
+
+        if (success)
+            sendLineToClient("Succeed calculating league's score", clientSocket);
+        else
+            sendLineToClient("Failed calculating league's score", clientSocket);
+    }
+
 
     private void handle_getRegistrationFee(String[] splitLine, Socket clientSocket) {
         double res = unionRepresentativeSystem.getRegistrationFee(splitLine[1], splitLine[2]);
-        sendLineToClient("" + res, clientSocket);
+        if (res == -1)
+            sendLineToClient("Registration fee is unavailable", clientSocket);
+        else
+            sendLineToClient("" + res, clientSocket);
     }
 
 
     private void handle_addTeamToLeague(String[] splitLine, Socket clientSocket) {
+        // boolean success = unionRepresentativeSystem.addTeamToLeague(splitLine[1], splitLine[2], splitLine[3], proxyAccountingSystem);
         boolean success = unionRepresentativeSystem.addTeamToLeague(splitLine[1], splitLine[2], splitLine[3]);
 
         if (success)
@@ -664,14 +819,19 @@ public class Server {
 
     private void handle_getAllUsers_Team(String[] splitLine, Socket clientSocket) {
         List<String> results = teamSystem.getAllUsers(splitLine[1]);
-        String sendToClient = ListToString(results);
-        sendLineToClient(sendToClient, clientSocket);
+        if (results == null)
+            sendLineToClient("No teams available", clientSocket);
+        else
+            sendLineToClient(ListToString(results), clientSocket);
+
     }
 
     private void handle_getTeams(String[] splitLine, Socket clientSocket) {
         List<String> results = teamSystem.getTeams(splitLine[1]);
-        String sendToClient = ListToString(results);
-        sendLineToClient(sendToClient, clientSocket);
+        if (results == null)
+            sendLineToClient("No teams available", clientSocket);
+        else
+            sendLineToClient(ListToString(results), clientSocket);
     }
 
     private void handle_getAllActiveComplaints(String[] splitLine, Socket clientSocket) {
@@ -686,8 +846,10 @@ public class Server {
 
     private void handle_getAllUsers_Admin(String[] splitLine, Socket clientSocket) {
         List<String> results = adminSystem.getAllUsers(splitLine[1]);
-        String sendToClient = ListToString(results);
-        sendLineToClient(sendToClient, clientSocket);
+        if (results == null)
+            sendLineToClient("No users available", clientSocket);
+        else
+            sendLineToClient(ListToString(results), clientSocket);
     }
 
     private void handle_getAllCloseTeams(String[] splitLine, Socket clientSocket) {
@@ -734,14 +896,18 @@ public class Server {
 
     private void handle_getUserRoles(String[] splitLine, Socket clientSocket) {
         List<String> results = userSystem.getUserRoles(splitLine[1]);
-        String sendToClient = ListToString(results);
-        sendLineToClient(sendToClient, clientSocket);
+        if (results == null)
+            sendLineToClient("No roles available", clientSocket);
+        else
+            sendLineToClient(ListToString(results), clientSocket);
     }
 
     private void handle_userSearch(String[] splitLine, Socket clientSocket) {
         List<String> results = userSystem.search(splitLine[1], splitLine[2]);
-        String sendToClient = ListToString(results);
-        sendLineToClient(sendToClient, clientSocket);
+        if (results == null)
+            sendLineToClient("No results returned from search", clientSocket);
+        else
+            sendLineToClient(ListToString(results), clientSocket);
     }
 
     private void handle_getRoleForCoach(String[] splitLine, Socket clientSocket) {
@@ -807,14 +973,19 @@ public class Server {
 
     private void handle_getAllFutureGames(String[] splitLine, Socket clientSocket) {
         List<String> results = userSystem.getAllFutureGames(splitLine[1]);
-        String res = ListToString(results);
-        sendLineToClient(res, clientSocket);
+        if (results == null)
+            sendLineToClient("No future games available", clientSocket);
+        else
+            sendLineToClient(ListToString(results), clientSocket);
+
     }
 
     private void handle_getAllPages(String[] splitLine, Socket clientSocket) {
         List<String> results = userSystem.getAllPages(splitLine[1]);
-        String res = ListToString(results);
-        sendLineToClient(res, clientSocket);
+        if (results == null)
+            sendLineToClient("No pages available", clientSocket);
+        else
+            sendLineToClient(ListToString(results), clientSocket);
     }
 
     private void handle_registrationToFollowUp(String[] splitLine, Socket clientSocket) {
@@ -1161,7 +1332,8 @@ public class Server {
 
     private void handle_Register(String[] splitLine, Socket clientSocket) {
         String userId = guestSystem.register(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5], splitLine[6]);
-        if (userId == null) {
+        if (userId == null)
+        {
             sendLineToClient("Registration Failed!", clientSocket);
             return;
         }
@@ -1169,7 +1341,10 @@ public class Server {
         List<String> roles = userSystem.getUserRoles(userId); /**/
 
         if (!loggedUsers.containsKey(userId))
+        {
             loggedUsers.put(userId, clientSocket);
+            loggedUsersNotifications.put(userId, "");
+        }
 
         String sendToClient = userId + "|";
 
@@ -1183,7 +1358,10 @@ public class Server {
         userSystem.logOut();
 
         if (loggedUsers.containsKey(splitLine[1]))
+        {
             loggedUsers.remove(splitLine[1]);
+            loggedUsersNotifications.remove(splitLine[1]);
+        }
 
         sendLineToClient("Logout Successful", clientSocket);
 
@@ -1197,7 +1375,10 @@ public class Server {
             List<String> roles = userSystem.getUserRoles(loggedUserId); /**/
 
             if (!loggedUsers.containsKey(loggedUserId))
+            {
                 loggedUsers.put(loggedUserId, clientSocket);
+                loggedUsersNotifications.put(loggedUserId, "");
+            }
 
             String sendToClient = loggedUserId + "|";
 
@@ -1322,8 +1503,11 @@ public class Server {
         if (!loggedUsers.containsKey(id))
             return false;
 
-        Socket clientSocket = loggedUsers.get(id);
-        sendLineToClient("Notification|" + message, clientSocket);
+        if (loggedUsersNotifications.get(id).equals(""))
+            loggedUsersNotifications.put(id, message);
+        else
+            loggedUsersNotifications.put(id, loggedUsersNotifications.get(id) + "~");
+
         return true;
     }
     

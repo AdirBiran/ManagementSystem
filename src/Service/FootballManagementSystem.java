@@ -130,7 +130,7 @@ public class FootballManagementSystem {
     public static String dataReboot(){
         MailSender.setReallySend(false);
         User unionRep = UserFactory.getNewUnionRepresentative("", "","mail@mail.com");
-        unionRepresentativeSystem.configureNewSeason(unionRep.getID(),2020, new Date(120, 4, 1));
+        unionRepresentativeSystem.configureNewSeason(unionRep.getID(),2020, Database.getDate(2020, 5, 1));
         unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "3");
         String leagueInSeasonId = unionRepresentativeSystem.configureLeagueInSeason(unionRep.getID(),"Haal", "2020", "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         unionRepresentativeSystem.addFieldToSystem(unionRep.getID(),"jerusalem","Teddy" ,550, 150000);
@@ -172,7 +172,7 @@ public class FootballManagementSystem {
     public static List<String> createPlayers() {
         List<String> players = new LinkedList<>();
         for (int i = 0; i <12 ; i++) {
-            String playerId = adminSystem.addNewPlayer(systemAdmins.get(0).getID(), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", new Date(99, 1, 1), "attackingPlayer", 3500);
+            String playerId = adminSystem.addNewPlayer(systemAdmins.get(0).getID(), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", Database.getDate(1995, 10, 5), "attackingPlayer", 3500);
             if(playerId!=null){
                 players.add(playerId);
             }
@@ -188,25 +188,26 @@ public class FootballManagementSystem {
     public static List<Date> getDates() {
         LinkedList<Date> dates = new LinkedList<>();
         for (int i = 1; i < 30; i++) {
-            dates.add(new Date (120, 5, i, 20, 0));
+
+            dates.add(Database.getDate(2020, 5, i, 20, 0));
         }
         for (int i = 1; i < 31; i++) {
-            dates.add(new Date (120, 6, i, 20, 0));
+            dates.add(Database.getDate(2020, 6, i, 20, 0));
         }
         for (int i = 1; i <31 ; i++) {
-            dates.add(new Date (120, 7, i, 20, 0));
+            dates.add(Database.getDate(2020, 7, i, 20, 0));
         }
         for (int i = 1; i <30 ; i++) {
-            dates.add(new Date (120, 8, i, 20, 0));
+            dates.add(Database.getDate(2020, 8, i, 20, 0));
         }
         for (int i = 1; i <31 ; i++) {
-            dates.add(new Date (120, 9, i, 20, 0));
+            dates.add(Database.getDate(2020, 9, i, 20, 0));
         }
         for (int i = 1; i <30 ; i++) {
-            dates.add(new Date (120, 10, i, 20, 0));
+            dates.add(Database.getDate(2020, 10, i, 20, 0));
         }
         for (int i = 1; i <31 ; i++) {
-            dates.add(new Date (120, 11, i, 20, 0));
+            dates.add(Database.getDate(2020, 11, i, 20, 0));
         }
         return dates;
     }

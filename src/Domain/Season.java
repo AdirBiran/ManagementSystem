@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -13,7 +15,7 @@ public class Season {
     private List<LeagueInSeason> leagueInSeasons;
 
     public Season(int year, Date startDate) {
-        int now = new Date().getYear()+1900;
+        int now = Database.getCurrentYear();
         if(year < now - 3)//allows to define season only in the future or the last three years
             throw new RuntimeException("year is not valid!");
         this.year = year;

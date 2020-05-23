@@ -14,7 +14,7 @@ public class ServerLogger
 {
     private final Logger serverLogger = LogManager.getLogger(ServerLogger.class);
     private static volatile ServerLogger serverLog;
-    private static Object serverMutex = new Object();
+    private static final Object serverMutex = new Object();
 
     private ServerLogger()
     {

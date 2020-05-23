@@ -58,7 +58,7 @@ public void init(){
 
     @Test
     public void getDate() {
-        assertEquals(game.getDate(),new Date(120, 4, 25, 20, 0));
+        assertEquals(game.getDate(),Database.getDate(2020, 5, 25, 20, 0));
     }
 
 
@@ -124,8 +124,8 @@ public void init(){
 
     @Test
     public void setDate() {
-        game.setDate(new Date(2020, 5, 25, 20, 0));
-        assertEquals(game.getDate(),new Date(2020, 5, 25, 20, 0));
+        game.setDate(Database.getDate(2020, 5, 25, 20, 0));
+        assertEquals(game.getDate(),Database.getDate(2020, 5, 25, 20, 0));
     }
 
     @Test
