@@ -65,7 +65,11 @@ public class User extends Guest {
         return null;
     }
 
-    public boolean addToSearchHistory(String word){ return searchHistory.add(word);}
+    public boolean addToSearchHistory(String word){
+        searchHistory.add(word);
+        Database.updateObject(this);
+        return true;
+    }
 
     public List<String> getSearchHistory() {
         return searchHistory;
@@ -76,6 +80,7 @@ public class User extends Guest {
     public void editPersonalInfo(String firstName, String lastName){
         setFirstName(firstName);
         setLastName(lastName);
+        Database.updateObject(this);
     }
 
     public List<String> search(String wordToSearch)

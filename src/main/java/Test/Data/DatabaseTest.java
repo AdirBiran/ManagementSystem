@@ -61,6 +61,6 @@ public class DatabaseTest {
 
     @Test
     public void getUser(){
-        User user = Database.createUser("888");
+        //User user = Database.createUser("888");
     }
 }
