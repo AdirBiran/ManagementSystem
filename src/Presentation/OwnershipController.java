@@ -103,6 +103,7 @@ public class OwnershipController {
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
                 String name = tf_teamName.getText();
                 if(Checker.isValid(name)&&lv_selectedPlayers.getItems().size()>10&&lv_selectedCoaches.getItems().size()>1&&lv_selectedFields.getItems().size()>1){
                     String players = m_client.ListToString(getStringsIds(lv_selectedPlayers.getItems()));
@@ -141,7 +142,7 @@ public class OwnershipController {
         GridPane gridPane = new GridPane();
         Label label = new Label("Please select team to close");
         gridPane.add(label,0,0);
-        m_general.addTeamsChoiceBox(gridPane,cb_teams, 1, teams.values());
+        cb_teams = m_general.addTeamsChoiceBox(gridPane, 1, teams.values());
         Button addBtn = new Button("Close");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -212,7 +213,7 @@ public class OwnershipController {
         }
         pane.add(label,0,rowIdx);
         rowIdx++;
-        m_general.addTeamsChoiceBox(pane,cb_teams, rowIdx, teams.values());
+        cb_teams = m_general.addTeamsChoiceBox(pane, rowIdx, teams.values());
         rowIdx++;
         addUsersChoiceBox(pane, rowIdx);
         rowIdx++;

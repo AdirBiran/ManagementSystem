@@ -112,6 +112,7 @@ public class ManagementController {
         int rowIdx =0;
         teamSelection(pane, rowIdx);
         rowIdx++;
+        rowIdx++;
         Label l_type = null;
         StringBuilder request = new StringBuilder();
         switch (type){
@@ -134,7 +135,8 @@ public class ManagementController {
         reportBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String input = tf_input.getText() , teamName = cb_teams.getValue();
+                String input = tf_input.getText();
+                String teamName = cb_teams.getValue();
                 if(Checker.isValidNumber(input)&& Checker.isValid(teamName)){
                     String id = m_general.getIdFromName(teamName, teams);
                     request.append(loggedUser+"|"+id+"|"+input);
@@ -154,7 +156,7 @@ public class ManagementController {
         Label label = new Label("Please select team:");
         pane.add(label, 0, index);
         index++;
-        m_general.addTeamsChoiceBox(pane,cb_teams, index, teams.values());
+        cb_teams = m_general.addTeamsChoiceBox(pane, index, teams.values());
     }
 
 }

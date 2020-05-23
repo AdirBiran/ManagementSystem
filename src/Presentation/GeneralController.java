@@ -75,12 +75,7 @@ public class GeneralController {
                 }
                 data.addAll(teams);
 
-                TableColumn active = new TableColumn("Active");
-                active.setCellValueFactory(new PropertyValueFactory("active"));
-                TableColumn permanentlyClosed = new TableColumn("Permanently Closed");
-                permanentlyClosed.setCellValueFactory(new PropertyValueFactory("permanentlyClosed"));
-
-                tableView.getColumns().addAll(getNameColumn(),active,permanentlyClosed);
+                tableView.getColumns().addAll(getNameColumn());
 
                 break;
             }
@@ -609,18 +604,18 @@ public class GeneralController {
         for(String team: received){
             if(team.length()>0){
                 String[] split = team.split(":");
-                teams.put(split[0], split[1]);
+                teams.put(split[0].substring(split[0].indexOf("=")+1), split[1].substring(split[1].indexOf("=")+1));
             }
         }
         return teams;
     }
 
-    public void addTeamsChoiceBox(GridPane pane, ChoiceBox cb_teams ,int rowIdx, Collection<String> teams) {
+    public ChoiceBox addTeamsChoiceBox(GridPane pane ,int rowIdx, Collection<String> teams) {
         Label l_teams = new Label("Teams: ");
         pane.add(l_teams,0,rowIdx);
-        cb_teams = new ChoiceBox(FXCollections.observableArrayList(teams));
+        ChoiceBox cb_teams = new ChoiceBox(FXCollections.observableArrayList(teams));
         pane.add(cb_teams,1,rowIdx);
-
+        return cb_teams;
     }
 
     public String getIdFromName(String teamName, HashMap<String, String> teams) {
