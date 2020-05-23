@@ -21,12 +21,15 @@ public class UnionRepresentative extends Role implements Observer {
 
     public boolean configureNewSeason(int year, Date startDate) {
         try{
-            Season season = new Season(year, startDate);
-            return Database.addSeason(season);
+            if (Database.getCurrentYear()<=year) {
+                Season season = new Season(year, startDate);
+                return Database.addSeason(season);
+            }
         }
         catch (Exception e){
             return false;
         }
+        return false;
     }
     public static LinkedList<String> getAllPastGames(){
         Date today = new Date();

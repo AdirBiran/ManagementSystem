@@ -54,12 +54,12 @@ public class UnionRepresentativeSystem {
             if (role instanceof UnionRepresentative) {
                 LeagueInSeason lis = ((UnionRepresentative) role).configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy, scorePolicy, fee);
 
-                if (lis != null)
+                if (lis != null) {
                     Logger.logEvent(user.getID(), "Configured league in season");
+                    return lis.getId();
+                }
                 else
                     Logger.logError("Configuring league in season Failed");
-
-                return lis.getId();
             }
         }
         return null;
