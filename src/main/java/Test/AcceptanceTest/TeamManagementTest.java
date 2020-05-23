@@ -47,16 +47,6 @@ public class TeamManagementTest {
         mesi=(Player) mesiU.checkUserRole("Player");
         manager=admin.addNewTeamManager("Maor","Buzaglo","maor@gmail.com",3000,true,true);
         }
-    /*    system = new FootballManagementSystem();
-        system.systemInit(true);
-        representativeSystem = system.getUnionRepresentativeSystem();
-        UnionRep = UserFactory.getNewUnionRepresentative("","","234@g.com");
-        representativeSystem.configureNewSeason(UnionRep,2020, new Date(120,4,1 ));
-        representativeSystem.configureNewLeague(UnionRep,"Haal", "3");
-        leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep,"Haal", "2020", new PlayTwiceWithEachTeamPolicy(), new StandardScorePolicy(), 300);
-        players = FootballManagementSystem.createPlayers();
-        coaches = FootballManagementSystem.createCoaches();
-        owner = UserFactory.getNewTeamOwner("Team","Owner", "a"+"@gmail.com");*/
 
 
 
@@ -95,7 +85,7 @@ public class TeamManagementTest {
     public void appointManager_32()
     {
         assertEquals(team.getTeamManagers().size(),0);
-        assertTrue(teamManagementSystem.addAssetTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false));
+        assertTrue(teamManagementSystem.appointmentTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false));
         assertEquals(team.getTeamManagers().size(),1);
     }
 
@@ -159,8 +149,8 @@ public class TeamManagementTest {
     @Test
     public void removeAsset_46()
     {
-        teamManagementSystem.addAssetTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false);
-        assertTrue(teamManagementSystem.removeAssetTeamManager(userTeamOwner.getID(),manager.getID(),team.getID()));
+        teamManagementSystem.appointmentTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false);
+        assertTrue(teamManagementSystem.removeAppointmentTeamManager(userTeamOwner.getID(),manager.getID(),team.getID()));
     }
 
     @Test
@@ -168,8 +158,8 @@ public class TeamManagementTest {
     {
         User userTeamOwner2= admin.addNewTeamOwner("team2", "owner2", "teamOwner2@gmail.com");
         teamManagementSystem.appointmentTeamOwner(userTeamOwner.getID(),userTeamOwner2.getID(),team.getID());
-        teamManagementSystem.addAssetTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false);
-        assertFalse(teamManagementSystem.removeAssetTeamManager(userTeamOwner2.getID(),manager.getID(),team.getID()));
+        teamManagementSystem.appointmentTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false);
+        assertFalse(teamManagementSystem.removeAppointmentTeamManager(userTeamOwner2.getID(),manager.getID(),team.getID()));
 
     }
 

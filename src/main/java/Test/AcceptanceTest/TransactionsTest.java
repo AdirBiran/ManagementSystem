@@ -54,8 +54,6 @@ public class TransactionsTest {
     {
         double before=team.getBudget().getBalance();
        transSystem.reportNewIncome(owner.getID(), team.getID(), 50);
-        //double afterChange = transSystem.getBalance(owner.getID(),team.getID());
-
         assertEquals(before+50, team.getBudget().getBalance(), 1);
 
     }
