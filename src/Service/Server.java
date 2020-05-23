@@ -1,11 +1,8 @@
 package Service;
 
 import Logger.Logger;
-import Presentation.Client;
-
 import java.io.*;
 import java.net.*;
-import java.security.cert.LDAPCertStoreParameters;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -22,7 +19,7 @@ public class Server {
     private PersonalPageSystem personalPageSystem;
     private FinanceTransactionsSystem financeTransactionsSystem;
     private UnionRepresentativeSystem unionRepresentativeSystem;
-    // private ProxyAccountingSystem proxyAccountingSystem;
+    private ProxyAccountingSystem proxyAccountingSystem;
 
     private static HashMap<String, Socket> loggedUsers = new HashMap<>();
     private static HashMap<String, String> loggedUsersNotifications = new HashMap<>();
@@ -569,8 +566,7 @@ public class Server {
 
     private void handle_addPaymentsFromTheTUTU(String[] splitLine, Socket clientSocket)
     {
-        // boolean success = unionRepresentativeSystem.addPaymentsFromTheTUTU(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), proxyAccountingSystem);
-        boolean success = unionRepresentativeSystem.addPaymentsFromTheTUTU(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]));
+         boolean success = unionRepresentativeSystem.addPaymentsFromTheTUTU(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), proxyAccountingSystem);
 
         if (success)
             sendLineToClient("Succeed adding payments from TUTU", clientSocket);
@@ -709,8 +705,7 @@ public class Server {
 
 
     private void handle_addTeamToLeague(String[] splitLine, Socket clientSocket) {
-        // boolean success = unionRepresentativeSystem.addTeamToLeague(splitLine[1], splitLine[2], splitLine[3], proxyAccountingSystem);
-        boolean success = unionRepresentativeSystem.addTeamToLeague(splitLine[1], splitLine[2], splitLine[3]);
+        boolean success = unionRepresentativeSystem.addTeamToLeague(splitLine[1], splitLine[2], splitLine[3], proxyAccountingSystem);
 
         if (success)
             sendLineToClient("Succeed adding team to league", clientSocket);
