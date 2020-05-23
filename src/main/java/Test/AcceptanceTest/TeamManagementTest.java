@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 public class TeamManagementTest {
 
         TeamManagementSystem teamManagementSystem;
+        UserSystem userSystem;
         TeamOwner teamOwner;
         FootballManagementSystem system;
         Admin admin;
@@ -27,10 +28,12 @@ public class TeamManagementTest {
         User userTeamOwner;
        User mesiU;
        Player mesi;
+       User manager;
 
     @Before
         public void init(){
         teamManagementSystem=new TeamManagementSystem();
+        userSystem=new UserSystem();
         system = new FootballManagementSystem();
         system.systemInit(true);
         String  leagueId = system.dataReboot();
@@ -42,6 +45,7 @@ public class TeamManagementTest {
         userTeamOwner= team.getTeamOwners().get(0);
         mesiU = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         mesi=(Player) mesiU.checkUserRole("Player");
+        manager=admin.addNewTeamManager("Maor","Buzaglo","maor@gmail.com",3000,true,true);
         }
     /*    system = new FootballManagementSystem();
         system.systemInit(true);
@@ -69,27 +73,6 @@ public class TeamManagementTest {
         teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID());
        assertTrue(teamManagementSystem.removeAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID()));
 
-       /* List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 150000);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep,leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        Player playerAdded = teamSystem.getTeamPlayers(owner,team).get(0);
-        List<Player> assets = teamSystem.getTeamPlayers(owner,team);
-
-        teamSystem.removeAsset(owner,playerAdded, team);
-
-        boolean flag = false;
-
-        for (Player p: assets)
-            if (p == playerAdded)
-                flag = true;
-
-        assertFalse(flag);*/
     }
 
     @Test
@@ -98,22 +81,7 @@ public class TeamManagementTest {
         teamOwner.addTeam(team);
         teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID());
         teamManagementSystem.updateAsset(userTeamOwner.getID(),mesiU.getID(),"Price","30");
-       /* List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 1500);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep,leagueInSeason, team);
 
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        UserSystem userSystem = system.getUserSystem();
-        Player player = players.get(0);
-
-        userSystem.updateRole(player, "Goalkeeper");
-        String role = userSystem.getRole(player);
-
-        assertEquals(role, "Goalkeeper");*/
     }
 
     @Test
@@ -126,27 +94,9 @@ public class TeamManagementTest {
     @Test
     public void appointManager_32()
     {
-
-
-        /*List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 1500);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep,leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        Player manager = teamSystem.getTeamPlayers(owner,team).get(1);
-        team.setActive(true);
-        List<User> managers = teamSystem.getTeamManagers(owner, team);
-        assertEquals(0, managers.size());
-
-        teamSystem.appointmentTeamManager(owner, manager.getUser(), team);
-
-        managers = teamSystem.getTeamManagers(owner,team);
-        assertEquals(1, managers.size());*/
-
+        assertEquals(team.getTeamManagers().size(),0);
+        assertTrue(teamManagementSystem.addAssetTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false));
+        assertEquals(team.getTeamManagers().size(),1);
     }
 
     @Test
@@ -176,141 +126,50 @@ public class TeamManagementTest {
     @Test
     public void closeTeam_34()
     {
-
-
-     /*   List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 1500);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep, leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-
-        boolean active = teamSystem.isActiveTeam(team);
-
-        assertTrue(active);
-
-        teamSystem.closeTeam(owner, team);
-
-        active = teamSystem.isActiveTeam(team);
-        assertFalse(active);*/
+    assertTrue(teamManagementSystem.closeTeam(userTeamOwner.getID(),team.getID()));
 
     }
 
     @Test
-    public void closeTeam_35()
-    {
-
-
-       /* List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 15000);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep, leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        teamSystem.closeTeam(owner, team);
-
-        boolean flag = teamSystem.closeTeam(owner, team);
-        assertFalse(flag);*/
+    public void closeTeam_35() {
+        assertEquals(teamManagementSystem.getTeams(userTeamOwner.getID()).size(), 1);
+        teamManagementSystem.closeTeam(userTeamOwner.getID(), team.getID());
+        assertEquals(teamManagementSystem.getTeams(userTeamOwner.getID()).size(), 0);
+        assertEquals(userSystem.search(userTeamOwner.getID(),"team0").size(),0);
 
     }
+
+
+
 
     @Test
     public void openTeam_37()
     {
-
-
-
-     /*   List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 1500);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep, leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-
-        boolean active = teamSystem.isActiveTeam(team);
-        assertTrue(active);
-
-        teamSystem.reopeningTeam(owner, team);
-
-        active = teamSystem.isActiveTeam(team);
-        assertTrue(active);*/
+    assertFalse(teamManagementSystem.reOpeningTeam(userTeamOwner.getID(), team.getID()));
     }
 
     @Test
     public void openTeam_38()
     {
+        teamManagementSystem.closeTeam(userTeamOwner.getID(), team.getID());
+        assertTrue(teamManagementSystem.reOpeningTeam(userTeamOwner.getID(), team.getID()));
 
-      /*  List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 1500);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep, leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        teamSystem.closeTeam(owner, team);
-
-        boolean active = teamSystem.isActiveTeam(team);
-        assertFalse(active);
-
-        teamSystem.reopeningTeam(owner, team);
-
-        active = teamSystem.isActiveTeam(team);
-        assertTrue(active);*/
     }
 
     @Test
     public void removeAsset_46()
     {
-      /*  List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 1500);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep, leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        Field field2 = new Field("tel-aviv", 300, 1000);
-        team.setActive(true);
-
-        teamSystem.addAsset(owner,field2, team);
-        assertEquals(2, teamSystem.getTeamFields(owner,team).size());
-
-        teamSystem.removeAsset(owner,field2, team);
-        assertEquals(1, teamSystem.getTeamFields(owner,team).size());*/
-
-
+        teamManagementSystem.addAssetTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false);
+        assertTrue(teamManagementSystem.removeAssetTeamManager(userTeamOwner.getID(),manager.getID(),team.getID()));
     }
 
     @Test
     public void removeAsset_47()
     {
-       /* List<User> owners = new LinkedList<>();
-        owners.add(owner);
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 1500);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep, leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-        Field field2 = new Field("tel-aviv", 300, 1000);
-        team.setActive(true);
-
-        assertEquals(1, teamSystem.getTeamFields(owner,team).size());
-        teamSystem.removeAsset(owner,field2, team);
-        assertEquals(1, teamSystem.getTeamFields(owner,team).size());*/
+        User userTeamOwner2= admin.addNewTeamOwner("team2", "owner2", "teamOwner2@gmail.com");
+        teamManagementSystem.appointmentTeamOwner(userTeamOwner.getID(),userTeamOwner2.getID(),team.getID());
+        teamManagementSystem.addAssetTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false);
+        assertFalse(teamManagementSystem.removeAssetTeamManager(userTeamOwner2.getID(),manager.getID(),team.getID()));
 
     }
 
