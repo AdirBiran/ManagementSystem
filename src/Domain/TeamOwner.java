@@ -32,10 +32,6 @@ public class TeamOwner extends Manager implements Observer {
         this.personalPages = personalPages;
     }
 
-    public HashMap<Team, PersonalPage> getPersonalPages() {
-        return personalPages;
-    }
-
     public HashMap<User, Team> getAppointedTeamOwners() {
         return appointedTeamOwners;
     }
@@ -73,7 +69,7 @@ public class TeamOwner extends Manager implements Observer {
             List<User> teamOwner = new LinkedList<>();
             teamOwner.add(user);
 
-            Field field = (Field) Database.getAssetById(fieldId);
+            Field field =Database.getField(fieldId);
             List<User> players = findUsers(playersId);
             List<User> coaches = findUsers(coachesId);
 

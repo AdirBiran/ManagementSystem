@@ -141,7 +141,7 @@ public class UserFactory {
     private static void giveHasPageAuthorization(User user) {
         String data = "This is "+ user.getName()+"'s Personal Page! ";
         PersonalPage page = new PersonalPage(data, user);
-        Database.addPage(page);
+        Database.addPersonalPage(page);
         HasPage authorization = new HasPage(page);
         user.addRole(authorization);
     }

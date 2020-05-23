@@ -161,7 +161,7 @@ public class UnionRepresentative extends Role implements Observer {
 
     public boolean changeGameLocation(String gameId, String fieldId) {
         Game game = Database.getGame(gameId);
-        Field field = (Field) Database.getAssetById(fieldId);
+        Field field = Database.getField(fieldId);
         if(field!=null && field.isActive()) {
             game.setField(field);
             return true;

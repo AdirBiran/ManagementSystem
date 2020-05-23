@@ -54,7 +54,7 @@ public class Budget extends Observable {
     }
 
     private void updateAllUnionRep(String news) {
-        for (Role union : Database.getListOfAllSpecificRoles("UnionRepresentative")){
+        for (Role union : Database.getAllUnions()){
             ((UnionRepresentative)union).update(this, news);
         }
     }

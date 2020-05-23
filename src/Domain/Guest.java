@@ -37,18 +37,18 @@ public class Guest {
     }
 
     public List<String> viewInfoAboutPlayers() {
-        List<PartOfATeam> players = Database.getListOfAllSpecificAssets("Player");
+        List<Player> players = Database.getAllPlayers();
         List<String> stringOfPlayers = new LinkedList<>();
         for(PartOfATeam p: players)
-            stringOfPlayers.add(((Player)p).toString());
+            stringOfPlayers.add(p.toString());
         return stringOfPlayers;
     }
 
     public List<String> viewInfoAboutCoaches() {
-        List<PartOfATeam> coaches =  Database.getListOfAllSpecificAssets("Coach");
+        List<Coach> coaches =  Database.getAllCoaches();
         List<String> stringOfCoaches = new LinkedList<>();
         for(PartOfATeam c : coaches)
-            stringOfCoaches.add(((Coach)c).toString());
+            stringOfCoaches.add(c.toString());
         return stringOfCoaches;
     }
 
