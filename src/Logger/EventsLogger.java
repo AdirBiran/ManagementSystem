@@ -14,7 +14,7 @@ public class EventsLogger
 {
     private final Logger eventsLogger = LogManager.getLogger(EventsLogger.class);
     private static volatile EventsLogger eventsLog;
-    private static Object eventsMutex = new Object();
+    private static final Object eventsMutex = new Object();
 
     private EventsLogger()
     {

@@ -24,7 +24,7 @@ public class SeasonTest {
 
     @Test
     public void getStartDate() {
-       assertEquals( leagueInSeason.getSeason().getStartDate(),new Date(120, 4, 1));
+       assertEquals( leagueInSeason.getSeason().getStartDate(),Database.getDate(2020, 5, 1));
     }
 
     @Test

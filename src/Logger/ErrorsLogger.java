@@ -14,7 +14,7 @@ public class ErrorsLogger
 {
     private final Logger errorsLogger = LogManager.getLogger(ErrorsLogger.class);
     private static volatile ErrorsLogger errorsLog;
-    private static Object errorsMutex = new Object();
+    private static final Object errorsMutex = new Object();
 
     private ErrorsLogger()
     {

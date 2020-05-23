@@ -12,6 +12,9 @@ public class Client  {
 
     private int serverPort;
     private Socket socket = null;
+    private NotificationsListener notificationsListener;
+    private Thread listener = null;
+    private String userID = "";
 
     public Client (int serverPort)
     {
@@ -20,6 +23,8 @@ public class Client  {
         try
         {
             this.socket = new Socket("localhost", serverPort);
+            this.notificationsListener = new NotificationsListener(socket, this);
+            this.listener = new Thread(notificationsListener);
 
         }
         catch (Exception e)
@@ -27,6 +32,23 @@ public class Client  {
             e.printStackTrace();
         }
 
+    }
+
+    public String getUserID()
+    {
+        return this.userID;
+    }
+
+    public void startGettingNotifications(String userID)
+    {
+        this.userID = userID;
+        listener.start();
+    }
+
+    public void stopGettingNotifications()
+    {
+        this.userID = "";
+        listener.interrupt();
     }
 	
 
@@ -110,5 +132,10 @@ public class Client  {
     }
 
 
+    public List<String> askForNotifications()
+    {
+        List<String> notifications = sendToServer("Notifications|"+getUserID());
+        return notifications;
+    }
 }
 

@@ -62,7 +62,7 @@ leagueInSeason.addATeam(team0);
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add(leagueInSeason.getReferees().get(1));
         sideReferees.add(leagueInSeason.getReferees().get(2));
-        Game  game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
+        Game  game = new Game(Database.getDate(2020, 5, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
         List<Game> games=new LinkedList<>();
         games.add(game);
         leagueInSeason.setGames(games);
@@ -79,7 +79,7 @@ leagueInSeason.addATeam(team0);
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add(leagueInSeason.getReferees().get(1));
         sideReferees.add(leagueInSeason.getReferees().get(2));
-        Game  game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
+        Game  game = new Game(Database.getDate(2020, 5, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
         leagueInSeason.addGame(game);
         assertEquals(leagueInSeason.getGames().size(),1);
 
@@ -105,7 +105,7 @@ leagueInSeason.addATeam(team0);
         List<Referee> sideReferees = new LinkedList<>();
         sideReferees.add(leagueInSeason.getReferees().get(1));
         sideReferees.add(leagueInSeason.getReferees().get(2));
-        Game  game = new Game(new Date(120, 4, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
+        Game  game = new Game(Database.getDate(2020, 5, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
         leagueInSeason.addGame(game);
         assertNotNull(leagueInSeason.getGameById(game.getId()));
 

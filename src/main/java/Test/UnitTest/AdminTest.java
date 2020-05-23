@@ -33,7 +33,7 @@ public class AdminTest {
 
     @Test
     public void addNewPlayer() {
-    assertNotNull(admin.addNewPlayer("lionel","mesi","lmesi@gmail.com",new Date(99, 1, 1), Player.RolePlayer.attackingPlayer,300000));
+    assertNotNull(admin.addNewPlayer("lionel","mesi","lmesi@gmail.com",Database.getDate(1992, 1, 1), Player.RolePlayer.attackingPlayer,300000));
     }
 
     @Test

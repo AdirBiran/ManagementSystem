@@ -19,27 +19,31 @@ public class DataAccess {
 
 
         // Add Cell
-        dao.addCell("Complaints", "123456", "5.01.2001", "true", "text text text", "ididid");
+        //dao.addCell("Users", "12345", "first", "last", "a@b.com", "true", "goalkeeper", "history");
+
+        // Check if id exists
+        //System.out.println(dao.isIDExists("Users", "12345"));
+
 
         // Add value to existing cell's value
-        dao.addToExistingCellValue("Complaints", "Description", "123456", "GG");
+        //dao.addToExistingCellValue("Complaints", "Description", "123456", "GG");
 
         // Get Cell specific value
-        String val = dao.getCellValue("Complaints", "Description", "12345");
+        //String val = dao.getCellValue("Complaints", "Description", "12345");
 
         // Get Cell values (whole row)
-        List<String> res = dao.getAllCellValues("Complaints", "12345");
+        //List<String> res = dao.getAllCellValues("Complaints", "12345");
 
         // Get all table
-        List<String> res2 = dao.getAllTableValues("Complaints");
+        ///List<String> res2 = dao.getAllTableValues("Complaints");
 
         // Update cell to new value
-        dao.updateCellValue("Complaints", "Description", "12345", "new Value");
+        //dao.updateCellValue("Complaints", "Description", "12345", "new Value");
     }
 
     public DataAccess()
     {
-/*
+
         try
         {
             Class.forName(className);
@@ -50,7 +54,7 @@ public class DataAccess {
             e.printStackTrace();
         }
 
-*/
+
     }
 
     public List<String> getAllTableValues(String TableName)
@@ -243,7 +247,36 @@ public class DataAccess {
         return true;
     }
 
-    public Date stringToDate(String val)
+    public boolean isIDExists(String tableName, String id)
+    {
+        PreparedStatement ps = null;
+        int res = 0;
+
+        String statement = "SELECT COUNT(*) FROM " + tableName + " WHERE ID = ?";
+
+        try
+        {
+            ps = con.prepareStatement(statement);
+            ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+            res = rs.getInt(1);
+            closePS(ps);
+
+        }
+        catch (Exception e)
+        {
+            closePS(ps);
+            e.printStackTrace();
+        }
+
+        return res == 1;
+
+    }
+
+    private Date stringToDate(String val)
     {
         String[] split = val.split("\\.");
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -422,9 +455,6 @@ public class DataAccess {
                     con.close();
                 } catch (Exception e5) {}
         }
-
-
-        System.out.println("done");
 
 
     }

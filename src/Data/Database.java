@@ -2,6 +2,7 @@ package Data;
 import Domain.*;
 
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -39,6 +40,73 @@ public class Database //maybe generalize with interface? //for now red layer
         referees = new HashMap<>();
 
         dataAccess = new DataAccess();
+    }
+
+
+    public static Date getCurrentDate()
+    {
+        Date date = new Date();
+        return date;
+    }
+
+
+    public static Date getDate(int ... args)
+    {
+
+        int numOfArgs = args.length;
+        Calendar cal = Calendar.getInstance();
+        int year = getCurrentYear();
+        int month = getCurrentMonth();
+        int day = getCurrentDay();
+        int minutes = 0, hours = 0;
+        Date date;
+
+        switch (numOfArgs)
+        {
+
+            case 3:
+                year = args[0];
+                month = args[1] - 1;
+                day = args[2];
+                break;
+
+            case 5:
+                year = args[0];
+                month = args[1] - 1;
+                day = args[2];
+                hours = args[3];
+                minutes = args[4];
+                break;
+        }
+
+        cal.set(year, month, day, hours, minutes, 0);
+        date = new Date(cal.getTimeInMillis());
+        return date;
+
+    }
+
+    public static int getCurrentYear()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY");
+        Date date = getCurrentDate();
+        int year = Integer.parseInt(sdf.format(date));
+        return year;
+    }
+
+    public static int getCurrentMonth()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM");
+        Date date = getCurrentDate();
+        int month = Integer.parseInt(sdf.format(date));
+        return month;
+    }
+
+    public static int getCurrentDay()
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd");
+        Date date = getCurrentDate();
+        int day = Integer.parseInt(sdf.format(date));
+        return day;
     }
 
 
