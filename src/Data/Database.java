@@ -8,47 +8,18 @@ import java.util.*;
 
 public class Database //maybe generalize with interface? //for now red layer
 {
-    private static HashMap<String,String> mailsAndPasswords; //- <mail, encryptedPassword??>
-    private static HashMap<String,String> mailsAndUserID; //- <mail, userId>
-    private static HashMap<String,User> usersInDatabase; // - <userId,User>
-    private static HashMap<String, User> admins;
-    private static HashMap<String, PartOfATeam> assetsInDatabase;// - <asset.name, PartOfATeam>
-    private static HashMap<String, Game> gamesInDatabase; // - <game.id, Game>
-    private static HashMap<String, PersonalPage> pagesInDatabase;//-<userId, PersonalPage>
-    private static HashSet<League> leagues;
-    private static HashSet<Season> seasons;
-    private static HashMap<String, LeagueInSeason> leaguesInSeasons; //-<id, LeagueInSeason>
-    private static HashMap<String , Complaint> complaints; //-<complaintId, Complaint>
-    private static HashMap<String, Team> teams;
-    private static HashMap<User, Referee> referees;
 
     private static DataAccess dataAccess;
 
     public Database() {
-        mailsAndPasswords = new HashMap<>();
-        mailsAndUserID = new HashMap<>();
-        usersInDatabase = new HashMap<>();
-        assetsInDatabase = new HashMap<>();
-        gamesInDatabase = new HashMap<>();
-        pagesInDatabase = new HashMap<>();
-        leaguesInSeasons = new HashMap<>();
-        leagues = new HashSet<>();
-        seasons = new HashSet<>();
-        complaints = new HashMap<>();
-        teams = new HashMap<>();
-        admins = new HashMap<>();
-        referees = new HashMap<>();
-
         dataAccess = new DataAccess();
     }
-
 
     public static Date getCurrentDate()
     {
         Date date = new Date();
         return date;
     }
-
 
     public static Date getDate(int ... args)
     {
@@ -108,7 +79,6 @@ public class Database //maybe generalize with interface? //for now red layer
         int day = Integer.parseInt(sdf.format(date));
         return day;
     }
-
 
     public static boolean updateObject(Object object){
 
@@ -733,23 +703,25 @@ public class Database //maybe generalize with interface? //for now red layer
     returns true if this is the correct credentials and false otherwise
      */
     private static boolean authenticationCheck(String mail, String password){
-        if(mailsAndPasswords.containsKey(mail) && usersInDatabase.get(mailsAndUserID.get(mail)).isActive()){
+        /*if(mailsAndPasswords.containsKey(mail) && usersInDatabase.get(mailsAndUserID.get(mail)).isActive()){
             String encryptedPassword = encrypt(password);
             String passwordInSystem = mailsAndPasswords.get(mail);
             return passwordInSystem.equals(encryptedPassword);
         }
-        return false;
+        return false;*/
+        return true;
     }
     public static boolean changePassword(String mail,String oldPassword , String newPassword){
-        if(authenticationCheck(mail , oldPassword)) {
+       /* if(authenticationCheck(mail , oldPassword)) {
             if (mailsAndPasswords.containsKey(mail)) {
                 String encryptedPassword = encrypt(newPassword);
                 mailsAndPasswords.replace(mail, encryptedPassword);
                 return true;
             }
         }
-        return false;
+        return false;*/
 
+       return true;
     }
 
     public static String removeUser(String userId) {
@@ -816,7 +788,9 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static List<Team> getOpenTeams() {
         List<Team> openTeams = new LinkedList<>();
-        for(Team team : teams.values()){
+        List<Team> teams = getAllTeams();
+
+        for(Team team : teams){
             if(team.isActive() && !team.isPermanentlyClosed())
                 openTeams.add(team);
         }
@@ -825,7 +799,9 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static List<Team> getCloseTeams() {
         List<Team> closeTeams = new LinkedList<>();
-        for(Team team : teams.values()){
+        List<Team> teams = getAllTeams();
+
+        for(Team team : teams){
             if(team.isActive() && !team.isPermanentlyClosed())
                 closeTeams.add(team);
         }
@@ -925,13 +901,15 @@ public class Database //maybe generalize with interface? //for now red layer
                 return teamManager;
             case "TeamOwner":
                 user = getUser(object.get(0));
-               /* TeamOwner teamOwner = new TeamOwner(user,listOfTeams(object.get(1)),
+                TeamOwner teamOwner = new TeamOwner(user,listOfTeams(object.get(1)),
                         listOfTeams(object.get(2)),hashMapUserAndTeam(object.get(3)),
                         hashMapUserAndTeam(object.get(4)),
                         hashMapTeamAndPersonalPage(object.get(5)));
-            */    break;
+                return teamOwner;
             case "UnionRepresentative":
-                break;
+                user = getUser(object.get(0));
+                UnionRepresentative union = new UnionRepresentative(user);
+                return union;
             case "User":
                 user = new User(object.get(0) ,object.get(1),object.get(2),object.get(3),
                         stringToBoolean(object.get(4)) ,createListOfRoles(object.get(5) , object.get(0)),
@@ -941,6 +919,51 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return null;
 
+    }
+
+    private static HashMap<Team, PersonalPage> hashMapTeamAndPersonalPage(String personalPageForTeam) {
+        HashMap<Team ,PersonalPage> hashMapPersonalPageForTeam = new HashMap<>();
+        List<String> temp;
+        //appointmentTeamUser= userId:teamId,userId:teamId,..
+
+        /**
+         * after split =>
+         * appointments.get(0) = userId:teamId
+         * appointments.get(1) = userId:teamId
+         * ...
+         */
+        List<String> teamspersonalPage = split(personalPageForTeam);
+
+        for(String s : teamspersonalPage){
+            temp=splitHashMap(s);
+            Team team = getTeam(temp.get(0));
+            PersonalPage page = getPersonalPage(temp.get(1));
+            hashMapPersonalPageForTeam.put(team,page);
+        }
+        return hashMapPersonalPageForTeam;
+    }
+
+    private static HashMap<User, Team> hashMapUserAndTeam(String appointmentTeamUser)
+    {
+        HashMap<User ,Team> hashMapAppointmentTeamUser = new HashMap<>();
+        List<String> temp;
+        //appointmentTeamUser= userId:teamId,userId:teamId,..
+
+        /**
+         * after split =>
+         * appointments.get(0) = userId:teamId
+         * appointments.get(1) = userId:teamId
+         * ...
+         */
+        List<String> appointments = split(appointmentTeamUser);
+
+        for(String s : appointments){
+            temp=splitHashMap(s);
+            User user = getUser(temp.get(0));
+            Team team = getTeam(temp.get(1));
+            hashMapAppointmentTeamUser.put(user,team);
+        }
+        return hashMapAppointmentTeamUser;
     }
 
 
@@ -1205,7 +1228,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String s : fansAndAlerts){
             temp=splitHashMap(s);
             Fan fan = getFan(temp.get(0));
-            Boolean bool = Boolean.parseBoolean(temp.get(1));
+            Boolean bool = stringToBoolean(temp.get(1));
             hashMapFansForAlerts.put(fan,bool);
         }
         return hashMapFansForAlerts;

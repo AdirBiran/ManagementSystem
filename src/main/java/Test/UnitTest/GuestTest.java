@@ -27,7 +27,7 @@ public class GuestTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         guest = new Guest();
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Role pageRole = mesi.checkUserRole("HasPage");

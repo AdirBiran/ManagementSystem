@@ -29,7 +29,7 @@ public class SeasonInitiationTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
         UnionRep = UserFactory.getNewUnionRepresentative("aa", "bb", "aa@bb.com");
-        admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         accountingSystem = new ProxyAccountingSystem();
         accountingSystem.connect();
     }

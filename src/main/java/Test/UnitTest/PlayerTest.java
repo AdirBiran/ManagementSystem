@@ -21,7 +21,7 @@ public class PlayerTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         mesiU = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         mesi=(Player) mesiU.checkUserRole("Player");
     }

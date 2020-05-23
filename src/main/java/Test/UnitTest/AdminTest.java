@@ -23,7 +23,7 @@ public class AdminTest {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
     }
     @Test
     public void closeTeamPermanently() {

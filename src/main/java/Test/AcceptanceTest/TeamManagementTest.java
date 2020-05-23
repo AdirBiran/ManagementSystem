@@ -39,7 +39,7 @@ public class TeamManagementTest {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
         userTeamOwner= team.getTeamOwners().get(0);

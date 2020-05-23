@@ -395,7 +395,7 @@ public class Team extends Observable {
 
     private void updateAllSystemAdmins(String news) {
         for(Admin admin : Database.getAllAdmins()){
-            Admin adminRole = (User)admin.checkUserRole("Admin");
+            Admin adminRole = (Admin)admin.getUser().checkUserRole("Admin");
             if(adminRole instanceof Admin){
                 adminRole.update(this, news);
             }
