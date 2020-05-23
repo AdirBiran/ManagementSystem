@@ -51,7 +51,7 @@ public class Referee extends Role implements Observer {
     {
         Game game= Database.getGame(gameID);
         Team team = Database.getTeam(teamId);
-        Player player = (Player) Database.getAssetById(playerId);
+        Player player = Database.getPlayer(playerId);
         if(game!=null && team!=null && player!=null) {
             String description = player.getUser().getName() + " from team "+ team.getName();
             Event event = new Event(type, game, description);

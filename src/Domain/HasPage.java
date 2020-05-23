@@ -31,7 +31,7 @@ public class HasPage extends Role{
     }
 
     public String viewPage(String pageId) {
-        PersonalPage personalPage = Database.getPage(pageId);
+        PersonalPage personalPage = Database.getPersonalPage(pageId);
         if (personalPage!=null)
             return personalPage.toString();
         return null;

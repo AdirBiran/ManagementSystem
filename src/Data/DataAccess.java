@@ -276,7 +276,7 @@ public class DataAccess {
 
     }
 
-    private Date stringToDate(String val)
+    public Date stringToDate(String val)
     {
         String[] split = val.split("\\.");
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
@@ -459,8 +459,8 @@ public class DataAccess {
 
     }
 
-    public boolean isIDExists(String tableName, String id)
+   /* public boolean isIDExists(String tableName, String id)
     {
         return true;
-    }
+    }*/
 }

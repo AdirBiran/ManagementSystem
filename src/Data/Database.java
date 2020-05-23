@@ -925,11 +925,11 @@ public class Database //maybe generalize with interface? //for now red layer
                 return teamManager;
             case "TeamOwner":
                 user = getUser(object.get(0));
-                TeamOwner teamOwner = new TeamOwner(user,listOfTeams(object.get(1)),
+               /* TeamOwner teamOwner = new TeamOwner(user,listOfTeams(object.get(1)),
                         listOfTeams(object.get(2)),hashMapUserAndTeam(object.get(3)),
                         hashMapUserAndTeam(object.get(4)),
                         hashMapTeamAndPersonalPage(object.get(5)));
-                break;
+            */    break;
             case "UnionRepresentative":
                 break;
             case "User":

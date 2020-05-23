@@ -29,7 +29,7 @@ public class Fan extends Role implements Observer {
     }
 
     public boolean addPageToFollow(String pageId){
-        PersonalPage personalPage = Database.getPage(pageId);
+        PersonalPage personalPage = Database.getPersonalPage(pageId);
         if(!followPages.contains(personalPage)){
             followPages.add(personalPage);
             personalPage.addAFollower(this);

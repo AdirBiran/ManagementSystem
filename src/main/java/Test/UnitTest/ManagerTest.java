@@ -60,14 +60,14 @@ public class ManagerTest {
     @Test
     public void addFieldToTeam() {
         unionRole.addFieldToSystem("Tel-Aviv","Bloomfield", 10000, 150000);
-        Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(1);
+        Field field = (Field) Database.getAllFields().get(1);
         assertTrue(teamOwner.addFieldToTeam(field.getID(),team.getID()));
     }
 
     @Test
     public void removeFieldFromTeam() {
         unionRole.addFieldToSystem("Tel-Aviv","Bloomfield", 10000, 150000);
-        Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(1);
+        Field field = (Field) Database.getAllFields().get(1);
         teamOwner.addFieldToTeam(field.getID(), team.getID());
         assertTrue(teamOwner.removeFieldFromTeam(field.getID(),team.getID()));
     }
