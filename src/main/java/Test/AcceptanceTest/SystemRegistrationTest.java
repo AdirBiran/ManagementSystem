@@ -20,14 +20,15 @@ public class SystemRegistrationTest {
     @Before
     public void init()
     {
+        guestSystem=new GuestSystem();
         system = new FootballManagementSystem();
         system.systemInit(true);
     }
 
     @Test
     public void registrationSuccess_6() {
-        Guest guest = new Guest();
-        User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+
+        String user = guestSystem.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         assertNotNull(user);
 
     }
@@ -36,9 +37,8 @@ public class SystemRegistrationTest {
     @Test
     public void registrationFail_7()
     {
-        Guest guest = new Guest();
-        User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        User userFail= guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        String user = guestSystem.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        String userFail= guestSystem.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
 
        assertNull(userFail);
     }
@@ -46,8 +46,7 @@ public class SystemRegistrationTest {
     @Test
     public void registrationFail_8()
     {
-        Guest guest = new Guest();
-        User userFail= guest.register("fan@gmail.com", "1234", "fan", "fan", "0500001234", "yosef23");
+        String userFail=guestSystem.register("fan@gmail.com", "1234", "fan", "fan", "0500001234", "yosef23");
 
         assertNull(userFail);
     }
