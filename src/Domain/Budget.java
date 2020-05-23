@@ -18,6 +18,15 @@ public class Budget extends Observable {
         balance = 0;
     }
 
+    public Budget(double income,double expanses){
+        this.income=income;
+        this.expanses=expanses;
+        this.balance=income - expanses;
+    }
+
+
+    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+
     public boolean addIncome(double income) {
         if (income > 0) {
             this.income += income;

@@ -32,6 +32,9 @@ public class TeamOwner extends Manager implements Observer {
         this.personalPages = personalPages;
     }
 
+    public HashMap<Team, PersonalPage> getPersonalPages() {
+        return personalPages;
+    }
 
     public HashMap<User, Team> getAppointedTeamOwners() {
         return appointedTeamOwners;
