@@ -2026,16 +2026,17 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static boolean addAdmin(String password, User admin){
-        if(!dataAccess.isIDExists("Users" ,admin.getID())) {
+        if(!dataAccess.isIDExists("Admins" ,admin.getID())) {
 
             dataAccess.addCell("Admins", admin.getID());
 
-            dataAccess.addCell("Passwords", admin.getID() ,password);
+            //dataAccess.addCell("Passwords", admin.getID() ,password);
 
-            dataAccess.addCell("Users", admin.getID(), admin.getFirstName(),
+           /* dataAccess.addCell("Users", admin.getID(), admin.getFirstName(),
                     admin.getLastName(), admin.getMail(), "" + admin.isActive(),
                     listToString(admin.getStringRoles()), listToString(admin.getStringRoles()));
-            return true;
+           */
+           return true;
         }
         return false;
     }
@@ -2082,6 +2083,8 @@ public class Database //maybe generalize with interface? //for now red layer
         //add to User SQL Tables
         //and his Role to the correct taable: payler to Players
 
+        boolean flag = false;
+
         if(!dataAccess.isIDExists("Users",user.getID())){
 
             //users table
@@ -2101,32 +2104,40 @@ public class Database //maybe generalize with interface? //for now red layer
                 switch (role.myRole()){
                     case "Admin":
                         dataAccess.addCell("Admins",user.getID());
+                        flag=true;
                         break;
                     case "Coach":
                         addAsset((Coach)role);
+                        flag=true;
                         break;
                     case "Fan":
                         addFan((Fan)role);
+                        flag=true;
                         break;
                     case "Player":
                         addAsset((Player)role);
+                        flag=true;
                         break;
                     case "Referee":
+                        flag=true;
                         break;
                     case "TeamManager":
                         addTeamManager((TeamManager)role);
+                        flag=true;
                         break;
                     case "TeamOwner":
                         addTeamOwner((TeamOwner) role);
+                        flag=true;
                         break;
                     case "UnionRepresentative":
                         dataAccess.addCell("UnionRepresentatives", user.getID());
+                        flag=true;
                         break;
                 }
             }
         }
-        return false;
 
+        return flag;
     }
 
     public static boolean addAsset(PartOfATeam asset){
