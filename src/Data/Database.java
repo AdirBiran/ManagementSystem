@@ -745,7 +745,9 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
 
-    public static PartOfATeam getAsset(String assetId){
+    public static PartOfATeam getAsset(String type,String assetId){
+        //choose the asset by type
+
         //switch case: look for the id in: Player, coach, TM
 
         //תכלס יכולים להיות גם שניים עם אותה ID איך יודעים את מי להחזיר
@@ -838,6 +840,14 @@ public class Database //maybe generalize with interface? //for now red layer
         return userMail;*/
     }
 
+    public static void removeField(String assetId) {
+        Field field = getField(assetId);
+
+        if(field != null){
+            field.deactivate();
+            updateObject(field);
+        }
+    }
 
     public static void removeAsset(String assetId) {
         //לעבור על כל הטבלאות הרלוונטיות - שמחקן, מאמן מנהל קבוצה ומגרש
@@ -2097,6 +2107,7 @@ public class Database //maybe generalize with interface? //for now red layer
             String encryptPassword = encrypt(password);
             dataAccess.addCell("Passwords",user.getID() , encryptPassword);
 
+            flag = true;
             //every role table
             List<Role> userRoles = user.getRoles();
 

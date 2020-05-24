@@ -109,9 +109,9 @@ public abstract class Manager extends Role{
     /**
      * decide what actions we allow
      */
-    public boolean updateAsset(String assetId, String action, String update){
+    public boolean updateAsset(String type,String assetId, String action, String update){
 
-        PartOfATeam asset = Database.getAsset(assetId);
+        PartOfATeam asset = Database.getAsset(type,assetId);
         switch(action){
             case("Price"):{
                 asset.setPrice(Double.valueOf(update));

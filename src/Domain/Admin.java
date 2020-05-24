@@ -69,7 +69,7 @@ public class Admin extends Role implements Observer {
      * And removal of a Field*/
     public void removeField(Field field){
         if(field.getTeams().size() == 0){
-            Database.removeAsset(field.getID());
+            Database.removeField(field.getID());
         }
     }
 
