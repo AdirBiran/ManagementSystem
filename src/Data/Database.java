@@ -747,26 +747,17 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static PartOfATeam getAsset(String type,String assetId){
         //choose the asset by type
-
         //switch case: look for the id in: Player, coach, TM
 
-        //תכלס יכולים להיות גם שניים עם אותה ID איך יודעים את מי להחזיר
-        Player player = getPlayer(assetId);
-        Coach coach = getCoach(assetId);
-        TeamManager teamManager = getTeamManager(assetId);
-        Field field = getField(assetId);
-
-        if(player != null){
-            return player;
-        }
-        if(coach != null){
-           return coach;
-        }
-        if(teamManager != null){
-            return teamManager;
-        }
-        if(field != null){
-            return field;
+        switch (type){
+            case "Player":
+                return getPlayer(assetId);
+            case "Coach":
+                return getCoach(assetId);
+            case "TeamManager":
+                return getTeamManager(assetId);
+            case "Field":
+                return getField(assetId);
         }
 
         return null;
@@ -849,40 +840,39 @@ public class Database //maybe generalize with interface? //for now red layer
         }
     }
 
-    public static void removeAsset(String assetId) {
-        //לעבור על כל הטבלאות הרלוונטיות - שמחקן, מאמן מנהל קבוצה ומגרש
+    public static void removeAsset(String type ,String assetId) {
 
-        Player player = getPlayer(assetId);
-        Coach coach = getCoach(assetId);
-        TeamManager teamManager = getTeamManager(assetId);
-        Field field = getField(assetId);
-       /* List<Object> assets = new LinkedList<>();
-        assets.add(player);
-        assets.add(coach);
-        assets.add(teamManager);
-        assets.add(field);*/
-
-        User user = getUser(assetId);
-        //List<Role> userRoles = user.getRoles();
-        //האם התפקיד שהופכים ללא פעיל מוסר כבר בדומיין מרשימת התפקידים?
-
-        if(player != null){
-            player.deactivate();
-            updateObject(player);
+        switch (type){
+            case "Player":
+                Player player = getPlayer(assetId);
+                if(player != null) {
+                    player.deactivate();
+                    updateObject(player);
+                }
+                break;
+            case "Coach":
+                Coach coach = getCoach(assetId);
+                if(coach != null){
+                    coach.deactivate();
+                    updateObject(coach);
+                }
+                break;
+            case "TeamManager":
+                TeamManager teamManager = getTeamManager(assetId);
+                if(teamManager != null){
+                    teamManager.deactivate();
+                    updateObject(teamManager);
+                }
+                break;
+            case "Field":
+                Field field = getField(assetId);
+                if(field != null){
+                    field.deactivate();
+                    updateObject(field);
+                }
+                break;
         }
-        if(coach != null){
-            coach.deactivate();
-            updateObject(coach);
-        }
-        if(teamManager != null){
-            teamManager.deactivate();
-            updateObject(teamManager);
-        }
-        if(field != null){
-            field.deactivate();
-            updateObject(field);
-        }
-
+        
     }
 
     public static List<Object> searchObject(String searchWord){
