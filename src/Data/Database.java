@@ -1806,6 +1806,29 @@ public class Database //maybe generalize with interface? //for now red layer
         return allGames;
     }
 
+    public static List<GameAssignmentPolicy> getAllAssignmentsPolicies() {
+        List<GameAssignmentPolicy> allGameAssignments = new LinkedList<>();
+        GameAssignmentPolicy playOnce = new PlayOnceWithEachTeamPolicy();
+        GameAssignmentPolicy playTwice = new PlayTwiceWithEachTeamPolicy();
+
+        allGameAssignments.add(playOnce);
+        allGameAssignments.add(playTwice);
+
+        return allGameAssignments;
+    }
+
+    public static List<ScorePolicy> getAllScorePolicies() {
+        List<ScorePolicy> allScorePolicies = new LinkedList<>();
+
+        ScorePolicy cup = new CupScorePolicy();
+        ScorePolicy standard = new StandardScorePolicy();
+
+        allScorePolicies.add(cup);
+        allScorePolicies.add(standard);
+
+        return allScorePolicies;
+    }
+
 
     public static List<TeamManager> getAllTeamManagers() {
         List<String> teamManagers;
