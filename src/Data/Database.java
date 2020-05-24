@@ -909,11 +909,11 @@ public class Database //maybe generalize with interface? //for now red layer
         User user;
         switch (type){
             case "Admin":
-                user = getUser(object.get(0));
+                user = createUser(object.get(0));
                 Admin admin = new Admin(user);
                 return admin;
             case "Coach":
-                user = getUser(object.get(0));
+                user = createUser(object.get(0));
                 Coach coach = new Coach(user, getEnumTraining(object.get(1)) ,getEnumRole(object.get(2)), Integer.parseInt(object.get(3)));
                 return coach;
             case "Complaint":
@@ -929,7 +929,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 EventReport eventReport = new EventReport(object.get(0),listOfEvents(object.get(1)));
                 return eventReport;
             case "Fan":
-                user= getUser(object.get(0));
+                user= createUser(object.get(0));
                 Fan fan = new Fan(user , object.get(1),object.get(2) ,listOfPersonalPage(object.get(3)), listOfComplaints(object.get(4)));
                 return fan;
             case "Field":
@@ -955,18 +955,18 @@ public class Database //maybe generalize with interface? //for now red layer
                         listOfTeams(object.get(5)) , Double.parseDouble(object.get(6)) ,getScoreTableQueue(object.get(7)));
                 return leagueInSeason;
             case "PersonalPage":
-                user=getUser(object.get(1));
+                user=createUser(object.get(1));
                 PersonalPage personalPage = new PersonalPage(object.get(0),
                         user,object.get(2),listOfFans(object.get(3)));
                 return personalPage;
             case "Player":
-                user = getUser(object.get(0));
+                user = createUser(object.get(0));
                 Player player = new Player(user, dataAccess.stringToDate(object.get(1)),
                         teamHashSet(object.get(2)),object.get(3),
                         stringToBoolean(object.get(4)),Double.parseDouble(object.get(5)));
                 return player;
             case "Referee":
-                user = getUser(object.get(0));
+                user = createUser(object.get(0));
                 Referee referee = new Referee(user, object.get(1),
                         hashSetOfGames(object.get(2)));
                 return referee;
@@ -989,21 +989,21 @@ public class Database //maybe generalize with interface? //for now red layer
                         stringToBoolean(object.get(15)));
                 return team;
             case "TeamManager":
-                user = getUser(object.get(0));
+                user = createUser(object.get(0));
                 TeamManager teamManager = new TeamManager(user,
                         teamHashSet(object.get(1)),stringToBoolean(object.get(2)),
                         Double.parseDouble(object.get(3)),
                         stringToBoolean(object.get(4)),stringToBoolean(object.get(5)));
                 return teamManager;
             case "TeamOwner":
-                user = getUser(object.get(0));
+                user = createUser(object.get(0));
                 TeamOwner teamOwner = new TeamOwner(user,listOfTeams(object.get(1)),
                         listOfTeams(object.get(2)),hashMapUserAndTeam(object.get(3)),
                         hashMapUserAndTeam(object.get(4)),
                         hashMapTeamAndPersonalPage(object.get(5)));
                 return teamOwner;
             case "UnionRepresentative":
-                user = getUser(object.get(0));
+                user = createUser(object.get(0));
                 UnionRepresentative union = new UnionRepresentative(user);
                 return union;
             case "User":
@@ -1562,9 +1562,19 @@ public class Database //maybe generalize with interface? //for now red layer
         return null;
     }
 
+    private static User createUser(String userId){
+        if(dataAccess.isIDExists("Users" ,userId)) {
+            List<String> userString;
+            userString = dataAccess.getAllCellValues("Users", userId);
+            User user = new User(userString.get(1),userString.get(2),
+                    userString.get(0),userString.get(3));
+            return user;
+        }
+        return null;
+    }
 
     public static User getUser(String userId) {
-        if(dataAccess.isIDExists("UnionRepresentatives" ,userId)) {
+        if(dataAccess.isIDExists("Users" ,userId)) {
             List<String> user;
             user = dataAccess.getAllCellValues("Users", userId);
             return (User) createObject("User", user);

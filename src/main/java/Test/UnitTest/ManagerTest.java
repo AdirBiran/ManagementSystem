@@ -94,7 +94,7 @@ public class ManagerTest {
 
     @Test
     public void updateAsset() {
-        assertTrue(teamOwner.updateAsset(mesi.getID(),"Price","300000"));
+        assertTrue(teamOwner.updateAsset("Player",mesi.getID(),"Price","300000"));
     }
 
     @Test

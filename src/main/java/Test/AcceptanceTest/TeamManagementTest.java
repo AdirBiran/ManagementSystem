@@ -70,7 +70,7 @@ public class TeamManagementTest {
     {
         teamOwner.addTeam(team);
         teamManagementSystem.addAssetPlayer(userTeamOwner.getID(),mesiU.getID(),team.getID());
-        teamManagementSystem.updateAsset(userTeamOwner.getID(),mesiU.getID(),"Price","30");
+        //teamManagementSystem.updateAsset(userTeamOwner.getID(),mesiU.getID(),"Price","30");
 
     }
 

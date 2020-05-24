@@ -1098,12 +1098,14 @@ public class Server {
     }
 
     private void handle_updateAsset(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.updateAsset(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
+        /*boolean success = teamSystem.updateAsset(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
 
         if (success)
             sendLineToClient("Succeed updating asset", clientSocket);
         else
             sendLineToClient("Failed updating asset", clientSocket);
+            */
+        
     }
 
     private void handle_createTeam(String[] splitLine, Socket clientSocket) {
