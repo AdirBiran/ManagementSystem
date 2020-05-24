@@ -55,7 +55,7 @@ public class Referee extends Role implements Observer {
         Event event=game.getEventReport().gerEventById(eventID);
         if (event!=null && this.equals(game.getMainReferee())) {
             long time = new Date().getTime();
-            if(TimeUnit.DAYS.convert(Math.abs(time - game.getDate().getTime()), TimeUnit.MILLISECONDS)<=300) {
+            if(TimeUnit.DAYS.convert(Math.abs(time - game.getDate().getTime()), TimeUnit.MILLISECONDS)<=420) {
                 for (Event event1 : game.getEventReport().getEvents()) {
                     if (event1.getId().equals(event.getId())) {
                         event1.setDescription(change);

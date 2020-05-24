@@ -73,12 +73,12 @@ public class UnionRepresentativeSystem {
                 Referee.TrainingReferee trainingCoach= Referee.TrainingReferee.valueOf(training);
                 User appointedRef = ((UnionRepresentative) role).appointReferee(firstName, lastName, mail, trainingCoach);
 
-                if (appointedRef != null)
+                if (appointedRef != null) {
                     Logger.logEvent(user.getID(), "Appointed referee " + appointedRef.getID());
+                    return appointedRef.getID();
+                }
                 else
                     Logger.logError("Appointing Referee Failed");
-
-                return appointedRef.getID();
             }
         }
         return null;
