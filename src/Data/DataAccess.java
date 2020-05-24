@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -221,7 +222,7 @@ public class DataAccess {
                     ps.setBoolean(i+1, stringToBoolean(val));
 
                 else if (isDate(val))
-                    ps.setDate(i+1, stringToDate(val));
+                    ps.setDate(i+1, stringToDateSQL(val));
 
                 else if (isDouble(val))
                     ps.setDouble(i+1, Double.parseDouble(val));
@@ -276,15 +277,14 @@ public class DataAccess {
 
     }
 
-    public Date stringToDate(String val)
+    public Date stringToDateSQL(String st)
     {
-        String[] split = val.split("\\.");
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         java.sql.Date date = null;
 
         try
         {
-            date = new Date(sdf.parse(val).getTime());
+            date = new Date(sdf.parse(st).getTime());
         }
         catch (Exception e)
         {
@@ -293,6 +293,8 @@ public class DataAccess {
 
         return date;
     }
+
+
 
     public boolean isDouble(String s)
     {

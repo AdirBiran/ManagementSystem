@@ -277,9 +277,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got Teams");
                 return ((Manager)role).getStringTeams();
             }
         }
+        Logger.logError("Failed getting Teams");
         return null;
     }
 
@@ -288,9 +290,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("TeamOwner");
             if (role instanceof Admin) {
+                Logger.logEvent(user.getID(), "Got all Users");
                 role.getAllUsers();
             }
         }
+        Logger.logError("Failed getting all Users");
         return null;
     }
 
@@ -299,9 +303,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got all Players");
                 return ((Manager)role).getAllPlayers();
             }
         }
+        Logger.logError("Failed getting all Players");
         return null;
     }
 
@@ -310,9 +316,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got all Coaches");
                 return ((Manager)role).getAllCoaches();
             }
         }
+        Logger.logError("Failed getting all Coaches");
         return null;
     }
 
@@ -321,9 +329,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got all Fields");
                 return ((Manager)role).getAllFields();
             }
         }
+        Logger.logError("Failed getting all Fields");
         return null;
     }
 
@@ -332,9 +342,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got all Team Assets");
                 return ((Manager)role).getAllTeamAssets(teamId);
             }
         }
+        Logger.logError("Failed getting all Team Assets");
         return null;
     }
 
@@ -343,9 +355,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("TeamOwner");
             if (role instanceof TeamOwner) {
+                Logger.logEvent(user.getID(), "Got all Closed Teams");
                 return ((TeamOwner)role).getAllClosedTeam();
             }
         }
+        Logger.logError("Failed getting all Closed Teams");
         return null;
     }
 }

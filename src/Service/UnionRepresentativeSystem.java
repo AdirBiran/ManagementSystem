@@ -169,9 +169,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Changed game " + gameId + " date");
                 return ((UnionRepresentative)role).changeGameDate(gameId, newDate);
             }
         }
+        Logger.logError("Changing game's date Failed");
         return false;
     }
 
@@ -180,9 +182,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Changed game " + gameId + " location");
                 return ((UnionRepresentative)role).changeGameLocation(gameId, fieldId);
             }
         }
+        Logger.logError("Changing game's location Failed");
         return false;
     }
 
@@ -191,9 +195,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Added team " + teamId + " to league " + leagueId);
                 return  ((UnionRepresentative)role).addTeamToLeague(leagueId, teamId, proxyAccountingSystem);
             }
         }
+        Logger.logError("Adding team to league Failed");
         return false;
     }
 
@@ -208,6 +214,7 @@ public class UnionRepresentativeSystem {
                     Logger.logEvent(user.getID(), "Calculated league score");
             }
         }
+        Logger.logError("Calculating league's Failed");
         return false;
     }
 
@@ -223,6 +230,7 @@ public class UnionRepresentativeSystem {
                 }
             }
         }
+        Logger.logError("Calculating game's score Failed");
         return false;
     }
     public boolean changeRegistrationFee(String userId, String leagueId, double newFee)
@@ -238,6 +246,7 @@ public class UnionRepresentativeSystem {
                 }
             }
         }
+        Logger.logError("Changing registration fee Failed");
         return false;
     }
 
@@ -254,6 +263,7 @@ public class UnionRepresentativeSystem {
                 }
             }
         }
+        Logger.logError("Adding TUTU Payment Failed");
         return false;
     }
     public boolean addPaymentsFromTheTUTU(String userId, String teamName, String date ,double payment, ProxyAccountingSystem proxyAccountingSystem){
@@ -261,9 +271,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Added payments from TUTU");
                 return proxyAccountingSystem.addPayment(teamName, date, payment);
             }
         }
+        Logger.logError("Adding payments from TUTU Failed");
         return false;
     }
 
@@ -272,9 +284,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Added Field " + fieldName + " to system");
                 return ((UnionRepresentative)role).addFieldToSystem(location, fieldName, capacity, price);
             }
         }
+        Logger.logError("Adding field to system Failed");
         return false;
     }
 
@@ -284,10 +298,12 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Got registration fee");
                 return ((UnionRepresentative)role).getRegistrationFee(leagueId);
 
             }
         }
+        Logger.logError("Getting registration fee Failed");
         return -1;
     }
 
@@ -296,9 +312,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Got all Leagues in Seasons");
                 return ((UnionRepresentative) role).allLeaguesInSeasons();
             }
         }
+        Logger.logError("Getting all leagues in seasons Failed");
         return null;
     }
     public List<String> getAllLeagues(String userId){
@@ -306,9 +324,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Got all Leagues");
                 return ((UnionRepresentative) role).getAllLeagues();
             }
         }
+        Logger.logError("Getting all leagues Failed");
         return null;
     }
     public List<String> getAllSeasons(String userId){
@@ -316,9 +336,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Got all Seasons");
                 return ((UnionRepresentative) role).getAllSeasons();
             }
         }
+        Logger.logError("Getting all seasons Failed");
         return null;
     }
     public List<String> getAllScorePolicies(String userId){
@@ -326,9 +348,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Got all Score Policies");
                 return ((UnionRepresentative) role).getAllScorePolicies();
             }
         }
+        Logger.logError("Getting all score policies Failed");
         return null;
     }
 
@@ -337,9 +361,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Got all details of open teams");
                 return role.getAllDetailsAboutOpenTeams();
             }
         }
+        Logger.logError("Getting all details of open teams Failed");
         return null;
     }
 
@@ -348,9 +374,11 @@ public class UnionRepresentativeSystem {
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
+                Logger.logEvent(user.getID(), "Got all Open Teams");
                 return role.getAllOpenTeams();
             }
         }
+        Logger.logError("Getting all Open Teams Failed");
         return null;
     }
 
@@ -358,8 +386,10 @@ public class UnionRepresentativeSystem {
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof  UnionRepresentative ) {
+            Logger.logEvent(user.getID(), "Got all Past Games");
             return  ((UnionRepresentative)role).getAllPastGames();
         }
+        Logger.logError("Getting all Past Games Failed");
         return null;
     }
 
@@ -367,8 +397,10 @@ public class UnionRepresentativeSystem {
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof  UnionRepresentative ) {
+            Logger.logEvent(user.getID(), "Got all Referees");
             return ((UnionRepresentative)role).getAllReferees();
         }
+        Logger.logError("Getting all referees Failed");
         return null;
     }
 }

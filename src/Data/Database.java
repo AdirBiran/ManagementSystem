@@ -919,11 +919,11 @@ public class Database //maybe generalize with interface? //for now red layer
                 return coach;
             case "Complaint":
                 Complaint complaint = new Complaint(object.get(0),
-                        dataAccess.stringToDate(object.get(1)) ,stringToBoolean(object.get(2)),
+                        stringToDateJAVA(object.get(1)) ,stringToBoolean(object.get(2)),
                         object.get(3),getFan(object.get(4)));
                 return complaint;
             case "Event":
-                Event event = new Event(object.get(0) ,object.get(1) , dataAccess.stringToDate(object.get(2)),
+                Event event = new Event(object.get(0) ,object.get(1) , stringToDateJAVA(object.get(2)),
                         Double.parseDouble(object.get(3)) ,object.get(4));
                 return event;
             case "EventReport":
@@ -939,7 +939,7 @@ public class Database //maybe generalize with interface? //for now red layer
                         Double.parseDouble(object.get(6)));
                 return field;
             case "Game":
-                Game game = new Game(object.get(0),dataAccess.stringToDate(object.get(1)),
+                Game game = new Game(object.get(0),stringToDateJAVA(object.get(1)),
                         Integer.parseInt(object.get(2)) , Integer.parseInt(object.get(3)),
                         getField(object.get(4)) ,getReferee(object.get(5))
                         ,listOfReferees(object.get(6)),getTeam(object.get(7)), getTeam(object.get(8)),
@@ -962,7 +962,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 return personalPage;
             case "Player":
                 user = createUser(object.get(0));
-                Player player = new Player(user, dataAccess.stringToDate(object.get(1)),
+                Player player = new Player(user, stringToDateJAVA(object.get(1)),
                         teamHashSet(object.get(2)),object.get(3),
                         stringToBoolean(object.get(4)),Double.parseDouble(object.get(5)));
                 return player;
@@ -973,7 +973,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 return referee;
             case "Season":
                 Season season = new Season(object.get(0),Integer.parseInt(object.get(1)),
-                        dataAccess.stringToDate(object.get(2)),
+                        stringToDateJAVA(object.get(2)),
                         listOfLeagueInSeason(object.get(3)));
                 return season;
             case "Team":
@@ -1016,6 +1016,19 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return null;
 
+    }
+
+    private static java.util.Date stringToDateJAVA(String st) {
+        String[] split = st.split("\\.");
+        Calendar cal = Calendar.getInstance();
+
+        int year = Integer.parseInt(split[0]);
+        int month = Integer.parseInt(split[1]) - 1;
+        int day = Integer.parseInt(split[2]);
+
+        cal.set(year, month, day);
+        java.util.Date date = new java.util.Date(cal.getTimeInMillis());
+        return date;
     }
 
     private static HashMap<Team, PersonalPage> hashMapTeamAndPersonalPage(String personalPageForTeam) {
