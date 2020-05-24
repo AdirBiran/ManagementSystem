@@ -76,7 +76,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),1800, new Date(18,4,1));/////////////1800
+        representativeSystem.configureNewSeason(UnionRep.getID(),1800, new Date(18,4,1));
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "1800","PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 250);
 
