@@ -17,10 +17,6 @@ public class HasPage extends Role{
         Database.updateObject(this);
     }
 
-    public PersonalPage getPage() {
-        return page;
-    }
-
     @Override
     public boolean equals(Object obj) {
         return obj instanceof HasPage;
@@ -36,5 +32,9 @@ public class HasPage extends Role{
         if (personalPage!=null)
             return personalPage.toString();
         return null;
+    }
+
+    public PersonalPage getPage() {
+        return page;
     }
 }

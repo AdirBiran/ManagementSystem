@@ -3,7 +3,6 @@ package Domain;
 import Data.Database;
 import Logger.Logger;
 import Service.ProxyAccountingSystem;
-
 import java.util.*;
 
 public class UnionRepresentative extends Role implements Observer {
@@ -215,8 +214,8 @@ public class UnionRepresentative extends Role implements Observer {
 
     public List<String> getAllReferees() {
         List<String> referees = new LinkedList<>();
-        /*for (Referee referee : Database.getAllReferees())
-            referees.add(referee.toString());*/
+        for (Referee referee : Database.getAllReferees())
+            referees.add(referee.toString());
         return referees;
     }
 
@@ -230,19 +229,18 @@ public class UnionRepresentative extends Role implements Observer {
         return allLeagues;
     }
 
-
     public List<String> getAllScorePolicies() {
         List<String> scorePolicies= new LinkedList<>();
-        /*for(ScorePolicy s: Database.getAllScorePolicies()){
+        for(ScorePolicy s: Database.getAllScorePolicies()){
             scorePolicies.add(s.getName());
-        }*/
+        }
         return scorePolicies;
     }
     public List<String> getAllAssignmentsPolicies() {
         List<String> assignmentsPolicies= new LinkedList<>();
-       /* for(GameAssignmentPolicy a: Database.getAllAssignmentsPolicies()){
+        for(GameAssignmentPolicy a: Database.getAllAssignmentsPolicies()){
             assignmentsPolicies.add(a.getName());
-        }*/
+        }
         return assignmentsPolicies;
     }
     public static LinkedList<String> getAllPastGames(){

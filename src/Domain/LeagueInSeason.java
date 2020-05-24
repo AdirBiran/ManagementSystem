@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.*;
 
 public class LeagueInSeason {
@@ -49,53 +48,6 @@ public class LeagueInSeason {
         this.scoreTable = tableRecord;
     }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
-    public void changeRegistrationFee(double registrationFee) {
-        this.registrationFee = registrationFee;
-    }
-
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
-
-    public void addATeam(Team team) {
-        if(!teams.contains(team)){
-            teams.add(team);
-            team.addLeague(this);
-            Database.addTeam(team);
-        }
-
-    }
-
-    public void setGames(List<Game> games) {
-        this.games = games;
-        for (Game game : games)
-            Database.addGame(game);
-        Database.updateObject(this);
-    }
-
-    public void addGame(Game game) {
-        if(!games.contains(game))
-            games.add(game);
-    }
-
-    public Queue<ScoreTableRecord> getScoreTable() {
-        return scoreTable;
-    }
-
-    public Game getGameById(String gameId){
-        for(Game game: games){
-            if(game.getId().equals(gameId))
-                return game;
-        }
-        return null;
-    }
-
     public boolean addReferee(Referee referee) {
         if(!referees.contains(referee)){
             referees.add(referee);
@@ -125,12 +77,76 @@ public class LeagueInSeason {
         return false;
     }
 
-    public List<Referee> getReferees() {
-        return referees;
-    }
-
     public void addScoreTableRecord(ScoreTableRecord scoreTableRecord){
         scoreTable.add(scoreTableRecord);
+    }
+
+    public void changeRegistrationFee(double registrationFee) {
+        this.registrationFee = registrationFee;
+    }
+
+    public void addATeam(Team team) {
+        if(!teams.contains(team)){
+            teams.add(team);
+            team.addLeague(this);
+            Database.addTeam(team);
+        }
+
+    }
+
+    public void addGame(Game game) {
+        if(!games.contains(game))
+            games.add(game);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LeagueInSeason)) return false;
+        LeagueInSeason leagueInSeason = (LeagueInSeason) o;
+        return Objects.equals(this.league.getName(), leagueInSeason.league.getName()) &&
+                Objects.equals(this.league.getLevel(), leagueInSeason.league.getLevel()) &&
+                Objects.equals(this.season.getYear(), leagueInSeason.season.getYear());
+    }
+
+    @Override
+    public String toString() {
+        return "LeagueInSeason" +
+                ", league=" + league.getName() +
+                ", season=" + season.getYear();
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
+    public void setGames(List<Game> games) {
+        this.games = games;
+        for (Game game : games)
+            Database.addGame(game);
+        Database.updateObject(this);
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
+    public Queue<ScoreTableRecord> getScoreTable() {
+        return scoreTable;
+    }
+
+    public Game getGameById(String gameId){
+        for(Game game: games){
+            if(game.getId().equals(gameId))
+                return game;
+        }
+        return null;
+    }
+
+    public List<Referee> getReferees() {
+        return referees;
     }
 
     public GameAssignmentPolicy getAssignmentPolicy() {
@@ -161,46 +177,4 @@ public class LeagueInSeason {
         return id;
     }
 
-    public String getGamesId(){
-        String listOfId = "";
-        for (Game game: games) {
-            if(listOfId.equals("")){
-                listOfId = listOfId + game.getId();
-            }
-            else {
-                listOfId = listOfId + ","+game.getId();
-            }
-        }
-        return listOfId;
-    }
-
-    public String getRefereesId(){
-        String listOfId = "";
-        for (Referee referee: referees) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+referee.getUser().getID();
-            }
-            else {
-                listOfId = listOfId + ","+referee.getUser().getID();
-            }
-        }
-        return listOfId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof LeagueInSeason)) return false;
-        LeagueInSeason leagueInSeason = (LeagueInSeason) o;
-        return Objects.equals(this.league.getName(), leagueInSeason.league.getName()) &&
-                Objects.equals(this.league.getLevel(), leagueInSeason.league.getLevel()) &&
-                        Objects.equals(this.season.getYear(), leagueInSeason.season.getYear());
-    }
-
-    @Override
-    public String toString() {
-        return "LeagueInSeason" +
-                ", league=" + league.getName() +
-                ", season=" + season.getYear();
-    }
 }

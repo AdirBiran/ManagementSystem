@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
@@ -79,8 +78,6 @@ public class Team extends Observable {
         this.permanentlyClosed = isPermanentlyClosed;
     }
 
-
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     public boolean addLeague(LeagueInSeason league) {
         if(!leagues.contains(league)){
             this.leagues.add(league);
@@ -165,6 +162,29 @@ public class Team extends Observable {
         for(User user : teamOwners)
             printNames= printNames + user.getName() +",";
         return printNames;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+        if(active){
+            setChanged();
+            notifyObservers(new Date() + ": " + this.name + " is open");
+            updateAllSystemAdmins(new Date() + ": " + "team " + this.name + " open");
+        }
+        else {
+            setChanged();
+            notifyObservers(new Date() + ": " + this.name + " is closed");
+            updateAllSystemAdmins(new Date() + ": " + "team " + this.name + " closed");
+        }
+    }
+
+    private void updateAllSystemAdmins(String news) {
+        for(Admin admin : Database.getAllAdmins()){
+            Admin adminRole = (Admin)admin.getUser().checkUserRole("Admin");
+            if(adminRole instanceof Admin){
+                adminRole.update(this, news);
+            }
+        }
     }
 
     public void addAWin() {
@@ -322,6 +342,23 @@ public class Team extends Observable {
         return false;
     }
 
+    public boolean addField(Field field) {
+        if(!fields.contains(field)) {
+            fields.add(field);
+            Database.updateObject(this);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeField(Field field) {
+        if(fields.size()>1) {
+            fields.remove(field);
+            Database.updateObject(this);
+            return true;
+        }
+        return false;
+    }
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getName() {
         return name;
@@ -363,19 +400,6 @@ public class Team extends Observable {
         return budget;
     }
 
-    public String getGamesId(){
-        String listOfId = "";
-        for (Game game: games) {
-            if(listOfId.equals("")){
-                listOfId = listOfId + game.getId();
-            }
-            else {
-                listOfId = listOfId + ","+game.getId();
-            }
-        }
-        return listOfId;
-    }
-
     public List<Game> getGames() {
         return games;
     }
@@ -391,29 +415,6 @@ public class Team extends Observable {
 
     public boolean isActive() {
         return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-        if(active){
-            setChanged();
-            notifyObservers(new Date() + ": " + this.name + " is open");
-            updateAllSystemAdmins(new Date() + ": " + "team " + this.name + " open");
-        }
-        else {
-            setChanged();
-            notifyObservers(new Date() + ": " + this.name + " is closed");
-            updateAllSystemAdmins(new Date() + ": " + "team " + this.name + " closed");
-        }
-    }
-
-    private void updateAllSystemAdmins(String news) {
-        for(Admin admin : Database.getAllAdmins()){
-            Admin adminRole = (Admin)admin.getUser().checkUserRole("Admin");
-            if(adminRole instanceof Admin){
-                adminRole.update(this, news);
-            }
-        }
     }
 
     public boolean isPermanentlyClosed() {
@@ -434,27 +435,8 @@ public class Team extends Observable {
         return id;
     }
 
-
     public double getPrice() {
         return 0;
-    }
-
-    public boolean addField(Field field) {
-        if(!fields.contains(field)) {
-            fields.add(field);
-            Database.updateObject(this);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean removeField(Field field) {
-        if(fields.size()>1) {
-            fields.remove(field);
-            Database.updateObject(this);
-            return true;
-        }
-        return false;
     }
 
     public List<LeagueInSeason> getLeaguesInSeason() {

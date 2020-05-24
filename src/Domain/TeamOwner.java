@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.*;
 
 public class TeamOwner extends Manager implements Observer {
@@ -32,12 +31,22 @@ public class TeamOwner extends Manager implements Observer {
         this.personalPages = personalPages;
     }
 
-    public HashMap<User, Team> getAppointedTeamOwners() {
-        return appointedTeamOwners;
+    @Override
+    public String myRole() {
+        return "TeamOwner";
     }
 
-    public HashMap<User, Team> getAppointedTeamManagers() {
-        return appointedTeamManagers;
+    @Override
+    public String toString() {
+        return "TeamOwner" +
+                ", id=" + user.getID() +
+                ": name=" + user.getName();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(news);
     }
 
     public void addTeam(Team team)
@@ -62,7 +71,6 @@ public class TeamOwner extends Manager implements Observer {
     public void removeTeam(Team team) {
         teamsToManage.remove(team);
     }
-
 
     public boolean createTeam(User user , String teamName, List<String> playersId, List<String> coachesId, String fieldId){
         Role teamOwnerRole = user.checkUserRole("TeamOwner");
@@ -212,26 +220,10 @@ public class TeamOwner extends Manager implements Observer {
         return false;
     }
 
+    // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++
+
     public List<Team> getClosedTeams() {
         return closedTeams;
-    }
-
-    @Override
-    public String myRole() {
-        return "TeamOwner";
-    }
-
-    @Override
-    public String toString() {
-        return "TeamOwner" +
-                ", id=" + user.getID() +
-                ": name=" + user.getName();
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        String news = (String)arg;
-        user.addMessage(news);
     }
 
     public List<String> getAllClosedTeam() {
@@ -245,5 +237,13 @@ public class TeamOwner extends Manager implements Observer {
 
     public HashMap<Team, PersonalPage> getPersonalPages() {
         return personalPages;
+    }
+
+    public HashMap<User, Team> getAppointedTeamOwners() {
+        return appointedTeamOwners;
+    }
+
+    public HashMap<User, Team> getAppointedTeamManagers() {
+        return appointedTeamManagers;
     }
 }

@@ -1,8 +1,6 @@
 package Domain;
 
 import Data.Database;
-import Logger.Logger;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -148,6 +146,8 @@ public abstract class Manager extends Role{
         }
         return false;
     }
+
+    // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++
 
     public double getBalance(String teamId){
         Team team = Database.getTeam(teamId);

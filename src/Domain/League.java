@@ -37,13 +37,8 @@ public class League {
         this.leagueInSeasons = lis;
     }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     public void addLeagueInSeason(LeagueInSeason leagueInSeason){
         leagueInSeasons.add(leagueInSeason);
-    }
-
-    public List<LeagueInSeason> getLeagueInSeasons() {
-        return leagueInSeasons;
     }
 
     @Override
@@ -58,6 +53,8 @@ public class League {
                 "," + level;
     }
 
+    // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++
+
     public String getName() {
         return name;
     }
@@ -68,5 +65,9 @@ public class League {
 
     public String getId() {
         return id;
+    }
+
+    public List<LeagueInSeason> getLeagueInSeasons() {
+        return leagueInSeasons;
     }
 }

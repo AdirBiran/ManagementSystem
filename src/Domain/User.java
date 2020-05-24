@@ -2,7 +2,6 @@ package Domain;
 
 import Data.Database;
 import Service.NotificationSystem;
-
 import java.util.List;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
@@ -10,8 +9,7 @@ import java.util.regex.Pattern;
 
 public class User extends Guest {
 
-
-    private String ID; //unique id for system
+    private String ID;
     private String firstName;
     private String lastName;
     private String mail;
@@ -41,7 +39,6 @@ public class User extends Guest {
         this.isActive = true;
         this.roles = new LinkedList<>();
         this.searchHistory = new LinkedList<>();
-
     }
 
     public User(String id, String firstName, String lastName, String mail, boolean isActive, List<Role> roles, List<String> searchHistory)
@@ -54,7 +51,6 @@ public class User extends Guest {
         this.roles = roles;
         this.searchHistory = searchHistory;
         this.messageBox = new LinkedList<>();
-        //commit
     }
 
     public Role checkUserRole (String userRole) {
@@ -90,27 +86,14 @@ public class User extends Guest {
     }
 
     public boolean changePassword(String oldPassword, String newPassword){
-
         return Database.changePassword(this.mail, oldPassword, newPassword);
-    }
-
-    public void deactivate() {
-        isActive = false;
-    }
-
-    public void reactivate() {
-        isActive = true;
-    }
-
-    public boolean isActive() {
-        return isActive;
     }
 
     public void addMessage(String message){ /***/
         if(!(NotificationSystem.notifyUser(this, message))){
             if(message!=null)
                 messageBox.add(message);
-                //Database.addMessageToUser(this.ID, message);
+                Database.addMessageToUser(this.ID, message);
         }
     }
 
@@ -144,8 +127,6 @@ public class User extends Guest {
     public String getLastName() {
         return lastName;
     }
-
-
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -181,4 +162,17 @@ public class User extends Guest {
             myRoles.add(role.myRole());
         return myRoles;
     }
+
+    public void deactivate() {
+        isActive = false;
+    }
+
+    public void reactivate() {
+        isActive = true;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
 }

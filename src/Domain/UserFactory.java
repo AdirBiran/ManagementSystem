@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.*;
 
 public class UserFactory {

@@ -63,7 +63,7 @@ public class Budget extends Observable {
         balance = income - expanses;
     }
 
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+    // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++
 
     public double getBalance() {
         return balance;

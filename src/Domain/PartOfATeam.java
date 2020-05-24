@@ -4,7 +4,7 @@ import java.util.HashSet;
 
 public interface PartOfATeam {
 
-    String getID(); // - we need to think about uniqueId for the assets.
+    String getID();
     void deactivate();
     void reactivate();
     double getPrice();

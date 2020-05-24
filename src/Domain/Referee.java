@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -30,16 +29,6 @@ public class Referee extends Role implements Observer {
         this.games = games;
     }
 
-// ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-    public String getTraining() {
-        return training.toString();
-    }
-
-    public void setTraining(TrainingReferee training) {
-        this.training = training;
-        Database.updateObject(this);
-    }
-
     public void addGame(Game game) {
         this.games.add(game);
     }
@@ -60,15 +49,6 @@ public class Referee extends Role implements Observer {
             Database.updateObject(game);
         }
     }
-    /*
-    to edit get event report and edit it only Main referee can
-     */
-    public EventReport getEventReport(Game game){
-        if(this.equals(game.getMainReferee())){
-            return game.getEventReport();
-        }
-        return null;
-    }
 
     public boolean changeEvent(String gameID, String eventID, String change){
         Game game= Database.getGame(gameID);
@@ -86,6 +66,34 @@ public class Referee extends Role implements Observer {
             }
         }
         return false;
+    }
+
+    @Override
+    public String myRole() {
+        return "Referee";
+    }
+
+    @Override
+    public String toString() {
+        return "Referee" +
+                ", id="+user.getID()+
+                ": name="+user.getName()+
+                ", training=" + training;
+    }
+    @Override
+    public void update(Observable o, Object arg) {
+        if(!(arg instanceof Event))
+            user.addMessage((String)arg);
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
+    /*to edit get event report and edit it only Main referee can*/
+    public EventReport getEventReport(Game game){
+        if(this.equals(game.getMainReferee())){
+            return game.getEventReport();
+        }
+        return null;
     }
 
     public boolean setScoreInGame(String gameID,int hostScore, int guestScore)
@@ -111,19 +119,6 @@ public class Referee extends Role implements Observer {
         return gameReport;
     }
 
-    public String getGamesId(){
-        String listOfId = "";
-        for (Game game: games) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+game.getId();
-            }
-            else {
-                listOfId = listOfId + ","+game.getId();
-            }
-        }
-        return listOfId;
-    }
-
     public static LinkedList<String> getAllPastGames(){
         Date today = new Date();
         LinkedList<String> pastGames = new LinkedList<>();
@@ -143,21 +138,12 @@ public class Referee extends Role implements Observer {
         return null;
     }
 
-    @Override
-    public String myRole() {
-        return "Referee";
+    public String getTraining() {
+        return training.toString();
     }
 
-    @Override
-    public String toString() {
-        return "Referee" +
-                ", id="+user.getID()+
-                ": name="+user.getName()+
-                ", training=" + training;
-    }
-    @Override
-    public void update(Observable o, Object arg) {
-        if(!(arg instanceof Event))
-            user.addMessage((String)arg);
+    public void setTraining(TrainingReferee training) {
+        this.training = training;
+        Database.updateObject(this);
     }
 }
