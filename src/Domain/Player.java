@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -52,6 +54,7 @@ public class Player extends Role implements PartOfATeam {
 
     public void setRole(RolePlayer role) {
         this.roleInTeam = role;
+        Database.updateObject(this);
     }
 
     @Override
@@ -87,6 +90,7 @@ public class Player extends Role implements PartOfATeam {
     @Override
     public void removeTeam(Team team) {
         teams.remove(team);
+        Database.updateObject(this);
     }
 
     @Override

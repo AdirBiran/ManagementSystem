@@ -233,7 +233,6 @@ public class UserSystem extends GuestSystem {
         return null;
     }
 
-
     public String getRoleForPlayer(String userId) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
@@ -244,6 +243,7 @@ public class UserSystem extends GuestSystem {
         }
         return "";
     }
+
     public String getRoleForCoach(String userId) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {

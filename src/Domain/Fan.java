@@ -32,9 +32,8 @@ public class Fan extends Role implements Observer {
         PersonalPage personalPage = Database.getPersonalPage(pageId);
         if(!followPages.contains(personalPage)){
             followPages.add(personalPage);
+            Database.updateObject(this);
             personalPage.addAFollower(this);
-            //Database.updateObject(this);
-            //Database.updateObject(personalPage);
             return true;
         }
         return false;
@@ -44,7 +43,7 @@ public class Fan extends Role implements Observer {
         user.editPersonalInfo(firstName, lastName);
         this.address = address;
         this.phone = phone;
-        //Database.updateObject(this);
+        Database.updateObject(this);
     }
 
     public boolean registrationForGamesAlerts(List<String> gamesId , boolean receiveAlerts){
@@ -123,32 +122,6 @@ public class Fan extends Role implements Observer {
                 futureGames.add(game.toString());
         }
         return futureGames;
-    }
-
-    public String getComplaintsId(){
-        String listOfId = "";
-        for (Complaint comp: complaints) {
-            if(listOfId.equals("")){
-                listOfId = listOfId + comp.getId();
-            }
-            else {
-                listOfId = listOfId + ","+comp.getId();
-            }
-        }
-        return listOfId;
-    }
-
-    public String getfollowPagesId(){
-        String listOfId = "";
-        for (PersonalPage page: followPages) {
-            if(listOfId.equals("")){
-                listOfId = listOfId + page.getId();
-            }
-            else {
-                listOfId = listOfId + ","+page.getId();
-            }
-        }
-        return listOfId;
     }
 
     public String getAddress() {

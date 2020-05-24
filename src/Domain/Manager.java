@@ -15,7 +15,7 @@ public abstract class Manager extends Role{
     }
 
     public boolean addPlayerToTeam(String playerId, String teamId){
-        User player = ((Player)Database.getPlayer(playerId)).getUser();
+        User player = Database.getPlayer(playerId).getUser();
         Team team = Database.getTeam(teamId);
         if(player!=null && team!=null) {
             Role assetRole = player.checkUserRole("Player");
@@ -29,11 +29,11 @@ public abstract class Manager extends Role{
     }
 
     public boolean addCoachToTeam(String coachId, String teamId){
-        User coach = ((Coach)Database.getCoach(coachId)).getUser();
+        User coach = Database.getCoach(coachId).getUser();
         Team team = Database.getTeam(teamId);
         if(coach!=null && team!=null) {
             Role assetRole = coach.checkUserRole("Coach");
-            if (teamsToManage.contains(team)) {//
+            if (teamsToManage.contains(team)) {
                 if (team.getBudget().addExpanse(team, ((PartOfATeam) assetRole).getPrice())) {
                     return team.addCoach(coach);
                 }
@@ -43,11 +43,11 @@ public abstract class Manager extends Role{
     }
 
     public boolean addTeamManagerToTeam(String teamManagerId, String teamId, double price, boolean manageAssets , boolean finance) {
-        User teamManager = ((TeamManager)Database.getTeamManager(teamManagerId)).getUser();
+        User teamManager = Database.getTeamManager(teamManagerId).getUser();
         Team team = Database.getTeam(teamId);
         if(teamManager!=null && team!=null) {
             Role assetRole = teamManager.checkUserRole("TeamManager");
-            if (teamsToManage.contains(team)) {//
+            if (teamsToManage.contains(team)) {
                 if (team.getBudget().addExpanse(team, ((PartOfATeam) assetRole).getPrice())) {
                     return team.addTeamManager(teamManager, price, manageAssets, finance);
                 }
@@ -57,7 +57,7 @@ public abstract class Manager extends Role{
     }
 
     public boolean addFieldToTeam(String fieldId, String teamId){
-        Field field = ((Field)Database.getField(fieldId));
+        Field field = Database.getField(fieldId);
         Team team = Database.getTeam(teamId);
         if(field!=null && team!=null) {
             if (teamsToManage.contains(team)) {
@@ -69,7 +69,7 @@ public abstract class Manager extends Role{
         return false;
     }
     public boolean removeFieldFromTeam(String fieldId, String teamId){
-        Field field = ((Field)Database.getField(fieldId));
+        Field field = Database.getField(fieldId);
         Team team = Database.getTeam(teamId);
         if(field!=null && team!=null) {
             if (teamsToManage.contains(team) && team.getFields().contains(field)) {
@@ -81,7 +81,7 @@ public abstract class Manager extends Role{
     }
 
     public boolean removePlayerFormTeam(String playerId , String teamId){
-        User player = ((Player)Database.getPlayer(playerId)).getUser();
+        User player = Database.getPlayer(playerId).getUser();
         Team team = Database.getTeam(teamId);
         if(player!=null && team!=null) {
             if (teamsToManage.contains(team))
@@ -90,7 +90,7 @@ public abstract class Manager extends Role{
         return false;
     }
     public boolean removeCoachFormTeam(String coachId, String teamId){
-        User coach = ((Coach)Database.getCoach(coachId)).getUser();
+        User coach = Database.getCoach(coachId).getUser();
         Team team = Database.getTeam(teamId);
         if(coach!=null && team!=null) {
             if (teamsToManage.contains(team))
@@ -99,7 +99,7 @@ public abstract class Manager extends Role{
         return false;
     }
     public boolean removeTeamManagerFormTeam(String teamManagerId, String teamId) {
-        User teamManager = ((TeamManager)Database.getTeamManager(teamManagerId)).getUser();
+        User teamManager = Database.getTeamManager(teamManagerId).getUser();
         Team team = Database.getTeam(teamId);
         if(teamManager!=null && team!=null) {
             if (teamsToManage.contains(team))
@@ -117,6 +117,7 @@ public abstract class Manager extends Role{
         switch(action){
             case("Price"):{
                 asset.setPrice(Double.valueOf(update));
+                Database.updateObject(asset);
                 return true;
             }
         }
@@ -127,7 +128,10 @@ public abstract class Manager extends Role{
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             if (teamsToManage.contains(team)) {
-                return team.getBudget().addIncome(income);
+                if(team.getBudget().addIncome(income)) {
+                    Database.updateObject(this);
+                    return true;
+                }
             }
         }
         return false;
@@ -136,7 +140,10 @@ public abstract class Manager extends Role{
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             if (teamsToManage.contains(team)) {
-                return team.getBudget().addExpanse(team, expanse);
+                if(team.getBudget().addExpanse(team, expanse)){
+                    Database.updateObject(this);
+                    return true;
+                }
             }
         }
         return false;

@@ -14,6 +14,7 @@ public class HasPage extends Role{
     public void uploadToPage(String data)
     {
         page.addData(data);
+        Database.updateObject(this);
     }
 
     public PersonalPage getPage() {

@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
@@ -77,6 +79,7 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
     public void removeTeam(Team team) {
         teamsToManage.remove(team);
         teams.remove(team);
+        Database.updateObject(this);
     }
 
     @Override

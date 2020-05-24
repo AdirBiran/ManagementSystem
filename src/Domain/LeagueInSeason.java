@@ -76,6 +76,7 @@ public class LeagueInSeason {
         this.games = games;
         for (Game game : games)
             Database.addGame(game);
+        Database.updateObject(this);
     }
 
     public void addGame(Game game) {
@@ -98,6 +99,7 @@ public class LeagueInSeason {
     public boolean addReferee(Referee referee) {
         if(!referees.contains(referee)){
             referees.add(referee);
+            Database.updateObject(this);
             return true;
         }
         return false;
@@ -107,6 +109,7 @@ public class LeagueInSeason {
     public boolean changeScorePolicy(ScorePolicy policy) {
         if(season.getStartDate().after(new Date())&&policy!=null&& !scorePolicy.equals(policy)){
             this.scorePolicy = policy;
+            Database.updateObject(this);
             return true;
         }
 
@@ -116,6 +119,7 @@ public class LeagueInSeason {
     public boolean changeAssignmentPolicy(GameAssignmentPolicy policy) {
         if(season.getStartDate().after(new Date())&&policy!=null&&!assignmentPolicy.equals(policy)){
             this.assignmentPolicy=policy;
+            Database.updateObject(this);
             return true;
         }
         return false;

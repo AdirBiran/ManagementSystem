@@ -80,7 +80,6 @@ public class Game extends Observable {
             fansForAlerts.put(fan, toMail);
             this.addObserver(fan);
             Database.updateObject(this);
-
             return true;
         }
         return false;

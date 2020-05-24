@@ -241,18 +241,6 @@ public class UnionRepresentativeSystem {
         return false;
     }
 
-    public double getRegistrationFee(String userId,String leagueId)
-    {
-        User user = UserFactory.getUser(userId);
-        if(user!=null) {
-            Role role = user.checkUserRole("UnionRepresentative");
-            if (role instanceof UnionRepresentative) {
-                return ((UnionRepresentative)role).getRegistrationFee(leagueId);
-
-            }
-        }
-        return -1;
-    }
 
     public boolean addTUTUPayment(String userId, String teamId, double payment){
         User user = UserFactory.getUser(userId);
@@ -288,6 +276,19 @@ public class UnionRepresentativeSystem {
             }
         }
         return false;
+    }
+
+    public double getRegistrationFee(String userId,String leagueId)
+    {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                return ((UnionRepresentative)role).getRegistrationFee(leagueId);
+
+            }
+        }
+        return -1;
     }
 
     public List<String> allLeaguesInSeasons(String userId){

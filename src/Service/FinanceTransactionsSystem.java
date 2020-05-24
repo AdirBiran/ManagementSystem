@@ -68,6 +68,4 @@ public class FinanceTransactionsSystem
 
     }
 
-    //how union representative uses this functionality? no use case for this
-
 }

@@ -142,7 +142,7 @@ public class Database //maybe generalize with interface? //for now red layer
              * 	[EventsIDs] [varchar](max) NOT NULL,
              * */
 
-            ans2 = dataAccess.updateCellValue("EventReports","EventsIDs",((EventReport) object).getId() , ((EventReport) object).getEventsId());
+            ans2 = dataAccess.updateCellValue("EventReports","EventsIDs",((EventReport) object).getId() , getEventsId(((EventReport)object).getEvents()));
 
 
             return ans1 && ans2 && ans3 && ans4 ;
@@ -158,8 +158,8 @@ public class Database //maybe generalize with interface? //for now red layer
 
             ans2 = dataAccess.updateCellValue("Fans" ,"Address" , ((Fan)object).getUser().getID(),((Fan) object).getAddress() );
             ans3 = dataAccess.updateCellValue("Fans" ,"Phone" ,((Fan)object).getUser().getID() , ((Fan) object).getPhone());
-            ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(), ((Fan) object).getfollowPagesId());
-            ans4 = dataAccess.updateCellValue("Fans" ,"ComplaintsIDs" , ((Fan)object).getUser().getID(), ((Fan) object).getComplaintsId());
+            ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getUser().getID(),getFollowPagesId(((Fan) object).getFollowPages()));
+            ans4 = dataAccess.updateCellValue("Fans" ,"ComplaintsIDs" , ((Fan)object).getUser().getID(), getComplaintsId(((Fan) object).getComplaints()));
 
             return ans1 && ans2 && ans3 && ans4 && ans5;
         }
@@ -545,6 +545,46 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return listOfStrings;
 
+    }
+
+    public static String getComplaintsId(List <Complaint> complaints){
+        String listOfId = "";
+        for (Complaint comp: complaints) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + comp.getId();
+            }
+            else {
+                listOfId = listOfId + ","+comp.getId();
+            }
+        }
+        return listOfId;
+    }
+
+    public static String getFollowPagesId(List <PersonalPage> followPages){
+        String listOfId = "";
+        for (PersonalPage page: followPages) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + page.getId();
+            }
+            else {
+                listOfId = listOfId + ","+page.getId();
+            }
+        }
+        return listOfId;
+    }
+
+
+    public static String getEventsId(List<Event> events){
+        String listOfId = "";
+        for (Event event: events) {
+            if(listOfId.equals("")){
+                listOfId = listOfId + event.getId();
+            }
+            else {
+                listOfId = listOfId + ","+event.getId();
+            }
+        }
+        return listOfId;
     }
 
         private static Queue<ScoreTableRecord> getScoreTableQueue(String scoreTable) {
@@ -2084,8 +2124,8 @@ public class Database //maybe generalize with interface? //for now red layer
 
         if(!dataAccess.isIDExists("Fans", fan.getUser().getID())){
             dataAccess.addCell("Fans",fan.getUser().getID(),
-                    fan.getAddress() , fan.getPhone() , fan.getfollowPagesId(),
-                    fan.getComplaintsId());
+                    fan.getAddress() , fan.getPhone() , getFollowPagesId(fan.getFollowPages()),
+                    getComplaintsId(fan.getComplaints()));
             return true;
         }
         return false;

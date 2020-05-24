@@ -193,6 +193,8 @@ public class Team extends Observable {
             }
             this.addObserver(teamOwner);
             teamOwner.update(this, new Date() + ": " + "You've added a team owner appointment to team " +this.getName());
+            Database.updateObject(this);
+            Database.updateObject(teamOwner);
             return true;
         }
         return false;
@@ -212,6 +214,8 @@ public class Team extends Observable {
             }
             this.addObserver(teamManager);
             teamManager.update(this, new Date() + ": " + "You've added a team manager appointment to team " +this.getName());
+            Database.updateObject(this);
+            Database.updateObject(teamManager);
             return true;
         }
         return false;
@@ -227,6 +231,8 @@ public class Team extends Observable {
                 }
                 this.players.add(user);
                 player.addTeam(this);
+                Database.updateObject(this);
+                Database.updateObject(player);
                 return true;
             }
         }
@@ -249,6 +255,8 @@ public class Team extends Observable {
             if(coach!=null){
                 this.coaches.add(user);
                 coach.addTeam(this);
+                Database.updateObject(this);
+                Database.updateObject(coach);
                 return true;
             }
         }
@@ -271,6 +279,8 @@ public class Team extends Observable {
             teamOwnerRole.removeTeam(this);
             teamOwnerRole.update(this, new Date() + ": " + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamOwnerRole);
+            Database.updateObject(this);
+            Database.updateObject(teamOwnerRole);
             return true;
         }
         return false;
@@ -283,6 +293,8 @@ public class Team extends Observable {
             teamManagerRole.removeTeam(this);
             teamManagerRole.update(this, new Date() + ": " + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamManagerRole);
+            Database.updateObject(this);
+            Database.updateObject(teamManagerRole);
             return true;
         }
         return false;
@@ -293,6 +305,7 @@ public class Team extends Observable {
             Role role = player.checkUserRole("Player");
             ((Player)role).removeTeam(this);
             this.players.remove(player);
+            Database.updateObject(this);
             return true;
         }
         return false;
@@ -303,6 +316,7 @@ public class Team extends Observable {
             Role role = coach.checkUserRole("Coach");
             ((Coach)role).removeTeam(this);
             this.coaches.remove(coach);
+            Database.updateObject(this);
             return true;
         }
         return false;
@@ -428,6 +442,7 @@ public class Team extends Observable {
     public boolean addField(Field field) {
         if(!fields.contains(field)) {
             fields.add(field);
+            Database.updateObject(this);
             return true;
         }
         return false;
@@ -436,6 +451,7 @@ public class Team extends Observable {
     public boolean removeField(Field field) {
         if(fields.size()>1) {
             fields.remove(field);
+            Database.updateObject(this);
             return true;
         }
         return false;

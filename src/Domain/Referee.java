@@ -37,10 +37,10 @@ public class Referee extends Role implements Observer {
 
     public void setTraining(TrainingReferee training) {
         this.training = training;
+        Database.updateObject(this);
     }
 
     public void addGame(Game game) {
-
         this.games.add(game);
     }
 
@@ -57,6 +57,7 @@ public class Referee extends Role implements Observer {
             Event event = new Event(type, game, description);
             game.getEventReport().addEvent(event);
             game.setNewsFromReferee(event.createMessage());
+            Database.updateObject(game);
         }
     }
     /*
@@ -78,6 +79,7 @@ public class Referee extends Role implements Observer {
                 for (Event event1 : game.getEventReport().getEvents()) {
                     if (event1.getId().equals(event.getId())) {
                         event1.setDescription(change);
+                        Database.updateObject(game);
                         return true;
                     }
                 }
@@ -94,6 +96,7 @@ public class Referee extends Role implements Observer {
             game.setHostScore(hostScore);
             String message = game.getName()+": "+ game.getHostTeam()+": "+hostScore+"-"+game.getGuestTeam()+": "+guestScore;
             game.setNewsFromReferee(message);
+            Database.updateObject(game);
             return true;
         }
         return false;

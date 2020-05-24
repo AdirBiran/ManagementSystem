@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.HashSet;
 
 public class Coach extends Role implements PartOfATeam {
@@ -58,6 +60,7 @@ public class Coach extends Role implements PartOfATeam {
     @Override
     public void removeTeam(Team team) {
         teams.remove(team);
+        Database.updateObject(this);
     }
 
     @Override
@@ -97,10 +100,12 @@ public class Coach extends Role implements PartOfATeam {
 
     public void setTraining(TrainingCoach training) {
         this.training = training;
+        Database.updateObject(this);
     }
 
     public void setRoleInTeam(RoleCoach roleInTeam) {
         this.roleInTeam = roleInTeam;
+        Database.updateObject(this);
     }
 
     @Override

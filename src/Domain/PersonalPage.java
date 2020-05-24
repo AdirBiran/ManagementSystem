@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.List;
 import java.util.LinkedList;
 
@@ -53,6 +55,7 @@ public class PersonalPage {
     public void addAFollower(Fan follower) {
         if(!followers.contains(follower)){
             followers.add(follower);
+            Database.updateObject(this);
             follower.addPageToFollow(this.getId());
         }
     }

@@ -42,16 +42,4 @@ public class EventReport {
         return null;
     }
 
-    public String getEventsId(){
-        String listOfId = "";
-        for (Event event: events) {
-            if(listOfId.equals("")){
-                listOfId = listOfId + event.getId();
-            }
-            else {
-                listOfId = listOfId + ","+event.getId();
-            }
-        }
-        return listOfId;
-    }
 }

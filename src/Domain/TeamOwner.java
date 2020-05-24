@@ -42,8 +42,9 @@ public class TeamOwner extends Manager implements Observer {
 
     public void addTeam(Team team)
     {
-        if(!teamsToManage.contains(team))
+        if(!teamsToManage.contains(team)) {
             teamsToManage.add(team);
+        }
     }
 
     public void addTeamPersonalPage(Team team , PersonalPage personalPage){
@@ -105,6 +106,7 @@ public class TeamOwner extends Manager implements Observer {
                     ((TeamOwner) teamOwnerRole).addTeam(team);
                     team.addTeamOwner(user);
                     appointedTeamOwners.put(user, team);
+                    Database.updateObject(this);
                     return true;
                 }
             }
@@ -124,6 +126,7 @@ public class TeamOwner extends Manager implements Observer {
                     }
                     team.addTeamManager(user, price, manageAssets, finance);
                     appointedTeamManagers.put(user, team);
+                    Database.updateObject(this);
                     return true;
                 }
             }
@@ -141,6 +144,7 @@ public class TeamOwner extends Manager implements Observer {
                     team.removeTeamOwner(user);
                     if (teamOwnerRole.getTeamsToManage().size() == 0)
                         user.getRoles().remove(teamOwnerRole);
+                    Database.updateObject(this);
                     return true;
                 }
             }
@@ -157,6 +161,7 @@ public class TeamOwner extends Manager implements Observer {
                     this.appointedTeamManagers.remove(user);
                     if (teamManagerRole.getTeamsToManage().size() == 0)
                         user.getRoles().remove(teamManagerRole);
+                    Database.updateObject(this);
                     return true;
                 }
             }
@@ -185,6 +190,8 @@ public class TeamOwner extends Manager implements Observer {
                 team.setActive(false);
                 teamsToManage.remove(team);
                 closedTeams.add(team);
+                Database.updateObject(this);
+                Database.updateObject(team);
                 return true;
             }
         }
@@ -197,6 +204,8 @@ public class TeamOwner extends Manager implements Observer {
                 team.setActive(true);
                 closedTeams.remove(team);
                 teamsToManage.add(team);
+                Database.updateObject(this);
+                Database.updateObject(team);
                 return true;
             }
         }
