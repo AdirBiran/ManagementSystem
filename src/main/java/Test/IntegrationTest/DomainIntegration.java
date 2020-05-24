@@ -48,11 +48,7 @@ public class DomainIntegration {
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin().checkUserRole("Admin");
         userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
-       // teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
         userTeamOwner= team.getTeamOwners().get(0);
-       // mesiU = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
-        //mesi=(Player) mesiU.checkUserRole("Player");
-       // manager=admin.addNewTeamManager("Maor","Buzaglo","maor@gmail.com",3000,true,true);
     }
 
     @Test
@@ -160,26 +156,25 @@ public class DomainIntegration {
         assertNull(ref2);
     }
 
-   /* @Test
+    @Test
     public void UserManagement_Test()
     {
+        Guest guest = new Guest();
+        User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        String userID=guestSystem.logIn("fan@gmail.com","Aa1234");
+        assertNotNull(userID);
 
-        Fan fan = new Fan("a@b.com", "first", "last", "012345789", "israel");
-        system.getDatabase().addUser("00000", fan);
-        User user = userManager.logInUserToSystem("a@b.com", "00000");
-        assertNotNull(user);
-
-        User user2 = userManager.logInUserToSystem("testFail@Gmail.com", "12345");
+        String user2=guestSystem.logIn("fan2@gmail.com","Aa1234");
         assertNull(user2);
 
-        boolean success = userManager.registrationToSystem("a@b.com", "11111", "first", "last", "012345789", "israel");
-        assertFalse(success);
+        User user3 = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        assertNull(user3);
 
-        success = userManager.registrationToSystem("abc@b.com", "11111", "first", "last", "012345789", "israel");
-        assertTrue(success);
+        User user4 = guest.register("fan4@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        assertNotNull(user4);
 
     }
 
 
-*/
+
 }
