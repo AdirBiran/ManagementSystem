@@ -872,7 +872,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 }
                 break;
         }
-        
+
     }
 
     public static List<Object> searchObject(String searchWord){
