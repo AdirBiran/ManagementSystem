@@ -173,14 +173,14 @@ public class TeamManagementSystem {
         return false;
     }
 
-    public boolean updateAsset(String userId, String assetId, String action, String update){
+    public boolean updateAsset(String userId,String assetType, String assetId, String action, String update){
         User user = UserFactory.getUser(userId);
         if (user != null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
                 if (role.myRole().equals("TeamManager") && !((TeamManager) role).isPermissionManageAssets())
                     return false;
-                boolean success = ((Manager) role).updateAsset(assetId, action, update);
+                boolean success = ((Manager) role).updateAsset(assetType, assetId, action, update);
 
                 if (success)
                     Logger.logEvent(user.getID(), "Updated asset " + assetId);
