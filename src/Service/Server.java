@@ -340,10 +340,6 @@ public class Server {
                         handle_addAssetCoach(splitLine, clientSocket);
                         break;
 
-                    case "addAssetTeamManager": // Done
-                        handle_addAssetTeamManager(splitLine, clientSocket);
-                        break;
-
                     case "addField": // Done
                         handle_addField(splitLine, clientSocket);
                         break;
@@ -358,10 +354,6 @@ public class Server {
 
                     case "removeAssetCoach": // Done
                         handle_removeAssetCoach(splitLine, clientSocket);
-                        break;
-
-                    case "removeAssetTeamManager": // Done
-                        handle_removeAssetTeamManager(splitLine, clientSocket);
                         break;
 
                     case "updateAsset": // Done
@@ -1043,15 +1035,6 @@ public class Server {
             sendLineToClient("Failed adding a Coach to team", clientSocket);
     }
 
-    private void handle_addAssetTeamManager(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.addAssetTeamManager(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), stringToBoolean(splitLine[5]), stringToBoolean(splitLine[6]));
-
-        if (success)
-            sendLineToClient("Succeed adding a Team Manager to team", clientSocket);
-        else
-            sendLineToClient("Failed adding a Team Manager to team", clientSocket);
-    }
-
     private void handle_addField(String[] splitLine, Socket clientSocket) {
         boolean success = teamSystem.addField(splitLine[1], splitLine[2], splitLine[3]);
 
@@ -1086,15 +1069,6 @@ public class Server {
             sendLineToClient("Succeed removing a Coach from team", clientSocket);
         else
             sendLineToClient("Failed removing a Coach from team", clientSocket);
-    }
-
-    private void handle_removeAssetTeamManager(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.removeAssetTeamManager(splitLine[1], splitLine[2], splitLine[3]);
-
-        if (success)
-            sendLineToClient("Succeed removing a Team Manager from team", clientSocket);
-        else
-            sendLineToClient("Failed removing a Team Manager from team", clientSocket);
     }
 
     private void handle_updateAsset(String[] splitLine, Socket clientSocket) {

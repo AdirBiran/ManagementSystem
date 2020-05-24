@@ -53,26 +53,6 @@ public class TeamManagementSystem {
         return false;
     }
 
-    public boolean addAssetTeamManager(String userId, String assetId, String teamId, double price, boolean manageAssets , boolean finance){
-        User user = UserFactory.getUser(userId);
-        if (user != null) {
-            Role role = user.checkUserRole("Team");
-            if (role instanceof Manager) {
-                if (role.myRole().equals("TeamManager") && !((TeamManager) role).isPermissionManageAssets())
-                    return false;
-                boolean success = ((Manager) role).addTeamManagerToTeam(assetId, teamId, price, manageAssets, finance);
-
-                if (success)
-                    Logger.logEvent(user.getID(), "Added TeamManager " + assetId + " to Team " + teamId);
-                else
-                    Logger.logError("Adding TeamManager to team Failed");
-
-                return success;
-            }
-        }
-        return false;
-    }
-
     public boolean addField(String userId, String assetId , String teamId){
         User user = UserFactory.getUser(userId);
         if (user != null) {
@@ -147,25 +127,6 @@ public class TeamManagementSystem {
                     Logger.logEvent(user.getID(), "Removed Coach " + assetId + " from Team " + teamId);
                 else
                     Logger.logError("Removing Coach from team Failed");
-
-                return success;
-            }
-        }
-        return false;
-    }
-    public boolean removeAssetTeamManager(String userId, String assetId, String teamId){
-        User user = UserFactory.getUser(userId);
-        if (user != null) {
-            Role role = user.checkUserRole("Team");
-            if (role instanceof Manager) {
-                if (role.myRole().equals("TeamManager") && !((TeamManager) role).isPermissionManageAssets())
-                    return false;
-                boolean success = ((Manager) role).removeTeamManagerFormTeam(assetId, teamId);
-
-                if (success)
-                    Logger.logEvent(user.getID(), "Removed TeamManager " + assetId + " from Team " + teamId);
-                else
-                    Logger.logError("Removing TeamManager from team Failed");
 
                 return success;
             }

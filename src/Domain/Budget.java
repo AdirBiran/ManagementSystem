@@ -44,7 +44,7 @@ public class Budget extends Observable {
             if (balance < 0) {
                 this.expanses -= expense;
                 updateBalance();
-                updateAllUnionRep(new Date() + "The team: "+team.getName()+" has exceeded its budget");
+                updateAllUnionRep(Database.getCurrentDate() + "The team: "+team.getName()+" has exceeded its budget");
                 return false;
             } else
                 return true;

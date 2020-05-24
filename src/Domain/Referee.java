@@ -54,7 +54,7 @@ public class Referee extends Role implements Observer {
         Game game= Database.getGame(gameID);
         Event event=game.getEventReport().gerEventById(eventID);
         if (event!=null && this.equals(game.getMainReferee())) {
-            long time = new Date().getTime();
+            long time = Database.getCurrentDate().getTime();
             if(TimeUnit.DAYS.convert(Math.abs(time - game.getDate().getTime()), TimeUnit.MILLISECONDS)<=420) {
                 for (Event event1 : game.getEventReport().getEvents()) {
                     if (event1.getId().equals(event.getId())) {
@@ -120,7 +120,7 @@ public class Referee extends Role implements Observer {
     }
 
     public static LinkedList<String> getAllPastGames(){
-        Date today = new Date();
+        Date today = Database.getCurrentDate();
         LinkedList<String> pastGames = new LinkedList<>();
         for(Game game : Database.getAllGames()){
             if(today.after(game.getDate()))
@@ -130,7 +130,7 @@ public class Referee extends Role implements Observer {
     }
 
     public String getAllOccurringGame() {
-        long time = new Date().getTime();
+        long time = Database.getCurrentDate().getTime();
         for(Game game : Database.getAllGames()){
             if(TimeUnit.DAYS.convert(Math.abs(time - game.getDate().getTime()), TimeUnit.MILLISECONDS)<=120)
                 return game.toString();

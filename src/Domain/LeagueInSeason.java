@@ -59,7 +59,7 @@ public class LeagueInSeason {
     }
 
     public boolean changeScorePolicy(ScorePolicy policy) {
-        if(season.getStartDate().after(new Date())&&policy!=null&& !scorePolicy.equals(policy)){
+        if(season.getStartDate().after(Database.getCurrentDate())&&policy!=null&& !scorePolicy.equals(policy)){
             this.scorePolicy = policy;
             Database.updateObject(this);
             return true;
@@ -69,7 +69,7 @@ public class LeagueInSeason {
     }
 
     public boolean changeAssignmentPolicy(GameAssignmentPolicy policy) {
-        if(season.getStartDate().after(new Date())&&policy!=null&&!assignmentPolicy.equals(policy)){
+        if(season.getStartDate().after(Database.getCurrentDate())&&policy!=null&&!assignmentPolicy.equals(policy)){
             this.assignmentPolicy=policy;
             Database.updateObject(this);
             return true;

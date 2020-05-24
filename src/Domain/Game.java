@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.*;
 
 public class Game extends Observable {
@@ -87,7 +86,7 @@ public class Game extends Observable {
 
     public void setNews(String news) {
         setChanged();
-        news = "New Alert for game "+this.name+":\n"+ new Date() + ": " + news;
+        news = "New Alert for game "+this.name+":\n"+ Database.getCurrentDate() + ": " + news;
         notifyObservers(news);
         sendMailToFan(news);
     }

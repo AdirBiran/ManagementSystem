@@ -109,7 +109,7 @@ public class UnionRepresentative extends Role implements Observer {
 
     public boolean changeGameDate(String gameId, Date newDate) {
         Game game = Database.getGame(gameId);
-        if(game.getDate().after(new Date())) {
+        if(game.getDate().after(Database.getCurrentDate())) {
             game.setDate(newDate);
             Database.updateObject(game);
             return true;
@@ -244,7 +244,7 @@ public class UnionRepresentative extends Role implements Observer {
         return assignmentsPolicies;
     }
     public static LinkedList<String> getAllPastGames(){
-        Date today = new Date();
+        Date today = Database.getCurrentDate();
         LinkedList<String> pastGames = new LinkedList<>();
         for(Game game : Database.getAllGames()){
             if(today.after(game.getDate()))

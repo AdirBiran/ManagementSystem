@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-import java.util.Date;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -168,13 +167,13 @@ public class Team extends Observable {
         this.active = active;
         if(active){
             setChanged();
-            notifyObservers(new Date() + ": " + this.name + " is open");
-            updateAllSystemAdmins(new Date() + ": " + "team " + this.name + " open");
+            notifyObservers(Database.getCurrentDate() + ": " + this.name + " is open");
+            updateAllSystemAdmins(Database.getCurrentDate() + ": " + "team " + this.name + " open");
         }
         else {
             setChanged();
-            notifyObservers(new Date() + ": " + this.name + " is closed");
-            updateAllSystemAdmins(new Date() + ": " + "team " + this.name + " closed");
+            notifyObservers(Database.getCurrentDate() + ": " + this.name + " is closed");
+            updateAllSystemAdmins(Database.getCurrentDate() + ": " + "team " + this.name + " closed");
         }
     }
 
@@ -212,7 +211,7 @@ public class Team extends Observable {
                 user.addRole(teamOwner);
             }
             this.addObserver(teamOwner);
-            teamOwner.update(this, new Date() + ": " + "You've added a team owner appointment to team " +this.getName());
+            teamOwner.update(this, Database.getCurrentDate() + ": " + "You've added a team owner appointment to team " +this.getName());
             Database.updateObject(this);
             Database.updateObject(teamOwner);
             return true;
@@ -233,7 +232,7 @@ public class Team extends Observable {
                 user.addRole(teamManager);
             }
             this.addObserver(teamManager);
-            teamManager.update(this, new Date() + ": " + "You've added a team manager appointment to team " +this.getName());
+            teamManager.update(this, Database.getCurrentDate() + ": " + "You've added a team manager appointment to team " +this.getName());
             Database.updateObject(this);
             Database.updateObject(teamManager);
             return true;
@@ -297,7 +296,7 @@ public class Team extends Observable {
             teamOwners.remove(teamOwner);
             TeamOwner teamOwnerRole = (TeamOwner) teamOwner.checkUserRole("TeamOwner");
             teamOwnerRole.removeTeam(this);
-            teamOwnerRole.update(this, new Date() + ": " + "Your subscription has been removed from the team "+this.name);
+            teamOwnerRole.update(this, Database.getCurrentDate() + ": " + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamOwnerRole);
             Database.updateObject(this);
             Database.updateObject(teamOwnerRole);
@@ -311,7 +310,7 @@ public class Team extends Observable {
             teamManagers.remove(teamManager);
             TeamManager teamManagerRole = (TeamManager) teamManager.checkUserRole("TeamManager");
             teamManagerRole.removeTeam(this);
-            teamManagerRole.update(this, new Date() + ": " + "Your subscription has been removed from the team "+this.name);
+            teamManagerRole.update(this, Database.getCurrentDate() + ": " + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamManagerRole);
             Database.updateObject(this);
             Database.updateObject(teamManagerRole);
@@ -425,8 +424,8 @@ public class Team extends Observable {
         this.permanentlyClosed = permanentlyClosed;
         if(permanentlyClosed) {
             setChanged();
-            notifyObservers(new Date() + ": " + this.name + " is permanently closed");
-            updateAllSystemAdmins(new Date() + ": " + this.name + " is permanently closed");
+            notifyObservers(Database.getCurrentDate() + ": " + this.name + " is permanently closed");
+            updateAllSystemAdmins(Database.getCurrentDate() + ": " + this.name + " is permanently closed");
         }
 
     }

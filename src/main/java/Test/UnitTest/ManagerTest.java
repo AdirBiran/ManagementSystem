@@ -53,11 +53,6 @@ public class ManagerTest {
     }
 
     @Test
-    public void addTeamManagerToTeam() {
-        assertTrue(teamOwner.addTeamManagerToTeam(userTeamManager.getID(),team.getID(),5,true,true));
-    }
-
-    @Test
     public void addFieldToTeam() {
         unionRole.addFieldToSystem("Tel-Aviv","Bloomfield", 10000, 150000);
         Field field = (Field) Database.getAllFields().get(1);
@@ -82,13 +77,6 @@ public class ManagerTest {
     public void removeCoachFormTeam() {
         teamOwner.addCoachToTeam(coachU.getID(),team.getID());
         assertTrue(teamOwner.removeCoachFormTeam(coachU.getID(),team.getID()));
-
-    }
-
-    @Test
-    public void removeTeamManagerFormTeam() {
-        teamOwner.addTeamManagerToTeam(userTeamManager.getID(),team.getID(),3000,true,true);
-        assertTrue(teamOwner.removeTeamManagerFormTeam(userTeamManager.getID(),team.getID()));
 
     }
 
