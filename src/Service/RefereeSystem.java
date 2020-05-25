@@ -26,11 +26,12 @@ public class RefereeSystem {
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("Referee");
         if(role instanceof  Referee){
-            ((Referee)role).setScoreInGame(gameID, hostScore, guestScore);
-            Logger.logEvent( user.getID()+ " (Referee)","Set game's score");
-
+            boolean success = ((Referee)role).setScoreInGame(gameID, hostScore, guestScore);
+            if(success)
+                Logger.logEvent( user.getID()+ " (Referee)","Set game's score");
+            return success;
         }
-        return true;
+        return false;
     }
 
     public List<String> getGameReport(String userID, String gameID){
