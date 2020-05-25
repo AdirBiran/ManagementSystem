@@ -1056,10 +1056,12 @@ public class Database //maybe generalize with interface? //for now red layer
         List<String> teamspersonalPage = split(personalPageForTeam);
 
         for(String s : teamspersonalPage){
-            temp=splitHashMap(s);
-            Team team = getTeam(temp.get(0));
-            PersonalPage page = getPersonalPage(temp.get(1));
-            hashMapPersonalPageForTeam.put(team,page);
+            if(!s.equals("")) {
+                temp = splitHashMap(s);
+                Team team = getTeam(temp.get(0));
+                PersonalPage page = getPersonalPage(temp.get(1));
+                hashMapPersonalPageForTeam.put(team, page);
+            }
         }
         return hashMapPersonalPageForTeam;
     }
@@ -1079,10 +1081,12 @@ public class Database //maybe generalize with interface? //for now red layer
         List<String> appointments = split(appointmentTeamUser);
 
         for(String s : appointments){
-            temp=splitHashMap(s);
-            User user = getUser(temp.get(0));
-            Team team = getTeam(temp.get(1));
-            hashMapAppointmentTeamUser.put(user,team);
+            if(!s.equals("")) {
+                temp = splitHashMap(s);
+                User user = getUser(temp.get(0));
+                Team team = getTeam(temp.get(1));
+                hashMapAppointmentTeamUser.put(user, team);
+            }
         }
         return hashMapAppointmentTeamUser;
     }
@@ -2108,7 +2112,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static boolean addPersonalPage(PersonalPage page){
 
         if(!dataAccess.isIDExists("PersonalPages", page.getId())){
-            dataAccess.addCell(page.getId(),page.getUser().getID(),
+            dataAccess.addCell("PersonalPages",page.getId(),page.getUser().getID(),
                     page.getData(),getFollowersIds(page.getFollowers()));
             return true;
         }
@@ -2215,7 +2219,7 @@ public class Database //maybe generalize with interface? //for now red layer
                     listOfTeamsToStringIDs(teamOwner.getTeamsToManage()),
                     listOfTeamsToStringIDs(teamOwner.getClosedTeams()),
                     appointmentUsersIds(teamOwner.getAppointedTeamOwners()),
-                    appointmentUsersIds(teamOwner.getAppointedTeamManagers()));
+                    appointmentUsersIds(teamOwner.getAppointedTeamManagers()),personalPagesOfTeamOwner(teamOwner.getPersonalPages()));
             return true;
         }
         return false;
