@@ -17,7 +17,7 @@ public class Field implements PartOfATeam {
 
 
     public Field(String location,String fieldName, int capacity, double price) {
-        this.id = "Field"+IdGenerator.getNewId();
+        this.id = "F"+IdGenerator.getNewId();
         this.location = location;
         this.name = fieldName;
         this.capacity = capacity;
