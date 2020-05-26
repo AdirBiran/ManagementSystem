@@ -89,6 +89,7 @@ CREATE TABLE [TeamOwners](
 	[ClosedTeams] [varchar](255) ,
 	[AppointedTeamOwners] [varchar] ,
 	[AppointedTeamManagers] [varchar](255) ,
+	[PersonalPageIDs] [varchar](255) ,
 );
 
 CREATE TABLE [PersonalPages](

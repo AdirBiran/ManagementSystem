@@ -20,7 +20,7 @@ public class ComplaintTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         Guest guest = new Guest();
         user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         fan = (Fan) user.checkUserRole("Fan");

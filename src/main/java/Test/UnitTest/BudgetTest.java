@@ -34,7 +34,7 @@ public class BudgetTest {
         team.getBudget().addExpanse(team, 1000);
         assertEquals(team.getBudget().getExpanses(), expanseTeam+1000, 0);
         /*for notification*/
-        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         team.getBudget().addExpanse(team, 1000000000);
         assertEquals(union.getMessageBox().size(), 1);

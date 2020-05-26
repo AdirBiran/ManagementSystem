@@ -1,8 +1,8 @@
 package Domain;
 
+import Data.Database;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedList;
 
 public class Player extends Role implements PartOfATeam {
 
@@ -40,7 +40,33 @@ public class Player extends Role implements PartOfATeam {
         this.price = price;
     }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+    @Override
+    public String myRole() {
+        return "Player";
+    }
+
+    @Override
+    public String toString() {
+        return "Player" +
+                ", id= " +user.getID() +
+                ": name=" +user.getName() +
+                ", birthDate=" + birthDate +
+                ", role in team=" + roleInTeam+
+                ", teams= "+ teamsString(teams);
+    }
+
+    @Override
+    public void addTeam(Team team) {
+        teams.add(team);
+    }
+
+    @Override
+    public void removeTeam(Team team) {
+        teams.remove(team);
+        Database.updateObject(this);
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     public Date getBirthDate() {
         return birthDate;
@@ -52,16 +78,12 @@ public class Player extends Role implements PartOfATeam {
 
     public void setRole(RolePlayer role) {
         this.roleInTeam = role;
+        Database.updateObject(this);
     }
 
     @Override
     public String getID() {
         return user.getID();
-    }
-
-    @Override
-    public void deactivate() {
-        isActive = false;
     }
 
     @Override
@@ -80,16 +102,6 @@ public class Player extends Role implements PartOfATeam {
     }
 
     @Override
-    public void addTeam(Team team) {
-        teams.add(team);
-    }
-
-    @Override
-    public void removeTeam(Team team) {
-        teams.remove(team);
-    }
-
-    @Override
     public boolean isActive() {
         return isActive;
     }
@@ -100,18 +112,8 @@ public class Player extends Role implements PartOfATeam {
     }
 
     @Override
-    public String myRole() {
-        return "Player";
-    }
-
-    @Override
-    public String toString() {
-        return "Player" +
-                ", id= " +user.getID() +
-                ": name=" +user.getName() +
-                ", birthDate=" + birthDate +
-                ", role in team=" + roleInTeam+
-                ", teams= "+ teamsString(teams);
+    public void deactivate() {
+        isActive = false;
     }
 
 }

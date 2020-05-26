@@ -20,7 +20,7 @@ public class FootballManagementSystem {
     private static AdminSystem adminSystem;
     private static TeamManagementSystem teamManagementSystem;
     //***presentation***//
-    private static List<User> systemAdmins;
+    private static List<Admin> systemAdmins;
     //***External systems***//
     private static ProxyAccountingSystem accountingSystem;
     private static ProxyIsraeliTaxLawsSystem taxLawsSystem;
@@ -66,7 +66,7 @@ public class FootballManagementSystem {
         return financeTransactionsSystem;
     }
 
-    public static List<User> getSystemAdmins() {
+    public static List<Admin> getSystemAdmins() {
         return systemAdmins;
     }
 
@@ -82,7 +82,7 @@ public class FootballManagementSystem {
         //***data***//
         database = new Database();
         if(!firsTime)
-            database.loadDatabaseFromDisk("");
+            //database.loadDatabaseFromDisk("");
         //***service***//
         notificationSystem = new NotificationSystem();
         adminSystem = new AdminSystem();
@@ -96,11 +96,12 @@ public class FootballManagementSystem {
         //***presentation***//
         systemAdmins = new LinkedList<>();
         if(firsTime){
-            User systemAdmin = UserFactory.getNewAdmin("Aa1234","adminush","","example@gmail.com");
+            User admin = UserFactory.getNewAdmin("Aa1234","adminush","","example@gmail.com");
+            Admin systemAdmin = (Admin) admin.checkUserRole("Admin");
             systemAdmins.add(systemAdmin);
         }
         else{
-            systemAdmins.addAll(database.getSystemAdmins());
+            systemAdmins.addAll(database.getAllAdmins());
         }
 
 
@@ -110,7 +111,7 @@ public class FootballManagementSystem {
         return true;
     }
 
-    public User getAdmin(){
+    public Admin getAdmin(){
         return systemAdmins.get(0);
     }
 
@@ -135,13 +136,13 @@ public class FootballManagementSystem {
         unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "level3");
         String leagueInSeasonId = unionRepresentativeSystem.configureLeagueInSeason(unionRep.getID(),"Haal", "2020", "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         unionRepresentativeSystem.addFieldToSystem(unionRep.getID(),"jerusalem","Teddy" ,550, 150000);
-        Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(0);
+        Field field = Database.getAllFields().get(0);
         Team team;
         for (int i = 0; i < 14; i++) {
             List<String> players = createPlayers();
             List<String> coaches = createCoaches();
             List<User> owners = new LinkedList<>();
-            String ownerId = adminSystem.addNewTeamOwner(systemAdmins.get(0).getID(),"Team","Owner","to"+i+"@gmail.com" );
+            String ownerId = adminSystem.addNewTeamOwner(systemAdmins.get(0).getUser().getID(),"Team","Owner","to"+i+"@gmail.com" );
             User owner = UserFactory.getUser(ownerId);
             if(owner!=null){
                 owners.add(owner);
@@ -165,7 +166,7 @@ public class FootballManagementSystem {
         return unionRepresentativeSystem.appointReferee(unionRep.getID(),"referee", "",+IdGenerator.getNewId()+"@gmail.com", "referees");
     }
     public static List<String> createCoaches() {
-        String coachId = adminSystem.addNewCoach(systemAdmins.get(0).getID(),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", "UEFA_A", "main", 1500);
+        String coachId = adminSystem.addNewCoach(systemAdmins.get(0).getUser().getID(),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", "UEFA_A", "main", 1500);
         List<String> coaches = new LinkedList<>();
         coaches.add(coachId);
         return coaches;
@@ -173,7 +174,7 @@ public class FootballManagementSystem {
     public static List<String> createPlayers() {
         List<String> players = new LinkedList<>();
         for (int i = 0; i <12 ; i++) {
-            String playerId = adminSystem.addNewPlayer(systemAdmins.get(0).getID(), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", Database.getDate(1995, 10, 5), "attackingPlayer", 3500);
+            String playerId = adminSystem.addNewPlayer(systemAdmins.get(0).getUser().getID(), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", Database.getDate(1995, 10, 5), "attackingPlayer", 3500);
             if(playerId!=null){
                 players.add(playerId);
             }

@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -32,8 +31,27 @@ public class Season {
         this.leagueInSeasons = lis;
     }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+    @Override
+    public String toString() {
+        return
+                id+
+                        ":" + year;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Season)) return false;
+        Season season = (Season) o;
+        return getYear() == season.getYear();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getYear());
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     public Date getStartDate() {
         return startDate;
@@ -51,40 +69,7 @@ public class Season {
         return id;
     }
 
-    public String getLeaguesId(){
-        String listOfId = "";
-        for (LeagueInSeason leagueInSeason: leagueInSeasons) {
-            if(listOfId.equals("")){
-                listOfId = listOfId + leagueInSeason.getLeague().getId();
-            }
-            else {
-                listOfId = listOfId + ","+leagueInSeason.getLeague().getId();
-            }
-        }
-        return listOfId;
-    }
-
     public void addLeagueInSeason(LeagueInSeason leagueInSeason){
         leagueInSeasons.add(leagueInSeason);
-    }
-
-    @Override
-    public String toString() {
-        return
-                id+
-                ":" + year;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Season)) return false;
-        Season season = (Season) o;
-        return getYear() == season.getYear();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getYear());
     }
 }

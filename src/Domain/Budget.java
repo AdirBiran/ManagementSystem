@@ -18,6 +18,15 @@ public class Budget extends Observable {
         balance = 0;
     }
 
+    public Budget(double income,double expanses){
+        this.income=income;
+        this.expanses=expanses;
+        this.balance=income - expanses;
+    }
+
+
+    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
+
     public boolean addIncome(double income) {
         if (income > 0) {
             this.income += income;
@@ -35,7 +44,7 @@ public class Budget extends Observable {
             if (balance < 0) {
                 this.expanses -= expense;
                 updateBalance();
-                updateAllUnionRep(new Date() + "The team: "+team.getName()+" has exceeded its budget");
+                updateAllUnionRep(Database.getCurrentDate() + "The team: "+team.getName()+" has exceeded its budget");
                 return false;
             } else
                 return true;
@@ -45,7 +54,7 @@ public class Budget extends Observable {
     }
 
     private void updateAllUnionRep(String news) {
-        for (Role union : Database.getListOfAllSpecificRoles("UnionRepresentative")){
+        for (Role union : Database.getAllUnions()){
             ((UnionRepresentative)union).update(this, news);
         }
     }
@@ -54,7 +63,7 @@ public class Budget extends Observable {
         balance = income - expanses;
     }
 
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+    // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++
 
     public double getBalance() {
         return balance;

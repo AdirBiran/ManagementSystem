@@ -1,8 +1,12 @@
 package Service;
 
+import Data.Database;
 import Logger.Logger;
+import Presentation.Checker;
+
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -20,6 +24,7 @@ public class Server {
     private FinanceTransactionsSystem financeTransactionsSystem;
     private UnionRepresentativeSystem unionRepresentativeSystem;
     private ProxyAccountingSystem proxyAccountingSystem;
+    private RefereeSystem refereeSystem;
 
     private static HashMap<String, Socket> loggedUsers = new HashMap<>();
     private static HashMap<String, String> loggedUsersNotifications = new HashMap<>();
@@ -27,8 +32,140 @@ public class Server {
 
     public static void main(String[] args) {
 
+        // Tests for first initiation
+        /*
+        Server server = new Server(5678, 4);
+        Database database = new Database();
+        server.firstInit();
+         */
+    }
+
+    private boolean isFirstInit(List<String> configFileLines)
+    {
+
+        String init = configFileLines.get(0);
+        init = init.substring(init.indexOf(":") + 1);
+        return init.toLowerCase().equals("false");
 
     }
+
+    private void firstInit()
+    {
+        List<String> lines = new LinkedList<>();
+        String configFilePath = "./config";
+
+        try {
+            lines = Files.readAllLines(new File(configFilePath).toPath());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (isFirstInit(lines))
+        {
+            String mail;
+            String password;
+            String firstName;
+            String lastName;
+            Scanner in = new Scanner(System.in);
+
+            System.out.println("Please enter Mail Address, press Enter to continue: ");
+            mail = in.nextLine();
+            boolean isValidMail = Checker.isValid(mail);
+
+            while (!isValidMail)
+            {
+                System.out.println("Invalid Mail Address was entered, please try again: ");
+                mail = in.nextLine();
+                isValidMail = Checker.isValid(mail);
+            }
+
+            System.out.println("Please enter Password, press Enter to continue: ");
+            password = in.nextLine();
+            boolean isValidPassword = Checker.isValidPassword(password);
+
+            while (!isValidPassword)
+            {
+                System.out.println("Invalid Password was entered, please try again: ");
+                password = in.nextLine();
+                isValidPassword = Checker.isValidPassword(password);
+            }
+
+            System.out.println("Please enter First Name, press Enter to continue: ");
+            firstName = in.nextLine();
+            boolean isValidFirstName = Checker.isValid(firstName);
+
+            while (!isValidFirstName)
+            {
+                System.out.println("Invalid First Name was entered, please try again: ");
+                firstName = in.nextLine();
+                isValidFirstName = Checker.isValid(firstName);
+            }
+
+            System.out.println("Please enter Last Name, press Enter to continue: ");
+            lastName = in.nextLine();
+            boolean isValidLastName = Checker.isValid(lastName);
+
+            while (!isValidLastName)
+            {
+                System.out.println("Invalid Last Name was entered, please try again: ");
+                lastName = in.nextLine();
+                isValidLastName = Checker.isValid(lastName);
+            }
+
+
+            boolean firstAdminAdded = adminSystem.addFirstAdmin(password, firstName, lastName, mail);
+
+            if (firstAdminAdded)
+            {
+                lines.set(0, "isInitiated:True");
+                writeLinesToFile(configFilePath, lines);
+                System.out.println("System Initiated successfully, press Enter to continue..");
+            }
+            else
+            {
+                System.out.println("System Initiation failed, press Enter to continue..");
+            }
+
+            try
+            {
+                System.in.read();
+
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            }
+
+    }
+
+    private static void writeLinesToFile(String filePath, List<String> lines)
+    {
+        try
+        {
+
+            FileWriter writer = new FileWriter(filePath);
+
+            for(String str: lines) {
+
+                if (lines.size() == 1)
+                    writer.write(str);
+                else
+                    writer.write(str + System.lineSeparator());
+
+            }
+
+            writer.close();
+        }
+
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 
 
     private volatile boolean stop;
@@ -45,8 +182,9 @@ public class Server {
         personalPageSystem = new PersonalPageSystem();
         financeTransactionsSystem = new FinanceTransactionsSystem();
         unionRepresentativeSystem = new UnionRepresentativeSystem();
+        refereeSystem = new RefereeSystem();
 
-        // proxyAccountingSystem = new ProxyAccountingSystem();
+        proxyAccountingSystem = new ProxyAccountingSystem();
 
         this.maxUsers = maxUsers;
 
@@ -251,6 +389,12 @@ public class Server {
                     case "getUserRoles": // Done
                         handle_getUserRoles(splitLine, clientSocket);
                         break;
+
+                    case "getUserInfo":
+                        handle_getUserInfo(splitLine, clientSocket);
+                        break;
+
+
                     // ------------------- ADMIN -------------------
 
                     case "removeUser": // Done
@@ -329,6 +473,36 @@ public class Server {
                         handle_getAllActiveComplaints(splitLine, clientSocket);
                         break;
 
+
+
+                    // ------------------- REFEREE SYSTEM -------------------
+
+                    case "addEventToGame":
+                        handle_addEventToGame(splitLine, clientSocket);
+                        break;
+
+                    case "setScoreInGame":
+                        handle_setScoreInGame(splitLine, clientSocket);
+                        break;
+
+                    case "getGameReport":
+                        handle_getGameReport(splitLine, clientSocket);
+                        break;
+
+                    case "changeEvent":
+                        handle_changeEvent(splitLine, clientSocket);
+                        break;
+
+                    case "getAllPastGames_R":
+                        handle_getAllPastGames_R(splitLine, clientSocket);
+                        break;
+
+                    case "getAllOccurringGame":
+                        handle_getAllOccurringGame(splitLine, clientSocket);
+                        break;
+
+
+
                     // ------------------- TEAM MANAGEMENT -------------------
 
 
@@ -338,10 +512,6 @@ public class Server {
 
                     case "addAssetCoach": // Done
                         handle_addAssetCoach(splitLine, clientSocket);
-                        break;
-
-                    case "addAssetTeamManager": // Done
-                        handle_addAssetTeamManager(splitLine, clientSocket);
                         break;
 
                     case "addField": // Done
@@ -358,10 +528,6 @@ public class Server {
 
                     case "removeAssetCoach": // Done
                         handle_removeAssetCoach(splitLine, clientSocket);
-                        break;
-
-                    case "removeAssetTeamManager": // Done
-                        handle_removeAssetTeamManager(splitLine, clientSocket);
                         break;
 
                     case "updateAsset": // Done
@@ -404,6 +570,26 @@ public class Server {
                         handle_getAllUsers_Team(splitLine, clientSocket);
                         break;
 
+                    case "getAllPlayers":
+                        handle_getAllPlayers(splitLine, clientSocket);
+                        break;
+
+                    case "getAllCoaches":
+                        handle_getAllCoaches(splitLine, clientSocket);
+                        break;
+
+                    case "getAllFields":
+                        handle_getAllFields(splitLine, clientSocket);
+                        break;
+
+                    case "getAllTeamAssets":
+                        handle_getAllTeamAssets(splitLine, clientSocket);
+                        break;
+
+                    case "getAllClosedTeam":
+                        handle_getAllClosedTeam(splitLine, clientSocket);
+                        break;
+
 
                     // ------------------- Personal Page -------------------
 
@@ -411,13 +597,17 @@ public class Server {
                         handle_uploadToPage(splitLine, clientSocket);
                         break;
 
+                    case "viewPage":
+                        handle_viewPage(splitLine, clientSocket);
+                        break;
+
                     // ------------------- Finance Transactions -------------------
 
-                    case "reportNewIncome": // Done
+                    case "reportIncome": // Done
                         handle_reportNewIncome(splitLine, clientSocket);
                         break;
 
-                    case "reportNewExpanse": // Done
+                    case "reportExpanse": // Done
                         handle_reportNewExpanse(splitLine, clientSocket);
                         break;
 
@@ -525,8 +715,12 @@ public class Server {
                         handle_getAllOpenTeams_Union(splitLine, clientSocket);
                         break;
 
-                    case "getAllPastGames":
-                        handle_getAllPastGames(splitLine, clientSocket);
+                    case "getAllPastGames_UR":
+                        handle_getAllPastGames_UR(splitLine, clientSocket);
+                        break;
+
+                    case "getAllReferees":
+                        handle_getAllReferees(splitLine, clientSocket);
                         break;
 
 
@@ -548,6 +742,147 @@ public class Server {
             }
         }
 
+
+    }
+
+    private void handle_getUserInfo(String[] splitLine, Socket clientSocket)
+    {
+        String results = userSystem.getUserInfo(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(results, clientSocket);
+        else
+            sendLineToClient("Failed getting user information", clientSocket);
+    }
+
+    private void handle_getAllReferees(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = unionRepresentativeSystem.getAllReferees(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all referees", clientSocket);
+    }
+
+    private void handle_getAllClosedTeam(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = teamSystem.getAllClosedTeam(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all closed teams", clientSocket);
+    }
+
+    private void handle_getAllTeamAssets(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = teamSystem.getAllTeamAssets(splitLine[1], splitLine[2]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all team's assets", clientSocket);
+    }
+
+    private void handle_getAllFields(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = teamSystem.getAllFields(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all fields", clientSocket);
+    }
+
+    private void handle_getAllCoaches(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = teamSystem.getAllCoaches(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all coaches", clientSocket);
+    }
+
+    private void handle_getAllPlayers(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = teamSystem.getAllPlayers(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all players", clientSocket);
+    }
+
+    private void handle_getAllOccurringGame(String[] splitLine, Socket clientSocket)
+    {
+        String results = refereeSystem.getAllOccurringGame(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(results, clientSocket);
+        else
+            sendLineToClient("Failed getting all occurring games", clientSocket);
+    }
+
+    private void handle_getAllPastGames_R(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = refereeSystem.getAllPastGames(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all past games", clientSocket);
+    }
+
+    private void handle_changeEvent(String[] splitLine, Socket clientSocket)
+    {
+        boolean success = refereeSystem.changeEvent(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
+
+        if (success)
+            sendLineToClient("Succeed changing game's event", clientSocket);
+        else
+            sendLineToClient("Failed changing game's event", clientSocket);;
+    }
+
+    private void handle_getGameReport(String[] splitLine, Socket clientSocket)
+    {
+        List<String> results = refereeSystem.getGameReport(splitLine[1], splitLine[2]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting game report", clientSocket);
+    }
+
+    private void handle_setScoreInGame(String[] splitLine, Socket clientSocket)
+    {
+        boolean success = refereeSystem.setScoreInGame(splitLine[1], splitLine[2], Integer.parseInt(splitLine[3]), Integer.parseInt(splitLine[4]));
+
+        if (success)
+            sendLineToClient("Succeed setting game's score", clientSocket);
+        else
+            sendLineToClient("Failed setting game's score", clientSocket);;
+    }
+
+    private void handle_addEventToGame(String[] splitLine, Socket clientSocket)
+    {
+        boolean success = refereeSystem.addEventToGame(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
+
+        if (success)
+            sendLineToClient("Succeed adding event to game", clientSocket);
+        else
+            sendLineToClient("Failed adding event to game", clientSocket);;
+    }
+
+    private void handle_viewPage(String[] splitLine, Socket clientSocket)
+    {
+        String res = personalPageSystem.viewPage(splitLine[1], splitLine[2]);
+
+        if (res == null)
+            sendLineToClient("No page found", clientSocket);
+        else
+            sendLineToClient(res, clientSocket);
 
     }
 
@@ -584,7 +919,7 @@ public class Server {
             sendLineToClient("Failed adding TUTU Payment", clientSocket);
     }
 
-    private void handle_getAllPastGames(String[] splitLine, Socket clientSocket)
+    private void handle_getAllPastGames_UR(String[] splitLine, Socket clientSocket)
     {
         List<String> results = unionRepresentativeSystem.getAllPastGames(splitLine[1]);
 
@@ -1043,15 +1378,6 @@ public class Server {
             sendLineToClient("Failed adding a Coach to team", clientSocket);
     }
 
-    private void handle_addAssetTeamManager(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.addAssetTeamManager(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), stringToBoolean(splitLine[5]), stringToBoolean(splitLine[6]));
-
-        if (success)
-            sendLineToClient("Succeed adding a Team Manager to team", clientSocket);
-        else
-            sendLineToClient("Failed adding a Team Manager to team", clientSocket);
-    }
-
     private void handle_addField(String[] splitLine, Socket clientSocket) {
         boolean success = teamSystem.addField(splitLine[1], splitLine[2], splitLine[3]);
 
@@ -1088,22 +1414,15 @@ public class Server {
             sendLineToClient("Failed removing a Coach from team", clientSocket);
     }
 
-    private void handle_removeAssetTeamManager(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.removeAssetTeamManager(splitLine[1], splitLine[2], splitLine[3]);
-
-        if (success)
-            sendLineToClient("Succeed removing a Team Manager from team", clientSocket);
-        else
-            sendLineToClient("Failed removing a Team Manager from team", clientSocket);
-    }
-
     private void handle_updateAsset(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.updateAsset(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
+        boolean success = teamSystem.updateAsset(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
         if (success)
             sendLineToClient("Succeed updating asset", clientSocket);
         else
             sendLineToClient("Failed updating asset", clientSocket);
+
+        
     }
 
     private void handle_createTeam(String[] splitLine, Socket clientSocket) {
@@ -1481,7 +1800,7 @@ public class Server {
     }
 
     private Date stringToDate(String s) {
-        String[] split = s.split("-");
+        String[] split = s.split("\\.");
         Calendar cal = Calendar.getInstance();
 
         int year = Integer.parseInt(split[0]);

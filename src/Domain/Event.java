@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -25,7 +27,7 @@ public class Event {
     public Event(EventType type,Game game, String description) {
         this.id = "E"+IdGenerator.getNewId();
         this.type = type;
-        this.date = new Date();
+        this.date = Database.getCurrentDate();
         long diffInMillies = Math.abs(date.getTime() - game.getDate().getTime());
         this.minuteInGame = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         this.description = description;

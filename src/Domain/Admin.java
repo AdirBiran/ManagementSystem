@@ -21,8 +21,8 @@ public class Admin extends Role implements Observer {
             team.setActive(false);
             team.setPermanentlyClosed(true);
             permanentlyClosedTeams.add(team);
-            //Database.updateObject(team);
-            //Database.updateObject(this);
+            Database.updateObject(team);
+            Database.updateObject(this);
             Logger.logEvent(user.getID() + " (Admin)", " Closed Team " + team.getName() + " permanently");
 
             return team.getName();
@@ -69,7 +69,7 @@ public class Admin extends Role implements Observer {
      * And removal of a Field*/
     public void removeField(Field field){
         if(field.getTeams().size() == 0){
-            Database.removeAsset(field.getID());
+            Database.removeField(field.getID());
         }
     }
 
@@ -85,7 +85,7 @@ public class Admin extends Role implements Observer {
         Complaint complaint = Database.getComplaints(complaintId);
         if(complaint!=null){
             complaint.setResponse(response);
-            //Database.updateObject(complaint);
+            Database.updateObject(complaint);
             return true;
         }
         return false;

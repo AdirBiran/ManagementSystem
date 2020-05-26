@@ -54,7 +54,8 @@ public class GuestSystem {
      */
 
     public List<String> search( String wordToSearch){
-       return guest.search(wordToSearch);
+        Logger.logEvent("(Guest)","Searched " + wordToSearch);
+        return guest.search(wordToSearch);
     }
 
     /*

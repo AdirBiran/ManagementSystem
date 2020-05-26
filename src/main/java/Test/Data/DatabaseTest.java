@@ -29,7 +29,7 @@ public class DatabaseTest {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         team1 = league.getTeams().get(1);
-        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         User coachU= admin.addNewCoach("dor","dor","dor@mail.com", Coach.TrainingCoach.UEFA_B, Coach.RoleCoach.main,50000);
         coach = (Coach) coachU.checkUserRole("Coach");
         coach.addTeam(team);
@@ -61,6 +61,6 @@ public class DatabaseTest {
 
     @Test
     public void getUser(){
-        //User user = Database.createUser("888");
+        User user = Database.getUser("888");
     }
 }

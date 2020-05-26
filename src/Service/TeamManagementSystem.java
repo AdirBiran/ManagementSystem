@@ -53,26 +53,6 @@ public class TeamManagementSystem {
         return false;
     }
 
-    public boolean addAssetTeamManager(String userId, String assetId, String teamId, double price, boolean manageAssets , boolean finance){
-        User user = UserFactory.getUser(userId);
-        if (user != null) {
-            Role role = user.checkUserRole("Team");
-            if (role instanceof Manager) {
-                if (role.myRole().equals("TeamManager") && !((TeamManager) role).isPermissionManageAssets())
-                    return false;
-                boolean success = ((Manager) role).addTeamManagerToTeam(assetId, teamId, price, manageAssets, finance);
-
-                if (success)
-                    Logger.logEvent(user.getID(), "Added TeamManager " + assetId + " to Team " + teamId);
-                else
-                    Logger.logError("Adding TeamManager to team Failed");
-
-                return success;
-            }
-        }
-        return false;
-    }
-
     public boolean addField(String userId, String assetId , String teamId){
         User user = UserFactory.getUser(userId);
         if (user != null) {
@@ -153,34 +133,15 @@ public class TeamManagementSystem {
         }
         return false;
     }
-    public boolean removeAssetTeamManager(String userId, String assetId, String teamId){
+
+    public boolean updateAsset(String userId,String assetType, String assetId, String action, String update){
         User user = UserFactory.getUser(userId);
         if (user != null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
                 if (role.myRole().equals("TeamManager") && !((TeamManager) role).isPermissionManageAssets())
                     return false;
-                boolean success = ((Manager) role).removeTeamManagerFormTeam(assetId, teamId);
-
-                if (success)
-                    Logger.logEvent(user.getID(), "Removed TeamManager " + assetId + " from Team " + teamId);
-                else
-                    Logger.logError("Removing TeamManager from team Failed");
-
-                return success;
-            }
-        }
-        return false;
-    }
-
-    public boolean updateAsset(String userId, String assetId, String action, String update){
-        User user = UserFactory.getUser(userId);
-        if (user != null) {
-            Role role = user.checkUserRole("Team");
-            if (role instanceof Manager) {
-                if (role.myRole().equals("TeamManager") && !((TeamManager) role).isPermissionManageAssets())
-                    return false;
-                boolean success = ((Manager) role).updateAsset(assetId, action, update);
+                boolean success = ((Manager) role).updateAsset(assetType, assetId, action, update);
 
                 if (success)
                     Logger.logEvent(user.getID(), "Updated asset " + assetId);
@@ -316,9 +277,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got Teams");
                 return ((Manager)role).getStringTeams();
             }
         }
+        Logger.logError("Failed getting Teams");
         return null;
     }
 
@@ -327,9 +290,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("TeamOwner");
             if (role instanceof Admin) {
+                Logger.logEvent(user.getID(), "Got all Users");
                 role.getAllUsers();
             }
         }
+        Logger.logError("Failed getting all Users");
         return null;
     }
 
@@ -338,9 +303,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got all Players");
                 return ((Manager)role).getAllPlayers();
             }
         }
+        Logger.logError("Failed getting all Players");
         return null;
     }
 
@@ -349,9 +316,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got all Coaches");
                 return ((Manager)role).getAllCoaches();
             }
         }
+        Logger.logError("Failed getting all Coaches");
         return null;
     }
 
@@ -360,9 +329,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got all Fields");
                 return ((Manager)role).getAllFields();
             }
         }
+        Logger.logError("Failed getting all Fields");
         return null;
     }
 
@@ -371,9 +342,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got all Team Assets");
                 return ((Manager)role).getAllTeamAssets(teamId);
             }
         }
+        Logger.logError("Failed getting all Team Assets");
         return null;
     }
 
@@ -382,9 +355,11 @@ public class TeamManagementSystem {
         if(user!=null) {
             Role role = user.checkUserRole("TeamOwner");
             if (role instanceof TeamOwner) {
+                Logger.logEvent(user.getID(), "Got all Closed Teams");
                 return ((TeamOwner)role).getAllClosedTeam();
             }
         }
+        Logger.logError("Failed getting all Closed Teams");
         return null;
     }
 }
