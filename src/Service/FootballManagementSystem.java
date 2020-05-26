@@ -132,9 +132,9 @@ public class FootballManagementSystem {
         MailSender.setReallySend(false);
         accountingSystem.connect();
         User unionRep = UserFactory.getNewUnionRepresentative("", "","mail@mail.com");
-        unionRepresentativeSystem.configureNewSeason(unionRep.getID(),2020, Database.getDate(2020, 5, 1));
-        unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "level3");
-        String leagueInSeasonId = unionRepresentativeSystem.configureLeagueInSeason(unionRep.getID(),"Haal", "2020", "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
+        String seasonId = unionRepresentativeSystem.configureNewSeason(unionRep.getID(),2020, Database.getDate(2020, 5, 1));
+        String leagueId = unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "level3");
+        String leagueInSeasonId = unionRepresentativeSystem.configureLeagueInSeason(unionRep.getID(),leagueId, seasonId, "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         unionRepresentativeSystem.addFieldToSystem(unionRep.getID(),"jerusalem","Teddy" ,550, 150000);
         Field field = Database.getAllFields().get(0);
         Team team;

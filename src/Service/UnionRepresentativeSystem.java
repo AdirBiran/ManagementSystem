@@ -10,49 +10,51 @@ public class UnionRepresentativeSystem {
     public UnionRepresentativeSystem() {
     }
 
-    public boolean configureNewLeague(String userId, String name, String level){
+    public String configureNewLeague(String userId, String name, String level){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
                 League.LevelLeague levelLeague = League.LevelLeague.valueOf(level);
-                boolean success = ((UnionRepresentative) role).configureNewLeague(name, levelLeague);
-
-                if (success)
+                String leagueId = ((UnionRepresentative) role).configureNewLeague(name, levelLeague);
+                if (leagueId!=null) {
                     Logger.logEvent(user.getID(), "Configured new League");
+                    return leagueId;
+                }
                 else
                     Logger.logError("Configure league Failed");
-                return success;
             }
         }
-        return false;
+        return null;
     }
 
-    public boolean configureNewSeason(String userId, int year, Date startDate){
+    public String configureNewSeason(String userId, int year, Date startDate){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                boolean success = ((UnionRepresentative) role).configureNewSeason(year, startDate);
-                if (success)
+                String seasonId = ((UnionRepresentative) role).configureNewSeason(year, startDate);
+                if (seasonId!=null) {
                     Logger.logEvent(user.getID(), "Configured new Season");
+                    return seasonId;
+                }
                 else
                     Logger.logError("Configure Season Failed");
-                return success;
+
             }
         }
-        return false;
+        return null;
     }
 
 
-    public String configureLeagueInSeason(String userId, String nameOfLeague, String yearOfSeason, String assignmentPolicy, String scorePolicy, double fee){
+    public String configureLeagueInSeason(String userId, String leagueId, String seasonId, String assignmentPolicy, String scorePolicy, double fee){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             if (assignmentPolicy == null || scorePolicy == null)
                 return null;
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                LeagueInSeason lis = ((UnionRepresentative) role).configureLeagueInSeason(nameOfLeague, yearOfSeason, assignmentPolicy, scorePolicy, fee);
+                LeagueInSeason lis = ((UnionRepresentative) role).configureLeagueInSeason(leagueId, seasonId, assignmentPolicy, scorePolicy, fee);
 
                 if (lis != null) {
                     Logger.logEvent(user.getID(), "Configured league in season");
