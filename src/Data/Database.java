@@ -677,12 +677,14 @@ public class Database //maybe generalize with interface? //for now red layer
          */
         List<String> scoreTableList = split(scoreTable);
         for(String s : scoreTableList){
-            temp=splitHashMap(s);
-            Team team = getTeam(temp.get(0));
-            int score = Integer.parseInt(temp.get(1));
-            if(team != null) {
-                ScoreTableRecord scoreTableRecord = new ScoreTableRecord(team, score);
-                ((LinkedList<ScoreTableRecord>) scoreTableQueue).add(scoreTableRecord);
+            if(!s.equals("")) {
+                temp = splitHashMap(s);
+                Team team = getTeam(temp.get(0));
+                int score = Integer.parseInt(temp.get(1));
+                if (team != null) {
+                    ScoreTableRecord scoreTableRecord = new ScoreTableRecord(team, score);
+                    ((LinkedList<ScoreTableRecord>) scoreTableQueue).add(scoreTableRecord);
+                }
             }
         }
         return scoreTableQueue;
@@ -1145,7 +1147,8 @@ public class Database //maybe generalize with interface? //for now red layer
         List<LeagueInSeason> allLeagueInSeason = new LinkedList<>();
 
         for (String leagueId : leagueInSeason){
-            allLeagueInSeason.add(getLeagueInSeason(leagueId));
+            if(!leagueId.equals(""))
+                allLeagueInSeason.add(getLeagueInSeason(leagueId));
         }
         return allLeagueInSeason;
     }

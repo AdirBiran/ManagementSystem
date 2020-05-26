@@ -101,7 +101,7 @@ CREATE TABLE [PersonalPages](
 
 CREATE TABLE [Teams](
 	[ID] [char](30)  Primary key,
-	[Name] [varchar](50) NOT NULL,
+	[Name] [varchar](1000) NOT NULL,
 	[Wins] [int] NOT NULL,
 	[Losses] [int] NOT NULL,
 	[Draws] [int] NOT NULL,
