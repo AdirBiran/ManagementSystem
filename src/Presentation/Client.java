@@ -91,6 +91,16 @@ public class Client  {
 
             res = clientReader.readLine();
 
+            String operator = res.split("\\|")[0];
+
+            while (operator.equals("Notification"))
+            {
+                System.out.println("Notificationnnn:   " +  res.split("\\|")[1]);
+                res = clientReader.readLine();
+                operator = res.split("\\|")[0];
+            }
+
+
             System.out.println("Client receive from server : "+res);
         }
         catch (Exception e)

@@ -1,8 +1,10 @@
 package Service;
 
+import Data.DataAccess;
 import Data.Database;
 import Logger.Logger;
 import Presentation.Checker;
+import Presentation.Client;
 
 import java.io.*;
 import java.net.*;
@@ -11,7 +13,6 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
 
 public class Server {
 
@@ -33,11 +34,11 @@ public class Server {
     public static void main(String[] args) {
 
         // Tests for first initiation
-        /*
+
         Server server = new Server(5678, 4);
-        Database database = new Database();
-        server.firstInit();
-         */
+        Client cl = new Client(5678);
+
+
     }
 
     private boolean isFirstInit(List<String> configFileLines)
@@ -186,6 +187,8 @@ public class Server {
 
         proxyAccountingSystem = new ProxyAccountingSystem();
 
+        Database db = new Database();
+
         this.maxUsers = maxUsers;
 
         welcomeSocket = null;
@@ -200,7 +203,6 @@ public class Server {
     }
 
     public void start() {
-
 
         new Thread(() -> {
             try {
@@ -1700,6 +1702,16 @@ public class Server {
                 sendToClient = sendToClient + r + "|";
 
             sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
+
+            try
+            {
+                Thread.sleep(2000);
+                sendNotification(loggedUserId, "NotificationTeswttttttttttttt");
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
 
 
@@ -1817,11 +1829,7 @@ public class Server {
         if (!loggedUsers.containsKey(id))
             return false;
 
-        if (loggedUsersNotifications.get(id).equals(""))
-            loggedUsersNotifications.put(id, message);
-        else
-            loggedUsersNotifications.put(id, loggedUsersNotifications.get(id) + "~");
-
+        sendLineToClient("Notification|" + message, loggedUsers.get(id));
         return true;
     }
     
