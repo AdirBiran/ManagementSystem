@@ -1127,9 +1127,9 @@ public class Server {
     }
 
     private void handle_configureNewSeason(String[] splitLine, Socket clientSocket) {
-        boolean success = unionRepresentativeSystem.configureNewSeason(splitLine[1], Integer.parseInt(splitLine[2]), stringToDate(splitLine[3]));
+        String success = unionRepresentativeSystem.configureNewSeason(splitLine[1], Integer.parseInt(splitLine[2]), stringToDate(splitLine[3]));
 
-        if (success)
+        if (success !=null)
             sendLineToClient("Succeed configuring a new season", clientSocket);
         else
             sendLineToClient("Failed configuring a new season", clientSocket);
@@ -1137,9 +1137,9 @@ public class Server {
 
     private void handle_configureNewLeague(String[] splitLine, Socket clientSocket) {
 
-        boolean success = unionRepresentativeSystem.configureNewLeague(splitLine[1], splitLine[2], splitLine[3]);
+        String success = unionRepresentativeSystem.configureNewLeague(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
+        if (success !=null)
             sendLineToClient("Succeed configuring a new league", clientSocket);
         else
             sendLineToClient("Failed configuring a new league", clientSocket);

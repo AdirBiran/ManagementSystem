@@ -78,7 +78,7 @@ public class UserFactory {
         User user = new User(firstName, lastName, "A", mail);
         Admin authorization = new Admin(user);
         user.addRole(authorization);
-        if(Database.addAdmin(password, user))
+        if(Database.addUser(password, user))
             return user;
         }
         catch (Exception e){
@@ -123,7 +123,7 @@ public class UserFactory {
     private static User addToDatabase(User user,Object asset){
         String password = PasswordGenerator.generateRandPassword(6);
         if(asset instanceof PartOfATeam){
-            if(Database.addUser(password, user) && Database.addAsset((PartOfATeam)asset)){
+            if(Database.addUser(password, user)){
                 MailSender.send(user.getMail(), "Welcome!\nUserId is: "+ user.getMail()+"\npassword: " + password);
                 return user;
         }

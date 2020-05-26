@@ -202,7 +202,7 @@ public class DataAccess {
     public boolean addCell(String TableName, String ... values)
     {
         PreparedStatement ps = null;
-
+        String val="";
         int valuesNumber = values.length;
         String statement = "INSERT INTO " + TableName + " VALUES (";
         for (int i = 0; i < valuesNumber; i++)
@@ -212,14 +212,14 @@ public class DataAccess {
         try
         {
             ps = con.prepareStatement(statement);
-            String val;
+
 
             for (int i = 0; i < valuesNumber; i++)
             {
                 val = values[i];
 
                 if (isBoolean(val))
-                    ps.setBoolean(i+1, stringToBoolean(val));
+                    ps.setBoolean(i+1,  Boolean.parseBoolean(val));
 
                 else if (isDate(val))
                     ps.setDate(i+1, stringToDateSQL(val));
@@ -241,6 +241,7 @@ public class DataAccess {
         }
         catch (Exception e)
         {
+
             closePS(ps);
             e.printStackTrace();
             return false;
