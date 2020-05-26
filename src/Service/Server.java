@@ -1703,15 +1703,6 @@ public class Server {
 
             sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
 
-            try
-            {
-                Thread.sleep(2000);
-                sendNotification(loggedUserId, "NotificationTeswttttttttttttt");
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
         }
 
 

@@ -233,6 +233,7 @@ public class DataAccess {
 
     public boolean addCell(String TableName, String ... values)
     {
+
         PreparedStatement ps = null;
         String val="";
         int valuesNumber = values.length;
@@ -276,11 +277,10 @@ public class DataAccess {
         }
         catch (Exception e)
         {
-
             closePS(ps);
-            e.printStackTrace();
             return false;
         }
+
         return true;
     }
 
