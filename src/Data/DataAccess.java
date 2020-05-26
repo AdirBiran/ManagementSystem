@@ -241,7 +241,7 @@ public class DataAccess {
         }
         catch (Exception e)
         {
-            System.out.println(val);
+
             closePS(ps);
             e.printStackTrace();
             return false;

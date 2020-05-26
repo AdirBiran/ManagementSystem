@@ -2009,7 +2009,7 @@ public class Database //maybe generalize with interface? //for now red layer
     /**GET ALL FUNCTION END*/
 
     /**ADD FUNCTION BEGIN*/
-    public static boolean addReferee(User user, Referee referee){
+    public static boolean addReferee( Referee referee){
 
         if(!dataAccess.isIDExists("Referees" ,referee.getUser().getID())) {
             dataAccess.addCell("Referees", referee.getUser().getID(),
@@ -2171,6 +2171,7 @@ public class Database //maybe generalize with interface? //for now red layer
                         flag=true;
                         break;
                     case "Referee":
+                        addReferee((Referee)role);
                         flag=true;
                         break;
                     case "TeamManager":
