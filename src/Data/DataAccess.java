@@ -16,15 +16,20 @@ public class DataAccess {
 
     public static void main(String[] args)
     {
+
         DataAccess dao = new DataAccess();
-
-
+        
         // Add Cell
         //dao.addCell("Users", "12345", "first", "last", "a@b.com", "true", "goalkeeper", "history");
+        //dao.addCell("Users", "123456", "first", "last", "a@cb.com", "true", "goalkeeper", "history");
+        //dao.addCell("Users", "123457", "first", "last", "a@bd.com", "true", "goalkeeper", "history");
+
 
         // Check if id exists
         //System.out.println(dao.isIDExists("Users", "12345"));
 
+        // Delete a row
+        // boolean success = dao.deleteRow("Users", "12345");
 
         // Add value to existing cell's value
         //dao.addToExistingCellValue("Complaints", "Description", "123456", "GG");
@@ -55,6 +60,33 @@ public class DataAccess {
             e.printStackTrace();
         }
 
+
+    }
+
+    public boolean deleteRow(String tableName, String id)
+    {
+        PreparedStatement ps = null;
+        String val = "";
+
+
+        String statement = "DELETE FROM " + tableName + " WHERE ID = ?";
+
+        try
+        {
+            ps = con.prepareStatement(statement);
+            ps.setString(1, id);
+
+            ps.executeUpdate();
+            closePS(ps);
+            return true;
+
+        }
+        catch (Exception e)
+        {
+            closePS(ps);
+            e.printStackTrace();
+            return false;
+        }
 
     }
 
@@ -221,6 +253,9 @@ public class DataAccess {
                 if (isBoolean(val))
                     ps.setBoolean(i+1,  Boolean.parseBoolean(val));
 
+                else if (isDateTime(val))
+                    ps.setTimestamp(i+1, stringToDateTimeSQL(val));
+
                 else if (isDate(val))
                     ps.setDate(i+1, stringToDateSQL(val));
 
@@ -295,6 +330,31 @@ public class DataAccess {
         return date;
     }
 
+    public java.sql.Timestamp stringToDateTimeSQL(String st)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        java.sql.Timestamp dateTime = null;
+
+        try {
+            dateTime = new java.sql.Timestamp(sdf.parse(st).getTime());
+        }
+        catch (Exception e)
+        {
+            try
+            {
+                sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                dateTime = new java.sql.Timestamp(sdf.parse(st).getTime());
+
+            }
+            catch (Exception e2)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return dateTime;
+    }
+
 
 
     public boolean isDouble(String s)
@@ -316,6 +376,43 @@ public class DataAccess {
         try
         {
             Integer.parseInt(s);
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    public boolean isDateTime(String s)
+    {
+        return isDateTimeWithoutSeconds(s) || isDateTimeWithSeconds(s);
+    }
+
+    private boolean isDateTimeWithoutSeconds(String s)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        dateFormat.setLenient(false);
+
+        try
+        {
+            dateFormat.parse(s.trim());
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    private boolean isDateTimeWithSeconds(String s)
+    {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        dateFormat.setLenient(false);
+
+        try
+        {
+            dateFormat.parse(s.trim());
             return true;
         }
         catch (Exception e)

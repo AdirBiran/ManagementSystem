@@ -1032,18 +1032,33 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    private static java.util.Date stringToDateJAVA(String st) {
-        //String[] split = st.split("\\.");
-        String[] split = st.split("-");
+    public static java.util.Date stringToDateJAVA(String st) {
+
+        String[] dateTimeSplit = st.split(" ");
+        int year, month, day;
+        int hours = 0;
+        int minutes = 0;
+        int seconds = 0;
         Calendar cal = Calendar.getInstance();
 
-        int year = Integer.parseInt(split[0]);
-        int month = Integer.parseInt(split[1]) - 1;
-        int day = Integer.parseInt(split[2]);
+        String[] split = dateTimeSplit[0].split("-");
 
-        cal.set(year, month, day);
-        java.util.Date date = new java.util.Date(cal.getTimeInMillis());
-        return date;
+        year = Integer.parseInt(split[0]);
+        month = Integer.parseInt(split[1]) - 1;
+        day = Integer.parseInt(split[2]);
+
+        if (dateTimeSplit.length > 1)
+        {
+            String time = dateTimeSplit[1];
+            String[] timeSplit = time.split(":");
+            hours = Integer.parseInt(timeSplit[0]);
+            minutes = Integer.parseInt(timeSplit[1]);
+            seconds = Integer.parseInt(timeSplit[2].substring(0, timeSplit[2].indexOf(".")));
+        }
+
+        cal.set(year, month, day, hours, minutes, seconds);
+
+        return new java.util.Date(cal.getTimeInMillis());
     }
 
     private static HashMap<Team, PersonalPage> hashMapTeamAndPersonalPage(String personalPageForTeam) {
