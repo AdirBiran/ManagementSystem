@@ -117,7 +117,7 @@ public class Team extends Observable {
     private void linkTeamOwner(List<User> userList) {
         for(User user : userList){
             if(user!= null)
-                addTeamOwner(user);
+                addTeamOwner(user,false);
         }
     }
 
@@ -198,7 +198,7 @@ public class Team extends Observable {
         this.draws++;
     }
 
-    public boolean addTeamOwner(User user) {
+    public boolean addTeamOwner(User user,boolean notFirstTime) {
         if(!teamOwners.contains(user)) {
             this.teamOwners.add(user);
             TeamOwner teamOwner = (TeamOwner) user.checkUserRole("TeamOwner");
@@ -212,7 +212,9 @@ public class Team extends Observable {
             }
             this.addObserver(teamOwner);
             teamOwner.update(this, Database.getCurrentDate() + ": " + "You've added a team owner appointment to team " +this.getName());
-            Database.updateObject(this);
+            if(notFirstTime) {
+                Database.updateObject(this);
+            }
             Database.updateObject(teamOwner);
             return true;
         }

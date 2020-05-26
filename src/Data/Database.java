@@ -926,7 +926,8 @@ public class Database //maybe generalize with interface? //for now red layer
                 return admin;
             case "Coach":
                 user = createUser(object.get(0));
-                Coach coach = new Coach(user, getEnumTraining(object.get(1)) ,getEnumRole(object.get(2)), Integer.parseInt(object.get(3)));
+                Coach coach = new Coach(user, getEnumTraining(object.get(1)) ,getEnumRole(object.get(2)),
+                        teamHashSet(object.get(3)), stringToBoolean(object.get(4)),Double.parseDouble(object.get(5)));
                 return coach;
             case "Complaint":
                 Complaint complaint = new Complaint(object.get(0),
@@ -1030,7 +1031,8 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     private static java.util.Date stringToDateJAVA(String st) {
-        String[] split = st.split("\\.");
+        //String[] split = st.split("\\.");
+        String[] split = st.split("-");
         Calendar cal = Calendar.getInstance();
 
         int year = Integer.parseInt(split[0]);
@@ -2044,10 +2046,19 @@ public class Database //maybe generalize with interface? //for now red layer
 
         if(!dataAccess.isIDExists("Teams" ,team.getID() )) {
 
-            dataAccess.addCell("Teams",team.getID(), team.getName(), "" + team.getWins(), "" + team.getLosses(),
-                    "" + team.getDraws(), team.getPage().getId(), listToString(team.getTeamOwners()),
-                    listToString(team.getTeamManagers()), listToString(team.getPlayers()), listToString(team.getCoaches()),
-                    "" + team.getBudget().getIncome()+","+team.getBudget().getExpanses(), getGamesId(team.getGames()), listToString(team.getFields()), leagueInSeasonToStringIDs(team.getLeaguesInSeason()), "" + team.isActive(), "" + team.isPermanentlyClosed());
+            dataAccess.addCell("Teams",team.getID(), team.getName(),
+                    "" + team.getWins(), "" + team.getLosses(),
+                    "" + team.getDraws(), team.getPage().getId(),
+                    listToString(team.getTeamOwners()),
+                    listToString(team.getTeamManagers()),
+                    listToString(team.getPlayers()),
+                    listToString(team.getCoaches()),
+                    "" + team.getBudget().getIncome()+","+team.getBudget().getExpanses()
+                    , getGamesId(team.getGames())
+                    , listToString(team.getFields())
+                    , leagueInSeasonToStringIDs(team.getLeaguesInSeason())
+                    , "" + team.isActive(),
+                    "" + team.isPermanentlyClosed());
             return true;
         }
         return false;
