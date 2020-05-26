@@ -141,6 +141,8 @@ CREATE TABLE [LeaguesInSeasons](
 	[TeamsIDs] [varchar](255) NOT NULL,
 	[RegistrationFee] [real] NOT NULL,
 	[Records] [varchar](1000) NOT NULL,
+	[LeagueID] [varchar](1000) NOT NULL,
+	[SeasonID] [varchar](1000) NOT NULL,
 );
 
 CREATE TABLE [Complaints](

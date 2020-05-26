@@ -1,6 +1,5 @@
 package Data;
 import Domain.*;
-import sun.util.calendar.BaseCalendar;
 
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
@@ -247,7 +246,7 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4 ;
         }
         else if(object instanceof LeagueInSeason){
-            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true ,ans6=true,ans7=true;
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true ,ans6=true,ans7=true,ans8=true,ans9=true;
             /**
              *
              [AssignmentPolicy] [char](255) NOT NULL,
@@ -257,6 +256,8 @@ public class Database //maybe generalize with interface? //for now red layer
              [TeamsIDs] [varchar](255) NOT NULL,
              [RegistrationFee] [real] NOT NULL,
              [Records] [varchar](1000) NOT NULL,
+             [LeagueID] [varchar](1000) NOT NULL,
+             [SeasonID] [varchar](1000) NOT NULL,
              * */
             String assignmentPolicy ="null";
             String scorePolicy ="null";
@@ -284,9 +285,11 @@ public class Database //maybe generalize with interface? //for now red layer
 
             ans6 = dataAccess.updateCellValue("LeaguesInSeasons","RegistrationFee" ,((LeagueInSeason) object).getId(),""+((LeagueInSeason) object).getRegistrationFee());
             ans7 = dataAccess.updateCellValue("LeaguesInSeasons","Records" ,((LeagueInSeason) object).getId(), createScoreTable(((LeagueInSeason) object).getScoreTable()));
+            ans8 = dataAccess.updateCellValue("LeaguesInSeasons","LeagueID" ,((LeagueInSeason) object).getId(), ((LeagueInSeason) object).getLeague().getId() );
+            ans9 = dataAccess.updateCellValue("LeaguesInSeasons","SeasonID" ,((LeagueInSeason) object).getId(), ((LeagueInSeason) object).getSeason().getId() );
 
 
-            return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  && ans7;
+            return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  && ans7 && ans8  && ans9;
         }
         else if(object instanceof PersonalPage){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
@@ -829,19 +832,26 @@ public class Database //maybe generalize with interface? //for now red layer
     public static String removeUser(String userId) {
         User user = getUser(userId);
         user.deactivate();
-        //צריך לעבור על התפקידים ולהפוך גם אותם ללא פעילים? אולי יצור בעיה שהדאטאבייס הופך תפקיד פתאום ללא פעיל
-        //List<Role> userRoles = user.getRoles();
+        List<Role> userRoles = user.getRoles();
+        for(Role role : userRoles){
+            if(role!=null){
+                switch (role.myRole()){
+                    case "Coach":
+                        ((Coach)role).deactivate();
+                        break;
+                    case "Player":
+                        ((Player)role).deactivate();
+                        break;
+                    case "TeamManager":
+                        ((TeamManager)role).deactivate();
+                        break;
+                }
+            }
+        }
         updateObject(user);
 
         return user.getMail();
 
-        /*User user = usersInDatabase.get(userId);
-        String userMail="";
-        if(user!=null){
-            user.deactivate();
-            userMail= user.getMail();
-        }
-        return userMail;*/
     }
 
     public static void removeField(String assetId) {
@@ -965,9 +975,11 @@ public class Database //maybe generalize with interface? //for now red layer
                         listOfLeagueInSeason(object.get(3)));
                 return league;
             case "LeagueInSeason":
+
                 LeagueInSeason leagueInSeason = new LeagueInSeason(object.get(0) ,getGameAssignmentPolicy(object.get(1)),
                         getScorePolicy(object.get(2)) ,listOfGames(object.get(3)) ,listOfReferees(object.get(4)),
-                        listOfTeams(object.get(5)) , Double.parseDouble(object.get(6)) ,getScoreTableQueue(object.get(7)));
+                        listOfTeams(object.get(5)) , Double.parseDouble(object.get(6)) ,getScoreTableQueue(object.get(7)),
+                        getLeague(object.get(8)),getSeason(object.get(9)));
                 return leagueInSeason;
             case "PersonalPage":
                 user=createUser(object.get(1));
@@ -1147,8 +1159,9 @@ public class Database //maybe generalize with interface? //for now red layer
         List<LeagueInSeason> allLeagueInSeason = new LinkedList<>();
 
         for (String leagueId : leagueInSeason){
-            if(!leagueId.equals(""))
-                allLeagueInSeason.add(getLeagueInSeason(leagueId));
+            LeagueInSeason league = getLeagueInSeason(leagueId);
+            if(league !=null)
+                allLeagueInSeason.add(league);
         }
         return allLeagueInSeason;
     }
@@ -1623,27 +1636,27 @@ public class Database //maybe generalize with interface? //for now red layer
 /*******************MESSAGES STSRT****************/
 
 
-    public static void addMessageToUser(String userId , String message){
+    public static void addNotificationToUser(String userId , String message){
         String oldMessages = "";
         //if userId exsist
         if(dataAccess.isIDExists("OfflineUsersNotifications",userId)){
-            oldMessages = getMessages(userId);
+            oldMessages = getNotifications(userId);
             dataAccess.updateCellValue("OfflineUsersNotifications" ,"Notifications" ,
                     userId ,oldMessages +"," +message);
         }
 
     }
 
-    private static String getMessages(String userId){
+    private static String getNotifications(String userId){
         if(dataAccess.isIDExists("OfflineUsersNotifications",userId)){
            return dataAccess.getCellValue("OfflineUsersNotifications" ,"Notifications" ,userId);
         }
         return "";
     }
 
-    public static List<String> getAllMessages(String userId){
+    public static List<String> getAllNotifications(String userId){
         if(dataAccess.isIDExists("OfflineUsersNotifications",userId)) {
-            List<String> allMessages = split(getMessages(userId));
+            List<String> allMessages = split(getNotifications(userId));
             return allMessages;
         }
         return null;
@@ -1756,7 +1769,6 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static List<League> getLeagues(){
-        // return new LinkedList<>(leagues);
         List<String> objects;
         List<League> allObjects = new LinkedList<>();
         objects = dataAccess.getAllTableValues("Leagues");
@@ -1764,6 +1776,19 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String object : objects){
             List<String> temp = split(object);
             allObjects.add((League) createObject("League" , temp));
+        }
+
+        return allObjects;
+    }
+
+    public static List<LeagueInSeason> getAllLeaguesInSeasons(){
+        List<String> objects;
+        List<LeagueInSeason> allObjects = new LinkedList<>();
+        objects = dataAccess.getAllTableValues("LeaguesInSeasons");
+
+        for(String object : objects){
+            List<String> temp = split(object);
+            allObjects.add((LeagueInSeason) createObject("LeagueInSeason" , temp));
         }
 
         return allObjects;
@@ -2073,7 +2098,9 @@ public class Database //maybe generalize with interface? //for now red layer
             dataAccess.addCell("LeaguesInSeasons", leagueInSeason.getId(), leagueInSeason.getAssignmentPolicy().getName(),
                     leagueInSeason.getScorePolicy().getName(), getGamesId(leagueInSeason.getGames()), getRefereesId(leagueInSeason.getReferees()),
                     listOfTeamsToStringIDs(leagueInSeason.getTeams()), "" + leagueInSeason.getRegistrationFee(),
-                    createScoreTable(leagueInSeason.getScoreTable()));
+                    createScoreTable(leagueInSeason.getScoreTable()),
+                   leagueInSeason.getLeague().getId(),
+                            leagueInSeason.getSeason().getId());
             return true;
         }
         return false;

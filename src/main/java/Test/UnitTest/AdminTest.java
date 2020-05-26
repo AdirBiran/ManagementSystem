@@ -21,6 +21,7 @@ public class AdminTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
         String  leagueId = system.dataReboot();
+       // LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");

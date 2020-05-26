@@ -18,7 +18,7 @@ public abstract class Manager extends Role{
         if(player!=null && team!=null) {
             Role assetRole = player.checkUserRole("Player");
             if (teamsToManage.contains(team)) {
-                if (team.getBudget().addExpanse(team, ((PartOfATeam) assetRole).getPrice())) {
+                if (team.addExpanse(((PartOfATeam) assetRole).getPrice())) {
                      return team.addPlayer(player);
                 }
             }
@@ -32,7 +32,7 @@ public abstract class Manager extends Role{
         if(coach!=null && team!=null) {
             Role assetRole = coach.checkUserRole("Coach");
             if (teamsToManage.contains(team)) {
-                if (team.getBudget().addExpanse(team, ((PartOfATeam) assetRole).getPrice())) {
+                if (team.addExpanse( ((PartOfATeam) assetRole).getPrice())) {
                     return team.addCoach(coach);
                 }
             }
@@ -103,7 +103,7 @@ public abstract class Manager extends Role{
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             if (teamsToManage.contains(team)) {
-                if(team.getBudget().addIncome(income)) {
+                if(team.addIncome(income)) {
                     Database.updateObject(this);
                     return true;
                 }
@@ -115,7 +115,7 @@ public abstract class Manager extends Role{
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             if (teamsToManage.contains(team)) {
-                if(team.getBudget().addExpanse(team, expanse)){
+                if(team.addExpanse(expanse)){
                     Database.updateObject(this);
                     return true;
                 }

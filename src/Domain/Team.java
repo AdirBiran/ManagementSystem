@@ -34,6 +34,7 @@ public class Team extends Observable {
 
         this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
         teamOwners.get(0).addRole(new HasPage(this.page));
+        Database.addPersonalPage(page);
 
         if(players==null||players.size()<11)
             throw new RuntimeException("not enough Players");
@@ -400,6 +401,32 @@ public class Team extends Observable {
     public Budget getBudget() {
         return budget;
     }
+
+    public boolean addIncome(double income) {
+        if(budget.addIncome(income)) {
+            Database.updateObject(this);
+            return true;
+        }
+        return false;
+
+    }
+    public boolean addExpanse(double expanse) {
+        if(budget.addExpanse(expanse)) {
+            Database.updateObject(this);
+            return true;
+        }
+        updateAllUnionRep(Database.getCurrentDate() + "The team: "+name+" has exceeded its budget");
+
+        return false;
+
+    }
+
+    private void updateAllUnionRep(String news) {
+        for (Role union : Database.getAllUnions()){
+            ((UnionRepresentative)union).update(this, news);
+        }
+    }
+
 
     public List<Game> getGames() {
         return games;

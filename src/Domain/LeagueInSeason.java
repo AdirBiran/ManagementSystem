@@ -36,7 +36,7 @@ public class LeagueInSeason {
         this.teams = new LinkedList<>();
     }
 
-    public LeagueInSeason(String id, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, List<Game> games, List<Referee> referees, List<Team> teams, double registrationFee, Queue<ScoreTableRecord> tableRecord)
+    public LeagueInSeason(String id, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, List<Game> games, List<Referee> referees, List<Team> teams, double registrationFee, Queue<ScoreTableRecord> tableRecord,League league,Season season)
     {
         this.id = id;
         this.assignmentPolicy = assignmentPolicy;
@@ -46,6 +46,8 @@ public class LeagueInSeason {
         this.teams = teams;
         this.registrationFee = registrationFee;
         this.scoreTable = tableRecord;
+        this.league = league;
+        this.season = season;
     }
 
     public boolean addReferee(Referee referee) {
