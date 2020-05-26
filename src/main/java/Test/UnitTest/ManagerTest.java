@@ -29,7 +29,7 @@ public class ManagerTest {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         User userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
@@ -53,21 +53,17 @@ public class ManagerTest {
     }
 
     @Test
-    public void addTeamManagerToTeam() {
-        assertTrue(teamOwner.addTeamManagerToTeam(userTeamManager.getID(),team.getID(),5,true,true));
-    }
-
-    @Test
     public void addFieldToTeam() {
         unionRole.addFieldToSystem("Tel-Aviv","Bloomfield", 10000, 150000);
-        Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(1);
+        Field field = (Field) Database.getAllFields().get(1);
         assertTrue(teamOwner.addFieldToTeam(field.getID(),team.getID()));
     }
 
     @Test
     public void removeFieldFromTeam() {
         unionRole.addFieldToSystem("Tel-Aviv","Bloomfield", 10000, 150000);
-        Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(1);
+        Field field = (Field) Database.getAllFields().get(1);
+        teamOwner.addFieldToTeam(field.getID(), team.getID());
         assertTrue(teamOwner.removeFieldFromTeam(field.getID(),team.getID()));
     }
 
@@ -85,15 +81,8 @@ public class ManagerTest {
     }
 
     @Test
-    public void removeTeamManagerFormTeam() {
-        teamOwner.addTeamManagerToTeam(userTeamManager.getID(),team.getID(),3000,true,true);
-        assertTrue(teamOwner.removeTeamManagerFormTeam(userTeamManager.getID(),team.getID()));
-
-    }
-
-    @Test
     public void updateAsset() {
-        assertTrue(teamOwner.updateAsset(mesi.getID(),"Price","300000"));
+        assertTrue(teamOwner.updateAsset("Player",mesi.getID(),"Price","300000"));
     }
 
     @Test

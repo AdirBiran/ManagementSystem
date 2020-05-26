@@ -1,5 +1,6 @@
 package Domain;
 
+import Data.Database;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
@@ -34,9 +35,57 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
         this.permissionManageAssets = manageAssets;
         this.permissionFinance = finance;
     }
+
+    @Override
+    public void addTeam(Team team) {
+        teamsToManage.add(team);
+        teams.add(team);
+    }
+
+    @Override
+    public void removeTeam(Team team) {
+        teamsToManage.remove(team);
+        teams.remove(team);
+        Database.updateObject(this);
+    }
+
+    @Override
+    public String myRole() {
+        return "TeamManager";
+    }
+
+    @Override
+    public String toString() {
+        return "TeamManager" +
+                ", id="+ user.getID()+
+                ": name="+ user.getName()+
+                ", price=" + price +
+                ", permission manage assets=" + permissionManageAssets +
+                ", permission finance=" + permissionFinance+
+                ", teams= "+ teamsString(teams);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(news);
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
     @Override
     public String getID() {
         return user.getID();
+    }
+
+    @Override
+    public boolean isActive() {
+        return isActive;
+    }
+
+    @Override
+    public void reactivate() {
+        isActive = true;
     }
 
     @Override
@@ -65,62 +114,5 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
 
     public boolean isPermissionFinance() {
         return permissionFinance;
-    }
-
-    @Override
-    public void addTeam(Team team) {
-        teamsToManage.add(team);
-        teams.add(team);
-    }
-
-    @Override
-    public void removeTeam(Team team) {
-        teamsToManage.remove(team);
-        teams.remove(team);
-    }
-
-    @Override
-    public boolean isActive() {
-        return isActive;
-    }
-
-    @Override
-    public void reactivate() {
-        isActive = true;
-    }
-
-    @Override
-    public String myRole() {
-        return "TeamManager";
-    }
-
-    @Override
-    public String toString() {
-        return "TeamManager" +
-                ", id="+ user.getID()+
-                ": name="+ user.getName()+
-                ", price=" + price +
-                ", permission manage assets=" + permissionManageAssets +
-                ", permission finance=" + permissionFinance+
-                ", teams= "+ teamsString(teams);
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        String news = (String)arg;
-        user.addMessage(news);
-    }
-
-    public String getTeamsId(){
-        String listOfId = "";
-        for (Team team: teams) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
-        }
-        return listOfId;
     }
 }

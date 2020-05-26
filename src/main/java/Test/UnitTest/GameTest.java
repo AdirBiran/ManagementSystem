@@ -27,7 +27,9 @@ public void init(){
     system.systemInit(true);
     String  leagueId = system.dataReboot();
     LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-    Admin admin = (Admin) system.getAdmin().checkUserRole("Admin");
+    Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+    team0=league.getTeams().get(0);
+    team1=league.getTeams().get(1);;
     User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
     UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
     unionRole.assignGames(league.getId(), system.getDates());
@@ -114,7 +116,8 @@ public void init(){
 
     @Test
     public void getName(){
-        assertEquals(game.getName(), game.getHostTeam().getName() + " VS "+ game.getGuestTeam().getName());
+        assertEquals(game.getName(), game.getHostTeam().getID() + ":" + game.getHostTeam().getName()
+                + " VS " + game.getGuestTeam().getID() + ":" + game.getGuestTeam().getName());
     }
 
     @Test

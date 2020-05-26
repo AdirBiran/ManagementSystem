@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -78,8 +77,6 @@ public class Team extends Observable {
         this.permanentlyClosed = isPermanentlyClosed;
     }
 
-
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
     public boolean addLeague(LeagueInSeason league) {
         if(!leagues.contains(league)){
             this.leagues.add(league);
@@ -166,6 +163,29 @@ public class Team extends Observable {
         return printNames;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+        if(active){
+            setChanged();
+            notifyObservers(Database.getCurrentDate() + ": " + this.name + " is open");
+            updateAllSystemAdmins(Database.getCurrentDate() + ": " + "team " + this.name + " open");
+        }
+        else {
+            setChanged();
+            notifyObservers(Database.getCurrentDate() + ": " + this.name + " is closed");
+            updateAllSystemAdmins(Database.getCurrentDate() + ": " + "team " + this.name + " closed");
+        }
+    }
+
+    private void updateAllSystemAdmins(String news) {
+        for(Admin admin : Database.getAllAdmins()){
+            Admin adminRole = (Admin)admin.getUser().checkUserRole("Admin");
+            if(adminRole instanceof Admin){
+                adminRole.update(this, news);
+            }
+        }
+    }
+
     public void addAWin() {
         this.wins++;
     }
@@ -191,7 +211,9 @@ public class Team extends Observable {
                 user.addRole(teamOwner);
             }
             this.addObserver(teamOwner);
-            teamOwner.update(this, "You've added a team owner appointment to team " +this.getName());
+            teamOwner.update(this, Database.getCurrentDate() + ": " + "You've added a team owner appointment to team " +this.getName());
+            Database.updateObject(this);
+            Database.updateObject(teamOwner);
             return true;
         }
         return false;
@@ -210,7 +232,9 @@ public class Team extends Observable {
                 user.addRole(teamManager);
             }
             this.addObserver(teamManager);
-            teamManager.update(this, "You've added a team manager appointment to team " +this.getName());
+            teamManager.update(this, Database.getCurrentDate() + ": " + "You've added a team manager appointment to team " +this.getName());
+            Database.updateObject(this);
+            Database.updateObject(teamManager);
             return true;
         }
         return false;
@@ -226,6 +250,8 @@ public class Team extends Observable {
                 }
                 this.players.add(user);
                 player.addTeam(this);
+                Database.updateObject(this);
+                Database.updateObject(player);
                 return true;
             }
         }
@@ -248,6 +274,8 @@ public class Team extends Observable {
             if(coach!=null){
                 this.coaches.add(user);
                 coach.addTeam(this);
+                Database.updateObject(this);
+                Database.updateObject(coach);
                 return true;
             }
         }
@@ -268,8 +296,10 @@ public class Team extends Observable {
             teamOwners.remove(teamOwner);
             TeamOwner teamOwnerRole = (TeamOwner) teamOwner.checkUserRole("TeamOwner");
             teamOwnerRole.removeTeam(this);
-            teamOwnerRole.update(this, "Your subscription has been removed from the team "+this.name);
+            teamOwnerRole.update(this, Database.getCurrentDate() + ": " + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamOwnerRole);
+            Database.updateObject(this);
+            Database.updateObject(teamOwnerRole);
             return true;
         }
         return false;
@@ -280,8 +310,10 @@ public class Team extends Observable {
             teamManagers.remove(teamManager);
             TeamManager teamManagerRole = (TeamManager) teamManager.checkUserRole("TeamManager");
             teamManagerRole.removeTeam(this);
-            teamManagerRole.update(this, "Your subscription has been removed from the team "+this.name);
+            teamManagerRole.update(this, Database.getCurrentDate() + ": " + "Your subscription has been removed from the team "+this.name);
             this.deleteObserver(teamManagerRole);
+            Database.updateObject(this);
+            Database.updateObject(teamManagerRole);
             return true;
         }
         return false;
@@ -292,6 +324,7 @@ public class Team extends Observable {
             Role role = player.checkUserRole("Player");
             ((Player)role).removeTeam(this);
             this.players.remove(player);
+            Database.updateObject(this);
             return true;
         }
         return false;
@@ -302,11 +335,29 @@ public class Team extends Observable {
             Role role = coach.checkUserRole("Coach");
             ((Coach)role).removeTeam(this);
             this.coaches.remove(coach);
+            Database.updateObject(this);
             return true;
         }
         return false;
     }
 
+    public boolean addField(Field field) {
+        if(!fields.contains(field)) {
+            fields.add(field);
+            Database.updateObject(this);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeField(Field field) {
+        if(fields.size()>1) {
+            fields.remove(field);
+            Database.updateObject(this);
+            return true;
+        }
+        return false;
+    }
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getName() {
         return name;
@@ -347,18 +398,6 @@ public class Team extends Observable {
     public Budget getBudget() {
         return budget;
     }
-    public String getGamesId(){
-        String listOfId = "";
-        for (Game game: games) {
-            if(listOfId.equals("")){
-                listOfId = listOfId + game.getId();
-            }
-            else {
-                listOfId = listOfId + ","+game.getId();
-            }
-        }
-        return listOfId;
-    }
 
     public List<Game> getGames() {
         return games;
@@ -377,29 +416,6 @@ public class Team extends Observable {
         return active;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
-        if(active){
-            setChanged();
-            notifyObservers(this.name + " is open");
-            updateAllSystemAdmins("team "+this.name+" open");
-        }
-        else {
-            setChanged();
-            notifyObservers(this.name + " is closed");
-            updateAllSystemAdmins("team "+this.name+" closed");
-        }
-    }
-
-    private void updateAllSystemAdmins(String news) {
-        for(User admin : Database.getSystemAdmins()){
-            Admin adminRole = (Admin)admin.checkUserRole("Admin");
-            if(adminRole instanceof Admin){
-                adminRole.update(this, news);
-            }
-        }
-    }
-
     public boolean isPermanentlyClosed() {
         return permanentlyClosed;
     }
@@ -408,8 +424,8 @@ public class Team extends Observable {
         this.permanentlyClosed = permanentlyClosed;
         if(permanentlyClosed) {
             setChanged();
-            notifyObservers(this.name + " is permanently closed");
-            updateAllSystemAdmins(this.name + " is permanently closed");
+            notifyObservers(Database.getCurrentDate() + ": " + this.name + " is permanently closed");
+            updateAllSystemAdmins(Database.getCurrentDate() + ": " + this.name + " is permanently closed");
         }
 
     }
@@ -418,24 +434,11 @@ public class Team extends Observable {
         return id;
     }
 
-
     public double getPrice() {
         return 0;
     }
 
-    public boolean addField(Field field) {
-        if(!fields.contains(field)) {
-            fields.add(field);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean removeField(Field field) {
-        if(fields.size()>1) {
-            fields.remove(field);
-            return true;
-        }
-        return false;
+    public List<LeagueInSeason> getLeaguesInSeason() {
+        return leagues;
     }
 }

@@ -1,5 +1,6 @@
 package Domain;
 
+import Data.Database;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -25,23 +26,18 @@ public class PersonalPage {
         this.followers = followers;
     }
 
-    // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
-
     @Override
     public String toString() {
         return  id +","+user.getName()+","+data;
 
     }
 
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
     public String getId() {
         return id;
     }
 
-    /**
-     *
-     * @return
-     */
     public String getData() {
         return data;
     }
@@ -53,6 +49,7 @@ public class PersonalPage {
     public void addAFollower(Fan follower) {
         if(!followers.contains(follower)){
             followers.add(follower);
+            Database.updateObject(this);
             follower.addPageToFollow(this.getId());
         }
     }
@@ -64,7 +61,9 @@ public class PersonalPage {
     public void setData(String data) {
         this.data = data;
     }
+
     public void addData(String data) {
         this.data +=" "+ data;
     }
+
 }

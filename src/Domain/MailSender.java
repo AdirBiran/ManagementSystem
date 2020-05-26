@@ -1,6 +1,5 @@
 package Domain;
 
-
 public class MailSender {
 
     private static boolean reallySend = false;
@@ -24,7 +23,6 @@ public class MailSender {
         return true;
 
     }
-
 
     public static void setReallySend(boolean reallySend) {
         MailSender.reallySend = reallySend;

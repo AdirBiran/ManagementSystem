@@ -1,11 +1,11 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class Event {
-
-    //public static Object EventType;
 
     public enum EventType {
         Undefined,
@@ -27,7 +27,7 @@ public class Event {
     public Event(EventType type,Game game, String description) {
         this.id = "E"+IdGenerator.getNewId();
         this.type = type;
-        this.date = new Date();
+        this.date = Database.getCurrentDate();
         long diffInMillies = Math.abs(date.getTime() - game.getDate().getTime());
         this.minuteInGame = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         this.description = description;
@@ -41,8 +41,22 @@ public class Event {
         this.minuteInGame = minuteInGame;
         this.description = description;
     }
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
+    @Override
+    public String toString() {
+        return "Event{" +
+                "type=" + type +
+                ", date=" + date +
+                ", minuteInGame=" + minuteInGame +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+    public String createMessage(){
+        return date + ": " + minuteInGame + ", " + type + "- " + description;
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     public EventType getType() {
         return type;
@@ -66,15 +80,5 @@ public class Event {
 
     public String getId() {
         return id;
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "type=" + type +
-                ", date=" + date +
-                ", minuteInGame=" + minuteInGame +
-                ", description='" + description + '\'' +
-                '}';
     }
 }

@@ -1,7 +1,7 @@
 package Domain;
 
 import Data.Database;
-
+import java.util.Date;
 import java.util.Observable;
 
 public class Budget extends Observable {
@@ -16,6 +16,12 @@ public class Budget extends Observable {
         income = 0;
         expanses = 0;
         balance = 0;
+    }
+
+    public Budget(double income,double expanses){
+        this.income=income;
+        this.expanses=expanses;
+        this.balance=income - expanses;
     }
 
 
@@ -38,7 +44,7 @@ public class Budget extends Observable {
             if (balance < 0) {
                 this.expanses -= expense;
                 updateBalance();
-                updateAllUnionRep("The team: "+team.getName()+" has exceeded its budget");
+                updateAllUnionRep(Database.getCurrentDate() + "The team: "+team.getName()+" has exceeded its budget");
                 return false;
             } else
                 return true;
@@ -48,7 +54,7 @@ public class Budget extends Observable {
     }
 
     private void updateAllUnionRep(String news) {
-        for (Role union : Database.getListOfAllSpecificRoles("UnionRepresentative")){
+        for (Role union : Database.getAllUnions()){
             ((UnionRepresentative)union).update(this, news);
         }
     }
@@ -56,7 +62,8 @@ public class Budget extends Observable {
     private void updateBalance() {
         balance = income - expanses;
     }
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
+
+    // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++
 
     public double getBalance() {
         return balance;

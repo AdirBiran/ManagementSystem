@@ -5,10 +5,8 @@ import Logger.Logger;
 
 public class FinanceTransactionsSystem
 {
-    private NotificationSystem notificationSystem;
 
-    public FinanceTransactionsSystem(NotificationSystem notificationSystem) {
-        this.notificationSystem = notificationSystem;
+    public FinanceTransactionsSystem() {
     }
 
     /*
@@ -64,12 +62,12 @@ public class FinanceTransactionsSystem
         User user = UserFactory.getUser(userId);
         if (user != null) {
             Role role = user.checkUserRole("Team");
+            Logger.logEvent(userId, " Got team's " + teamId + " balance");
             return ((Manager) role).getBalance(teamId);
         }
+        Logger.logError("Getting team's balance failed");
         return -1;
 
     }
-
-    //how union representative uses this functionality? no use case for this
 
 }

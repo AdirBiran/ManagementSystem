@@ -2,6 +2,7 @@ package Service;
 
 import Domain.*;
 import Logger.Logger;
+import Presentation.Checker;
 
 import java.util.List;
 
@@ -18,15 +19,15 @@ public class GuestSystem {
      */
     public String register(String mail, String password, String firstName, String lastName,
                                         String phone, String address){
-
-        User registeredUser = guest.register(mail, password, firstName, lastName, phone, address);
-        if (registeredUser != null)
-            Logger.logEvent(registeredUser.getID() + " (Guest)","Register Success");
-        else
-            Logger.logError("Guest failed Registering");
-
-        return registeredUser.getID();
-
+        if(Checker.isValidEmailAddress(mail) && Checker.isValidPassword(password)) {
+            User registeredUser = guest.register(mail, password, firstName, lastName, phone, address);
+            if (registeredUser != null) {
+                Logger.logEvent(registeredUser.getID() + " (Guest)", "Register Success");
+                return registeredUser.getID();
+            }
+        }
+        Logger.logError("Guest failed Registering");
+        return null;
     }
 
     /*
@@ -38,12 +39,14 @@ public class GuestSystem {
 
         User loginUser = guest.login(mail, password);
 
-        if (loginUser != null)
-            Logger.logEvent(loginUser.getID() + " (Guest)","Login Success");
-        else
+        if (loginUser != null) {
+            Logger.logEvent(loginUser.getID() + " (Guest)", "Login Success");
+            return loginUser.getID();
+        }
+        else {
             Logger.logError("Guest failed Login");
-
-        return loginUser.getID();
+            return null;
+        }
     }
 
     /*
@@ -51,7 +54,8 @@ public class GuestSystem {
      */
 
     public List<String> search( String wordToSearch){
-       return guest.search(wordToSearch);
+        Logger.logEvent("(Guest)","Searched " + wordToSearch);
+        return guest.search(wordToSearch);
     }
 
     /*

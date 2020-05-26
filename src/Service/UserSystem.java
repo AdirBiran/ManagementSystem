@@ -20,6 +20,7 @@ public class UserSystem extends GuestSystem {
             Logger.logEvent(user.getID(), "View Search History");
             return user.getSearchHistory();
         }
+        Logger.logError("(UserSystem) Viewing search history failed");
         return null;
     }
 
@@ -80,9 +81,12 @@ public class UserSystem extends GuestSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Fan");
             if (role instanceof Fan) {
-                ((Fan) role).submitComplaint(description);
-                Logger.logEvent(user.getID(), "Added Complaint");
-                return true;
+                Boolean ans=  ((Fan) role).submitComplaint(description);
+                if (ans)
+                    Logger.logEvent(user.getID(), "Added Complaint");
+                else
+                    Logger.logEvent(user.getID(), "Adding complaint Failed");
+                return ans;
             }
         }
         Logger.logEvent(user.getID(), "Adding complaint Failed");
@@ -106,40 +110,6 @@ public class UserSystem extends GuestSystem {
         return false;
     }
 
-    public List<String> getFanPages(String userId) {
-        User user = UserFactory.getUser(userId);
-        if(user!=null) {
-            Role role = user.checkUserRole("Fan");
-            if (role instanceof Fan) {
-                Logger.logEvent(user.getID(), "Requested followed pages");
-                return ((Fan) role).getFollowedPages();
-            }
-        }
-        return null;
-    }
-    public List<String> getAllPages(String userId) {
-        User user = UserFactory.getUser(userId);
-        if(user!=null) {
-            Role role = user.checkUserRole("Fan");
-            if (role instanceof Fan) {
-                Logger.logEvent(user.getID(), "Requested all the personal pages in the system");
-                return ((Fan) role).getAllPages();
-            }
-        }
-        return null;
-    }
-    public List<String> getAllFutureGames(String userId) {
-        User user = UserFactory.getUser(userId);
-        if(user!=null) {
-            Role role = user.checkUserRole("Fan");
-            if (role instanceof Fan) {
-                Logger.logEvent(user.getID(), "Requested all the future games");
-                return ((Fan) role).getAllFutureGames();
-            }
-        }
-        return null;
-    }
-
     /*
     Fan registration for alerts for games you've selected
      */
@@ -148,7 +118,7 @@ public class UserSystem extends GuestSystem {
         if(user!=null) {
             Role role = user.checkUserRole("Fan");
             if (role instanceof Fan) {
-                boolean success = ((Fan) role).followGames(gamesId, toMail);
+                boolean success = ((Fan) role).registrationForGamesAlerts(gamesId, toMail);
                 if (success)
                     Logger.logEvent(user.getID(), "Game Alerts Registration Success");
                 else
@@ -160,7 +130,6 @@ public class UserSystem extends GuestSystem {
         return false;
     }
 
-
     public boolean updateTrainingForCoach(String userId, String training) {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
@@ -168,9 +137,11 @@ public class UserSystem extends GuestSystem {
             if (role instanceof Coach) {
                 Coach.TrainingCoach trainingCoach = Coach.TrainingCoach.valueOf(training);
                 ((Coach) role).setTraining(trainingCoach);
+                Logger.logEvent(user.getID(), "Updated coach's training");
                 return true;
             }
         }
+        Logger.logError("Updating coach's training Failed");
         return false;
     }
     public boolean updateTrainingForReferee(String userId, String training) {
@@ -180,10 +151,11 @@ public class UserSystem extends GuestSystem {
             if (role instanceof Referee) {
                 Referee.TrainingReferee trainingReferee = Referee.TrainingReferee.valueOf(training);
                 ((Referee) role).setTraining(trainingReferee);
-
+                Logger.logEvent(user.getID(), "Updated referee's training");
                 return true;
             }
         }
+        Logger.logError("Updating referee's training Failed");
         return false;
     }
 
@@ -194,9 +166,11 @@ public class UserSystem extends GuestSystem {
             if (role instanceof Player) {
                 Player.RolePlayer rolePlayer = Player.RolePlayer.valueOf(newRole);
                 ((Player) role).setRole(rolePlayer);
+                Logger.logEvent(user.getID(), "Updated player's role");
                 return true;
             }
         }
+        Logger.logError("Updating player's role Failed");
         return false;
     }
     public boolean updateRoleForCoach(String userId, String newRole) {
@@ -206,33 +180,13 @@ public class UserSystem extends GuestSystem {
             if (role instanceof Coach) {
                 Coach.RoleCoach roleCoach = Coach.RoleCoach.valueOf(newRole);
                 ((Coach) role).setRoleInTeam(roleCoach);
+                Logger.logEvent(user.getID(), "Updated coach's role");
                 return true;
             }
         }
+        Logger.logError("Updating coach's role Failed");
         return false;
     }
-
-    public String getRoleForPlayer(String userId) {
-        User user = UserFactory.getUser(userId);
-        if(user!=null) {
-            Role role = user.checkUserRole("Player");
-            if (role instanceof Player) {
-                return ((Player) role).getRole();
-            }
-        }
-        return "";
-    }
-    public String getRoleForCoach(String userId) {
-        User user = UserFactory.getUser(userId);
-        if(user!=null) {
-            Role role = user.checkUserRole("Coach");
-            if (role instanceof Coach) {
-                return ((Coach) role).getRoleInTeam();
-            }
-        }
-        return "";
-    }
-
      /*
     Search results in a system
      */
@@ -242,14 +196,112 @@ public class UserSystem extends GuestSystem {
             Logger.logEvent(user.getID(), "Searched " + wordToSearch);
             return user.search(wordToSearch);
         }
+        Logger.logError("(UserSystem) Searching Failed");
         return null;
     }
 
     public List<String> getUserRoles(String userId){
         User user = UserFactory.getUser(userId);
         if(user!=null) {
+            Logger.logEvent(user.getID(), "Got user roles");
             return user.getStringRoles();
         }
+        Logger.logError("Getting user roles Failed");
         return null;
     }
+
+    public List<String> getFanPages(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                Logger.logEvent(user.getID(), "Requested followed pages");
+                return ((Fan) role).getFollowedPages();
+            }
+        }
+        Logger.logError("Getting fan pages Failed");
+        return null;
+    }
+    public List<String> getAllPages(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                Logger.logEvent(user.getID(), "Requested all the personal pages in the system");
+                return ((Fan) role).getAllPages();
+            }
+        }
+        Logger.logError("Getting all pages Failed");
+        return null;
+    }
+    public List<String> getAllFutureGames(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if (role instanceof Fan) {
+                Logger.logEvent(user.getID(), "Requested all the future games");
+                return ((Fan) role).getAllFutureGames();
+            }
+        }
+        Logger.logError("Getting all future games Failed");
+        return null;
+    }
+
+    public String getRoleForPlayer(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Player");
+            if (role instanceof Player) {
+                Logger.logEvent(user.getID(), "Got player's role");
+                return ((Player) role).getRole();
+            }
+        }
+        Logger.logError("Getting player's role Failed");
+        return "";
+    }
+
+    public String getRoleForCoach(String userId) {
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Coach");
+            if (role instanceof Coach) {
+                Logger.logEvent(user.getID(), "Got coach's role");
+                return ((Coach) role).getRoleInTeam();
+            }
+        }
+        Logger.logError("Getting coach's role Failed");
+        return "";
+    }
+
+    public String getUserInfo(String userId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Fan");
+            if(role instanceof Fan)
+            {
+                Logger.logEvent(userId, "Got user info");
+                return ((Fan)role).getUserInfo();
+
+            }
+            role = user.checkUserRole("Player");
+
+            if(role instanceof Player)
+            {
+                Logger.logEvent(userId, "Got user info");
+                return role.getUserInfo();
+
+            }
+            role = user.checkUserRole("Coach");
+
+            if(role instanceof Player)
+            {
+                Logger.logEvent(userId, "Got user info");
+                return role.getUserInfo();
+
+            }
+        }
+        Logger.logError("Getting user info Failed");
+        return null;
+    }
+
 }

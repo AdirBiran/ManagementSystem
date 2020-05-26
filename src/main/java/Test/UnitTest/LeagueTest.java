@@ -19,7 +19,7 @@ public class LeagueTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         leagueInSeason = Database.getLeagueInSeason(leagueId);
-        league=new League("Aal","1");
+        league=new League("Haal", League.LevelLeague.level2);
     }
     @Test
     public void addLeagueInSeason() {
@@ -34,12 +34,12 @@ public class LeagueTest {
 
     @Test
     public void getName() {
-        assertEquals(league.getName(),"Aal");
+        assertEquals(league.getName(),"Haal");
     }
 
     @Test
     public void getLevel() {
-        assertEquals(league.getLevel(),"1");
+        assertEquals(league.getLevel(), "level2");
     }
 
     @Test

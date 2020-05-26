@@ -1,7 +1,8 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.HashSet;
-import java.util.LinkedList;
 
 public class Coach extends Role implements PartOfATeam {
 
@@ -46,50 +47,9 @@ public class Coach extends Role implements PartOfATeam {
         this.isActive = isActive;
         myRole = "Coach";
     }
-
-
-// ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
-
-    public String getTraining() {
-        return training.toString();
-    }
-
-    public String getRoleInTeam() {
-        return roleInTeam.toString();
-    }
-
-    public void setTraining(TrainingCoach training) {
-        this.training = training;
-    }
-
-    public void setRoleInTeam(RoleCoach roleInTeam) {
-        this.roleInTeam = roleInTeam;
-    }
-
-    @Override
-    public String getID() {
-        return user.getID();
-    }
-
     @Override
     public void deactivate() {
         isActive=false;
-    }
-
-
-    @Override
-    public double getPrice() {
-        return price;
-    }
-
-    @Override
-    public void setPrice(double update) {
-        price = update;
-    }
-
-    @Override
-    public HashSet<Team> getTeams() {
-        return teams;
     }
 
     @Override
@@ -100,6 +60,7 @@ public class Coach extends Role implements PartOfATeam {
     @Override
     public void removeTeam(Team team) {
         teams.remove(team);
+        Database.updateObject(this);
     }
 
     @Override
@@ -126,17 +87,44 @@ public class Coach extends Role implements PartOfATeam {
                 ", role in team=" + roleInTeam+
                 ", teams= "+ teamsString(teams);
     }
+    
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
-    public String getTeamsId(){
-        String listOfId = "";
-        for (Team team: teams) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
-        }
-        return listOfId;
+    public String getTraining() {
+        return training.toString();
+    }
+
+    public String getRoleInTeam() {
+        return roleInTeam.toString();
+    }
+
+    public void setTraining(TrainingCoach training) {
+        this.training = training;
+        Database.updateObject(this);
+    }
+
+    public void setRoleInTeam(RoleCoach roleInTeam) {
+        this.roleInTeam = roleInTeam;
+        Database.updateObject(this);
+    }
+
+    @Override
+    public String getID() {
+        return user.getID();
+    }
+
+    @Override
+    public double getPrice() {
+        return price;
+    }
+
+    @Override
+    public void setPrice(double update) {
+        price = update;
+    }
+
+    @Override
+    public HashSet<Team> getTeams() {
+        return teams;
     }
 }

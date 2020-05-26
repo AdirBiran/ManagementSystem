@@ -25,4 +25,17 @@ public class PersonalPageSystem {
 
         return false;
     }
+
+    public String viewPage(String userId, String pageId) {
+        User user = UserFactory.getUser(userId);
+        if (user != null) {
+            Role role = user.checkUserRole("HasPage");
+            if (role instanceof HasPage) {
+                Logger.logEvent(user.getID() + " (User)", "Viewed page " + pageId);
+                return ((HasPage)role).viewPage(pageId);
+            }
+        }
+        Logger.logError("Viewing personal page failed");
+        return null;
+    }
 }

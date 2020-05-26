@@ -1,7 +1,6 @@
 package Domain;
 
 import Data.Database;
-
 import java.util.*;
 
 public class TeamOwner extends Manager implements Observer {
@@ -32,19 +31,29 @@ public class TeamOwner extends Manager implements Observer {
         this.personalPages = personalPages;
     }
 
-
-    public HashMap<User, Team> getAppointedTeamOwners() {
-        return appointedTeamOwners;
+    @Override
+    public String myRole() {
+        return "TeamOwner";
     }
 
-    public HashMap<User, Team> getAppointedTeamManagers() {
-        return appointedTeamManagers;
+    @Override
+    public String toString() {
+        return "TeamOwner" +
+                ", id=" + user.getID() +
+                ": name=" + user.getName();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String news = (String)arg;
+        user.addMessage(news);
     }
 
     public void addTeam(Team team)
     {
-        if(!teamsToManage.contains(team))
+        if(!teamsToManage.contains(team)) {
             teamsToManage.add(team);
+        }
     }
 
     public void addTeamPersonalPage(Team team , PersonalPage personalPage){
@@ -63,14 +72,13 @@ public class TeamOwner extends Manager implements Observer {
         teamsToManage.remove(team);
     }
 
-
     public boolean createTeam(User user , String teamName, List<String> playersId, List<String> coachesId, String fieldId){
         Role teamOwnerRole = user.checkUserRole("TeamOwner");
         if(teamOwnerRole != null){
             List<User> teamOwner = new LinkedList<>();
             teamOwner.add(user);
 
-            Field field = (Field) Database.getAssetById(fieldId);
+            Field field =Database.getField(fieldId);
             List<User> players = findUsers(playersId);
             List<User> coaches = findUsers(coachesId);
 
@@ -106,6 +114,7 @@ public class TeamOwner extends Manager implements Observer {
                     ((TeamOwner) teamOwnerRole).addTeam(team);
                     team.addTeamOwner(user);
                     appointedTeamOwners.put(user, team);
+                    Database.updateObject(this);
                     return true;
                 }
             }
@@ -125,6 +134,7 @@ public class TeamOwner extends Manager implements Observer {
                     }
                     team.addTeamManager(user, price, manageAssets, finance);
                     appointedTeamManagers.put(user, team);
+                    Database.updateObject(this);
                     return true;
                 }
             }
@@ -142,6 +152,7 @@ public class TeamOwner extends Manager implements Observer {
                     team.removeTeamOwner(user);
                     if (teamOwnerRole.getTeamsToManage().size() == 0)
                         user.getRoles().remove(teamOwnerRole);
+                    Database.updateObject(this);
                     return true;
                 }
             }
@@ -158,6 +169,7 @@ public class TeamOwner extends Manager implements Observer {
                     this.appointedTeamManagers.remove(user);
                     if (teamManagerRole.getTeamsToManage().size() == 0)
                         user.getRoles().remove(teamManagerRole);
+                    Database.updateObject(this);
                     return true;
                 }
             }
@@ -186,6 +198,8 @@ public class TeamOwner extends Manager implements Observer {
                 team.setActive(false);
                 teamsToManage.remove(team);
                 closedTeams.add(team);
+                Database.updateObject(this);
+                Database.updateObject(team);
                 return true;
             }
         }
@@ -198,57 +212,38 @@ public class TeamOwner extends Manager implements Observer {
                 team.setActive(true);
                 closedTeams.remove(team);
                 teamsToManage.add(team);
+                Database.updateObject(this);
+                Database.updateObject(team);
                 return true;
             }
         }
         return false;
     }
 
+    // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++
+
     public List<Team> getClosedTeams() {
         return closedTeams;
     }
 
-    @Override
-    public String myRole() {
-        return "TeamOwner";
-    }
-
-    @Override
-    public String toString() {
-        return "TeamOwner" +
-                ", id=" + user.getID() +
-                ": name=" + user.getName();
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        String news = (String)arg;
-        user.addMessage(news);
-    }
-
-    public String getTeamsId(){
-        String listOfId = "";
-        for (Team team: teamsToManage) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
+    public List<String> getAllClosedTeam() {
+        List <String> closed = new LinkedList<>();
+        for (Team team : closedTeams) {
+            if (!team.isPermanentlyClosed())
+                closed.add(team.toString());
         }
-        return listOfId;
+        return closed;
     }
 
-    public String getClosedTeamsId(){
-        String listOfId = "";
-        for (Team team: closedTeams) {
-            if(listOfId.equals("")){
-                listOfId = listOfId+team.getID();
-            }
-            else {
-                listOfId = listOfId + ","+team.getID();
-            }
-        }
-        return listOfId;
+    public HashMap<Team, PersonalPage> getPersonalPages() {
+        return personalPages;
+    }
+
+    public HashMap<User, Team> getAppointedTeamOwners() {
+        return appointedTeamOwners;
+    }
+
+    public HashMap<User, Team> getAppointedTeamManagers() {
+        return appointedTeamManagers;
     }
 }

@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 public class HasPage extends Role{
 
     private PersonalPage page;
@@ -12,10 +14,7 @@ public class HasPage extends Role{
     public void uploadToPage(String data)
     {
         page.addData(data);
-    }
-
-    public PersonalPage getPage() {
-        return page;
+        Database.updateObject(this);
     }
 
     @Override
@@ -26,5 +25,16 @@ public class HasPage extends Role{
     @Override
     public String myRole() {
         return "HasPage";
+    }
+
+    public String viewPage(String pageId) {
+        PersonalPage personalPage = Database.getPersonalPage(pageId);
+        if (personalPage!=null)
+            return personalPage.toString();
+        return null;
+    }
+
+    public PersonalPage getPage() {
+        return page;
     }
 }

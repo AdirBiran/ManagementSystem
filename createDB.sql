@@ -1,6 +1,6 @@
-Create Database FootballManagementDB1;
+Create Database ManagementSystemDB;
 GO
-USE [FootballManagementDB1]
+USE [ManagementSystemDB]
 GO
 
 CREATE TABLE [Admins](
@@ -9,7 +9,7 @@ CREATE TABLE [Admins](
 
 CREATE TABLE [Passwords](
 	[ID] [char](30)  Primary key,
-	[Password] [char](255) NOT NULL,
+	[Password] [varchar](255) NOT NULL,
 
 );
 
@@ -22,7 +22,7 @@ CREATE TABLE [Users](
 	[Roles] [varchar](255) ,
 	[searchHistories] [varchar](1000) ,
 	--FOREIGN KEY (ID) REFERENCES [Passwords] (ID)
-	FOREIGN KEY([ID]) REFERENCES [dbo].[Passwords] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
+	--FOREIGN KEY([ID]) REFERENCES [dbo].[Passwords] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
 );
 
 CREATE TABLE [Referees](
@@ -38,6 +38,7 @@ CREATE TABLE [UnionRepresentatives](
 CREATE TABLE [Coaches](
 	[ID] [char](30)  Primary key,
 	[Training] [varchar](50) NOT NULL,
+	[RoleInTeam] [varchar](50) NOT NULL,
 	[Teams] [varchar](255) NOT NULL,
 	[isActive] [bit] NOT NULL,
 	[Price] [real] NOT NULL,
@@ -48,25 +49,29 @@ CREATE TABLE [Fans](
 	[Address] [varchar](255) NOT NULL,
 	[Phone] [varchar](50) NOT NULL unique,
 	[FollowedPagesIDs] [varchar](255) ,
+	[ComplaintsIDs] [varchar](255) ,
+	--[isMailAlerts] [bit] ,
 );
 
 CREATE TABLE [Fields](
 	[ID] [char](30)  Primary key,
 	[Location] [char](50) NOT NULL,
+	[Name] [char](50) NOT NULL,
 	[Capacity] [int] NOT NULL,
 	[Teams] [varchar](255) NOT NULL,
 	[isActive] [bit] NOT NULL,
 	[Price] [real] NOT NULL,
-	FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
+	--FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
 );
 
 CREATE TABLE [Players](
 	[ID] [char](30)  Primary key,
 	[Birthdate] [date] NOT NULL,
 	[Teams] [varchar](255) NOT NULL,
+	[RoleInTeam] [varchar](255) NOT NULL,
 	[isActive] [bit] NOT NULL,
 	[Price] [real] NOT NULL,
-	FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
+	--FOREIGN KEY([Teams]) REFERENCES [dbo].[Teams] ([ID]) ON UPDATE CASCADE ON DELETE CASCADE ,
 );
 
 CREATE TABLE [TeamManagers](
@@ -84,6 +89,7 @@ CREATE TABLE [TeamOwners](
 	[ClosedTeams] [varchar](255) ,
 	[AppointedTeamOwners] [varchar] ,
 	[AppointedTeamManagers] [varchar](255) ,
+	[PersonalPageIDs] [varchar](255) ,
 );
 
 CREATE TABLE [PersonalPages](
@@ -116,14 +122,14 @@ CREATE TABLE [Leagues](
 	[ID] [char](30)  Primary key,
 	[Name] [varchar](50) NOT NULL,
 	[LeagueLevel] [varchar](50) NOT NULL,
-	[SeasonsIDs] [varchar](255) NOT NULL,
+	[LeaguesInSeasonsIDs] [varchar](255) NOT NULL,
 );
 
 CREATE TABLE [Seasons](
 	[ID] [char](30)  Primary key,
 	[SeasonYear] [int] NOT NULL,
 	[StartDate] [date] NOT NULL,
-	[LeaguesIDs] [varchar](255) NOT NULL,
+	[LeaguesInSeasonsIDs] [varchar](255) NOT NULL,
 );
 
 CREATE TABLE [LeaguesInSeasons](
@@ -162,7 +168,7 @@ CREATE TABLE [Games](
 
 CREATE TABLE [EventReports](
 	[ID] [char](30)  Primary key,
-	[GameID] [char](30) NOT NULL,
+	--[GameID] [char](30) NOT NULL,
 	[EventsIDs] [varchar](max) NOT NULL,
 );
 

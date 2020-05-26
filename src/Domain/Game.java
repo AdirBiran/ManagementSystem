@@ -1,5 +1,6 @@
 package Domain;
 
+import Data.Database;
 import java.util.*;
 
 public class Game extends Observable {
@@ -33,7 +34,7 @@ public class Game extends Observable {
         addRefereeToObservers(mainReferee, sideReferees);
         this.hostTeam = hostTeam;
         this.guestTeam = guestTeam;
-        this.name = hostTeam.getName() + " VS "+ guestTeam.getName();
+        this.name = hostTeam.getID() + ":" + hostTeam.getName() + " VS " + guestTeam.getID() + ":" + guestTeam.getName();
         eventReport = new EventReport();
         hostScore=0;
         guestScore=0;
@@ -77,10 +78,27 @@ public class Game extends Observable {
         if(fansForAlerts.get(fan)==null) {
             fansForAlerts.put(fan, toMail);
             this.addObserver(fan);
+            Database.updateObject(this);
             return true;
         }
         return false;
     }
+
+    public void setNews(String news) {
+        setChanged();
+        news = "New Alert for game "+this.name+":\n"+ Database.getCurrentDate() + ": " + news;
+        notifyObservers(news);
+        sendMailToFan(news);
+    }
+
+    /*alert for game, sent to mail if fan want get alert to mail*/
+    private void sendMailToFan(String news) {
+        for (Fan fan : fansForAlerts.keySet())
+            if (fansForAlerts.get(fan))
+                MailSender.send(fan.getUser().getMail(), news);
+    }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     public List<String> getEventReportString() {
         List<String> events = new LinkedList<>();
@@ -89,12 +107,6 @@ public class Game extends Observable {
         return events;
     }
 
-    public void setNews(String news) {
-        setChanged();
-        notifyObservers(news);
-        sendMailToFan(news);
-    }
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getId() {
         return id;
     }
@@ -188,17 +200,12 @@ public class Game extends Observable {
         setNews("Location of the game between the teams: " +this.name+ " change to "+this.field.getName()); // referees and fans
     }
 
-    public void setNewsFromReferee(Object news){
+    public void setNewsFromReferee(String news){
         setChanged();
-        notifyObservers(news.toString());
-        sendMailToFan(news.toString());
-    }
-
-    /*alert for game, sent to mail if fan want get alert to mail*/
-    private void sendMailToFan(String news) {
+        news = "New Alert for game "+this.name+":\n" + news;
         for (Fan fan : fansForAlerts.keySet())
-            if (fansForAlerts.get(fan).equals(true))
-                MailSender.send(fan.getUser().getMail(), "New Alert for game "+this.name+":\nnews");
+            fan.update(this, news);
+        sendMailToFan(news);
     }
 
     public LeagueInSeason getLeague() {

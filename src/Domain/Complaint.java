@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.Date;
 import java.util.Observable;
 
@@ -14,7 +16,7 @@ public class Complaint extends Observable {
 
     public Complaint(String description, Fan fanComplained) {
         this.id = "Complaint"+IdGenerator.getNewId();
-        this.date = new Date();
+        this.date = Database.getCurrentDate();
         this.description = description;
         this.fanComplained = fanComplained;
         this.addObserver(fanComplained);
@@ -31,6 +33,10 @@ public class Complaint extends Observable {
         this.addObserver(fanComplained);
         this.isActive = isActive;
         this.response = "";
+    }
+
+    public void deactivate(){
+        isActive = false;
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
@@ -54,14 +60,7 @@ public class Complaint extends Observable {
         this.response = response;
         this.isActive = false;
         setChanged();
-        notifyObservers("Response to your complaint from the date"+this.date+": "+response);
-    }
-
-    /**
-     * this function turns a complaint not active
-     */
-    public void deactivate(){
-        isActive = false;
+        notifyObservers(Database.getCurrentDate() + ":Response to your complaint from the date"+this.date+": \n"+response);
     }
 
     public String getId() {

@@ -2,7 +2,6 @@ package Domain;
 
 import Data.Database;
 import Logger.Logger;
-
 import java.util.*;
 
 public class Admin extends Role implements Observer {
@@ -22,6 +21,8 @@ public class Admin extends Role implements Observer {
             team.setActive(false);
             team.setPermanentlyClosed(true);
             permanentlyClosedTeams.add(team);
+            Database.updateObject(team);
+            Database.updateObject(this);
             Logger.logEvent(user.getID() + " (Admin)", " Closed Team " + team.getName() + " permanently");
 
             return team.getName();
@@ -68,7 +69,7 @@ public class Admin extends Role implements Observer {
      * And removal of a Field*/
     public void removeField(Field field){
         if(field.getTeams().size() == 0){
-            Database.removeAsset(field.getID());
+            Database.removeField(field.getID());
         }
     }
 
@@ -84,6 +85,7 @@ public class Admin extends Role implements Observer {
         Complaint complaint = Database.getComplaints(complaintId);
         if(complaint!=null){
             complaint.setResponse(response);
+            Database.updateObject(complaint);
             return true;
         }
         return false;
@@ -115,6 +117,8 @@ public class Admin extends Role implements Observer {
         user.addMessage(news);
     }
 
+    // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++
+
     public List<String> getAllDetailsAboutCloseTeams() {
         List<String> details = new LinkedList<>();
         for (Team team : Database.getCloseTeams())
@@ -131,7 +135,6 @@ public class Admin extends Role implements Observer {
 
     public List<String> getAllActiveComplaints(){
         List<String> complaints = new LinkedList<>();
-        String details=new String();
         for (Complaint c : Database.getAllActiveComplaints()){
             complaints.add(c.toString());
         }
