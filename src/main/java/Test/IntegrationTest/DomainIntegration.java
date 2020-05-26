@@ -46,7 +46,7 @@ public class DomainIntegration {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         userTeamOwner= team.getTeamOwners().get(0);
     }
@@ -58,7 +58,7 @@ public class DomainIntegration {
        Database.addAsset(field);
        assertTrue(teamManagementSystem.addField(userTeamOwner.getID(),field.getID(),team.getID()));
         assertEquals(2, team.getFields().size());
-        teamManagementSystem.updateAsset(userTeamOwner.getID(),field.getID(),"Price","30");
+        teamManagementSystem.updateAsset(userTeamOwner.getID(),"Field",field.getID(),"Price","30");
         assertEquals(30, field.getPrice(), 0);
         teamManagementSystem.removeField(userTeamOwner.getID(),field.getID(),team.getID());
         assertEquals(1, team.getFields().size());

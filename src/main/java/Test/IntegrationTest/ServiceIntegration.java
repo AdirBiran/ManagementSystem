@@ -40,7 +40,7 @@ public class ServiceIntegration {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         //admin = Database.getSystemAdmins().get(0);
-        admin = (Admin) system.getAdmin().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
         userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         userTeamOwner= team.getTeamOwners().get(0);
 
@@ -95,18 +95,18 @@ public class ServiceIntegration {
     {
         User UnionRep=UserFactory.getNewUnionRepresentative("aa", "bb", "aa@bb.com");
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2020, new Date(120, 4, 1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2020, Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Haal", "level1");
         String leagueInSeasonId = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Haal", "2020", "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         representativeSystem.addFieldToSystem(UnionRep.getID(),"jerusalem","Teddy" ,550, 150000);
-        Field field = (Field) Database.getListOfAllSpecificAssets("Field").get(0);
+        Field field = (Field) Database.getAllFields().get(0);
         Team team;
         for (int i = 0; i < 14; i++) {
             List<String> players = system.createPlayers();
             List<String> coaches =system.createCoaches();
             List<User> owners = new LinkedList<>();
 
-            String ownerId = adminSystem.addNewTeamOwner(system.getAdmin().getID(),"owner","owner","to"+i+"@gmail.com");
+            String ownerId = adminSystem.addNewTeamOwner(system.getAdmin().getUser().getID(),"owner","owner","to"+i+"@gmail.com");
             User owner = UserFactory.getUser(ownerId);
             if(owner!=null){
                 owners.add(owner);
