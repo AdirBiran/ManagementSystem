@@ -1,7 +1,6 @@
 package Presentation;
 
-import Presentation.Records.RefereeRecord;
-import Presentation.Records.TeamRecord;
+import Presentation.Records.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,35 +12,42 @@ import javafx.scene.layout.HBox;
 
 import java.util.List;
 import java.util.LinkedList;
-
+import java.util.HashMap;
 
 public class UnionController {
 
     private HBox mainView1;
     private String loggedUser;
     private Client client;
-
+    private GridPane mainPane;
+    private HashMap<String,String> leagues;//<id,name>
+    private HashMap<String,String> seasons;//<id,name>
+    private HashMap<String,String> leagueInSeasons;//<id,name>
 
     private GeneralController m_general = new GeneralController();
 
-    public UnionController(HBox mainView1, String loggedUser, Client client) {
+    public UnionController(HBox mainView1, String loggedUser, Client client, GridPane mainPane) {
         this.mainView1 = mainView1;
         this.loggedUser = loggedUser;
         this.client = client;
+        this.mainPane = mainPane;
+        this.leagues = new HashMap<>();
+        this.seasons = new HashMap<>();
+        this.leagueInSeasons = new HashMap<>();
     }
 
     public void configureNewLeague()
     {
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         Label name = new Label("League Name:");
-        pane.add(name, 0, 0);
+        mainPane.add(name, 0, 0);
         TextField tf_name = new TextField();
-        pane.add(tf_name, 2, 0);
+        mainPane.add(tf_name, 2, 0);
         Label level = new Label("League Level:");
-        pane.add(level, 0, 1);
+        mainPane.add(level, 0, 1);
         ChoiceBox<String> cb_level = new ChoiceBox<>();
-        pane.add(cb_level, 2, 1);
+        mainPane.add(cb_level, 2, 1);
         ObservableList<String> levels = FXCollections.observableArrayList("level 1","level 2", "level 3","level 4");
         cb_level.setItems(levels);
         Button b_add = new Button("Add");
@@ -59,22 +65,22 @@ public class UnionController {
                     m_general.showAlert("Invalid name or level", Alert.AlertType.ERROR);
             }
         });
-        pane.add(b_add, 2,2);
-        mainView1.getChildren().add(pane);
+        mainPane.add(b_add, 2,2);
+        mainView1.getChildren().add(mainPane);
     }
     public void configureNewSeason(){
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         Label label = new Label("Please select year and start date:");
-        pane.add(label, 0,0);
+        mainPane.add(label, 0,0);
         Label year = new Label("Season Year:");
-        pane.add(year, 0,1);
+        mainPane.add(year, 0,1);
         Label date = new Label("Season Start Date:");
-        pane.add(date, 0,2);
+        mainPane.add(date, 0,2);
         TextField tf_year = new TextField();
-        pane.add(tf_year, 1,1);
+        mainPane.add(tf_year, 1,1);
         DatePicker dp_start = new DatePicker();
-        pane.add(dp_start, 1,2);
+        mainPane.add(dp_start, 1,2);
         Button addBtn = new Button("Add");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -88,44 +94,74 @@ public class UnionController {
                 }
             }
         });
-        pane.add(addBtn, 1,3);
-        mainView1.getChildren().add(pane);
+        mainPane.add(addBtn, 1,3);
+        mainView1.getChildren().add(mainPane);
     }
     public void configureLeagueInSeason(){
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
+        int rowInx=0;
         Label label = new Label("Please select League and Season");
-        pane.add(label, 0,0);
+        mainPane.add(label, 0,rowInx);
+        rowInx++;
         Label l_leagues = new Label("Leagues:");
-        pane.add(l_leagues, 0,1);
-        List<String> leagues = client.sendToServer("getAllLeagues|"+loggedUser);
-        ChoiceBox<String> cb_leagues = new ChoiceBox<>(FXCollections.observableArrayList(leagues));
-        pane.add(cb_leagues, 1,1);
+        mainPane.add(l_leagues, 0,rowInx);
+        List<String> c_leagues = client.sendToServer("getAllLeagues|"+loggedUser);
+        fillLeaguesMap(c_leagues);
+        ChoiceBox<String> cb_leagues = new ChoiceBox<>(FXCollections.observableArrayList(this.leagues.values()));
+        mainPane.add(cb_leagues, 1,rowInx);
+        rowInx++;
         Label l_seasons = new Label("Seasons:");
-        pane.add(l_seasons, 0,2);
-        List<String> seasons = client.sendToServer("getAllSeasons|"+loggedUser);
-        ChoiceBox<String> cb_seasons = new ChoiceBox<>(FXCollections.observableArrayList(seasons));
-        pane.add(cb_seasons, 1,2);
+        mainPane.add(l_seasons, 0,rowInx);
+        List<String> c_seasons = client.sendToServer("getAllSeasons|"+loggedUser);
+        fillSeasonsMap(c_seasons);
+        ChoiceBox<String> cb_seasons = new ChoiceBox<>(FXCollections.observableArrayList(this.seasons.values()));
+        mainPane.add(cb_seasons, 1,rowInx);
+        rowInx++;
+        //add assignment and score policies
+        Label l_assignment = new Label("Game Assignment Policy:");
+        mainPane.add(l_assignment, 0,rowInx);
+        List<String> c_assignment = client.sendToServer("getAllAssignmentsPolicies|"+loggedUser);
+        ChoiceBox<String> cb_assignment  = new ChoiceBox<>(FXCollections.observableArrayList(c_assignment));
+        mainPane.add(cb_assignment, 1,rowInx);
+        rowInx++;
+        Label l_score = new Label("Game Score Policy:");
+        mainPane.add(l_score, 0,rowInx);
+        List<String> c_score = client.sendToServer("getAllScorePolicies|"+loggedUser);
+        ChoiceBox<String> cb_score = new ChoiceBox<>(FXCollections.observableArrayList(c_score));
+        mainPane.add(cb_score, 1,rowInx);
+        rowInx++;
+        //add registration fee
+        Label l_fee = new Label("Registration fee:");
+        mainPane.add(l_fee, 0,rowInx);
+        TextField tf_fee = new TextField();
+        mainPane.add(tf_fee, 1,rowInx);
+        rowInx++;
         Button configureBtn = new Button("Configure");
         configureBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String league =cb_leagues.getValue() , season = cb_seasons.getValue();
-                if(Checker.isValid(league)&&Checker.isValid(season)){
-                    List<String> receive = client.sendToServer("configureLeagueInSeason|"+loggedUser+"|"+league+"|"+season);
+                String league =cb_leagues.getValue() , season = cb_seasons.getValue(), assignment = cb_assignment.getValue(), score = cb_score.getValue(), fee = tf_fee.getText();
+                if(Checker.isValid(league)&&Checker.isValid(season) &&Checker.isValid(assignment)&&Checker.isValid(score)&&Checker.isValidNumber(fee)){
+
+                    List<String> receive = client.sendToServer("configureLeagueInSeason|"+loggedUser+"|"+league+"|"+season+"|"+assignment+"|"+score+"|"+fee);
                     m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    m_general.clearMainView(mainView1);
                 }
             }
         });
-        pane.add(configureBtn, 0, 3);
-        mainView1.getChildren().add(pane);
-    }
-    public void assignGames(){
+        mainPane.add(configureBtn, 0, rowInx);
+        mainView1.getChildren().add(mainPane);
+    }//need to test this with DB
+
+
+
+    public void assignGames(){///////fix!!!
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         Label label = new Label("please select a league to assign games to it:");
-        pane.add(label, 0,0);
-        addLeaguesInSeasonToPane(pane);
+        mainPane.add(label, 0,0);
+        addLeaguesInSeasonToPane(mainPane);
         Button assignBtn = new Button("Assign");
         assignBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -144,15 +180,15 @@ public class UnionController {
 
     public void appointReferee()
     {
-        m_general.buildForm("referee", mainView1, client, loggedUser);
+        m_general.buildForm("referee", mainView1, client, loggedUser, mainPane);
     }
 
     public void addRefereeToLeague(){
         m_general.clearMainView(mainView1);
         Label label = new Label("please select League and Referee:");
-        GridPane pane = new GridPane();
-        pane.add(label, 0,0);
-        addLeaguesInSeasonToPane(pane);
+        m_general.clearMainView(mainPane);
+        mainPane.add(label, 0,0);
+        addLeaguesInSeasonToPane(mainPane);
         List<String> referees = client.sendToServer("getAllReferees|"+loggedUser);
         ObservableList<String> refList = FXCollections.observableArrayList();
         List<RefereeRecord> refRecords = new LinkedList<>();
@@ -165,8 +201,8 @@ public class UnionController {
         }
         ChoiceBox<String> cb_referees = new ChoiceBox<>(refList);
         Label ref = new Label("Referee:");
-        pane.add(ref, 0, 2);
-        pane.add(cb_referees, 1, 2);
+        mainPane.add(ref, 0, 2);
+        mainPane.add(cb_referees, 1, 2);
         Button addBtn = new Button("add");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -185,8 +221,8 @@ public class UnionController {
                     m_general.showAlert("Invalid selection of values", Alert.AlertType.ERROR);
             }
         });
-        pane.add(addBtn, 0, 3);
-        mainView1.getChildren().add(pane);
+        mainPane.add(addBtn, 0, 3);
+        mainView1.getChildren().add(mainPane);
 
     }
 
@@ -203,33 +239,37 @@ public class UnionController {
 
     public void addTUTUPaymentToTeam(){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane);
         //let user select a team and amount
         //send request to add payment to team
     }
     public void addPaymentsFromTheTUTU(){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane);
         //let user enter a double that represents the amount to add to union accounting system
         //show ack to user
     }
 
     public void addTeamToLeague(){
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         Label label = new Label("please select League and a team");
-        pane.add(label, 0,0);
-        addLeaguesInSeasonToPane(pane);
+        mainPane.add(label, 0,0);
+        addLeaguesInSeasonToPane(mainPane);
         List<String> teams = client.sendToServer("getAllOpenTeams_Union|"+loggedUser);
         ObservableList<String> ol_teams = FXCollections.observableArrayList();
         List<TeamRecord> teamRecords = new LinkedList<>();
         for(String team : teams){
-            TeamRecord record = new TeamRecord(team);
-            ol_teams.add(record.getName());
-            teamRecords.add(record);
+            if(team.length()>0){
+                TeamRecord record = new TeamRecord(team);
+                ol_teams.add(record.getName());
+                teamRecords.add(record);
+            }
         }
         ChoiceBox<String> cb_teams = new ChoiceBox<>(ol_teams);
         Label l_teams = new Label("Teams: ");
-        pane.add(l_teams, 0, 2);
-        pane.add(cb_teams, 1, 2);
+        mainPane.add(l_teams, 0, 2);
+        mainPane.add(cb_teams, 1, 2);
         Button addBtn = new Button("Add");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -247,29 +287,32 @@ public class UnionController {
                     m_general.showAlert("Invalid selection of values", Alert.AlertType.ERROR);
             }
         });
-        pane.add(addBtn, 0, 3);
-        mainView1.getChildren().add(pane);
+        mainPane.add(addBtn, 0, 3);
+        mainView1.getChildren().add(mainPane);
     }
     public void calculateLeagueScore()
     {
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane);
         //select league
-        GridPane pane = new GridPane();
-        addLeaguesInSeasonToPane(pane);
+
+        addLeaguesInSeasonToPane(mainPane);
         //send request to server
         //show league score table
+        mainView1.getChildren().add(mainPane);
     }
 
     public void calculateGameScore()
     {
         m_general.clearMainView(mainView1);
-
+        m_general.clearMainView(mainPane);
         //select league
         //select game/all games/some games?
         //send request to server to calculate score
     }
     public void changeRegistrationFee(){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane);
         //select league
         //show fee
         //les user enter new fee
@@ -277,9 +320,9 @@ public class UnionController {
         //send request to change fee
     }
 
-    private void calculate(String type){
-        GridPane pane = new GridPane();
-        addLeaguesInSeasonToPane(pane);
+    private void calculate(String type){///////fix!!!
+        m_general.clearMainView(mainPane);
+        addLeaguesInSeasonToPane(mainPane);
         Label label =null;
         StringBuilder request = new StringBuilder();
         switch (type){
@@ -297,16 +340,20 @@ public class UnionController {
                 break;
             }
         }
-        pane.add(label,0,0);
+        mainPane.add(label,0,0);
 
     }
 
     //make getAllLeagues()return a list of <League.name:season.year> of all LeagueInSeason
     private void addLeaguesInSeasonToPane(GridPane pane) {
         List<String> receiveLeagues = client.sendToServer("allLeaguesInSeasons|"+loggedUser);
+        for(String league:receiveLeagues){
+            LeagueInSeasonRecord record = new LeagueInSeasonRecord(league);
+            this.leagueInSeasons.put(record.getId(), record.getLeague() + " " + record.getSeason());
+        }
         Label league = new Label("League:");
         pane.add(league, 0, 1);
-        ObservableList<String> leagues = FXCollections.observableArrayList(receiveLeagues);
+        ObservableList<String> leagues = FXCollections.observableArrayList(this.leagueInSeasons.values());
         cb_leagueInSeasons = new ChoiceBox<>(leagues);
         pane.add(cb_leagueInSeasons, 1, 1);
     }
@@ -358,5 +405,21 @@ public class UnionController {
         addChangeButton(pane);
         pane.setAlignment(Pos.TOP_CENTER);
         mainView1.getChildren().add(pane);
+    }
+
+    private void fillSeasonsMap(List<String> seasons) {
+        for(String season: seasons){
+            SeasonRecord record = new SeasonRecord(season);
+            this.seasons.put(record.getId(), record.getYear());
+        }
+
+    }
+
+    private void fillLeaguesMap(List<String> leagues) {
+
+        for(String league: leagues){
+            LeagueRecord record = new LeagueRecord(league);
+            this.leagues.put(record.getId(), record.getName());
+        }
     }
 }

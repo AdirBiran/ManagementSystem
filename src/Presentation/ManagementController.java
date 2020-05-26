@@ -17,23 +17,24 @@ public class ManagementController {
     private String loggedUser;
     private Client client;
     private HashMap<String,String> teams; //<id , name>
-
+    private GridPane mainPane;
     private GeneralController m_general = new GeneralController();
 
-    public ManagementController(HBox mainView1, String loggedUser, Client client) {
+    public ManagementController(HBox mainView1, String loggedUser, Client client, GridPane mainPane) {
         this.mainView1 = mainView1;
         this.loggedUser = loggedUser;
         this.client = client;
         this.teams = m_general.initHashSet(client.sendToServer("getTeams|"+loggedUser));
+        this.mainPane = mainPane;
     }
 
     private ChoiceBox<String> cb_teams;
 
     public void addPlayerToTeam(){
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         int rowIdx =0;
-        teamSelection(pane, rowIdx);
+        teamSelection(rowIdx);
         rowIdx++;
         //show all authorized teams
         //show all players
@@ -44,9 +45,9 @@ public class ManagementController {
     public void addCoachToTeam()
     {
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         int rowIdx =0;
-        teamSelection(pane, rowIdx);
+        teamSelection(rowIdx);
         rowIdx++;
         //show all authorized teams
         //show all coaches
@@ -54,9 +55,9 @@ public class ManagementController {
     }
     public void addFieldToTeam(){
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         int rowIdx =0;
-        teamSelection(pane, rowIdx);
+        teamSelection(rowIdx);
         rowIdx++;
         //show all authorized teams
         //show all fields
@@ -64,9 +65,9 @@ public class ManagementController {
     }
     public void updateAsset(){
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         int rowIdx =0;
-        teamSelection(pane, rowIdx);
+        teamSelection(rowIdx);
         rowIdx++;
         //show all authorized teams
         //let user select team
@@ -87,9 +88,10 @@ public class ManagementController {
     }
     public void getBalance(){
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         int rowIdx =0;
-        teamSelection(pane, rowIdx);
+        teamSelection(rowIdx);
+        rowIdx++;
         rowIdx++;
         Button getBalanceBtn = new Button("Get Balance");
         getBalanceBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -101,16 +103,14 @@ public class ManagementController {
                 m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
             }
         });
-        pane.add(getBalanceBtn, 0, rowIdx);
-        mainView1.getChildren().add(pane);
-        //let user select team
-        //show team balance
+        mainPane.add(getBalanceBtn, 0, rowIdx);
+        mainView1.getChildren().add(mainPane);
     }
 
     private void report(String type){
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         int rowIdx =0;
-        teamSelection(pane, rowIdx);
+        teamSelection(rowIdx);
         rowIdx++;
         rowIdx++;
         Label l_type = null;
@@ -128,8 +128,8 @@ public class ManagementController {
             }
         }
         TextField tf_input = new TextField();
-        pane.add(l_type, 0, rowIdx);
-        pane.add(tf_input, 1, rowIdx);
+        mainPane.add(l_type, 0, rowIdx);
+        mainPane.add(tf_input, 1, rowIdx);
         rowIdx++;
         Button reportBtn = new Button("Report");
         reportBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -148,15 +148,15 @@ public class ManagementController {
                 }
             }
         });
-        pane.add(reportBtn, 0, rowIdx);
-        mainView1.getChildren().add(pane);
+        mainPane.add(reportBtn, 0, rowIdx);
+        mainView1.getChildren().add(mainPane);
     }
 
-    private void teamSelection(GridPane pane , int index){
+    private void teamSelection(int index){
         Label label = new Label("Please select team:");
-        pane.add(label, 0, index);
+        mainPane.add(label, 0, index);
         index++;
-        cb_teams = m_general.addTeamsChoiceBox(pane, index, teams.values());
+        cb_teams = m_general.addTeamsChoiceBox(mainPane, index, teams.values());
     }
 
 }

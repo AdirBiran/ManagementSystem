@@ -44,6 +44,7 @@ public class Main extends Application {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         FootballManagementSystem.systemInit(true);
         FootballManagementSystem.dataReboot();
         UserFactory.getNewAdmin("aA123456", "adminush", "ush", "m@m.com");

@@ -92,14 +92,6 @@ public class Client  {
             BufferedReader clientReader = new BufferedReader(new InputStreamReader(inputStream));
 
             res = clientReader.readLine();
-            //if (res.split("\\|")[0].equals("Notification"))
-            //{
-            //    String notification = res.split("\\|")[1];
-            //    sendNotification(notification);
-//
-            //}
-//
-            //res = clientReader.readLine();
             System.out.println("Client receive from server : "+res);
         }
         catch (Exception e)
@@ -139,7 +131,14 @@ public class Client  {
 
         return res;
     }
+    public void askForNotifications()
+    {
+        List<String> notifications = sendToServer("Notifications|"+getUserID());
+        for(String notification : notifications){
+            sendNotification(notification);
+        }
 
+    }
 
     /**
      * use this function to show notification to user:
@@ -150,11 +149,6 @@ public class Client  {
         alert.show();
 	}
 
-    public List<String> askForNotifications()
-    {
-        List<String> notifications = sendToServer("Notifications|"+getUserID());
-        return notifications;
 
-    }
 }
 

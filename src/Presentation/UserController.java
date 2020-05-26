@@ -26,7 +26,7 @@ public class UserController implements Initializable {
 
     private Client m_client;
     private String loggedUser;
-
+    private GridPane mainPane1;
     private GeneralController m_general = new GeneralController();
 
     private AdminController admin;
@@ -37,8 +37,11 @@ public class UserController implements Initializable {
     private RefereeController referee;
     private UnionController union;
 
+
+
     public void editPersonalInfoButtonPushed(ActionEvent action){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane1);
         List<String> userInfo = m_client.sendToServer("getUserInfo|"+loggedUser);
         String[]split = userInfo.get(0).split(",");
 
@@ -50,30 +53,33 @@ public class UserController implements Initializable {
 
     public void searchButtonPushed(ActionEvent actionEvent){
         m_general.clearMainView(mainView1);
-        GridPane searchPane = new GridPane();
-        m_general.buildSearchView(searchPane, mainView1, m_client, loggedUser);
+        m_general.clearMainView(mainPane1);
+        m_general.buildSearchView(mainPane1, mainView1, m_client, loggedUser);
         //find a way to reuse code in guest controller
     }
 
     public void viewInfoButtonPushed(ActionEvent actionEvent){
         m_general.clearMainView(mainView1);
-        GridPane viewPane = new GridPane();
-        m_general.buildViewInfoScene(viewPane, mainView1, m_client);
+        m_general.clearMainView(mainPane1);
+        m_general.buildViewInfoScene(mainPane1, mainView1, m_client);
         //find a way to reuse code in guest controller
     }
 
     public void viewSearchHistoryButtonPushed(ActionEvent actionEvent){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane1);
         List<String> history = m_client.sendToServer("viewSearchHistory|"+loggedUser);
-        GridPane historyPane = new GridPane();
-        mainView1.getChildren().add(historyPane);
-        m_general.showListOnScreen("",history, historyPane,0);
+
+        mainView1.getChildren().add(mainPane1);
+        m_general.showListOnScreen("",history, mainPane1,0);
     }
 
     public void logoutButtonPushed(ActionEvent actionEvent) {
         m_client.sendToServer("logOut|"+loggedUser);
         loggedUser = "";
-        m_general.setSceneByFXMLPath("GuestView.fxml", null, "", m_client);
+        m_client.stopGettingNotifications();
+        m_general.setSceneByFXMLPath("GuestView.fxml", null, "", m_client, mainPane1);
+
     }
 
     public void setUser(String user){
@@ -84,12 +90,17 @@ public class UserController implements Initializable {
         this.m_client = client;
     }
 
+    public void setMainPane1(GridPane mainPane1) {
+        this.mainPane1 = mainPane1;
+    }
+
     public void buildPresentation(List<String> roles) {
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane1);
         for(String role : roles){
             switch(role){
                 case("Fan"):{
-                    fan = new FanController(mainView1, loggedUser, m_client);
+                    fan = new FanController(mainView1, loggedUser, m_client, mainPane1);
                     Menu fanMenu = new Menu("Fan Actions");
                     MenuItem followPage = new MenuItem("Follow Page");
                     followPage.setOnAction(new EventHandler<ActionEvent>() {
@@ -127,7 +138,7 @@ public class UserController implements Initializable {
                     break;
                 }
                 case("Admin"):{
-                    admin = new AdminController(mainView1, loggedUser, m_client);
+                    admin = new AdminController(mainView1, loggedUser, m_client, mainPane1);
                     Menu adminMenu = new Menu("Admin Actions");
                     MenuItem closeTeamPermanently = new MenuItem("Close Team Permanently");
                     closeTeamPermanently.setOnAction(new EventHandler<ActionEvent>() {
@@ -213,7 +224,7 @@ public class UserController implements Initializable {
                     break;
                 }
                 case("TeamOwner"):{
-                    ownership = new OwnershipController(mainView1, loggedUser, m_client);
+                    ownership = new OwnershipController(mainView1, loggedUser, m_client, mainPane1);
                     Menu ownerMenu = new Menu("Ownership Actions");
                     MenuItem addTeam = new MenuItem("Open New Team");
                     addTeam.setOnAction(new EventHandler<ActionEvent>() {
@@ -265,7 +276,7 @@ public class UserController implements Initializable {
                     break;
                 }
                 case("UnionRepresentative"):{
-                    union = new UnionController(mainView1, loggedUser, m_client);
+                    union = new UnionController(mainView1, loggedUser, m_client, mainPane1);
                     Menu unionMenu = new Menu("Union Actions");
                     MenuItem configureNewLeague = new MenuItem("Configure New League");
                     configureNewLeague.setOnAction(new EventHandler<ActionEvent>() {
@@ -383,7 +394,7 @@ public class UserController implements Initializable {
                     break;
                 }
                 case("Referee"):{
-                    referee = new RefereeController(mainView1, loggedUser, m_client);
+                    referee = new RefereeController(mainView1, loggedUser, m_client, mainPane1);
                     Menu refMenu = new Menu("Referee Actions");
                     MenuItem addEventToGame = new MenuItem("Add Event To Game");
                     addEventToGame.setOnAction(new EventHandler<ActionEvent>() {
@@ -421,7 +432,7 @@ public class UserController implements Initializable {
                     break;
                 }
                 case("HasPage"):{
-                    page = new HasPageController(mainView1, loggedUser, m_client);
+                    page = new HasPageController(mainView1, loggedUser, m_client, mainPane1);
                     Menu pageMenu = new Menu("Page Management");
                     MenuItem viewPage = new MenuItem("View Personal Page");
                     viewPage.setOnAction(new EventHandler<ActionEvent>() {
@@ -448,7 +459,7 @@ public class UserController implements Initializable {
     }
 
     private void addManagement() {
-        management = new ManagementController(mainView1, loggedUser, m_client);
+        management = new ManagementController(mainView1, loggedUser, m_client, mainPane1);
         Menu manageMenu = new Menu("Management Actions");
         MenuItem addPlayerToTeam = new MenuItem("Add Player To Team");
         addPlayerToTeam.setOnAction(new EventHandler<ActionEvent>() {
@@ -518,5 +529,6 @@ public class UserController implements Initializable {
                 logoutButtonPushed(null);
             }
         });
+
     }
 }

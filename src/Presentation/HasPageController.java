@@ -17,27 +17,30 @@ public class HasPageController {
     private String loggedUser;
     private Client client;
     private GeneralController m_general = new GeneralController();
+    private GridPane mainPane;
 
-    public HasPageController(HBox mainView1, String loggedUser, Client client) {
+    public HasPageController(HBox mainView1, String loggedUser, Client client, GridPane mainPane) {
         this.mainView1 = mainView1;
         this.loggedUser = loggedUser;
         this.client = client;
+        this.mainPane = mainPane;
     }
 
     public void viewPage(){
         m_general.clearMainView(mainView1);
         List<String> page = client.sendToServer("viewPage|"+loggedUser);
         Label l_page = new Label(page.get(0));
-        mainView1.getChildren().add(l_page);
+        mainPane.add(l_page, 0,0);
+        mainView1.getChildren().add(mainPane);
 
     }
     public void uploadToPage(){
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         Label l_upload = new Label("Please enter text to upload:");
-        pane.add(l_upload, 0, 0);
+        mainPane.add(l_upload, 0, 0);
         TextArea uploadArea = new TextArea();
-        pane.add(uploadArea, 0, 1);
+        mainPane.add(uploadArea, 0, 1);
         Button uploadBtn = new Button("Upload");
         uploadBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -50,7 +53,7 @@ public class HasPageController {
 
             }
         });
-        pane.add(uploadBtn, 0, 2);
-        mainView1.getChildren().add(pane);
+        mainPane.add(uploadBtn, 0, 2);
+        mainView1.getChildren().add(mainPane);
     }
 }

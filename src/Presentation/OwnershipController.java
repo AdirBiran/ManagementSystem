@@ -23,14 +23,15 @@ public class OwnershipController {
     private String loggedUser;
     private Client m_client;
     private HashMap<String,String> teams; //<id , name>
-
+    private GridPane mainPane;
     private GeneralController m_general = new GeneralController();
 
 
-    public OwnershipController(HBox mainView1, String loggedUser, Client m_client) {
+    public OwnershipController(HBox mainView1, String loggedUser, Client m_client, GridPane mainPane) {
         this.mainView1 = mainView1;
         this.loggedUser = loggedUser;
         this.m_client = m_client;
+        this.mainPane = mainPane;
         this.teams = m_general.initHashSet(m_client.sendToServer("getTeams|"+loggedUser));
     }
 
@@ -39,36 +40,35 @@ public class OwnershipController {
     public void openNewTeam(){
         int rowCount=0;
         m_general.clearMainView(mainView1);
-        GridPane pane = new GridPane();
+        m_general.clearMainView(mainPane);
         Label label = new Label("Please fill out this form: ");
-        pane.add(label,0,rowCount);
+        mainPane.add(label,0,rowCount);
         rowCount++;
         Label teamName = new Label("Team Name: ");
         TextField tf_teamName = new TextField();
-        pane.add(teamName,0,rowCount);
-        pane.add(tf_teamName,1,rowCount);
+        mainPane.add(teamName,0,rowCount);
+        mainPane.add(tf_teamName,1,rowCount);
         rowCount++;
 
-        List<String> players = m_client.sendToServer("gatAllPlayers|"+loggedUser);
-        List<String> coaches = m_client.sendToServer("getAllCoaches|"+loggedUser);
+        List<String> players = m_client.sendToServer("viewInformationAboutPlayers|");
+        List<String> coaches = m_client.sendToServer("viewInformationAboutCoaches|"+loggedUser);
         List<String> fields = m_client.sendToServer("getAllFields|"+loggedUser);
 
-        ObservableList<PlayerRecord> playerRecordArrayList = FXCollections.observableArrayList();
+        ObservableList<String> playerRecordArrayList = FXCollections.observableArrayList();
         for(String player: players){
             if(player.length()>0){
                 PlayerRecord record = new PlayerRecord(player);
-                playerRecordArrayList.add(record);
+                playerRecordArrayList.add(record.getName());
             }
         }
-        ListView<Record> lv_players = new ListView(playerRecordArrayList);
-        lv_players.setCellFactory(new PropertyValueFactory("name"));
-        ListView lv_selectedPlayers = new ListView();
+        ListView<String> lv_players = new ListView(playerRecordArrayList);
+        ListView<String> lv_selectedPlayers = new ListView();
         m_general.linkSelectionLists(lv_players,lv_selectedPlayers);
 
-        pane.add(new Label("Players - at least 11: "),0,rowCount);
-        pane.add(new Label("Selected Players: "),1,rowCount);
+        mainPane.add(new Label("Players - at least 11: "),0,rowCount);
+        mainPane.add(new Label("Selected Players: "),1,rowCount);
         rowCount++;
-        addToPane(pane, lv_players, lv_selectedPlayers, 0, rowCount);
+        addToPane(mainPane, lv_players, lv_selectedPlayers, 0, rowCount);
         rowCount++;
 
         ObservableList<CoachRecord> coachRecordArrayList = FXCollections.observableArrayList();
@@ -82,10 +82,10 @@ public class OwnershipController {
         lv_coaches.setCellFactory(new PropertyValueFactory("name"));
         ListView lv_selectedCoaches = new ListView();
         m_general.linkSelectionLists(lv_coaches,lv_selectedCoaches );
-        pane.add(new Label("Coaches - at least 1: "),0,rowCount);
-        pane.add(new Label("Selected Coaches: "),1,rowCount);
+        mainPane.add(new Label("Coaches - at least 1: "),0,rowCount);
+        mainPane.add(new Label("Selected Coaches: "),1,rowCount);
         rowCount++;
-        addToPane(pane, lv_coaches,lv_selectedCoaches,0,rowCount);
+        addToPane(mainPane, lv_coaches,lv_selectedCoaches,0,rowCount);
         rowCount++;
 
 
@@ -94,10 +94,10 @@ public class OwnershipController {
         ListView<String> lv_field = new ListView(fieldsArrayList);
         ListView lv_selectedFields = new ListView();
         m_general.linkSelectionLists(lv_field,lv_selectedFields );
-        pane.add(new Label("Fields - at least 1: "),0,rowCount);
-        pane.add(new Label("Selected Fields: "),1,rowCount);
+        mainPane.add(new Label("Fields - at least 1: "),0,rowCount);
+        mainPane.add(new Label("Selected Fields: "),1,rowCount);
         rowCount++;
-        addToPane(pane, lv_field,lv_selectedFields,0,rowCount);
+        addToPane(mainPane, lv_field,lv_selectedFields,0,rowCount);
         rowCount++;
         Button addBtn = new Button("Add Team");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -106,7 +106,7 @@ public class OwnershipController {
 
                 String name = tf_teamName.getText();
                 if(Checker.isValid(name)&&lv_selectedPlayers.getItems().size()>10&&lv_selectedCoaches.getItems().size()>1&&lv_selectedFields.getItems().size()>1){
-                    String players = m_client.ListToString(getStringsIds(lv_selectedPlayers.getItems()));
+                    //String players = m_client.ListToString(getStringsIds(lv_selectedPlayers.getItems()));
                     String coaches = m_client.ListToString(getStringsIds(lv_selectedCoaches.getItems()));
                     String fields = m_client.ListToString(lv_selectedFields.getItems());
                     List<String> receive = m_client.sendToServer("createTeam|"+loggedUser+"|"+name+"|"+players+"|"+coaches+"|"+fields);
@@ -119,18 +119,20 @@ public class OwnershipController {
 
             }
         });
-        pane.add(addBtn,1,rowCount);
-        mainView1.getChildren().add(pane);
+        mainPane.add(addBtn,1,rowCount);
+        mainView1.getChildren().add(mainPane);
     }
 
     public void appointTeamOwner(){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane);
         appoint("owner");
     }
 
 
     public void appointTeamManager(){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane);
         appoint("manager");
 
     }
@@ -139,10 +141,10 @@ public class OwnershipController {
     public void closeTeam()
     {
         m_general.clearMainView(mainView1);
-        GridPane gridPane = new GridPane();
+        m_general.clearMainView(mainPane);
         Label label = new Label("Please select team to close");
-        gridPane.add(label,0,0);
-        cb_teams = m_general.addTeamsChoiceBox(gridPane, 1, teams.values());
+        mainPane.add(label,0,0);
+        cb_teams = m_general.addTeamsChoiceBox(mainPane, 1, teams.values());
         Button addBtn = new Button("Close");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -152,11 +154,12 @@ public class OwnershipController {
                 m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
             }
         });
-        gridPane.add(addBtn,0,2);
-        mainView1.getChildren().add(gridPane);
+        mainPane.add(addBtn,0,2);
+        mainView1.getChildren().add(mainPane);
     }
     public void reopenTeam(){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane);
         //getAllClosedTeams()
         //let user select team
         //send request to reopen
@@ -197,7 +200,7 @@ public class OwnershipController {
     private void appoint(String type) {
         int rowIdx= 0;
         StringBuilder request = new StringBuilder();
-        GridPane pane = new GridPane();
+
         Label label = new Label("");
         switch (type){
             case "manager":{
@@ -211,11 +214,11 @@ public class OwnershipController {
                 break;
             }
         }
-        pane.add(label,0,rowIdx);
+        mainPane.add(label,0,rowIdx);
         rowIdx++;
-        cb_teams = m_general.addTeamsChoiceBox(pane, rowIdx, teams.values());
+        cb_teams = m_general.addTeamsChoiceBox(mainPane, rowIdx, teams.values());
         rowIdx++;
-        addUsersChoiceBox(pane, rowIdx);
+        addUsersChoiceBox(mainPane, rowIdx);
         rowIdx++;
         Button appointBtn = new Button("Appoint");
         appointBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -232,7 +235,7 @@ public class OwnershipController {
                 }
             }
         });
-        pane.add(appointBtn,0,rowIdx);
-        mainView1.getChildren().add(pane);
+        mainPane.add(appointBtn,0,rowIdx);
+        mainView1.getChildren().add(mainPane);
     }
 }

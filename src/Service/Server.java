@@ -27,7 +27,6 @@ public class Server {
     private static HashMap<String, Socket> loggedUsers = new HashMap<>();
     private static HashMap<String, String> loggedUsersNotifications = new HashMap<>();
 
-
     public static void main(String[] args) {
 
 

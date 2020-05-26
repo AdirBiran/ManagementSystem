@@ -29,6 +29,8 @@ public class GuestController implements Initializable {
     private Client m_client;//split by |
     private GeneralController m_general = new GeneralController();
 
+    private GridPane mainPane;
+
     @FXML private HBox mainView;
     @FXML private TextField tf_email;
     @FXML private PasswordField tf_password;
@@ -51,7 +53,7 @@ public class GuestController implements Initializable {
                 tf_password.setText("");
                 user = m_general.getRolesFromSplitedText(split,1);
 
-                m_general.setSceneByFXMLPath("UserView.fxml", user, loggedUser, m_client);
+                m_general.setSceneByFXMLPath("UserView.fxml", user, loggedUser, m_client, mainPane);
             }
         }
         else
@@ -60,19 +62,17 @@ public class GuestController implements Initializable {
     }
 
     public void buildRegistrationForm(ActionEvent action) {
-        m_general.buildForm("fan", mainView, m_client,"");
+        m_general.buildForm("fan", mainView, m_client,"", mainPane);
     }
 
     public void searchButtonPushed(ActionEvent actionEvent){
         m_general.clearMainView(mainView);
-        GridPane l_searchPane = new GridPane();
-        m_general.buildSearchView(l_searchPane, mainView, m_client,"");
+        m_general.buildSearchView(mainPane, mainView, m_client,"");
     }
 
     public void viewInfoButtonPushed(ActionEvent actionEvent){
         m_general.clearMainView(mainView);
-        GridPane l_viewPane = new GridPane();
-        m_general.buildViewInfoScene(l_viewPane, mainView, m_client);
+        m_general.buildViewInfoScene(mainPane, mainView, m_client);
 
     }
 
@@ -81,5 +81,8 @@ public class GuestController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         l_systemName.setText(Main.SYSTEM_NAME);
         m_client = new Client(7567);
+        mainPane = new GridPane();
+        mainPane.setAlignment(Pos.CENTER);
+        //add listeners and stuff
     }
 }

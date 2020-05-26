@@ -16,11 +16,13 @@ public class RefereeController {
     private String loggedUser;
     private Client client;
     private GeneralController m_general = new GeneralController();
+    private GridPane mainPane;
 
-    public RefereeController(HBox mainView1, String loggedUser, Client client) {
+    public RefereeController(HBox mainView1, String loggedUser, Client client, GridPane mainPane) {
         this.mainView1 = mainView1;
         this.loggedUser = loggedUser;
         this.client = client;
+        this.mainPane = mainPane;
     }
 
     //make sure getOccurringGame() returns the game relevant for the user -
@@ -28,22 +30,22 @@ public class RefereeController {
     //if you cant find any return ""
     public void  addEventToGame(){
         m_general.clearMainView(mainView1);
-        GridPane grid = new GridPane();
+        m_general.clearMainView(mainPane);
         String game = getOccurringGame();
         if(game.length()>0){
             Label labelGame = new Label(game);
-            grid.add(labelGame, 0,0);
+            mainPane.add(labelGame, 0,0);
             Label evenType = new Label("Event Type:");
-            grid.add(evenType, 0,1);
+            mainPane.add(evenType, 0,1);
             ObservableList<String> types = FXCollections.observableArrayList("Goal", "Offside", "Foul", "RedCard", "YellowCard","Injury", "Replacement");
             ChoiceBox<String> cb_types = new ChoiceBox<>(types);
-            grid.add(cb_types, 1,1);
+            mainPane.add(cb_types, 1,1);
             //let user select team-
             //let user select player
             Label description = new Label("Description:");
-            grid.add(description,0,3);
+            mainPane.add(description,0,3);
             TextArea t_description = new TextArea();
-            grid.add(t_description,1,3);
+            mainPane.add(t_description,1,3);
             Button addBtn = new Button("Add");
             addBtn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -54,28 +56,28 @@ public class RefereeController {
                     }
                 }
             });
-            grid.add(addBtn,0,4);
-            mainView1.getChildren().add(grid);
+            mainPane.add(addBtn,0,4);
+            mainView1.getChildren().add(mainPane);
         }
 
     }
 
     public void  setScoreInGame(){
         m_general.clearMainView(mainView1);
-        GridPane grid = new GridPane();
+        m_general.clearMainView(mainPane);
         String game = getOccurringGame();
         if(game.length()>0){
             Label labelGame = new Label(game);
-            grid.add(labelGame, 0,0);
+            mainPane.add(labelGame, 0,0);
             Label hostScore = new Label("Host Score:");
-            grid.add(hostScore, 0,1);
+            mainPane.add(hostScore, 0,1);
             ChoiceBox<String> h_score = new ChoiceBox<>(addScores());
-            grid.add(h_score, 1,1);
+            mainPane.add(h_score, 1,1);
 
             Label guestScore = new Label("Guest Score:");
-            grid.add(guestScore, 0,2);
+            mainPane.add(guestScore, 0,2);
             ChoiceBox<String> g_score = new ChoiceBox<>(addScores());
-            grid.add(g_score, 1,2);
+            mainPane.add(g_score, 1,2);
 
             Button addBtn = new Button("Add");
             addBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -88,13 +90,14 @@ public class RefereeController {
                     }
                 }
             });
-            grid.add(addBtn, 0,3);
-            mainView1.getChildren().add(grid);
+            mainPane.add(addBtn, 0,3);
+            mainView1.getChildren().add(mainPane);
         }
     }
 
     public void getGameReport(){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane);
         //show all past games
         //let user select a game
         //send request for game report
@@ -104,17 +107,17 @@ public class RefereeController {
     }
     public void  changeEvent(){
         m_general.clearMainView(mainView1);
+        m_general.clearMainView(mainPane);
         String game = getOccurringGame();
         if(game.length()>0){
-            GridPane pane = new GridPane();
             Label label = new Label("Please select an event to change:");
-            pane.add(label, 0,0);
+            mainPane.add(label, 0,0);
             Label lb_events = new Label("Events:");
-            pane.add(lb_events, 0,1);
+            mainPane.add(lb_events, 0,1);
             ChoiceBox<String> events = new ChoiceBox<>();
 
             ObservableList<String> listEvents = FXCollections.observableArrayList();
-            pane.setAlignment(Pos.CENTER);
+            mainPane.setAlignment(Pos.CENTER);
             List<String> gameReport = client.sendToServer("getEventReport|"+loggedUser+"|"+game);
             for(String report :gameReport){
                 if(report.length()>0){
@@ -126,14 +129,14 @@ public class RefereeController {
                 }
             }
             events.setItems(listEvents);
-            pane.add(events, 1,1);
-            mainView1.getChildren().add(pane);
+            mainPane.add(events, 1,1);
+            mainView1.getChildren().add(mainPane);
             events.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    m_general.clearMainView(pane);
+                    m_general.clearMainView(mainPane);
                     changeEvent();
-                    showEventDetails(pane,events.getValue(),game,2);
+                    showEventDetails(mainPane,events.getValue(),game,2);
                 }
             });
         }
@@ -175,11 +178,4 @@ public class RefereeController {
 
     }
 
-    private ObservableList<String> addMinutes() {
-        ObservableList<String> minutes = FXCollections.observableArrayList();
-        for (int i = 1; i < 91; i++) {
-            minutes.add(""+i);
-        }
-        return minutes;
-    }
 }
