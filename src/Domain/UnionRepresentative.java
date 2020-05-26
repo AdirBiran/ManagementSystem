@@ -13,27 +13,30 @@ public class UnionRepresentative extends Role implements Observer {
 
     }
 
-    public boolean configureNewLeague(String name, League.LevelLeague level) {
+    public String configureNewLeague(String name, League.LevelLeague level) {
         League league = new League(name, level);
-        return Database.addLeague(league);
+        if(Database.addLeague(league))
+            return league.getId();
+        return null;
     }
 
-    public boolean configureNewSeason(int year, Date startDate) {
+    public String configureNewSeason(int year, Date startDate) {
         try{
             if (Database.getCurrentYear()<=year) {
                 Season season = new Season(year, startDate);
-                return Database.addSeason(season);
+                if(Database.addSeason(season))
+                    return season.getId();
             }
         }
         catch (Exception e){
-            return false;
+            return null;
         }
-        return false;
+        return null;
     }
 
-    public LeagueInSeason configureLeagueInSeason(String nameOfLeague, String yearOfSeason, String assignmentPolicy, String scorePolicy, double registrationFee) {
-        League league = Database.getLeague(nameOfLeague);
-        Season season = Database.getSeason(yearOfSeason);
+    public LeagueInSeason configureLeagueInSeason(String leagueId, String seasonId, String assignmentPolicy, String scorePolicy, double registrationFee) {
+        League league = Database.getLeague(leagueId);
+        Season season = Database.getSeason(seasonId);
 
         if(league!=null && season!=null && assignmentPolicy!=null && scorePolicy!=null) {
             GameAssignmentPolicy gameAssignmentPolicy = GameAssignmentPolicy.checkPolicy(assignmentPolicy);

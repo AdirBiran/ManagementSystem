@@ -90,7 +90,7 @@ public class TeamOwnerTest {
 
     @Test
     public void removeAppointTeamOwner() {
-        team.addTeamOwner(userTeamOwner);
+        team.addTeamOwner(userTeamOwner,true);
         User user1 = admin.addNewCoach("new", "user", "coach@gamil.com", Coach.TrainingCoach.UEFA_B, Coach.RoleCoach.main, 1100);
         teamOwner.appointTeamOwner(user1,team.getID());
         TeamOwner teamOwner1 = (TeamOwner) user1.checkUserRole("TeamOwner");
@@ -103,7 +103,7 @@ public class TeamOwnerTest {
     @Test
     public void removeAppointTeamManager() {
         assertFalse(teamOwner.removeAppointTeamManager(user,team.getID()));
-        team.addTeamOwner(userTeamOwner);
+        team.addTeamOwner(userTeamOwner,true);
         teamOwner.appointTeamManager(user,team.getID(),30,false,false);
         assertTrue(teamOwner.removeAppointTeamManager(user,team.getID()));
         assertNull(user.checkUserRole("TeamManager"));

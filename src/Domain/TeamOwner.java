@@ -112,7 +112,7 @@ public class TeamOwner extends Manager implements Observer {
                         teamOwnerRole = user.checkUserRole("TeamOwner");
                     }
                     ((TeamOwner) teamOwnerRole).addTeam(team);
-                    team.addTeamOwner(user);
+                    team.addTeamOwner(user,true);
                     appointedTeamOwners.put(user, team);
                     Database.updateObject(this);
                     return true;

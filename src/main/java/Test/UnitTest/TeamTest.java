@@ -61,7 +61,7 @@ public class TeamTest {
     @Test
     public void addTeamOwner() {
         User userTeamOwner = admin.addNewTeamOwner("Team", "Owner", "teamOwner@gmail.com");
-        team.addTeamOwner(userTeamOwner);
+        team.addTeamOwner(userTeamOwner,true);
         assertNotNull(userTeamOwner.checkUserRole("TeamOwner"));
     }
 
@@ -100,7 +100,7 @@ public class TeamTest {
     @Test
     public void removeTeamOwner() {
         User userTeamOwner = admin.addNewTeamOwner("Team", "Owner", "teamOwner@gmail.com");
-        team.addTeamOwner(userTeamOwner);
+        team.addTeamOwner(userTeamOwner,true);
         assertTrue(team.removeTeamOwner(userTeamOwner));
         /*for notification*/
         assertEquals(userTeamOwner.getMessageBox().size(), 2);
