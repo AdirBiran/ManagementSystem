@@ -13,7 +13,6 @@ public class User extends Guest {
     private String firstName;
     private String lastName;
     private String mail;
-    private List<String> messageBox;
     private boolean isActive;
     private List<Role> roles;
     private List<String> searchHistory;
@@ -35,7 +34,6 @@ public class User extends Guest {
         if(!matcher.find())
             throw new RuntimeException("email address not valid");
         this.mail = mail;
-        this.messageBox = new LinkedList<>();
         this.isActive = true;
         this.roles = new LinkedList<>();
         this.searchHistory = new LinkedList<>();
@@ -50,7 +48,6 @@ public class User extends Guest {
         this.isActive = isActive;
         this.roles = roles;
         this.searchHistory = searchHistory;
-        this.messageBox = new LinkedList<>();
     }
 
     public Role checkUserRole (String userRole) {
@@ -92,8 +89,7 @@ public class User extends Guest {
     public void addMessage(String message){ /***/
         if(!(NotificationSystem.notifyUser(this, message))){
             if(message!=null)
-                messageBox.add(message);
-                Database.addMessageToUser(this.ID, message);
+                Database.addNotificationToUser(this.ID, message);
         }
     }
 
@@ -145,7 +141,7 @@ public class User extends Guest {
     }
 
     public List<String> getMessageBox() {
-        return messageBox;
+        return Database.getAllNotifications(ID);
     }
 
     public void addRole(Role role){

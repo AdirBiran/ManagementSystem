@@ -1,6 +1,5 @@
 package Data;
 import Domain.*;
-import sun.util.calendar.BaseCalendar;
 
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
@@ -829,19 +828,26 @@ public class Database //maybe generalize with interface? //for now red layer
     public static String removeUser(String userId) {
         User user = getUser(userId);
         user.deactivate();
-        //צריך לעבור על התפקידים ולהפוך גם אותם ללא פעילים? אולי יצור בעיה שהדאטאבייס הופך תפקיד פתאום ללא פעיל
-        //List<Role> userRoles = user.getRoles();
+        List<Role> userRoles = user.getRoles();
+        for(Role role : userRoles){
+            if(role!=null){
+                switch (role.myRole()){
+                    case "Coach":
+                        ((Coach)role).deactivate();
+                        break;
+                    case "Player":
+                        ((Player)role).deactivate();
+                        break;
+                    case "TeamManager":
+                        ((TeamManager)role).deactivate();
+                        break;
+                }
+            }
+        }
         updateObject(user);
 
         return user.getMail();
 
-        /*User user = usersInDatabase.get(userId);
-        String userMail="";
-        if(user!=null){
-            user.deactivate();
-            userMail= user.getMail();
-        }
-        return userMail;*/
     }
 
     public static void removeField(String assetId) {
@@ -1623,27 +1629,27 @@ public class Database //maybe generalize with interface? //for now red layer
 /*******************MESSAGES STSRT****************/
 
 
-    public static void addMessageToUser(String userId , String message){
+    public static void addNotificationToUser(String userId , String message){
         String oldMessages = "";
         //if userId exsist
         if(dataAccess.isIDExists("OfflineUsersNotifications",userId)){
-            oldMessages = getMessages(userId);
+            oldMessages = getNotifications(userId);
             dataAccess.updateCellValue("OfflineUsersNotifications" ,"Notifications" ,
                     userId ,oldMessages +"," +message);
         }
 
     }
 
-    private static String getMessages(String userId){
+    private static String getNotifications(String userId){
         if(dataAccess.isIDExists("OfflineUsersNotifications",userId)){
            return dataAccess.getCellValue("OfflineUsersNotifications" ,"Notifications" ,userId);
         }
         return "";
     }
 
-    public static List<String> getAllMessages(String userId){
+    public static List<String> getAllNotifications(String userId){
         if(dataAccess.isIDExists("OfflineUsersNotifications",userId)) {
-            List<String> allMessages = split(getMessages(userId));
+            List<String> allMessages = split(getNotifications(userId));
             return allMessages;
         }
         return null;
@@ -1756,7 +1762,6 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static List<League> getLeagues(){
-        // return new LinkedList<>(leagues);
         List<String> objects;
         List<League> allObjects = new LinkedList<>();
         objects = dataAccess.getAllTableValues("Leagues");
