@@ -6,10 +6,10 @@ import java.util.Random;
 public class IdGenerator {
 
     private static Random random = new Random();
-    private static HashSet<Long> givenIds = new HashSet<>();
+    private static HashSet<Integer> givenIds = new HashSet<>();
 
-    public static long getNewId(){
-        long id;
+    public static int getNewId(){
+        int id;
         do{
           id = random.nextInt();
           id = id/10000;

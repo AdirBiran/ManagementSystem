@@ -4,6 +4,8 @@ package Presentation;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.util.List;
+
 public class AdminController {
 
     private HBox mainView1;
@@ -77,6 +79,7 @@ public class AdminController {
     public void viewLog(){
         m_general.clearMainView(mainView1);
         m_general.clearMainView(mainPain);
+        List<String> log = client.sendToServer("viewLog|"+loggedUser);
         //send request to get log
         //show log? open in a new window?
         //maybe in table view?
