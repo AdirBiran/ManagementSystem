@@ -246,7 +246,7 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4 ;
         }
         else if(object instanceof LeagueInSeason){
-            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true ,ans6=true,ans7=true;
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true ,ans6=true,ans7=true,ans8=true,ans9=true;
             /**
              *
              [AssignmentPolicy] [char](255) NOT NULL,
@@ -256,6 +256,8 @@ public class Database //maybe generalize with interface? //for now red layer
              [TeamsIDs] [varchar](255) NOT NULL,
              [RegistrationFee] [real] NOT NULL,
              [Records] [varchar](1000) NOT NULL,
+             [LeagueID] [varchar](1000) NOT NULL,
+             [SeasonID] [varchar](1000) NOT NULL,
              * */
             String assignmentPolicy ="null";
             String scorePolicy ="null";
@@ -283,9 +285,11 @@ public class Database //maybe generalize with interface? //for now red layer
 
             ans6 = dataAccess.updateCellValue("LeaguesInSeasons","RegistrationFee" ,((LeagueInSeason) object).getId(),""+((LeagueInSeason) object).getRegistrationFee());
             ans7 = dataAccess.updateCellValue("LeaguesInSeasons","Records" ,((LeagueInSeason) object).getId(), createScoreTable(((LeagueInSeason) object).getScoreTable()));
+            ans8 = dataAccess.updateCellValue("LeaguesInSeasons","LeagueID" ,((LeagueInSeason) object).getId(), ((LeagueInSeason) object).getLeague().getId() );
+            ans9 = dataAccess.updateCellValue("LeaguesInSeasons","SeasonID" ,((LeagueInSeason) object).getId(), ((LeagueInSeason) object).getSeason().getId() );
 
 
-            return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  && ans7;
+            return ans1 && ans2 && ans3 && ans4  && ans5 && ans6  && ans7 && ans8  && ans9;
         }
         else if(object instanceof PersonalPage){
             boolean ans1=true,ans2=true,ans3=true,ans4=true;
@@ -971,9 +975,11 @@ public class Database //maybe generalize with interface? //for now red layer
                         listOfLeagueInSeason(object.get(3)));
                 return league;
             case "LeagueInSeason":
+
                 LeagueInSeason leagueInSeason = new LeagueInSeason(object.get(0) ,getGameAssignmentPolicy(object.get(1)),
                         getScorePolicy(object.get(2)) ,listOfGames(object.get(3)) ,listOfReferees(object.get(4)),
-                        listOfTeams(object.get(5)) , Double.parseDouble(object.get(6)) ,getScoreTableQueue(object.get(7)));
+                        listOfTeams(object.get(5)) , Double.parseDouble(object.get(6)) ,getScoreTableQueue(object.get(7)),
+                        getLeague(object.get(8)),getSeason(object.get(9)));
                 return leagueInSeason;
             case "PersonalPage":
                 user=createUser(object.get(1));
@@ -1153,8 +1159,9 @@ public class Database //maybe generalize with interface? //for now red layer
         List<LeagueInSeason> allLeagueInSeason = new LinkedList<>();
 
         for (String leagueId : leagueInSeason){
-            if(!leagueId.equals(""))
-                allLeagueInSeason.add(getLeagueInSeason(leagueId));
+            LeagueInSeason league = getLeagueInSeason(leagueId);
+            if(league !=null)
+                allLeagueInSeason.add(league);
         }
         return allLeagueInSeason;
     }
@@ -1774,6 +1781,19 @@ public class Database //maybe generalize with interface? //for now red layer
         return allObjects;
     }
 
+    public static List<LeagueInSeason> getAllLeaguesInSeasons(){
+        List<String> objects;
+        List<LeagueInSeason> allObjects = new LinkedList<>();
+        objects = dataAccess.getAllTableValues("LeaguesInSeasons");
+
+        for(String object : objects){
+            List<String> temp = split(object);
+            allObjects.add((LeagueInSeason) createObject("LeagueInSeason" , temp));
+        }
+
+        return allObjects;
+    }
+
     public static List<Season> getSeasons() {
         // return new LinkedList<>(seasons);
         List<String> objects;
@@ -2078,7 +2098,9 @@ public class Database //maybe generalize with interface? //for now red layer
             dataAccess.addCell("LeaguesInSeasons", leagueInSeason.getId(), leagueInSeason.getAssignmentPolicy().getName(),
                     leagueInSeason.getScorePolicy().getName(), getGamesId(leagueInSeason.getGames()), getRefereesId(leagueInSeason.getReferees()),
                     listOfTeamsToStringIDs(leagueInSeason.getTeams()), "" + leagueInSeason.getRegistrationFee(),
-                    createScoreTable(leagueInSeason.getScoreTable()));
+                    createScoreTable(leagueInSeason.getScoreTable()),
+                   leagueInSeason.getLeague().getId(),
+                            leagueInSeason.getSeason().getId());
             return true;
         }
         return false;

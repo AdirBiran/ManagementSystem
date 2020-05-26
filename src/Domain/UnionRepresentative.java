@@ -102,7 +102,7 @@ public class UnionRepresentative extends Role implements Observer {
     public boolean addTUTUPayment(String teamId, double payment) {
         Team team = Database.getTeam(teamId);
         if(team!=null) {
-            if(team.getBudget().addIncome(payment)){
+            if(team.addIncome(payment)){
                 Database.updateObject(team);
                 return true;
             }
@@ -166,7 +166,7 @@ public class UnionRepresentative extends Role implements Observer {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         Team team = Database.getTeam(teamId);
         if(team!=null && league!=null && team.isActive()) {
-            if (team.getBudget().addExpanse(team, league.getRegistrationFee())) {
+            if (team.addExpanse(league.getRegistrationFee())) {
                 proxyAccountingSystem.addPayment(team.getName(),(new Date()).toString() ,league.getRegistrationFee());
                 league.addATeam(team);
                 Database.updateObject(league);
