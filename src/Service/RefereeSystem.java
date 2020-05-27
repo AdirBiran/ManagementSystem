@@ -14,9 +14,12 @@ public class RefereeSystem {
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("Referee");
         if(role instanceof  Referee){
-            ((Referee)role).addEventToGame(gameID, Event.EventType.valueOf(event), playerId, teamId);
-            Logger.logEvent( user.getID()+ " (Referee)","Added Event to Game");
-            return true;
+           Boolean success= ((Referee)role).addEventToGame(gameID, Event.EventType.valueOf(event), playerId, teamId);
+           if(success) {
+               Logger.logEvent(user.getID() + " (Referee)", "Added Event to Game");
+               return true;
+           }
+
         }
         Logger.logError("Adding event to game failed");
         return false;
