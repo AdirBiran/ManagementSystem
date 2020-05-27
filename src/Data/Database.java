@@ -173,7 +173,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans2 = dataAccess.updateCellValue("Fans" ,"Address" , ((Fan)object).getID(),((Fan) object).getAddress() );
             ans3 = dataAccess.updateCellValue("Fans" ,"Phone" ,((Fan)object).getID() , ((Fan) object).getPhone());
             ans4 = dataAccess.updateCellValue("Fans" ,"FollowedPagesIDs" , ((Fan)object).getID(),getFollowPagesId(((Fan) object).getFollowPages()));
-            ans4 = dataAccess.updateCellValue("Fans" ,"ComplaintsIDs" , ((Fan)object).getID(), getComplaintsId(((Fan) object).getComplaints()));
+            ans4 = dataAccess.updateCellValue("Fans" ,"ComplaintsIDs" , ((Fan)object).getID(), getComplaintsId(((Fan) object).getComplaintsId()));
 
             return ans1 && ans2 && ans3 && ans4 && ans5;
         }
@@ -565,14 +565,14 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    private static String getComplaintsId(List<Complaint> complaints){
+    private static String getComplaintsId(List<String> complaints){
         String listOfId = "";
-        for (Complaint comp: complaints) {
+        for (String comp: complaints) {
             if(listOfId.equals("")){
-                listOfId = listOfId + comp.getId();
+                listOfId = listOfId + comp;
             }
             else {
-                listOfId = listOfId + ","+comp.getId();
+                listOfId = listOfId + ","+comp;
             }
         }
         return listOfId;
@@ -787,7 +787,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static User getUserByMail(String mail , String password){
         try {
-            List<User> users = getAllUsers();
+            List<User> users = getAllActiveUsers();
             String userPassword = "";
             for (User user : users) {
                 if (user.isActive()) {
@@ -805,53 +805,6 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return null;
     }
-
-
-    /*private static int encrypt(String password) {
-        MessageDigest messageDigest = null;
-        try {
-            messageDigest = MessageDigest.getInstance("SHA-1");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        messageDigest.update(password.getBytes());
-        return messageDigest.digest().toString();
-        return password.hashCode();
-    }*/
-
-    public String encrypt(String str) {
-        try {
-            String key = "Bar12345Bar12345"; // 128 bit key
-            // Create key and cipher
-            Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            // encrypt the text
-            cipher.init(Cipher.ENCRYPT_MODE, aesKey);
-            byte[] encrypted = cipher.doFinal(str.getBytes());
-            return (new String(encrypted));
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-/*
-    public String decrypt(String str) {
-        try{
-            String key = "Bar12345Bar12345"; // 128 bit key
-            // Create key and cipher
-            Key aesKey = new SecretKeySpec(key.getBytes(), "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, aesKey);
-            String decrypted = new String(cipher.doFinal(str));
-            return decrypted;
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-
-    }*/
 
     static String sha1(String input) throws NoSuchAlgorithmException {
         MessageDigest mDigest = MessageDigest.getInstance("SHA1");
@@ -1065,7 +1018,7 @@ public class Database //maybe generalize with interface? //for now red layer
                         teamHashSet(object.get(3)), stringToBoolean(object.get(4)),Double.parseDouble(object.get(5)));
                 return coach;
             case "Fan":
-                Fan fan = new Fan(object.get(0) , object.get(1),object.get(2) ,listOfPersonalPage(object.get(3)), listOfComplaints(object.get(4)));
+                Fan fan = new Fan(object.get(0) , object.get(1),object.get(2) ,listOfPersonalPage(object.get(3)), split(object.get(4)));
                 return fan;
             case "Player":
                 Player player = new Player(object.get(0), stringToDateJAVA(object.get(1)),
@@ -1747,6 +1700,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static List<String> getAllNotifications(String userId){
         if(dataAccess.isIDExists("OfflineUsersNotifications",userId)) {
             List<String> allMessages = split(getNotifications(userId));
+            dataAccess.updateCellValue("OfflineUsersNotifications", "Notifications", userId, "");
             return allMessages;
         }
         return null;
@@ -1768,16 +1722,9 @@ public class Database //maybe generalize with interface? //for now red layer
 
         for(String userString : teams){
             List<String> tempUser = split(userString);
-            allTeams.add((Team) getTeam(tempUser.get(0)));
-        }
-
-        for(Team team : allTeams){
-            if(!team.isActive()){
-                allTeams.remove(team);
-            }
+            allTeams.add(getTeam(tempUser.get(0)));
         }
         return allTeams;
-
     }
 
     public static List<User> getAllUsers(){
@@ -1788,17 +1735,23 @@ public class Database //maybe generalize with interface? //for now red layer
 
         for(String userString : users){
             List<String> tempUser = split(userString);
-            allUsers.add((User) getUser(tempUser.get(0)));
-        }
-
-        for(User user : allUsers){
-            if(!user.isActive()){
-                allUsers.remove(user);
-            }
+            allUsers.add(getUser(tempUser.get(0)));
         }
 
         return allUsers;
     }
+
+    private static List<User> getAllActiveUsers() {
+        List<User> activeUsers = new LinkedList<>();
+        List<User> allUsers = getAllUsers();
+
+        for(User user : allUsers){
+            if(user.isActive())
+                activeUsers.add(user);
+        }
+        return activeUsers;
+    }
+
 
     public static List<TeamOwner> getAllTeamOwners(){
 
@@ -2252,7 +2205,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static boolean addUser(String password, User user){
         //add to User SQL Tables
-        //and his Role to the correct taable: payler to Players
+        //and his Role to the correct table: player to Players
 
         boolean flag = false;
 
@@ -2400,7 +2353,7 @@ public class Database //maybe generalize with interface? //for now red layer
         if(!dataAccess.isIDExists("Fans", fan.getID())){
             dataAccess.addCell("Fans",fan.getID(),
                     fan.getAddress() , fan.getPhone() , getFollowPagesId(fan.getFollowPages()),
-                    getComplaintsId(fan.getComplaints()));
+                    getComplaintsId(fan.getComplaintsId()));
             return true;
         }
         return false;

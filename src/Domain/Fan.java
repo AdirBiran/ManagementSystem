@@ -7,25 +7,25 @@ public class Fan extends Role implements Observer {
 
     private String address;
     private String phone;
-    private List<Complaint> complaints;
+    private List<String> complaintsId;
     private List<PersonalPage> followPages;
 
     public Fan(String userId, String phone, String address) {
         this.userId = userId;
         this.address = address;
         this.phone = phone;
-        complaints = new LinkedList<>();
+        complaintsId = new LinkedList<>();
         followPages = new LinkedList<>();
         myRole = "Fan";
     }
 
-    public Fan(String userId, String address, String phone, List<PersonalPage> personalPages, List<Complaint> complaints)
+    public Fan(String userId, String address, String phone, List<PersonalPage> personalPages, List<String> complaintsId)
     {
         this.userId = userId;
         this.address = address;
         this.phone = phone;
         this.followPages = personalPages;
-        this.complaints = complaints;
+        this.complaintsId = complaintsId;
     }
 
     public boolean addPageToFollow(String pageId){
@@ -59,7 +59,7 @@ public class Fan extends Role implements Observer {
         if(description.length()<1)
             return false;
         Complaint complaint = new Complaint(description, this);
-        complaints.add(complaint);
+        complaintsId.add(complaint.getId());
         Database.updateObject(this);
         return Database.addComplaint(complaint);
     }
@@ -132,8 +132,8 @@ public class Fan extends Role implements Observer {
         return phone;
     }
 
-    public List<Complaint> getComplaints() {
-        return complaints;
+    public List<String> getComplaintsId() {
+        return complaintsId;
     }
 
     public List<PersonalPage> getFollowPages() {

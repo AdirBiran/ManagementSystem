@@ -16,6 +16,7 @@ public class AdminTest {
     FootballManagementSystem system;
     Admin admin;
     Team team;
+    User user;
     @Before
     public void init(){
         system = new FootballManagementSystem();
@@ -29,6 +30,8 @@ public class AdminTest {
         
         team = league.getTeams().get(0);
         admin = system.getAdmin();
+        Guest guest = new Guest();
+        user = guest.login("fan@gmail.com", "Aa1234");
     }
     @Test
     public void closeTeamPermanently() {
@@ -69,7 +72,6 @@ public class AdminTest {
 
     @Test
     public void removeUser() {
-       User user= admin.addNewAdmin("Aa1234","admin","test","admintest@mail.com");
          assertEquals(admin.removeUser(user.getID()),user.getMail());
     }
 
@@ -90,20 +92,15 @@ public class AdminTest {
 
     @Test
     public void responseToComplaint() {
-        Guest guest = new Guest();
-        User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         Fan fan = (Fan) user.checkUserRole("Fan");
         fan.submitComplaint("complaint to system");
-        Complaint complaint = fan.getComplaints().get(0);
-        assertTrue(admin.responseToComplaint(complaint.getId(), "answer"));
+        String complaint = fan.getComplaintsId().get(0);
+        assertTrue(admin.responseToComplaint(complaint, "answer"));
     }
 
     @Test
     public void viewLog() {
-    }
-
-    @Test
-    public void trainModel() {
+        assertNotNull(admin.viewLog("Errors"));
     }
 
     @Test
@@ -118,5 +115,10 @@ public class AdminTest {
     @Test
     public void getAllCloseTeams() {
         assertNotNull(admin.getAllCloseTeams());
+    }
+
+    @Test
+    public void getAllActiveComplaints(){
+        assertNotNull(admin.getAllActiveComplaints());
     }
     }

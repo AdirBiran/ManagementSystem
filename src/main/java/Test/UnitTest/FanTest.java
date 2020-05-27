@@ -98,7 +98,7 @@ public class FanTest {
 
     @Test
     public void getComplaints() {
-        assertEquals(fan.getComplaints().size(), 0);
+        assertEquals(fan.getComplaintsId().size(), 0);
     }
 
     @Test
