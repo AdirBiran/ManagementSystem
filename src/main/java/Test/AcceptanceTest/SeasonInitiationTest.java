@@ -39,7 +39,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2021,new Date(121,4,1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2021,Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "2021",  "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 250);
 
@@ -55,7 +55,7 @@ public class SeasonInitiationTest {
         League league = Database.getLeague("Alufot");
         assertNotNull(league);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason);
         assertFalse(success);
     }
 
@@ -64,7 +64,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2021,new Date(121,4,1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2021,Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "2021", null, null, 250);
 
@@ -76,7 +76,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),1800, new Date(18,4,1));/////////////1800
+        representativeSystem.configureNewSeason(UnionRep.getID(),1800, Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "1800","PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 250);
 
@@ -88,7 +88,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2020, new Date(120, 4, 1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2020,Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Haal", "level1");
         String leagueInSeasonId = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Haal", "2020", "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         representativeSystem.addFieldToSystem(UnionRep.getID(),"jerusalem","Teddy" ,550, 150000);
@@ -120,7 +120,7 @@ public class SeasonInitiationTest {
         League league = Database.getLeague("Haal");
         assertNotNull(league);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeasonId, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeasonId);
         assertTrue(success);
 
 
@@ -131,7 +131,7 @@ public class SeasonInitiationTest {
     {
 
        UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2021 ,new Date(121,4,1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2021 ,Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "2021",  "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
 
@@ -147,7 +147,7 @@ public class SeasonInitiationTest {
     {
 
        UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2021, new Date(121,4,1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2021, Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "2021","PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
 
@@ -156,7 +156,7 @@ public class SeasonInitiationTest {
 
         representativeSystem.assignRefToLeague(UnionRep.getID(),leagueInSeason, ref);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason);
 
         assertFalse(success);
 

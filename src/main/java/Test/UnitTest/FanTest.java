@@ -37,7 +37,7 @@ public class FanTest {
         /*create games*/
         User union = admin.addNewUnionRepresentative("Union", "Rep", "union@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        unionRole.assignGames(league.getId(), system.getDates());
+        unionRole.assignGames(league.getId());
         game = league.getGames().get(0);
     }
 

@@ -167,13 +167,13 @@ public class UnionRepresentativeSystem {
     /*
     throws exceptions
      */
-    public boolean assignGames(String userId, String leagueId, List<Date> dates)
+    public boolean assignGames(String userId, String leagueId)
     {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("UnionRepresentative");
             if (role instanceof UnionRepresentative) {
-                boolean success = ((UnionRepresentative) role).assignGames(leagueId, dates);
+                boolean success = ((UnionRepresentative) role).assignGames(leagueId);
 
                 if (success)
                     Logger.logEvent(user.getID(), "Assigned games to league");
