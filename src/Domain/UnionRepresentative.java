@@ -69,8 +69,10 @@ public class UnionRepresentative extends Role implements Observer {
         return UserFactory.getNewReferee(firstName, lastName, mail, training);
     }
 
-    public void removeReferee(User user)
+    public boolean removeAppointReferee(Referee referee)
     {
+        user.getRoles().remove(referee);
+        return Database.updateObject(user);
 
     }
 
