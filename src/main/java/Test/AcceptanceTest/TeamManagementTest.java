@@ -2,17 +2,13 @@ package AcceptanceTest;
 
 import Data.Database;
 import Domain.*;
-import Domain.Coach;
 import Domain.Player;
 import Service.FootballManagementSystem;
 import Service.TeamManagementSystem;
-import Service.UnionRepresentativeSystem;
 import Service.UserSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Date;
 
 import static org.junit.Assert.*;
