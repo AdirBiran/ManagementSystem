@@ -14,11 +14,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -624,5 +627,18 @@ public class GeneralController {
             }
         }
         return "";
+    }
+
+
+    public void setLogoImage(ImageView imageView){
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream("resources/logo.png"));
+        }
+        catch (Exception e) {
+            //log error
+        }
+
+        imageView.setImage(image);
     }
 }

@@ -32,6 +32,8 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("GuestView.fxml"));
 
         primaryStage.setTitle(SYSTEM_NAME);
+        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(650);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
@@ -46,9 +48,9 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        FootballManagementSystem.systemInit(true);
-        FootballManagementSystem.dataReboot();
-        UserFactory.getNewAdmin("aA123456", "adminush", "ush", "m@m.com");
+        //FootballManagementSystem.systemInit(true);
+        //FootballManagementSystem.dataReboot();
+        //UserFactory.getNewAdmin("aA123456", "adminush", "ush", "m@m.com");
         launch(args);
     }
 }

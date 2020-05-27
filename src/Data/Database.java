@@ -1024,7 +1024,7 @@ public class Database //maybe generalize with interface? //for now red layer
             case "User":
                 user = new User(object.get(0) ,object.get(1),object.get(2),object.get(3),
                         stringToBoolean(object.get(4)) ,createListOfRoles(object.get(5) , object.get(0)),
-                        split(object.get(6)));
+                        new LinkedList<>());
                 return user;
 
         }

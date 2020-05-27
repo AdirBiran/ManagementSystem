@@ -131,13 +131,9 @@ public class Client  {
 
         return res;
     }
-    public void askForNotifications()
+    public List<String> askForNotifications()
     {
-        List<String> notifications = sendToServer("Notifications|"+getUserID());
-        for(String notification : notifications){
-            sendNotification(notification);
-        }
-
+        return sendToServer("checkNotifications|"+getUserID());
     }
 
     /**

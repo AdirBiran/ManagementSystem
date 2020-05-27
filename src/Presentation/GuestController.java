@@ -14,11 +14,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -35,6 +37,8 @@ public class GuestController implements Initializable {
     @FXML private TextField tf_email;
     @FXML private PasswordField tf_password;
     @FXML private Label l_systemName;
+    @FXML private ImageView iv_systemLogo;
+    @FXML private ToolBar tb_menu;
 
 
     public void loginButtonPushed(ActionEvent action){
@@ -83,6 +87,11 @@ public class GuestController implements Initializable {
         m_client = new Client(7567);
         mainPane = new GridPane();
         mainPane.setAlignment(Pos.CENTER);
-        //add listeners and stuff
+        m_general.setLogoImage(iv_systemLogo);
+
+        tb_menu.setOrientation(Orientation.HORIZONTAL);
+
+        //add listeners to primary stage
+
     }
 }
