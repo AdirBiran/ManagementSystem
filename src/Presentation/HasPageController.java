@@ -10,13 +10,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import java.util.List;
 
-public class HasPageController {
+public class HasPageController extends GeneralController{
 
 
     private HBox mainView1;
     private String loggedUser;
     private Client client;
-    private GeneralController m_general = new GeneralController();
     private GridPane mainPane;
 
     public HasPageController(HBox mainView1, String loggedUser, Client client, GridPane mainPane) {
@@ -27,7 +26,7 @@ public class HasPageController {
     }
 
     public void viewPage(){
-        m_general.clearMainView(mainView1);
+        clearMainView(mainView1);
         List<String> page = client.sendToServer("viewPage|"+loggedUser);
         Label l_page = new Label(page.get(0));
         mainPane.add(l_page, 0,0);
@@ -35,8 +34,8 @@ public class HasPageController {
 
     }
     public void uploadToPage(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         Label l_upload = new Label("Please enter text to upload:");
         mainPane.add(l_upload, 0, 0);
         TextArea uploadArea = new TextArea();
@@ -48,7 +47,7 @@ public class HasPageController {
                 String upload = uploadArea.getText();
                 if(Checker.isValid(upload)){
                     List<String> receive = client.sendToServer("uploadToPage|"+loggedUser+"|"+upload);
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
 
             }

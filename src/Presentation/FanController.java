@@ -9,12 +9,12 @@ import javafx.scene.layout.HBox;
 
 import java.util.List;
 
-public class FanController {
+public class FanController extends GeneralController{
 
     private HBox mainView1;
     private String loggedUser;
     private Client client;
-    private GeneralController m_general = new GeneralController();
+
     private GridPane mainPane;
 
     public FanController(HBox mainView1, String loggedUser, Client client, GridPane mainPane) {
@@ -24,17 +24,10 @@ public class FanController {
         this.mainPane = mainPane;
     }
 
-    public void followPage(){
-        m_general.clearMainView(mainView1);
-        //show all pages
-        //let user select page
-        //send request to server with fan and page
-    }
     public void followGames(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         List<String> games = client.sendToServer("getAllFutureGames|"+loggedUser);
-
         int rowIdx=0;
         Label label = new Label("Please select games to follow:");
         mainPane.add(label,0,rowIdx);
@@ -46,7 +39,7 @@ public class FanController {
         rowIdx++;
         ListView<String> lv_games = new ListView<>(FXCollections.observableArrayList(games));
         ListView<String> lv_selectedGames = new ListView<>();
-        m_general.linkSelectionLists(lv_games, lv_selectedGames);
+        linkSelectionLists(lv_games, lv_selectedGames);
         mainPane.add(lv_games, 0, rowIdx);
         mainPane.add(lv_selectedGames, 1, rowIdx);
         rowIdx++;
@@ -62,10 +55,10 @@ public class FanController {
                     boolean cb_email = email.isSelected();
                     String strGames = client.ListToString(selected);
                     List<String> receive = client.sendToServer("followGames|"+loggedUser+"|"+strGames+"|"+cb_email);
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else
-                    m_general.showAlert("Action canceled - No game was selected", Alert.AlertType.ERROR);
+                    showAlert("Action canceled - No game was selected", Alert.AlertType.ERROR);
             }
         });
         mainPane.add(followBtn, 0, rowIdx);
@@ -74,11 +67,11 @@ public class FanController {
         //send request to server with fan and games
     }
     public void editPersonalInfo(){
-        m_general.clearMainView(mainView1);
+        clearMainView(mainView1);
     }
     public void submitComplaint(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         Label label = new Label("Submit A Complaint");
         mainPane.add(label, 0, 0);
         TextArea ta_complaint = new TextArea("type your complaint here...");
@@ -90,7 +83,7 @@ public class FanController {
                 String text = ta_complaint.getText();
                 if(!text.equals("type your complaint here...")){
                     List<String> receive = client.sendToServer("addComplaint|"+loggedUser+"|"+text);
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
             }
         });

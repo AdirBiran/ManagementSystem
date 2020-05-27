@@ -17,14 +17,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
-public class OwnershipController {
+public class OwnershipController extends GeneralController{
 
     private HBox mainView1;
     private String loggedUser;
     private Client m_client;
     private HashMap<String,String> teams; //<id , name>
     private GridPane mainPane;
-    private GeneralController m_general = new GeneralController();
+
 
 
     public OwnershipController(HBox mainView1, String loggedUser, Client m_client, GridPane mainPane) {
@@ -32,15 +32,15 @@ public class OwnershipController {
         this.loggedUser = loggedUser;
         this.m_client = m_client;
         this.mainPane = mainPane;
-        this.teams = m_general.initHashSet(m_client.sendToServer("getTeams|"+loggedUser));
+        this.teams = initHashSet(m_client.sendToServer("getTeams|"+loggedUser));
     }
 
 
 
     public void openNewTeam(){
         int rowCount=0;
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         Label label = new Label("Please fill out this form: ");
         mainPane.add(label,0,rowCount);
         rowCount++;
@@ -63,7 +63,7 @@ public class OwnershipController {
         }
         ListView<String> lv_players = new ListView(playerRecordArrayList);
         ListView<String> lv_selectedPlayers = new ListView();
-        m_general.linkSelectionLists(lv_players,lv_selectedPlayers);
+        linkSelectionLists(lv_players,lv_selectedPlayers);
 
         mainPane.add(new Label("Players - at least 11: "),0,rowCount);
         mainPane.add(new Label("Selected Players: "),1,rowCount);
@@ -81,7 +81,7 @@ public class OwnershipController {
         ListView<Record> lv_coaches = new ListView(coachRecordArrayList);
         lv_coaches.setCellFactory(new PropertyValueFactory("name"));
         ListView lv_selectedCoaches = new ListView();
-        m_general.linkSelectionLists(lv_coaches,lv_selectedCoaches );
+        linkSelectionLists(lv_coaches,lv_selectedCoaches );
         mainPane.add(new Label("Coaches - at least 1: "),0,rowCount);
         mainPane.add(new Label("Selected Coaches: "),1,rowCount);
         rowCount++;
@@ -93,7 +93,7 @@ public class OwnershipController {
         fieldsArrayList.addAll(fields);
         ListView<String> lv_field = new ListView(fieldsArrayList);
         ListView lv_selectedFields = new ListView();
-        m_general.linkSelectionLists(lv_field,lv_selectedFields );
+        linkSelectionLists(lv_field,lv_selectedFields );
         mainPane.add(new Label("Fields - at least 1: "),0,rowCount);
         mainPane.add(new Label("Selected Fields: "),1,rowCount);
         rowCount++;
@@ -110,12 +110,12 @@ public class OwnershipController {
                     String coaches = m_client.ListToString(getStringsIds(lv_selectedCoaches.getItems()));
                     String fields = m_client.ListToString(lv_selectedFields.getItems());
                     List<String> receive = m_client.sendToServer("createTeam|"+loggedUser+"|"+name+"|"+players+"|"+coaches+"|"+fields);
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                     if(receive.get(0).contains("Succeed"))
                         FootballSpellChecker.addWord(name);
                 }
                 else
-                    m_general.showAlert("invalid arguments - please select at least 11 players one coach and one field!", Alert.AlertType.ERROR);
+                    showAlert("invalid arguments - please select at least 11 players one coach and one field!", Alert.AlertType.ERROR);
 
             }
         });
@@ -124,15 +124,15 @@ public class OwnershipController {
     }
 
     public void appointTeamOwner(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         appoint("owner");
     }
 
 
     public void appointTeamManager(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         appoint("manager");
 
     }
@@ -140,26 +140,26 @@ public class OwnershipController {
 
     public void closeTeam()
     {
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         Label label = new Label("Please select team to close");
         mainPane.add(label,0,0);
-        cb_teams = m_general.addTeamsChoiceBox(mainPane, 1, teams.values());
+        cb_teams = addTeamsChoiceBox(mainPane, 1, teams.values());
         Button addBtn = new Button("Close");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String teamName = cb_teams.getValue() , id = m_general.getIdFromName(teamName, teams);
+                String teamName = cb_teams.getValue() , id = getIdFromName(teamName, teams);
                 List<String> receive =  m_client.sendToServer("closeTeam|"+loggedUser+"|"+id);
-                m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                showAlert(receive.get(0), Alert.AlertType.INFORMATION);
             }
         });
         mainPane.add(addBtn,0,2);
         mainView1.getChildren().add(mainPane);
     }
     public void reopenTeam(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         //getAllClosedTeams()
         //let user select team
         //send request to reopen
@@ -216,7 +216,7 @@ public class OwnershipController {
         }
         mainPane.add(label,0,rowIdx);
         rowIdx++;
-        cb_teams = m_general.addTeamsChoiceBox(mainPane, rowIdx, teams.values());
+        cb_teams = addTeamsChoiceBox(mainPane, rowIdx, teams.values());
         rowIdx++;
         addUsersChoiceBox(mainPane, rowIdx);
         rowIdx++;
@@ -224,14 +224,14 @@ public class OwnershipController {
         appointBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String team=cb_teams.getValue(), user=cb_users.getValue() , id = m_general.getIdFromName(team, teams);
+                String team=cb_teams.getValue(), user=cb_users.getValue() , id = getIdFromName(team, teams);
                 if(Checker.isValid(team)&&Checker.isValid(user)){
                     request.append(loggedUser+"|"+user+"|"+id);
                     List<String> receive = m_client.sendToServer(request.toString());
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else{
-                    m_general.showAlert("Invalid values selection!", Alert.AlertType.ERROR);
+                    showAlert("Invalid values selection!", Alert.AlertType.ERROR);
                 }
             }
         });

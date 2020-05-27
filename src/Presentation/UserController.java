@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Optional;
 
-public class UserController implements Initializable {
+public class UserController extends GeneralController implements Initializable {
     
     @FXML private HBox mainView1;
     @FXML private MenuBar mb_mainMenu1;
@@ -27,7 +27,7 @@ public class UserController implements Initializable {
     private Client m_client;
     private String loggedUser;
     private GridPane mainPane1;
-    private GeneralController m_general = new GeneralController();
+
 
     private AdminController admin;
     private FanController fan;
@@ -40,8 +40,8 @@ public class UserController implements Initializable {
 
 
     public void editPersonalInfoButtonPushed(ActionEvent action){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane1);
+        clearMainView(mainView1);
+        clearMainView(mainPane1);
         List<String> userInfo = m_client.sendToServer("getUserInfo|"+loggedUser);
         String[]split = userInfo.get(0).split(",");
 
@@ -52,33 +52,33 @@ public class UserController implements Initializable {
     }
 
     public void searchButtonPushed(ActionEvent actionEvent){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane1);
-        m_general.buildSearchView(mainPane1, mainView1, m_client, loggedUser);
+        clearMainView(mainView1);
+        clearMainView(mainPane1);
+        buildSearchView(mainPane1, mainView1, m_client, loggedUser);
         //find a way to reuse code in guest controller
     }
 
     public void viewInfoButtonPushed(ActionEvent actionEvent){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane1);
-        m_general.buildViewInfoScene(mainPane1, mainView1, m_client);
+        clearMainView(mainView1);
+        clearMainView(mainPane1);
+        buildViewInfoScene(mainPane1, mainView1, m_client);
         //find a way to reuse code in guest controller
     }
 
     public void viewSearchHistoryButtonPushed(ActionEvent actionEvent){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane1);
+        clearMainView(mainView1);
+        clearMainView(mainPane1);
         List<String> history = m_client.sendToServer("viewSearchHistory|"+loggedUser);
 
         mainView1.getChildren().add(mainPane1);
-        m_general.showListOnScreen("",history, mainPane1,0);
+        showListOnScreen("",history, mainPane1,0);
     }
 
     public void logoutButtonPushed(ActionEvent actionEvent) {
         m_client.sendToServer("logOut|"+loggedUser);
         loggedUser = "";
         m_client.stopGettingNotifications();
-        m_general.setSceneByFXMLPath("GuestView.fxml", null, "", m_client, mainPane1);
+        setSceneByFXMLPath("GuestView.fxml", null, "", m_client, mainPane1);
 
     }
 
@@ -95,21 +95,21 @@ public class UserController implements Initializable {
     }
 
     public void buildPresentation(List<String> roles) {
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane1);
+        clearMainView(mainView1);
+        clearMainView(mainPane1);
         for(String role : roles){
             switch(role){
                 case("Fan"):{
                     fan = new FanController(mainView1, loggedUser, m_client, mainPane1);
                     Menu fanMenu = new Menu("Fan Actions");
-                    MenuItem followPage = new MenuItem("Follow Page");
-                    followPage.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            fan.followPage();
-                        }
-                    });
-                    fanMenu.getItems().add(followPage);
+                    //MenuItem followPage = new MenuItem("Follow Page");
+                    //followPage.setOnAction(new EventHandler<ActionEvent>() {
+                    //    @Override
+                    //    public void handle(ActionEvent event) {
+                    //        fan.followPage();
+                    //    }
+                    //});
+                    //fanMenu.getItems().add(followPage);
                     MenuItem followGames = new MenuItem("Follow Games");
                     followGames.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -523,6 +523,7 @@ public class UserController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         l_systemName.setText(Main.SYSTEM_NAME);
+        setImage(iv_systemLogo,"resources/logo.png");
         Main.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
@@ -536,6 +537,6 @@ public class UserController implements Initializable {
                 }
             }
         });
-        m_general.setLogoImage(iv_systemLogo);
+
     }
 }

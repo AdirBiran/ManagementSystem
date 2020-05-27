@@ -10,12 +10,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import java.util.List;
 
-public class RefereeController {
+public class RefereeController extends GeneralController{
 
     private HBox mainView1;
     private String loggedUser;
     private Client client;
-    private GeneralController m_general = new GeneralController();
     private GridPane mainPane;
 
     public RefereeController(HBox mainView1, String loggedUser, Client client, GridPane mainPane) {
@@ -29,8 +28,8 @@ public class RefereeController {
     //a game that he is assign to and is occurring now + 5 hours
     //if you cant find any return ""
     public void  addEventToGame(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         String game = getOccurringGame();
         if(game.length()>0){
             Label labelGame = new Label(game);
@@ -52,7 +51,7 @@ public class RefereeController {
                 public void handle(ActionEvent event) {
                     if(cb_types.getValue().length()>0&&t_description.getText().length()>0){
                         List<String> receive = client.sendToServer("addEventToGame|"+loggedUser+"|"+game+"|"+cb_types.getValue()+"|"+t_description.getText());
-                        m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                        showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                     }
                 }
             });
@@ -63,8 +62,8 @@ public class RefereeController {
     }
 
     public void  setScoreInGame(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         String game = getOccurringGame();
         if(game.length()>0){
             Label labelGame = new Label(game);
@@ -86,7 +85,7 @@ public class RefereeController {
                     String host =h_score.getValue(),guest = g_score.getValue();
                     if(Checker.isValidNumber(host)&& Checker.isValidNumber(guest)){
                         List<String> receive = client.sendToServer("setScoreInGame|"+loggedUser+"|"+game+"|"+host+"|"+guest);
-                        m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                        showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                     }
                 }
             });
@@ -96,8 +95,10 @@ public class RefereeController {
     }
 
     public void getGameReport(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
+        List<String> games = client.sendToServer("getAllPastGames_R|"+loggedUser);
+
         //show all past games
         //let user select a game
         //send request for game report
@@ -106,8 +107,8 @@ public class RefereeController {
 
     }
     public void  changeEvent(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         String game = getOccurringGame();
         if(game.length()>0){
             Label label = new Label("Please select an event to change:");
@@ -124,7 +125,7 @@ public class RefereeController {
                     listEvents.add(report);
                 }
                 else{
-                    m_general.showAlert("Can't get events", Alert.AlertType.ERROR);
+                    showAlert("Can't get events", Alert.AlertType.ERROR);
                     return;
                 }
             }
@@ -134,7 +135,7 @@ public class RefereeController {
             events.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    m_general.clearMainView(mainPane);
+                    clearMainView(mainPane);
                     changeEvent();
                     showEventDetails(mainPane,events.getValue(),game,2);
                 }
@@ -155,7 +156,7 @@ public class RefereeController {
             public void handle(ActionEvent event) {
                 String request = "changeEvent|"+loggedUser+"|"+game+"|"+eventString+"|"+tf_description.getText();
                 List<String> receive =client.sendToServer(request);
-                m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                showAlert(receive.get(0), Alert.AlertType.INFORMATION);
             }
         });
     }
@@ -171,7 +172,7 @@ public class RefereeController {
         List<String> occurringGame = client.sendToServer("getOccurringGame|"+loggedUser);
         String game = occurringGame.get(0);
         if(game.length()<1) {
-            m_general.showAlert("Illegal action! - None of your games is occurring now", Alert.AlertType.ERROR);
+            showAlert("Illegal action! - None of your games is occurring now", Alert.AlertType.ERROR);
             return "";
         }
         return game;

@@ -11,28 +11,28 @@ import java.util.List;
 import java.util.HashMap;
 
 
-public class ManagementController {
+public class ManagementController extends GeneralController{
 
     private HBox mainView1;
     private String loggedUser;
     private Client client;
     private HashMap<String,String> teams; //<id , name>
     private GridPane mainPane;
-    private GeneralController m_general = new GeneralController();
+
 
     public ManagementController(HBox mainView1, String loggedUser, Client client, GridPane mainPane) {
         this.mainView1 = mainView1;
         this.loggedUser = loggedUser;
         this.client = client;
-        this.teams = m_general.initHashSet(client.sendToServer("getTeams|"+loggedUser));
+        this.teams = initHashSet(client.sendToServer("getTeams|"+loggedUser));
         this.mainPane = mainPane;
     }
 
     private ChoiceBox<String> cb_teams;
 
     public void addPlayerToTeam(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         int rowIdx =0;
         teamSelection(rowIdx);
         rowIdx++;
@@ -44,8 +44,8 @@ public class ManagementController {
     }
     public void addCoachToTeam()
     {
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         int rowIdx =0;
         teamSelection(rowIdx);
         rowIdx++;
@@ -54,8 +54,8 @@ public class ManagementController {
         //let user select team and coach
     }
     public void addFieldToTeam(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         int rowIdx =0;
         teamSelection(rowIdx);
         rowIdx++;
@@ -64,8 +64,8 @@ public class ManagementController {
         //let user select team and field
     }
     public void updateAsset(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         int rowIdx =0;
         teamSelection(rowIdx);
         rowIdx++;
@@ -77,18 +77,18 @@ public class ManagementController {
 
     }
     public void reportIncome(){
-        m_general.clearMainView(mainView1);
+        clearMainView(mainView1);
         report("income");
 
     }
     public void reportExpanse(){
-        m_general.clearMainView(mainView1);
+        clearMainView(mainView1);
         report("expanse");
 
     }
     public void getBalance(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         int rowIdx =0;
         teamSelection(rowIdx);
         rowIdx++;
@@ -97,10 +97,10 @@ public class ManagementController {
         getBalanceBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String teamName = cb_teams.getValue(), id = m_general.getIdFromName(teamName, teams);
+                String teamName = cb_teams.getValue(), id = getIdFromName(teamName, teams);
                 String request = "getBalance|"+loggedUser+"|"+id;
                 List<String> receive = client.sendToServer(request);
-                m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                showAlert(receive.get(0), Alert.AlertType.INFORMATION);
             }
         });
         mainPane.add(getBalanceBtn, 0, rowIdx);
@@ -108,7 +108,7 @@ public class ManagementController {
     }
 
     private void report(String type){
-        m_general.clearMainView(mainPane);
+        clearMainView(mainPane);
         int rowIdx =0;
         teamSelection(rowIdx);
         rowIdx++;
@@ -138,13 +138,13 @@ public class ManagementController {
                 String input = tf_input.getText();
                 String teamName = cb_teams.getValue();
                 if(Checker.isValidNumber(input)&& Checker.isValid(teamName)){
-                    String id = m_general.getIdFromName(teamName, teams);
+                    String id = getIdFromName(teamName, teams);
                     request.append(loggedUser+"|"+id+"|"+input);
                     List<String> receive = client.sendToServer(request.toString());
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else{
-                    m_general.showAlert("Invalid team or input - enter numbers only!", Alert.AlertType.ERROR);
+                    showAlert("Invalid team or input - enter numbers only!", Alert.AlertType.ERROR);
                 }
             }
         });
@@ -156,7 +156,7 @@ public class ManagementController {
         Label label = new Label("Please select team:");
         mainPane.add(label, 0, index);
         index++;
-        cb_teams = m_general.addTeamsChoiceBox(mainPane, index, teams.values());
+        cb_teams = addTeamsChoiceBox(mainPane, index, teams.values());
     }
 
 }

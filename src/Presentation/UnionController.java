@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.HashMap;
 
-public class UnionController {
+public class UnionController extends GeneralController {
 
     private HBox mainView1;
     private String loggedUser;
@@ -23,8 +23,6 @@ public class UnionController {
     private HashMap<String,String> leagues;//<id,name>
     private HashMap<String,String> seasons;//<id,name>
     private HashMap<String,String> leagueInSeasons;//<id,name>
-
-    private GeneralController m_general = new GeneralController();
 
     public UnionController(HBox mainView1, String loggedUser, Client client, GridPane mainPane) {
         this.mainView1 = mainView1;
@@ -38,8 +36,8 @@ public class UnionController {
 
     public void configureNewLeague()
     {
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         Label name = new Label("League Name:");
         mainPane.add(name, 0, 0);
         TextField tf_name = new TextField();
@@ -58,19 +56,19 @@ public class UnionController {
                 if(Checker.isValid(name)&& level.length()>0){
                     String request = "configureNewLeague|"+loggedUser+"|"+name+"|"+level;
                     List<String> response = client.sendToServer(request);
-                    m_general.showAlert(response.get(0), Alert.AlertType.INFORMATION);
-                    m_general.clearMainView(mainView1);
+                    showAlert(response.get(0), Alert.AlertType.INFORMATION);
+                    clearMainView(mainView1);
                 }
                 else
-                    m_general.showAlert("Invalid name or level", Alert.AlertType.ERROR);
+                    showAlert("Invalid name or level", Alert.AlertType.ERROR);
             }
         });
         mainPane.add(b_add, 2,2);
         mainView1.getChildren().add(mainPane);
     }
     public void configureNewSeason(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         Label label = new Label("Please select year and start date:");
         mainPane.add(label, 0,0);
         Label year = new Label("Season Year:");
@@ -89,8 +87,8 @@ public class UnionController {
                 if(Checker.isValidNumber(year) && date.length()>0){
                     String request = "configureNewSeason|"+loggedUser+"|"+year+"|"+date;
                     List<String> receive = client.sendToServer(request);
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
-                    m_general.clearMainView(mainView1);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    clearMainView(mainView1);
                 }
             }
         });
@@ -98,8 +96,8 @@ public class UnionController {
         mainView1.getChildren().add(mainPane);
     }
     public void configureLeagueInSeason(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         int rowInx=0;
         Label label = new Label("Please select League and Season");
         mainPane.add(label, 0,rowInx);
@@ -145,8 +143,8 @@ public class UnionController {
                 if(Checker.isValid(league)&&Checker.isValid(season) &&Checker.isValid(assignment)&&Checker.isValid(score)&&Checker.isValidNumber(fee)){
 
                     List<String> receive = client.sendToServer("configureLeagueInSeason|"+loggedUser+"|"+league+"|"+season+"|"+assignment+"|"+score+"|"+fee);
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
-                    m_general.clearMainView(mainView1);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    clearMainView(mainView1);
                 }
             }
         });
@@ -157,8 +155,8 @@ public class UnionController {
 
 
     public void assignGames(){///////fix!!!
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         Label label = new Label("please select a league to assign games to it:");
         mainPane.add(label, 0,0);
         addLeaguesInSeasonToPane(mainPane);
@@ -169,7 +167,7 @@ public class UnionController {
                 String league = cb_leagueInSeasons.getValue();
                 if(Checker.isValid(league)){
                     List<String> receive = client.sendToServer("assignGames|"+loggedUser+"|"+league);
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
             }
         });
@@ -180,13 +178,13 @@ public class UnionController {
 
     public void appointReferee()
     {
-        m_general.buildForm("referee", mainView1, client, loggedUser, mainPane);
+        buildForm("referee", mainView1, client, loggedUser, mainPane);
     }
 
     public void addRefereeToLeague(){
-        m_general.clearMainView(mainView1);
+        clearMainView(mainView1);
         Label label = new Label("please select League and Referee:");
-        m_general.clearMainView(mainPane);
+        clearMainView(mainPane);
         mainPane.add(label, 0,0);
         addLeaguesInSeasonToPane(mainPane);
         List<String> referees = client.sendToServer("getAllReferees|"+loggedUser);
@@ -215,10 +213,10 @@ public class UnionController {
                         }
                     }
                     List<String> receive = client.sendToServer("addRefereeToLeague|"+loggedUser+"|"+refId+"|"+league);
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else
-                    m_general.showAlert("Invalid selection of values", Alert.AlertType.ERROR);
+                    showAlert("Invalid selection of values", Alert.AlertType.ERROR);
             }
         });
         mainPane.add(addBtn, 0, 3);
@@ -238,21 +236,21 @@ public class UnionController {
     }
 
     public void addTUTUPaymentToTeam(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         //let user select a team and amount
         //send request to add payment to team
     }
     public void addPaymentsFromTheTUTU(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         //let user enter a double that represents the amount to add to union accounting system
         //show ack to user
     }
 
     public void addTeamToLeague(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         Label label = new Label("please select League and a team");
         mainPane.add(label, 0,0);
         addLeaguesInSeasonToPane(mainPane);
@@ -281,10 +279,10 @@ public class UnionController {
                             teamId = record.getId();
                     }
                     List<String> receive = client.sendToServer("addTeamToLeague|"+loggedUser+"|"+teamId+"|"+league);
-                    m_general.showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                    showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else
-                    m_general.showAlert("Invalid selection of values", Alert.AlertType.ERROR);
+                    showAlert("Invalid selection of values", Alert.AlertType.ERROR);
             }
         });
         mainPane.add(addBtn, 0, 3);
@@ -292,27 +290,23 @@ public class UnionController {
     }
     public void calculateLeagueScore()
     {
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
-        //select league
 
-        addLeaguesInSeasonToPane(mainPane);
+        calculate("league");
         //send request to server
         //show league score table
-        mainView1.getChildren().add(mainPane);
+
     }
 
     public void calculateGameScore()
     {
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        calculate("game");
         //select league
         //select game/all games/some games?
         //send request to server to calculate score
     }
     public void changeRegistrationFee(){
-        m_general.clearMainView(mainView1);
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         //select league
         //show fee
         //les user enter new fee
@@ -321,7 +315,8 @@ public class UnionController {
     }
 
     private void calculate(String type){///////fix!!!
-        m_general.clearMainView(mainPane);
+        clearMainView(mainView1);
+        clearMainView(mainPane);
         addLeaguesInSeasonToPane(mainPane);
         Label label =null;
         StringBuilder request = new StringBuilder();
@@ -334,13 +329,14 @@ public class UnionController {
             case "game":{
                 label = new Label("select league to calculate its game's score");
                 request.append("calculateGameScore|");
-                List<String> games = client.sendToServer("getAllPastGames|"+loggedUser);
+                List<String> games = client.sendToServer("getAllPastGames_UR|"+loggedUser);
                 ChoiceBox<String> cb_games = new ChoiceBox<>(FXCollections.observableArrayList(games));
                 
                 break;
             }
         }
         mainPane.add(label,0,0);
+        mainView1.getChildren().add(mainPane);
 
     }
 
@@ -374,22 +370,22 @@ public class UnionController {
             @Override
             public void handle(ActionEvent event) {
                 if(cb_leagueInSeasons.getValue().length()<1|| cb_policies.getValue().length()<1){
-                    m_general.showAlert("No league or policy was selected!", Alert.AlertType.ERROR);
+                    showAlert("No league or policy was selected!", Alert.AlertType.ERROR);
                     return;
                 }
                 List<String> receive = client.sendToServer("changeScorePolicy|"+loggedUser+"|"+ cb_leagueInSeasons.getValue()+"|"+cb_policies.getValue());
                 if(receive.get(0).contains("Succeed")){
-                    m_general.showAlert("Policy has changed to"+cb_policies.getValue(), Alert.AlertType.INFORMATION);
+                    showAlert("Policy has changed to"+cb_policies.getValue(), Alert.AlertType.INFORMATION);
                 }
                 else
-                    m_general.showAlert("Couldn't change policy", Alert.AlertType.ERROR);
+                    showAlert("Couldn't change policy", Alert.AlertType.ERROR);
             }
         });
         pane.add(changeBtn, 0, 3);
     }
 
     private void changePolicy(String type) {
-        m_general.clearMainView(mainView1);
+        clearMainView(mainView1);
         GridPane pane = new GridPane();
         addLeaguesInSeasonToPane(pane);
         switch (type){

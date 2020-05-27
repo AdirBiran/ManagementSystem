@@ -25,11 +25,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
-public class GuestController implements Initializable {
+public class GuestController extends GeneralController implements Initializable {
 
 
     private Client m_client;//split by |
-    private GeneralController m_general = new GeneralController();
+
 
     private GridPane mainPane;
 
@@ -41,6 +41,7 @@ public class GuestController implements Initializable {
     @FXML private ToolBar tb_menu;
 
 
+
     public void loginButtonPushed(ActionEvent action){
 
         String Email = tf_email.getText();
@@ -50,33 +51,33 @@ public class GuestController implements Initializable {
             String[] split = (user.get(0).split("\\|"));
             String loggedUser = split[0];
             if(loggedUser.length()==0){
-                m_general.showAlert("wrong email or password!",Alert.AlertType.ERROR);
+                showAlert("wrong email or password!",Alert.AlertType.ERROR);
             }
             else{
                 tf_email.setText("");
                 tf_password.setText("");
-                user = m_general.getRolesFromSplitedText(split,1);
+                user = getRolesFromSplitedText(split,1);
 
-                m_general.setSceneByFXMLPath("UserView.fxml", user, loggedUser, m_client, mainPane);
+                setSceneByFXMLPath("UserView.fxml", user, loggedUser, m_client, mainPane);
             }
         }
         else
-            m_general.showAlert("wrong email or password!",Alert.AlertType.ERROR);
+            showAlert("wrong email or password!",Alert.AlertType.ERROR);
 
     }
 
     public void buildRegistrationForm(ActionEvent action) {
-        m_general.buildForm("fan", mainView, m_client,"", mainPane);
+        buildForm("fan", mainView, m_client,"", mainPane);
     }
 
     public void searchButtonPushed(ActionEvent actionEvent){
-        m_general.clearMainView(mainView);
-        m_general.buildSearchView(mainPane, mainView, m_client,"");
+        clearMainView(mainView);
+        buildSearchView(mainPane, mainView, m_client,"");
     }
 
     public void viewInfoButtonPushed(ActionEvent actionEvent){
-        m_general.clearMainView(mainView);
-        m_general.buildViewInfoScene(mainPane, mainView, m_client);
+        clearMainView(mainView);
+        buildViewInfoScene(mainPane, mainView, m_client);
 
     }
 
@@ -85,13 +86,12 @@ public class GuestController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         l_systemName.setText(Main.SYSTEM_NAME);
         m_client = new Client(7567);
+        setImage(iv_systemLogo, "resources/logo.png");
         mainPane = new GridPane();
-        mainPane.setAlignment(Pos.CENTER);
-        m_general.setLogoImage(iv_systemLogo);
-
         tb_menu.setOrientation(Orientation.HORIZONTAL);
-
         //add listeners to primary stage
 
     }
+
+
 }

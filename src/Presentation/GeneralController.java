@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GeneralController {
+public abstract class GeneralController {
 
     public void setSceneByFXMLPath(String path, List<String> roles, String loggedUser, Client m_client, GridPane pane) {
         try {
@@ -155,6 +155,7 @@ public class GeneralController {
             }
             case ("Pages"):{
                 tableLabel.setText("Pages:");
+                //if user is fan - add follow page button
                 //implement (the results of search)
                 break;
             }
@@ -270,6 +271,7 @@ public class GeneralController {
 
                     List<String> results = m_client.sendToServer(request);
                     showListOnScreen("Pages",results, l_searchPane, 3);
+
                 }
                 else
                     showAlert("Invalid search", Alert.AlertType.ERROR);
@@ -630,10 +632,10 @@ public class GeneralController {
     }
 
 
-    public void setLogoImage(ImageView imageView){
+    public void setImage(ImageView imageView, String path){
         Image image = null;
         try {
-            image = new Image(new FileInputStream("resources/logo.png"));
+            image = new Image(new FileInputStream(path));
         }
         catch (Exception e) {
             //log error

@@ -12,7 +12,7 @@ MenuBar
     -fx-text-fill: white;
     -fx-font-family: "Tahoma";
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#171bff, #60b2ff);
+    -fx-background-color: #b7e5ff;
 
 }
 
@@ -21,7 +21,7 @@ ToolBar
     -fx-text-fill: white;
     -fx-font-family: "Tahoma";
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#171bff, #60b2ff);
+    -fx-background-color: #b7e5ff;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
 }
 
@@ -47,6 +47,17 @@ ListView
 VBox
 {
     -fx-spacing: 10;
+}
+
+HBox
+{
+    -fx-spacing: 10;
+}
+
+GridPane
+{
+    -fx-spacing: 10;
+    -fx-alignment: CENTER;
 }
 
 .choice-box {

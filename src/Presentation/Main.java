@@ -19,7 +19,7 @@ import javafx.stage.WindowEvent;
 public class Main extends Application {
 
 
-    final static String SYSTEM_NAME = "Team 5 Football System";
+    final static String SYSTEM_NAME = "Football Five";
     private static Server server  = new Server(7567, 10);
 
     private static Stage stage;
@@ -29,7 +29,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         stage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("GuestView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Opener.fxml"));
 
         primaryStage.setTitle(SYSTEM_NAME);
         primaryStage.setMinHeight(600);
