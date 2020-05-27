@@ -838,12 +838,15 @@ public class Database //maybe generalize with interface? //for now red layer
                 switch (role.myRole()){
                     case "Coach":
                         ((Coach)role).deactivate();
+                        updateObject(role);
                         break;
                     case "Player":
                         ((Player)role).deactivate();
+                        updateObject(role);
                         break;
                     case "TeamManager":
                         ((TeamManager)role).deactivate();
+                        updateObject(role);
                         break;
                 }
             }
@@ -979,7 +982,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 LeagueInSeason leagueInSeason = new LeagueInSeason(object.get(0) ,getGameAssignmentPolicy(object.get(1)),
                         getScorePolicy(object.get(2)) ,listOfGames(object.get(3)) ,listOfReferees(object.get(4)),
                         listOfTeams(object.get(5)) , Double.parseDouble(object.get(6)) ,getScoreTableQueue(object.get(7)),
-                        getLeague(object.get(8)),getSeason(object.get(9)));
+                        createLeague(object.get(8)),createSeason(object.get(9)));
                 return leagueInSeason;
             case "PersonalPage":
                 user=createUser(object.get(1));
@@ -1239,7 +1242,7 @@ public class Database //maybe generalize with interface? //for now red layer
         List<User> allUsers = new LinkedList<>();
 
         for (String userId : listOfUsers){
-            User user = getUser(userId);
+            User user = createUser(userId);
             if(user != null) {
                 allUsers.add(user);
             }
@@ -1613,12 +1616,48 @@ public class Database //maybe generalize with interface? //for now red layer
         if(dataAccess.isIDExists("Users" ,userId)) {
             List<String> userString;
             userString = dataAccess.getAllCellValues("Users", userId);
-            User user = new User(userString.get(1),userString.get(2),
-                    userString.get(0),userString.get(3));
+            User user = new User(userString.get(0),userString.get(1),userString.get(2),
+                    userString.get(3),stringToBoolean(userString.get(4)));
             return user;
         }
         return null;
     }
+
+    private static League createLeague(String leagueId){
+        if(dataAccess.isIDExists("Leagues" ,leagueId)) {
+            List<String> leagueString;
+            leagueString = dataAccess.getAllCellValues("Leagues", leagueId);
+            League league = new League(leagueString.get(0),leagueString.get(1),
+                    getEnumLevelLeague(leagueString.get(2)));
+            return league;
+        }
+        return null;
+    }
+
+    private static Season createSeason(String seasonId){
+        if(dataAccess.isIDExists("Seasons" ,seasonId)) {
+            List<String> seasonString;
+            seasonString = dataAccess.getAllCellValues("Seasons", seasonId);
+            Season season = new Season(seasonString.get(0),Integer.parseInt(seasonString.get(1)),
+                    stringToDateJAVA(seasonString.get(2)));
+            return season;
+        }
+        return null;
+    }
+
+   /* private static LeagueInSeason createLeagueInSeason(String leagueInSeasonId){
+        if(dataAccess.isIDExists("LeagueInSeasons" ,leagueInSeasonId)) {
+            List<String> leagueString;
+            leagueString = dataAccess.getAllCellValues("LeagueInSeasons", leagueInSeasonId);
+            LeagueInSeason leagueInSeason = new LeagueInSeason(leagueString.get(0),
+                    getGameAssignmentPolicy(leagueString.get(1)),getScorePolicy(leagueString.get(2)),
+                    listOfGames(leagueString.get(3)),listOfReferees(leagueString.get(4)),
+                    listOfTeams(leagueString.get(5)),Double.parseDouble(leagueString.get(6)),
+                    getScoreTableQueue(leagueString.get(7)),createLeague(leagueString.get(8)));
+            return leagueInSeason;
+        }
+        return null;
+    }*/
 
     public static User getUser(String userId) {
         if(dataAccess.isIDExists("Users" ,userId)) {

@@ -50,6 +50,15 @@ public class User extends Guest {
         this.searchHistory = searchHistory;
     }
 
+    public User(String id, String firstName, String lastName, String mail, boolean isActive)
+    {
+        this.ID = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mail = mail;
+        this.isActive = isActive;
+    }
+
     public Role checkUserRole (String userRole) {
         for(Role role : roles){
             if(role.myRole().contains(userRole))
