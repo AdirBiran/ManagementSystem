@@ -71,9 +71,11 @@ public class UnionRepresentative extends Role implements Observer {
 
     public boolean removeAppointReferee(Referee referee)
     {
-        user.getRoles().remove(referee);
-        return Database.updateObject(user);
-
+        if(referee.getAllOccurringGame()==null){
+            user.getRoles().remove(referee);
+            return Database.updateObject(user);
+        }
+        return false;
     }
 
     public boolean addRefereeToLeague(String leagueId, Referee referee)
