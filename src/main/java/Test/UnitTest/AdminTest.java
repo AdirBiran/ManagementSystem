@@ -20,15 +20,17 @@ public class AdminTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
-        String  leagueId = system.dataReboot();
+        //String  leagueId = system.dataReboot();
        // LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+        String leagueId = system.getDatabase().getAllLeaguesInSeasons().get(0).getId();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
     }
     @Test
     public void closeTeamPermanently() {
-        assertNotNull(admin.closeTeamPermanently(team.getID()));
+        String teamId = team.getID();
+        assertNotNull(admin.closeTeamPermanently(teamId));
         assertNull(admin.closeTeamPermanently(team.getID()));
     }
 
