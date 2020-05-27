@@ -1,20 +1,13 @@
 package Presentation;
 
-import Data.DataAccess;
-import Data.Database;
-import Domain.Referee;
-import Domain.Team;
-import Domain.User;
-import Domain.UserFactory;
-import Service.FootballManagementSystem;
 import Service.Server;
 import javafx.application.Application;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+
 
 public class Main extends Application {
 
@@ -32,9 +25,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("Opener.fxml"));
 
         primaryStage.setTitle(SYSTEM_NAME);
-        primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(650);
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(root, 650,600));
         primaryStage.show();
     }
 
