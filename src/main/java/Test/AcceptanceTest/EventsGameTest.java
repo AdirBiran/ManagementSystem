@@ -24,9 +24,10 @@ public class EventsGameTest {
     public void init() {
         refereeSystem=new RefereeSystem();
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        system.systemInit(false);
+        //String  leagueId = system.dataReboot();
+        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         admin = (Admin) system.getAdmin();
         game=league.getGames().get(0);
         referee=game.getMainReferee();

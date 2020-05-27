@@ -102,7 +102,7 @@ public class Admin extends Role implements Observer {
                 return Logger.getServerLog();
 
             default:
-                return new LinkedList<>();
+                return null;
         }
     }
 

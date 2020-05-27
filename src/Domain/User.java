@@ -30,7 +30,6 @@ public class User extends Guest {
         Matcher matcher = pattern.matcher(mail);
         this.firstName = firstName;
         this.lastName = lastName;
-
         this.ID = ID +counter;
         counter++;
         //this.ID = ID + IdGenerator.getNewId();
