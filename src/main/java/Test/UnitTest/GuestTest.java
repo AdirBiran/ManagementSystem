@@ -34,7 +34,7 @@ public class GuestTest {
         mesiPage = ((HasPage) pageRole).getPage();
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        unionRole.assignGames(league.getId(), system.getDates());
+        unionRole.assignGames(league.getId());
         game = league.getGames().get(0);}
     @Test
     public void search() {

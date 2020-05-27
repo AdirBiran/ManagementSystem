@@ -127,7 +127,7 @@ public class ServiceIntegration {
         League league = Database.getLeague("Haal");
         assertNotNull(league);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeasonId, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeasonId);
         assertTrue(success);
 
     }

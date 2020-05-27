@@ -55,7 +55,7 @@ public class SeasonInitiationTest {
         League league = Database.getLeague("Alufot");
         assertNotNull(league);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason);
         assertFalse(success);
     }
 
@@ -120,7 +120,7 @@ public class SeasonInitiationTest {
         League league = Database.getLeague("Haal");
         assertNotNull(league);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeasonId, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeasonId);
         assertTrue(success);
 
 
@@ -156,7 +156,7 @@ public class SeasonInitiationTest {
 
         representativeSystem.assignRefToLeague(UnionRep.getID(),leagueInSeason, ref);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason);
 
         assertFalse(success);
 
