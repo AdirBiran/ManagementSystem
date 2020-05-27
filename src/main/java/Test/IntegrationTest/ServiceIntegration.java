@@ -40,7 +40,7 @@ public class ServiceIntegration {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
         //admin = Database.getSystemAdmins().get(0);
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin();
         userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         userTeamOwner= team.getTeamOwners().get(0);
 
@@ -50,9 +50,9 @@ public class ServiceIntegration {
     public void integration_AdminSystem()
     {
 
-        String user = adminSystem.addNewCoach(admin.getUser().getID(),"First", "Last", "a@b.com", "IFA_C", "main", 50);
+        String user = adminSystem.addNewCoach(admin.getID(),"First", "Last", "a@b.com", "IFA_C", "main", 50);
         assertNotNull(user);
-        assertNotNull(adminSystem.permanentlyCloseTeam(admin.getUser().getID() ,team.getID()));
+        assertNotNull(adminSystem.permanentlyCloseTeam(admin.getID() ,team.getID()));
     }
 
     @Test
@@ -106,7 +106,7 @@ public class ServiceIntegration {
             List<String> coaches =system.createCoaches();
             List<User> owners = new LinkedList<>();
 
-            String ownerId = adminSystem.addNewTeamOwner(system.getAdmin().getUser().getID(),"owner","owner","to"+i+"@gmail.com");
+            String ownerId = adminSystem.addNewTeamOwner(system.getAdmin().getID(),"owner","owner","to"+i+"@gmail.com");
             User owner = UserFactory.getUser(ownerId);
             if(owner!=null){
                 owners.add(owner);

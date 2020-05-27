@@ -34,18 +34,18 @@ public class GuestTest {
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
-        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        unionRole.assignGames(league.getId());
-        game = league.getGames().get(0);}
-
-        //mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
-        //Role pageRole = mesi.checkUserRole("HasPage");
-        //mesiPage = ((HasPage) pageRole).getPage();
-        //User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
-        //UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        //unionRole.assignGames(league.getId(), system.getDates());
+        UnionRepresentative unionRole = ((UnionRepresentative) union.checkUserRole("UnionRepresentative"));
+        //unionRole.assignGames(league.getId());
         //game = league.getGames().get(0);
     }
+
+    //mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
+    //Role pageRole = mesi.checkUserRole("HasPage");
+    //mesiPage = ((HasPage) pageRole).getPage();
+    //User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+    //UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
+    //unionRole.assignGames(league.getId(), system.getDates());
+    //game = league.getGames().get(0);
 
     @Test
     public void search() {

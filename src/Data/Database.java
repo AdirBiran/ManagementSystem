@@ -1092,12 +1092,6 @@ public class Database //maybe generalize with interface? //for now red layer
                 UnionRepresentative union = new UnionRepresentative(object.get(0));
                 return union;
 
-            case "User":
-                user = new User(object.get(0) ,object.get(1),object.get(2),object.get(3),
-                        stringToBoolean(object.get(4)) ,createListOfRoles(object.get(5) , object.get(0)),
-                        new LinkedList<>());
-                return user;
-
         }
         return null;
     }
@@ -1428,10 +1422,10 @@ public class Database //maybe generalize with interface? //for now red layer
 
         for(String s : fansAndAlerts){
             //if(!s.equals("")) {
-                temp = splitHashMap(s);
-                Fan fan = getFan(temp.get(0));
-                Boolean bool = stringToBoolean(temp.get(1));
-                hashMapFansForAlerts.put(fan, bool);
+            temp = splitHashMap(s);
+            Fan fan = getFan(temp.get(0));
+            Boolean bool = stringToBoolean(temp.get(1));
+            hashMapFansForAlerts.put(fan, bool);
             //}
         }
         return hashMapFansForAlerts;

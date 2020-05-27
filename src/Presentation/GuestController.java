@@ -49,11 +49,13 @@ public class GuestController extends GeneralController implements Initializable 
         String Email = tf_email.getText();
         String password = tf_password.getText();
         if(Checker.isValidPassword(password)&&Checker.isValidEmailAddress(Email)){
-            List<String> user = m_client.sendToServer("logIn"+"|"+Email+"|"+password);
+            List<String> user = m_client.sendToServer("logIn|"+Email+"|"+password);
             String[] split = (user.get(0).split("\\|"));
             String loggedUser = split[0];
-            if(loggedUser.length()==0){
+            if(loggedUser.equals("Login Failed")){
                 showAlert("wrong email or password!",Alert.AlertType.ERROR);
+                tf_email.setText("");
+                tf_password.setText("");
             }
             else{
                 tf_email.setText("");

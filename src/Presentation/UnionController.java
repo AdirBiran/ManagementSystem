@@ -52,7 +52,7 @@ public class UnionController extends GeneralController {
         b_add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String name = tf_name.getText(),level = cb_level.getValue();
+                String name = tf_name.getText(),level = cb_level.getValue().replace("Level", "").trim();
                 if(Checker.isValid(name)&& level.length()>0){
                     String request = "configureNewLeague|"+loggedUser+"|"+name+"|"+level;
                     List<String> response = client.sendToServer(request);

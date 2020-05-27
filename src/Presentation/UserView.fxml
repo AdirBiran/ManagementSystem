@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.UserController" stylesheets="@AppStyle.css">
+<BorderPane prefHeight="400.0" prefWidth="600.0" stylesheets="@AppStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.UserController">
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="373.0" prefWidth="178.0" BorderPane.alignment="CENTER">
             <children>
@@ -75,7 +75,7 @@
                         </Menu>
                     </menus>
                 </MenuBar>
-                <ImageView fitHeight="16.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fx:id="iv_systemLogo" fitHeight="16.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" />
             </items>
         </ToolBar>
     </top>

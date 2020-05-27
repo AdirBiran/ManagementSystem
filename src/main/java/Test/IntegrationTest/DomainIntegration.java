@@ -46,7 +46,7 @@ public class DomainIntegration {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin();
         userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         userTeamOwner= team.getTeamOwners().get(0);
     }
@@ -71,7 +71,7 @@ public class DomainIntegration {
 
         userSystem.addComplaint(userTeamOwner.getID(),"shalom");
 
-        List<String> comps = adminSystem.getAllActiveComplaints(admin.getUser().getID());
+        List<String> comps = adminSystem.getAllActiveComplaints(admin.getID());
         boolean found = false;
 
         for (String c: comps)

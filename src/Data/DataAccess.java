@@ -402,7 +402,7 @@ public class DataAccess {
             String line = "";
             String query = "";
 
-            try (BufferedReader br = new BufferedReader(new FileReader("./createDB.sql"))) {
+            try (BufferedReader br = new BufferedReader(new FileReader(""))) {
 
                 while ((line = br.readLine()) != null) {
 
