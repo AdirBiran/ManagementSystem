@@ -37,6 +37,6 @@
         </ToolBar>
     </top>
    <center>
-      <ImageView fx:id="iv_opener" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+      <ImageView fx:id="iv_opener" fitHeight="267.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

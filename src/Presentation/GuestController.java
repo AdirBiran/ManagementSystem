@@ -21,6 +21,7 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -39,6 +40,7 @@ public class GuestController extends GeneralController implements Initializable 
     @FXML private Label l_systemName;
     @FXML private ImageView iv_systemLogo;
     @FXML private ToolBar tb_menu;
+    @FXML private BorderPane bp_main;
 
 
 
@@ -72,11 +74,13 @@ public class GuestController extends GeneralController implements Initializable 
 
     public void searchButtonPushed(ActionEvent actionEvent){
         clearMainView(mainView);
+        clearMainView(mainPane);
         buildSearchView(mainPane, mainView, m_client,"");
     }
 
     public void viewInfoButtonPushed(ActionEvent actionEvent){
         clearMainView(mainView);
+        clearMainView(mainPane);
         buildViewInfoScene(mainPane, mainView, m_client);
 
     }

@@ -44,7 +44,7 @@ public abstract class GeneralController {
                 m_client.startGettingNotifications(loggedUser);
                 ((UserController)loader.getController()).buildPresentation(roles);
             }
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 650, 600);
             Main.getStage().setScene(scene);
             Main.getStage().show();
 
