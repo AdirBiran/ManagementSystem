@@ -30,6 +30,7 @@ public class GuestTest {
         Admin admin = (Admin) system.getAdmin();
         guest = new Guest();
 
+
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();
@@ -46,6 +47,9 @@ public class GuestTest {
     //UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
     //unionRole.assignGames(league.getId(), system.getDates());
     //game = league.getGames().get(0);
+
+    
+
 
     @Test
     public void search() {
