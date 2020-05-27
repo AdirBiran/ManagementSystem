@@ -10,8 +10,8 @@ public class Fan extends Role implements Observer {
     private List<Complaint> complaints;
     private List<PersonalPage> followPages;
 
-    public Fan(User user, String phone, String address) {
-        this.user = user;
+    public Fan(String userId, String phone, String address) {
+        this.userId = userId;
         this.address = address;
         this.phone = phone;
         complaints = new LinkedList<>();
@@ -19,9 +19,9 @@ public class Fan extends Role implements Observer {
         myRole = "Fan";
     }
 
-    public Fan(User user, String address, String phone, List<PersonalPage> personalPages, List<Complaint> complaints)
+    public Fan(String userId, String address, String phone, List<PersonalPage> personalPages, List<Complaint> complaints)
     {
-        this.user = user;
+        this.userId = userId;
         this.address = address;
         this.phone = phone;
         this.followPages = personalPages;
@@ -77,7 +77,7 @@ public class Fan extends Role implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(news);
+        Database.getUser(userId).addMessage(news);
     }
 
     @Override
@@ -89,8 +89,8 @@ public class Fan extends Role implements Observer {
 
     public String getUserInfo() {
         return "Fan" +
-                ", firstName=" + user.getFirstName() +
-                ", lastName=" + user.getLastName() +
+                ", firstName=" + Database.getUser(userId).getFirstName() +
+                ", lastName=" + Database.getUser(userId).getLastName() +
                 ", phone=" + phone +
                 ", address=" + address;
     }

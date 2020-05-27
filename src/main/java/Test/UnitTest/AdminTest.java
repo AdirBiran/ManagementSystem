@@ -19,15 +19,15 @@ public class AdminTest {
     @Before
     public void init(){
         system = new FootballManagementSystem();
-        system.systemInit(true); //true- to create new
+        system.systemInit(false);//true- to create new
 
-        String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        //String  leagueId = system.dataReboot();
+        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
 
-        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
 
         team = league.getTeams().get(0);
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = system.getAdmin();
     }
     @Test
     public void closeTeamPermanently() {
@@ -53,7 +53,6 @@ public class AdminTest {
 
     @Test
     public void addNewTeamManager() {
-        //admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false);
         assertNotNull(admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false));
     }
 
@@ -69,7 +68,7 @@ public class AdminTest {
 
     @Test
     public void removeUser() {
-       User user= admin.addNewAdmin("123456","","","admin@mail.com");
+       User user= admin.addNewAdmin("Aa1234","admin","test","admintest@mail.com");
          assertEquals(admin.removeUser(user.getID()),user.getMail());
     }
 

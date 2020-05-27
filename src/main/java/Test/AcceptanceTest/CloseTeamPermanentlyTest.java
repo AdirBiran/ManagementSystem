@@ -28,19 +28,19 @@ public class CloseTeamPermanentlyTest {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin();
 
     }
 
     @Test
     public void closeFail_41() {
-        adminSystem.permanentlyCloseTeam(admin.getUser().getID(), team.getID());
-        assertNull(adminSystem.permanentlyCloseTeam(admin.getUser().getID(), team.getID()));
+        adminSystem.permanentlyCloseTeam(admin.getID(), team.getID());
+        assertNull(adminSystem.permanentlyCloseTeam(admin.getID(), team.getID()));
 
     }
     @Test
     public void closeSuccess_42()
     {
-      assertNotNull(adminSystem.permanentlyCloseTeam(admin.getUser().getID(),team.getID()));
+      assertNotNull(adminSystem.permanentlyCloseTeam(admin.getID(),team.getID()));
     }
 }

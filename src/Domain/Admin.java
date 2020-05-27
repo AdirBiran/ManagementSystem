@@ -8,8 +8,8 @@ public class Admin extends Role implements Observer {
 
     private LinkedList<Team> permanentlyClosedTeams;
 
-    public Admin(User user) {
-        this.user = user;
+    public Admin(String userId) {
+        this.userId = userId;
         permanentlyClosedTeams = new LinkedList<>();
         myRole = "Admin";
     }
@@ -23,7 +23,7 @@ public class Admin extends Role implements Observer {
             permanentlyClosedTeams.add(team);
             Database.updateObject(team);
             Database.updateObject(this);
-            Logger.logEvent(user.getID() + " (Admin)", " Closed Team " + team.getName() + " permanently");
+            Logger.logEvent(userId + " (Admin)", " Closed Team " + team.getName() + " permanently");
 
             return team.getName();
         }
@@ -114,7 +114,7 @@ public class Admin extends Role implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(news);
+        Database.getUser(userId).addMessage(news);
     }
 
     // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++

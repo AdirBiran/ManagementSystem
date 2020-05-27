@@ -14,28 +14,29 @@ import static org.junit.Assert.*;
 
 public class GuestTest {
     FootballManagementSystem system;
-    User user;
     User mesi;
     PersonalPage mesiPage;
-    Fan fan;
     Game game;
     Guest guest;
 
     @Before
     public void init() {
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        system.systemInit(false);
+        //String  leagueId = system.dataReboot();
+        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
+        Admin admin = (Admin) system.getAdmin();
         guest = new Guest();
-        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
-        Role pageRole = mesi.checkUserRole("HasPage");
-        mesiPage = ((HasPage) pageRole).getPage();
-        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
-        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        unionRole.assignGames(league.getId(), system.getDates());
-        game = league.getGames().get(0);}
+        //mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
+        //Role pageRole = mesi.checkUserRole("HasPage");
+        //mesiPage = ((HasPage) pageRole).getPage();
+        //User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+        //UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
+        //unionRole.assignGames(league.getId(), system.getDates());
+        //game = league.getGames().get(0);
+    }
     @Test
     public void search() {
         assertNotNull(guest.search("mesiPage"));
@@ -49,8 +50,8 @@ public class GuestTest {
 
     @Test
     public void login() {
-        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        assertNotNull(guest.login("fan@gmail.com","Aa1234"));
+        User user = guest.register("fan@gmail.com", "aa1234", "fan", "fan", "0500001234", "yosef23");
+        assertNotNull(guest.login("fan@gmail.com","aa1234"));
     }
 
     @Test

@@ -27,7 +27,7 @@ public class FanTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin(); //
         Guest guest = new Guest();
         user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);

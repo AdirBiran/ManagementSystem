@@ -16,6 +16,7 @@ public class User extends Guest {
     private boolean isActive;
     private List<Role> roles;
     private List<String> searchHistory;
+    private static int counter =0;
 
     /**
      * constructor for user
@@ -25,12 +26,14 @@ public class User extends Guest {
      * @param mail
      */
     public User(String firstName, String lastName, String ID, String mail) {
-
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(mail);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.ID = ID + IdGenerator.getNewId();
+
+        this.ID = ID +counter;
+        counter++;
+        //this.ID = ID + IdGenerator.getNewId();
         if(!matcher.find())
             throw new RuntimeException("email address not valid");
         this.mail = mail;
@@ -50,13 +53,15 @@ public class User extends Guest {
         this.searchHistory = searchHistory;
     }
 
-    public User(String id, String firstName, String lastName, String mail, boolean isActive)
+    public User(String id, String firstName, String lastName, String mail, boolean isActive, List<String> searchHistory)
     {
         this.ID = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.mail = mail;
         this.isActive = isActive;
+        this.roles = new LinkedList<>();
+        this.searchHistory = searchHistory;
     }
 
     public Role checkUserRole (String userRole) {
@@ -180,4 +185,9 @@ public class User extends Guest {
         return isActive;
     }
 
+    public void addRoles(List<Role> listOfRoles) {
+        roles.addAll(listOfRoles);
+        for(Role role : roles)
+            role.userId = this.ID;
+    }
 }

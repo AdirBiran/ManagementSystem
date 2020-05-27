@@ -27,7 +27,7 @@ public void init(){
     system.systemInit(true);
     String  leagueId = system.dataReboot();
     LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-    Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+    Admin admin = (Admin) system.getAdmin();
     team0=league.getTeams().get(0);
     team1=league.getTeams().get(1);;
     User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");

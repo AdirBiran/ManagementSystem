@@ -7,8 +7,8 @@ import java.util.*;
 
 public class UnionRepresentative extends Role implements Observer {
 
-    public UnionRepresentative(User user) {
-        this.user = user;
+    public UnionRepresentative(String userId) {
+        this.userId = userId;
         myRole = "UnionRepresentative";
 
     }
@@ -72,8 +72,8 @@ public class UnionRepresentative extends Role implements Observer {
     public boolean removeAppointReferee(Referee referee)
     {
         if(referee.getAllOccurringGame()==null){
-            user.getRoles().remove(referee);
-            return Database.updateObject(user);
+            Database.getUser(referee.getID()).getRoles().remove(referee);
+            return Database.updateObject(referee);
         }
         return false;
     }
@@ -174,7 +174,7 @@ public class UnionRepresentative extends Role implements Observer {
                 proxyAccountingSystem.addPayment(team.getName(),(new Date()).toString() ,league.getRegistrationFee());
                 league.addATeam(team);
                 Database.updateObject(league);
-                Logger.logEvent(user.getID(), "Added team " + team.getName() + " to league");
+                Logger.logEvent(userId, "Added team " + team.getName() + " to league");
                 return true;
             }
         }
@@ -200,14 +200,14 @@ public class UnionRepresentative extends Role implements Observer {
     @Override
     public String toString() {
         return "UnionRepresentative" +
-                ", id=" + user.getID() +
-                ": name=" +user.getName();
+                ", id=" + userId +
+                ": name=" +Database.getUser(userId).getName();
     }
 
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(news);
+        Database.getUser(userId).addMessage(news);
     }
 
     // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++

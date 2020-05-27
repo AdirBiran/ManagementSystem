@@ -112,7 +112,7 @@ public class FootballManagementSystem {
     }
 
     public Admin getAdmin(){
-        return systemAdmins.get(0);
+        return Database.getAllAdmins().get(0);
     }
 
     public boolean connectToOuterSystems()
@@ -142,7 +142,7 @@ public class FootballManagementSystem {
             List<String> players = createPlayers();
             List<String> coaches = createCoaches();
             List<User> owners = new LinkedList<>();
-            String ownerId = adminSystem.addNewTeamOwner(systemAdmins.get(0).getUser().getID(),"Team","Owner","to"+i+"@gmail.com" );
+            String ownerId = adminSystem.addNewTeamOwner(systemAdmins.get(0).getID(),"Team","Owner","to"+i+"@gmail.com" );
             User owner = UserFactory.getUser(ownerId);
             if(owner!=null){
                 owners.add(owner);
@@ -166,7 +166,7 @@ public class FootballManagementSystem {
         return unionRepresentativeSystem.appointReferee(unionRep.getID(),"referee", "",+IdGenerator.getNewId()+"@gmail.com", "referees");
     }
     public static List<String> createCoaches() {
-        String coachId = adminSystem.addNewCoach(systemAdmins.get(0).getUser().getID(),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", "UEFA_A", "main", 1500);
+        String coachId = adminSystem.addNewCoach(systemAdmins.get(0).getID(),"coach1", "coach",+IdGenerator.getNewId()+"@gmail.com", "UEFA_A", "main", 1500);
         List<String> coaches = new LinkedList<>();
         coaches.add(coachId);
         return coaches;
@@ -174,7 +174,7 @@ public class FootballManagementSystem {
     public static List<String> createPlayers() {
         List<String> players = new LinkedList<>();
         for (int i = 0; i <12 ; i++) {
-            String playerId = adminSystem.addNewPlayer(systemAdmins.get(0).getUser().getID(), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", Database.getDate(1995, 10, 5), "attackingPlayer", 3500);
+            String playerId = adminSystem.addNewPlayer(systemAdmins.get(0).getID(), "player"+i, "...", "mail"+IdGenerator.getNewId()+"@gmail.com", Database.getDate(1995, 10, 5), "attackingPlayer", 3500);
             if(playerId!=null){
                 players.add(playerId);
             }

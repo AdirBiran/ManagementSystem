@@ -97,7 +97,7 @@ public class Team extends Observable {
     private void linkCoaches() {
         for(User user :coaches){
             //check if has coach add add team
-            Coach coach = (Coach) user.checkUserRole("Coach");
+            Coach coach =  (Coach) user.checkUserRole("Coach");
             if(coach==null)
                 throw new RuntimeException("unauthorized coach");
             else
@@ -180,7 +180,7 @@ public class Team extends Observable {
 
     private void updateAllSystemAdmins(String news) {
         for(Admin admin : Database.getAllAdmins()){
-            Admin adminRole = (Admin)admin.getUser().checkUserRole("Admin");
+            Admin adminRole = (Admin)Database.getUser(admin.getID()).checkUserRole("Admin");
             if(adminRole instanceof Admin){
                 adminRole.update(this, news);
             }
@@ -207,7 +207,7 @@ public class Team extends Observable {
                 teamOwner.addTeam(this);
             }
             else{
-                teamOwner = new TeamOwner(user);
+                teamOwner = new TeamOwner(user.getID());
                 teamOwner.addTeam(this);
                 user.addRole(teamOwner);
             }
@@ -230,7 +230,7 @@ public class Team extends Observable {
                 teamManager.addTeam(this);
             }
             else{
-                teamManager = new TeamManager(user, price, manageAssets, finance);
+                teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
                 teamManager.addTeam(this);
                 user.addRole(teamManager);
             }

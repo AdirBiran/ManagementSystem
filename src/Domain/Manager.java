@@ -13,7 +13,8 @@ public abstract class Manager extends Role{
     }
 
     public boolean addPlayerToTeam(String playerId, String teamId){
-        User player = Database.getPlayer(playerId).getUser();
+        //User player = Database.getPlayer(playerId);
+        User player = Database.getUser(playerId);
         Team team = Database.getTeam(teamId);
         if(player!=null && team!=null) {
             Role assetRole = player.checkUserRole("Player");
@@ -27,7 +28,8 @@ public abstract class Manager extends Role{
     }
 
     public boolean addCoachToTeam(String coachId, String teamId){
-        User coach = Database.getCoach(coachId).getUser();
+        //User coach = Database.getCoach(coachId);
+        User coach = Database.getUser(coachId);
         Team team = Database.getTeam(teamId);
         if(coach!=null && team!=null) {
             Role assetRole = coach.checkUserRole("Coach");
@@ -65,7 +67,8 @@ public abstract class Manager extends Role{
     }
 
     public boolean removePlayerFormTeam(String playerId , String teamId){
-        User player = Database.getPlayer(playerId).getUser();
+        //User player = Database.getPlayer(playerId);
+        User player = Database.getUser(playerId);
         Team team = Database.getTeam(teamId);
         if(player!=null && team!=null) {
             if (teamsToManage.contains(team))
@@ -74,7 +77,8 @@ public abstract class Manager extends Role{
         return false;
     }
     public boolean removeCoachFormTeam(String coachId, String teamId){
-        User coach = Database.getCoach(coachId).getUser();
+        //User coach = Database.getCoach(coachId);
+        User coach = Database.getUser(coachId);
         Team team = Database.getTeam(teamId);
         if(coach!=null && team!=null) {
             if (teamsToManage.contains(team))
