@@ -8,10 +8,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
-
+import java.util.LinkedList;
+import java.util.List;
 import static org.junit.Assert.*;
 
-public class FollowPageTest {
+public class GameNotificationsTest {
 
     FootballManagementSystem system;
     User user;
@@ -19,11 +20,11 @@ public class FollowPageTest {
     PersonalPage mesiPage;
     Fan fan;
     UserSystem userSystem;
+    Game game;
 
     @Before
     public void init() {
-        userSystem=new UserSystem();
-
+        userSystem = new UserSystem();
         system = new FootballManagementSystem();
         system.systemInit(true);
         Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
@@ -33,24 +34,22 @@ public class FollowPageTest {
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
-    }
+        LeagueInSeason league = Database.getLeagueInSeason(system.dataReboot());
+        game = Database.getAllFutureGames().get(0);
 
+    }
     @Test
-    public void followPageSuccess_9()
-    {
-        assertTrue(userSystem.registrationToFollowUp(user.getID(),mesiPage.getId()));
-        assertEquals(userSystem.getFanPages(user.getID()).size(),1);
+    public void gameNotifications_11(){
+        List<String > games=new LinkedList<>();
+        games.add(game.getId());
+        assertTrue(userSystem.registrationForGamesAlerts(user.getID(),games,false));
     }
-
     @Test
-    public void followPageFail_10()
-    {
-        userSystem.registrationToFollowUp(user.getID(),mesiPage.getId());
-        assertFalse(userSystem.registrationToFollowUp(user.getID(),mesiPage.getId()));
-        assertEquals(userSystem.getFanPages(user.getID()).size(),1);
-
+    public void gameNotifications_12(){
+        List<String > games=new LinkedList<>();
+        games.add(game.getId());
+        userSystem.registrationForGamesAlerts(user.getID(),games,false);
+        assertFalse(userSystem.registrationForGamesAlerts(user.getID(),games,false));
     }
-
-
 
 }
