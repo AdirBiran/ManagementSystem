@@ -37,6 +37,14 @@ public class League {
         this.leagueInSeasons = lis;
     }
 
+    public League(String id, String name, LevelLeague level)
+    {
+        this.id = id;
+        this.name = name;
+        this.level = level;
+        this.leagueInSeasons = new LinkedList<>();
+    }
+
     public void addLeagueInSeason(LeagueInSeason leagueInSeason){
         leagueInSeasons.add(leagueInSeason);
     }

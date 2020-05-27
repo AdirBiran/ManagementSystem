@@ -29,7 +29,7 @@ public class SeasonInitiationTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
         UnionRep = UserFactory.getNewUnionRepresentative("aa", "bb", "aa@bb.com");
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin();
         accountingSystem = new ProxyAccountingSystem();
         accountingSystem.connect();
     }
@@ -99,14 +99,14 @@ public class SeasonInitiationTest {
             List<String> coaches =system.createCoaches();
             List<User> owners = new LinkedList<>();
 
-            String ownerId = adminSystem.addNewTeamOwner(system.getAdmin().getUser().getID(),"owner","owner","to"+i+"@gmail.com");
+            String ownerId = adminSystem.addNewTeamOwner(system.getAdmin().getID(),"owner","owner","to"+i+"@gmail.com");
             User owner = UserFactory.getUser(ownerId);
             if(owner!=null){
                 owners.add(owner);
                 TeamOwner teamOwner = (TeamOwner)owner.checkUserRole("TeamOwner");
                 teamOwner.createTeam(owner,"team"+i, players, coaches, field.getID());
                 team = teamOwner.getTeamsToManage().get(0);
-                team.getBudget().addIncome(1000000000);
+                team.addIncome(1000000000);
                 representativeSystem.addTeamToLeague(UnionRep.getID(),leagueInSeasonId, team.getID(), new ProxyAccountingSystem());
             }
 

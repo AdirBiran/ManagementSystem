@@ -29,10 +29,10 @@ public class Guest {
     }
 
     public List<String> viewInfoAboutTeams() {
-        //List<Team> teams =  Database.getAllTeams();
+        List<Team> teams =  Database.getAllTeams();
         List<String> stringOfTeams = new LinkedList<>();
-        /*for(Team t : teams)
-            stringOfTeams.add(t.toString());*/
+        for(Team t : teams)
+            stringOfTeams.add(t.toString());
         return stringOfTeams;
     }
 

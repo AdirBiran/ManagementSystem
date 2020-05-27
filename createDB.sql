@@ -101,19 +101,19 @@ CREATE TABLE [PersonalPages](
 
 CREATE TABLE [Teams](
 	[ID] [char](30)  Primary key,
-	[Name] [varchar](1000) NOT NULL,
+	[Name] [varchar](max) NOT NULL,
 	[Wins] [int] NOT NULL,
 	[Losses] [int] NOT NULL,
 	[Draws] [int] NOT NULL,
-	[PersonalPageID] [varchar] (1000) NOT NULL,
-	[TeamOwners] [varchar](1000) NOT NULL ,
-	[TeamManagers] [varchar](1000) NOT NULL,
-	[Players] [varchar](1000) NOT NULL,
-	[Coaches] [varchar](1000) NOT NULL,
-	[Budget] [varchar](1000) NOT NULL,
-	[GamesIDs] [varchar] (1000) NOT NULL,
-	[Fields] [varchar] (1000) NOT NULL,
-	[LeaguesInSeasons] [varchar] (1000) NOT NULL,
+	[PersonalPageID] [varchar] (max) NOT NULL,
+	[TeamOwners] [varchar](max) NOT NULL ,
+	[TeamManagers] [varchar](max) NOT NULL,
+	[Players] [varchar](max) NOT NULL,
+	[Coaches] [varchar](max) NOT NULL,
+	[Budget] [varchar](max) NOT NULL,
+	[GamesIDs] [varchar] (max) NOT NULL,
+	[Fields] [varchar] (max) NOT NULL,
+	[LeaguesInSeasons] [varchar] (max) NOT NULL,
 	[isActive] [bit] NOT NULL,
 	[isPermanentlyClosed] [bit] NOT NULL,
 );
@@ -141,6 +141,8 @@ CREATE TABLE [LeaguesInSeasons](
 	[TeamsIDs] [varchar](255) NOT NULL,
 	[RegistrationFee] [real] NOT NULL,
 	[Records] [varchar](1000) NOT NULL,
+	[LeagueID] [varchar](1000) NOT NULL,
+	[SeasonID] [varchar](1000) NOT NULL,
 );
 
 CREATE TABLE [Complaints](

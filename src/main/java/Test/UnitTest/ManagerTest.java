@@ -29,7 +29,7 @@ public class ManagerTest {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin();
         User userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
