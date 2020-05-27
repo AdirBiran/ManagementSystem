@@ -22,8 +22,7 @@ public class PlayTwiceWithEachTeamPolicyTest {
         String  leagueId = system.dataReboot();
         LeagueInSeason haal = Database.getLeagueInSeason(leagueId);
         List <Team> teams = haal.getTeams();
-        List<Date> dates = system.getDates();
-        List<Game> games = one.assignGames( dates, haal);
+        List<Game> games = one.assignGames(haal);
         assertNotNull(games);
         assertEquals((teams.size())*(teams.size()-1), games.size());
     }
