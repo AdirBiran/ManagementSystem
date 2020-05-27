@@ -36,7 +36,7 @@ public class Referee extends Role implements Observer {
     public HashSet<Game> viewGames(){return games;}
 
 
-    public void addEventToGame(String gameID, Event.EventType type, String playerId, String teamId)
+    public Boolean addEventToGame(String gameID, Event.EventType type, String playerId, String teamId)
     {
         Game game= Database.getGame(gameID);
         Team team = Database.getTeam(teamId);
@@ -47,7 +47,10 @@ public class Referee extends Role implements Observer {
             game.getEventReport().addEvent(event);
             game.setNewsFromReferee(event.createMessage());
             Database.updateObject(game);
+            return true;
         }
+        else
+            return false;
     }
 
     public boolean changeEvent(String gameID, String eventID, String change){
