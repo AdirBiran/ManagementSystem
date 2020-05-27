@@ -21,8 +21,7 @@ public class PlayOnceWithEachTeamPolicyTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         LeagueInSeason haal = Database.getLeagueInSeason(leagueId);
-        List<Date> dates = system.getDates();
-        assertNotNull(one.assignGames(dates,haal));
+        assertNotNull(one.assignGames(haal));
 
     }
 }
