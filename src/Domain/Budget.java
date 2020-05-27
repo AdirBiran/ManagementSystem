@@ -37,14 +37,13 @@ public class Budget extends Observable {
 
     }
 
-    public boolean addExpanse(Team team ,double expense) {
+    public boolean addExpanse(double expense) {
         if (expense > 0) {
             this.expanses += expense;
             updateBalance();
             if (balance < 0) {
                 this.expanses -= expense;
                 updateBalance();
-                updateAllUnionRep(Database.getCurrentDate() + "The team: "+team.getName()+" has exceeded its budget");
                 return false;
             } else
                 return true;
@@ -53,11 +52,6 @@ public class Budget extends Observable {
 
     }
 
-    private void updateAllUnionRep(String news) {
-        for (Role union : Database.getAllUnions()){
-            ((UnionRepresentative)union).update(this, news);
-        }
-    }
 
     private void updateBalance() {
         balance = income - expanses;

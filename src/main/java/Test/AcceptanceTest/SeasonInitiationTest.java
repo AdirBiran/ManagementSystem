@@ -29,7 +29,7 @@ public class SeasonInitiationTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
         UnionRep = UserFactory.getNewUnionRepresentative("aa", "bb", "aa@bb.com");
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin();
         accountingSystem = new ProxyAccountingSystem();
         accountingSystem.connect();
     }
@@ -39,7 +39,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2021,new Date(121,4,1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2021,Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "2021",  "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 250);
 
@@ -55,7 +55,7 @@ public class SeasonInitiationTest {
         League league = Database.getLeague("Alufot");
         assertNotNull(league);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason);
         assertFalse(success);
     }
 
@@ -64,7 +64,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2021,new Date(121,4,1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2021,Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "2021", null, null, 250);
 
@@ -76,7 +76,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),1800, new Date(18,4,1));/////////////1800
+        representativeSystem.configureNewSeason(UnionRep.getID(),1800, Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "1800","PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 250);
 
@@ -88,7 +88,7 @@ public class SeasonInitiationTest {
     {
 
         UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2020, new Date(120, 4, 1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2020,Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Haal", "level1");
         String leagueInSeasonId = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Haal", "2020", "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         representativeSystem.addFieldToSystem(UnionRep.getID(),"jerusalem","Teddy" ,550, 150000);
@@ -99,14 +99,14 @@ public class SeasonInitiationTest {
             List<String> coaches =system.createCoaches();
             List<User> owners = new LinkedList<>();
 
-            String ownerId = adminSystem.addNewTeamOwner(system.getAdmin().getUser().getID(),"owner","owner","to"+i+"@gmail.com");
+            String ownerId = adminSystem.addNewTeamOwner(system.getAdmin().getID(),"owner","owner","to"+i+"@gmail.com");
             User owner = UserFactory.getUser(ownerId);
             if(owner!=null){
                 owners.add(owner);
                 TeamOwner teamOwner = (TeamOwner)owner.checkUserRole("TeamOwner");
                 teamOwner.createTeam(owner,"team"+i, players, coaches, field.getID());
                 team = teamOwner.getTeamsToManage().get(0);
-                team.getBudget().addIncome(1000000000);
+                team.addIncome(1000000000);
                 representativeSystem.addTeamToLeague(UnionRep.getID(),leagueInSeasonId, team.getID(), new ProxyAccountingSystem());
             }
 
@@ -120,7 +120,7 @@ public class SeasonInitiationTest {
         League league = Database.getLeague("Haal");
         assertNotNull(league);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeasonId, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeasonId);
         assertTrue(success);
 
 
@@ -131,7 +131,7 @@ public class SeasonInitiationTest {
     {
 
        UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2021 ,new Date(121,4,1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2021 ,Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "2021",  "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
 
@@ -147,7 +147,7 @@ public class SeasonInitiationTest {
     {
 
        UnionRepresentativeSystem representativeSystem = system.getUnionRepresentativeSystem();
-        representativeSystem.configureNewSeason(UnionRep.getID(),2021, new Date(121,4,1));
+        representativeSystem.configureNewSeason(UnionRep.getID(),2021, Database.getCurrentDate());
         representativeSystem.configureNewLeague(UnionRep.getID(),"Alufot", "level1");
         String leagueInSeason = representativeSystem.configureLeagueInSeason(UnionRep.getID(),"Alufot", "2021","PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
 
@@ -156,7 +156,7 @@ public class SeasonInitiationTest {
 
         representativeSystem.assignRefToLeague(UnionRep.getID(),leagueInSeason, ref);
 
-        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason, FootballManagementSystem.getDates());
+        boolean success = representativeSystem.assignGames(UnionRep.getID(),leagueInSeason);
 
         assertFalse(success);
 

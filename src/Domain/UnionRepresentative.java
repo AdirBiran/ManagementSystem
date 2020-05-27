@@ -7,8 +7,8 @@ import java.util.*;
 
 public class UnionRepresentative extends Role implements Observer {
 
-    public UnionRepresentative(User user) {
-        this.user = user;
+    public UnionRepresentative(String userId) {
+        this.userId = userId;
         myRole = "UnionRepresentative";
 
     }
@@ -54,9 +54,9 @@ public class UnionRepresentative extends Role implements Observer {
         return null;
     }
 
-    public boolean assignGames(String leagueId, List<Date> dates) {
+    public boolean assignGames(String leagueId) {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        List<Game> games =league.getAssignmentPolicy().assignGames(dates, league);
+        List<Game> games =league.getAssignmentPolicy().assignGames(league);
         if(games!=null){
             league.setGames(games);
             return true;
@@ -69,9 +69,13 @@ public class UnionRepresentative extends Role implements Observer {
         return UserFactory.getNewReferee(firstName, lastName, mail, training);
     }
 
-    public void removeReferee(User user)
+    public boolean removeAppointReferee(Referee referee)
     {
-
+        if(referee.getAllOccurringGame()==null){
+            Database.getUser(referee.getID()).getRoles().remove(referee);
+            return Database.updateObject(referee);
+        }
+        return false;
     }
 
     public boolean addRefereeToLeague(String leagueId, Referee referee)
@@ -102,7 +106,7 @@ public class UnionRepresentative extends Role implements Observer {
     public boolean addTUTUPayment(String teamId, double payment) {
         Team team = Database.getTeam(teamId);
         if(team!=null) {
-            if(team.getBudget().addIncome(payment)){
+            if(team.addIncome(payment)){
                 Database.updateObject(team);
                 return true;
             }
@@ -166,11 +170,11 @@ public class UnionRepresentative extends Role implements Observer {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         Team team = Database.getTeam(teamId);
         if(team!=null && league!=null && team.isActive()) {
-            if (team.getBudget().addExpanse(team, league.getRegistrationFee())) {
+            if (team.addExpanse(league.getRegistrationFee())) {
                 proxyAccountingSystem.addPayment(team.getName(),(new Date()).toString() ,league.getRegistrationFee());
                 league.addATeam(team);
                 Database.updateObject(league);
-                Logger.logEvent(user.getID(), "Added team " + team.getName() + " to league");
+                Logger.logEvent(userId, "Added team " + team.getName() + " to league");
                 return true;
             }
         }
@@ -196,14 +200,14 @@ public class UnionRepresentative extends Role implements Observer {
     @Override
     public String toString() {
         return "UnionRepresentative" +
-                ", id=" + user.getID() +
-                ": name=" +user.getName();
+                ", id=" + userId +
+                ": name=" +Database.getUser(userId).getName();
     }
 
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(news);
+        Database.getUser(userId).addMessage(news);
     }
 
     // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++

@@ -22,10 +22,10 @@ public class EventReportTest {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         /*create games*/
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin();
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        unionRole.assignGames(league.getId(), system.getDates());
+        unionRole.assignGames(league.getId());
         game = league.getGames().get(0);
         eventReport = game.getEventReport();
         event = new Event(Event.EventType.RedCard, game, "add event");

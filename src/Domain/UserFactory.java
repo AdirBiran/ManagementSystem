@@ -8,7 +8,7 @@ public class UserFactory {
     public static User getNewFan(String password ,String firstName, String lastName, String mail, String phone, String address){
         try {
             User user = new User (firstName, lastName, "F", mail);
-            Fan fan = new Fan(user, phone, address);
+            Fan fan = new Fan(user.getID(), phone, address);
             user.addRole(fan);
             if(Database.addUser(password, user)){
                 return user;
@@ -23,7 +23,7 @@ public class UserFactory {
     public static User getNewPlayer(String firstName, String lastName, String mail, Date birthDate, Player.RolePlayer role, double price){
         try {
         User user = new User(firstName, lastName, "P", mail);
-        Player player = new Player(user, birthDate, role, price);
+        Player player = new Player(user.getID(), birthDate, role, price);
         user.addRole(player);
         giveHasPageAuthorization(user);
         return addToDatabase(user, player);
@@ -36,7 +36,7 @@ public class UserFactory {
     public static User getNewCoach(String firstName, String lastName, String mail, Coach.TrainingCoach training, Coach.RoleCoach role, double price){
         try {
         User user = new User(firstName, lastName, "C", mail);
-        Coach coach = new Coach(user, training, role, price);
+        Coach coach = new Coach(user.getID(), training, role, price);
         user.addRole(coach);
         giveHasPageAuthorization(user);
         return addToDatabase(user, coach);
@@ -48,7 +48,7 @@ public class UserFactory {
     public static User getNewTeamOwner(String firstName, String lastName, String mail){
         try {
         User user = new User(firstName, lastName, "TO", mail);
-        TeamOwner authorization = new TeamOwner(user);
+        TeamOwner authorization = new TeamOwner(user.getID());
         user.addRole(authorization);
         return addToDatabase(user);
     }
@@ -61,7 +61,7 @@ public class UserFactory {
     public static User getNewTeamManager(String firstName, String lastName, String mail, double price, boolean manageAssets , boolean finance){
         try {
         User user = new User(firstName, lastName, "TM", mail);
-        TeamManager teamManager = new TeamManager(user, price, manageAssets, finance);
+        TeamManager teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
         user.addRole(teamManager);
         return addToDatabase(user, teamManager);
         }
@@ -76,7 +76,7 @@ public class UserFactory {
     public static User getNewAdmin(String password, String firstName, String lastName, String mail){
         try {
         User user = new User(firstName, lastName, "A", mail);
-        Admin authorization = new Admin(user);
+        Admin authorization = new Admin(user.getID());
         user.addRole(authorization);
         if(Database.addUser(password, user))
             return user;
@@ -89,7 +89,7 @@ public class UserFactory {
     public static User getNewUnionRepresentative(String firstName, String lastName, String mail){
         try {
         User user = new User(firstName, lastName, "UR", mail);
-        UnionRepresentative authorization = new UnionRepresentative(user);
+        UnionRepresentative authorization = new UnionRepresentative(user.getID());
         user.addRole(authorization);
         return addToDatabase(user);
         }
@@ -101,7 +101,7 @@ public class UserFactory {
     public static User getNewReferee(String firstName, String lastName, String mail, Referee.TrainingReferee training){
         try {
         User user = new User(firstName, lastName, "R", mail);
-        Referee referee = new Referee(user, training);
+        Referee referee = new Referee(user.getID(), training);
         user.addRole(referee);
         return addToDatabase(user);
         }
