@@ -269,10 +269,10 @@ public class Database //maybe generalize with interface? //for now red layer
             }
 
             if(((LeagueInSeason) object).getScorePolicy() instanceof StandardScorePolicy){
-                assignmentPolicy ="StandardScorePolicy";
+                scorePolicy ="StandardScorePolicy";
             }
             else if(((LeagueInSeason) object).getScorePolicy() instanceof CupScorePolicy){
-                assignmentPolicy = "CupScorePolicy";
+                scorePolicy = "CupScorePolicy";
             }
             ans1 = dataAccess.updateCellValue("LeaguesInSeasons","AssignmentPolicy", ((LeagueInSeason) object).getId() ,assignmentPolicy);
             ans2 = dataAccess.updateCellValue("LeaguesInSeasons","ScorePolicy", ((LeagueInSeason) object).getId(),scorePolicy);
@@ -936,7 +936,7 @@ public class Database //maybe generalize with interface? //for now red layer
         User user;
         switch (type){
             case "Admin":
-                user = createUser(object.get(0));
+                user = getUser(object.get(0));
                 Admin admin = new Admin(user);
                 return admin;
             case "Coach":

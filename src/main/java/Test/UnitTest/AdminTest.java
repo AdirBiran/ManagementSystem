@@ -19,11 +19,13 @@ public class AdminTest {
     @Before
     public void init(){
         system = new FootballManagementSystem();
-        system.systemInit(true);
+        system.systemInit(true); //true- to create new
+
         String  leagueId = system.dataReboot();
-        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
-        //String leagueId = system.getDatabase().getAllLeaguesInSeasons().get(0).getId();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
     }
