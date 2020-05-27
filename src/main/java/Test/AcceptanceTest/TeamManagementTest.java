@@ -89,26 +89,10 @@ public class TeamManagementTest {
     }
 
     @Test
-    public void appointManager_33()//is it not suppose to work? why not?
+    public void appointManager_33()
     {
-       /* List<User> owners = new LinkedList<>();
-        User owner2 = UserFactory.getNewTeamOwner("Team2","Owner", "a2www"+"@gmail.com");
-
-        owners.add(owner);
-        owners.add(owner2);
-
-        PersonalPage page = new PersonalPage("", owner);
-        Field field = new Field( "jerusalem", 550, 1500);
-        Team team = new Team("team",page,owners,players,coaches, field);
-        Database.addTeam(team);
-        representativeSystem.addTeamToLeague(UnionRep, leagueInSeason, team);
-
-        TeamManagementSystem teamSystem = system.getTeamManagementSystem();
-
-        teamSystem.appointmentTeamManager(owner, owner2, team);
-
-        List<User> managers = teamSystem.getTeamManagers(owner,team);
-        assertEquals(1, managers.size());*/
+      teamManagementSystem.appointmentTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false);
+      assertFalse(teamManagementSystem.appointmentTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false));
 
     }
 
@@ -121,11 +105,11 @@ public class TeamManagementTest {
 
     @Test
     public void closeTeam_35() {
+
         assertEquals(teamManagementSystem.getTeams(userTeamOwner.getID()).size(), 1);
         teamManagementSystem.closeTeam(userTeamOwner.getID(), team.getID());
         assertEquals(teamManagementSystem.getTeams(userTeamOwner.getID()).size(), 0);
-        assertEquals(userSystem.search(userTeamOwner.getID(),"team0").size(),0);
-
+        teamManagementSystem.appointmentTeamManager(userTeamOwner.getID(),manager.getID(),team.getID(),200,false,false);
     }
 
 
