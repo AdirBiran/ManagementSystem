@@ -119,6 +119,7 @@ public class ManagerTest {
 
     }
 
+    @Test
     public void getAllTeamAssets(){
 
     }

@@ -6,10 +6,6 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
 import static org.junit.Assert.*;
 
 public class GuestTest {
@@ -81,6 +77,7 @@ public class GuestTest {
     @Test
     public void viewInfoAboutCoaches() {
         assertNotNull(guest.viewInfoAboutCoaches());
+        System.out.println(guest.viewInfoAboutCoaches());
     }
 
     @Test
@@ -96,5 +93,6 @@ public class GuestTest {
     @Test
     public void viewInfoAboutReferees() {
         assertNotNull(guest.viewInfoAboutReferees());
+        System.out.println(guest.viewInfoAboutReferees());
     }
 }

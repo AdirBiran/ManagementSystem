@@ -24,13 +24,9 @@ public class EventsGameTest {
     public void init() {
         refereeSystem=new RefereeSystem();
         system = new FootballManagementSystem();
-
-
-        system.systemInit(false);
-        //String  leagueId = system.dataReboot();
-        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
-
+        system.systemInit(true);
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         admin = (Admin) system.getAdmin();
         game=league.getGames().get(0);
         referee=game.getMainReferee();
@@ -41,23 +37,11 @@ public class EventsGameTest {
     @Test
     public void eventsGameSuccess_72()
     {
-
        assertTrue(refereeSystem.addEventToGame(referee.getID(),game.getId(), "RedCard",game.getHostTeam().getPlayers().get(0).getID(),game.getHostTeam().getID()));
-
-
     }
     @Test
     public void eventsGameFail_73()
     {
-
         assertFalse(refereeSystem.addEventToGame(referee.getID(),game.getId(), "RedCard",game.getHostTeam().getPlayers().get(0).getID(),null));
-
-        assertFalse(refereeSystem.addEventToGame(game.getMainReferee().getID(),game.getId(), "RedCard",game.getHostTeam().getPlayers().get(0).getID(),null));
-    }
-    @Test
-    public void changeEventsGame_74()//check about the 5h
-    {
-        assertTrue(refereeSystem.changeEvent(game.getMainReferee().getID(),game.getId(),game.getEventReportString().get(0),"new"));
-
     }
 }

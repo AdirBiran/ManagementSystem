@@ -21,18 +21,36 @@ public class AdminTest {
     public void init(){
         system = new FootballManagementSystem();
 
-        system.systemInit(false);//true- to create new
+        system.systemInit(true);//true- to create new
 
-        //String  leagueId = system.dataReboot();
-        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
 
-        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         
         team = league.getTeams().get(0);
         admin = system.getAdmin();
         Guest guest = new Guest();
         user = guest.login("fan@gmail.com", "Aa1234");
     }
+    /*@Before
+    public void initBegin(){
+        system = new FootballManagementSystem();
+
+        system.systemInit(true);//true- to create new
+
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
+        team = league.getTeams().get(0);
+        admin = system.getAdmin();
+        Guest guest = new Guest();
+        user = guest.login("fan@gmail.com", "Aa1234");
+    }
+*/
+
     @Test
     public void closeTeamPermanently() {
         String teamId = team.getID();
@@ -77,10 +95,10 @@ public class AdminTest {
 
     @Test
     public void removeField() {
-     Field  field = new Field("Tel-Aviv","Bloomfield", 150000, 125000);
-     admin.addField(field);
-     admin.removeField(field);
-     assertFalse(field.isActive());
+        UnionRepresentative unionRepresentative = system.getDatabase().getAllUnions().get(0);
+        unionRepresentative.addFieldToSystem("Tel-Aviv","Bloomfield", 150000, 125000);
+        admin.removeField(system.getDatabase().getAllActiveFields().get(1));
+        assertFalse(system.getDatabase().getAllFields().get(1).isActive());
     }
 
     @Test
