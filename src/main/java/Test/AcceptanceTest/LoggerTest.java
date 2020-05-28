@@ -20,7 +20,7 @@ public class LoggerTest {
         adminSystem = new AdminSystem();
         system = new FootballManagementSystem();
         system.systemInit(true);
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin();
 
     }
 
@@ -34,14 +34,14 @@ public class LoggerTest {
     @Test
     public void errorsLogFile_53()
     {
-        adminSystem.addNewPlayer(admin.getUser().getID(),"Lionel","Mesi","mesi@mail.com", Database.getCurrentDate(),"Player",300000);
-        assertNull(adminSystem.addNewPlayer(admin.getUser().getID(),"Lionel","Mesi","mesi@mail.com", Database.getCurrentDate(),"Player",300000));
+        adminSystem.addNewPlayer(admin.getID(),"Lionel","Mesi","mesi@mail.com", Database.getCurrentDate(),"Player",300000);
+        assertNull(adminSystem.addNewPlayer(admin.getID(),"Lionel","Mesi","mesi@mail.com", Database.getCurrentDate(),"Player",300000));
         assertEquals(Logger.getErrorsLog().size(),1);
 }
     @Test
     public void eventsLogFile_54()
     {
-        adminSystem.addNewPlayer(admin.getUser().getID(),"Lionel","Mesi","mesi@mail.com", Database.getCurrentDate(),"Player",300000);
+        adminSystem.addNewPlayer(admin.getID(),"Lionel","Mesi","mesi@mail.com", Database.getCurrentDate(),"Player",300000);
         assertEquals(Logger.getEventsLog().size(),1);
     }
 }
