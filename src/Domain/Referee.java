@@ -15,16 +15,16 @@ public class Referee extends Role implements Observer {
     private TrainingReferee training;
     private HashSet<Game> games;
 
-    public Referee(User user, TrainingReferee training) {
-        this.user = user;
+    public Referee(String userId, TrainingReferee training) {
+        this.userId = userId;
         this.training = training;
         games = new HashSet<>();
         myRole = "Referee";
     }
 
-    public Referee(User user, String training, HashSet<Game> games)
+    public Referee(String userId, String training, HashSet<Game> games)
     {
-        this.user = user;
+        this.userId = userId;
         this.training = TrainingReferee.valueOf(training);
         this.games = games;
     }
@@ -36,18 +36,21 @@ public class Referee extends Role implements Observer {
     public HashSet<Game> viewGames(){return games;}
 
 
-    public void addEventToGame(String gameID, Event.EventType type, String playerId, String teamId)
+    public Boolean addEventToGame(String gameID, Event.EventType type, String playerId, String teamId)
     {
         Game game= Database.getGame(gameID);
         Team team = Database.getTeam(teamId);
         Player player = Database.getPlayer(playerId);
         if(game!=null && team!=null && player!=null) {
-            String description = player.getUser().getName() + " from team "+ team.getName();
+            String description = Database.getUser(userId).getName() + " from team "+ team.getName();
             Event event = new Event(type, game, description);
             game.getEventReport().addEvent(event);
             game.setNewsFromReferee(event.createMessage());
             Database.updateObject(game);
+            return true;
         }
+        else
+            return false;
     }
 
     public boolean changeEvent(String gameID, String eventID, String change){
@@ -76,14 +79,14 @@ public class Referee extends Role implements Observer {
     @Override
     public String toString() {
         return "Referee" +
-                ", id="+user.getID()+
-                ": name="+user.getName()+
+                ", id="+userId+
+                ": name="+Database.getUser(userId).getName()+
                 ", training=" + training;
     }
     @Override
     public void update(Observable o, Object arg) {
         if(!(arg instanceof Event))
-            user.addMessage((String)arg);
+            Database.getUser(userId).addMessage((String)arg);
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
@@ -119,11 +122,9 @@ public class Referee extends Role implements Observer {
         return gameReport;
     }
 
-    public static LinkedList<String> getAllPastGames(){
-        Date today = Database.getCurrentDate();
-        LinkedList<String> pastGames = new LinkedList<>();
-        for(Game game : Database.getAllGames()){
-            if(today.after(game.getDate()))
+    public static List<String> getAllPastGames(){
+        List<String> pastGames = new LinkedList<>();
+        for(Game game : Database.getAllPastGames()){
                 pastGames.add(game.toString());
         }
         return pastGames;

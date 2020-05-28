@@ -46,7 +46,7 @@ public class UnionController extends GeneralController {
         mainPane.add(level, 0, 1);
         ChoiceBox<String> cb_level = new ChoiceBox<>();
         mainPane.add(cb_level, 2, 1);
-        ObservableList<String> levels = FXCollections.observableArrayList("level 1","level 2", "level 3","level 4");
+        ObservableList<String> levels = FXCollections.observableArrayList("level1","level2", "level3","level4");
         cb_level.setItems(levels);
         Button b_add = new Button("Add");
         b_add.setOnAction(new EventHandler<ActionEvent>() {
@@ -83,7 +83,7 @@ public class UnionController extends GeneralController {
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String year = tf_year.getText(), date = dp_start.getValue().toString();
+                String year = tf_year.getText(), date = dp_start.getValue().toString().replace("-", ".");
                 if(Checker.isValidNumber(year) && date.length()>0){
                     String request = "configureNewSeason|"+loggedUser+"|"+year+"|"+date;
                     List<String> receive = client.sendToServer(request);

@@ -1,26 +1,21 @@
 package Presentation;
 
-import Data.DataAccess;
-import Data.Database;
-import Domain.Referee;
-import Domain.Team;
-import Domain.User;
 import Domain.UserFactory;
 import Service.FootballManagementSystem;
 import Service.Server;
 import javafx.application.Application;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+
 
 public class Main extends Application {
 
 
     final static String SYSTEM_NAME = "Football Five";
-    private static Server server  = new Server(7567, 10);
+    Server server = new Server(7567, 4);
 
     private static Stage stage;
 
@@ -32,21 +27,14 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("Opener.fxml"));
 
         primaryStage.setTitle(SYSTEM_NAME);
-        primaryStage.setMinHeight(600);
-        primaryStage.setMinWidth(650);
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(root, 850,800));
         primaryStage.show();
+
+        server.start();
     }
 
 
     public static void main(String[] args) {
-
-        server.start();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         //FootballManagementSystem.systemInit(true);
         //FootballManagementSystem.dataReboot();

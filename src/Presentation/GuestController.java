@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -21,9 +22,12 @@ import javafx.scene.Scene;
 
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 public class GuestController extends GeneralController implements Initializable {
 
@@ -39,6 +43,7 @@ public class GuestController extends GeneralController implements Initializable 
     @FXML private Label l_systemName;
     @FXML private ImageView iv_systemLogo;
     @FXML private ToolBar tb_menu;
+    @FXML private BorderPane bp_main;
 
 
 
@@ -47,11 +52,13 @@ public class GuestController extends GeneralController implements Initializable 
         String Email = tf_email.getText();
         String password = tf_password.getText();
         if(Checker.isValidPassword(password)&&Checker.isValidEmailAddress(Email)){
-            List<String> user = m_client.sendToServer("logIn"+"|"+Email+"|"+password);
+            List<String> user = m_client.sendToServer("logIn|"+Email+"|"+password);
             String[] split = (user.get(0).split("\\|"));
             String loggedUser = split[0];
-            if(loggedUser.length()==0){
+            if(loggedUser.equals("Login Failed")){
                 showAlert("wrong email or password!",Alert.AlertType.ERROR);
+                tf_email.setText("");
+                tf_password.setText("");
             }
             else{
                 tf_email.setText("");
@@ -72,11 +79,13 @@ public class GuestController extends GeneralController implements Initializable 
 
     public void searchButtonPushed(ActionEvent actionEvent){
         clearMainView(mainView);
+        clearMainView(mainPane);
         buildSearchView(mainPane, mainView, m_client,"");
     }
 
     public void viewInfoButtonPushed(ActionEvent actionEvent){
         clearMainView(mainView);
+        clearMainView(mainPane);
         buildViewInfoScene(mainPane, mainView, m_client);
 
     }
@@ -89,7 +98,19 @@ public class GuestController extends GeneralController implements Initializable 
         setImage(iv_systemLogo, "resources/logo.png");
         mainPane = new GridPane();
         tb_menu.setOrientation(Orientation.HORIZONTAL);
-        //add listeners to primary stage
+        Main.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you wish to exit?");
+                alert.setHeaderText("Exit");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get().equals(ButtonType.OK)){
+                    Main.getStage().close();
+                } else {
+                    event.consume();
+                }
+            }
+        });
 
     }
 

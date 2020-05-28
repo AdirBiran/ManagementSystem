@@ -14,9 +14,12 @@ public class RefereeSystem {
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("Referee");
         if(role instanceof  Referee){
-            ((Referee)role).addEventToGame(gameID, Event.EventType.valueOf(event), playerId, teamId);
-            Logger.logEvent( user.getID()+ " (Referee)","Added Event to Game");
-            return true;
+           Boolean success= ((Referee)role).addEventToGame(gameID, Event.EventType.valueOf(event), playerId, teamId);
+           if(success) {
+               Logger.logEvent(user.getID() + " (Referee)", "Added Event to Game");
+               return true;
+           }
+
         }
         Logger.logError("Adding event to game failed");
         return false;
@@ -49,9 +52,11 @@ public class RefereeSystem {
         User user= UserFactory.getUser(userID);
         Referee role = (Referee) user.checkUserRole("Referee");
         if(role instanceof Referee){
-            role.changeEvent(gameID, eventID, newDescription);
-            Logger.logEvent(userID, "Changed event " + eventID);
-            return true;
+           boolean success= role.changeEvent(gameID, eventID, newDescription);
+           if(success) {
+               Logger.logEvent(userID, "Changed event " + eventID);
+               return true;
+           }
         }
         Logger.logError("Chaning event failed");
         return false;

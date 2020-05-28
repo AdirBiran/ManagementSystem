@@ -86,6 +86,26 @@ public class UnionRepresentativeSystem {
         return null;
     }
 
+    public boolean removeAppointReferee(String userId, String refId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("UnionRepresentative");
+            if (role instanceof UnionRepresentative) {
+                Role roleRef = user.checkUserRole("Referee");
+                if(roleRef instanceof Referee){
+                    boolean success = ((UnionRepresentative) role).removeAppointReferee((Referee)roleRef);
+                    if(success){
+                        Logger.logEvent(user.getID(), "remove appointed referee " + refId);
+                        return true;
+                    }
+                    else
+                        Logger.logError("remove appointing Referee Failed");
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean assignRefToLeague(String userId, String leagueId, String refereeId)
     {
         User user = UserFactory.getUser(userId);
@@ -403,6 +423,17 @@ public class UnionRepresentativeSystem {
             return ((UnionRepresentative)role).getAllReferees();
         }
         Logger.logError("Getting all referees Failed");
+        return null;
+    }
+
+    public List<String> getAllAssignmentsPolicies(String userId) {
+        User user= UserFactory.getUser(userId);
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof  UnionRepresentative ) {
+            Logger.logEvent(user.getID(), "Got all Assignments Policies");
+            return ((UnionRepresentative)role).getAllReferees();
+        }
+        Logger.logError("Getting all assignments policies Failed");
         return null;
     }
 }

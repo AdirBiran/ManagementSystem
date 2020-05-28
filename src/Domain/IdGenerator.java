@@ -1,24 +1,21 @@
 package Domain;
 
-import java.util.HashSet;
-import java.util.Random;
+
+import Service.Server;
 
 public class IdGenerator {
 
-    private static Random random = new Random();
-    private static HashSet<Integer> givenIds = new HashSet<>();
+    private static int nextId =0;
+
+    //each time the server is up
+    public static void setNextId(int id){
+        nextId = id;
+    }
 
     public static int getNewId(){
-        int id;
-        do{
-          id = random.nextInt();
-          id = id/10000;
-          if(!givenIds.contains(id)&& id>0 ){
-              givenIds.add(id);
-              return id;
-          }
-        }
-        while (givenIds.contains(id) || id<0);
-        return -1;
+        nextId = nextId + 1;
+        Server.updateID(nextId);
+        return nextId;
     }
+
 }

@@ -34,6 +34,7 @@ public class Team extends Observable {
 
         this.page = new PersonalPage("Team "+name+"'s page!", teamOwners.get(0));
         teamOwners.get(0).addRole(new HasPage(this.page));
+        Database.addPersonalPage(page);
 
         if(players==null||players.size()<11)
             throw new RuntimeException("not enough Players");
@@ -96,7 +97,7 @@ public class Team extends Observable {
     private void linkCoaches() {
         for(User user :coaches){
             //check if has coach add add team
-            Coach coach = (Coach) user.checkUserRole("Coach");
+            Coach coach =  (Coach) user.checkUserRole("Coach");
             if(coach==null)
                 throw new RuntimeException("unauthorized coach");
             else
@@ -179,7 +180,7 @@ public class Team extends Observable {
 
     private void updateAllSystemAdmins(String news) {
         for(Admin admin : Database.getAllAdmins()){
-            Admin adminRole = (Admin)admin.getUser().checkUserRole("Admin");
+            Admin adminRole = (Admin)Database.getUser(admin.getID()).checkUserRole("Admin");
             if(adminRole instanceof Admin){
                 adminRole.update(this, news);
             }
@@ -206,7 +207,7 @@ public class Team extends Observable {
                 teamOwner.addTeam(this);
             }
             else{
-                teamOwner = new TeamOwner(user);
+                teamOwner = new TeamOwner(user.getID());
                 teamOwner.addTeam(this);
                 user.addRole(teamOwner);
             }
@@ -229,7 +230,7 @@ public class Team extends Observable {
                 teamManager.addTeam(this);
             }
             else{
-                teamManager = new TeamManager(user, price, manageAssets, finance);
+                teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
                 teamManager.addTeam(this);
                 user.addRole(teamManager);
             }
@@ -400,6 +401,32 @@ public class Team extends Observable {
     public Budget getBudget() {
         return budget;
     }
+
+    public boolean addIncome(double income) {
+        if(budget.addIncome(income)) {
+            Database.updateObject(this);
+            return true;
+        }
+        return false;
+
+    }
+    public boolean addExpanse(double expanse) {
+        if(budget.addExpanse(expanse)) {
+            Database.updateObject(this);
+            return true;
+        }
+        updateAllUnionRep(Database.getCurrentDate() + "The team: "+name+" has exceeded its budget");
+
+        return false;
+
+    }
+
+    private void updateAllUnionRep(String news) {
+        for (Role union : Database.getAllUnions()){
+            ((UnionRepresentative)union).update(this, news);
+        }
+    }
+
 
     public List<Game> getGames() {
         return games;

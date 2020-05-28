@@ -95,7 +95,7 @@ public class Game extends Observable {
     private void sendMailToFan(String news) {
         for (Fan fan : fansForAlerts.keySet())
             if (fansForAlerts.get(fan))
-                MailSender.send(fan.getUser().getMail(), news);
+                MailSender.send(Database.getUser(fan.getID()).getMail(), news);
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
@@ -168,10 +168,10 @@ public class Game extends Observable {
         String listOfId = "";
         for (Referee referee: sideReferees) {
             if(listOfId.equals("")){
-                listOfId = listOfId+referee.getUser().getID();
+                listOfId = listOfId+referee.getID();
             }
             else {
-                listOfId = listOfId + ","+referee.getUser().getID();
+                listOfId = listOfId + ","+referee.getID();
             }
         }
         return listOfId;
@@ -181,10 +181,10 @@ public class Game extends Observable {
         String listOfId = "";
         for (Fan fan: fansForAlerts.keySet()) {
             if(listOfId.equals("")){
-                listOfId = listOfId+fan.getUser().getID();
+                listOfId = listOfId+fan.getID();
             }
             else {
-                listOfId = listOfId + ","+fan.getUser().getID();
+                listOfId = listOfId + ","+fan.getID();
             }
         }
         return listOfId;

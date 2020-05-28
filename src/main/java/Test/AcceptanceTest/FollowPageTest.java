@@ -26,7 +26,7 @@ public class FollowPageTest {
 
         system = new FootballManagementSystem();
         system.systemInit(true);
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin();
         Guest guest = new Guest();
         user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
@@ -50,4 +50,7 @@ public class FollowPageTest {
         assertEquals(userSystem.getFanPages(user.getID()).size(),1);
 
     }
+
+
+
 }

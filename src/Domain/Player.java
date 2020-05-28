@@ -19,8 +19,8 @@ public class Player extends Role implements PartOfATeam {
     private double price;
 
 
-    public Player(User user, Date birthDate, RolePlayer role, double price) {
-        this.user = user;
+    public Player(String userId, Date birthDate, RolePlayer role, double price) {
+        this.userId = userId;
         this.birthDate = birthDate;
         this.roleInTeam = role;
         this.teams = new HashSet<>();
@@ -30,9 +30,9 @@ public class Player extends Role implements PartOfATeam {
 
     }
 
-    public Player(User user, Date birthDate, HashSet<Team> teams, String roleInTeam, boolean isActive, double price)
+    public Player(String userId, Date birthDate, HashSet<Team> teams, String roleInTeam, boolean isActive, double price)
     {
-        this.user = user;
+        this.userId = userId;
         this.birthDate = birthDate;
         this.teams = teams;
         this.roleInTeam = RolePlayer.valueOf(roleInTeam);
@@ -48,8 +48,8 @@ public class Player extends Role implements PartOfATeam {
     @Override
     public String toString() {
         return "Player" +
-                ", id= " +user.getID() +
-                ": name=" +user.getName() +
+                ", id= " +userId +
+                ": name=" +Database.getUser(userId).getName() +
                 ", birthDate=" + birthDate +
                 ", role in team=" + roleInTeam+
                 ", teams= "+ teamsString(teams);
@@ -83,7 +83,7 @@ public class Player extends Role implements PartOfATeam {
 
     @Override
     public String getID() {
-        return user.getID();
+        return userId;
     }
 
     @Override

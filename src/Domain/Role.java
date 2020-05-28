@@ -9,14 +9,14 @@ import java.util.List;
 public abstract class Role{
 
     protected String myRole;
-    protected User user;
+    protected String userId;
 
-    public User getUser() {
-        return user;
+    public String getID() {
+        return userId;
     }
 
     public List<String> getMessageBox() {
-        return user.getMessageBox();
+        return Database.getUser(userId).getMessageBox();
     }
 
     public String myRole(){
@@ -59,7 +59,7 @@ public abstract class Role{
 
     public String getUserInfo() {
         return "Fan" +
-                ", firstName=" + user.getFirstName() +
-                ", lastName=" + user.getLastName() ;
+                ", firstName=" + Database.getUser(userId).getFirstName() +
+                ", lastName=" + Database.getUser(userId).getLastName() ;
     }
 }

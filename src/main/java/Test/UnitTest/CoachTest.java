@@ -17,11 +17,14 @@ public class CoachTest {
     @Before
     public void init(){
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        team = league.getTeams().get(0);
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        system.systemInit(false); //true- to create new
+
+        //String  leagueId = system.dataReboot();
+        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
+        Admin admin = (Admin) system.getAdmin();
         User coachU= admin.addNewCoach("dor","dor","dor@mail.com", Coach.TrainingCoach.UEFA_B, Coach.RoleCoach.main,50000);
         coach = (Coach) coachU.checkUserRole("Coach");
     }

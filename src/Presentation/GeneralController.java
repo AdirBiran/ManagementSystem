@@ -41,10 +41,10 @@ public abstract class GeneralController {
                 ((UserController)loader.getController()).setUser(loggedUser);
                 ((UserController)loader.getController()).setClient(m_client);
                 ((UserController)loader.getController()).setMainPane1(pane);
-                m_client.startGettingNotifications(loggedUser);
+                //m_client.startGettingNotifications(loggedUser);
                 ((UserController)loader.getController()).buildPresentation(roles);
             }
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 850,800);
             Main.getStage().setScene(scene);
             Main.getStage().show();
 
@@ -285,8 +285,8 @@ public abstract class GeneralController {
     }
 
     private TextField tf_emailInForm;
-    private TextField tf_passwordInForm;
-    private TextField tf_passwordAgain;
+    private PasswordField tf_passwordInForm;
+    private PasswordField tf_passwordAgain;
     private TextField tf_firstName;
     private TextField tf_lastName;
     private TextField tf_phone;
@@ -446,9 +446,9 @@ public abstract class GeneralController {
         l_registerPane.add(Password, 0,1);
         Label VerifyPassword = new Label("Verify Password:");
         l_registerPane.add(VerifyPassword, 0,2);
-        tf_passwordInForm = new TextField();;
+        tf_passwordInForm = new PasswordField();;
         l_registerPane.add(tf_passwordInForm, 2,1);
-        tf_passwordAgain = new TextField();;
+        tf_passwordAgain = new PasswordField();;
         l_registerPane.add(tf_passwordAgain, 2,2);
 
     }
@@ -487,7 +487,8 @@ public abstract class GeneralController {
                 LocalDate birth = birthDatePicker.getValue();
                 String role = tf_role.getValue(), price = tf_price.getText();
                 if(birth!=null && Checker.isValidNumber(price)&&Checker.isValid(role)){
-                    request = "addNewPlayer|"+admin+"|"+firstName+"|"+lastName+"|"+mail+"|"+birth+"|"+role+"|"+price;
+                    String dateStr = birth.toString().replace("-",".");
+                    request = "addNewPlayer|"+admin+"|"+firstName+"|"+lastName+"|"+mail+"|"+dateStr+"|"+role+"|"+price;
                 }
                 else{
                     showAlert("Invalid date, role or price!", Alert.AlertType.ERROR);
@@ -537,26 +538,24 @@ public abstract class GeneralController {
 
         register = m_client.sendToServer(request);
         String[]split = register.get(0).split("\\|");
-        if(type.equals("fan")) {
-            String loggedUser = split[0];
-            if(loggedUser.length()>0){
-                showAlert("success Alert! - we are logging you in", Alert.AlertType.INFORMATION);
-                register = getRolesFromSplitedText(split,1);
-
-                setSceneByFXMLPath("UserView.fxml",register, loggedUser, m_client, pane);
-            }
-            else
-                showAlert("registration failed - user already exists or invalid arguments",Alert.AlertType.ERROR);
-        }
-        if(split[0].contains("Succeed")){
-            showAlert(split[0], Alert.AlertType.INFORMATION);
+        if(split[0].contains("Succeed") || type.equals("fan")){
             clearMainView(view);
             if(type.equals("player")||type.equals("coach"))
                 FootballSpellChecker.addWord(firstName+" "+lastName);
+            if(type.equals("fan")) {
+                String loggedUser = split[0];
+                if(loggedUser.length()>0){
+                    showAlert("success Alert! - we are logging you in", Alert.AlertType.INFORMATION);
+                    List<String> roles = getRolesFromSplitedText(split,1);
+                    setSceneByFXMLPath("UserView.fxml",roles, loggedUser, m_client, pane);
+                }
+                else
+                    showAlert("registration failed - user already exists or invalid arguments",Alert.AlertType.ERROR);
+            }
+            else
+                showAlert(register.get(0), Alert.AlertType.INFORMATION);
         }
-        else{
-            showAlert(split[0], Alert.AlertType.INFORMATION);
-        }
+
     }
 
     private boolean checkPassword(String password, String password2) {

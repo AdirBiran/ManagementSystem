@@ -21,7 +21,7 @@ public class PlayerTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin();
         mesiU = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         mesi=(Player) mesiU.checkUserRole("Player");
     }
@@ -45,6 +45,6 @@ public class PlayerTest {
 
     @Test
     public void getUser() {
-        assertEquals(mesi.getUser().getID(),mesi.getID());
+        assertEquals(mesi.getID(),mesi.getID());
     }
 }
