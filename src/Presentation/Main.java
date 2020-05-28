@@ -15,7 +15,7 @@ public class Main extends Application {
 
 
     final static String SYSTEM_NAME = "Football Five";
-    private static Server server  = new Server(7567, 10);
+
 
     private static Stage stage;
 
@@ -33,13 +33,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-
-        server.start();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         //FootballManagementSystem.systemInit(true);
         //FootballManagementSystem.dataReboot();
