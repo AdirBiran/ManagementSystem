@@ -17,7 +17,7 @@ public class EventsGameTest {
     RefereeSystem refereeSystem;
     FootballManagementSystem system;
     Admin admin;
-   // Referee referee;
+    Referee referee;
     Game game;
     User mesi;
     @Before
@@ -33,7 +33,7 @@ public class EventsGameTest {
 
         admin = (Admin) system.getAdmin();
         game=league.getGames().get(0);
-      //  referee=game.getMainReferee();
+        referee=game.getMainReferee();
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
 
     }

@@ -22,7 +22,7 @@ public class Client  {
 
         try
         {
-            this.socket = new Socket("localhost", serverPort);
+            this.socket = new Socket("132.72.65.47", serverPort);
 
         }
         catch (Exception e)
