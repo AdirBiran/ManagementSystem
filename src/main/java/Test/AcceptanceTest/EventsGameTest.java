@@ -26,6 +26,7 @@ public class EventsGameTest {
         system = new FootballManagementSystem();
 
 
+
         system.systemInit(false);
         //String  leagueId = system.dataReboot();
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
@@ -42,8 +43,8 @@ public class EventsGameTest {
     public void eventsGameSuccess_72()
     {
 
-       assertTrue(refereeSystem.addEventToGame(referee.getID(),game.getId(), "RedCard",game.getHostTeam().getPlayers().get(0).getID(),game.getHostTeam().getID()));
 
+       assertTrue(refereeSystem.addEventToGame(referee.getID(),game.getId(), "RedCard",game.getHostTeam().getPlayers().get(0).getID(),game.getHostTeam().getID()));
 
     }
     @Test

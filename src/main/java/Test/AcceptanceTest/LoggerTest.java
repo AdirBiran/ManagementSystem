@@ -1,7 +1,6 @@
 package AcceptanceTest;
 import Data.Database;
 import Domain.Admin;
-import Domain.LeagueInSeason;
 import Logger.Logger;
 import Service.FootballManagementSystem;
 import org.junit.Before;
@@ -22,14 +21,11 @@ public class LoggerTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
 
-       
-
-
         String  leagueId = system.dataReboot();
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
-        admin = (Admin) system.getAdmin();
 
+        admin = (Admin) system.getAdmin();
     }
 
     @Test
