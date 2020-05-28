@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@AppStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.GuestController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="850.0" stylesheets="@AppStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.GuestController">
    <left>
       <VBox alignment="TOP_CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="374.0" prefWidth="224.0" BorderPane.alignment="CENTER">
          <children>
@@ -75,7 +75,7 @@
       <ToolBar fx:id="tb_menu" prefHeight="35.0" prefWidth="606.0" BorderPane.alignment="CENTER">
          <items>
             <Label fx:id="l_systemName" text="System Name" />
-            <MenuBar fx:id="mb_mainMenu" prefHeight="0.0" prefWidth="443.0">
+            <MenuBar fx:id="mb_mainMenu" prefHeight="25.0" prefWidth="689.0">
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>

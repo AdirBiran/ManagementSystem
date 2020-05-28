@@ -27,7 +27,7 @@ public class EventsGameTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin();
         game=league.getGames().get(0);
         referee=game.getMainReferee();
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
@@ -37,11 +37,11 @@ public class EventsGameTest {
     @Test
     public void eventsGameSuccess_72()
     {
-       assertTrue(refereeSystem.addEventToGame(referee.getUser().getID(),game.getId(), "RedCard",game.getHostTeam().getPlayers().get(0).getID(),game.getHostTeam().getID()));
+       assertTrue(refereeSystem.addEventToGame(referee.getID(),game.getId(), "RedCard",game.getHostTeam().getPlayers().get(0).getID(),game.getHostTeam().getID()));
     }
     @Test
     public void eventsGameFail_73()
     {
-        assertFalse(refereeSystem.addEventToGame(referee.getUser().getID(),game.getId(), "RedCard",game.getHostTeam().getPlayers().get(0).getID(),null));
+        assertFalse(refereeSystem.addEventToGame(referee.getID(),game.getId(), "RedCard",game.getHostTeam().getPlayers().get(0).getID(),null));
     }
 }

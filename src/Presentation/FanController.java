@@ -66,9 +66,7 @@ public class FanController extends GeneralController{
         //let user select game/games/add all?
         //send request to server with fan and games
     }
-    public void editPersonalInfo(){
-        clearMainView(mainView1);
-    }
+
     public void submitComplaint(){
         clearMainView(mainView1);
         clearMainView(mainPane);

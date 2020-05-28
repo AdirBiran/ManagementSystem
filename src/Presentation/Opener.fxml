@@ -8,12 +8,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@AppStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.OpenerController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="850.0" stylesheets="@AppStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.OpenerController">
     <top>
         <ToolBar fx:id="tb_menu" prefHeight="0.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <items>
                 <Label fx:id="l_systemName" text="System Name" />
-                <MenuBar fx:id="mb_mainMenu" prefHeight="0.0" prefWidth="443.0">
+                <MenuBar fx:id="mb_mainMenu" prefHeight="25.0" prefWidth="688.0">
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -25,6 +26,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Window;
+import javafx.stage.WindowEvent;
 
 public class GuestController extends GeneralController implements Initializable {
 
@@ -95,7 +98,19 @@ public class GuestController extends GeneralController implements Initializable 
         setImage(iv_systemLogo, "resources/logo.png");
         mainPane = new GridPane();
         tb_menu.setOrientation(Orientation.HORIZONTAL);
-        //add listeners to primary stage
+        Main.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you wish to exit?");
+                alert.setHeaderText("Exit");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get().equals(ButtonType.OK)){
+                    Main.getStage().close();
+                } else {
+                    event.consume();
+                }
+            }
+        });
 
     }
 
