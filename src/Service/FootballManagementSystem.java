@@ -136,7 +136,7 @@ public class FootballManagementSystem {
         String leagueId = unionRepresentativeSystem.configureNewLeague(unionRep.getID(),"Haal", "level3");
         String leagueInSeasonId = unionRepresentativeSystem.configureLeagueInSeason(unionRep.getID(),leagueId, seasonId, "PlayTwiceWithEachTeamPolicy", "StandardScorePolicy", 300);
         unionRepresentativeSystem.addFieldToSystem(unionRep.getID(),"jerusalem","Teddy" ,550, 150000);
-        Field field = Database.getAllFields().get(0);
+        Field field = Database.getAllActiveFields().get(0);
         Team team;
         for (int i = 0; i < 14; i++) {
             List<String> players = createPlayers();
