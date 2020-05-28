@@ -65,6 +65,7 @@ public class GuestTest {
     @Test
     public void viewInfoAboutCoaches() {
         assertNotNull(guest.viewInfoAboutCoaches());
+        System.out.println(guest.viewInfoAboutCoaches());
     }
 
     @Test
@@ -80,5 +81,6 @@ public class GuestTest {
     @Test
     public void viewInfoAboutReferees() {
         assertNotNull(guest.viewInfoAboutReferees());
+        System.out.println(guest.viewInfoAboutReferees());
     }
 }

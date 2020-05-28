@@ -250,11 +250,9 @@ public class UnionRepresentative extends Role implements Observer {
         }
         return assignmentsPolicies;
     }
-    public static LinkedList<String> getAllPastGames(){
-        Date today = Database.getCurrentDate();
-        LinkedList<String> pastGames = new LinkedList<>();
-        for(Game game : Database.getAllGames()){
-            if(today.after(game.getDate()))
+    public static List<String> getAllPastGames(){
+        List<String> pastGames = new LinkedList<>();
+        for(Game game : Database.getAllPastGames()){
                 pastGames.add(game.toString());
         }
         return pastGames;

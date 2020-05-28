@@ -425,4 +425,15 @@ public class UnionRepresentativeSystem {
         Logger.logError("Getting all referees Failed");
         return null;
     }
+
+    public List<String> getAllAssignmentsPolicies(String userId) {
+        User user= UserFactory.getUser(userId);
+        Role role = user.checkUserRole("UnionRepresentative");
+        if(role instanceof  UnionRepresentative ) {
+            Logger.logEvent(user.getID(), "Got all Assignments Policies");
+            return ((UnionRepresentative)role).getAllReferees();
+        }
+        Logger.logError("Getting all assignments policies Failed");
+        return null;
+    }
 }
