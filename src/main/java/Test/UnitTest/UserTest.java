@@ -18,7 +18,7 @@ public class UserTest {
     public void init() {
         system = new FootballManagementSystem();
         system.systemInit(true);
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin();
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Guest guest = new Guest();
         user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
@@ -121,7 +121,7 @@ public class UserTest {
 
     @Test
     public void addRole() {
-       TeamManager teamManager = new TeamManager(mesi, 30000, true, true);
+       TeamManager teamManager = new TeamManager(mesi.getID(), 30000, true, true);
         mesi.addRole(teamManager);
         assertEquals(mesi.getRoles().size(),3);
 

@@ -16,19 +16,19 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
 
 
 
-    public TeamManager(User user, double price, boolean manageAssets , boolean finance ) {
+    public TeamManager(String userId, double price, boolean manageAssets , boolean finance ) {
         teams = new HashSet<>();
         this.price = price;
         isActive = true;
         permissionManageAssets = manageAssets;
         permissionFinance = finance;
         myRole = "TeamManager";
-        this.user = user;
+        this.userId = userId;
     }
 
-    public TeamManager(User user, HashSet<Team> teams, boolean isActive, double price, boolean manageAssets, boolean finance)
+    public TeamManager(String userId, HashSet<Team> teams, boolean isActive, double price, boolean manageAssets, boolean finance)
     {
-        this.user = user;
+        this.userId = userId;
         this.teams = teams;
         this.isActive = isActive;
         this.price = price;
@@ -57,8 +57,8 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
     @Override
     public String toString() {
         return "TeamManager" +
-                ", id="+ user.getID()+
-                ": name="+ user.getName()+
+                ", id="+ userId+
+                ": name="+ Database.getUser(userId).getName()+
                 ", price=" + price +
                 ", permission manage assets=" + permissionManageAssets +
                 ", permission finance=" + permissionFinance+
@@ -68,14 +68,14 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(news);
+        Database.getUser(userId).addMessage(news);
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     @Override
     public String getID() {
-        return user.getID();
+        return userId;
     }
 
     @Override

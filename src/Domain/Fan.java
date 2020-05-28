@@ -7,25 +7,25 @@ public class Fan extends Role implements Observer {
 
     private String address;
     private String phone;
-    private List<Complaint> complaints;
+    private List<String> complaintsId;
     private List<PersonalPage> followPages;
 
-    public Fan(User user, String phone, String address) {
-        this.user = user;
+    public Fan(String userId, String phone, String address) {
+        this.userId = userId;
         this.address = address;
         this.phone = phone;
-        complaints = new LinkedList<>();
+        complaintsId = new LinkedList<>();
         followPages = new LinkedList<>();
         myRole = "Fan";
     }
 
-    public Fan(User user, String address, String phone, List<PersonalPage> personalPages, List<Complaint> complaints)
+    public Fan(String userId, String address, String phone, List<PersonalPage> personalPages, List<String> complaintsId)
     {
-        this.user = user;
+        this.userId = userId;
         this.address = address;
         this.phone = phone;
         this.followPages = personalPages;
-        this.complaints = complaints;
+        this.complaintsId = complaintsId;
     }
 
     public boolean addPageToFollow(String pageId){
@@ -59,7 +59,7 @@ public class Fan extends Role implements Observer {
         if(description.length()<1)
             return false;
         Complaint complaint = new Complaint(description, this);
-        complaints.add(complaint);
+        complaintsId.add(complaint.getId());
         Database.updateObject(this);
         return Database.addComplaint(complaint);
     }
@@ -77,7 +77,7 @@ public class Fan extends Role implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
-        user.addMessage(news);
+        Database.getUser(userId).addMessage(news);
     }
 
     @Override
@@ -89,8 +89,8 @@ public class Fan extends Role implements Observer {
 
     public String getUserInfo() {
         return "Fan" +
-                ", firstName=" + user.getFirstName() +
-                ", lastName=" + user.getLastName() +
+                ", firstName=" + Database.getUser(userId).getFirstName() +
+                ", lastName=" + Database.getUser(userId).getLastName() +
                 ", phone=" + phone +
                 ", address=" + address;
     }
@@ -106,20 +106,20 @@ public class Fan extends Role implements Observer {
 
     public List<String> getAllPages(){
         List<String> pages = new LinkedList<>();
-        for(PersonalPage p: Database.getAllPages())
-            pages.add(p.toString());
+        for(PersonalPage p: Database.getAllPages()){
+         if(p.getUser().isActive())
+             pages.add(p.toString());
+        }
         return pages;
     }
 
     /*
     this function returns a list of all future games
      */
-    public static LinkedList<String> getAllFutureGames(){
-        Date today = Database.getCurrentDate();
-        LinkedList<String> futureGames = new LinkedList<>();
-        for(Game game : Database.getAllGames()){
-            if(today.before(game.getDate()))
-                futureGames.add(game.toString());
+    public static List<String> getAllFutureGames(){
+        List<String> futureGames= new LinkedList<>();
+        for(Game game : Database.getAllFutureGames()){
+            futureGames.add(game.toString());
         }
         return futureGames;
     }
@@ -132,8 +132,8 @@ public class Fan extends Role implements Observer {
         return phone;
     }
 
-    public List<Complaint> getComplaints() {
-        return complaints;
+    public List<String> getComplaintsId() {
+        return complaintsId;
     }
 
     public List<PersonalPage> getFollowPages() {

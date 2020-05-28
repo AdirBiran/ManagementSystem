@@ -13,12 +13,13 @@ public abstract class Manager extends Role{
     }
 
     public boolean addPlayerToTeam(String playerId, String teamId){
-        User player = Database.getPlayer(playerId).getUser();
+        //User player = Database.getPlayer(playerId);
+        User player = Database.getUser(playerId);
         Team team = Database.getTeam(teamId);
         if(player!=null && team!=null) {
             Role assetRole = player.checkUserRole("Player");
             if (teamsToManage.contains(team)) {
-                if (team.getBudget().addExpanse(team, ((PartOfATeam) assetRole).getPrice())) {
+                if (team.addExpanse(((PartOfATeam) assetRole).getPrice())) {
                      return team.addPlayer(player);
                 }
             }
@@ -27,12 +28,13 @@ public abstract class Manager extends Role{
     }
 
     public boolean addCoachToTeam(String coachId, String teamId){
-        User coach = Database.getCoach(coachId).getUser();
+        //User coach = Database.getCoach(coachId);
+        User coach = Database.getUser(coachId);
         Team team = Database.getTeam(teamId);
         if(coach!=null && team!=null) {
             Role assetRole = coach.checkUserRole("Coach");
             if (teamsToManage.contains(team)) {
-                if (team.getBudget().addExpanse(team, ((PartOfATeam) assetRole).getPrice())) {
+                if (team.addExpanse( ((PartOfATeam) assetRole).getPrice())) {
                     return team.addCoach(coach);
                 }
             }
@@ -65,7 +67,8 @@ public abstract class Manager extends Role{
     }
 
     public boolean removePlayerFormTeam(String playerId , String teamId){
-        User player = Database.getPlayer(playerId).getUser();
+        //User player = Database.getPlayer(playerId);
+        User player = Database.getUser(playerId);
         Team team = Database.getTeam(teamId);
         if(player!=null && team!=null) {
             if (teamsToManage.contains(team))
@@ -74,7 +77,8 @@ public abstract class Manager extends Role{
         return false;
     }
     public boolean removeCoachFormTeam(String coachId, String teamId){
-        User coach = Database.getCoach(coachId).getUser();
+        //User coach = Database.getCoach(coachId);
+        User coach = Database.getUser(coachId);
         Team team = Database.getTeam(teamId);
         if(coach!=null && team!=null) {
             if (teamsToManage.contains(team))
@@ -103,7 +107,7 @@ public abstract class Manager extends Role{
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             if (teamsToManage.contains(team)) {
-                if(team.getBudget().addIncome(income)) {
+                if(team.addIncome(income)) {
                     Database.updateObject(this);
                     return true;
                 }
@@ -115,7 +119,7 @@ public abstract class Manager extends Role{
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             if (teamsToManage.contains(team)) {
-                if(team.getBudget().addExpanse(team, expanse)){
+                if(team.addExpanse(expanse)){
                     Database.updateObject(this);
                     return true;
                 }
@@ -145,22 +149,22 @@ public abstract class Manager extends Role{
 
     public List<String> getAllPlayers(){
         List<String> players = new LinkedList<>();
-        /*for(Player player : Database.getAllPlayers())
-            players.add(player.toString());*/
+        for(Player player : Database.getAllPlayers())
+            players.add(player.toString());
         return players;
     }
 
     public List<String> getAllCoaches() {
         List<String> coaches = new LinkedList<>();
-        /*for(Player player : Database.getAllCoaches())
-            coaches.add(player.toString());*/
+        for(Coach coach : Database.getAllCoaches())
+            coaches.add(coach.toString());
         return coaches;
     }
 
     public List<String> getAllFields() {
         List<String> fields = new LinkedList<>();
-        /*for(Player player : Database.getAllFields())
-            fields.add(player.toString());*/
+        for(Field field : Database.getAllActiveFields())
+            fields.add(field.toString());
         return fields;
     }
 

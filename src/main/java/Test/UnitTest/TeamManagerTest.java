@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin();
         User userTeamManager= admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false);
         teamManager = (TeamManager)userTeamManager.checkUserRole("TeamManager");
 

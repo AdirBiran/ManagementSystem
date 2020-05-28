@@ -75,11 +75,12 @@ public class UserController extends GeneralController implements Initializable {
     }
 
     public void logoutButtonPushed(ActionEvent actionEvent) {
-        m_client.sendToServer("logOut|"+loggedUser);
-        loggedUser = "";
-        m_client.stopGettingNotifications();
-        setSceneByFXMLPath("GuestView.fxml", null, "", m_client, mainPane1);
-
+        if(loggedUser!=null &&loggedUser.length()>0){
+            m_client.sendToServer("logOut|"+loggedUser);
+            loggedUser = "";
+            m_client.stopGettingNotifications();
+            setSceneByFXMLPath("GuestView.fxml", null, "", m_client, mainPane1);
+        }
     }
 
     public void setUser(String user){
@@ -102,14 +103,7 @@ public class UserController extends GeneralController implements Initializable {
                 case("Fan"):{
                     fan = new FanController(mainView1, loggedUser, m_client, mainPane1);
                     Menu fanMenu = new Menu("Fan Actions");
-                    //MenuItem followPage = new MenuItem("Follow Page");
-                    //followPage.setOnAction(new EventHandler<ActionEvent>() {
-                    //    @Override
-                    //    public void handle(ActionEvent event) {
-                    //        fan.followPage();
-                    //    }
-                    //});
-                    //fanMenu.getItems().add(followPage);
+
                     MenuItem followGames = new MenuItem("Follow Games");
                     followGames.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -118,14 +112,6 @@ public class UserController extends GeneralController implements Initializable {
                         }
                     });
                     fanMenu.getItems().add(followGames);
-                    MenuItem editPersonalInfo = new MenuItem("Edit Personal Info");
-                    editPersonalInfo.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            fan.editPersonalInfo();
-                        }
-                    });
-                    fanMenu.getItems().add(editPersonalInfo);
                     MenuItem submitComplaint = new MenuItem("Submit Complaint");
                     submitComplaint.setOnAction(new EventHandler<ActionEvent>() {
                         @Override

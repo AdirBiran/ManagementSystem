@@ -13,10 +13,10 @@ public class User extends Guest {
     private String firstName;
     private String lastName;
     private String mail;
-    private List<String> messageBox;
     private boolean isActive;
     private List<Role> roles;
     private List<String> searchHistory;
+    private static int counter =0;
 
     /**
      * constructor for user
@@ -26,16 +26,16 @@ public class User extends Guest {
      * @param mail
      */
     public User(String firstName, String lastName, String ID, String mail) {
-
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(mail);
         this.firstName = firstName;
         this.lastName = lastName;
-        this.ID = ID + IdGenerator.getNewId();
+        this.ID = ID +counter;
+        counter++;
+        //this.ID = ID + IdGenerator.getNewId();
         if(!matcher.find())
             throw new RuntimeException("email address not valid");
         this.mail = mail;
-        this.messageBox = new LinkedList<>();
         this.isActive = true;
         this.roles = new LinkedList<>();
         this.searchHistory = new LinkedList<>();
@@ -50,7 +50,17 @@ public class User extends Guest {
         this.isActive = isActive;
         this.roles = roles;
         this.searchHistory = searchHistory;
-        this.messageBox = new LinkedList<>();
+    }
+
+    public User(String id, String firstName, String lastName, String mail, boolean isActive, List<String> searchHistory)
+    {
+        this.ID = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mail = mail;
+        this.isActive = isActive;
+        this.roles = new LinkedList<>();
+        this.searchHistory = searchHistory;
     }
 
     public Role checkUserRole (String userRole) {
@@ -92,8 +102,7 @@ public class User extends Guest {
     public void addMessage(String message){ /***/
         if(!(NotificationSystem.notifyUser(this, message))){
             if(message!=null)
-                messageBox.add(message);
-                Database.addMessageToUser(this.ID, message);
+                Database.addNotificationToUser(this.ID, message);
         }
     }
 
@@ -145,7 +154,7 @@ public class User extends Guest {
     }
 
     public List<String> getMessageBox() {
-        return messageBox;
+        return Database.getAllNotifications(ID);
     }
 
     public void addRole(Role role){
@@ -175,4 +184,9 @@ public class User extends Guest {
         return isActive;
     }
 
+    public void addRoles(List<Role> listOfRoles) {
+        roles.addAll(listOfRoles);
+        for(Role role : roles)
+            role.userId = this.ID;
+    }
 }

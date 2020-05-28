@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class TransactionsTest {
 
@@ -32,7 +33,7 @@ public class TransactionsTest {
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         team = league.getTeams().get(0);
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = (Admin) system.getAdmin();
         owner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         owner= team.getTeamOwners().get(0);
 
@@ -42,10 +43,8 @@ public class TransactionsTest {
     public void transactionFail_39()
     {
 
-       /* transSystem.reportNewExpanse(owner.getID(), team.getID(), 50);
-        double afterChange = transSystem.getBalance(owner.getID(),team.getID());
-
-        assertEquals(0, afterChange, 0);*/
+        double balance=team.getBudget().getBalance();
+        assertFalse(transSystem.reportNewExpanse(owner.getID(), team.getID(), balance+10));
 
     }
 

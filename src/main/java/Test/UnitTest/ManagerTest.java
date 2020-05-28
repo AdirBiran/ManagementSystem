@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -28,8 +29,11 @@ public class ManagerTest {
         system.systemInit(true);
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
         team = league.getTeams().get(0);
-        Admin admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        Admin admin = (Admin) system.getAdmin();
         User userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
         teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
@@ -103,5 +107,20 @@ public class ManagerTest {
     @Test
     public void getTeamsToManage(){
      assertNotNull(teamOwner.getStringTeams());
+    }
+
+    @Test
+    public void getAllPlayers(){
+        assertNotNull(teamOwner.getAllPlayers());
+    }
+
+    @Test
+    public void getAllCoaches(){
+
+    }
+
+    @Test
+    public void getAllTeamAssets(){
+
     }
 }

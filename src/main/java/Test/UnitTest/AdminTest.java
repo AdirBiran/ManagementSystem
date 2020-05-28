@@ -16,18 +16,45 @@ public class AdminTest {
     FootballManagementSystem system;
     Admin admin;
     Team team;
+    User user;
     @Before
     public void init(){
         system = new FootballManagementSystem();
-        system.systemInit(true);
+
+        system.systemInit(true);//true- to create new
+
         String  leagueId = system.dataReboot();
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+        
         team = league.getTeams().get(0);
-        admin = (Admin) system.getAdmin().getUser().checkUserRole("Admin");
+        admin = system.getAdmin();
+        Guest guest = new Guest();
+        user = guest.login("fan@gmail.com", "Aa1234");
     }
+    /*@Before
+    public void initBegin(){
+        system = new FootballManagementSystem();
+
+        system.systemInit(true);//true- to create new
+
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
+        team = league.getTeams().get(0);
+        admin = system.getAdmin();
+        Guest guest = new Guest();
+        user = guest.login("fan@gmail.com", "Aa1234");
+    }
+*/
+
     @Test
     public void closeTeamPermanently() {
-        assertNotNull(admin.closeTeamPermanently(team.getID()));
+        String teamId = team.getID();
+        assertNotNull(admin.closeTeamPermanently(teamId));
         assertNull(admin.closeTeamPermanently(team.getID()));
     }
 
@@ -48,7 +75,6 @@ public class AdminTest {
 
     @Test
     public void addNewTeamManager() {
-        //admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false);
         assertNotNull(admin.addNewTeamManager("team", "manager", "teamManager@gmail.com", 20000, false, false));
     }
 
@@ -64,16 +90,15 @@ public class AdminTest {
 
     @Test
     public void removeUser() {
-       User user= admin.addNewAdmin("123456","","","admin@mail.com");
          assertEquals(admin.removeUser(user.getID()),user.getMail());
     }
 
     @Test
     public void removeField() {
-     Field  field = new Field("Tel-Aviv","Bloomfield", 150000, 125000);
-     admin.addField(field);
-     admin.removeField(field);
-     assertFalse(field.isActive());
+        UnionRepresentative unionRepresentative = system.getDatabase().getAllUnions().get(0);
+        unionRepresentative.addFieldToSystem("Tel-Aviv","Bloomfield", 150000, 125000);
+        admin.removeField(system.getDatabase().getAllActiveFields().get(1));
+        assertFalse(system.getDatabase().getAllFields().get(1).isActive());
     }
 
     @Test
@@ -85,20 +110,15 @@ public class AdminTest {
 
     @Test
     public void responseToComplaint() {
-        Guest guest = new Guest();
-        User user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         Fan fan = (Fan) user.checkUserRole("Fan");
         fan.submitComplaint("complaint to system");
-        Complaint complaint = fan.getComplaints().get(0);
-        assertTrue(admin.responseToComplaint(complaint.getId(), "answer"));
+        String complaint = fan.getComplaintsId().get(0);
+        assertTrue(admin.responseToComplaint(complaint, "answer"));
     }
 
     @Test
     public void viewLog() {
-    }
-
-    @Test
-    public void trainModel() {
+        assertNotNull(admin.viewLog("Errors"));
     }
 
     @Test
@@ -113,5 +133,10 @@ public class AdminTest {
     @Test
     public void getAllCloseTeams() {
         assertNotNull(admin.getAllCloseTeams());
+    }
+
+    @Test
+    public void getAllActiveComplaints(){
+        assertNotNull(admin.getAllActiveComplaints());
     }
     }

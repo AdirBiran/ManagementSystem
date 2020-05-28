@@ -2,6 +2,7 @@ package Service;
 
 import Data.DataAccess;
 import Data.Database;
+import Domain.IdGenerator;
 import Logger.Logger;
 import Presentation.Checker;
 import Presentation.Client;
@@ -30,13 +31,69 @@ public class Server {
     private static HashMap<String, Socket> loggedUsers = new HashMap<>();
     private static HashMap<String, String> loggedUsersNotifications = new HashMap<>();
 
+    private static int nextID;
+
     public static void main(String[] args) {
 
         // Tests for first initiation
+        try {
+            InetAddress iAddress = InetAddress.getLocalHost();
+            String server_IP = iAddress.getHostAddress();
+            System.out.println("Server IP address : " + server_IP);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        Server server = new Server(7567, 4);
+        server.firstInit();
+        server.runServer();
+        FootballManagementSystem.systemInit(false);
+        //FootballManagementSystem.dataReboot();
 
-        Server server = new Server(5678, 4);
-        Client cl = new Client(5678);
+    }
 
+    public static void updateID(int nextId)
+    {
+        nextID = nextId;
+        updateFileID();
+    }
+
+    public static int getLastID()
+    {
+        List<String> lines = new LinkedList<>();
+        String configFilePath = "./config";
+
+        try {
+            lines = Files.readAllLines(new File(configFilePath).toPath());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String lastIDString = lines.get(1);
+        lastIDString = lastIDString.substring(lastIDString.indexOf(":") + 1);
+
+        nextID = Integer.parseInt(lastIDString);
+        return nextID;
+    }
+
+    public static void updateFileID()
+    {
+        List<String> lines = new LinkedList<>();
+        String configFilePath = "./config";
+
+        try {
+            lines = Files.readAllLines(new File(configFilePath).toPath());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String lastIDSt = "LastID:" + nextID;
+        lines.set(1, lastIDSt);
+
+        writeLinesToFile(configFilePath, lines);
 
     }
 
@@ -60,6 +117,8 @@ public class Server {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        IdGenerator.setNextId(getLastID());
 
         if (isFirstInit(lines))
         {
@@ -192,6 +251,7 @@ public class Server {
 
         welcomeSocket = null;
         try {
+            System.out.println("Server created at port " + port + ", Maximum users: " + maxUsers);
             Logger.logServer("Server created at port " + port + ", Maximum users: " + maxUsers);
             welcomeSocket = new ServerSocket(port);
         } catch (Exception e) {

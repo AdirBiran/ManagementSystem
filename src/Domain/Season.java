@@ -31,6 +31,14 @@ public class Season {
         this.leagueInSeasons = lis;
     }
 
+    public Season(String id, int year, Date date)
+    {
+        this.id = id;
+        this.year = year;
+        this.startDate = date;
+        this.leagueInSeasons =new LinkedList<>();
+    }
+
     @Override
     public String toString() {
         return
