@@ -33,6 +33,24 @@ public class AdminTest {
         Guest guest = new Guest();
         user = guest.login("fan@gmail.com", "Aa1234");
     }
+    /*@Before
+    public void initBegin(){
+        system = new FootballManagementSystem();
+
+        system.systemInit(true);//true- to create new
+
+        String  leagueId = system.dataReboot();
+        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
+        team = league.getTeams().get(0);
+        admin = system.getAdmin();
+        Guest guest = new Guest();
+        user = guest.login("fan@gmail.com", "Aa1234");
+    }
+*/
+
     @Test
     public void closeTeamPermanently() {
         String teamId = team.getID();
