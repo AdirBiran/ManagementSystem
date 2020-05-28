@@ -1,6 +1,8 @@
 package Domain;
 
 
+import Service.Server;
+
 public class IdGenerator {
 
     private static int nextId =0;
@@ -11,7 +13,9 @@ public class IdGenerator {
     }
 
     public static int getNewId(){
-        return nextId++;
+        nextId = nextId + 1;
+        Server.updateID(nextId);
+        return nextId;
     }
 
 }

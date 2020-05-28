@@ -2,6 +2,7 @@ package Service;
 
 import Data.DataAccess;
 import Data.Database;
+import Domain.IdGenerator;
 import Logger.Logger;
 import Presentation.Checker;
 import Presentation.Client;
@@ -30,13 +31,58 @@ public class Server {
     private static HashMap<String, Socket> loggedUsers = new HashMap<>();
     private static HashMap<String, String> loggedUsersNotifications = new HashMap<>();
 
+    private static int nextID;
+
     public static void main(String[] args) {
 
         // Tests for first initiation
 
-        Server server = new Server(5678, 4);
-        Client cl = new Client(5678);
+        //Server server = new Server(7567, 4);
+        //server.firstInit();
 
+    }
+
+    public static void updateID(int nextId)
+    {
+        nextID = nextId;
+        updateFileID();
+    }
+
+    public static int getLastID()
+    {
+        List<String> lines = new LinkedList<>();
+        String configFilePath = "./config";
+
+        try {
+            lines = Files.readAllLines(new File(configFilePath).toPath());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String lastIDString = lines.get(1);
+        lastIDString = lastIDString.substring(lastIDString.indexOf(":") + 1);
+
+        nextID = Integer.parseInt(lastIDString);
+        return nextID;
+    }
+
+    public static void updateFileID()
+    {
+        List<String> lines = new LinkedList<>();
+        String configFilePath = "./config";
+
+        try {
+            lines = Files.readAllLines(new File(configFilePath).toPath());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String lastIDSt = "LastID:" + nextID;
+        lines.set(1, lastIDSt);
+
+        writeLinesToFile(configFilePath, lines);
 
     }
 
@@ -60,6 +106,8 @@ public class Server {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        IdGenerator.setNextId(getLastID());
 
         if (isFirstInit(lines))
         {
