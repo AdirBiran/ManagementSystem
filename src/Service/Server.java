@@ -30,7 +30,6 @@ public class Server {
     private static HashMap<String, Socket> loggedUsers = new HashMap<>();
     private static HashMap<String, String> loggedUsersNotifications = new HashMap<>();
 
-
     public static void main(String[] args) {
 
         // Tests for first initiation
@@ -1069,12 +1068,8 @@ public class Server {
     }
 
     private void handle_assignGames(String[] splitLine, Socket clientSocket) {
-        LinkedList<Date> dates = new LinkedList<>();
 
-        for (String st : stringToList(splitLine[3]))
-            dates.add(stringToDate(st));
-
-        boolean success = unionRepresentativeSystem.assignGames(splitLine[1], splitLine[2], dates);
+        boolean success = unionRepresentativeSystem.assignGames(splitLine[1], splitLine[2]);
 
         if (success)
             sendLineToClient("Succeed assigning games", clientSocket);

@@ -1,5 +1,6 @@
 package Presentation;
 
+import Data.DataAccess;
 import Data.Database;
 import Domain.Referee;
 import Domain.Team;
@@ -18,7 +19,7 @@ import javafx.stage.WindowEvent;
 public class Main extends Application {
 
 
-    final static String SYSTEM_NAME = "Team 5 Football System";
+    final static String SYSTEM_NAME = "Football Five";
     private static Server server  = new Server(7567, 10);
 
     private static Stage stage;
@@ -28,16 +29,11 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         stage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("GuestView.fxml"));
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                server.stop();
-                //logout somehow
+        Parent root = FXMLLoader.load(getClass().getResource("Opener.fxml"));
 
-            }
-        });
         primaryStage.setTitle(SYSTEM_NAME);
+        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(650);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
@@ -51,9 +47,10 @@ public class Main extends Application {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        FootballManagementSystem.systemInit(true);
-        FootballManagementSystem.dataReboot();
-        UserFactory.getNewAdmin("aA123456", "adminush", "ush", "m@m.com");
+
+        //FootballManagementSystem.systemInit(true);
+        //FootballManagementSystem.dataReboot();
+        //UserFactory.getNewAdmin("aA123456", "adminush", "ush", "m@m.com");
         launch(args);
     }
 }

@@ -7,10 +7,9 @@ public class PlayOnceWithEachTeamPolicy extends GameAssignmentPolicy {
         name = "PlayOnceWithEachTeamPolicy";
     }
     @Override
-    public List<Game> assignGames(List<Date> dates, LeagueInSeason league) {
+    public List<Game> assignGames(LeagueInSeason league) {
         if(league.getTeams().size()>2) {
-            if (dates.size() < findOutHowManyDatesRequired(league.getTeams().size()))
-                throw new RuntimeException("not enough dates available to assign games");
+            List<Date> dates = getDates(league.getSeason().getYear(), findOutHowManyDatesRequired(league.getTeams().size()));
             List<Referee> referees = league.getReferees();
             checkConstrains(league.getTeams(), referees);
             List<Game> games = new LinkedList<>();

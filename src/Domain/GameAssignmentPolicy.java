@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Date;
@@ -19,7 +21,7 @@ public abstract class GameAssignmentPolicy {
     public String getName(){
         return name;
     }
-    public abstract List<Game> assignGames(List<Date> dates, LeagueInSeason league);
+    public abstract List<Game> assignGames(LeagueInSeason league);
 
      protected boolean checkForDuplicates(List<Game> games, Team team1, Team team2) {
           for(Game game : games){
@@ -76,6 +78,38 @@ public abstract class GameAssignmentPolicy {
           Referee mainRef = getMainReferee(referees);
           sideRefs = getSideReferees(referees,mainRef);
           return new Game(getDateFromList(dates), team1.getField(), mainRef,sideRefs, team1,team2, league);
+     }
+     protected List<Date> getDates(int seasonYear, int listSize)
+     {
+         LinkedList<Date> dates = new LinkedList<>();
+         for (int i = 1; i < 30; i++) {
+             dates.add(Database.getDate(seasonYear, 5, i, 20, 0));
+         }
+         if(dates.size()>=listSize) return dates;
+         for (int i = 1; i < 31; i++) {
+             dates.add(Database.getDate(seasonYear, 6, i, 20, 0));
+         }
+         if(dates.size()>=listSize) return dates;
+         for (int i = 1; i <31 ; i++) {
+             dates.add(Database.getDate(seasonYear, 7, i, 20, 0));
+         }
+         if(dates.size()>=listSize) return dates;
+         for (int i = 1; i <30 ; i++) {
+             dates.add(Database.getDate(seasonYear, 8, i, 20, 0));
+         }
+         if(dates.size()>=listSize) return dates;
+         for (int i = 1; i <31 ; i++) {
+             dates.add(Database.getDate(seasonYear, 9, i, 20, 0));
+         }
+         if(dates.size()>=listSize) return dates;
+         for (int i = 1; i <30 ; i++) {
+             dates.add(Database.getDate(seasonYear, 10, i, 20, 0));
+         }
+         if(dates.size()>=listSize) return dates;
+         for (int i = 1; i <31 ; i++) {
+             dates.add(Database.getDate(seasonYear, 11, i, 20, 0));
+         }
+         return dates;
      }
 
 

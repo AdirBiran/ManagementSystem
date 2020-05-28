@@ -7,7 +7,7 @@ public class NotificationsListener implements Runnable
 
     private Socket socket;
     private Client client;
-    private int secondsInterval = 2;
+    private final int secondsInterval = 2;
 
     public NotificationsListener(Socket socket, Client client)
     {
@@ -22,6 +22,7 @@ public class NotificationsListener implements Runnable
         {
             if (!client.getUserID().equals(""))
                 client.askForNotifications();
+
 
             try
             {

@@ -32,7 +32,7 @@ public void init(){
     team1=league.getTeams().get(1);;
     User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
     UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-    unionRole.assignGames(league.getId(), system.getDates());
+    unionRole.assignGames(league.getId());
     game = league.getGames().get(0);
     Guest guest = new Guest();
     user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");

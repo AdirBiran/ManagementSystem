@@ -14,20 +14,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class GeneralController {
+public abstract class GeneralController {
 
-    public void setSceneByFXMLPath(String path, List<String> roles, String loggedUser, Client m_client) {
+    public void setSceneByFXMLPath(String path, List<String> roles, String loggedUser, Client m_client, GridPane pane) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
             Parent root = loader.load();
@@ -35,6 +40,8 @@ public class GeneralController {
             if(path.equals("UserView.fxml")){
                 ((UserController)loader.getController()).setUser(loggedUser);
                 ((UserController)loader.getController()).setClient(m_client);
+                ((UserController)loader.getController()).setMainPane1(pane);
+                m_client.startGettingNotifications(loggedUser);
                 ((UserController)loader.getController()).buildPresentation(roles);
             }
             Scene scene = new Scene(root);
@@ -73,12 +80,7 @@ public class GeneralController {
                 }
                 data.addAll(teams);
 
-                TableColumn active = new TableColumn("Active");
-                active.setCellValueFactory(new PropertyValueFactory("active"));
-                TableColumn permanentlyClosed = new TableColumn("Permanently Closed");
-                permanentlyClosed.setCellValueFactory(new PropertyValueFactory("permanentlyClosed"));
-
-                tableView.getColumns().addAll(getNameColumn(),active,permanentlyClosed);
+                tableView.getColumns().addAll(getNameColumn());
 
                 break;
             }
@@ -151,6 +153,12 @@ public class GeneralController {
 
                 break;
             }
+            case ("Pages"):{
+                tableLabel.setText("Pages:");
+                //if user is fan - add follow page button
+                //implement (the results of search)
+                break;
+            }
             default:{
                 for(String string: list){
                     Label label = new Label(string);
@@ -192,7 +200,7 @@ public class GeneralController {
                 clearMainView(l_viewPane);
                 buildViewInfoScene(l_viewPane, mainView,client);
 
-                String choice = (String)subjects.getValue();
+                String choice = subjects.getValue();
                 showInfo(choice, client, l_viewPane);
             }
         });
@@ -254,8 +262,16 @@ public class GeneralController {
                     if(correction.size()>0){
                         //suggest corrections to user
                     }
-                    List<String> results = m_client.sendToServer("search"+"|"+userId+"|"+searchWord);
-                    showListOnScreen("",results, l_searchPane, 3);
+                    String request="";
+                    if(userId.length()>0){
+                        request = "userSearch|"+userId+"|"+searchWord;
+                    }
+                    else
+                        request = "guestSearch|"+searchWord;
+
+                    List<String> results = m_client.sendToServer(request);
+                    showListOnScreen("Pages",results, l_searchPane, 3);
+
                 }
                 else
                     showAlert("Invalid search", Alert.AlertType.ERROR);
@@ -282,83 +298,81 @@ public class GeneralController {
     private CheckBox cb_manage;
     private CheckBox cb_finance;
     
-    public void buildForm(String type, Pane view, Client m_client, String admin) {
+    public void buildForm(String type, Pane view, Client m_client, String admin, GridPane pane) {
 
         clearMainView(view);
-
-        GridPane l_registerPane = new GridPane();
+        clearMainView(pane);
         Button b_register = new Button("Add");
         b_register.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                registerToSystem(type,m_client, view,admin);
+                registerToSystem(type,m_client, view,admin, pane);
             }
         });
-        l_registerPane.add(b_register, 1,9);
+        pane.add(b_register, 1,9);
         Label mail = new Label("E-mail Address:");
-        l_registerPane.add(mail, 0,0);
+        pane.add(mail, 0,0);
         Label First = new Label("First Name:");
-        l_registerPane.add(First, 0,3);
+        pane.add(First, 0,3);
         Label Last = new Label("Last Name:");
-        l_registerPane.add(Last, 0,4);
+        pane.add(Last, 0,4);
         tf_emailInForm = new TextField();
-        l_registerPane.add(tf_emailInForm, 2,0);
+        pane.add(tf_emailInForm, 2,0);
         tf_firstName = new TextField();;
-        l_registerPane.add(tf_firstName, 2,3);
+        pane.add(tf_firstName, 2,3);
         tf_lastName = new TextField();;
-        l_registerPane.add(tf_lastName, 2,4);
+        pane.add(tf_lastName, 2,4);
         //-----------all users need------------//
         switch(type){
             case "player":{
                 Label birthDate = new Label("Birth Date:");
-                l_registerPane.add(birthDate, 0,5);
+                pane.add(birthDate, 0,5);
                 birthDatePicker = new DatePicker();
-                l_registerPane.add(birthDatePicker, 2,5);
-                addRoleField(type,l_registerPane,0,6);
-                addPriceField(l_registerPane,0,7);
+                pane.add(birthDatePicker, 2,5);
+                addRoleField(type,pane,0,6);
+                addPriceField(pane,0,7);
                 break;
             }
             case "coach":{
-                addTrainingField(type,l_registerPane, 0, 5);
-                addRoleField(type,l_registerPane,0,6);
-                addPriceField(l_registerPane,0,7);
+                addTrainingField(type,pane, 0, 5);
+                addRoleField(type,pane,0,6);
+                addPriceField(pane,0,7);
 
                 break;
             }
             case "teamManager":{
-                addPriceField(l_registerPane, 0, 5);
+                addPriceField(pane, 0, 5);
                 cb_manage = new CheckBox("Add Management Authorization");
-                l_registerPane.add(cb_manage, 2, 6);
+                pane.add(cb_manage, 2, 6);
                 cb_finance = new CheckBox("Add Finance Authorization");
-                l_registerPane.add(cb_finance, 2, 7);
+                pane.add(cb_finance, 2, 7);
                 //price, bool manageasset, bool finance
                 break;
             }
             case "admin":{
-                addPasswordFields(l_registerPane);
+                addPasswordFields(pane);
                 break;
             }
             case "referee":{
-                addTrainingField(type,l_registerPane, 0,5);
+                addTrainingField(type,pane, 0,5);
                 break;
             }
             case "fan":{
                 b_register.setText("Register");
-                addPasswordFields(l_registerPane);
+                addPasswordFields(pane);
                 Label Phone = new Label("Phone Number:");
-                l_registerPane.add(Phone, 0,5);
+                pane.add(Phone, 0,5);
                 Label Address = new Label("Address:");
-                l_registerPane.add(Address, 0,6);
+                pane.add(Address, 0,6);
                 tf_phone = new TextField();;
-                l_registerPane.add(tf_phone, 2,5);
+                pane.add(tf_phone, 2,5);
                 tf_address = new TextField();;
-                l_registerPane.add(tf_address, 2,6);
+                pane.add(tf_address, 2,6);
                 break;
             }
         }
 
-        l_registerPane.setAlignment(Pos.CENTER);
-        view.getChildren().add(l_registerPane);
+        view.getChildren().add(pane);
 
     }
     public List<String> getRolesFromSplitedText(String[] split, int startIndex) {
@@ -439,7 +453,7 @@ public class GeneralController {
 
     }
 
-    private void registerToSystem(String type, Client m_client, Pane view, String admin) {
+    private void registerToSystem(String type, Client m_client, Pane view, String admin, GridPane pane) {
         String mail = tf_emailInForm.getText(),
                 firstName = tf_firstName.getText(),
                 lastName = tf_lastName.getText();
@@ -506,6 +520,7 @@ public class GeneralController {
                 break;
             }
             case "admin":{
+                //fix first time problem, how to add system admin without an authorized admin?
                 String password = tf_passwordInForm.getText();
                 if(checkPassword(password, tf_passwordAgain.getText())){
                     request = "addNewAdmin|"+admin+"|"+password+"|"+firstName+"|"+lastName+"|"+mail;
@@ -519,8 +534,6 @@ public class GeneralController {
                 break;
             }
         }
-        //if(!type.equals("fan") &&!type.equals("admin")&&!type.equals("representative"))
-        //    FootballSpellChecker.addWord(firstName+" "+lastName);
 
         register = m_client.sendToServer(request);
         String[]split = register.get(0).split("\\|");
@@ -529,7 +542,8 @@ public class GeneralController {
             if(loggedUser.length()>0){
                 showAlert("success Alert! - we are logging you in", Alert.AlertType.INFORMATION);
                 register = getRolesFromSplitedText(split,1);
-                setSceneByFXMLPath("UserView.fxml",register, loggedUser, m_client);
+
+                setSceneByFXMLPath("UserView.fxml",register, loggedUser, m_client, pane);
             }
             else
                 showAlert("registration failed - user already exists or invalid arguments",Alert.AlertType.ERROR);
@@ -589,6 +603,44 @@ public class GeneralController {
     }
 
 
+    public HashMap<String, String> initHashSet(List<String> received) {
+        HashMap<String, String>  teams = new HashMap<>();
+        for(String team: received){
+            if(team.length()>0){
+                String[] split = team.split(":");
+                teams.put(split[0].substring(split[0].indexOf("=")+1), split[1].substring(split[1].indexOf("=")+1));
+            }
+        }
+        return teams;
+    }
+
+    public ChoiceBox addTeamsChoiceBox(GridPane pane ,int rowIdx, Collection<String> teams) {
+        Label l_teams = new Label("Teams: ");
+        pane.add(l_teams,0,rowIdx);
+        ChoiceBox cb_teams = new ChoiceBox(FXCollections.observableArrayList(teams));
+        pane.add(cb_teams,1,rowIdx);
+        return cb_teams;
+    }
+
+    public String getIdFromName(String teamName, HashMap<String, String> teams) {
+        for(String id : teams.keySet()){
+            if(teams.get(id).equals(teamName)){
+                return id;
+            }
+        }
+        return "";
+    }
 
 
+    public void setImage(ImageView imageView, String path){
+        Image image = null;
+        try {
+            image = new Image(new FileInputStream(path));
+        }
+        catch (Exception e) {
+            //log error
+        }
+
+        imageView.setImage(image);
+    }
 }
