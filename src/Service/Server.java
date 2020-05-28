@@ -35,10 +35,7 @@ public class Server {
 
     public static void main(String[] args) {
 
-        // Tests for first initiation
 
-        //Server server = new Server(7567, 4);
-        //server.firstInit();
 
     }
 
