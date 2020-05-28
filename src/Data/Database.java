@@ -1776,7 +1776,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String userString : teamOwners){
             List<String> tempUser = split(userString);
             List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
-            allTeamOwners.add((TeamOwner) createObject("User" , tempUser));
+            allUsers.add((User) createObject("User" , tempUser));
         }
 
         for(User checkUser : allUsers){
@@ -1796,7 +1796,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String userString : fans){
             List<String> tempUser = split(userString);
             List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
-            allFans.add((Fan) createObject("User" , user));
+            allUsers.add((User) createObject("User" , user));
         }
 
 
@@ -1817,7 +1817,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String userString : unions){
             List<String> tempUser = split(userString);
             List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
-            allUnions.add((UnionRepresentative) createObject("User" , user));
+            allUsers.add((User) createObject("User" , user));
         }
 
         for(User checkUser : allUsers){
@@ -1967,7 +1967,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String userString : teamManagers){
             List<String> tempUser = split(userString);
             List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
-            allTeamManagers.add((TeamManager) createObject("User" , user));
+            allUsers.add((User) createObject("User" , user));
         }
 
         for(User checkUser : allUsers){
@@ -1989,7 +1989,7 @@ public class Database //maybe generalize with interface? //for now red layer
             List<String> tempUser = split(userString);
             allPersonalPages.add((PersonalPage) createObject("PersonalPage" , tempUser));
         }
-        
+
         return allPersonalPages;
     }
 
@@ -2041,7 +2041,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String userString : coaches){
             List<String> tempUser = split(userString);
             List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
-            allCoaches.add((Coach) createObject("user" , user));
+            allUsers.add((User) createObject("user" , user));
         }
 
         for(User checkUser : allUsers){
@@ -2086,7 +2086,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String userString : referees){
             List<String> tempUser = split(userString);
             List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
-            allReferees.add((Referee) createObject("User" , user));
+            allUsers.add((User) createObject("User" , user));
         }
 
         for(User checkUser : allUsers){

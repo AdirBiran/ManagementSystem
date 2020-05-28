@@ -112,7 +112,6 @@ public class ManagerTest {
     @Test
     public void getAllPlayers(){
         assertNotNull(teamOwner.getAllPlayers());
-        System.out.println(teamOwner.getAllPlayers());
     }
 
     @Test
