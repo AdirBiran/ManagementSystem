@@ -77,10 +77,11 @@ public class AdminTest {
 
     @Test
     public void removeField() {
-     Field  field = new Field("Tel-Aviv","Bloomfield", 150000, 125000);
-     admin.addField(field);
-     admin.removeField(field);
-     assertFalse(field.isActive());
+        UnionRepresentative unionRepresentative = system.getDatabase().getAllUnions().get(0);
+        unionRepresentative.addFieldToSystem("Tel-Aviv","Bloomfield", 150000, 125000);
+        Field field = system.getDatabase().getAllActiveFields().get(0);
+        admin.removeField(field);
+        assertFalse(field.isActive());
     }
 
     @Test
