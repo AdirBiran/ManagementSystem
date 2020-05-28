@@ -20,20 +20,14 @@ public class LoggerTest {
     public void init() {
         adminSystem = new AdminSystem();
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        String  leagueId = system.dataReboot();
+        system.systemInit(false);
+        //String  leagueId = system.dataReboot();
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         admin = (Admin) system.getAdmin();
     }
 
-    @Test
-    public void emptyLogFile_52()
-    {
-        FootballManagementSystem system = new FootballManagementSystem();
-        boolean init = system.systemInit(true);
-        assertEquals(Logger.getEventsLog().size(),0);
-    }
+
     @Test
     public void errorsLogFile_53()
     {
@@ -41,7 +35,7 @@ public class LoggerTest {
         adminSystem.addNewPlayer(admin.getID(),"Lionel","Mesi","mesiLionel@mail.com", Database.getCurrentDate(),"midfielderPlayer",300000);
         assertNull(adminSystem.addNewPlayer(admin.getID(),"Lionel","Mesi","mesiLionel@mail.com", Database.getCurrentDate(),"midfielderPlayer",300000));
         assertEquals(admin.viewLog("Errors").size(),sizeLogger+1);
-}
+    }
     @Test
     public void eventsLogFile_54()
     {
