@@ -14,8 +14,6 @@ public class Client  {
 
     private int serverPort;
     private Socket socket = null;
-    private NotificationsListener notificationsListener;
-    private Thread listener = null;
     private String userID = "";
 
     public Client (int serverPort)
@@ -25,8 +23,6 @@ public class Client  {
         try
         {
             this.socket = new Socket("localhost", serverPort);
-            this.notificationsListener = new NotificationsListener(socket, this);
-            this.listener = new Thread(notificationsListener);
 
         }
         catch (Exception e)
@@ -44,13 +40,11 @@ public class Client  {
     public void startGettingNotifications(String userID)
     {
         this.userID = userID;
-        listener.start();
     }
 
     public void stopGettingNotifications()
     {
         this.userID = "";
-        listener.interrupt();
     }
 	
 
@@ -92,6 +86,17 @@ public class Client  {
             BufferedReader clientReader = new BufferedReader(new InputStreamReader(inputStream));
 
             res = clientReader.readLine();
+
+            String operator = res.split("\\|")[0];
+
+            while (operator.equals("Notification"))
+            {
+                System.out.println("Notificationnnn:   " +  res.split("\\|")[1]);
+                res = clientReader.readLine();
+                operator = res.split("\\|")[0];
+            }
+
+
             System.out.println("Client receive from server : "+res);
         }
         catch (Exception e)
@@ -133,7 +138,8 @@ public class Client  {
     }
     public List<String> askForNotifications()
     {
-        return sendToServer("checkNotifications|"+getUserID());
+        List<String> notifications = sendToServer("checkNotifications|"+getUserID());
+        return notifications;
     }
 
     /**

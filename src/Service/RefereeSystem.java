@@ -52,9 +52,11 @@ public class RefereeSystem {
         User user= UserFactory.getUser(userID);
         Referee role = (Referee) user.checkUserRole("Referee");
         if(role instanceof Referee){
-            role.changeEvent(gameID, eventID, newDescription);
-            Logger.logEvent(userID, "Changed event " + eventID);
-            return true;
+           boolean success= role.changeEvent(gameID, eventID, newDescription);
+           if(success) {
+               Logger.logEvent(userID, "Changed event " + eventID);
+               return true;
+           }
         }
         Logger.logError("Chaning event failed");
         return false;
