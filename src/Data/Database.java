@@ -1044,23 +1044,37 @@ public class Database //maybe generalize with interface? //for now red layer
             case "UnionRepresentative":
                 UnionRepresentative union = new UnionRepresentative(object.get(0));
                 return union;
-
         }
         return null;
     }
 
-    private static java.util.Date stringToDateJAVA(String st) {
-        //String[] split = st.split("\\.");
-        String[] split = st.split("-");
+    public static java.util.Date stringToDateJAVA(String st) {
+
+        String[] dateTimeSplit = st.split(" ");
+        int year, month, day;
+        int hours = 0;
+        int minutes = 0;
+        int seconds = 0;
         Calendar cal = Calendar.getInstance();
 
-        int year = Integer.parseInt(split[0]);
-        int month = Integer.parseInt(split[1]) - 1;
-        int day = Integer.parseInt(split[2]);
+        String[] split = dateTimeSplit[0].split("-");
 
-        cal.set(year, month, day);
-        java.util.Date date = new java.util.Date(cal.getTimeInMillis());
-        return date;
+        year = Integer.parseInt(split[0]);
+        month = Integer.parseInt(split[1]) - 1;
+        day = Integer.parseInt(split[2]);
+
+        if (dateTimeSplit.length > 1)
+        {
+            String time = dateTimeSplit[1];
+            String[] timeSplit = time.split(":");
+            hours = Integer.parseInt(timeSplit[0]);
+            minutes = Integer.parseInt(timeSplit[1]);
+            seconds = Integer.parseInt(timeSplit[2].substring(0, timeSplit[2].indexOf(".")));
+        }
+
+        cal.set(year, month, day, hours, minutes, seconds);
+
+        return new java.util.Date(cal.getTimeInMillis());
     }
 
     private static HashMap<Team, PersonalPage> hashMapTeamAndPersonalPage(String personalPageForTeam) {
@@ -1755,58 +1769,61 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static List<TeamOwner> getAllTeamOwners(){
 
-        List<String> teamOwners;
+        List<User> allUsers = new LinkedList<>();
         List<TeamOwner> allTeamOwners = new LinkedList<>();
-        teamOwners = dataAccess.getAllTableValues("TeamOwners");
+        List<String> teamOwners = dataAccess.getAllTableValues("TeamOwners");
 
         for(String userString : teamOwners){
             List<String> tempUser = split(userString);
-            allTeamOwners.add((TeamOwner) createObject("TeamOwner" , tempUser));
+            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            allUsers.add((User) createObject("User" , tempUser));
         }
 
-        for(TeamOwner teamOwner : allTeamOwners){
-            /*if(!teamOwner.getUser().isActive()){
-                allTeamOwners.remove(teamOwner);
-            }*/
+        for(User checkUser : allUsers){
+            if(checkUser.isActive()){
+                allTeamOwners.add((TeamOwner) checkUser.checkUserRole("TeamOwner"));
+            }
         }
         return allTeamOwners;
     }
 
     public static List<Fan> getAllFans(){
 
-        List<String> fans;
+        List<User> allUsers = new LinkedList<>();
         List<Fan> allFans = new LinkedList<>();
-        fans = dataAccess.getAllTableValues("Fans");
+        List<String> fans = dataAccess.getAllTableValues("Fans");
 
         for(String userString : fans){
             List<String> tempUser = split(userString);
-            allFans.add((Fan) createObject("Fan" , tempUser));
+            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            allUsers.add((User) createObject("User" , user));
         }
 
 
-        for(Fan fan : allFans){
-            /*if(!fan.getUser().isActive()){
-                allFans.remove(fan);
-            }*/
+        for(User checkUser : allUsers){
+            if(checkUser.isActive()){
+                allFans.add((Fan) checkUser.checkUserRole("Fan"));
+            }
         }
         return allFans;
     }
 
     public static List<UnionRepresentative> getAllUnions(){
 
-        List<String> unions;
+        List<User> allUsers = new LinkedList<>();
         List<UnionRepresentative> allUnions = new LinkedList<>();
-        unions = dataAccess.getAllTableValues("UnionRepresentatives");
+        List<String> unions = dataAccess.getAllTableValues("UnionRepresentatives");
 
         for(String userString : unions){
             List<String> tempUser = split(userString);
-            allUnions.add((UnionRepresentative) createObject("UnionRepresentative" , tempUser));
+            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            allUsers.add((User) createObject("User" , user));
         }
 
-        for(UnionRepresentative union : allUnions){
-            /*if(!union.getUser().isActive()){
-                allUnions.remove(union);
-            }*/
+        for(User checkUser : allUsers){
+            if(checkUser.isActive()){
+                allUnions.add((UnionRepresentative) checkUser.checkUserRole("UnionRepresentative"));
+            }
         }
         return allUnions;
     }
@@ -1838,7 +1855,6 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static List<Season> getSeasons() {
-        // return new LinkedList<>(seasons);
         List<String> objects;
         List<Season> allObjects = new LinkedList<>();
 
@@ -1943,19 +1959,20 @@ public class Database //maybe generalize with interface? //for now red layer
 
 
     public static List<TeamManager> getAllTeamManagers() {
-        List<String> teamManagers;
+        List<User> allUsers = new LinkedList<>();
         List<TeamManager> allTeamManagers = new LinkedList<>();
 
-        teamManagers = dataAccess.getAllTableValues("TeamManagers");
+        List<String> teamManagers = dataAccess.getAllTableValues("TeamManagers");
 
         for(String userString : teamManagers){
             List<String> tempUser = split(userString);
-            allTeamManagers.add((TeamManager) createObject("TeamManager" , tempUser));
+            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            allUsers.add((User) createObject("User" , user));
         }
 
-        for(TeamManager teamManager : allTeamManagers){
-            if(!teamManager.isActive()){
-                allTeamManagers.remove(teamManager);
+        for(User checkUser : allUsers){
+            if(checkUser.isActive()){
+                allTeamManagers.add((TeamManager) checkUser.checkUserRole("TeamManager"));
             }
         }
 
@@ -1973,67 +1990,64 @@ public class Database //maybe generalize with interface? //for now red layer
             allPersonalPages.add((PersonalPage) createObject("PersonalPage" , tempUser));
         }
 
-        /*for(PersonalPage personalPage : allPersonalPages){
-            if(!personalPage.getUser().isActive()){
-                allPersonalPages.remove(personalPage);
-            }
-        }
-*/
         return allPersonalPages;
     }
 
     public static List<Player> getAllPlayers() {
-        List<String> players;
+        List<User> allUsers = new LinkedList<>();
         List<Player> allPlayers = new LinkedList<>();
 
-        players = dataAccess.getAllTableValues("Players");
+        List<String> players = dataAccess.getAllTableValues("Players");
 
         for(String userString : players){
             List<String> tempUser = split(userString);
-            allPlayers.add((Player) createObject("Player" , tempUser));
+            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            allUsers.add((User)createObject("User" , user));
         }
 
-        for(Player player : allPlayers){
-            /*if(!player.getUser().isActive()){
-                allPlayers.remove(player);
-            }*/
+        for(User checkUser : allUsers){
+            if(checkUser.isActive()){
+                allPlayers.add((Player)checkUser.checkUserRole("Player"));
+            }
         }
         return allPlayers;
     }
     public static List<Admin> getAllAdmins() {
-        List<String> admins;
+        List<User> allUsers = new LinkedList<>();
         List<Admin> allAdmins = new LinkedList<>();
 
-        admins = dataAccess.getAllTableValues("Admins");
+        List<String> admins = dataAccess.getAllTableValues("Admins");
 
         for(String userString : admins){
             List<String> tempUser = split(userString);
-            allAdmins.add((Admin) createRole("Admin" , tempUser));
+            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            allUsers.add((User) createObject("User" , user));
         }
 
-        for(Admin admin : allAdmins){
-            /*if(!admin.getUser().isActive()){
-                allAdmins.remove(admin);
-            }*/
+        for(User checkUser : allUsers){
+            if(checkUser.isActive()){
+                allAdmins.add((Admin)checkUser.checkUserRole("Admin"));
+            }
         }
         return allAdmins;
     }
 
     public static List<Coach> getAllCoaches() {
-        List<String> coaches;
+        List<User> allUsers = new LinkedList<>();
         List<Coach> allCoaches = new LinkedList<>();
 
-        coaches = dataAccess.getAllTableValues("Coaches");
+        List<String> coaches = dataAccess.getAllTableValues("Coaches");
 
         for(String userString : coaches){
             List<String> tempUser = split(userString);
-            allCoaches.add((Coach) createObject("Coach" , tempUser));
+            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            allUsers.add((User) createObject("user" , user));
         }
 
-        for(Coach coach : allCoaches){
-            /*if(!coach.getUser().isActive()){
-                allCoaches.remove(coach);
-            }*/
+        for(User checkUser : allUsers){
+            if(checkUser.isActive()){
+                allCoaches.add((Coach) checkUser.checkUserRole("Coach"));
+            }
         }
 
         return allCoaches;
@@ -2050,29 +2064,35 @@ public class Database //maybe generalize with interface? //for now red layer
             allFields.add((Field) createObject("Field" , tempUser));
         }
 
-        for(Field field : allFields){
-            if(!field.isActive()){
-                allFields.remove(field);
-            }
-        }
         return allFields;
     }
 
+    public static List<Field> getAllActiveFields(){
+        List<Field> allFields = getAllFields();
+        List<Field> activeFields = new LinkedList<>();
+        for(Field field : allFields) {
+            if (field.isActive())
+                activeFields.add(field);
+        }
+        return activeFields;
+    }
+
     public static List<Referee> getAllReferees() {
-        List<String> referees;
+        List<User> allUsers = new LinkedList<>();
         List<Referee> allReferees = new LinkedList<>();
 
-        referees = dataAccess.getAllTableValues("Referees");
+        List<String> referees = dataAccess.getAllTableValues("Referees");
 
         for(String userString : referees){
             List<String> tempUser = split(userString);
-            allReferees.add((Referee) createObject("Referee" , tempUser));
+            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            allUsers.add((User) createObject("User" , user));
         }
 
-        for(Referee referee : allReferees){
-            /*if(!referee.getUser().isActive()){
-                allReferees.remove(referee);
-            }*/
+        for(User checkUser : allUsers){
+            if(checkUser.isActive()){
+                allReferees.add((Referee) checkUser.checkUserRole("Referee"));
+            }
         }
         return allReferees;
     }

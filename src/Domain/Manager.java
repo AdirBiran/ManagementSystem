@@ -149,22 +149,22 @@ public abstract class Manager extends Role{
 
     public List<String> getAllPlayers(){
         List<String> players = new LinkedList<>();
-        /*for(Player player : Database.getAllPlayers())
-            players.add(player.toString());*/
+        for(Player player : Database.getAllPlayers())
+            players.add(player.toString());
         return players;
     }
 
     public List<String> getAllCoaches() {
         List<String> coaches = new LinkedList<>();
-        /*for(Player player : Database.getAllCoaches())
-            coaches.add(player.toString());*/
+        for(Coach coach : Database.getAllCoaches())
+            coaches.add(coach.toString());
         return coaches;
     }
 
     public List<String> getAllFields() {
         List<String> fields = new LinkedList<>();
-        /*for(Player player : Database.getAllFields())
-            fields.add(player.toString());*/
+        for(Field field : Database.getAllActiveFields())
+            fields.add(field.toString());
         return fields;
     }
 
