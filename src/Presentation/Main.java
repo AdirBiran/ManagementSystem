@@ -15,7 +15,7 @@ public class Main extends Application {
 
 
     final static String SYSTEM_NAME = "Football Five";
-
+    Server server = new Server(7567, 4);
 
     private static Stage stage;
 
@@ -29,6 +29,8 @@ public class Main extends Application {
         primaryStage.setTitle(SYSTEM_NAME);
         primaryStage.setScene(new Scene(root, 850,800));
         primaryStage.show();
+
+        server.start();
     }
 
 
