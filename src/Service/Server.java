@@ -36,9 +36,20 @@ public class Server {
     public static void main(String[] args) {
 
         // Tests for first initiation
-
-        //Server server = new Server(7567, 4);
-        //server.firstInit();
+        try {
+            InetAddress iAddress = InetAddress.getLocalHost();
+            String server_IP = iAddress.getHostAddress();
+            System.out.println("Server IP address : " + server_IP);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        Server server = new Server(7567, 4);
+        server.firstInit();
+        server.runServer();
+        FootballManagementSystem.systemInit(false);
+        //FootballManagementSystem.dataReboot();
 
     }
 
@@ -240,6 +251,7 @@ public class Server {
 
         welcomeSocket = null;
         try {
+            System.out.println("Server created at port " + port + ", Maximum users: " + maxUsers);
             Logger.logServer("Server created at port " + port + ", Maximum users: " + maxUsers);
             welcomeSocket = new ServerSocket(port);
         } catch (Exception e) {
