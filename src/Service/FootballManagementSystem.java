@@ -158,6 +158,7 @@ public class FootballManagementSystem {
             String refId = mainReferee(unionRep);
             unionRepresentativeSystem.assignRefToLeague(unionRep.getID(),leagueInSeasonId, refId);
         }
+        unionRepresentativeSystem.assignGames(unionRep.getID(), leagueInSeasonId);
         return leagueInSeasonId;
     }
 

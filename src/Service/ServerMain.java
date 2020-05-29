@@ -8,5 +8,8 @@ public class ServerMain {
         server.firstInit();
         server.runServer();
         FootballManagementSystem.systemInit(false);
+        //FootballManagementSystem.dataReboot();
+
+
     }
 }
