@@ -21,6 +21,7 @@ public class LoggerTest {
         system = new FootballManagementSystem();
         system.systemInit(true);
 
+
         String  leagueId = system.dataReboot();
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
@@ -48,11 +49,10 @@ public class LoggerTest {
         assertNull(adminSystem.addNewPlayer(admin.getID(),"Lionel","Mesi","mesiLionel@mail.com", Database.getCurrentDate(),"midfielderPlayer",300000));
         assertEquals(admin.viewLog("Errors").size(),sizeLogger+1);
 
-}
+	}
     @Test
     public void eventsLogFile_54()
     {
-
         int sizeLogger = admin.viewLog("Events").size();
         adminSystem.addNewPlayer(admin.getID(),"Lionel","Mesi","mesiLionel1@mail.com", Database.getCurrentDate(),"midfielderPlayer",300000);
         assertEquals(admin.viewLog("Events").size(),sizeLogger+1);

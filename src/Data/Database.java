@@ -2041,7 +2041,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String userString : coaches){
             List<String> tempUser = split(userString);
             List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
-            allUsers.add((User) createObject("user" , user));
+            allUsers.add((User) createObject("User" , user));
         }
 
         for(User checkUser : allUsers){
@@ -2164,22 +2164,6 @@ public class Database //maybe generalize with interface? //for now red layer
                     createScoreTable(leagueInSeason.getScoreTable()),
                     leagueInSeason.getLeague().getId(),
                     leagueInSeason.getSeason().getId());
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean addAdmin(String password, User admin){
-        if(!dataAccess.isIDExists("Admins" ,admin.getID())) {
-
-            dataAccess.addCell("Admins", admin.getID());
-
-            //dataAccess.addCell("Passwords", admin.getID() ,password);
-
-           /* dataAccess.addCell("Users", admin.getID(), admin.getFirstName(),
-                    admin.getLastName(), admin.getMail(), "" + admin.isActive(),
-                    listToString(admin.getStringRoles()), listToString(admin.getStringRoles()));
-           */
             return true;
         }
         return false;
