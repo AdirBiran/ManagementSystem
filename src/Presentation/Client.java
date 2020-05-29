@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.HashSet;
 
 
 public class Client  {
@@ -17,15 +18,17 @@ public class Client  {
     private Socket socket;
     private final int notificationsIterval = 2000;
     private Timer notificationsTimer;
+    private HashSet<String> notifications;
 
     public Client (int serverPort)
     {
 
         try
         {
-            //socket = new Socket("132.72.65.47", serverPort);
-            socket = new Socket("localhost", serverPort);
+            socket = new Socket("132.72.65.47", serverPort);
+            //socket = new Socket("localhost", serverPort);
             notificationsTimer = new Timer();
+            notifications = new HashSet<>();
 
         }
         catch (Exception e)
@@ -76,7 +79,7 @@ public class Client  {
         }
         catch (SocketException se)
         {
-            showNotification("server was terminated ... :(");
+            notifications.add("server was terminated ... :(");
             // liat
             // need to throw here alert that server was terminated
             // now throws error when trying to login when server closes when user is active
@@ -105,7 +108,7 @@ public class Client  {
             String operator = res.split("\\|")[0];
 
             if (operator.equals("Notification"))
-                System.out.println("Notification: " +  res.split("\\|")[1] + "\n");
+                notifications.add("Notification: " +  res.split("\\|")[1]);
 
             else
                 System.out.println("Client receive from server : " + res + "\n");
@@ -159,13 +162,17 @@ public class Client  {
         return notifications;
     }
 
-    private void showNotification(String notification){
-        GeneralController gc = new GeneralController();
-        gc.showAlert(notification, Alert.AlertType.CONFIRMATION);
-        // liat
-        // need to show notification on alert
-        // can't use Alert here, not FX application error
 
+    public void clearNotifications(){
+        this.notifications = new HashSet<>();
+    }
+
+    public HashSet<String> getNotifications(){
+        return notifications;
+    }
+
+    public boolean areThereNewNotifications() {
+        return notifications.size()>0;
     }
 }
 
