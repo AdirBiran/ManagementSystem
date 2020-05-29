@@ -88,11 +88,11 @@ public class Checker {
     private static boolean passIllegalCharacter(String st)
     {
 
-        // implement
+        if(st.contains("~")||st.contains("|")||st.contains(":")||st.contains(","))return false;
 
 
-        if(st.matches(".*[&].*"))
-            return false;
+        //if(st.matches(".*[&].*"))
+        //    return false;
 
         return true;
     }

@@ -1,5 +1,3 @@
-Create Database ManagementSystemDB;
-GO
 USE [ManagementSystemDB]
 GO
 
@@ -155,7 +153,7 @@ CREATE TABLE [Complaints](
 
 CREATE TABLE [Games](
 	[ID] [char](30)  Primary key,
-	[GameDate] [datetime] NOT NULL,
+	[GameDate] [date] NOT NULL,
 	[HostScore] [int] NOT NULL,
 	[GuestScore] [int] NOT NULL,
 	[FieldID] [char] (50) NOT NULL,
@@ -182,7 +180,7 @@ CREATE TABLE [OfflineUsersNotifications](
 CREATE TABLE [Events](
 	[ID] [char](30)  Primary key,
 	[EventType] [char](50) NOT NULL,
-	[EventDate] [datetime] NOT NULL,
+	[EventDate] [date] NOT NULL,
 	[MinutesInGame] [real] NOT NULL,
 	[Description] [varchar](max) NOT NULL,
 );

@@ -1390,10 +1390,10 @@ public class Database //maybe generalize with interface? //for now red layer
 
         for(String s : fansAndAlerts){
             //if(!s.equals("")) {
-                temp = splitHashMap(s);
-                Fan fan = getFan(temp.get(0));
-                Boolean bool = stringToBoolean(temp.get(1));
-                hashMapFansForAlerts.put(fan, bool);
+            temp = splitHashMap(s);
+            Fan fan = getFan(temp.get(0));
+            Boolean bool = stringToBoolean(temp.get(1));
+            hashMapFansForAlerts.put(fan, bool);
             //}
         }
         return hashMapFansForAlerts;
