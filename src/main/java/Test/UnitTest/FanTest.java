@@ -30,16 +30,17 @@ public class FanTest {
         LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         Admin admin = (Admin) system.getAdmin(); //
         Guest guest = new Guest();
-        user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
-        Role pageRole = mesi.checkUserRole("HasPage");
-        mesiPage = ((HasPage) pageRole).getPage();
+        //user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        user = guest.login("lironoskar@gmail.com", "Aa1234");
+        //mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
+        //Role pageRole = mesi.checkUserRole("HasPage");
+        //mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
         /*create games*/
         User union = admin.addNewUnionRepresentative("Union", "Rep", "union@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        unionRole.assignGames(league.getId());
-        game = league.getGames().get(0);
+        //unionRole.assignGames(league.getId());
+        game= Database.getGame(league.getGamesId().get(1));
     }
 
     @Test

@@ -1,10 +1,6 @@
 package Data;
 import Domain.*;
-import Service.FootballManagementSystem;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -281,7 +277,7 @@ public class Database //maybe generalize with interface? //for now red layer
             }
             ans1 = dataAccess.updateCellValue("LeaguesInSeasons","AssignmentPolicy", ((LeagueInSeason) object).getId() ,assignmentPolicy);
             ans2 = dataAccess.updateCellValue("LeaguesInSeasons","ScorePolicy", ((LeagueInSeason) object).getId(),scorePolicy);
-            ans3 = dataAccess.updateCellValue("LeaguesInSeasons","GamesIDs", ((LeagueInSeason) object).getId(), getGamesId(((LeagueInSeason) object).getGames()));
+            ans3 = dataAccess.updateCellValue("LeaguesInSeasons","GamesIDs", ((LeagueInSeason) object).getId(), listToString(((LeagueInSeason) object).getGamesId()));
             ans4 = dataAccess.updateCellValue("LeaguesInSeasons","RefereesIDs" ,((LeagueInSeason) object).getId(),getRefereesId(((LeagueInSeason) object).getReferees()));
 
             ans5 = dataAccess.updateCellValue("LeaguesInSeasons","TeamsIDs" ,((LeagueInSeason) object).getId(),listOfTeamsToStringIDs(((LeagueInSeason) object).getTeams()));
@@ -392,7 +388,7 @@ public class Database //maybe generalize with interface? //for now red layer
                     ""+((Team) object).getBudget().getIncome()+","+((Team) object).getBudget().getExpanses());
             ans11 = dataAccess.updateCellValue("Teams","GamesIDs" , ((Team) object).getID(), getGamesId(((Team) object).getGames()));
             ans12 = dataAccess.updateCellValue("Teams","Fields" , ((Team) object).getID(), getFieldsIds(((Team) object).getFields()) );
-            ans13 = dataAccess.updateCellValue("Teams","LeaguesInSeasons" , ((Team) object).getID(), getLeagueInSeasonIds(((Team) object).getLeaguesInSeason()));
+            ans13 = dataAccess.updateCellValue("Teams","LeaguesInSeasons" , ((Team) object).getID(), listToString(((Team) object).getLeaguesInSeason()));
             ans14 = dataAccess.updateCellValue("Teams","isActive" ,((Team) object).getID() , ""+((Team) object).isActive());
             ans15 = dataAccess.updateCellValue("Teams","isPermanentlyClosed" , ((Team) object).getID(), ""+((Team) object).isPermanentlyClosed());
 
@@ -971,7 +967,7 @@ public class Database //maybe generalize with interface? //for now red layer
                 return league;
             case "LeagueInSeason":
                 LeagueInSeason leagueInSeason = new LeagueInSeason(object.get(0) ,getGameAssignmentPolicy(object.get(1)),
-                        getScorePolicy(object.get(2)) ,listOfGames(object.get(3)) ,listOfReferees(object.get(4)),
+                        getScorePolicy(object.get(2)) ,split(object.get(3)) ,listOfReferees(object.get(4)),
                         listOfTeams(object.get(5)) , Double.parseDouble(object.get(6)) ,getScoreTableQueue(object.get(7)),
                         createLeague(object.get(8)),createSeason(object.get(9)));
                 return leagueInSeason;
@@ -995,7 +991,7 @@ public class Database //maybe generalize with interface? //for now red layer
                         listOfUsers(object.get(6)) ,listOfUsers(object.get(7)),
                         listOfUsers(object.get(8)),listOfUsers(object.get(9)),budget,
                         listOfGames(object.get(11)),listOfFields(object.get(12)),
-                        listOfLeagueInSeason(object.get(13)),stringToBoolean(object.get(14)),
+                        split(object.get(13)),stringToBoolean(object.get(14)),
                         stringToBoolean(object.get(15)));
                 return team;
             case "User":
@@ -1929,7 +1925,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
         for(String userString : games){
             List<String> tempUser = split(userString);
-            allGames.add((Game) createObject("Game" , tempUser));
+            allGames.add( getGame( tempUser.get(0)));
         }
 
         return allGames;
@@ -2148,7 +2144,7 @@ public class Database //maybe generalize with interface? //for now red layer
                     "" + team.getBudget().getIncome()+","+team.getBudget().getExpanses()
                     , getGamesId(team.getGames())
                     , listToString(team.getFields())
-                    , leagueInSeasonToStringIDs(team.getLeaguesInSeason())
+                    , listToString(team.getLeaguesInSeason())
                     , "" + team.isActive(),
                     "" + team.isPermanentlyClosed());
             return true;
@@ -2160,7 +2156,7 @@ public class Database //maybe generalize with interface? //for now red layer
     public static boolean addLeagueInSeason(LeagueInSeason leagueInSeason){
         if(!dataAccess.isIDExists("LeaguesInSeasons" ,leagueInSeason.getId())) {
             dataAccess.addCell("LeaguesInSeasons", leagueInSeason.getId(), leagueInSeason.getAssignmentPolicy().getName(),
-                    leagueInSeason.getScorePolicy().getName(), getGamesId(leagueInSeason.getGames()), getRefereesId(leagueInSeason.getReferees()),
+                    leagueInSeason.getScorePolicy().getName(), listToString(leagueInSeason.getGamesId()), getRefereesId(leagueInSeason.getReferees()),
                     listOfTeamsToStringIDs(leagueInSeason.getTeams()), "" + leagueInSeason.getRegistrationFee(),
                     createScoreTable(leagueInSeason.getScoreTable()),
                     leagueInSeason.getLeague().getId(),

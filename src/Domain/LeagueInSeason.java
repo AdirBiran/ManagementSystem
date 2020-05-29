@@ -11,7 +11,7 @@ public class LeagueInSeason {
     private Queue<ScoreTableRecord> scoreTable;
     private League league;
     private Season season;
-    private List<Game> games;
+    private List<String> gamesId;
     private List<Referee> referees;
     private List<Team> teams;
     private double registrationFee;
@@ -31,17 +31,17 @@ public class LeagueInSeason {
         this.league = league;
         this.season = season;
 
-        this.games = new LinkedList<>();
+        this.gamesId = new LinkedList<>();
         this.referees = new LinkedList<>();
         this.teams = new LinkedList<>();
     }
 
-    public LeagueInSeason(String id, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, List<Game> games, List<Referee> referees, List<Team> teams, double registrationFee, Queue<ScoreTableRecord> tableRecord,League league,Season season)
+    public LeagueInSeason(String id, GameAssignmentPolicy assignmentPolicy, ScorePolicy scorePolicy, List<String> games, List<Referee> referees, List<Team> teams, double registrationFee, Queue<ScoreTableRecord> tableRecord,League league,Season season)
     {
         this.id = id;
         this.assignmentPolicy = assignmentPolicy;
         this.scorePolicy = scorePolicy;
-        this.games = games;
+        this.gamesId = games;
         this.referees = referees;
         this.teams = teams;
         this.registrationFee = registrationFee;
@@ -92,13 +92,17 @@ public class LeagueInSeason {
             teams.add(team);
             team.addLeague(this);
             Database.addTeam(team);
+            Database.updateObject(this);
         }
 
     }
 
     public void addGame(Game game) {
-        if(!games.contains(game))
-            games.add(game);
+        if(!gamesId.contains(game.getId())) {
+            gamesId.add(game.getId());
+            Database.updateObject(this);
+//            Database.updateObject(game);
+        }
     }
 
     @Override
@@ -120,10 +124,11 @@ public class LeagueInSeason {
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
-    public void setGames(List<Game> games) {
-        this.games = games;
-        for (Game game : games)
+    public void setGamesId(List<Game> games) {
+        for (Game game : games) {
             Database.addGame(game);
+            gamesId.add(game.getId());
+        }
         Database.updateObject(this);
     }
 
@@ -139,13 +144,6 @@ public class LeagueInSeason {
         return scoreTable;
     }
 
-    public Game getGameById(String gameId){
-        for(Game game: games){
-            if(game.getId().equals(gameId))
-                return game;
-        }
-        return null;
-    }
 
     public List<Referee> getReferees() {
         return referees;
@@ -171,8 +169,8 @@ public class LeagueInSeason {
         return this.registrationFee;
     }
 
-    public List<Game> getGames() {
-        return games;
+    public List<String> getGamesId() {
+        return gamesId;
     }
 
     public String getId() {

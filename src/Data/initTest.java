@@ -1,10 +1,8 @@
 package Data;
 
-import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 
-import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,8 +60,8 @@ public class initTest {
 
         season = leagueInSeason.getSeason();
         league = leagueInSeason.getLeague();
-        games =leagueInSeason.getGames();
-        game =leagueInSeason.getGames().get(0);
+        //games =leagueInSeason.getGamesId();
+        //game =leagueInSeason.getGamesId().get(0);
         teams = leagueInSeason.getTeams();
         team = leagueInSeason.getTeams().get(0);
         referees = leagueInSeason.getReferees();
