@@ -1,6 +1,8 @@
 package Presentation;
 
 
+import javafx.scene.control.Alert;
+
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -21,7 +23,8 @@ public class Client  {
 
         try
         {
-            socket = new Socket("132.72.65.47", serverPort);
+            //socket = new Socket("132.72.65.47", serverPort);
+            socket = new Socket("localhost", serverPort);
             notificationsTimer = new Timer();
 
         }
@@ -73,6 +76,7 @@ public class Client  {
         }
         catch (SocketException se)
         {
+            showNotification("server was terminated ... :(");
             // liat
             // need to throw here alert that server was terminated
             // now throws error when trying to login when server closes when user is active
@@ -156,7 +160,8 @@ public class Client  {
     }
 
     private void showNotification(String notification){
-
+        GeneralController gc = new GeneralController();
+        gc.showAlert(notification, Alert.AlertType.CONFIRMATION);
         // liat
         // need to show notification on alert
         // can't use Alert here, not FX application error

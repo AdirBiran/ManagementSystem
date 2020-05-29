@@ -71,7 +71,7 @@ public class UserController extends GeneralController implements Initializable {
         List<String> history = m_client.sendToServer("viewSearchHistory|"+loggedUser);
 
         mainView1.getChildren().add(mainPane1);
-        showListOnScreen("",history, mainPane1,0);
+        showListOnScreen("Search History",history, mainPane1,0);
     }
 
     public void logoutButtonPushed(ActionEvent actionEvent) {

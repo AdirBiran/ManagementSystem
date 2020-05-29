@@ -17,6 +17,11 @@ public class SeasonRecord implements Record {
         return id;
     }
 
+    @Override
+    public String getName() {
+        return year;
+    }
+
     public String getYear() {
         return year;
     }

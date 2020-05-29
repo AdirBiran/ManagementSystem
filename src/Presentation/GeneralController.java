@@ -1,6 +1,8 @@
 package Presentation;
 
 import Presentation.Records.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public abstract class GeneralController {
+public class GeneralController {
 
     public void setSceneByFXMLPath(String path, List<String> roles, String loggedUser, Client m_client, GridPane pane) {
         try {
@@ -147,9 +149,7 @@ public abstract class GeneralController {
                     referees.add(record);
                 }
                 data.addAll(referees);
-                getNameColumn();
-                getTrainingColumn();
-
+                tableView.getColumns().addAll(getNameColumn() ,getTrainingColumn() );
 
                 break;
             }
@@ -160,9 +160,13 @@ public abstract class GeneralController {
                 break;
             }
             default:{
+                Label head = new Label(type);
+                gridPane.add(head, 0, startIndex);
+                startIndex++;
                 for(String string: list){
                     Label label = new Label(string);
                     gridPane.add(label, 0, startIndex);
+                    startIndex++;
                 }
                 return;
             }
@@ -570,11 +574,21 @@ public abstract class GeneralController {
         return true;
     }
 
-    public void linkSelectionLists(ListView lv_players, ListView lv_selectedPlayers) {
-        lv_players.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        lv_players.getSelectionModel().selectedItemProperty().addListener((obs,ov,nv)-> {
-            lv_selectedPlayers.setItems(lv_players.getSelectionModel().getSelectedItems());
-        });
+    public void linkSelectionLists(ListView<String> lv_list, ListView<String> lv_selectedList) {
+        lv_list.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> ov,
+                                        String old_val, String new_val) {
+                        if(lv_selectedList.getItems().contains(new_val)) {
+                            lv_selectedList.getItems().remove(new_val);
+                        } else {
+                            lv_selectedList.getItems().add(new_val);
+                        }
+                    }
+                }
+        );
+
     }
 
     private TableColumn getRoleColumn() {
@@ -641,5 +655,19 @@ public abstract class GeneralController {
         }
 
         imageView.setImage(image);
+    }
+
+
+    protected List<String> getStringsIds(ObservableList<String> items, HashMap<String, Record> map) {
+        List<String> results = new ArrayList<>();
+        for(String item : items){
+            for(String id : map.keySet()){
+                if(item.equals(map.get(id).getName())){
+                    results.add(id);
+                    break;
+                }
+            }
+        }
+        return results;
     }
 }
