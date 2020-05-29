@@ -229,6 +229,7 @@ public class Server {
 
         welcomeSocket = null;
         try {
+
             String server_IP = InetAddress.getLocalHost().getHostAddress();
 
             System.out.println("Server created at port " + port + ", Maximum users: " + maxUsers);
@@ -258,7 +259,7 @@ public class Server {
 
     }
 
-    private void runServer() {
+    public void runServer() {
 
         ThreadPoolExecutor exec = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         exec.setCorePoolSize(maxUsers);
@@ -298,7 +299,7 @@ public class Server {
     private void handle_Client(Socket clientSocket) {
 
 
-        while (clientSocket.isConnected()) {
+        while(clientSocket.isConnected()) {
             try {
                 DataInputStream stream = new DataInputStream(clientSocket.getInputStream());
                 BufferedReader rd = new BufferedReader(new InputStreamReader(stream));
@@ -308,7 +309,6 @@ public class Server {
 
                 String[] splitLine = lineReceived.replace("\n", "").split("\\|");
                 String operation = splitLine[0];
-
 
 
                 switch (operation) {
@@ -520,7 +520,6 @@ public class Server {
                         break;
 
 
-
                     // ------------------- REFEREE SYSTEM -------------------
 
                     case "addEventToGame":
@@ -546,7 +545,6 @@ public class Server {
                     case "getAllOccurringGame":
                         handle_getAllOccurringGame(splitLine, clientSocket);
                         break;
-
 
 
                     // ------------------- TEAM MANAGEMENT -------------------
@@ -779,6 +777,7 @@ public class Server {
                         System.out.println("Invalid operation received: " + operation);
                         break;
 
+
                 }
 
 
@@ -786,9 +785,8 @@ public class Server {
                 Logger.logError("Server: Data reading");
                 e.printStackTrace();
             }
+
         }
-
-
     }
 
     private void handle_getUserInfo(String[] splitLine, Socket clientSocket)
@@ -937,7 +935,11 @@ public class Server {
         String userID = splitLine[1];
 
         if (loggedUsers.containsKey(userID))
-            if (!loggedUsersNotifications.get(userID).equals(""))
+            if (loggedUsersNotifications.get(userID).equals(""))
+            {
+                sendLineToClient("No notifications", clientSocket);
+            }
+            else
             {
                 sendLineToClient(loggedUsersNotifications.get(userID), clientSocket);
                 loggedUsersNotifications.put(userID, "");
@@ -1742,6 +1744,7 @@ public class Server {
                 sendToClient = sendToClient + r + "|";
 
             sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
+            sendNotification(loggedUserId, "Notification test");
 
         }
 
@@ -1797,8 +1800,11 @@ public class Server {
             if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length() - 1) != '\n')
                 stringToSend = stringToSend + "\n";
 
+            //stringToSend = stringToSend + "END REQUEST" + "\n";
+
             outStream.writeBytes(stringToSend);
             outStream.flush();
+
 
         } catch (Exception e) {
             Logger.logError("Sending " + stringToSend + " Failed");
