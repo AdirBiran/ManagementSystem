@@ -1,6 +1,9 @@
 package Presentation;
 
+import Presentation.Records.GameRecord;
+import Presentation.Records.Record;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.*;
@@ -8,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
 import java.util.List;
+import java.util.HashMap;
 
 public class FanController extends GeneralController{
 
@@ -37,9 +41,24 @@ public class FanController extends GeneralController{
         mainPane.add(l_games, 0, rowIdx);
         mainPane.add(l_selectedGames, 1, rowIdx);
         rowIdx++;
-        ListView<String> lv_games = new ListView<>(FXCollections.observableArrayList(games));
+
+        ObservableList<String> ol_games = FXCollections.observableArrayList();
+        HashMap<String, Record> gamesMap = new HashMap<>();
+
+        for(String game: games){
+            if(game.length()>0){
+                GameRecord record = new GameRecord(game);
+                ol_games.add(record.getName() + " " + record.getDate() + " " + record.getFollows());
+                gamesMap.put(record.getId(), record);
+            }
+        }
+
+
+
+        ListView<String> lv_games = new ListView<>(ol_games);
         ListView<String> lv_selectedGames = new ListView<>();
         linkSelectionLists(lv_games, lv_selectedGames);
+
         mainPane.add(lv_games, 0, rowIdx);
         mainPane.add(lv_selectedGames, 1, rowIdx);
         rowIdx++;
@@ -53,7 +72,7 @@ public class FanController extends GeneralController{
                 List<String> selected = lv_selectedGames.getItems();
                 if(selected.size()>0){
                     boolean cb_email = email.isSelected();
-                    String strGames = client.ListToString(selected);
+                    String strGames = client.ListToString(getStringsIds(lv_selectedGames.getItems(), gamesMap));
                     List<String> receive = client.sendToServer("followGames|"+loggedUser+"|"+strGames+"|"+cb_email);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }

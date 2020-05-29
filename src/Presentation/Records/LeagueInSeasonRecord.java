@@ -25,4 +25,9 @@ public class LeagueInSeasonRecord implements Record {
     public String getId() {
         return id;
     }
+
+    @Override
+    public String getName() {
+        return league + " " + season;
+    }
 }

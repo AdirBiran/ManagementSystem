@@ -50,7 +50,7 @@
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#searchButtonPushed" text="Search" textAlignment="CENTER">
+                  <Button disable="true" mnemonicParsing="false" onAction="#searchButtonPushed" text="Search" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>

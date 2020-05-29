@@ -1,16 +1,12 @@
 package Presentation;
 
-import Presentation.Records.CoachRecord;
-import Presentation.Records.PlayerRecord;
-import Presentation.Records.Record;
-import Presentation.Records.UserRecord;
+import Presentation.Records.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import java.util.HashMap;
@@ -54,15 +50,17 @@ public class OwnershipController extends GeneralController{
         List<String> coaches = m_client.sendToServer("viewInformationAboutCoaches|"+loggedUser);
         List<String> fields = m_client.sendToServer("getAllFields|"+loggedUser);
 
+        HashMap<String, Record> playersMap = new HashMap<>();
         ObservableList<String> playerRecordArrayList = FXCollections.observableArrayList();
         for(String player: players){
             if(player.length()>0){
                 PlayerRecord record = new PlayerRecord(player);
+                playersMap.put(record.getId(), record);
                 playerRecordArrayList.add(record.getName());
             }
         }
-        ListView<String> lv_players = new ListView(playerRecordArrayList);
-        ListView<String> lv_selectedPlayers = new ListView();
+        ListView<String> lv_players = new ListView<>(playerRecordArrayList);
+        ListView<String> lv_selectedPlayers = new ListView<>();
         linkSelectionLists(lv_players,lv_selectedPlayers);
 
         mainPane.add(new Label("Players - at least 11: "),0,rowCount);
@@ -71,16 +69,19 @@ public class OwnershipController extends GeneralController{
         addToPane(mainPane, lv_players, lv_selectedPlayers, 0, rowCount);
         rowCount++;
 
-        ObservableList<CoachRecord> coachRecordArrayList = FXCollections.observableArrayList();
+
+
+        HashMap<String, Record> coachesMap = new HashMap<>();
+        ObservableList<String> coachRecordArrayList = FXCollections.observableArrayList();
         for(String coach: coaches){
             if(coach.length()>0){
                 CoachRecord record = new CoachRecord(coach);
-                coachRecordArrayList.add(record);
+                coachesMap.put(record.getId(), record);
+                coachRecordArrayList.add(record.getName());
             }
         }
-        ListView<Record> lv_coaches = new ListView(coachRecordArrayList);
-        lv_coaches.setCellFactory(new PropertyValueFactory("name"));
-        ListView lv_selectedCoaches = new ListView();
+        ListView<String> lv_coaches = new ListView<>(coachRecordArrayList);
+        ListView<String> lv_selectedCoaches = new ListView<>();
         linkSelectionLists(lv_coaches,lv_selectedCoaches );
         mainPane.add(new Label("Coaches - at least 1: "),0,rowCount);
         mainPane.add(new Label("Selected Coaches: "),1,rowCount);
@@ -89,33 +90,46 @@ public class OwnershipController extends GeneralController{
         rowCount++;
 
 
-        ObservableList<String> fieldsArrayList = FXCollections.observableArrayList();
-        fieldsArrayList.addAll(fields);
-        ListView<String> lv_field = new ListView(fieldsArrayList);
-        ListView lv_selectedFields = new ListView();
-        linkSelectionLists(lv_field,lv_selectedFields );
+        HashMap<String, Record> fieldsMap = new HashMap<>();
+        ObservableList<String> fieldRecordArrayList = FXCollections.observableArrayList();
+        for(String field: fields){
+            if(field.length()>0){
+                FieldRecord record = new FieldRecord(field);
+                fieldsMap.put(record.getId(), record);
+                fieldRecordArrayList.add(record.getName());
+            }
+        }
+        ListView<String> lv_fields = new ListView<>(fieldRecordArrayList);
+        ListView<String> lv_selectedFields = new ListView<>();
+        linkSelectionLists(lv_fields,lv_selectedFields );
         mainPane.add(new Label("Fields - at least 1: "),0,rowCount);
         mainPane.add(new Label("Selected Fields: "),1,rowCount);
         rowCount++;
-        addToPane(mainPane, lv_field,lv_selectedFields,0,rowCount);
+        addToPane(mainPane, lv_fields,lv_selectedFields,0,rowCount);
         rowCount++;
+
+
+
         Button addBtn = new Button("Add Team");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
 
                 String name = tf_teamName.getText();
-                if(Checker.isValid(name)&&lv_selectedPlayers.getItems().size()>10&&lv_selectedCoaches.getItems().size()>1&&lv_selectedFields.getItems().size()>1){
-                    //String players = m_client.ListToString(getStringsIds(lv_selectedPlayers.getItems()));
-                    String coaches = m_client.ListToString(getStringsIds(lv_selectedCoaches.getItems()));
-                    String fields = m_client.ListToString(lv_selectedFields.getItems());
+                if(Checker.isValid(name)&&lv_selectedPlayers.getItems().size()>10&&lv_selectedCoaches.getItems().size()>0&&lv_selectedFields.getItems().size()>0){
+                    String players = m_client.ListToString(getStringsIds(lv_selectedPlayers.getItems(), playersMap));
+                    String coaches = m_client.ListToString(getStringsIds(lv_selectedCoaches.getItems(), coachesMap));
+                    String fields = m_client.ListToString(getStringsIds(lv_selectedFields.getItems(), fieldsMap));
                     List<String> receive = m_client.sendToServer("createTeam|"+loggedUser+"|"+name+"|"+players+"|"+coaches+"|"+fields);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                     if(receive.get(0).contains("Succeed"))
                         FootballSpellChecker.addWord(name);
+                    clearMainView(mainView1);
+                    clearMainView(mainPane);
                 }
                 else
                     showAlert("invalid arguments - please select at least 11 players one coach and one field!", Alert.AlertType.ERROR);
+
 
             }
         });
@@ -165,13 +179,7 @@ public class OwnershipController extends GeneralController{
         //send request to reopen
     }
 
-    private List<String> getStringsIds(ObservableList<Record> items) {
-        List<String> results = new ArrayList<>();
-        for(Record item:items){
-            results.add(item.getId());
-        }
-        return results;
-    }
+
 
     private void addToPane(GridPane pane,Node object ,Node selected, int col, int row){
         pane.add(object ,col,row);

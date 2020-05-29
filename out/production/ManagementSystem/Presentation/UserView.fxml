@@ -25,7 +25,7 @@
                 </Button>
                 <VBox alignment="CENTER" focusTraversable="true" prefHeight="215.0" prefWidth="196.0">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#searchButtonPushed" text="Search" textAlignment="CENTER">
+                        <Button disable="true" mnemonicParsing="false" onAction="#searchButtonPushed" text="Search" textAlignment="CENTER">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
@@ -35,8 +35,8 @@
                                 <Insets />
                             </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#viewSearchHistoryButtonPushed" text="View Search History" />
-                        <Button mnemonicParsing="false" onAction="#editPersonalInfoButtonPushed" text="Edit Personal Info" />
+                        <Button disable="true" mnemonicParsing="false" onAction="#viewSearchHistoryButtonPushed" text="View Search History" />
+                        <Button disable="true" mnemonicParsing="false" onAction="#editPersonalInfoButtonPushed" text="Edit Personal Info" />
                     </children>
                     <opaqueInsets>
                         <Insets />
