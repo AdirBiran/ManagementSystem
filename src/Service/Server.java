@@ -288,7 +288,7 @@ public class Server {
         exec.shutdown();
 
         try {
-            exec.awaitTermination(1, TimeUnit.HOURS);
+            exec.awaitTermination(12, TimeUnit.HOURS);
         } catch (Exception e) {
             Logger.logError("Server timeout");
             e.printStackTrace();
