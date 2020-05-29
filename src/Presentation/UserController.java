@@ -78,7 +78,7 @@ public class UserController extends GeneralController implements Initializable {
         if(loggedUser!=null &&loggedUser.length()>0){
             m_client.sendToServer("logOut|"+loggedUser);
             loggedUser = "";
-            m_client.stopGettingNotifications();
+            m_client.stopNotifications();
             setSceneByFXMLPath("GuestView.fxml", null, "", m_client, mainPane1);
         }
     }
@@ -508,9 +508,9 @@ public class UserController extends GeneralController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        l_systemName.setText(Main.SYSTEM_NAME);
+        l_systemName.setText(ClientMain.SYSTEM_NAME);
         setImage(iv_systemLogo,"resources/logo.png");
-        Main.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
+        ClientMain.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION,"Do you wish to exit?");

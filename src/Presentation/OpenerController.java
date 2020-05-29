@@ -25,7 +25,7 @@ public class OpenerController extends GeneralController implements Initializable
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        l_systemName.setText(Main.SYSTEM_NAME);
+        l_systemName.setText(ClientMain.SYSTEM_NAME);
         setImage(iv_systemLogo, "resources/logo.png");
         setImage(iv_opener, "resources/openingGif.gif");
         startMusic();

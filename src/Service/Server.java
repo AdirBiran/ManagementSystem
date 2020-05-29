@@ -205,8 +205,6 @@ public class Server {
         }
     }
 
-
-
     private volatile boolean stop;
     private ServerSocket welcomeSocket;
     private int maxUsers;

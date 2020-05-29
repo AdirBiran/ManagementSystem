@@ -11,18 +11,19 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-public class Main extends Application {
+public class ClientMain extends Application {
 
 
     final static String SYSTEM_NAME = "Football Five";
-    Server server = new Server(7567, 4);
 
     private static Stage stage;
+
 
     public static Stage getStage(){return stage;}
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("Opener.fxml"));
 
@@ -30,7 +31,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 850,800));
         primaryStage.show();
 
-        server.start();
     }
 
 
