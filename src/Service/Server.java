@@ -33,26 +33,6 @@ public class Server {
 
     private static int nextID;
 
-    public static void main(String[] args) {
-
-        // Tests for first initiation
-        try {
-            InetAddress iAddress = InetAddress.getLocalHost();
-            String server_IP = iAddress.getHostAddress();
-            System.out.println("Server IP address : " + server_IP);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        Server server = new Server(7567, 4);
-        server.firstInit();
-        server.runServer();
-        FootballManagementSystem.systemInit(false);
-        //FootballManagementSystem.dataReboot();
-
-    }
-
     public static void updateID(int nextId)
     {
         nextID = nextId;
@@ -106,7 +86,7 @@ public class Server {
 
     }
 
-    private void firstInit()
+    public void firstInit()
     {
         List<String> lines = new LinkedList<>();
         String configFilePath = "./config";
@@ -225,8 +205,6 @@ public class Server {
         }
     }
 
-
-
     private volatile boolean stop;
     private ServerSocket welcomeSocket;
     private int maxUsers;
@@ -251,9 +229,17 @@ public class Server {
 
         welcomeSocket = null;
         try {
+
+            String server_IP = InetAddress.getLocalHost().getHostAddress();
+
             System.out.println("Server created at port " + port + ", Maximum users: " + maxUsers);
+            System.out.println("Server IP address : " + server_IP);
+
             Logger.logServer("Server created at port " + port + ", Maximum users: " + maxUsers);
+            Logger.logServer("Server IP address : " + server_IP);
+
             welcomeSocket = new ServerSocket(port);
+
         } catch (Exception e) {
             Logger.logError("Server Fail: can't create server");
             e.printStackTrace();
@@ -273,7 +259,7 @@ public class Server {
 
     }
 
-    private void runServer() {
+    public void runServer() {
 
         ThreadPoolExecutor exec = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         exec.setCorePoolSize(maxUsers);
@@ -313,7 +299,7 @@ public class Server {
     private void handle_Client(Socket clientSocket) {
 
 
-        while (clientSocket.isConnected()) {
+        while(clientSocket.isConnected()) {
             try {
                 DataInputStream stream = new DataInputStream(clientSocket.getInputStream());
                 BufferedReader rd = new BufferedReader(new InputStreamReader(stream));
@@ -323,7 +309,6 @@ public class Server {
 
                 String[] splitLine = lineReceived.replace("\n", "").split("\\|");
                 String operation = splitLine[0];
-
 
 
                 switch (operation) {
@@ -535,7 +520,6 @@ public class Server {
                         break;
 
 
-
                     // ------------------- REFEREE SYSTEM -------------------
 
                     case "addEventToGame":
@@ -561,7 +545,6 @@ public class Server {
                     case "getAllOccurringGame":
                         handle_getAllOccurringGame(splitLine, clientSocket);
                         break;
-
 
 
                     // ------------------- TEAM MANAGEMENT -------------------
@@ -794,16 +777,23 @@ public class Server {
                         System.out.println("Invalid operation received: " + operation);
                         break;
 
+
                 }
 
 
-            } catch (Exception e) {
+            }
+
+            catch (SocketException se)
+            {
+                Logger.logEvent("Guest", "Terminated Program");
+                break;
+            }
+            catch (Exception e) {
                 Logger.logError("Server: Data reading");
                 e.printStackTrace();
             }
+
         }
-
-
     }
 
     private void handle_getUserInfo(String[] splitLine, Socket clientSocket)
@@ -952,7 +942,11 @@ public class Server {
         String userID = splitLine[1];
 
         if (loggedUsers.containsKey(userID))
-            if (!loggedUsersNotifications.get(userID).equals(""))
+            if (loggedUsersNotifications.get(userID).equals(""))
+            {
+                sendLineToClient("No notifications", clientSocket);
+            }
+            else
             {
                 sendLineToClient(loggedUsersNotifications.get(userID), clientSocket);
                 loggedUsersNotifications.put(userID, "");
@@ -1757,6 +1751,7 @@ public class Server {
                 sendToClient = sendToClient + r + "|";
 
             sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
+            sendNotification(loggedUserId, "Notification test");
 
         }
 
@@ -1812,8 +1807,11 @@ public class Server {
             if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length() - 1) != '\n')
                 stringToSend = stringToSend + "\n";
 
+            //stringToSend = stringToSend + "END REQUEST" + "\n";
+
             outStream.writeBytes(stringToSend);
             outStream.flush();
+
 
         } catch (Exception e) {
             Logger.logError("Sending " + stringToSend + " Failed");
@@ -1875,7 +1873,7 @@ public class Server {
         if (!loggedUsers.containsKey(id))
             return false;
 
-        sendLineToClient("Notification|" + message, loggedUsers.get(id));
+        loggedUsersNotifications.put(id, "Notification|" + message);
         return true;
     }
     

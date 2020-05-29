@@ -1,29 +1,28 @@
 package Presentation;
 
-import javafx.scene.control.Alert;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 import java.util.LinkedList;
-
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Client  {
 
-    private int serverPort;
-    private Socket socket = null;
-    private String userID = "";
+    private Socket socket;
+    private final int notificationsIterval = 2000;
+    private Timer notificationsTimer;
 
     public Client (int serverPort)
     {
-        this.serverPort = serverPort;
 
         try
         {
-            //this.socket = new Socket("132.72.65.47", serverPort);
-            this.socket = new Socket("localhost", serverPort);
+            socket = new Socket("132.72.65.47", serverPort);
+            notificationsTimer = new Timer();
 
         }
         catch (Exception e)
@@ -33,29 +32,35 @@ public class Client  {
 
     }
 
-    public String getUserID()
+    public void startNotifications(String uid)
     {
-        return this.userID;
+        notificationsTimer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+
+                checkNotifications(uid);
+
+            }
+        }, notificationsIterval, notificationsIterval);
     }
 
-    public void startGettingNotifications(String userID)
+    public void stopNotifications()
     {
-        this.userID = userID;
+        notificationsTimer.cancel();
     }
 
-    public void stopGettingNotifications()
-    {
-        this.userID = "";
-    }
 	
 
     public List<String> sendToServer(String stringToSend)
     {
         List<String> res = new LinkedList<>();
 
-
         try {
+
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+
+            System.out.println("Client sent to server " + stringToSend.replace("\n", ""));
 
             if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
                 stringToSend = stringToSend + "\n";
@@ -63,11 +68,16 @@ public class Client  {
             outputStream.writeBytes(stringToSend);
             outputStream.flush();
 
-            System.out.println("Client sent to server " + stringToSend);
-
             res = createListFromServerString(receiveFromServer());
 
         }
+        catch (SocketException se)
+        {
+            // liat
+            // need to throw here alert that server was terminated
+            // now throws error when trying to login when server closes when user is active
+        }
+
         catch (Exception e) {
 
             e.printStackTrace();
@@ -90,16 +100,15 @@ public class Client  {
 
             String operator = res.split("\\|")[0];
 
-            while (operator.equals("Notification"))
-            {
-                System.out.println("Notificationnnn:   " +  res.split("\\|")[1]);
-                res = clientReader.readLine();
-                operator = res.split("\\|")[0];
-            }
+            if (operator.equals("Notification"))
+                System.out.println("Notification: " +  res.split("\\|")[1] + "\n");
+
+            else
+                System.out.println("Client receive from server : " + res + "\n");
 
 
-            System.out.println("Client receive from server : "+res);
         }
+
         catch (Exception e)
         {
             e.printStackTrace();
@@ -137,21 +146,21 @@ public class Client  {
 
         return res;
     }
-    public List<String> askForNotifications()
+
+
+    public List<String> checkNotifications(String clientID)
     {
-        List<String> notifications = sendToServer("checkNotifications|"+getUserID());
+
+        List<String> notifications = sendToServer("checkNotifications|"+clientID);
         return notifications;
     }
 
-    /**
-     * use this function to show notification to user:
-     */
-    private void sendNotification(String notification){
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,notification);
-        alert.setHeaderText("System Notification!");
-        alert.show();
-	}
+    private void showNotification(String notification){
 
+        // liat
+        // need to show notification on alert
+        // can't use Alert here, not FX application error
 
+    }
 }
 
