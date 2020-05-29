@@ -24,9 +24,10 @@ public class FanTest {
     @Before
     public void init() {
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        system.systemInit(false);
+        //String  leagueId = system.dataReboot();
+        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         Admin admin = (Admin) system.getAdmin(); //
         Guest guest = new Guest();
         user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
@@ -64,6 +65,12 @@ public class FanTest {
         assertEquals(1, mainReferee.getMessageBox().size(), 0);
     }
 
+  /*  @Test
+    public void getAllFutureGames(){
+        List<String> futureGames = fan.getAllFutureGames();
+
+        assertNotNull(futureGames);
+    }*/
     @Test
     public void editPersonalInfo() {
         fan.editPersonalInfo(user, "shir", "shir", "ff", "052555654");
@@ -78,6 +85,7 @@ public class FanTest {
 
     @Test
     public void getAllFutureGames(){
+
         assertNotNull((fan.getAllFutureGames()));
     }
     @Test
