@@ -29,7 +29,7 @@ public class Server {
     private RefereeSystem refereeSystem;
 
     private static HashMap<String, Socket> loggedUsers = new HashMap<>();
-    private static HashMap<String, String> loggedUsersNotifications = new HashMap<>();
+    private static HashMap<String, Socket> loggedUsersNotifications = new HashMap<>();
 
     private static int nextID;
 
@@ -206,7 +206,8 @@ public class Server {
     }
 
     private volatile boolean stop;
-    private ServerSocket welcomeSocket;
+    private ServerSocket welcomeSocket = null;
+    private ServerSocket notSocket = null;
     private int maxUsers;
 
     public Server(int port, int maxUsers) {
@@ -227,7 +228,6 @@ public class Server {
 
         this.maxUsers = maxUsers;
 
-        welcomeSocket = null;
         try {
 
             String server_IP = InetAddress.getLocalHost().getHostAddress();
@@ -239,6 +239,7 @@ public class Server {
             Logger.logServer("Server IP address : " + server_IP);
 
             welcomeSocket = new ServerSocket(port);
+            notSocket = new ServerSocket(port + 1);
 
         } catch (Exception e) {
             Logger.logError("Server Fail: can't create server");
@@ -252,6 +253,14 @@ public class Server {
         new Thread(() -> {
             try {
                 runServer();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        new Thread(() -> {
+            try {
+                runNotificationsServer();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -278,6 +287,26 @@ public class Server {
 
                 });
 
+                exec.execute(() -> {
+
+                    while (true)
+                    {
+                        for (String st : loggedUsersNotifications.keySet())
+                            sendNotification(st, "Test");
+
+                        try
+                        {
+                            Thread.sleep(1000);
+
+                        }
+                        catch (Exception e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -296,8 +325,63 @@ public class Server {
 
     }
 
-    private void handle_Client(Socket clientSocket) {
+    public void runNotificationsServer() {
 
+        ThreadPoolExecutor exec = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        exec.setCorePoolSize(maxUsers);
+        exec.setMaximumPoolSize(maxUsers);
+
+
+        while (!stop) {
+            try {
+                Socket clientNotSocket = notSocket.accept();
+
+                exec.execute(() -> {
+                    handle_notifications(clientNotSocket);
+
+                });
+            }
+
+            catch (SocketException se)
+                {
+                    Logger.logEvent("Guest", "Terminated Program");
+                }
+
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        exec.shutdown();
+
+        try {
+            exec.awaitTermination(12, TimeUnit.HOURS);
+        } catch (Exception e) {
+            Logger.logError("Server timeout");
+            e.printStackTrace();
+        }
+
+    }
+
+    private void handle_notifications(Socket clientNotSocket) {
+
+        try {
+            DataInputStream stream = new DataInputStream(clientNotSocket.getInputStream());
+            BufferedReader rd = new BufferedReader(new InputStreamReader(stream));
+            String lineReceived = rd.readLine();
+
+            loggedUsersNotifications.put(lineReceived.replace("\n", ""), clientNotSocket);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void handle_Client(Socket clientSocket) {
 
         while(clientSocket.isConnected()) {
             try {
@@ -939,6 +1023,7 @@ public class Server {
 
     private void handle_checkNotifications(String[] splitLine, Socket clientSocket)
     {
+        /*
         String userID = splitLine[1];
 
         if (loggedUsers.containsKey(userID))
@@ -951,7 +1036,7 @@ public class Server {
                 sendLineToClient(loggedUsersNotifications.get(userID), clientSocket);
                 loggedUsersNotifications.put(userID, "");
             }
-
+*/
     }
 
     private void handle_addPaymentsFromTheTUTU(String[] splitLine, Socket clientSocket)
@@ -1708,7 +1793,6 @@ public class Server {
         if (!loggedUsers.containsKey(userId))
         {
             loggedUsers.put(userId, clientSocket);
-            loggedUsersNotifications.put(userId, "");
         }
 
         String sendToClient = userId + "|";
@@ -1742,7 +1826,6 @@ public class Server {
             if (!loggedUsers.containsKey(loggedUserId))
             {
                 loggedUsers.put(loggedUserId, clientSocket);
-                loggedUsersNotifications.put(loggedUserId, "");
             }
 
             String sendToClient = loggedUserId + "|";
@@ -1751,6 +1834,15 @@ public class Server {
                 sendToClient = sendToClient + r + "|";
 
             sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
+
+            try {
+                Thread.sleep(2000);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
             sendNotification(loggedUserId, "Notification test");
 
         }
@@ -1813,7 +1905,13 @@ public class Server {
             outStream.flush();
 
 
-        } catch (Exception e) {
+        }
+
+        catch (SocketException se)
+        {
+
+        }
+        catch (Exception e) {
             Logger.logError("Sending " + stringToSend + " Failed");
             e.printStackTrace();
         }
@@ -1873,7 +1971,7 @@ public class Server {
         if (!loggedUsers.containsKey(id))
             return false;
 
-        loggedUsersNotifications.put(id, "Notification|" + message);
+        sendLineToClient("Notification: " + message, loggedUsersNotifications.get(id));
         return true;
     }
     
