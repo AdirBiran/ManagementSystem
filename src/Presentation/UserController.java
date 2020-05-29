@@ -535,8 +535,10 @@ public class UserController extends GeneralController implements Initializable {
 
     private void checkNotifications()
     {
-        //Notifications.create()
-        //        .title()
+        Notifications.create()
+                .title("Notification")
+                .text("")
+                .showConfirm();
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
