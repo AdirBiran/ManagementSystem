@@ -3,6 +3,7 @@ package Presentation;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Timer;
@@ -22,6 +23,7 @@ public class Client  {
         {
             socket = new Socket("132.72.65.47", serverPort);
             notificationsTimer = new Timer();
+
         }
         catch (Exception e)
         {
@@ -69,6 +71,13 @@ public class Client  {
             res = createListFromServerString(receiveFromServer());
 
         }
+        catch (SocketException se)
+        {
+            // liat
+            // need to throw here alert that server was terminated
+            // now throws error when trying to login when server closes when user is active
+        }
+
         catch (Exception e) {
 
             e.printStackTrace();
