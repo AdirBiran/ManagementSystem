@@ -45,8 +45,8 @@ public abstract class GeneralController {
                 ((UserController)loader.getController()).buildPresentation(roles);
             }
             Scene scene = new Scene(root, 850,800);
-            Main.getStage().setScene(scene);
-            Main.getStage().show();
+            ClientMain.getStage().setScene(scene);
+            ClientMain.getStage().show();
 
         } catch (IOException e) {
             e.printStackTrace();

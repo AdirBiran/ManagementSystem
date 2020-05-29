@@ -33,26 +33,6 @@ public class Server {
 
     private static int nextID;
 
-    public static void main(String[] args) {
-
-        // Tests for first initiation
-        try {
-            InetAddress iAddress = InetAddress.getLocalHost();
-            String server_IP = iAddress.getHostAddress();
-            System.out.println("Server IP address : " + server_IP);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        Server server = new Server(7567, 4);
-        server.firstInit();
-        server.runServer();
-        FootballManagementSystem.systemInit(false);
-        //FootballManagementSystem.dataReboot();
-
-    }
-
     public static void updateID(int nextId)
     {
         nextID = nextId;
@@ -106,7 +86,7 @@ public class Server {
 
     }
 
-    private void firstInit()
+    public void firstInit()
     {
         List<String> lines = new LinkedList<>();
         String configFilePath = "./config";
@@ -225,8 +205,6 @@ public class Server {
         }
     }
 
-
-
     private volatile boolean stop;
     private ServerSocket welcomeSocket;
     private int maxUsers;
@@ -251,9 +229,16 @@ public class Server {
 
         welcomeSocket = null;
         try {
+            String server_IP = InetAddress.getLocalHost().getHostAddress();
+
             System.out.println("Server created at port " + port + ", Maximum users: " + maxUsers);
+            System.out.println("Server IP address : " + server_IP);
+
             Logger.logServer("Server created at port " + port + ", Maximum users: " + maxUsers);
+            Logger.logServer("Server IP address : " + server_IP);
+
             welcomeSocket = new ServerSocket(port);
+
         } catch (Exception e) {
             Logger.logError("Server Fail: can't create server");
             e.printStackTrace();
@@ -1875,7 +1860,7 @@ public class Server {
         if (!loggedUsers.containsKey(id))
             return false;
 
-        sendLineToClient("Notification|" + message, loggedUsers.get(id));
+        loggedUsersNotifications.put(id, "Notification|" + message);
         return true;
     }
     
