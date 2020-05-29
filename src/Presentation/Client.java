@@ -19,6 +19,7 @@ public class Client  {
     private final int notificationsIterval = 2000;
     private Timer notificationsTimer;
     private HashSet<String> notifications;
+    private final Object mutexObject = new Object();
 
     public Client (int serverPort)
     {
@@ -64,17 +65,21 @@ public class Client  {
 
         try {
 
-            DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+            synchronized (mutexObject)
+            {
+                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-            System.out.println("Client sent to server " + stringToSend.replace("\n", ""));
+                System.out.println("Client sent to server " + stringToSend.replace("\n", ""));
 
-            if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
-                stringToSend = stringToSend + "\n";
+                if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
+                    stringToSend = stringToSend + "\n";
 
-            outputStream.writeBytes(stringToSend);
-            outputStream.flush();
+                outputStream.writeBytes(stringToSend);
+                outputStream.flush();
 
-            res = createListFromServerString(receiveFromServer());
+                res = createListFromServerString(receiveFromServer());
+            }
+
 
         }
         catch (SocketException se)
