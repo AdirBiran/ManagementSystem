@@ -99,6 +99,7 @@ public class FootballManagementSystem {
             User admin = UserFactory.getNewAdmin("Aa1234","adminush","","example@gmail.com");
             Admin systemAdmin = (Admin) admin.checkUserRole("Admin");
             systemAdmins.add(systemAdmin);
+
         }
         else{
             systemAdmins.addAll(database.getAllAdmins());

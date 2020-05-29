@@ -24,12 +24,16 @@ public class RefereeTest {
     @Before
     public void init() {
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        system.systemInit(false);
+        //String  leagueId = system.dataReboot();
+        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
         Admin admin = (Admin) system.getAdmin();
         Guest guest = new Guest();
-        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        //user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        user = guest.login("fan@gmail.com", "Aa1234");
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();

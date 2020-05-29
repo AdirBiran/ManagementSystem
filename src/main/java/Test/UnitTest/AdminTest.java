@@ -1,10 +1,12 @@
 package UnitTest;
 
 import Data.Database;
+import Data.initTest;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
+
 
 import java.util.Date;
 import java.util.List;
@@ -19,15 +21,17 @@ public class AdminTest {
     User user;
     @Before
     public void init(){
-        system = new FootballManagementSystem();
+       system = new FootballManagementSystem();
 
-        system.systemInit(true);//true- to create new
+        system.systemInit(false);//true- to create new
 
-        String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        //String  leagueId = system.dataReboot();
+        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
 
-        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
-        
+        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
+        //initTest inittest = new initTest(true);
+
         team = league.getTeams().get(0);
         admin = system.getAdmin();
         Guest guest = new Guest();

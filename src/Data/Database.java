@@ -1,5 +1,6 @@
 package Data;
 import Domain.*;
+import Service.FootballManagementSystem;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -2363,8 +2364,17 @@ public class Database //maybe generalize with interface? //for now red layer
         return false;
     }
 
-    /**ADD FUNCTION END*/
+    public static boolean addAdmin(Admin admin){
 
+        if(!dataAccess.isIDExists("Admins", admin.getID())){
+            dataAccess.addCell("Admins",admin.getID());
+            return true;
+        }
+        return false;
+    }
+
+
+    /**ADD FUNCTION END*/
 
 }
 
