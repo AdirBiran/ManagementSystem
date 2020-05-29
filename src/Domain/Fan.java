@@ -116,10 +116,10 @@ public class Fan extends Role implements Observer {
     /*
     this function returns a list of all future games
      */
-    public static List<String> getAllFutureGames(){
+    public List<String> getAllFutureGames(){
         List<String> futureGames= new LinkedList<>();
         for(Game game : Database.getAllFutureGames()){
-            futureGames.add(game.toString());
+            futureGames.add(game.printForFan(this));
         }
         return futureGames;
     }
