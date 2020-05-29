@@ -24,10 +24,10 @@ public class FanTest {
     @Before
     public void init() {
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        //LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+        system.systemInit(false);
+        //String  leagueId = system.dataReboot();
+        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         Admin admin = (Admin) system.getAdmin(); //
         Guest guest = new Guest();
         user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
