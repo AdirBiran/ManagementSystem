@@ -40,5 +40,7 @@ public class ClientMain extends Application {
         //FootballManagementSystem.dataReboot();
         //UserFactory.getNewAdmin("aA123456", "adminush", "ush", "m@m.com");
         launch(args);
+
+
     }
 }
