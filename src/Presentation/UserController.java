@@ -77,9 +77,9 @@ public class UserController extends GeneralController implements Initializable {
 
     public void logoutButtonPushed(ActionEvent actionEvent) {
         if(loggedUser!=null &&loggedUser.length()>0){
+            m_client.stopNotifications();
             m_client.sendToServer("logOut|"+loggedUser);
             loggedUser = "";
-            m_client.stopNotifications();
             setSceneByFXMLPath("GuestView.fxml", null, "", m_client, mainPane1);
         }
     }

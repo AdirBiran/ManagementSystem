@@ -3,6 +3,7 @@ package Presentation;
 
 import javafx.scene.control.Alert;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -16,10 +17,14 @@ import java.util.HashSet;
 public class Client  {
 
     private Socket socket;
+    private Socket notificactionsSocket;
     private final int notificationsIterval = 2000;
     private Timer notificationsTimer;
     private HashSet<String> notifications;
+    private boolean receiveNotifications = false;
     private final Object mutexObject = new Object();
+    private DataInputStream not_dis;
+    private DataOutputStream not_dos;
 
     public Client (int serverPort)
     {
@@ -27,9 +32,14 @@ public class Client  {
         try
         {
             socket = new Socket("132.72.65.47", serverPort);
-            //socket = new Socket("localhost", serverPort);
+            notificactionsSocket = new Socket("132.72.65.47", serverPort + 1);
             notificationsTimer = new Timer();
             notifications = new HashSet<>();
+
+            not_dis = new DataInputStream(notificactionsSocket.getInputStream());
+            not_dos = new DataOutputStream(notificactionsSocket.getOutputStream());
+
+
 
         }
         catch (Exception e)
@@ -41,6 +51,29 @@ public class Client  {
 
     public void startNotifications(String uid)
     {
+
+        receiveNotifications = true;
+
+        try
+        {
+
+            not_dos.writeBytes(uid + "\n");
+            not_dos.flush();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        new Thread(() -> {
+            try {
+                listenForNotifications();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+/*
         notificationsTimer.schedule(new TimerTask() {
 
             @Override
@@ -50,11 +83,43 @@ public class Client  {
 
             }
         }, notificationsIterval, notificationsIterval);
+*/
+
+    }
+
+    public void listenForNotifications()
+    {
+
+        while (receiveNotifications) {
+            try {
+
+                BufferedReader rd = new BufferedReader(new InputStreamReader(not_dis));
+                String lineReceived = rd.readLine();
+                System.out.println(lineReceived);
+
+                // liat
+                // lineReceived contains the notification
+
+
+            }
+            catch (SocketException se)
+            {
+            }
+
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
     }
 
     public void stopNotifications()
     {
-        notificationsTimer.cancel();
+
+        receiveNotifications = false;
+        //notificationsTimer.cancel();
     }
 
 	

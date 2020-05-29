@@ -42,8 +42,9 @@ public class GeneralController {
             if(path.equals("UserView.fxml")){
                 ((UserController)loader.getController()).setUser(loggedUser);
                 ((UserController)loader.getController()).setClient(m_client);
-                ((UserController)loader.getController()).setMainPane1(pane);
                 ((UserController)loader.getController()).startGettingNotifications();
+
+                ((UserController)loader.getController()).setMainPane1(pane);
 
                 ((UserController)loader.getController()).buildPresentation(roles);
             }
