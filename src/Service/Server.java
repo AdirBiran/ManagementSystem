@@ -781,7 +781,14 @@ public class Server {
                 }
 
 
-            } catch (Exception e) {
+            }
+
+            catch (SocketException se)
+            {
+                Logger.logEvent("Guest", "Terminated Program");
+                break;
+            }
+            catch (Exception e) {
                 Logger.logError("Server: Data reading");
                 e.printStackTrace();
             }
