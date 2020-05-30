@@ -438,7 +438,7 @@ public class DataAccess {
 
     private boolean isDateTimeWithoutSeconds(String s)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy H:m:s");
         dateFormat.setLenient(false);
 
         try

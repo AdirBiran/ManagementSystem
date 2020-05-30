@@ -31,8 +31,8 @@ public class FanTest {
         LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         admin = system.getAdmin();
         Guest guest = new Guest();
-        user = guest.register("lironoskar1@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        //user = guest.login("lironoskar@gmail.com", "Aa1234");
+        //user = guest.register("fantest@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        user = guest.login("fantest@gmail.com", "Aa1234");
        /* mesi = admin.addNewPlayer("mesi", "mesi", "mesitest1@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();*/
@@ -87,8 +87,8 @@ public class FanTest {
 
     @Test
     public void getAllFutureGames(){
-
         assertNotNull((fan.getAllFutureGames()));
+        System.out.println(fan.getAllFutureGames());
     }
     @Test
     public void getFollowedPages() {
