@@ -28,7 +28,7 @@ public class FanTest {
         system.systemInit(false);
         //String  leagueId = system.dataReboot();
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(2);
         admin = system.getAdmin();
         Guest guest = new Guest();
         //user = guest.register("fantest@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
@@ -42,6 +42,15 @@ public class FanTest {
         //UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
         //unionRole.assignGames(league.getId());
         game= Database.getGame(league.getGamesId().get(1));
+    }
+
+    @Test
+    public void registrationForGamesAlerts(){
+        //user = guest.register("fantest@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        List<String> games = new LinkedList<>();
+        games.add(game.getId());
+        fan.registrationForGamesAlerts(games, false);
+        system.getDatabase().removeFromTables(fan.getID());
     }
 
     @Test
@@ -88,7 +97,6 @@ public class FanTest {
     @Test
     public void getAllFutureGames(){
         assertNotNull((fan.getAllFutureGames()));
-        System.out.println(fan.getAllFutureGames());
     }
     @Test
     public void getFollowedPages() {
@@ -119,9 +127,9 @@ public class FanTest {
         assertEquals(fan.getFollowedPages().size(), 0);
     }
 
-
     @Test
     public void myRole() {
         assertEquals(fan.myRole(),"Fan");
     }
+
 }

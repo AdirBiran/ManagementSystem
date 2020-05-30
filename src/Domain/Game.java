@@ -76,11 +76,19 @@ public class Game extends Observable {
      * @return true- if the fan is added to list to receive game alerts
      */
     public boolean addFanForNotifications(Fan fan, boolean toMail) {
-        if(fansForAlerts.get(fan)==null) {
+        if(!checkIfExists(fan)) {
             fansForAlerts.put(fan, toMail);
             this.addObserver(fan);
             Database.updateObject(this);
             return true;
+        }
+        return false;
+    }
+
+    private boolean checkIfExists(Fan fan) {
+        for(Fan f : fansForAlerts.keySet()) {
+            if (f.getID().equals(fan.getID()))
+                return true;
         }
         return false;
     }

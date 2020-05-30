@@ -119,12 +119,7 @@ public class Referee extends Role implements Observer {
     }
 
     public String getAllOccurringGame() {
-        long time = Database.getCurrentDate().getTime();
-        for(Game game : Database.getAllGames()){
-            if(TimeUnit.DAYS.convert(Math.abs(time - game.getDate().getTime()), TimeUnit.MILLISECONDS)<=120)
-                return game.toString();
-        }
-        return null;
+        return Database.getAllOccurringGame();
     }
 
     public String getTraining() {

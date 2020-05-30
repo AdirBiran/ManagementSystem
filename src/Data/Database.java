@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class Database //maybe generalize with interface? //for now red layer
@@ -216,7 +217,7 @@ public class Database //maybe generalize with interface? //for now red layer
              [LeagueInSeasonID] [char] (50) NOT NULL,
              * */
 
-            ans1 = dataAccess.updateCellValue("Games","GameDate",((Game) object).getId() ,dateToString(((Game) object).getDate()));
+            ans1 = dataAccess.updateCellValue("Games","GameDate",((Game) object).getId(), dateToString(((Game) object).getDate()));
             ans2 = dataAccess.updateCellValue("Games","HostScore", ((Game) object).getId(),""+((Game) object).hostScore());
             ans3 = dataAccess.updateCellValue("Games","GuestScore", ((Game) object).getId(),""+((Game) object).guestScore());
             ans4 = dataAccess.updateCellValue("Games","FieldID" ,((Game) object).getId(),((Game) object).getField().getID());
@@ -861,8 +862,8 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    public static void removeFromTables(Objects objects){
-
+    public static void removeFromTables(String id){
+        dataAccess.deleteIdFromAllTables(id);
     }
 
     public static void removeField(String assetId) {
@@ -1912,6 +1913,20 @@ public class Database //maybe generalize with interface? //for now red layer
         return allComplaints;
     }
 
+    public static String getAllOccurringGame() {
+        long time = Database.getCurrentDate().getTime();
+
+        List<String> games = dataAccess.getAllFieldValues("Games", "ID");
+
+        for(String gameString : games){
+            List<String> game = dataAccess.getAllCellValues("Games", gameString);
+            if(TimeUnit.DAYS.convert(Math.abs(time - stringToDateJAVA(game.get(2)).getTime()), TimeUnit.MILLISECONDS)<=120){
+                   return game.get(0)+","+game.get(1)+","+game.get(2).substring(0, game.get(2).indexOf("."));
+            }
+        }
+        return null;
+    }
+
     public static List<Game> getAllGames() {
         List<String> games;
         List<Game> allGames = new LinkedList<>();
@@ -2109,8 +2124,12 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static boolean addSeason(Season season) {
 
-        if(!dataAccess.isIDExists("Seasons" ,season.getId() )) {
-
+        List<String> years = dataAccess.getAllFieldValues("Seasons", "SeasonYear");
+        for(String year : years){
+            if(year.equals(""+season.getYear()))
+                return false;
+        }
+        if(!dataAccess.isIDExists("Seasons" ,season.getId())){
             dataAccess.addCell("Seasons", season.getId(), "" + season.getYear(),
                     dateToString(season.getStartDate()), getLeagueInSeasonIds(season.getLeagueInSeasons()));
             return true;
