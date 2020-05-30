@@ -107,11 +107,6 @@ public class Admin extends Role implements Observer {
     }
 
     @Override
-    public String myRole() {
-        return "Admin";
-    }
-
-    @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
         Database.getUser(userId).addMessage(news);

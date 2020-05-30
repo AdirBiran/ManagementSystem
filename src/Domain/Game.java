@@ -64,13 +64,6 @@ public class Game extends Observable {
 
     }
 
-    public String printForFan(Fan fan) {
-        if(fansForAlerts.containsKey(fan))
-            return id+","+name+","+date+",+";
-        else
-            return id+","+name+","+date+",-";
-    }
-
     private void addRefereeToObservers(Referee mainReferee, List<Referee> sideReferees) {
         this.addObserver(mainReferee);
         this.addObserver(sideReferees.get(0));

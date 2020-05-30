@@ -26,7 +26,7 @@ public class Player extends Role implements PartOfATeam {
         this.teams = new HashSet<>();
         this.isActive = true;
         this.price = price;
-        myRole = "Player";
+        this.myRole = "Player";
 
     }
 
@@ -38,11 +38,7 @@ public class Player extends Role implements PartOfATeam {
         this.roleInTeam = RolePlayer.valueOf(roleInTeam);
         this.isActive = isActive;
         this.price = price;
-    }
-
-    @Override
-    public String myRole() {
-        return "Player";
+        this.myRole = "Player";
     }
 
     @Override

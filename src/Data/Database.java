@@ -860,6 +860,10 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+    public static void removeFromTables(Objects objects){
+
+    }
+
     public static void removeField(String assetId) {
         Field field = getField(assetId);
 
@@ -1729,11 +1733,10 @@ public class Database //maybe generalize with interface? //for now red layer
         List<String> teams;
         List<Team> allTeams = new LinkedList<>();
 
-        teams = dataAccess.getAllTableValues("Teams");
+        teams = dataAccess.getAllFieldValues("Teams", "ID");
 
-        for(String userString : teams){
-            List<String> tempUser = split(userString);
-            allTeams.add(getTeam(tempUser.get(0)));
+        for(String string : teams){
+            allTeams.add(getTeam(string));
         }
         return allTeams;
     }
@@ -1742,11 +1745,10 @@ public class Database //maybe generalize with interface? //for now red layer
 
         List<String> users;
         List<User> allUsers = new LinkedList<>();
-        users = dataAccess.getAllTableValues("Users");
+        users = dataAccess.getAllFieldValues("Users", "ID");
 
         for(String userString : users){
-            List<String> tempUser = split(userString);
-            allUsers.add(getUser(tempUser.get(0)));
+            allUsers.add(getUser(userString));
         }
 
         return allUsers;
@@ -1768,12 +1770,11 @@ public class Database //maybe generalize with interface? //for now red layer
 
         List<User> allUsers = new LinkedList<>();
         List<TeamOwner> allTeamOwners = new LinkedList<>();
-        List<String> teamOwners = dataAccess.getAllTableValues("TeamOwners");
+        List<String> teamOwners = dataAccess.getAllFieldValues("TeamOwners", "ID");
 
         for(String userString : teamOwners){
-            List<String> tempUser = split(userString);
-            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
-            allUsers.add((User) createObject("User" , tempUser));
+            List<String> user = dataAccess.getAllCellValues("Users", userString);
+            allUsers.add((User) createObject("User" , user));
         }
 
         for(User checkUser : allUsers){
@@ -1788,11 +1789,10 @@ public class Database //maybe generalize with interface? //for now red layer
 
         List<User> allUsers = new LinkedList<>();
         List<Fan> allFans = new LinkedList<>();
-        List<String> fans = dataAccess.getAllTableValues("Fans");
+        List<String> fans = dataAccess.getAllFieldValues("Fans", "ID");
 
         for(String userString : fans){
-            List<String> tempUser = split(userString);
-            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            List<String> user = dataAccess.getAllCellValues("Users", userString);
             allUsers.add((User) createObject("User" , user));
         }
 
@@ -1809,11 +1809,10 @@ public class Database //maybe generalize with interface? //for now red layer
 
         List<User> allUsers = new LinkedList<>();
         List<UnionRepresentative> allUnions = new LinkedList<>();
-        List<String> unions = dataAccess.getAllTableValues("UnionRepresentatives");
+        List<String> unions = dataAccess.getAllFieldValues("UnionRepresentatives", "ID");
 
         for(String userString : unions){
-            List<String> tempUser = split(userString);
-            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            List<String> user = dataAccess.getAllCellValues("Users", userString);
             allUsers.add((User) createObject("User" , user));
         }
 
@@ -1828,11 +1827,11 @@ public class Database //maybe generalize with interface? //for now red layer
     public static List<League> getLeagues(){
         List<String> objects;
         List<League> allObjects = new LinkedList<>();
-        objects = dataAccess.getAllTableValues("Leagues");
+        objects = dataAccess.getAllFieldValues("Leagues", "ID");
 
         for(String object : objects){
-            List<String> temp = split(object);
-            allObjects.add((League) createObject("League" , temp));
+            List<String> league = dataAccess.getAllCellValues("Leagues", object);
+            allObjects.add((League) createObject("League" , league));
         }
 
         return allObjects;
@@ -1841,11 +1840,10 @@ public class Database //maybe generalize with interface? //for now red layer
     public static List<LeagueInSeason> getAllLeaguesInSeasons(){
         List<String> objects;
         List<LeagueInSeason> allObjects = new LinkedList<>();
-        objects = dataAccess.getAllTableValues("LeaguesInSeasons");
+        objects = dataAccess.getAllFieldValues("LeaguesInSeasons", "ID");
 
         for(String object : objects){
-            List<String> temp = split(object);
-            allObjects.add(getLeagueInSeason(temp.get(0)));
+            allObjects.add(getLeagueInSeason(object));
         }
 
         return allObjects;
@@ -1855,37 +1853,46 @@ public class Database //maybe generalize with interface? //for now red layer
         List<String> objects;
         List<Season> allObjects = new LinkedList<>();
 
-        objects = dataAccess.getAllTableValues("Seasons");
+        objects = dataAccess.getAllFieldValues("Seasons", "ID");
 
         for(String object : objects){
-            List<String> temp = split(object);
-            allObjects.add((Season) createObject("Season" , temp));
+            List<String> season = dataAccess.getAllCellValues("Seasons", object);
+            allObjects.add((Season) createObject("Season" , season));
         }
 
         return allObjects;
     }
 
-    public static List<Game> getAllPastGames() {
-        List<Game> games = getAllGames();
+    public static List<String> getAllPastGames() {
+        List<String> games;
         Date currentDate = new Date();
-        List<Game> pastGames = new LinkedList<>();
+        List<String> pastGames = new LinkedList<>();
 
-        for(Game game : games){
-            if(currentDate.after(game.getDate())){
-                pastGames.add(game);
+        games = dataAccess.getAllFieldValues("Games", "ID");
+
+        for(String gameString : games){
+            List<String> game = dataAccess.getAllCellValues("Games", gameString);
+            if(currentDate.after(stringToDateJAVA(game.get(1)))){
+                pastGames.add(game.get(0)+",T0:team0 VS T1:team1,"+game.get(1));
             }
         }
         return pastGames;
     }
 
-    public static List<Game> getAllFutureGames() {
-        List<Game> games = getAllGames();
+    public static List<String> getAllFutureGames() {
+        List<String> games;
         Date currentDate = new Date();
-        List<Game> futureGames = new LinkedList<>();
+        List<String> futureGames = new LinkedList<>();
 
-        for(Game game : games){
-            if(currentDate.before(game.getDate())){
-                futureGames.add(game);
+        games = dataAccess.getAllFieldValues("Games", "ID");
+
+        for(String gameString : games){
+            List<String> game = dataAccess.getAllCellValues("Games", gameString);
+            if(currentDate.before(stringToDateJAVA(game.get(1)))){
+                if(game.get(9).equals(""))
+                    futureGames.add(game.get(0)+",T0:team0 VS T1:team1,"+game.get(1));
+                else
+                    futureGames.add(game.get(0)+" name "+game.get(1)+" "+game.get(9));
             }
         }
         return futureGames;
@@ -1907,11 +1914,11 @@ public class Database //maybe generalize with interface? //for now red layer
         List<String> complaints;
         List<Complaint> allComplaints = new LinkedList<>();
 
-        complaints = dataAccess.getAllTableValues("Complaints");
+        complaints = dataAccess.getAllFieldValues("Complaints", "ID");
 
-        for(String userString : complaints){
-            List<String> tempUser = split(userString);
-            allComplaints.add((Complaint) createObject("Complaint" , tempUser));
+        for(String string : complaints){
+            List<String> complaint = dataAccess.getAllCellValues("Complaints", string);
+            allComplaints.add((Complaint) createObject("Complaint" , complaint));
         }
 
         return allComplaints;
@@ -1921,11 +1928,10 @@ public class Database //maybe generalize with interface? //for now red layer
         List<String> games;
         List<Game> allGames = new LinkedList<>();
 
-        games = dataAccess.getAllTableValues("Games");
+        games = dataAccess.getAllFieldValues("Games", "ID");
 
-        for(String userString : games){
-            List<String> tempUser = split(userString);
-            allGames.add( getGame( tempUser.get(0)));
+        for(String string : games){
+            allGames.add(getGame(string));
         }
 
         return allGames;
@@ -1959,11 +1965,10 @@ public class Database //maybe generalize with interface? //for now red layer
         List<User> allUsers = new LinkedList<>();
         List<TeamManager> allTeamManagers = new LinkedList<>();
 
-        List<String> teamManagers = dataAccess.getAllTableValues("TeamManagers");
+        List<String> teamManagers = dataAccess.getAllFieldValues("TeamManagers", "ID");
 
         for(String userString : teamManagers){
-            List<String> tempUser = split(userString);
-            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            List<String> user = dataAccess.getAllCellValues("Users",userString);
             allUsers.add((User) createObject("User" , user));
         }
 
@@ -1980,11 +1985,11 @@ public class Database //maybe generalize with interface? //for now red layer
         List<String> personalPages;
         List<PersonalPage> allPersonalPages = new LinkedList<>();
 
-        personalPages = dataAccess.getAllTableValues("PersonalPages");
+        personalPages = dataAccess.getAllFieldValues("PersonalPages", "ID");
 
-        for(String userString : personalPages){
-            List<String> tempUser = split(userString);
-            allPersonalPages.add((PersonalPage) createObject("PersonalPage" , tempUser));
+        for(String string : personalPages){
+            List<String> personalPage = dataAccess.getAllCellValues("PersonalPages", string);
+            allPersonalPages.add((PersonalPage) createObject("PersonalPage" , personalPage));
         }
 
         return allPersonalPages;
@@ -1994,11 +1999,10 @@ public class Database //maybe generalize with interface? //for now red layer
         List<User> allUsers = new LinkedList<>();
         List<Player> allPlayers = new LinkedList<>();
 
-        List<String> players = dataAccess.getAllTableValues("Players");
+        List<String> players = dataAccess.getAllFieldValues("Players", "ID");
 
         for(String userString : players){
-            List<String> tempUser = split(userString);
-            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            List<String> user = dataAccess.getAllCellValues("Users", userString);
             allUsers.add((User)createObject("User" , user));
         }
 
@@ -2013,11 +2017,10 @@ public class Database //maybe generalize with interface? //for now red layer
         List<User> allUsers = new LinkedList<>();
         List<Admin> allAdmins = new LinkedList<>();
 
-        List<String> admins = dataAccess.getAllTableValues("Admins");
+        List<String> admins = dataAccess.getAllFieldValues("Admins", "ID");
 
         for(String userString : admins){
-            List<String> tempUser = split(userString);
-            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            List<String> user = dataAccess.getAllCellValues("Users", userString);
             allUsers.add((User) createObject("User" , user));
         }
 
@@ -2033,11 +2036,10 @@ public class Database //maybe generalize with interface? //for now red layer
         List<User> allUsers = new LinkedList<>();
         List<Coach> allCoaches = new LinkedList<>();
 
-        List<String> coaches = dataAccess.getAllTableValues("Coaches");
+        List<String> coaches = dataAccess.getAllFieldValues("Coaches", "ID");
 
         for(String userString : coaches){
-            List<String> tempUser = split(userString);
-            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            List<String> user = dataAccess.getAllCellValues("Users", userString);
             allUsers.add((User) createObject("User" , user));
         }
 
@@ -2054,11 +2056,11 @@ public class Database //maybe generalize with interface? //for now red layer
         List<String> fields;
         List<Field> allFields = new LinkedList<>();
 
-        fields = dataAccess.getAllTableValues("Fields");
+        fields = dataAccess.getAllFieldValues("Fields", "ID");
 
-        for(String userString : fields){
-            List<String> tempUser = split(userString);
-            allFields.add((Field) createObject("Field" , tempUser));
+        for(String string : fields){
+            List<String> field = dataAccess.getAllCellValues("Complaints", string);
+            allFields.add((Field) createObject("Field" , field));
         }
 
         return allFields;
@@ -2078,11 +2080,10 @@ public class Database //maybe generalize with interface? //for now red layer
         List<User> allUsers = new LinkedList<>();
         List<Referee> allReferees = new LinkedList<>();
 
-        List<String> referees = dataAccess.getAllTableValues("Referees");
+        List<String> referees = dataAccess.getAllFieldValues("Referees", "ID");
 
         for(String userString : referees){
-            List<String> tempUser = split(userString);
-            List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
+            List<String> user = dataAccess.getAllCellValues("Users", userString);
             allUsers.add((User) createObject("User" , user));
         }
 
@@ -2210,7 +2211,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
         boolean flag = false;
 
-        if(!dataAccess.isIDExists("Users",user.getID())){
+        if(!dataAccess.isMailExists(user.getMail())){
 
             //users table
             dataAccess.addCell("Users" ,user.getID(),

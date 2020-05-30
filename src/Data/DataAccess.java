@@ -60,14 +60,12 @@ public class DataAccess {
             e.printStackTrace();
         }
 
-
     }
 
     public boolean deleteRow(String tableName, String id)
     {
         PreparedStatement ps = null;
         String val = "";
-
 
         String statement = "DELETE FROM " + tableName + " WHERE ID = ?";
 
@@ -90,45 +88,40 @@ public class DataAccess {
 
     }
 
-    public List<String> getAllTableValues(String TableName)
+    public boolean deleteIdFromAllTables(String id)
     {
-        List<String> res = new LinkedList<>();
-
         PreparedStatement ps = null;
-        String val = "";
+        String[] tablesNames = {"Admins", "Passwords", "Users", "Referees", "UnionRepresentatives", "Coaches", "Fans", "Fields", "Players", "TeamManagers", "TeamOwners", "PersonalPages", "Teams", "Leagues", "Seasons", "LeaguesInSeasons", "Complaints", "Games", "EventReports", "OfflineUsersNotifications", "Events"};
+        String statement;
 
+        for (String tableName : tablesNames)
+        {
+            statement = "DELETE FROM " + tableName + " WHERE ID = ?";
 
-        String statement = "SELECT * FROM " + TableName;
+            try
+            {
+                ps = con.prepareStatement(statement);
+                ps.setString(1, id);
+                ps.executeUpdate();
+
+            }
+            catch (Exception e)
+            {
+            }
+
+        }
 
         try
         {
-            ps = con.prepareStatement(statement);
-
-            ResultSet rs = ps.executeQuery();
-            int columns = rs.getMetaData().getColumnCount();
-
-            while (rs.next())
-            {
-                String row = "";
-
-                for (int i = 1; i < columns + 1; i++)
-                    row = row + rs.getString(i).trim() + ",";
-
-                res.add(row.substring(0, row.length() - 1).trim());
-            }
-
-
-
             closePS(ps);
-
+            return true;
         }
         catch (Exception e)
         {
             closePS(ps);
             e.printStackTrace();
+            return false;
         }
-
-        return res;
     }
 
     public List<String> getAllCellValues(String TableName, String ID)
@@ -137,7 +130,6 @@ public class DataAccess {
 
         PreparedStatement ps = null;
         String val = "";
-
 
         String statement = "SELECT * FROM " + TableName + " WHERE ID = ?";
 
@@ -154,8 +146,6 @@ public class DataAccess {
                 for (int i = 1; i < columns + 1; i++)
                     res.add(rs.getString(i).trim());
             }
-
-
 
             closePS(ps);
 
@@ -198,6 +188,35 @@ public class DataAccess {
 
         return val.trim();
 
+    }
+
+    public List<String> getAllFieldValues(String tableName, String fieldName)
+    {
+        List<String> res = new LinkedList<>();
+
+        PreparedStatement ps = null;
+
+        String statement = "SELECT " + fieldName + " FROM " + tableName;
+
+        try
+        {
+            ps = con.prepareStatement(statement);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next())
+                res.add(rs.getString(1).trim());
+
+            closePS(ps);
+
+        }
+        catch (Exception e)
+        {
+            closePS(ps);
+            e.printStackTrace();
+        }
+
+        return res;
     }
 
     public String addToExistingCellValue(String TableName, String ColumnName, String ID, String valueToAdd)
@@ -269,7 +288,6 @@ public class DataAccess {
                 else
                     ps.setString(i+1, val);
 
-
             }
             ps.executeUpdate();
             closePS(ps);
@@ -295,6 +313,35 @@ public class DataAccess {
         {
             ps = con.prepareStatement(statement);
             ps.setString(1, id);
+
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+            res = rs.getInt(1);
+            closePS(ps);
+
+        }
+        catch (Exception e)
+        {
+            closePS(ps);
+            e.printStackTrace();
+        }
+
+        return res == 1;
+
+    }
+
+    public boolean isMailExists(String mail)
+    {
+        PreparedStatement ps = null;
+        int res = 0;
+
+        String statement = "SELECT COUNT(*) FROM Users WHERE Mail = ?";
+
+        try
+        {
+            ps = con.prepareStatement(statement);
+            ps.setString(1, mail);
 
             ResultSet rs = ps.executeQuery();
 
@@ -463,7 +510,6 @@ public class DataAccess {
             e.printStackTrace();
             return false;
         }
-
     }
 
     public Boolean stringToBoolean(String s)
@@ -494,8 +540,6 @@ public class DataAccess {
         PreparedStatement ps = null;
 
         try {
-
-
             String line = "";
             String query = "";
 
@@ -558,9 +602,4 @@ public class DataAccess {
 
 
     }
-
-   /* public boolean isIDExists(String tableName, String id)
-    {
-        return true;
-    }*/
 }
