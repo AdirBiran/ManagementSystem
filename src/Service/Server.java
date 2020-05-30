@@ -286,7 +286,7 @@ public class Server {
                     handle_Client(clientSocket);
 
                 });
-
+/*
                 exec.execute(() -> {
 
                     while (true)
@@ -306,7 +306,7 @@ public class Server {
                     }
 
                 });
-
+*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -375,6 +375,12 @@ public class Server {
             loggedUsersNotifications.put(lineReceived.replace("\n", ""), clientNotSocket);
 
         }
+
+        catch (SocketException se)
+        {
+
+        }
+
         catch (Exception e) {
             e.printStackTrace();
         }
