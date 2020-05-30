@@ -35,6 +35,7 @@ public class Game extends Observable {
         this.guestTeam = guestTeam;
         this.name = hostTeam.getID() + ":" + hostTeam.getName() + " VS " + guestTeam.getID() + ":" + guestTeam.getName();
         eventReport = new EventReport();
+        //Database.addEventReport(eventReport);
         hostScore=0;
         guestScore=0;
         fansForAlerts = new HashMap<>();
