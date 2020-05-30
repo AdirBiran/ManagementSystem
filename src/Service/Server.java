@@ -841,6 +841,9 @@ public class Server {
                     case "getAllScorePolicies":
                         handle_getAllScorePolicies(splitLine, clientSocket);
                         break;
+                    case "getAllAssignmentsPolicies":
+                        handle_getAllAssignmentsPolicies(splitLine, clientSocket);
+                        break;
 
                     case "getAllDetailsAboutOpenTeams":
                         handle_getAllDetailsAboutOpenTeams_Union(splitLine, clientSocket);
@@ -885,6 +888,15 @@ public class Server {
             }
 
         }
+    }
+
+    private void handle_getAllAssignmentsPolicies(String[] splitLine, Socket clientSocket) {
+        List<String> results = unionRepresentativeSystem.getAllAssignmentsPolicies(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting Assignment Policies", clientSocket);
     }
 
     private void handle_getAllTeamAssets_R(String[] splitLine, Socket clientSocket) {
