@@ -1465,6 +1465,7 @@ public class Server {
             else
                 sendLineToClient("Failed registering for game alerts", clientSocket);
         }catch (Exception e){
+            e.printStackTrace();
             sendLineToClient("Failed registering for game alerts", clientSocket);
         }
 
