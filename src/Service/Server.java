@@ -888,7 +888,7 @@ public class Server {
     }
 
     private void handle_getAllTeamAssets_R(String[] splitLine, Socket clientSocket) {
-        List<String> results = RefereeSystem.getAllTeamAssets(splitLine[1], splitLine[2]);
+        List<String> results = refereeSystem.getAllTeamAssets(splitLine[1], splitLine[2]);
 
         if (results != null)
             sendLineToClient(ListToString(results), clientSocket);

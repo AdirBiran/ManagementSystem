@@ -10,9 +10,6 @@ public class RefereeSystem {
     public RefereeSystem() {
     }
 
-    public static List<String> getAllTeamAssets(String s, String s1) {
-        return null;
-    }
 
     public boolean addEventToGame(String userID, String gameID, String event, String playerId, String teamId){
         User user= UserFactory.getUser(userID);
@@ -92,7 +89,7 @@ public class RefereeSystem {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Referee");
-            if (role instanceof Manager) {
+            if (role instanceof Referee) {
                 Logger.logEvent(user.getID(), "Got all Team Assets");
                 return (role).getAllTeamAssets(teamId);
             }
