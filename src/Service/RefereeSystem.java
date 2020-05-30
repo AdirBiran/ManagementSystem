@@ -10,6 +10,10 @@ public class RefereeSystem {
     public RefereeSystem() {
     }
 
+    public static List<String> getAllTeamAssets(String s, String s1) {
+        return null;
+    }
+
     public boolean addEventToGame(String userID, String gameID, String event, String playerId, String teamId){
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("Referee");

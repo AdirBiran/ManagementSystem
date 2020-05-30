@@ -632,11 +632,12 @@ public class Server {
                         handle_getAllPastGames_R(splitLine, clientSocket);
                         break;
 
-                    case "getAllOccurringGame":
+                    case "getOccurringGame":
                         handle_getAllOccurringGame(splitLine, clientSocket);
                         break;
-
-
+                    case "getAllTeamAssets_R":
+                        handle_getAllTeamAssets_R(splitLine, clientSocket);
+                        break;
                     // ------------------- TEAM MANAGEMENT -------------------
 
 
@@ -716,7 +717,7 @@ public class Server {
                         handle_getAllFields(splitLine, clientSocket);
                         break;
 
-                    case "getAllTeamAssets":
+                    case "getAllTeamAssets_Team":
                         handle_getAllTeamAssets(splitLine, clientSocket);
                         break;
 
@@ -884,6 +885,15 @@ public class Server {
             }
 
         }
+    }
+
+    private void handle_getAllTeamAssets_R(String[] splitLine, Socket clientSocket) {
+        List<String> results = RefereeSystem.getAllTeamAssets(splitLine[1], splitLine[2]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all team's assets", clientSocket);
     }
 
     private void handle_getUserInfo(String[] splitLine, Socket clientSocket)
