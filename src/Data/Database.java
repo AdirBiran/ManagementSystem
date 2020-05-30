@@ -958,12 +958,12 @@ public class Database //maybe generalize with interface? //for now red layer
                         Double.parseDouble(object.get(6)));
                 return field;
             case "Game":
-                Game game = new Game(object.get(0),stringToDateJAVA(object.get(1)),
-                        Integer.parseInt(object.get(2)) , Integer.parseInt(object.get(3)),
-                        getField(object.get(4)) ,getReferee(object.get(5))
-                        ,listOfReferees(object.get(6)),getTeam(object.get(7)), getTeam(object.get(8)),
-                        getFansForAlertsHashMap(object.get(9)) ,getEventReport(object.get(10)) ,
-                        getLeagueInSeason(object.get(11)));
+                Game game = new Game(object.get(0),stringToDateJAVA(object.get(2)),
+                        Integer.parseInt(object.get(3)) , Integer.parseInt(object.get(4)),
+                        getField(object.get(5)) ,getReferee(object.get(6))
+                        ,listOfReferees(object.get(7)),getTeam(object.get(8)), getTeam(object.get(9)),
+                        getFansForAlertsHashMap(object.get(10)) ,getEventReport(object.get(11)) ,
+                        getLeagueInSeason(object.get(12)));
                 return game;
             case "League":
                 League league = new League(object.get(0) , object.get(1) ,getEnumLevelLeague(object.get(2)),
@@ -2182,6 +2182,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
         if(!dataAccess.isIDExists("Games",game.getId())) {
             dataAccess.addCell("Games", game.getId(), dateToString(game.getDate()),
+                    game.getName(),
                     "" + game.hostScore(), "" + game.guestScore(), game.getField().getID(),
                     game.getMainReferee().getID(), game.getSideRefereesId(),
                     game.getHostTeam().getID(), game.getGuestTeam().getID(),

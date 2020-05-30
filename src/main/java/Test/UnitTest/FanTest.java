@@ -20,6 +20,7 @@ public class FanTest {
     PersonalPage mesiPage;
     Fan fan;
     Game game;
+    Admin admin;
 
     @Before
     public void init() {
@@ -28,20 +29,19 @@ public class FanTest {
         //String  leagueId = system.dataReboot();
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
-        Admin admin = system.getAdmin();
+        admin = system.getAdmin();
         Guest guest = new Guest();
-        //user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        user = guest.login("lironoskar@gmail.com", "Aa1234");
-        //mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
-        //Role pageRole = mesi.checkUserRole("HasPage");
-        //mesiPage = ((HasPage) pageRole).getPage();
+        user = guest.register("lironoskar1@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        //user = guest.login("lironoskar@gmail.com", "Aa1234");
+       /* mesi = admin.addNewPlayer("mesi", "mesi", "mesitest1@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
+        Role pageRole = mesi.checkUserRole("HasPage");
+        mesiPage = ((HasPage) pageRole).getPage();*/
         fan = (Fan) user.checkUserRole("Fan");
         /*create games*/
         //User union = admin.addNewUnionRepresentative("Union", "Rep", "union@gmail.com");
         //UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
         //unionRole.assignGames(league.getId());
-        game= Database.getGame(league.getGamesId().get(0));
-       //game.addFanForNotifications(fan,false);
+        game= Database.getGame(league.getGamesId().get(1));
     }
 
     @Test
@@ -67,6 +67,12 @@ public class FanTest {
         //assertEquals(1, mainReferee.getMessageBox().size(), 0);
     }
 
+  /*  @Test
+    public void getAllFutureGames(){
+        List<String> futureGames = fan.getAllFutureGames();
+
+        assertNotNull(futureGames);
+    }*/
     @Test
     public void editPersonalInfo() {
         fan.editPersonalInfo(user, "shir", "shir", "ff", "052555654");
@@ -81,11 +87,14 @@ public class FanTest {
 
     @Test
     public void getAllFutureGames(){
+
         assertNotNull((fan.getAllFutureGames()));
-        System.out.println(fan.getAllFutureGames());
     }
     @Test
     public void getFollowedPages() {
+        mesi = admin.addNewPlayer("mesi", "mesi", "mesitest1@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
+        Role pageRole = mesi.checkUserRole("HasPage");
+        mesiPage = ((HasPage) pageRole).getPage();
         fan.addPageToFollow(mesiPage.getId());
         assertEquals(fan.getFollowedPages().size(), 1);
     }
