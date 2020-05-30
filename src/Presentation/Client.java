@@ -1,7 +1,9 @@
 package Presentation;
 
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import org.controlsfx.control.Notifications;
 
 import javax.xml.crypto.Data;
 import java.io.*;
@@ -20,11 +22,12 @@ public class Client  {
     private Socket notificactionsSocket;
     private final int notificationsIterval = 2000;
     private Timer notificationsTimer;
-    private HashSet<String> notifications;
+
     private boolean receiveNotifications = false;
     private final Object mutexObject = new Object();
     private DataInputStream not_dis;
     private DataOutputStream not_dos;
+
 
     public Client (int serverPort)
     {
@@ -34,11 +37,10 @@ public class Client  {
             socket = new Socket("132.72.65.47", serverPort);
             notificactionsSocket = new Socket("132.72.65.47", serverPort + 1);
             notificationsTimer = new Timer();
-            notifications = new HashSet<>();
+
 
             not_dis = new DataInputStream(notificactionsSocket.getInputStream());
             not_dos = new DataOutputStream(notificactionsSocket.getOutputStream());
-
 
 
         }
@@ -95,11 +97,9 @@ public class Client  {
 
                 BufferedReader rd = new BufferedReader(new InputStreamReader(not_dis));
                 String lineReceived = rd.readLine();
-                System.out.println(lineReceived);
-
+                sendNotification(lineReceived);
                 // liat
                 // lineReceived contains the notification
-
 
             }
             catch (SocketException se)
@@ -114,6 +114,16 @@ public class Client  {
         }
 
     }
+
+    private void sendNotification(String lineReceived) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setHeaderText("Notification");
+            alert.setContentText(lineReceived);
+            alert.show();
+        });
+    }
+
 
     public void stopNotifications()
     {
@@ -149,7 +159,7 @@ public class Client  {
         }
         catch (SocketException se)
         {
-            notifications.add("server was terminated ... :(");
+            sendNotification("server was terminated ... :(");
             // liat
             // need to throw here alert that server was terminated
             // now throws error when trying to login when server closes when user is active
@@ -175,13 +185,7 @@ public class Client  {
 
             res = clientReader.readLine();
 
-            String operator = res.split("\\|")[0];
-
-            if (operator.equals("Notification"))
-                notifications.add("Notification: " +  res.split("\\|")[1]);
-
-            else
-                System.out.println("Client receive from server : " + res + "\n");
+            System.out.println("Client receive from server : " + res + "\n");
 
 
         }
@@ -225,24 +229,5 @@ public class Client  {
     }
 
 
-    public List<String> checkNotifications(String clientID)
-    {
-
-        List<String> notifications = sendToServer("checkNotifications|"+clientID);
-        return notifications;
-    }
-
-
-    public void clearNotifications(){
-        this.notifications = new HashSet<>();
-    }
-
-    public HashSet<String> getNotifications(){
-        return notifications;
-    }
-
-    public boolean areThereNewNotifications() {
-        return notifications.size()>0;
-    }
 }
 
