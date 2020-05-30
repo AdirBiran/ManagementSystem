@@ -985,7 +985,7 @@ public class Server {
         if (results != null)
             sendLineToClient(results, clientSocket);
         else
-            sendLineToClient("Failed getting all occurring games", clientSocket);
+            sendLineToClient("", clientSocket);
     }
 
     private void handle_getAllPastGames_R(String[] splitLine, Socket clientSocket)
