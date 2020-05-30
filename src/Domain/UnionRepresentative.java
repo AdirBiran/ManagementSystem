@@ -193,11 +193,6 @@ public class UnionRepresentative extends Role implements Observer {
     }
 
     @Override
-    public String myRole() {
-        return "UnionRepresentative";
-    }
-
-    @Override
     public String toString() {
         return "UnionRepresentative" +
                 ", id=" + userId +
@@ -249,13 +244,6 @@ public class UnionRepresentative extends Role implements Observer {
             assignmentsPolicies.add(a.getName());
         }
         return assignmentsPolicies;
-    }
-    public static List<String> getAllPastGames(){
-        List<String> pastGames = new LinkedList<>();
-        for(Game game : Database.getAllPastGames()){
-                pastGames.add(game.toString());
-        }
-        return pastGames;
     }
 
     public List<String> getAllLeagues() {

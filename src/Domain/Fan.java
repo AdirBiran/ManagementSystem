@@ -14,9 +14,9 @@ public class Fan extends Role implements Observer {
         this.userId = userId;
         this.address = address;
         this.phone = phone;
-        complaintsId = new LinkedList<>();
-        followPages = new LinkedList<>();
-        myRole = "Fan";
+        this.complaintsId = new LinkedList<>();
+        this.followPages = new LinkedList<>();
+        this.myRole = "Fan";
     }
 
     public Fan(String userId, String address, String phone, List<PersonalPage> personalPages, List<String> complaintsId)
@@ -26,6 +26,7 @@ public class Fan extends Role implements Observer {
         this.phone = phone;
         this.followPages = personalPages;
         this.complaintsId = complaintsId;
+        this.myRole = "Fan";
     }
 
     public boolean addPageToFollow(String pageId){
@@ -67,11 +68,6 @@ public class Fan extends Role implements Observer {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof Fan;
-    }
-
-    @Override
-    public String myRole() {
-        return "Fan";
     }
 
     @Override

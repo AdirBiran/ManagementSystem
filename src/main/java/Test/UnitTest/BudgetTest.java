@@ -17,8 +17,6 @@ public class BudgetTest {
     public void init() {
         system = new FootballManagementSystem();
         system.systemInit(false);
-        //String  leagueId = system.dataReboot();
-        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
 
         LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         team = league.getTeams().get(0);
@@ -33,13 +31,9 @@ public class BudgetTest {
     @Test
     public void addExpanse() {
         double expanseTeam = team.getBudget().getExpanses();
-        team.addExpanse( 1000);
+        team.addExpanse(1000);
         assertEquals(team.getBudget().getExpanses(), expanseTeam+1000, 0);
-        /*for notification*/
-        Admin admin = (Admin) system.getAdmin();
-        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
-        team.addExpanse(1000000000);
-        assertEquals(union.getMessageBox().size(), 1);
+        team.addExpanse(-1000);
     }
 
     @Test

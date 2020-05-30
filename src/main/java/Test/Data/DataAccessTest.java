@@ -25,11 +25,14 @@ public class DataAccessTest {
         // Get Cell values (whole row)
         List<String> res = dao.getAllCellValues("Complaints", "12345");
 
-        // Get all table
-        List<String> res2 = dao.getAllTableValues("Complaints");
-
         // Update cell to new value
         dao.updateCellValue("Complaints", "Description", "12345", "new Value");
+
+        //Get all field values
+        List<String> usersIds = dao.getAllFieldValues("Users", "ID");
+
+        //Delete ID from all tables
+        boolean success = dao.deleteIdFromAllTables("C240");
 
     }
     @Test
