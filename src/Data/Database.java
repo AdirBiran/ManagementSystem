@@ -217,7 +217,7 @@ public class Database //maybe generalize with interface? //for now red layer
              [LeagueInSeasonID] [char] (50) NOT NULL,
              * */
 
-            ans1 = dataAccess.updateCellValue("Games","GameDate",((Game) object).getId() ,""+((Game) object).getDate());
+            ans1 = dataAccess.updateCellValue("Games","GameDate",((Game) object).getId(), dateToString(((Game) object).getDate()));
             ans2 = dataAccess.updateCellValue("Games","HostScore", ((Game) object).getId(),""+((Game) object).hostScore());
             ans3 = dataAccess.updateCellValue("Games","GuestScore", ((Game) object).getId(),""+((Game) object).guestScore());
             ans4 = dataAccess.updateCellValue("Games","FieldID" ,((Game) object).getId(),((Game) object).getField().getID());
@@ -862,8 +862,8 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
-    public static void removeFromTables(Objects objects){
-
+    public static void removeFromTables(String id){
+        dataAccess.deleteIdFromAllTables(id);
     }
 
     public static void removeField(String assetId) {
@@ -2124,8 +2124,12 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static boolean addSeason(Season season) {
 
-        if(!dataAccess.isIDExists("Seasons" ,season.getId() )) {
-
+        List<String> years = dataAccess.getAllFieldValues("Seasons", "SeasonYear");
+        for(String year : years){
+            if(year.equals(""+season.getYear()))
+                return false;
+        }
+        if(!dataAccess.isIDExists("Seasons" ,season.getId())){
             dataAccess.addCell("Seasons", season.getId(), "" + season.getYear(),
                     dateToString(season.getStartDate()), getLeagueInSeasonIds(season.getLeagueInSeasons()));
             return true;
