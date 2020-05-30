@@ -10,6 +10,7 @@ public class RefereeSystem {
     public RefereeSystem() {
     }
 
+
     public boolean addEventToGame(String userID, String gameID, String event, String playerId, String teamId){
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("Referee");
@@ -81,6 +82,19 @@ public class RefereeSystem {
             return ((Referee)role).getAllOccurringGame();
         }
         Logger.logError("Getting All Occurring games failed");
+        return null;
+    }
+
+    public List<String> getAllTeamAssets(String userId, String teamId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Referee");
+            if (role instanceof Referee) {
+                Logger.logEvent(user.getID(), "Got all Team Assets");
+                return (role).getAllTeamAssets(teamId);
+            }
+        }
+        Logger.logError("Failed getting all Team Assets");
         return null;
     }
 }

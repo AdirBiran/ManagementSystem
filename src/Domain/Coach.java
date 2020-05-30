@@ -74,11 +74,6 @@ public class Coach extends Role implements PartOfATeam {
     }
 
     @Override
-    public String myRole() {
-        return "Coach";
-    }
-
-    @Override
     public String toString() {
         return "Coach" +
                 ", id= " +userId +

@@ -35,7 +35,7 @@ public class GameNotificationsTest {
         mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
         LeagueInSeason league = Database.getLeagueInSeason(system.dataReboot());
-        game = Database.getAllFutureGames().get(0);
+        //game = Database.getAllFutureGames().get(0);
 
     }
     @Test

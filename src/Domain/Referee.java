@@ -19,7 +19,7 @@ public class Referee extends Role implements Observer {
         this.userId = userId;
         this.training = training;
         games = new HashSet<>();
-        myRole = "Referee";
+        this.myRole = "Referee";
     }
 
     public Referee(String userId, String training, HashSet<Game> games)
@@ -27,6 +27,7 @@ public class Referee extends Role implements Observer {
         this.userId = userId;
         this.training = TrainingReferee.valueOf(training);
         this.games = games;
+        this.myRole = "Referee";
     }
 
     public void addGame(Game game) {
@@ -69,11 +70,6 @@ public class Referee extends Role implements Observer {
             }
         }
         return false;
-    }
-
-    @Override
-    public String myRole() {
-        return "Referee";
     }
 
     @Override
@@ -120,14 +116,6 @@ public class Referee extends Role implements Observer {
             gameReport.addAll(game.getEventReportString());
         }
         return gameReport;
-    }
-
-    public static List<String> getAllPastGames(){
-        List<String> pastGames = new LinkedList<>();
-        for(Game game : Database.getAllPastGames()){
-                pastGames.add(game.toString());
-        }
-        return pastGames;
     }
 
     public String getAllOccurringGame() {

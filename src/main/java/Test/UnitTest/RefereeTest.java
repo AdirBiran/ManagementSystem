@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -20,6 +18,7 @@ public class RefereeTest {
     Fan fan;
     Game game;
     Referee referee;
+    LeagueInSeason league;
 
     @Before
     public void init() {
@@ -28,20 +27,20 @@ public class RefereeTest {
         //String  leagueId = system.dataReboot();
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
 
-        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+        league =system.getDatabase().getAllLeaguesInSeasons().get(0);
 
         Admin admin = (Admin) system.getAdmin();
         Guest guest = new Guest();
-        //user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        user = guest.login("fan@gmail.com", "Aa1234");
-        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
-        Role pageRole = mesi.checkUserRole("HasPage");
-        mesiPage = ((HasPage) pageRole).getPage();
-        fan = (Fan) user.checkUserRole("Fan");
-        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
-        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-        unionRole.assignGames(league.getId());
-        game=league.getGames().get(0);
+        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+//        user = guest.login("fan@gmail.com", "Aa1234");
+//        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
+//        Role pageRole = mesi.checkUserRole("HasPage");
+//        mesiPage = ((HasPage) pageRole).getPage();
+//        fan = (Fan) user.checkUserRole("Fan");
+//        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+//        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
+//        unionRole.assignGames(league.getId());
+        game= Database.getGame(league.getGamesId().get(0));
         referee=game.getMainReferee();
     }
 
@@ -73,7 +72,7 @@ public class RefereeTest {
     public void addEventToGame() {
         game.getDate().setHours((new Date()).getHours());
         referee.addEventToGame(game.getId(),Event.EventType.RedCard,game.getHostTeam().getPlayers().get(0).getID(), game.getHostTeam().getID());
-        assertEquals(1,game.getEventReport().getEvents().size());
+        assertEquals(1,Database.getGame(game.getId()).getEventReport().getEvents().size());
     }
 
     @Test

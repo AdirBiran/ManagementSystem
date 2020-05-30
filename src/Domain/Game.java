@@ -23,7 +23,6 @@ public class Game extends Observable {
     public Game(Date date, Field field, Referee mainReferee, List<Referee> sideReferees,
                 Team hostTeam, Team guestTeam, LeagueInSeason league) {
         this.league = league;
-        league.addGame(this);
         this.id = "G"+IdGenerator.getNewId();
         this.date = date;
         this.field = field;
@@ -36,6 +35,7 @@ public class Game extends Observable {
         this.guestTeam = guestTeam;
         this.name = hostTeam.getID() + ":" + hostTeam.getName() + " VS " + guestTeam.getID() + ":" + guestTeam.getName();
         eventReport = new EventReport();
+        Database.addEventReport(eventReport);
         hostScore=0;
         guestScore=0;
         fansForAlerts = new HashMap<>();
@@ -52,6 +52,7 @@ public class Game extends Observable {
         this.sideReferees = sideReferees;
         this.hostTeam = hostTeam;
         this.guestTeam = guestTeam;
+        this.name = hostTeam.getID() + ":" + hostTeam.getName() + " VS " + guestTeam.getID() + ":" + guestTeam.getName();
         this.fansForAlerts = fansAlerts;
         this.eventReport = eventReport;
         this.league = lis;
@@ -62,13 +63,6 @@ public class Game extends Observable {
     public String toString() {
         return id +","+name +","+date;
 
-    }
-
-    public String printForFan(Fan fan) {
-        if(fansForAlerts.containsKey(fan))
-            return id+","+name+","+date+",+";
-        else
-            return id+","+name+","+date+",-";
     }
 
     private void addRefereeToObservers(Referee mainReferee, List<Referee> sideReferees) {

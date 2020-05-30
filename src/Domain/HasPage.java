@@ -7,8 +7,8 @@ public class HasPage extends Role{
     private PersonalPage page;
 
     public HasPage(PersonalPage page) {
-
         this.page = page;
+        this.myRole = "HasPage";
     }
 
     public void uploadToPage(String data)
@@ -20,11 +20,6 @@ public class HasPage extends Role{
     @Override
     public boolean equals(Object obj) {
         return obj instanceof HasPage;
-    }
-
-    @Override
-    public String myRole() {
-        return "HasPage";
     }
 
     public String viewPage(String pageId) {

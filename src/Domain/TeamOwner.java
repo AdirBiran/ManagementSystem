@@ -12,11 +12,11 @@ public class TeamOwner extends Manager implements Observer {
 
     public TeamOwner(String userId) {
         super();
-        closedTeams = new LinkedList<>();
-        personalPages = new HashMap<>();
-        appointedTeamOwners = new HashMap<>();
-        appointedTeamManagers = new HashMap<>();
-        myRole = "TeamOwner";
+        this.closedTeams = new LinkedList<>();
+        this.personalPages = new HashMap<>();
+        this.appointedTeamOwners = new HashMap<>();
+        this.appointedTeamManagers = new HashMap<>();
+        this.myRole = "TeamOwner";
         this.userId = userId;
     }
 
@@ -28,11 +28,7 @@ public class TeamOwner extends Manager implements Observer {
         this.appointedTeamOwners = appointedTeamOwners;
         this.appointedTeamManagers = appointedTeamManagers;
         this.personalPages = personalPages;
-    }
-
-    @Override
-    public String myRole() {
-        return "TeamOwner";
+        this.myRole = "TeamOwner";
     }
 
     @Override

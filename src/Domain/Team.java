@@ -1,6 +1,7 @@
 package Domain;
 
 import Data.Database;
+
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Observable;
@@ -20,7 +21,7 @@ public class Team extends Observable {
     private Budget budget;
     private List<Game> games;
     private List<Field> fields;
-    private List<LeagueInSeason> leagues;
+    private List<String> leaguesId;
     private boolean active;
     private boolean permanentlyClosed; //closed by admin and cannot open again
 
@@ -55,10 +56,10 @@ public class Team extends Observable {
         this.games = new LinkedList<>();
         this.active = true;
         this.permanentlyClosed = false;
-        this.leagues = new LinkedList<>();
+        this.leaguesId = new LinkedList<>();
     }
 
-    public Team(String id, String name, int wins, int losses, int draws, PersonalPage page, List<User> teamOwners, List<User> teamManagers, List<User> players, List<User> coaches, Budget budget, List<Game> games, List<Field> fields, List<LeagueInSeason> lis, boolean isActive, boolean isPermanentlyClosed)
+    public Team(String id, String name, int wins, int losses, int draws, PersonalPage page, List<User> teamOwners, List<User> teamManagers, List<User> players, List<User> coaches, Budget budget, List<Game> games, List<Field> fields, List<String> lis, boolean isActive, boolean isPermanentlyClosed)
     {
         this.id = id;
         this.name = name;
@@ -73,14 +74,14 @@ public class Team extends Observable {
         this.budget = budget;
         this.games = games;
         this.fields = fields;
-        this.leagues = lis;
+        this.leaguesId = lis;
         this.active = isActive;
         this.permanentlyClosed = isPermanentlyClosed;
     }
 
     public boolean addLeague(LeagueInSeason league) {
-        if(!leagues.contains(league)){
-            this.leagues.add(league);
+        if(!leaguesId.contains(league)){
+            this.leaguesId.add(league.getId());
             league.addATeam(this);
             return true;
         }
@@ -248,7 +249,7 @@ public class Team extends Observable {
             Player player = (Player)user.checkUserRole("Player");
             if(player!=null){
                 for(Team playersTeams: player.getTeams()){
-                    if(doListsHaveLeaguesInCommon(this.leagues,playersTeams.leagues))
+                    if(doListsHaveLeaguesInCommon(this.leaguesId,playersTeams.leaguesId))
                         return false;
                 }
                 this.players.add(user);
@@ -261,9 +262,9 @@ public class Team extends Observable {
         return false;
     }
 
-    private boolean doListsHaveLeaguesInCommon(List<LeagueInSeason> list1, List<LeagueInSeason> list2){
-        for(LeagueInSeason league1:list1){
-            for(LeagueInSeason league2: list2){
+    private boolean doListsHaveLeaguesInCommon(List<String> list1, List<String> list2){
+        for(String league1:list1){
+            for(String league2: list2){
                 if(league1.equals(league2))
                     return true;
             }
@@ -467,7 +468,7 @@ public class Team extends Observable {
         return 0;
     }
 
-    public List<LeagueInSeason> getLeaguesInSeason() {
-        return leagues;
+    public List<String> getLeaguesInSeason() {
+        return this.leaguesId;
     }
 }

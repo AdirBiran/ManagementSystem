@@ -32,7 +32,7 @@ public class User extends Guest {
         this.lastName = lastName;
         this.ID = ID +counter;
         counter++;
-        //this.ID = ID + IdGenerator.getNewId();
+        this.ID = ID + IdGenerator.getNewId();
         if(!matcher.find())
             throw new RuntimeException("email address not valid");
         this.mail = mail;

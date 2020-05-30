@@ -29,7 +29,7 @@ public class EventsGameTest {
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         admin = (Admin) system.getAdmin();
-        game=league.getGames().get(0);
+        game= Database.getGame(league.getGamesId().get(0));
         referee=game.getMainReferee();
         mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
 
