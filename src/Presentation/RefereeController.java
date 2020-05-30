@@ -1,6 +1,7 @@
 package Presentation;
 
 import Presentation.Records.GameRecord;
+import Presentation.Records.PlayerRecord;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,9 +28,9 @@ public class RefereeController extends GeneralController{
         this.mainPane = mainPane;
     }
 
-    //make sure getOccurringGame() returns the game relevant for the user -
-    //a game that he is assign to and is occurring now + 5 hours
-    //if you cant find any return ""
+    private HashMap<String, PlayerRecord> playersMap;
+    private ChoiceBox<String> cb_players;
+
     public void  addEventToGame(){
         clearMainView(mainView1);
         clearMainView(mainPane);
@@ -45,27 +46,67 @@ public class RefereeController extends GeneralController{
             ChoiceBox<String> cb_types = new ChoiceBox<>(FXCollections.observableArrayList("Goal", "Offside", "Foul", "RedCard", "YellowCard","Injury", "Replacement"));
             mainPane.add(cb_types, 1,row);
             row++;
-            String[] split = gameRecord.getName().split("vs");
+            String[] split = gameRecord.getName().split("VS");
+            cb_players = new ChoiceBox<>(FXCollections.observableArrayList());
             ChoiceBox<String> cb_teams = new ChoiceBox<>(FXCollections.observableArrayList(split[0],split[1]));
+            cb_teams.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    List<String> teamAssets;
+                    if(gameRecord.getTeam1Name().equals(cb_teams.getValue())){
+                        teamAssets = client.sendToServer("getAllTeamAssets_R|"+loggedUser+"|"+gameRecord.getTeam1Id());
+                    }
+                    else{
+                        teamAssets = client.sendToServer("getAllTeamAssets_R|"+loggedUser+"|"+gameRecord.getTeam2Id());
+                    }
+                    playersMap = new HashMap<>();
+                    for(String asset : teamAssets){
+                        if(!asset.contains("Failed")){
+                            if(asset.contains("ID=P")){
+                                PlayerRecord record = new PlayerRecord(asset);
+                                cb_players.getItems().add(record.getName());
+                                playersMap.put(record.getId(), record);
+                            }
+                        }
+                        else
+                            cb_players.getItems().add("");
+                    }
+                }
+            });
             Label team = new Label("Team:");
             mainPane.add(team, 0,row);
             mainPane.add(cb_teams, 1,row);
             row++;
-
-            //let user select player  -  howw??
-            Label description = new Label("Description:");
-            mainPane.add(description,0,row);
-            TextArea t_description = new TextArea();
-            mainPane.add(t_description,1,row);
+            Label player = new Label("Player:");
+            mainPane.add(player, 0,row);
+            mainPane.add(cb_players, 1,row);
             row++;
             Button addBtn = new Button("Add");
             addBtn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    if(cb_types.getValue().length()>0&&t_description.getText().length()>0 && cb_teams.getValue().length()>0){
-                        List<String> receive = client.sendToServer("addEventToGame|"+loggedUser+"|"+game+"|"+cb_teams.getValue()+"|"+cb_types.getValue()+"|"+t_description.getText());
+
+                    if(cb_types.getValue().length()>0 && cb_teams.getValue().length()>0 && cb_players.getValue().length()>0){
+                        String teamId, playerId = "";
+                        if(gameRecord.getTeam1Name().equals(cb_teams.getValue()))
+                            teamId = gameRecord.getTeam1Id();
+
+                        else
+                            teamId = gameRecord.getTeam2Id();
+
+                        for(String id : playersMap.keySet()){
+                            if(cb_players.getValue().equals(playersMap.get(id).getName()))
+                                playerId = id;
+                        }
+                        List<String> receive = client.sendToServer("addEventToGame|"+loggedUser+"|"+gameRecord.getId()+"|"+cb_types.getValue()+"|"+playerId+"|"+teamId);
                         showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                        if(receive.get(0).contains("Succeed")){
+                            clearMainView(mainView1);
+                            clearMainView(mainPane);
+                        }
                     }
+                    else
+                        showAlert("Invalid arguments! please fill in all fields", Alert.AlertType.ERROR);
                 }
             });
             mainPane.add(addBtn,0,row);
@@ -80,7 +121,8 @@ public class RefereeController extends GeneralController{
         clearMainView(mainPane);
         String game = getOccurringGame();
         if(game.length()>0){
-            Label labelGame = new Label(game);
+            GameRecord gameRecord = new GameRecord(game);
+            Label labelGame = new Label(gameRecord.getName());
             mainPane.add(labelGame, 0,0);
             Label hostScore = new Label("Host Score:");
             mainPane.add(hostScore, 0,1);
@@ -98,7 +140,7 @@ public class RefereeController extends GeneralController{
                 public void handle(ActionEvent event) {
                     String host =h_score.getValue(),guest = g_score.getValue();
                     if(Checker.isValidNumber(host)&& Checker.isValidNumber(guest)){
-                        List<String> receive = client.sendToServer("setScoreInGame|"+loggedUser+"|"+game+"|"+host+"|"+guest);
+                        List<String> receive = client.sendToServer("setScoreInGame|"+loggedUser+"|"+gameRecord.getId()+"|"+host+"|"+guest);
                         showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                     }
                 }
@@ -147,6 +189,7 @@ public class RefereeController extends GeneralController{
         clearMainView(mainPane);
         String game = getOccurringGame();
         if(game.length()>0){
+            GameRecord gameRecord = new GameRecord(game);
             Label label = new Label("Please select an event to change:");
             mainPane.add(label, 0,0);
             Label lb_events = new Label("Events:");
@@ -155,7 +198,7 @@ public class RefereeController extends GeneralController{
 
             ObservableList<String> listEvents = FXCollections.observableArrayList();
             mainPane.setAlignment(Pos.CENTER);
-            List<String> gameReport = client.sendToServer("getEventReport|"+loggedUser+"|"+game);
+            List<String> gameReport = client.sendToServer("getGameReport|"+loggedUser+"|"+gameRecord.getId());
             for(String report :gameReport){
                 if(report.length()>0){
                     listEvents.add(report);
@@ -180,6 +223,7 @@ public class RefereeController extends GeneralController{
     }
 
     private void showEventDetails(GridPane pane, String eventString,String game, int startRow) {
+        //open event form?
         Label event = new Label(eventString);
         pane.add(event,0,startRow);
         Label description = new Label("Description:");
@@ -201,7 +245,7 @@ public class RefereeController extends GeneralController{
 
     private ObservableList<String> addScores() {
         ObservableList<String> scores = FXCollections.observableArrayList();
-        for (int i = 0; i <16 ; i++) {
+        for (int i = 0; i <11 ; i++) {
             scores.add(""+i);
         }
         return scores;

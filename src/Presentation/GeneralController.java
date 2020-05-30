@@ -185,6 +185,10 @@ public abstract class GeneralController {
 
     public void showAlert(String s, Alert.AlertType type) {
         Alert alert = new Alert(type,s);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                getClass().getResource("AppStyle.css").toExternalForm());
+
         alert.show();
     }
 
@@ -666,7 +670,8 @@ public abstract class GeneralController {
         List<String> results = new ArrayList<>();
         for(String item : items){
             for(String id : map.keySet()){
-                if(item.equals(map.get(id).getName())){
+                String name = map.get(id).getName();
+                if(item.equals(name)){
                     results.add(id);
                     break;
                 }

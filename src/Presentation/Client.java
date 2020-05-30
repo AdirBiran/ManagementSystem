@@ -46,7 +46,8 @@ public class Client  {
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+           sendNotification("Can't connect to server, please try again later");
+           ClientMain.getStage().close();
         }
 
     }

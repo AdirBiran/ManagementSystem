@@ -141,8 +141,9 @@ public class UnionController extends GeneralController {
             public void handle(ActionEvent event) {
                 String league =cb_leagues.getValue() , season = cb_seasons.getValue(), assignment = cb_assignment.getValue(), score = cb_score.getValue(), fee = tf_fee.getText();
                 if(Checker.isValid(league)&&Checker.isValid(season) &&Checker.isValid(assignment)&&Checker.isValid(score)&&Checker.isValidNumber(fee)){
-
-                    List<String> receive = client.sendToServer("configureLeagueInSeason|"+loggedUser+"|"+league+"|"+season+"|"+assignment+"|"+score+"|"+fee);
+                    String leagueId = getIdFromName(league, leagues);
+                    String seasonId = getIdFromName(season, seasons);
+                    List<String> receive = client.sendToServer("configureLeagueInSeason|"+loggedUser+"|"+leagueId+"|"+seasonId+"|"+assignment+"|"+score+"|"+fee);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                     clearMainView(mainView1);
                 }
@@ -373,7 +374,8 @@ public class UnionController extends GeneralController {
                     showAlert("No league or policy was selected!", Alert.AlertType.ERROR);
                     return;
                 }
-                List<String> receive = client.sendToServer("changeScorePolicy|"+loggedUser+"|"+ cb_leagueInSeasons.getValue()+"|"+cb_policies.getValue());
+                String leagueId = getIdFromName(cb_leagueInSeasons.getValue(), leagueInSeasons);
+                List<String> receive = client.sendToServer("changeScorePolicy|"+loggedUser+"|"+leagueId+"|"+cb_policies.getValue());
                 if(receive.get(0).contains("Succeed")){
                     showAlert("Policy has changed to"+cb_policies.getValue(), Alert.AlertType.INFORMATION);
                 }
@@ -399,7 +401,7 @@ public class UnionController extends GeneralController {
             }
         }
         addChangeButton(pane);
-        pane.setAlignment(Pos.TOP_CENTER);
+
         mainView1.getChildren().add(pane);
     }
 
