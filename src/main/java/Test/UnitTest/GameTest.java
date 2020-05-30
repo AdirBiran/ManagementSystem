@@ -6,11 +6,6 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-
 import static org.junit.Assert.*;
 
 public class GameTest {
@@ -33,7 +28,7 @@ public void init(){
     User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
     UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
     unionRole.assignGames(league.getId());
-    game = league.getGames().get(0);
+        game= Database.getGame(league.getGamesId().get(0));
     Guest guest = new Guest();
     user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
     fan = (Fan) user.checkUserRole("Fan");

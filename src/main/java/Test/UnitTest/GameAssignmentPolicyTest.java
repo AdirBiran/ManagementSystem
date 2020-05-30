@@ -6,12 +6,6 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.junit.Assert.*;
-
 public class GameAssignmentPolicyTest {
     Game game;
     FootballManagementSystem system;
@@ -30,7 +24,7 @@ public class GameAssignmentPolicyTest {
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
         unionRole.assignGames(league.getId());
-        game = league.getGames().get(0);
+        game= Database.getGame(league.getGamesId().get(0));
     }
 
     @Test

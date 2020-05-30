@@ -26,7 +26,7 @@ public class EventReportTest {
         User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
         UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
         unionRole.assignGames(league.getId());
-        game = league.getGames().get(0);
+        game= Database.getGame(league.getGamesId().get(0));
         eventReport = game.getEventReport();
         event = new Event(Event.EventType.RedCard, game, "add event");
 

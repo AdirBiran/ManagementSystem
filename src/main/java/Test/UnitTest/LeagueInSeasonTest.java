@@ -6,7 +6,6 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -65,8 +64,8 @@ leagueInSeason.addATeam(team0);
         Game  game = new Game(Database.getDate(2020, 5, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
         List<Game> games=new LinkedList<>();
         games.add(game);
-        leagueInSeason.setGames(games);
-        assertEquals(leagueInSeason.getGames().size(),1);
+        leagueInSeason.setGamesId(games);
+        assertEquals(leagueInSeason.getGamesId().size(),1);
 
     }
 
@@ -81,7 +80,7 @@ leagueInSeason.addATeam(team0);
         sideReferees.add(leagueInSeason.getReferees().get(2));
         Game  game = new Game(Database.getDate(2020, 5, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
         leagueInSeason.addGame(game);
-        assertEquals(leagueInSeason.getGames().size(),1);
+        assertEquals(leagueInSeason.getGamesId().size(),1);
 
     }
 
@@ -92,7 +91,7 @@ leagueInSeason.addATeam(team0);
 
     @Test
     public void getAllGames() {
-        assertEquals(leagueInSeason.getGames().size(),0);
+        assertEquals(leagueInSeason.getGamesId().size(),0);
 
     }
 
@@ -107,7 +106,7 @@ leagueInSeason.addATeam(team0);
         sideReferees.add(leagueInSeason.getReferees().get(2));
         Game  game = new Game(Database.getDate(2020, 5, 25, 20, 0), field, mainReferee, sideReferees, team0, team1, leagueInSeason);
         leagueInSeason.addGame(game);
-        assertNotNull(leagueInSeason.getGameById(game.getId()));
+        assertNotNull(leagueInSeason.getGamesId());
 
 
     }

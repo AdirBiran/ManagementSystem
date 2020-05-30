@@ -58,7 +58,7 @@ public class UnionRepresentative extends Role implements Observer {
         LeagueInSeason league = Database.getLeagueInSeason(leagueId);
         List<Game> games =league.getAssignmentPolicy().assignGames(league);
         if(games!=null){
-            league.setGames(games);
+            league.setGamesId(games);
             return true;
         }
         return false;
