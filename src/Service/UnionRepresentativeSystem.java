@@ -431,7 +431,7 @@ public class UnionRepresentativeSystem {
         Role role = user.checkUserRole("UnionRepresentative");
         if(role instanceof  UnionRepresentative ) {
             Logger.logEvent(user.getID(), "Got all Assignments Policies");
-            return ((UnionRepresentative)role).getAllReferees();
+            return ((UnionRepresentative)role).getAllAssignmentsPolicies();
         }
         Logger.logError("Getting all assignments policies Failed");
         return null;
