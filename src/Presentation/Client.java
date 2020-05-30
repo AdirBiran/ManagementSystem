@@ -52,6 +52,16 @@ public class Client  {
 
     }
 
+    public void closeSockets(){
+        try {
+            socket.close();
+            notificactionsSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void startNotifications(String uid)
     {
 
@@ -224,7 +234,7 @@ public class Client  {
             res = res + s + "~";
 
         res = res.substring(0, res.length()-1);
-        res = res + "\n";
+
 
         return res;
     }

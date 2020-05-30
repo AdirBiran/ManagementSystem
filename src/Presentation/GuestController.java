@@ -95,6 +95,7 @@ public class GuestController extends GeneralController implements Initializable 
                 alert.setHeaderText("Exit");
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get().equals(ButtonType.OK)){
+                    //closeSockets(m_client);
                     ClientMain.getStage().close();
                 } else {
                     event.consume();
