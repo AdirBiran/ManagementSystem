@@ -490,7 +490,7 @@ public class Server {
                         handle_getAllFutureGames(splitLine, clientSocket);
                         break;
 
-                    case "registrationForGamesAlerts": // Done
+                    case "followGames": // Done
                         handle_registrationForGamesAlerts(splitLine, clientSocket);
                         break;
 
@@ -1445,12 +1445,17 @@ public class Server {
     }
 
     private void handle_registrationForGamesAlerts(String[] splitLine, Socket clientSocket) {
-        boolean success = userSystem.registrationForGamesAlerts(splitLine[1], stringToList(splitLine[2]), stringToBoolean(splitLine[3]));
+        try{
+            boolean success = userSystem.registrationForGamesAlerts(splitLine[1], stringToList(splitLine[2]), stringToBoolean(splitLine[3]));
 
-        if (success)
-            sendLineToClient("Succeed registering for game alerts", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed registering for game alerts", clientSocket);
+            else
+                sendLineToClient("Failed registering for game alerts", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed registering for game alerts", clientSocket);
+        }
+
     }
 
     private void handle_getAllFutureGames(String[] splitLine, Socket clientSocket) {
