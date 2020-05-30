@@ -860,6 +860,10 @@ public class Database //maybe generalize with interface? //for now red layer
 
     }
 
+    public static void removeFromTables(Objects objects){
+
+    }
+
     public static void removeField(String assetId) {
         Field field = getField(assetId);
 
@@ -1773,7 +1777,7 @@ public class Database //maybe generalize with interface? //for now red layer
         for(String userString : teamOwners){
             List<String> tempUser = split(userString);
             List<String> user = dataAccess.getAllCellValues("Users", tempUser.get(0));
-            allUsers.add((User) createObject("User" , tempUser));
+            allUsers.add((User) createObject("User" , user));
         }
 
         for(User checkUser : allUsers){
@@ -1878,14 +1882,20 @@ public class Database //maybe generalize with interface? //for now red layer
         return pastGames;
     }
 
-    public static List<Game> getAllFutureGames() {
-        List<Game> games = getAllGames();
+    public static List<String> getAllFutureGames() {
+        List<String> games;
         Date currentDate = new Date();
-        List<Game> futureGames = new LinkedList<>();
+        List<String> futureGames = new LinkedList<>();
 
-        for(Game game : games){
-            if(currentDate.before(game.getDate())){
-                futureGames.add(game);
+        games = dataAccess.getAllTableValues("Games");
+
+        for(String gameString : games){
+            List<String> game = split(gameString);
+            if(currentDate.before(stringToDateJAVA(game.get(1)))){
+                if(game.get(9).equals(""))
+                    futureGames.add(game.get(0)+" name "+game.get(1));
+                else
+                    futureGames.add(game.get(0)+" name "+game.get(1)+" "+game.get(9));
             }
         }
         return futureGames;
@@ -2210,7 +2220,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
         boolean flag = false;
 
-        if(!dataAccess.isIDExists("Users",user.getID())){
+        if(!dataAccess.isMailExists(user.getMail())){
 
             //users table
             dataAccess.addCell("Users" ,user.getID(),

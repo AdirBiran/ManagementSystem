@@ -96,7 +96,7 @@ public class FootballManagementSystem {
         //***presentation***//
         systemAdmins = new LinkedList<>();
         if(firsTime){
-            User admin = UserFactory.getNewAdmin("Aa1234","adminush","","example@gmail.com");
+            User admin = UserFactory.getNewAdmin("Aa1234","adminush","first","example@gmail.com");
             Admin systemAdmin = (Admin) admin.checkUserRole("Admin");
             systemAdmins.add(systemAdmin);
 

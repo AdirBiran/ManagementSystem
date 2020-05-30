@@ -83,4 +83,17 @@ public class RefereeSystem {
         Logger.logError("Getting All Occurring games failed");
         return null;
     }
+
+    public List<String> getAllTeamAssets(String userId, String teamId){
+        User user = UserFactory.getUser(userId);
+        if(user!=null) {
+            Role role = user.checkUserRole("Referee");
+            if (role instanceof Manager) {
+                Logger.logEvent(user.getID(), "Got all Team Assets");
+                return (role).getAllTeamAssets(teamId);
+            }
+        }
+        Logger.logError("Failed getting all Team Assets");
+        return null;
+    }
 }

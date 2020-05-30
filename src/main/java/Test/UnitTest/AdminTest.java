@@ -21,22 +21,16 @@ public class AdminTest {
     User user;
     @Before
     public void init(){
-       system = new FootballManagementSystem();
-
-        system.systemInit(false);//true- to create new
-
+        system = new FootballManagementSystem();
+        system.systemInit(false);
         //String  leagueId = system.dataReboot();
-        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-
         LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
-
-        //initTest inittest = new initTest(true);
 
         team = league.getTeams().get(0);
         admin = system.getAdmin();
         Guest guest = new Guest();
-        //user = guest.register("fan@gmail.com", "Aa1234","test","testFan","0502055454","aa");
-        user = guest.login("fan@gmail.com", "Aa1234");
+        user = guest.register("fan@gmail.com", "Aa1234","test","testFan","0502055454","aa");
+        //user = guest.login("fan@gmail.com", "Aa1234");
     }
 
     @Test
@@ -48,7 +42,9 @@ public class AdminTest {
 
     @Test
     public void addNewPlayer() {
-    assertNotNull(admin.addNewPlayer("lionel","mesi","lmesi@gmail.com",Database.getDate(1992, 1, 1), Player.RolePlayer.attackingPlayer,300000));
+        User newUser = admin.addNewPlayer("lionel","mesi","lmesi@gmail.com",Database.getDate(1992, 1, 1), Player.RolePlayer.attackingPlayer,300000);
+        assertNotNull(newUser);
+
     }
 
     @Test
