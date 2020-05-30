@@ -24,7 +24,7 @@ public class EventReport {
     public void addEvent(Event event){
         if(!events.contains(event)) {
             events.add(event);
-            //Database.addEvent("Event", event);
+            Database.addEvent(event);
             Database.updateObject(this);
         }
     }

@@ -125,10 +125,10 @@ public class Fan extends Role implements Observer {
         if(stringList.length>4) {
             for(int i=3; i<stringList.length; i++){
                 if(stringList[i].equals(this.getID()))
-                    return game+ ",+";
+                    return game+ "+";
             }
         }
-        return game+",-";
+        return game+"-";
     }
 
     public String getAddress() {

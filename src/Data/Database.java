@@ -23,6 +23,7 @@ public class Database //maybe generalize with interface? //for now red layer
         String dateString =""+localDate.getDayOfMonth();
         dateString = dateString +"."+ localDate.getMonthValue();
         dateString = dateString +"."+ localDate.getYear();
+        dateString = dateString + " " + date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
         return dateString;
     }
 
@@ -1061,7 +1062,7 @@ public class Database //maybe generalize with interface? //for now red layer
         String[] split = dateTimeSplit[0].split("-");
 
         year = Integer.parseInt(split[0]);
-        month = Integer.parseInt(split[1]) - 1;
+        month = Integer.parseInt(split[1])-1;
         day = Integer.parseInt(split[2]);
 
         if (dateTimeSplit.length > 1)
@@ -1074,7 +1075,6 @@ public class Database //maybe generalize with interface? //for now red layer
         }
 
         cal.set(year, month, day, hours, minutes, seconds);
-
         return new java.util.Date(cal.getTimeInMillis());
     }
 
@@ -1185,18 +1185,6 @@ public class Database //maybe generalize with interface? //for now red layer
         }
         return allLeagueInSeason;
     }
-
-    /*private static  List<Referee> createSideReferees(String referees) {
-        List<String> listOfStrings = split(referees);
-        List<Referee> sideReferees = new LinkedList<>();
-        Referee sideR1 = getReferee(listOfStrings.get(0));
-        Referee sideR2 = getReferee(listOfStrings.get(1));
-        sideReferees.add(sideR1);
-        sideReferees.add(sideR2);
-
-        return sideReferees;
-    }*/
-
 
     private static List<Referee> listOfReferees(String referees){
         List<String> listOfReferees = split(referees);
@@ -1872,8 +1860,8 @@ public class Database //maybe generalize with interface? //for now red layer
 
         for(String gameString : games){
             List<String> game = dataAccess.getAllCellValues("Games", gameString);
-            if(currentDate.after(stringToDateJAVA(game.get(1)))){
-                pastGames.add(game.get(0)+",T0:team0 VS T1:team1,"+game.get(1));
+            if(currentDate.after(stringToDateJAVA(game.get(2)))){
+                pastGames.add(game.get(0)+","+game.get(1)+","+game.get(2));
             }
         }
         return pastGames;
@@ -1888,11 +1876,11 @@ public class Database //maybe generalize with interface? //for now red layer
 
         for(String gameString : games){
             List<String> game = dataAccess.getAllCellValues("Games", gameString);
-            if(currentDate.before(stringToDateJAVA(game.get(1)))){
+            if(currentDate.before(stringToDateJAVA(game.get(2)))){
                 if(game.get(9).equals(""))
-                    futureGames.add(game.get(0)+",T0:team0 VS T1:team1,"+game.get(1));
+                    futureGames.add(game.get(0)+","+game.get(1)+","+game.get(2).substring(0, game.get(2).indexOf(".")));
                 else
-                    futureGames.add(game.get(0)+" name "+game.get(1)+" "+game.get(9));
+                    futureGames.add(game.get(0)+","+game.get(1)+","+game.get(2).substring(0, game.get(2).indexOf("."))+","+game.get(10));
             }
         }
         return futureGames;
@@ -2181,8 +2169,8 @@ public class Database //maybe generalize with interface? //for now red layer
     public static boolean addGame(Game game){
 
         if(!dataAccess.isIDExists("Games",game.getId())) {
-            dataAccess.addCell("Games", game.getId(), dateToString(game.getDate()),
-                    game.getName(),
+            dataAccess.addCell("Games", game.getId(),game.getName(),
+                    dateToString(game.getDate()),
                     "" + game.hostScore(), "" + game.guestScore(), game.getField().getID(),
                     game.getMainReferee().getID(), game.getSideRefereesId(),
                     game.getHostTeam().getID(), game.getGuestTeam().getID(),
@@ -2366,6 +2354,22 @@ public class Database //maybe generalize with interface? //for now red layer
 
         if(!dataAccess.isIDExists("Admins", admin.getID())){
             dataAccess.addCell("Admins",admin.getID());
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean addEventReport(EventReport eventReport) {
+        if(!dataAccess.isIDExists("EventReports", eventReport.getId())){
+            dataAccess.addCell("EventReports",eventReport.getId(), getEventsId(eventReport.getEvents()));
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean addEvent(Event event) {
+        if(!dataAccess.isIDExists("Events", event.getId())){
+            dataAccess.addCell("Events",event.getId(), ""+event.getType(), dateToString(event.getDate()), ""+event.getMinuteInGame(), event.getDescription());
             return true;
         }
         return false;
