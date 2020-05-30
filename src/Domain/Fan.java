@@ -125,11 +125,10 @@ public class Fan extends Role implements Observer {
     }
 
     private String checkFan(String game) {
-        String[] stringList = game.split(" ");
-        if(stringList.length==4) {
-            String[] fans = stringList[3].split(",");
-            for(String f : fans){
-                if(f.equals(this.getID()))
+        String[] stringList = game.split(",");
+        if(stringList.length>4) {
+            for(int i=3; i<stringList.length; i++){
+                if(stringList[i].equals(this.getID()))
                     return game+ ",+";
             }
         }

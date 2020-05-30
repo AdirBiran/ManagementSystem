@@ -1891,9 +1891,10 @@ public class Database //maybe generalize with interface? //for now red layer
 
         for(String gameString : games){
             List<String> game = split(gameString);
+            game = dataAccess.getAllCellValues("Games", game.get(0));
             if(currentDate.before(stringToDateJAVA(game.get(1)))){
                 if(game.get(9).equals(""))
-                    futureGames.add(game.get(0)+" name "+game.get(1));
+                    futureGames.add(game.get(0)+",T0:team0 VS T1:team1,"+game.get(1));
                 else
                     futureGames.add(game.get(0)+" name "+game.get(1)+" "+game.get(9));
             }

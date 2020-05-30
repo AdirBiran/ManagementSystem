@@ -88,7 +88,7 @@ public class RefereeSystem {
         User user = UserFactory.getUser(userId);
         if(user!=null) {
             Role role = user.checkUserRole("Referee");
-            if (role instanceof Manager) {
+            if (role instanceof Referee) {
                 Logger.logEvent(user.getID(), "Got all Team Assets");
                 return (role).getAllTeamAssets(teamId);
             }
