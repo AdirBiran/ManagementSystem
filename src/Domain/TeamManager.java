@@ -17,12 +17,12 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
 
 
     public TeamManager(String userId, double price, boolean manageAssets , boolean finance ) {
-        teams = new HashSet<>();
+        this.teams = new HashSet<>();
         this.price = price;
-        isActive = true;
-        permissionManageAssets = manageAssets;
-        permissionFinance = finance;
-        myRole = "TeamManager";
+        this.isActive = true;
+        this.permissionManageAssets = manageAssets;
+        this.permissionFinance = finance;
+        this.myRole = "TeamManager";
         this.userId = userId;
     }
 
@@ -34,6 +34,7 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
         this.price = price;
         this.permissionManageAssets = manageAssets;
         this.permissionFinance = finance;
+        this.myRole = "TeamManager";
     }
 
     @Override
@@ -47,11 +48,6 @@ public class TeamManager extends Manager implements PartOfATeam, Observer {
         teamsToManage.remove(team);
         teams.remove(team);
         Database.updateObject(this);
-    }
-
-    @Override
-    public String myRole() {
-        return "TeamManager";
     }
 
     @Override

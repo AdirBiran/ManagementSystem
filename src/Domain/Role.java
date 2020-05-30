@@ -78,4 +78,9 @@ public abstract class Role{
         }
         return teamAssets;
     }
+
+    public static List<String> getAllPastGames(){
+        return Database.getAllPastGames();
+    }
+
 }
