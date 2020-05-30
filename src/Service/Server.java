@@ -770,7 +770,7 @@ public class Server {
                         handle_appointReferee(splitLine, clientSocket);
                         break;
 
-                    case "assignRefToLeague": // Done
+                    case "addRefereeToLeague": // Done
                         handle_assignRefToLeague(splitLine, clientSocket);
                         break;
 
@@ -849,7 +849,7 @@ public class Server {
                         handle_getAllDetailsAboutOpenTeams_Union(splitLine, clientSocket);
                         break;
 
-                    case "getAllOpenTeams":
+                    case "getAllOpenTeams_Union":
                         handle_getAllOpenTeams_Union(splitLine, clientSocket);
                         break;
 
