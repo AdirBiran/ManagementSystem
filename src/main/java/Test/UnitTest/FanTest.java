@@ -32,7 +32,7 @@ public class FanTest {
         Guest guest = new Guest();
         //user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         user = guest.login("lironoskar@gmail.com", "Aa1234");
-        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
+        //mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         //Role pageRole = mesi.checkUserRole("HasPage");
         //mesiPage = ((HasPage) pageRole).getPage();
         fan = (Fan) user.checkUserRole("Fan");
@@ -40,7 +40,8 @@ public class FanTest {
         //User union = admin.addNewUnionRepresentative("Union", "Rep", "union@gmail.com");
         //UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
         //unionRole.assignGames(league.getId());
-        game= Database.getGame(league.getGamesId().get(0));
+        game= Database.getGame(league.getGamesId().get(1));
+       //game.addFanForNotifications(fan,false);
     }
 
     @Test

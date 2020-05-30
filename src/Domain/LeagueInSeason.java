@@ -99,9 +99,11 @@ public class LeagueInSeason {
 
     public void addGame(Game game) {
         if(!gamesId.contains(game.getId())) {
-            gamesId.add(game.getId());
-            Database.updateObject(this);
+            if(game != null) {
+                gamesId.add(game.getId());
+                Database.updateObject(this);
 //            Database.updateObject(game);
+            }
         }
     }
 
@@ -126,8 +128,10 @@ public class LeagueInSeason {
 
     public void setGamesId(List<Game> games) {
         for (Game game : games) {
-            Database.addGame(game);
-            gamesId.add(game.getId());
+            if(game != null) {
+                Database.addGame(game);
+                gamesId.add(game.getId());
+            }
         }
         Database.updateObject(this);
     }
