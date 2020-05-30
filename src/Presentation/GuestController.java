@@ -54,8 +54,6 @@ public class GuestController extends GeneralController implements Initializable 
                 tf_password.setText("");
                 user = getRolesFromSplitedText(split,1);
 
-                m_client.startNotifications(loggedUser);
-
                 setSceneByFXMLPath("UserView.fxml", user, loggedUser, m_client, mainPane);
 
             }

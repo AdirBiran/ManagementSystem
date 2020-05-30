@@ -42,8 +42,10 @@ public class GeneralController {
             if(path.equals("UserView.fxml")){
                 ((UserController)loader.getController()).setUser(loggedUser);
                 ((UserController)loader.getController()).setClient(m_client);
+                ((UserController)loader.getController()).startGettingNotifications();
+
                 ((UserController)loader.getController()).setMainPane1(pane);
-                //m_client.startGettingNotifications(loggedUser);
+
                 ((UserController)loader.getController()).buildPresentation(roles);
             }
             Scene scene = new Scene(root, 850,800);
@@ -179,7 +181,7 @@ public class GeneralController {
     }
 
 
-    public void showAlert(String s, Alert.AlertType type) {
+    public static void showAlert(String s, Alert.AlertType type) {
         Alert alert = new Alert(type,s);
         alert.show();
     }

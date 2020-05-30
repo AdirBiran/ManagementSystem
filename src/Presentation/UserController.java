@@ -1,5 +1,6 @@
 package Presentation;
 
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,10 +12,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.WindowEvent;
 
+import org.controlsfx.control.Notifications;
+
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Optional;
+import java.util.*;
 
 public class UserController extends GeneralController implements Initializable {
     
@@ -76,9 +77,9 @@ public class UserController extends GeneralController implements Initializable {
 
     public void logoutButtonPushed(ActionEvent actionEvent) {
         if(loggedUser!=null &&loggedUser.length()>0){
+            m_client.stopNotifications();
             m_client.sendToServer("logOut|"+loggedUser);
             loggedUser = "";
-            m_client.stopNotifications();
             setSceneByFXMLPath("GuestView.fxml", null, "", m_client, mainPane1);
         }
     }
@@ -510,6 +511,7 @@ public class UserController extends GeneralController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         l_systemName.setText(ClientMain.SYSTEM_NAME);
         setImage(iv_systemLogo,"resources/logo.png");
+
         ClientMain.getStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
@@ -523,6 +525,36 @@ public class UserController extends GeneralController implements Initializable {
                 }
             }
         });
+
+    }
+    public void startGettingNotifications(){
+        m_client.startNotifications(loggedUser);
+        checkNotifications();
+    }
+
+
+    private void checkNotifications()
+    {
+        //Notifications.create()
+        //        .title()
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(m_client.areThereNewNotifications()){
+                            HashSet<String> notifications = m_client.getNotifications();
+                            m_client.clearNotifications();
+                            for(String notification :notifications){
+                                showAlert(notification, Alert.AlertType.CONFIRMATION);
+                            }
+                        }
+                    }
+                });
+            }
+        },2000);
 
     }
 }
