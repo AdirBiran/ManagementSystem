@@ -153,6 +153,8 @@ CREATE TABLE [Complaints](
 
 CREATE TABLE [Games](
 	[ID] [char](30)  Primary key,
+	[Name] [varchar](max) NOT NULL,
+	[Name] [varchar](max) NOT NULL,
 	[GameDate] [date] NOT NULL,
 	[HostScore] [int] NOT NULL,
 	[GuestScore] [int] NOT NULL,
@@ -164,7 +166,6 @@ CREATE TABLE [Games](
 	[AlertsFansIDs] [varchar](max) NOT NULL,
 	[EventReportID] [char] (50) NOT NULL,
 	[LeagueInSeasonID] [char] (50) NOT NULL,
-	[Name] [varchar](max) NOT NULL,
 );
 
 CREATE TABLE [EventReports](

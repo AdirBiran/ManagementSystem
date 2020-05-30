@@ -21,7 +21,7 @@ public class Game extends Observable {
 
 
     public Game(Date date, Field field, Referee mainReferee, List<Referee> sideReferees,
-                Team hostTeam, Team guestTeam, LeagueInSeason league,String name) {
+                Team hostTeam, Team guestTeam, LeagueInSeason league) {
         this.league = league;
         this.id = "G"+IdGenerator.getNewId();
         this.date = date;
@@ -41,7 +41,7 @@ public class Game extends Observable {
         this.name=name;
     }
 
-    public Game(String id, Date date, int hostScore, int guestScore, Field field, Referee mainReferee, List<Referee> sideReferees, Team hostTeam, Team guestTeam, HashMap<Fan,Boolean> fansAlerts, EventReport eventReport, LeagueInSeason lis,String name)
+    public Game(String id, Date date, int hostScore, int guestScore, Field field, Referee mainReferee, List<Referee> sideReferees, Team hostTeam, Team guestTeam, HashMap<Fan,Boolean> fansAlerts, EventReport eventReport, LeagueInSeason lis)
     {
         this.id = id;
         this.date = date;
@@ -56,7 +56,6 @@ public class Game extends Observable {
         this.fansForAlerts = fansAlerts;
         this.eventReport = eventReport;
         this.league = lis;
-        this.name =name;
     }
 
     // ++++++++++++++++++++++++++++ Functions ++++++++++++++++++++++++++++
