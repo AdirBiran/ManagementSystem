@@ -119,7 +119,7 @@ public class LeagueInSeason {
 
     @Override
     public String toString() {
-        return "LeagueInSeason" +
+        return id +
                 ", league=" + league.getName() +
                 ", season=" + season.getYear();
     }

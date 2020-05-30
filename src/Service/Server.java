@@ -286,7 +286,7 @@ public class Server {
                     handle_Client(clientSocket);
 
                 });
-
+/*
                 exec.execute(() -> {
 
                     while (true)
@@ -306,7 +306,7 @@ public class Server {
                     }
 
                 });
-
+*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -375,6 +375,12 @@ public class Server {
             loggedUsersNotifications.put(lineReceived.replace("\n", ""), clientNotSocket);
 
         }
+
+        catch (SocketException se)
+        {
+
+        }
+
         catch (Exception e) {
             e.printStackTrace();
         }
@@ -484,7 +490,7 @@ public class Server {
                         handle_getAllFutureGames(splitLine, clientSocket);
                         break;
 
-                    case "registrationForGamesAlerts": // Done
+                    case "followGames": // Done
                         handle_registrationForGamesAlerts(splitLine, clientSocket);
                         break;
 
@@ -626,11 +632,12 @@ public class Server {
                         handle_getAllPastGames_R(splitLine, clientSocket);
                         break;
 
-                    case "getAllOccurringGame":
+                    case "getOccurringGame":
                         handle_getAllOccurringGame(splitLine, clientSocket);
                         break;
-
-
+                    case "getAllTeamAssets_R":
+                        handle_getAllTeamAssets_R(splitLine, clientSocket);
+                        break;
                     // ------------------- TEAM MANAGEMENT -------------------
 
 
@@ -710,7 +717,7 @@ public class Server {
                         handle_getAllFields(splitLine, clientSocket);
                         break;
 
-                    case "getAllTeamAssets":
+                    case "getAllTeamAssets_Team":
                         handle_getAllTeamAssets(splitLine, clientSocket);
                         break;
 
@@ -834,6 +841,9 @@ public class Server {
                     case "getAllScorePolicies":
                         handle_getAllScorePolicies(splitLine, clientSocket);
                         break;
+                    case "getAllAssignmentsPolicies":
+                        handle_getAllAssignmentsPolicies(splitLine, clientSocket);
+                        break;
 
                     case "getAllDetailsAboutOpenTeams":
                         handle_getAllDetailsAboutOpenTeams_Union(splitLine, clientSocket);
@@ -878,6 +888,24 @@ public class Server {
             }
 
         }
+    }
+
+    private void handle_getAllAssignmentsPolicies(String[] splitLine, Socket clientSocket) {
+        List<String> results = unionRepresentativeSystem.getAllAssignmentsPolicies(splitLine[1]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting Assignment Policies", clientSocket);
+    }
+
+    private void handle_getAllTeamAssets_R(String[] splitLine, Socket clientSocket) {
+        List<String> results = refereeSystem.getAllTeamAssets(splitLine[1], splitLine[2]);
+
+        if (results != null)
+            sendLineToClient(ListToString(results), clientSocket);
+        else
+            sendLineToClient("Failed getting all team's assets", clientSocket);
     }
 
     private void handle_getUserInfo(String[] splitLine, Socket clientSocket)
@@ -1429,12 +1457,18 @@ public class Server {
     }
 
     private void handle_registrationForGamesAlerts(String[] splitLine, Socket clientSocket) {
-        boolean success = userSystem.registrationForGamesAlerts(splitLine[1], stringToList(splitLine[2]), stringToBoolean(splitLine[3]));
+        try{
+            boolean success = userSystem.registrationForGamesAlerts(splitLine[1], stringToList(splitLine[2]), stringToBoolean(splitLine[3]));
 
-        if (success)
-            sendLineToClient("Succeed registering for game alerts", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed registering for game alerts", clientSocket);
+            else
+                sendLineToClient("Failed registering for game alerts", clientSocket);
+        }catch (Exception e){
+            e.printStackTrace();
             sendLineToClient("Failed registering for game alerts", clientSocket);
+        }
+
     }
 
     private void handle_getAllFutureGames(String[] splitLine, Socket clientSocket) {

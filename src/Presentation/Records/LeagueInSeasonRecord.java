@@ -7,10 +7,10 @@ public class LeagueInSeasonRecord implements Record {
     private String season;
 
     public LeagueInSeasonRecord(String toString) {
-        String[] split = toString.split("=");
-        league = split[1].substring(0, split[1].indexOf(","));
-        season = split[2];
-        id = league+season;
+        String[] split = toString.split(",");
+        id = split[0];
+        league = split[1].substring(split[1].indexOf("=")+1);
+        season = split[2].substring(split[2].indexOf("=")+1);
     }
 
     public String getLeague() {
