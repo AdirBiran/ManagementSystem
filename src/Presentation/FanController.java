@@ -48,7 +48,7 @@ public class FanController extends GeneralController{
         for(String game: games){
             if(game.length()>0){
                 GameRecord record = new GameRecord(game);
-                ol_games.add(record.getName() + " " + record.getDate() + " " + record.getFollows());
+                ol_games.add(record.getName() + record.getFollows());
                 gamesMap.put(record.getId(), record);
             }
         }
@@ -71,7 +71,11 @@ public class FanController extends GeneralController{
             public void handle(ActionEvent event) {
                 List<String> selected = lv_selectedGames.getItems();
                 if(selected.size()>0){
-                    boolean cb_email = email.isSelected();
+                    String cb_email;
+                    if(email.isSelected())
+                        cb_email = "1";
+                    else
+                        cb_email= "0";
                     String strGames = client.ListToString(getStringsIds(lv_selectedGames.getItems(), gamesMap));
                     List<String> receive = client.sendToServer("followGames|"+loggedUser+"|"+strGames+"|"+cb_email);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);
@@ -82,8 +86,6 @@ public class FanController extends GeneralController{
         });
         mainPane.add(followBtn, 0, rowIdx);
         mainView1.getChildren().add(mainPane);
-        //let user select game/games/add all?
-        //send request to server with fan and games
     }
 
     public void submitComplaint(){
