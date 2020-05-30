@@ -963,7 +963,7 @@ public class Database //maybe generalize with interface? //for now red layer
                         getField(object.get(4)) ,getReferee(object.get(5))
                         ,listOfReferees(object.get(6)),getTeam(object.get(7)), getTeam(object.get(8)),
                         getFansForAlertsHashMap(object.get(9)) ,getEventReport(object.get(10)) ,
-                        getLeagueInSeason(object.get(11)));
+                        getLeagueInSeason(object.get(11)),object.get(12));
                 return game;
             case "League":
                 League league = new League(object.get(0) , object.get(1) ,getEnumLevelLeague(object.get(2)),
