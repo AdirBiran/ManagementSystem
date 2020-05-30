@@ -86,4 +86,12 @@ public class RefereeTest {
     public void setScoreInGame() {
         assertTrue(referee.setScoreInGame(game.getId(),3,2));
     }
+
+
+    @Test
+    public void getAllOccurringGame(){
+        game.setDate(new Date());
+        system.getDatabase().updateObject(game);
+        assertNotNull(referee.getAllOccurringGame());
+    }
 }

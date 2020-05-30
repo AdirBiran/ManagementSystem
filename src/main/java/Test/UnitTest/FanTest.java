@@ -88,7 +88,6 @@ public class FanTest {
     @Test
     public void getAllFutureGames(){
         assertNotNull((fan.getAllFutureGames()));
-        System.out.println(fan.getAllFutureGames());
     }
     @Test
     public void getFollowedPages() {
@@ -119,9 +118,9 @@ public class FanTest {
         assertEquals(fan.getFollowedPages().size(), 0);
     }
 
-
     @Test
     public void myRole() {
         assertEquals(fan.myRole(),"Fan");
     }
+
 }

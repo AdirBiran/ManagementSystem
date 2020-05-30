@@ -50,6 +50,7 @@ public class GuestTest {
     @Test
     public void viewInfoAboutLeagues() {
         assertNotNull(guest.viewInfoAboutLeagues());
+        System.out.println(guest.viewInfoAboutLeagues());
     }
 
     @Test
