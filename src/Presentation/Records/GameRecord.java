@@ -13,7 +13,7 @@ public class GameRecord implements Record {
         this.id = split[0];
         this.name = split[1];
         this.date = split[2];
-        if(split[3].equals("+"))
+        if(split.length>4 && split[3].equals("+"))
             this.follows = "you follow this game";
         else
             this.follows = "";

@@ -27,7 +27,7 @@ public class Referee extends Role implements Observer {
         this.userId = userId;
         this.training = TrainingReferee.valueOf(training);
         this.games = games;
-        this.myRole = "Player";
+        this.myRole = "Referee";
     }
 
     public void addGame(Game game) {

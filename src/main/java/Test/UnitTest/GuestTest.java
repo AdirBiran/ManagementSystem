@@ -1,13 +1,9 @@
 package UnitTest;
 
-import Data.Database;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Date;
-
 import static org.junit.Assert.*;
 
 public class GuestTest {
@@ -33,8 +29,7 @@ public class GuestTest {
     }
 
     @Test
-    public void login() {
-        assertNotNull(guest.login("fan@gmail.com","Aa1234"));
+    public void login() { assertNotNull(guest.login("fan@gmail.com","Aa1234"));
     }
 
     @Test

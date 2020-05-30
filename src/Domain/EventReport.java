@@ -1,5 +1,7 @@
 package Domain;
 
+import Data.Database;
+
 import java.util.List;
 import java.util.LinkedList;
 
@@ -20,8 +22,11 @@ public class EventReport {
     }
 
     public void addEvent(Event event){
-        if(!events.contains(event))
+        if(!events.contains(event)) {
             events.add(event);
+            //Database.addEvent("Event", event);
+            Database.updateObject(this);
+        }
     }
 
     // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++

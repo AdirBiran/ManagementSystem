@@ -2059,7 +2059,7 @@ public class Database //maybe generalize with interface? //for now red layer
         fields = dataAccess.getAllFieldValues("Fields", "ID");
 
         for(String string : fields){
-            List<String> field = dataAccess.getAllCellValues("Complaints", string);
+            List<String> field = dataAccess.getAllCellValues("Fields", string);
             allFields.add((Field) createObject("Field" , field));
         }
 

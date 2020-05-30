@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GeneralController {
+public abstract class GeneralController {
 
     public void setSceneByFXMLPath(String path, List<String> roles, String loggedUser, Client m_client, GridPane pane) {
         try {
@@ -43,9 +43,7 @@ public class GeneralController {
                 ((UserController)loader.getController()).setUser(loggedUser);
                 ((UserController)loader.getController()).setClient(m_client);
                 ((UserController)loader.getController()).startGettingNotifications();
-
                 ((UserController)loader.getController()).setMainPane1(pane);
-
                 ((UserController)loader.getController()).buildPresentation(roles);
             }
             Scene scene = new Scene(root, 850,800);
@@ -161,6 +159,10 @@ public class GeneralController {
                 //implement (the results of search)
                 break;
             }
+            //case ("Game Report"):{
+            //
+            //    break;
+            //}
             default:{
                 Label head = new Label(type);
                 gridPane.add(head, 0, startIndex);
@@ -181,7 +183,7 @@ public class GeneralController {
     }
 
 
-    public static void showAlert(String s, Alert.AlertType type) {
+    public void showAlert(String s, Alert.AlertType type) {
         Alert alert = new Alert(type,s);
         alert.show();
     }

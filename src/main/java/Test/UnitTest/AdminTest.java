@@ -1,15 +1,10 @@
 package UnitTest;
 
 import Data.Database;
-import Data.initTest;
 import Domain.*;
 import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
-
-
-import java.util.Date;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
