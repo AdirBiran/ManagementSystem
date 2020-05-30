@@ -104,14 +104,14 @@ public class UnionController extends GeneralController {
         rowInx++;
         Label l_leagues = new Label("Leagues:");
         mainPane.add(l_leagues, 0,rowInx);
-        List<String> c_leagues = client.sendToServer("getAllLeagues|"+loggedUser);
+        List<String> c_leagues = client.sendToServer("viewInformationAboutLeagues|");
         fillLeaguesMap(c_leagues);
         ChoiceBox<String> cb_leagues = new ChoiceBox<>(FXCollections.observableArrayList(this.leagues.values()));
         mainPane.add(cb_leagues, 1,rowInx);
         rowInx++;
         Label l_seasons = new Label("Seasons:");
         mainPane.add(l_seasons, 0,rowInx);
-        List<String> c_seasons = client.sendToServer("getAllSeasons|"+loggedUser);
+        List<String> c_seasons = client.sendToServer("viewInformationAboutSeasons|");
         fillSeasonsMap(c_seasons);
         ChoiceBox<String> cb_seasons = new ChoiceBox<>(FXCollections.observableArrayList(this.seasons.values()));
         mainPane.add(cb_seasons, 1,rowInx);

@@ -3,6 +3,7 @@ package Presentation;
 
 import javafx.scene.control.Alert;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
@@ -10,22 +11,35 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.HashSet;
 
 
 public class Client  {
 
     private Socket socket;
+    private Socket notificactionsSocket;
     private final int notificationsIterval = 2000;
     private Timer notificationsTimer;
+    private HashSet<String> notifications;
+    private boolean receiveNotifications = false;
+    private final Object mutexObject = new Object();
+    private DataInputStream not_dis;
+    private DataOutputStream not_dos;
 
     public Client (int serverPort)
     {
 
         try
         {
-            //socket = new Socket("132.72.65.47", serverPort);
-            socket = new Socket("localhost", serverPort);
+            socket = new Socket("132.72.65.47", serverPort);
+            notificactionsSocket = new Socket("132.72.65.47", serverPort + 1);
             notificationsTimer = new Timer();
+            notifications = new HashSet<>();
+
+            not_dis = new DataInputStream(notificactionsSocket.getInputStream());
+            not_dos = new DataOutputStream(notificactionsSocket.getOutputStream());
+
+
 
         }
         catch (Exception e)
@@ -37,6 +51,29 @@ public class Client  {
 
     public void startNotifications(String uid)
     {
+
+        receiveNotifications = true;
+
+        try
+        {
+
+            not_dos.writeBytes(uid + "\n");
+            not_dos.flush();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        new Thread(() -> {
+            try {
+                listenForNotifications();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+/*
         notificationsTimer.schedule(new TimerTask() {
 
             @Override
@@ -46,11 +83,43 @@ public class Client  {
 
             }
         }, notificationsIterval, notificationsIterval);
+*/
+
+    }
+
+    public void listenForNotifications()
+    {
+
+        while (receiveNotifications) {
+            try {
+
+                BufferedReader rd = new BufferedReader(new InputStreamReader(not_dis));
+                String lineReceived = rd.readLine();
+                System.out.println(lineReceived);
+
+                // liat
+                // lineReceived contains the notification
+
+
+            }
+            catch (SocketException se)
+            {
+            }
+
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
     }
 
     public void stopNotifications()
     {
-        notificationsTimer.cancel();
+
+        receiveNotifications = false;
+        //notificationsTimer.cancel();
     }
 
 	
@@ -61,22 +130,26 @@ public class Client  {
 
         try {
 
-            DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
+            synchronized (mutexObject)
+            {
+                DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-            System.out.println("Client sent to server " + stringToSend.replace("\n", ""));
+                System.out.println("Client sent to server " + stringToSend.replace("\n", ""));
 
-            if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
-                stringToSend = stringToSend + "\n";
+                if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
+                    stringToSend = stringToSend + "\n";
 
-            outputStream.writeBytes(stringToSend);
-            outputStream.flush();
+                outputStream.writeBytes(stringToSend);
+                outputStream.flush();
 
-            res = createListFromServerString(receiveFromServer());
+                res = createListFromServerString(receiveFromServer());
+            }
+
 
         }
         catch (SocketException se)
         {
-            showNotification("server was terminated ... :(");
+            notifications.add("server was terminated ... :(");
             // liat
             // need to throw here alert that server was terminated
             // now throws error when trying to login when server closes when user is active
@@ -105,7 +178,7 @@ public class Client  {
             String operator = res.split("\\|")[0];
 
             if (operator.equals("Notification"))
-                System.out.println("Notification: " +  res.split("\\|")[1] + "\n");
+                notifications.add("Notification: " +  res.split("\\|")[1]);
 
             else
                 System.out.println("Client receive from server : " + res + "\n");
@@ -159,13 +232,17 @@ public class Client  {
         return notifications;
     }
 
-    private void showNotification(String notification){
-        GeneralController gc = new GeneralController();
-        gc.showAlert(notification, Alert.AlertType.CONFIRMATION);
-        // liat
-        // need to show notification on alert
-        // can't use Alert here, not FX application error
 
+    public void clearNotifications(){
+        this.notifications = new HashSet<>();
+    }
+
+    public HashSet<String> getNotifications(){
+        return notifications;
+    }
+
+    public boolean areThereNewNotifications() {
+        return notifications.size()>0;
     }
 }
 
