@@ -150,6 +150,7 @@ public class Client  {
                 if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
                     stringToSend = stringToSend + "\n";
 
+                System.out.println(stringToSend);
                 outputStream.writeBytes(stringToSend);
                 outputStream.flush();
 
@@ -224,7 +225,6 @@ public class Client  {
             res = res + s + "~";
 
         res = res.substring(0, res.length()-1);
-        res = res + "\n";
 
         return res;
     }
