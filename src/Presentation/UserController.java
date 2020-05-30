@@ -529,32 +529,6 @@ public class UserController extends GeneralController implements Initializable {
     }
     public void startGettingNotifications(){
         m_client.startNotifications(loggedUser);
-        checkNotifications();
     }
 
-
-    private void checkNotifications()
-    {
-        //Notifications.create()
-        //        .title()
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(m_client.areThereNewNotifications()){
-                            HashSet<String> notifications = m_client.getNotifications();
-                            m_client.clearNotifications();
-                            for(String notification :notifications){
-                                showAlert(notification, Alert.AlertType.CONFIRMATION);
-                            }
-                        }
-                    }
-                });
-            }
-        },2000);
-
-    }
 }

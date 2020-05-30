@@ -1,5 +1,6 @@
 package Presentation;
 
+import Presentation.Records.GameRecord;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import java.util.List;
+import java.util.HashMap;
+
 
 public class RefereeController extends GeneralController{
 
@@ -32,35 +35,46 @@ public class RefereeController extends GeneralController{
         clearMainView(mainPane);
         String game = getOccurringGame();
         if(game.length()>0){
-            Label labelGame = new Label(game);
-            mainPane.add(labelGame, 0,0);
+            int row =0;
+            GameRecord gameRecord = new GameRecord(game);
+            Label labelGame = new Label(""+gameRecord.getName()+", "+ gameRecord.getDate());
+            mainPane.add(labelGame, 0,row);
+            row++;
             Label evenType = new Label("Event Type:");
-            mainPane.add(evenType, 0,1);
-            ObservableList<String> types = FXCollections.observableArrayList("Goal", "Offside", "Foul", "RedCard", "YellowCard","Injury", "Replacement");
-            ChoiceBox<String> cb_types = new ChoiceBox<>(types);
-            mainPane.add(cb_types, 1,1);
-            //let user select team-
-            //let user select player
+            mainPane.add(evenType, 0,row);
+            ChoiceBox<String> cb_types = new ChoiceBox<>(FXCollections.observableArrayList("Goal", "Offside", "Foul", "RedCard", "YellowCard","Injury", "Replacement"));
+            mainPane.add(cb_types, 1,row);
+            row++;
+            String[] split = gameRecord.getName().split("vs");
+            ChoiceBox<String> cb_teams = new ChoiceBox<>(FXCollections.observableArrayList(split[0],split[1]));
+            Label team = new Label("Team:");
+            mainPane.add(team, 0,row);
+            mainPane.add(cb_teams, 1,row);
+            row++;
+
+            //let user select player  -  howw??
             Label description = new Label("Description:");
-            mainPane.add(description,0,3);
+            mainPane.add(description,0,row);
             TextArea t_description = new TextArea();
-            mainPane.add(t_description,1,3);
+            mainPane.add(t_description,1,row);
+            row++;
             Button addBtn = new Button("Add");
             addBtn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    if(cb_types.getValue().length()>0&&t_description.getText().length()>0){
-                        List<String> receive = client.sendToServer("addEventToGame|"+loggedUser+"|"+game+"|"+cb_types.getValue()+"|"+t_description.getText());
+                    if(cb_types.getValue().length()>0&&t_description.getText().length()>0 && cb_teams.getValue().length()>0){
+                        List<String> receive = client.sendToServer("addEventToGame|"+loggedUser+"|"+game+"|"+cb_teams.getValue()+"|"+cb_types.getValue()+"|"+t_description.getText());
                         showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                     }
                 }
             });
-            mainPane.add(addBtn,0,4);
+            mainPane.add(addBtn,0,row);
             mainView1.getChildren().add(mainPane);
         }
 
     }
 
+    //main referee only?
     public void  setScoreInGame(){
         clearMainView(mainView1);
         clearMainView(mainPane);
@@ -98,14 +112,36 @@ public class RefereeController extends GeneralController{
         clearMainView(mainView1);
         clearMainView(mainPane);
         List<String> games = client.sendToServer("getAllPastGames_R|"+loggedUser);
-
-        //show all past games
-        //let user select a game
-        //send request for game report
-        //show report
-
-
+        HashMap<String, GameRecord> gamesMap = new HashMap<>();
+        ObservableList<String> gameList = FXCollections.observableArrayList();
+        for(String game: games){
+            GameRecord record = new GameRecord(game);
+            gameList.add(record.getName());
+            gamesMap.put(record.getId(), record);
+        }
+        ChoiceBox<String> cb_games = new ChoiceBox<>(gameList);
+        cb_games.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                clearMainView(mainView1);
+                clearMainView(mainPane);
+                String selectedGame = cb_games.getValue();
+                cb_games.setValue("");
+                for(String id: gamesMap.keySet()){
+                    if(selectedGame.equals(gamesMap.get(id).getName())){
+                        List<String> receive = client.sendToServer("getGameReport|"+loggedUser+"|"+id);
+                        showListOnScreen("Game Report", receive, mainPane, 2);
+                    }
+                }
+            }
+        });
+        Label label = new Label("Please select a game: ");
+        mainPane.add(label, 0, 0);
+        mainPane.add(cb_games, 0, 1);
+        mainView1.getChildren().add(mainPane);
     }
+
+    //main referee only
     public void  changeEvent(){
         clearMainView(mainView1);
         clearMainView(mainPane);
@@ -157,6 +193,8 @@ public class RefereeController extends GeneralController{
                 String request = "changeEvent|"+loggedUser+"|"+game+"|"+eventString+"|"+tf_description.getText();
                 List<String> receive =client.sendToServer(request);
                 showAlert(receive.get(0), Alert.AlertType.INFORMATION);
+                clearMainView(mainView1);
+                clearMainView(mainPane);
             }
         });
     }
