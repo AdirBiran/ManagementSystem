@@ -313,6 +313,35 @@ public class DataAccess {
 
     }
 
+    public boolean isMailExists(String mail)
+    {
+        PreparedStatement ps = null;
+        int res = 0;
+
+        String statement = "SELECT COUNT(*) FROM Users WHERE Mail = ?";
+
+        try
+        {
+            ps = con.prepareStatement(statement);
+            ps.setString(1, mail);
+
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+            res = rs.getInt(1);
+            closePS(ps);
+
+        }
+        catch (Exception e)
+        {
+            closePS(ps);
+            e.printStackTrace();
+        }
+
+        return res == 1;
+
+    }
+
     public Date stringToDateSQL(String st)
     {
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");

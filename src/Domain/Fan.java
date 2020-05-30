@@ -118,10 +118,22 @@ public class Fan extends Role implements Observer {
      */
     public List<String> getAllFutureGames(){
         List<String> futureGames= new LinkedList<>();
-        for(Game game : Database.getAllFutureGames()){
-            futureGames.add(game.printForFan(this));
+        for(String game : Database.getAllFutureGames()){
+            futureGames.add(checkFan(game));
         }
         return futureGames;
+    }
+
+    private String checkFan(String game) {
+        String[] stringList = game.split(" ");
+        if(stringList.length==4) {
+            String[] fans = stringList[3].split(",");
+            for(String f : fans){
+                if(f.equals(this.getID()))
+                    return game+ ",+";
+            }
+        }
+        return game+",-";
     }
 
     public String getAddress() {

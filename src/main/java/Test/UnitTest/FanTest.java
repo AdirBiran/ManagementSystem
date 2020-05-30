@@ -30,8 +30,8 @@ public class FanTest {
         LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         Admin admin = system.getAdmin();
         Guest guest = new Guest();
-        //user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        user = guest.login("lironoskar@gmail.com", "Aa1234");
+        user = guest.register("lironoskar@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        //user = guest.login("lironoskar@gmail.com", "Aa1234");
         //mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         //Role pageRole = mesi.checkUserRole("HasPage");
         //mesiPage = ((HasPage) pageRole).getPage();
@@ -40,7 +40,7 @@ public class FanTest {
         //User union = admin.addNewUnionRepresentative("Union", "Rep", "union@gmail.com");
         //UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
         //unionRole.assignGames(league.getId());
-        game= Database.getGame(league.getGamesId().get(1));
+        game= Database.getGame(league.getGamesId().get(0));
        //game.addFanForNotifications(fan,false);
     }
 
@@ -87,7 +87,6 @@ public class FanTest {
 
     @Test
     public void getAllFutureGames(){
-
         assertNotNull((fan.getAllFutureGames()));
     }
     @Test

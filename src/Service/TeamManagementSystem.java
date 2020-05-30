@@ -343,7 +343,7 @@ public class TeamManagementSystem {
             Role role = user.checkUserRole("Team");
             if (role instanceof Manager) {
                 Logger.logEvent(user.getID(), "Got all Team Assets");
-                return ((Manager)role).getAllTeamAssets(teamId);
+                return (role).getAllTeamAssets(teamId);
             }
         }
         Logger.logError("Failed getting all Team Assets");

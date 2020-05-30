@@ -62,4 +62,20 @@ public abstract class Role{
                 ", firstName=" + Database.getUser(userId).getFirstName() +
                 ", lastName=" + Database.getUser(userId).getLastName() ;
     }
+
+    public List<String> getAllTeamAssets(String teamId) {
+        List<String> teamAssets = new LinkedList<>();
+        Team team = Database.getTeam(teamId);
+        if(team!=null){
+            for(User teamManager: team.getTeamManagers())
+                teamAssets.add(teamManager.toString());
+            for(User coach : team.getCoaches())
+                teamAssets.add(coach.toString());
+            for (User player : team.getPlayers())
+                teamAssets.add(player.toString());
+            for(Field field : team.getFields())
+                teamAssets.add(field.toString());
+        }
+        return teamAssets;
+    }
 }
