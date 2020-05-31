@@ -920,389 +920,585 @@ public class Server {
     }
 
     private void handle_getAllAssignmentsPolicies(String[] splitLine, Socket clientSocket) {
-        List<String> results = unionRepresentativeSystem.getAllAssignmentsPolicies(splitLine[1]);
+        try{
+            List<String> results = unionRepresentativeSystem.getAllAssignmentsPolicies(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting Assignment Policies", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting Assignment Policies", clientSocket);
+        }
+
     }
 
     private void handle_getAllTeamAssets_R(String[] splitLine, Socket clientSocket) {
-        List<String> results = refereeSystem.getAllTeamAssets(splitLine[1], splitLine[2]);
+        try{
+            List<String> results = refereeSystem.getAllTeamAssets(splitLine[1], splitLine[2]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all team's assets", clientSocket);
+        }
+        catch (Exception e){
             sendLineToClient("Failed getting all team's assets", clientSocket);
+        }
+
     }
 
     private void handle_getUserInfo(String[] splitLine, Socket clientSocket)
     {
-        String results = userSystem.getUserInfo(splitLine[1]);
+        try{
+            String results = userSystem.getUserInfo(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(results, clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(results, clientSocket);
+            else
+                sendLineToClient("Failed getting user information", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting user information", clientSocket);
+        }
+
     }
 
     private void handle_getAllReferees(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = unionRepresentativeSystem.getAllReferees(splitLine[1]);
+        try{
+            List<String> results = unionRepresentativeSystem.getAllReferees(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all referees", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all referees", clientSocket);
+        }
+
     }
 
     private void handle_getAllClosedTeam(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = teamSystem.getAllClosedTeam(splitLine[1]);
+        try{
+            List<String> results = teamSystem.getAllClosedTeam(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all closed teams", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all closed teams", clientSocket);
+        }
+
     }
 
     private void handle_getAllTeamAssets(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = teamSystem.getAllTeamAssets(splitLine[1], splitLine[2]);
+        try{
+            List<String> results = teamSystem.getAllTeamAssets(splitLine[1], splitLine[2]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all team's assets", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all team's assets", clientSocket);
+        }
+
     }
 
     private void handle_getAllFields(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = teamSystem.getAllFields(splitLine[1]);
+        try{
+            List<String> results = teamSystem.getAllFields(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all fields", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all fields", clientSocket);
+        }
+
     }
 
     private void handle_getAllCoaches(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = teamSystem.getAllCoaches(splitLine[1]);
+        try{
+            List<String> results = teamSystem.getAllCoaches(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all coaches", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all coaches", clientSocket);
+        }
+
     }
 
     private void handle_getAllPlayers(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = teamSystem.getAllPlayers(splitLine[1]);
+        try{
+            List<String> results = teamSystem.getAllPlayers(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all players", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all players", clientSocket);
+        }
+
     }
 
     private void handle_getAllOccurringGame(String[] splitLine, Socket clientSocket)
     {
-        String results = refereeSystem.getAllOccurringGame(splitLine[1]);
+        try{
+            String results = refereeSystem.getAllOccurringGame(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(results, clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(results, clientSocket);
+            else
+                sendLineToClient("", clientSocket);
+        }catch (Exception e){
             sendLineToClient("", clientSocket);
+        }
+
     }
 
     private void handle_getAllPastGames_R(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = refereeSystem.getAllPastGames(splitLine[1]);
+        try{
+            List<String> results = refereeSystem.getAllPastGames(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all past games", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all past games", clientSocket);
+        }
+
     }
 
     private void handle_changeEvent(String[] splitLine, Socket clientSocket)
     {
-        boolean success = refereeSystem.changeEvent(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
+        try{
+            boolean success = refereeSystem.changeEvent(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
 
-        if (success)
-            sendLineToClient("Succeed changing game's event", clientSocket);
-        else
-            sendLineToClient("Failed changing game's event", clientSocket);;
+            if (success)
+                sendLineToClient("Succeed changing game's event", clientSocket);
+            else
+                sendLineToClient("Failed changing game's event", clientSocket);
+        }catch (Exception e){
+            sendLineToClient("Failed changing game's event", clientSocket);
+        }
+
     }
 
     private void handle_getGameReport(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = refereeSystem.getGameReport(splitLine[1], splitLine[2]);
+        try{
+            List<String> results = refereeSystem.getGameReport(splitLine[1], splitLine[2]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting game report", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting game report", clientSocket);
+        }
+
     }
 
     private void handle_setScoreInGame(String[] splitLine, Socket clientSocket)
     {
-        boolean success = refereeSystem.setScoreInGame(splitLine[1], splitLine[2], Integer.parseInt(splitLine[3]), Integer.parseInt(splitLine[4]));
+        try{
+            boolean success = refereeSystem.setScoreInGame(splitLine[1], splitLine[2], Integer.parseInt(splitLine[3]), Integer.parseInt(splitLine[4]));
 
-        if (success)
-            sendLineToClient("Succeed setting game's score", clientSocket);
-        else
-            sendLineToClient("Failed setting game's score", clientSocket);;
+            if (success)
+                sendLineToClient("Succeed setting game's score", clientSocket);
+            else
+                sendLineToClient("Failed setting game's score", clientSocket);
+        }catch (Exception e){
+            sendLineToClient("Failed setting game's score", clientSocket);
+        }
+
     }
 
     private void handle_addEventToGame(String[] splitLine, Socket clientSocket)
     {
-        boolean success = refereeSystem.addEventToGame(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
+        try{
+            boolean success = refereeSystem.addEventToGame(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
-        if (success)
-            sendLineToClient("Succeed adding event to game", clientSocket);
-        else
-            sendLineToClient("Failed adding event to game", clientSocket);;
+            if (success)
+                sendLineToClient("Succeed adding event to game", clientSocket);
+            else
+                sendLineToClient("Failed adding event to game", clientSocket);
+        }catch (Exception e){
+            sendLineToClient("Failed adding event to game", clientSocket);
+        }
+
     }
 
     private void handle_viewPage(String[] splitLine, Socket clientSocket)
     {
-        String res = personalPageSystem.viewPage(splitLine[1], splitLine[2]);
+        try{
+            String res = personalPageSystem.viewPage(splitLine[1], splitLine[2]);
 
-        if (res == null)
+            if (res == null)
+                sendLineToClient("No page found", clientSocket);
+            else
+                sendLineToClient(res, clientSocket);
+        }catch (Exception e){
             sendLineToClient("No page found", clientSocket);
-        else
-            sendLineToClient(res, clientSocket);
+        }
+
 
     }
 
     private void handle_addPaymentsFromTheTUTU(String[] splitLine, Socket clientSocket)
     {
-         boolean success = unionRepresentativeSystem.addPaymentsFromTheTUTU(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), proxyAccountingSystem);
+        try{
+            boolean success = unionRepresentativeSystem.addPaymentsFromTheTUTU(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), proxyAccountingSystem);
 
-        if (success)
-            sendLineToClient("Succeed adding payments from TUTU", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed adding payments from TUTU", clientSocket);
+            else
+                sendLineToClient("Failed adding payments from TUTU", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed adding payments from TUTU", clientSocket);
+        }
+
     }
 
     private void handle_addTUTUPayment(String[] splitLine, Socket clientSocket)
     {
-        boolean success = unionRepresentativeSystem.addTUTUPayment(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
+        try{
+            boolean success = unionRepresentativeSystem.addTUTUPayment(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
 
-        if (success)
-            sendLineToClient("Succeed adding TUTU Payment", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed adding TUTU Payment", clientSocket);
+            else
+                sendLineToClient("Failed adding TUTU Payment", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed adding TUTU Payment", clientSocket);
+        }
+
     }
 
     private void handle_getAllPastGames_UR(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = unionRepresentativeSystem.getAllPastGames(splitLine[1]);
+        try{
+            List<String> results = unionRepresentativeSystem.getAllPastGames(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all past games", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all past games", clientSocket);
+        }
+
     }
 
     private void handle_getAllOpenTeams_Union(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = unionRepresentativeSystem.getAllOpenTeams(splitLine[1]);
+        try{
+            List<String> results = unionRepresentativeSystem.getAllOpenTeams(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all open teams", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all open teams", clientSocket);
+        }
+
     }
 
     private void handle_getAllDetailsAboutOpenTeams_Union(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = unionRepresentativeSystem.getAllDetailsAboutOpenTeams(splitLine[1]);
+        try{
+            List<String> results = unionRepresentativeSystem.getAllDetailsAboutOpenTeams(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting open teams details", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting open teams details", clientSocket);
+        }
+
     }
 
     private void handle_getAllScorePolicies(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = unionRepresentativeSystem.getAllScorePolicies(splitLine[1]);
+        try{
+            List<String> results = unionRepresentativeSystem.getAllScorePolicies(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting Score Policies", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting Score Policies", clientSocket);
+        }
+
     }
 
     private void handle_getAllSeasons(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = unionRepresentativeSystem.getAllSeasons(splitLine[1]);
+        try{
+            List<String> results = unionRepresentativeSystem.getAllSeasons(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all Seasons", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all Seasons", clientSocket);
+        }
+
     }
 
     private void handle_getAllLeagues(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = unionRepresentativeSystem.getAllLeagues(splitLine[1]);
+        try{
+            List<String> results = unionRepresentativeSystem.getAllLeagues(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all Leagues", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all Leagues", clientSocket);
+        }
+
     }
 
     private void handle_allLeaguesInSeasons(String[] splitLine, Socket clientSocket)
     {
-        List<String> results = unionRepresentativeSystem.allLeaguesInSeasons(splitLine[1]);
+        try{
+            List<String> results = unionRepresentativeSystem.allLeaguesInSeasons(splitLine[1]);
 
-        if (results != null)
-            sendLineToClient(ListToString(results), clientSocket);
-        else
+            if (results != null)
+                sendLineToClient(ListToString(results), clientSocket);
+            else
+                sendLineToClient("Failed getting all leagues in seasons", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed getting all leagues in seasons", clientSocket);
+        }
+
     }
 
     private void handle_addFieldToSystem(String[] splitLine, Socket clientSocket)
     {
-        boolean success = unionRepresentativeSystem.addFieldToSystem(splitLine[1], splitLine[2], splitLine[3], Integer.parseInt(splitLine[4]), Double.parseDouble(splitLine[5]));
+        try{
+            boolean success = unionRepresentativeSystem.addFieldToSystem(splitLine[1], splitLine[2], splitLine[3], Integer.parseInt(splitLine[4]), Double.parseDouble(splitLine[5]));
 
-        if (success)
-            sendLineToClient("Succeed adding field to system", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed adding field to system", clientSocket);
+            else
+                sendLineToClient("Failed adding field to system", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed adding field to system", clientSocket);
+        }
+
     }
 
     private void handle_changeRegistrationFee(String[] splitLine, Socket clientSocket)
     {
-        boolean success = unionRepresentativeSystem.changeRegistrationFee(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
+        try{
+            boolean success = unionRepresentativeSystem.changeRegistrationFee(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
 
-        if (success)
-            sendLineToClient("Succeed changing Registration Fee", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed changing Registration Fee", clientSocket);
+            else
+                sendLineToClient("Failed changing Registration Fee", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed changing Registration Fee", clientSocket);
+        }
+
     }
 
     private void handle_calculateGameScore(String[] splitLine, Socket clientSocket)
     {
-        boolean success = unionRepresentativeSystem.calculateGameScore(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = unionRepresentativeSystem.calculateGameScore(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed calculating game's score", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed calculating game's score", clientSocket);
+            else
+                sendLineToClient("Failed calculating game's score", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed calculating game's score", clientSocket);
+        }
+
     }
 
     private void handle_calculateLeagueScore(String[] splitLine, Socket clientSocket)
     {
-        boolean success = unionRepresentativeSystem.calculateLeagueScore(splitLine[1], splitLine[2]);
+        try{
+            boolean success = unionRepresentativeSystem.calculateLeagueScore(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed calculating league's score", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed calculating league's score", clientSocket);
+            else
+                sendLineToClient("Failed calculating league's score", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed calculating league's score", clientSocket);
+        }
+
     }
 
 
     private void handle_getRegistrationFee(String[] splitLine, Socket clientSocket) {
-        double res = unionRepresentativeSystem.getRegistrationFee(splitLine[1], splitLine[2]);
-        if (res == -1)
+        try{
+            double res = unionRepresentativeSystem.getRegistrationFee(splitLine[1], splitLine[2]);
+            if (res == -1)
+                sendLineToClient("Registration fee is unavailable", clientSocket);
+            else
+                sendLineToClient("" + res, clientSocket);
+        }catch (Exception e){
             sendLineToClient("Registration fee is unavailable", clientSocket);
-        else
-            sendLineToClient("" + res, clientSocket);
+        }
+
     }
 
 
     private void handle_addTeamToLeague(String[] splitLine, Socket clientSocket) {
-        boolean success = unionRepresentativeSystem.addTeamToLeague(splitLine[1], splitLine[2], splitLine[3], proxyAccountingSystem);
+        try{
+            boolean success = unionRepresentativeSystem.addTeamToLeague(splitLine[1], splitLine[2], splitLine[3], proxyAccountingSystem);
 
-        if (success)
-            sendLineToClient("Succeed adding team to league", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed adding team to league", clientSocket);
+            else
+                sendLineToClient("Failed adding team to league", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed adding team to league", clientSocket);
+        }
+
     }
 
     private void handle_changeGameLocation(String[] splitLine, Socket clientSocket) {
-        boolean success = unionRepresentativeSystem.changeGameLocation(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = unionRepresentativeSystem.changeGameLocation(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed changing game's location", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed changing game's location", clientSocket);
+            else
+                sendLineToClient("Failed changing game's location", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed changing game's location", clientSocket);
+        }
+
     }
 
     private void handle_changeGameDate(String[] splitLine, Socket clientSocket) {
-        boolean success = unionRepresentativeSystem.changeGameDate(splitLine[1], splitLine[2], stringToDate(splitLine[3]));
+        try{
+            boolean success = unionRepresentativeSystem.changeGameDate(splitLine[1], splitLine[2], stringToDate(splitLine[3]));
 
-        if (success)
-            sendLineToClient("Succeed changing game's date", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed changing game's date", clientSocket);
+            else
+                sendLineToClient("Failed changing game's date", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed changing game's date", clientSocket);
+        }
+
     }
 
     private void handle_assignGames(String[] splitLine, Socket clientSocket) {
+        try{
+            boolean success = unionRepresentativeSystem.assignGames(splitLine[1], splitLine[2]);
 
-        boolean success = unionRepresentativeSystem.assignGames(splitLine[1], splitLine[2]);
-
-        if (success)
-            sendLineToClient("Succeed assigning games", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed assigning games", clientSocket);
+            else
+                sendLineToClient("Failed assigning games", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed assigning games", clientSocket);
+        }
+
+
     }
 
     private void handle_changeAssignmentPolicy(String[] splitLine, Socket clientSocket) {
-        boolean success = unionRepresentativeSystem.changeAssignmentPolicy(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = unionRepresentativeSystem.changeAssignmentPolicy(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed changing Assignment Policy", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed changing Assignment Policy", clientSocket);
+            else
+                sendLineToClient("Failed changing Assignment Policy", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed changing Assignment Policy", clientSocket);
+        }
+
     }
 
     private void handle_changeScorePolicy(String[] splitLine, Socket clientSocket) {
-        boolean success = unionRepresentativeSystem.changeScorePolicy(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = unionRepresentativeSystem.changeScorePolicy(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed changing Score Policy", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed changing Score Policy", clientSocket);
+            else
+                sendLineToClient("Failed changing Score Policy", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed changing Score Policy", clientSocket);
+        }
+
     }
 
     private void handle_assignRefToLeague(String[] splitLine, Socket clientSocket) {
-        boolean success = unionRepresentativeSystem.assignRefToLeague(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = unionRepresentativeSystem.assignRefToLeague(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed assigning referee to league", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed assigning referee to league", clientSocket);
+            else
+                sendLineToClient("Failed assigning referee to league", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed assigning referee to league", clientSocket);
+        }
+
     }
 
     private void handle_appointReferee(String[] splitLine, Socket clientSocket) {
-        String success = unionRepresentativeSystem.appointReferee(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
+        try{
+            String success = unionRepresentativeSystem.appointReferee(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
-        if (success != null)
-            sendLineToClient("Succeed appointing a new referee", clientSocket);
-        else
+            if (success != null)
+                sendLineToClient("Succeed appointing a new referee", clientSocket);
+            else
+                sendLineToClient("Failed appointing a new referee", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed appointing a new referee", clientSocket);
+        }
+
     }
 
     private void handle_configureLeagueInSeason(String[] splitLine, Socket clientSocket) {
+        try{
+            String success = unionRepresentativeSystem.configureLeagueInSeason(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5], Double.parseDouble(splitLine[6]));
 
-        String success = unionRepresentativeSystem.configureLeagueInSeason(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5], Double.parseDouble(splitLine[6]));
-
-        if (success != null)
-            sendLineToClient("Succeed configuring league in season", clientSocket);
-        else
+            if (success != null)
+                sendLineToClient("Succeed configuring league in season", clientSocket);
+            else
+                sendLineToClient("Failed configuring league in season", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed configuring league in season", clientSocket);
+        }
+
 
     }
 
     private void handle_configureNewSeason(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         String success = unionRepresentativeSystem.configureNewSeason(splitLine[1], Integer.parseInt(splitLine[2]), stringToDate(splitLine[3]));
 
         if (success !=null)
@@ -1312,159 +1508,243 @@ public class Server {
     }
 
     private void handle_configureNewLeague(String[] splitLine, Socket clientSocket) {
+        try{
+            String success = unionRepresentativeSystem.configureNewLeague(splitLine[1], splitLine[2], splitLine[3]);
 
-        String success = unionRepresentativeSystem.configureNewLeague(splitLine[1], splitLine[2], splitLine[3]);
-
-        if (success !=null)
-            sendLineToClient("Succeed configuring a new league", clientSocket);
-        else
+            if (success !=null)
+                sendLineToClient("Succeed configuring a new league", clientSocket);
+            else
+                sendLineToClient("Failed configuring a new league", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed configuring a new league", clientSocket);
+        }
+
 
     }
 
     private void handle_getAllUsers_Team(String[] splitLine, Socket clientSocket) {
-        List<String> results = teamSystem.getAllUsers(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = teamSystem.getAllUsers(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No teams available", clientSocket);
+            else
+                sendLineToClient(ListToString(results), clientSocket);
+        }catch (Exception e){
             sendLineToClient("No teams available", clientSocket);
-        else
-            sendLineToClient(ListToString(results), clientSocket);
+        }
+
 
     }
 
     private void handle_getTeams(String[] splitLine, Socket clientSocket) {
-        List<String> results = teamSystem.getTeams(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = teamSystem.getTeams(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No teams available", clientSocket);
+            else
+                sendLineToClient(ListToString(results), clientSocket);
+        }catch (Exception e){
             sendLineToClient("No teams available", clientSocket);
-        else
-            sendLineToClient(ListToString(results), clientSocket);
+        }
+
     }
 
     private void handle_getAllActiveComplaints(String[] splitLine, Socket clientSocket) {
-        List<String> results = adminSystem.getAllActiveComplaints(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = adminSystem.getAllActiveComplaints(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No active complaints", clientSocket);
+            else {
+                String sendToClient = ListToString(results);
+                sendLineToClient(sendToClient, clientSocket);
+            }
+        }catch (Exception e){
             sendLineToClient("No active complaints", clientSocket);
-        else {
-            String sendToClient = ListToString(results);
-            sendLineToClient(sendToClient, clientSocket);
         }
+
     }
 
     private void handle_getAllUsers_Admin(String[] splitLine, Socket clientSocket) {
-        List<String> results = adminSystem.getAllUsers(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = adminSystem.getAllUsers(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No users available", clientSocket);
+            else
+                sendLineToClient(ListToString(results), clientSocket);
+        }catch (Exception e){
             sendLineToClient("No users available", clientSocket);
-        else
-            sendLineToClient(ListToString(results), clientSocket);
+        }
+
     }
 
     private void handle_getAllCloseTeams(String[] splitLine, Socket clientSocket) {
-        List<String> results = adminSystem.getAllCloseTeams(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = adminSystem.getAllCloseTeams(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No closed teams available", clientSocket);
+            else {
+                String sendToClient = ListToString(results);
+                sendLineToClient(sendToClient, clientSocket);
+            }
+        }catch (Exception e){
             sendLineToClient("No closed teams available", clientSocket);
-        else {
-            String sendToClient = ListToString(results);
-            sendLineToClient(sendToClient, clientSocket);
         }
+
 
     }
 
     private void handle_getAllDetailsAboutCloseTeams(String[] splitLine, Socket clientSocket) {
-        List<String> results = adminSystem.getAllDetailsAboutCloseTeams(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = adminSystem.getAllDetailsAboutCloseTeams(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No closed teams available", clientSocket);
+            else {
+                String sendToClient = ListToString(results);
+                sendLineToClient(sendToClient, clientSocket);
+            }
+        }catch (Exception e){
             sendLineToClient("No closed teams available", clientSocket);
-        else {
-            String sendToClient = ListToString(results);
-            sendLineToClient(sendToClient, clientSocket);
         }
+
     }
 
     private void handle_getAllOpenTeams_Admin(String[] splitLine, Socket clientSocket) {
-        List<String> results = adminSystem.getAllOpenTeams(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = adminSystem.getAllOpenTeams(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No open teams available", clientSocket);
+            else {
+                String sendToClient = ListToString(results);
+                sendLineToClient(sendToClient, clientSocket);
+            }
+        }catch (Exception e){
             sendLineToClient("No open teams available", clientSocket);
-        else {
-            String sendToClient = ListToString(results);
-            sendLineToClient(sendToClient, clientSocket);
         }
+
 
     }
 
     private void handle_getAllDetailsAboutOpenTeams_Admin(String[] splitLine, Socket clientSocket) {
-        List<String> results = adminSystem.getAllDetailsAboutOpenTeams(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = adminSystem.getAllDetailsAboutOpenTeams(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No open teams available", clientSocket);
+            else {
+                String sendToClient = ListToString(results);
+                sendLineToClient(sendToClient, clientSocket);
+            }
+        }catch (Exception e){
             sendLineToClient("No open teams available", clientSocket);
-        else {
-            String sendToClient = ListToString(results);
-            sendLineToClient(sendToClient, clientSocket);
         }
+
     }
 
     private void handle_getUserRoles(String[] splitLine, Socket clientSocket) {
-        List<String> results = userSystem.getUserRoles(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = userSystem.getUserRoles(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No roles available", clientSocket);
+            else
+                sendLineToClient(ListToString(results), clientSocket);
+        }catch (Exception e){
             sendLineToClient("No roles available", clientSocket);
-        else
-            sendLineToClient(ListToString(results), clientSocket);
+        }
+
     }
 
     private void handle_userSearch(String[] splitLine, Socket clientSocket) {
-        List<String> results = userSystem.search(splitLine[1], splitLine[2]);
-        if (results == null)
+        try{
+            List<String> results = userSystem.search(splitLine[1], splitLine[2]);
+            if (results == null)
+                sendLineToClient("No results returned from search", clientSocket);
+            else
+                sendLineToClient(ListToString(results), clientSocket);
+        }catch (Exception e){
             sendLineToClient("No results returned from search", clientSocket);
-        else
-            sendLineToClient(ListToString(results), clientSocket);
+        }
+
     }
 
     private void handle_getRoleForCoach(String[] splitLine, Socket clientSocket) {
-        String res = userSystem.getRoleForCoach(splitLine[1]);
-        if (!res.equals(""))
-            sendLineToClient(res, clientSocket);
-        else
+        try{
+            String res = userSystem.getRoleForCoach(splitLine[1]);
+            if (!res.equals(""))
+                sendLineToClient(res, clientSocket);
+            else
+                sendLineToClient("ID doesn't exist", clientSocket);
+        }catch (Exception e){
             sendLineToClient("ID doesn't exist", clientSocket);
+        }
+
     }
 
     private void handle_getRoleForPlayer(String[] splitLine, Socket clientSocket) {
-        String res = userSystem.getRoleForPlayer(splitLine[1]);
-        if (!res.equals(""))
-            sendLineToClient(res, clientSocket);
-        else
+        try{
+            String res = userSystem.getRoleForPlayer(splitLine[1]);
+            if (!res.equals(""))
+                sendLineToClient(res, clientSocket);
+            else
+                sendLineToClient("ID doesn't exist", clientSocket);
+        }catch (Exception e){
             sendLineToClient("ID doesn't exist", clientSocket);
+        }
+
     }
 
     private void handle_updateRoleForCoach(String[] splitLine, Socket clientSocket) {
-        boolean success = userSystem.updateRoleForCoach(splitLine[1], splitLine[2]);
+        try{
+            boolean success = userSystem.updateRoleForCoach(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed updating coach's role", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed updating coach's role", clientSocket);
+            else
+                sendLineToClient("Failed updating coach's role", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed updating coach's role", clientSocket);
+        }
+
     }
 
     private void handle_updateRoleForPlayer(String[] splitLine, Socket clientSocket) {
-        boolean success = userSystem.updateRoleForPlayer(splitLine[1], splitLine[2]);
+        try{
+            boolean success = userSystem.updateRoleForPlayer(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed updating player's role", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed updating player's role", clientSocket);
+            else
+                sendLineToClient("Failed updating player's role", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed updating player's role", clientSocket);
+        }
+
     }
 
     private void handle_updateTrainingForReferee(String[] splitLine, Socket clientSocket) {
-        boolean success = userSystem.updateTrainingForReferee(splitLine[1], splitLine[2]);
+        try{
+            boolean success = userSystem.updateTrainingForReferee(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed updating referee's training", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed updating referee's training", clientSocket);
+            else
+                sendLineToClient("Failed updating referee's training", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed updating referee's training", clientSocket);
+        }
+
     }
 
     private void handle_updateTrainingForCoach(String[] splitLine, Socket clientSocket) {
-        boolean success = userSystem.updateTrainingForCoach(splitLine[1], splitLine[2]);
+        try{
+            boolean success = userSystem.updateTrainingForCoach(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed updating coach's training", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed updating coach's training", clientSocket);
+            else
+                sendLineToClient("Failed updating coach's training", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed updating coach's training", clientSocket);
+        }
+
     }
 
     private void handle_registrationForGamesAlerts(String[] splitLine, Socket clientSocket) {
@@ -1483,46 +1763,72 @@ public class Server {
     }
 
     private void handle_getAllFutureGames(String[] splitLine, Socket clientSocket) {
-        List<String> results = userSystem.getAllFutureGames(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = userSystem.getAllFutureGames(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No future games available", clientSocket);
+            else
+                sendLineToClient(ListToString(results), clientSocket);
+        }catch (Exception e){
             sendLineToClient("No future games available", clientSocket);
-        else
-            sendLineToClient(ListToString(results), clientSocket);
+        }
+
 
     }
 
     private void handle_getAllPages(String[] splitLine, Socket clientSocket) {
-        List<String> results = userSystem.getAllPages(splitLine[1]);
-        if (results == null)
+        try{
+            List<String> results = userSystem.getAllPages(splitLine[1]);
+            if (results == null)
+                sendLineToClient("No pages available", clientSocket);
+            else
+                sendLineToClient(ListToString(results), clientSocket);
+        }catch (Exception e){
             sendLineToClient("No pages available", clientSocket);
-        else
-            sendLineToClient(ListToString(results), clientSocket);
+        }
+
     }
 
     private void handle_registrationToFollowUp(String[] splitLine, Socket clientSocket) {
-        boolean success = userSystem.registrationToFollowUp(splitLine[1], splitLine[2]);
+        try{
+            boolean success = userSystem.registrationToFollowUp(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed registering to follow up a page", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed registering to follow up a page", clientSocket);
+            else
+                sendLineToClient("Failed registering to follow up a page", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed registering to follow up a page", clientSocket);
+        }
+
     }
 
     private void handle_getBalance(String[] splitLine, Socket clientSocket) {
-        double budget = financeTransactionsSystem.getBalance(splitLine[1], splitLine[2]);
-        sendLineToClient("" + budget, clientSocket);
+        try{
+            double budget = financeTransactionsSystem.getBalance(splitLine[1], splitLine[2]);
+            sendLineToClient("" + budget, clientSocket);
+        }catch (Exception e){
+            sendLineToClient("Failed getting balance!", clientSocket);
+        }
+
     }
 
     private void handle_reportNewExpanse(String[] splitLine, Socket clientSocket) {
-        boolean success = financeTransactionsSystem.reportNewExpanse(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
+        try{
+            boolean success = financeTransactionsSystem.reportNewExpanse(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
 
-        if (success)
-            sendLineToClient("Succeed reporting new expanse", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed reporting new expanse", clientSocket);
+            else
+                sendLineToClient("Failed reporting new expanse", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed reporting new expanse", clientSocket);
+        }
+
     }
 
     private void handle_reportNewIncome(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         boolean success = financeTransactionsSystem.reportNewIncome(splitLine[1], splitLine[2], Double.parseDouble(splitLine[3]));
 
         if (success)
@@ -1532,216 +1838,326 @@ public class Server {
     }
 
     private void handle_uploadToPage(String[] splitLine, Socket clientSocket) {
+        try{
+            boolean success = personalPageSystem.uploadToPage(splitLine[1], splitLine[2]);
 
-        boolean success = personalPageSystem.uploadToPage(splitLine[1], splitLine[2]);
-
-        if (success)
-            sendLineToClient("Succeed uploading to personal page", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed uploading to personal page", clientSocket);
+            else
+                sendLineToClient("Failed uploading to personal page", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed uploading to personal page", clientSocket);
+        }
+
     }
 
     private void handle_addAssetPlayer(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.addAssetPlayer(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = teamSystem.addAssetPlayer(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed adding a Player to team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed adding a Player to team", clientSocket);
+            else
+                sendLineToClient("Failed adding a Player to team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed adding a Player to team", clientSocket);
+        }
+
     }
 
     private void handle_addAssetCoach(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.addAssetCoach(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = teamSystem.addAssetCoach(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed adding a Coach to team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed adding a Coach to team", clientSocket);
+            else
+                sendLineToClient("Failed adding a Coach to team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed adding a Coach to team", clientSocket);
+        }
+
     }
 
     private void handle_addField(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.addField(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = teamSystem.addField(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed adding a Field to team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed adding a Field to team", clientSocket);
+            else
+                sendLineToClient("Failed adding a Field to team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed adding a Field to team", clientSocket);
+        }
+
     }
 
     private void handle_removeField(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.removeField(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = teamSystem.removeField(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed removing a Field from team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed removing a Field from team", clientSocket);
+            else
+                sendLineToClient("Failed removing a Field from team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed removing a Field from team", clientSocket);
+        }
+
     }
 
     private void handle_removeAssetPlayer(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.removeAssetPlayer(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = teamSystem.removeAssetPlayer(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed removing a Player from team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed removing a Player from team", clientSocket);
+            else
+                sendLineToClient("Failed removing a Player from team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed removing a Player from team", clientSocket);
+        }
+
     }
 
     private void handle_removeAssetCoach(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.removeAssetCoach(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = teamSystem.removeAssetCoach(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed removing a Coach from team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed removing a Coach from team", clientSocket);
+            else
+                sendLineToClient("Failed removing a Coach from team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed removing a Coach from team", clientSocket);
+        }
+
     }
 
     private void handle_updateAsset(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.updateAsset(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
+        try{
+            boolean success = teamSystem.updateAsset(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
-        if (success)
-            sendLineToClient("Succeed updating asset", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed updating asset", clientSocket);
+            else
+                sendLineToClient("Failed updating asset", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed updating asset", clientSocket);
+        }
 
-        
     }
 
     private void handle_createTeam(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.createTeam(splitLine[1], splitLine[2], stringToList(splitLine[3]), stringToList(splitLine[4]), splitLine[5]);
+        try{
+            boolean success = teamSystem.createTeam(splitLine[1], splitLine[2], stringToList(splitLine[3]), stringToList(splitLine[4]), splitLine[5]);
 
-        if (success)
-            sendLineToClient("Succeed creating team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed creating team", clientSocket);
+            else
+                sendLineToClient("Failed creating team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed creating team", clientSocket);
+        }
+
     }
 
     private void handle_appointmentTeamOwner(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.appointmentTeamOwner(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = teamSystem.appointmentTeamOwner(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed appointing a Team Owner to team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed appointing a Team Owner to team", clientSocket);
+            else
+                sendLineToClient("Failed appointing a Team Owner to team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed appointing a Team Owner to team", clientSocket);
+        }
+
     }
 
     private void handle_appointmentTeamManager(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.appointmentTeamManager(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), stringToBoolean(splitLine[5]), stringToBoolean(splitLine[6]));
+        try{
+            boolean success = teamSystem.appointmentTeamManager(splitLine[1], splitLine[2], splitLine[3], Double.parseDouble(splitLine[4]), stringToBoolean(splitLine[5]), stringToBoolean(splitLine[6]));
 
-        if (success)
-            sendLineToClient("Succeed appointing a Team Manager to team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed appointing a Team Manager to team", clientSocket);
+            else
+                sendLineToClient("Failed appointing a Team Manager to team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed appointing a Team Manager to team", clientSocket);
+        }
+
     }
 
     private void handle_removeAppointmentTeamOwner(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.removeAppointmentTeamOwner(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = teamSystem.removeAppointmentTeamOwner(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed removing appointed Team Owner from team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed removing appointed Team Owner from team", clientSocket);
+            else
+                sendLineToClient("Failed removing appointed Team Owner from team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed removing appointed Team Owner from team", clientSocket);
+        }
+
     }
 
     private void handle_removeAppointmentTeamManager(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.removeAppointmentTeamManager(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            boolean success = teamSystem.removeAppointmentTeamManager(splitLine[1], splitLine[2], splitLine[3]);
 
-        if (success)
-            sendLineToClient("Succeed removing appointed Team Manager from team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed removing appointed Team Manager from team", clientSocket);
+            else
+                sendLineToClient("Failed removing appointed Team Manager from team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed removing appointed Team Manager from team", clientSocket);
+        }
+
     }
 
     private void handle_closeTeam(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.closeTeam(splitLine[1], splitLine[2]);
+        try{
+            boolean success = teamSystem.closeTeam(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed closing team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed closing team", clientSocket);
+            else
+                sendLineToClient("Failed closing team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed closing team", clientSocket);
+        }
+
     }
 
     private void handle_reOpeningTeam(String[] splitLine, Socket clientSocket) {
-        boolean success = teamSystem.reOpeningTeam(splitLine[1], splitLine[2]);
+        try{
+            boolean success = teamSystem.reOpeningTeam(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed reopening team", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed reopening team", clientSocket);
+            else
+                sendLineToClient("Failed reopening team", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed reopening team", clientSocket);
+        }
+
     }
 
     private void handle_getFanPages(String[] splitLine, Socket clientSocket) {
+        try{
+            List<String> results = userSystem.getFanPages(splitLine[1]);
+            if(results!=null){
+                String res = ListToString(results);
 
-        List<String> results = userSystem.getFanPages(splitLine[1]);
-        String res = ListToString(results);
+                sendLineToClient(res, clientSocket);
+            }
+            else
+                sendLineToClient("", clientSocket);
 
-        sendLineToClient(res, clientSocket);
+        }catch (Exception e){
+            sendLineToClient("", clientSocket);
+        }
+
     }
 
     private void handle_addComplaint(String[] splitLine, Socket clientSocket) {
-        boolean success = userSystem.addComplaint(splitLine[1], splitLine[2]);
+        try{
+            boolean success = userSystem.addComplaint(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed adding a complaint", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed adding a complaint", clientSocket);
+            else
+                sendLineToClient("Failed adding a complaint", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed adding a complaint", clientSocket);
+        }
+
     }
 
     private void handle_editPersonalInfo(String[] splitLine, Socket clientSocket) {
-        userSystem.editPersonalInfo(splitLine[1], splitLine[2], splitLine[3]);
+        try{
+            userSystem.editPersonalInfo(splitLine[1], splitLine[2], splitLine[3]);
 
-        sendLineToClient("Succeed Editing personal info", clientSocket);
+            sendLineToClient("Succeed Editing personal info", clientSocket);
+        }catch (Exception e){
+            sendLineToClient("Failed Editing personal info", clientSocket);
+        }
 
     }
 
     private void handle_editFanPersonalDetails(String[] splitLine, Socket clientSocket) {
+        try{
+            boolean success = userSystem.editFanPersonalDetails(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
-        boolean success = userSystem.editFanPersonalDetails(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
-
-        if (success)
-            sendLineToClient("Succeed Editing fan personal info", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed Editing fan personal info", clientSocket);
+            else
+                sendLineToClient("Failed Editing fan personal info", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed Editing fan personal info", clientSocket);
+        }
+
     }
 
     private void handle_viewSearchHistory(String[] splitLine, Socket clientSocket) {
-        List<String> results = userSystem.viewSearchHistory(splitLine[1]);
-        String res = ListToString(results);
-        sendLineToClient(res, clientSocket);
+        try{
+            List<String> results = userSystem.viewSearchHistory(splitLine[1]);
+            String res = ListToString(results);
+            sendLineToClient(res, clientSocket);
+        }catch (Exception e){}
+
 
     }
 
     private void handle_removeUser(String[] splitLine, Socket clientSocket) {
-        boolean success = adminSystem.removeUser(splitLine[1], splitLine[2]);
+        try{
+            boolean success = adminSystem.removeUser(splitLine[1], splitLine[2]);
 
-        if (success)
-            sendLineToClient("Succeed removing user " + splitLine[2], clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed removing user " + splitLine[2], clientSocket);
+            else
+                sendLineToClient("Failed removing user " + splitLine[2], clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed removing user " + splitLine[2], clientSocket);
+        }
+
     }
 
     private void handle_trainModel(String[] splitLine, Socket clientSocket) {
-        boolean success = adminSystem.trainModel(splitLine[1]);
+        try{
+            boolean success = adminSystem.trainModel(splitLine[1]);
 
-        if (success)
-            sendLineToClient("Succeed activating the training model", clientSocket);
-        else
+            if (success)
+                sendLineToClient("Succeed activating the training model", clientSocket);
+            else
+                sendLineToClient("Failed activating the training model", clientSocket);
+        }catch (Exception e){
             sendLineToClient("Failed activating the training model", clientSocket);
+        }
+
 
 
     }
 
     private void handle_viewLog(String[] splitLine, Socket clientSocket) {
+        try{
+            List<String> res = adminSystem.viewLog(splitLine[1], splitLine[2]);
+            String sendToClient = ListToString(res);
 
-        List<String> res = adminSystem.viewLog(splitLine[1], splitLine[2]);
-        String sendToClient = ListToString(res);
+            sendLineToClient(sendToClient, clientSocket);
+        }catch (Exception e){}
 
-        sendLineToClient(sendToClient, clientSocket);
     }
 
 
     // +++++++++++++++++++++++++++ Handle_ Functions +++++++++++++++++++++++++++
 
     private void handle_guestSearch(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         List<String> resultsList = guestSystem.search(splitLine[1]);
 
         String sendToClient = ListToString(resultsList);
@@ -1751,18 +2167,20 @@ public class Server {
     }
 
     private void handle_viewPersonalDetails(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         String res = userSystem.viewPersonalDetails(splitLine[1]);
         sendLineToClient(res, clientSocket);
     }
 
 
     private void handle_responseToComplaint(String[] splitLine, Socket clientSocket) {
-
+        try{}catch (Exception e){}
         adminSystem.responseToComplaint(splitLine[1], splitLine[2], splitLine[3]);
 
     }
 
     private void handle_permanentlyCloseTeam(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         String teamName = adminSystem.permanentlyCloseTeam(splitLine[1], splitLine[2]);
         if (teamName != null)
             sendLineToClient("Succeed closing the team " + teamName, clientSocket);
@@ -1771,6 +2189,7 @@ public class Server {
     }
 
     private void handle_addNewAdmin(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         String addedAdminId = adminSystem.addNewAdmin(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5]);
 
         if (addedAdminId == null)
@@ -1780,6 +2199,7 @@ public class Server {
     }
 
     private void handle_addNewUnionRepresentative(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         String addedRepresentativeId = adminSystem.addNewUnionRepresentative(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
 
         if (addedRepresentativeId == null)
@@ -1789,6 +2209,7 @@ public class Server {
     }
 
     private void handle_addNewTeamManager(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         String addedTeamManagerId = adminSystem.addNewTeamManager(splitLine[1], splitLine[2], splitLine[3], splitLine[4], Double.parseDouble(splitLine[5]), stringToBoolean(splitLine[6]), stringToBoolean(splitLine[7]));
 
         if (addedTeamManagerId == null)
@@ -1798,6 +2219,7 @@ public class Server {
     }
 
     private void handle_addNewTeamOwner(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         String addedTeamOwnerId = adminSystem.addNewTeamOwner(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
 
         if (addedTeamOwnerId == null)
@@ -1807,6 +2229,7 @@ public class Server {
     }
 
     private void handle_addNewCoach(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         String addedCoachId = adminSystem.addNewCoach(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5], splitLine[6], Double.parseDouble(splitLine[7]));
 
         if (addedCoachId == null)
@@ -1816,6 +2239,7 @@ public class Server {
     }
 
     private void handle_addNewPlayer(String[] splitLine, Socket clientSocket) {
+        try{}catch (Exception e){}
         String addedPlayerId = adminSystem.addNewPlayer(splitLine[1], splitLine[2], splitLine[3], splitLine[4], stringToDate(splitLine[5]), splitLine[6], Double.parseDouble(splitLine[7]));
         if (addedPlayerId == null)
             sendLineToClient("Failed adding a new Player", clientSocket);
@@ -1826,85 +2250,101 @@ public class Server {
 
 
     private void handle_Register(String[] splitLine, Socket clientSocket) {
-        String userId = guestSystem.register(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5], splitLine[6]);
+        try{
+            String userId = guestSystem.register(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5], splitLine[6]);
 
-        if (userId == null)
-        {
-            sendLineToClient("Registration Failed!", clientSocket);
-            return;
-        }
-
-        List<String> roles = userSystem.getUserRoles(userId); /**/
-
-        synchronized (loggedUsersMutex) {
-            if (!loggedUsers.containsKey(userId))
-                loggedUsers.put(userId, clientSocket);
-        }
-
-        String sendToClient = userId + "|";
-
-        for (String r : roles)
-            sendToClient = sendToClient + r + "|";
-
-        sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
-
-        userSystem.logIn(splitLine[1], splitLine[2]);
-
-    }
-
-    private void handle_Logout(String[] splitLine, Socket clientSocket) {
-        userSystem.logOut();
-
-        synchronized (loggedUsersMutex) {
-
-            if (loggedUsers.containsKey(splitLine[1])) {
-                loggedUsers.remove(splitLine[1]);
-                loggedUsersNotifications.remove(splitLine[1]);
+            if (userId == null)
+            {
+                sendLineToClient("Registration Failed!", clientSocket);
+                return;
             }
 
-        }
-        sendLineToClient("Logout Successful", clientSocket);
-
-    }
-
-    private void handle_Login(String[] splitLine, Socket clientSocket) {
-        String loggedUserId = guestSystem.logIn(splitLine[1], splitLine[2]);
-        if (loggedUserId == null) {
-            sendLineToClient("Login Failed", clientSocket);
-        } else {
-            List<String> roles = userSystem.getUserRoles(loggedUserId); /**/
+            List<String> roles = userSystem.getUserRoles(userId); /**/
 
             synchronized (loggedUsersMutex) {
-                if (!loggedUsers.containsKey(loggedUserId))
-                    loggedUsers.put(loggedUserId, clientSocket);
+                if (!loggedUsers.containsKey(userId))
+                    loggedUsers.put(userId, clientSocket);
             }
 
-            String sendToClient = loggedUserId + "|";
+            String sendToClient = userId + "|";
 
             for (String r : roles)
                 sendToClient = sendToClient + r + "|";
 
             sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
 
-            try
-            {
-                Thread.sleep(1000);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-
-            List<String> userNotifications = NotificationSystem.getAllNotification(loggedUserId);
-
-            if (userNotifications != null)
-                for (String not : userNotifications)
-                    sendNotification(loggedUserId, not);
-
+            userSystem.logIn(splitLine[1], splitLine[2]);
+        }catch (Exception e){
+            sendLineToClient("Registration Failed!", clientSocket);
         }
+
+
+    }
+
+    private void handle_Logout(String[] splitLine, Socket clientSocket) {
+        try{
+            userSystem.logOut();
+
+            synchronized (loggedUsersMutex) {
+
+                if (loggedUsers.containsKey(splitLine[1])) {
+                    loggedUsers.remove(splitLine[1]);
+                    loggedUsersNotifications.remove(splitLine[1]);
+                }
+
+            }
+            sendLineToClient("Logout Successful", clientSocket);
+        }catch (Exception e){
+            sendLineToClient("Logout Failed", clientSocket);
+        }
+
+
+    }
+
+    private void handle_Login(String[] splitLine, Socket clientSocket) {
+        try{
+            String loggedUserId = guestSystem.logIn(splitLine[1], splitLine[2]);
+            if (loggedUserId == null) {
+                sendLineToClient("Login Failed", clientSocket);
+            } else {
+                List<String> roles = userSystem.getUserRoles(loggedUserId); /**/
+
+                synchronized (loggedUsersMutex) {
+                    if (!loggedUsers.containsKey(loggedUserId))
+                        loggedUsers.put(loggedUserId, clientSocket);
+                }
+
+                String sendToClient = loggedUserId + "|";
+
+                for (String r : roles)
+                    sendToClient = sendToClient + r + "|";
+
+                sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
+
+                try
+                {
+                    Thread.sleep(1000);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+
+                List<String> userNotifications = NotificationSystem.getAllNotification(loggedUserId);
+
+                if (userNotifications != null)
+                    for (String not : userNotifications)
+                        sendNotification(loggedUserId, not);
+
+            }
+        }catch (Exception e){
+            sendLineToClient("Login Failed", clientSocket);
+        }
+
     }
 
     private void handle_viewInformationAboutReferees(Socket clientSocket) {
+        try{}catch (Exception e){}
         List<String> res = guestSystem.viewInformationAboutReferees();
         String result = ListToString(res);
         sendLineToClient(result, clientSocket);
@@ -1912,30 +2352,35 @@ public class Server {
     }
 
     private void handle_viewInformationAboutSeasons(Socket clientSocket) {
+        try{}catch (Exception e){}
         List<String> res = guestSystem.viewInformationAboutSeasons();
         String result = ListToString(res);
         sendLineToClient(result, clientSocket);
     }
 
     private void handle_viewInformationAboutLeagues(Socket clientSocket) {
+        try{}catch (Exception e){}
         List<String> res = guestSystem.viewInformationAboutLeagues();
         String result = ListToString(res);
         sendLineToClient(result, clientSocket);
     }
 
     private void handle_viewInformationAboutCoaches(Socket clientSocket) {
+        try{}catch (Exception e){}
         List<String> res = guestSystem.viewInformationAboutCoaches();
         String result = ListToString(res);
         sendLineToClient(result, clientSocket);
     }
 
     private void handle_viewInformationAboutPlayers(Socket clientSocket) {
+        try{}catch (Exception e){}
         List<String> res = guestSystem.viewInformationAboutPlayers();
         String result = ListToString(res);
         sendLineToClient(result, clientSocket);
     }
 
     private void handle_viewInformationAboutTeams(Socket clientSocket) {
+        try{}catch (Exception e){}
         List<String> res = guestSystem.viewInformationAboutTeams();
         String result = ListToString(res);
         sendLineToClient(result, clientSocket);

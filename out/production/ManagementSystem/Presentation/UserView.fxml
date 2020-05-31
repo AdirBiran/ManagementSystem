@@ -18,25 +18,25 @@
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="373.0" prefWidth="178.0" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" onAction="#logoutButtonPushed" text="Logout">
+                <Button fx:id="logout" mnemonicParsing="false" onAction="#logoutButtonPushed" text="Logout">
                     <VBox.margin>
                         <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </Button>
                 <VBox alignment="CENTER" focusTraversable="true" prefHeight="215.0" prefWidth="196.0">
                     <children>
-                        <Button disable="true" mnemonicParsing="false" onAction="#searchButtonPushed" text="Search" textAlignment="CENTER">
+                        <Button  fx:id="searchUser" disable="true" mnemonicParsing="false" onAction="#searchButtonPushed" text="Search" textAlignment="CENTER">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#viewInfoButtonPushed" text="View Info" textAlignment="CENTER">
+                        <Button  fx:id="viewInformationUser" mnemonicParsing="false" onAction="#viewInfoButtonPushed" text="View Info" textAlignment="CENTER">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>
                         </Button>
-                        <Button disable="true" mnemonicParsing="false" onAction="#viewSearchHistoryButtonPushed" text="View Search History" />
-                        <Button disable="true" mnemonicParsing="false" onAction="#editPersonalInfoButtonPushed" text="Edit Personal Info" />
+                        <Button  fx:id="searchHistory" disable="true" mnemonicParsing="false" onAction="#viewSearchHistoryButtonPushed" text="View Search History" />
+                        <Button  fx:id="editPersonalInfo" disable="true" mnemonicParsing="false" onAction="#editPersonalInfoButtonPushed" text="Edit Personal Info" />
                     </children>
                     <opaqueInsets>
                         <Insets />

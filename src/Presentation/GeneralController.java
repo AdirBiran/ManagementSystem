@@ -159,10 +159,33 @@ public abstract class GeneralController {
                 //implement (the results of search)
                 break;
             }
-            //case ("Game Report"):{
-            //
-            //    break;
-            //}
+            case ("Game Report"):{
+                tableLabel.setText("Game Events");
+                ArrayList<EventRecord> events = new ArrayList<>();
+                for(String event : list){
+                    if(event.contains("Event"))
+                        events.add(new EventRecord(event));
+                    else{
+                        Label gameName = new Label(event);
+                        gridPane.add(gameName, 0, startIndex);
+                        startIndex++;
+                    }
+                }
+                data.addAll(events);
+                TableColumn eventType = new TableColumn("Event Type");
+                eventType.setCellValueFactory(new PropertyValueFactory("type"));
+
+                TableColumn time = new TableColumn("Time");
+                time.setCellValueFactory(new PropertyValueFactory("time"));
+
+                TableColumn minuteInGame = new TableColumn("Minute In Game");
+                minuteInGame.setCellValueFactory(new PropertyValueFactory("minuteInGame"));
+
+                tableView.getColumns().addAll(getNameColumn(),eventType, time,minuteInGame);
+                tableView.setItems(data);
+                tableView.getSortOrder().add(minuteInGame);
+                break;
+            }
             default:{
                 Label head = new Label(type);
                 gridPane.add(head, 0, startIndex);
@@ -200,6 +223,7 @@ public abstract class GeneralController {
 
     public void buildViewInfoScene(GridPane l_viewPane, HBox mainView, Client client) {
         Label label = new Label("Please select subject:");
+        label.setId("selectLabel");
         label.setAlignment(Pos.CENTER_LEFT);
         l_viewPane.add(label, 0,0);
         List<String> values = new LinkedList<>();
@@ -211,6 +235,7 @@ public abstract class GeneralController {
         values.add("Referees");
         ObservableList<String> obList = FXCollections.observableList(values);
         ChoiceBox<String> subjects = new ChoiceBox(obList);
+        subjects.setId("selectSubjects");
         subjects.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -321,6 +346,7 @@ public abstract class GeneralController {
         clearMainView(view);
         clearMainView(pane);
         Button b_register = new Button("Add");
+        b_register.setId("registerButton");
         b_register.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -335,10 +361,13 @@ public abstract class GeneralController {
         Label Last = new Label("Last Name:");
         pane.add(Last, 0,4);
         tf_emailInForm = new TextField();
+        tf_emailInForm.setId("mail");
         pane.add(tf_emailInForm, 2,0);
         tf_firstName = new TextField();;
+        tf_firstName.setId("firstName");
         pane.add(tf_firstName, 2,3);
         tf_lastName = new TextField();;
+        tf_lastName.setId("lastName");
         pane.add(tf_lastName, 2,4);
         //-----------all users need------------//
         switch(type){
@@ -346,6 +375,7 @@ public abstract class GeneralController {
                 Label birthDate = new Label("Birth Date:");
                 pane.add(birthDate, 0,5);
                 birthDatePicker = new DatePicker();
+                birthDatePicker.setId("birthdate");
                 pane.add(birthDatePicker, 2,5);
                 addRoleField(type,pane,0,6);
                 addPriceField(pane,0,7);
@@ -383,8 +413,10 @@ public abstract class GeneralController {
                 Label Address = new Label("Address:");
                 pane.add(Address, 0,6);
                 tf_phone = new TextField();;
+                tf_phone.setId("phone");
                 pane.add(tf_phone, 2,5);
                 tf_address = new TextField();;
+                tf_address.setId("address");
                 pane.add(tf_address, 2,6);
                 break;
             }
@@ -465,8 +497,10 @@ public abstract class GeneralController {
         Label VerifyPassword = new Label("Verify Password:");
         l_registerPane.add(VerifyPassword, 0,2);
         tf_passwordInForm = new PasswordField();;
+        tf_passwordInForm.setId("pass");
         l_registerPane.add(tf_passwordInForm, 2,1);
         tf_passwordAgain = new PasswordField();;
+        tf_passwordAgain.setId("passVerify");
         l_registerPane.add(tf_passwordAgain, 2,2);
 
     }
@@ -556,6 +590,10 @@ public abstract class GeneralController {
 
         register = m_client.sendToServer(request);
         String[]split = register.get(0).split("\\|");
+        if(split[0].contains("Failed")){
+            showAlert(split[0], Alert.AlertType.ERROR);
+            return;
+        }
         if(split[0].contains("Succeed") || type.equals("fan")){
             clearMainView(view);
             if(type.equals("player")||type.equals("coach"))

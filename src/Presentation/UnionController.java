@@ -282,7 +282,7 @@ public class UnionController extends GeneralController {
                             teamId = record.getId();
                     }
                     String leagueId = getIdFromName(league, leagueInSeasons);
-                    List<String> receive = client.sendToServer("addTeamToLeague|"+loggedUser+"|"+teamId+"|"+leagueId);
+                    List<String> receive = client.sendToServer("addTeamToLeague|"+loggedUser+"|"+leagueId+"|"+teamId);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else
@@ -368,7 +368,7 @@ public class UnionController extends GeneralController {
         cb_policies = new ChoiceBox<>(policies);
         pane.add(cb_policies, 1, 2);
     }
-    private void addChangeButton(GridPane pane) {
+    private void addChangeButton(String request, GridPane pane) {
         Button changeBtn = new Button("Change");
         changeBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -378,7 +378,7 @@ public class UnionController extends GeneralController {
                     return;
                 }
                 String leagueId = getIdFromName(cb_leagueInSeasons.getValue(), leagueInSeasons);
-                List<String> receive = client.sendToServer("changeScorePolicy|"+loggedUser+"|"+leagueId+"|"+cb_policies.getValue());
+                List<String> receive = client.sendToServer(request+"|"+loggedUser+"|"+leagueId+"|"+cb_policies.getValue());
                 if(receive.get(0).contains("Succeed")){
                     showAlert("Policy has changed to"+cb_policies.getValue(), Alert.AlertType.INFORMATION);
                 }
@@ -396,14 +396,16 @@ public class UnionController extends GeneralController {
         switch (type){
             case "score":{
                 addPolicyToPane("getAllScorePolicies", pane, "Please select league and score policy", "Score Policy:");
+                addChangeButton("changeScorePolicy", pane);
                 break;
             }
             case "assignment":{
                 addPolicyToPane("getAllAssignmentsPolicies", pane, "Please select league and assignment policy", "Assignment Policy:");
+                addChangeButton("changeAssignmentPolicy", pane);
                 break;
             }
         }
-        addChangeButton(pane);
+
 
         mainView1.getChildren().add(pane);
     }
