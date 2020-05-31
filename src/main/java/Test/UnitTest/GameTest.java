@@ -6,6 +6,10 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.crypto.Data;
+
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
     public class GameTest {
@@ -57,7 +61,8 @@ import static org.junit.Assert.*;
 
     @Test
     public void getDate() {
-        assertEquals(game.getDate(),Database.getDate(2020, 5, 25, 20, 0));
+        Date date =Database.getDate(2021, 11, 21, 20, 0);
+        assertEquals(game.getDate().toString(),date.toString());
     }
 
 
