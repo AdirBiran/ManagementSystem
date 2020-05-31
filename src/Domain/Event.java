@@ -27,9 +27,8 @@ public class Event {
     public Event(EventType type,Game game, String description) {
         this.id = "E"+IdGenerator.getNewId();
         this.type = type;
-        this.date = Database.getCurrentDate();
-        long diffInMillies = Math.abs(date.getTime() - game.getDate().getTime());
-        this.minuteInGame = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        this.date = new Date();
+        this.minuteInGame = calculateMinutes(game.getDate(), date);
         this.description = description;
     }
 
@@ -45,7 +44,8 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "type=" + type +
+                ", id=" + id +
+                ", type=" + type +
                 ", date=" + date +
                 ", minuteInGame=" + minuteInGame +
                 ", description='" + description + '\'' +
@@ -54,6 +54,14 @@ public class Event {
 
     public String createMessage(){
         return date + ": " + minuteInGame + ", " + type + "- " + description;
+    }
+
+
+    private double calculateMinutes(Date gameDate, Date nowDate) {
+        long now = (nowDate.getTime()/1000)/60;
+        long gameTime = (gameDate.getTime()/1000)/60;
+        long minutes = now-gameTime;
+        return minutes;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
