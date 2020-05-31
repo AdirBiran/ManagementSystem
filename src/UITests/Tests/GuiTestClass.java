@@ -126,6 +126,12 @@ public class GuiTestClass extends UITests.InitiationClass {
         assertNotNull(logout);
     }
 
+    @Test
+    public void E_()
+    {
+
+    }
+
 
 
 }
