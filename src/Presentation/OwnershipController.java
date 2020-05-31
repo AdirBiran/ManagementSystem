@@ -42,6 +42,7 @@ public class OwnershipController extends GeneralController{
         rowCount++;
         Label teamName = new Label("Team Name: ");
         TextField tf_teamName = new TextField();
+        tf_teamName.setId("tf_teamName");
         mainPane.add(teamName,0,rowCount);
         mainPane.add(tf_teamName,1,rowCount);
         rowCount++;
@@ -158,6 +159,7 @@ public class OwnershipController extends GeneralController{
         clearMainView(mainPane);
         Label label = new Label("Please select team to close");
         mainPane.add(label,0,0);
+        this.teams = initHashSet(m_client.sendToServer("getTeams|"+loggedUser));
         cb_teams = addTeamsChoiceBox(mainPane, 1, teams.values());
         Button addBtn = new Button("Close");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -224,6 +226,7 @@ public class OwnershipController extends GeneralController{
         }
         mainPane.add(label,0,rowIdx);
         rowIdx++;
+        this.teams = initHashSet(m_client.sendToServer("getTeams|"+loggedUser));
         cb_teams = addTeamsChoiceBox(mainPane, rowIdx, teams.values());
         rowIdx++;
         addUsersChoiceBox(mainPane, rowIdx);

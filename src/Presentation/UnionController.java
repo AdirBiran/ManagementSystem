@@ -41,14 +41,17 @@ public class UnionController extends GeneralController {
         Label name = new Label("League Name:");
         mainPane.add(name, 0, 0);
         TextField tf_name = new TextField();
+        tf_name.setId("tf_name");
         mainPane.add(tf_name, 2, 0);
         Label level = new Label("League Level:");
         mainPane.add(level, 0, 1);
         ChoiceBox<String> cb_level = new ChoiceBox<>();
+        cb_level.setId("cb_level");
         mainPane.add(cb_level, 2, 1);
         ObservableList<String> levels = FXCollections.observableArrayList("level1","level2", "level3","level4");
         cb_level.setItems(levels);
         Button b_add = new Button("Add");
+        b_add.setId("b_add");
         b_add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -76,10 +79,13 @@ public class UnionController extends GeneralController {
         Label date = new Label("Season Start Date:");
         mainPane.add(date, 0,2);
         TextField tf_year = new TextField();
+        tf_year.setId("tf_year");
         mainPane.add(tf_year, 1,1);
         DatePicker dp_start = new DatePicker();
+        dp_start.setId("dp_start");
         mainPane.add(dp_start, 1,2);
         Button addBtn = new Button("Add");
+        addBtn.setId("addBtn");
         addBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -107,6 +113,7 @@ public class UnionController extends GeneralController {
         List<String> c_leagues = client.sendToServer("viewInformationAboutLeagues|");
         fillLeaguesMap(c_leagues);
         ChoiceBox<String> cb_leagues = new ChoiceBox<>(FXCollections.observableArrayList(this.leagues.values()));
+        cb_leagues.setId("cb_leagues");
         mainPane.add(cb_leagues, 1,rowInx);
         rowInx++;
         Label l_seasons = new Label("Seasons:");
@@ -114,6 +121,7 @@ public class UnionController extends GeneralController {
         List<String> c_seasons = client.sendToServer("viewInformationAboutSeasons|");
         fillSeasonsMap(c_seasons);
         ChoiceBox<String> cb_seasons = new ChoiceBox<>(FXCollections.observableArrayList(this.seasons.values()));
+        cb_seasons.setId("cb_seasons");
         mainPane.add(cb_seasons, 1,rowInx);
         rowInx++;
         //add assignment and score policies
@@ -121,21 +129,25 @@ public class UnionController extends GeneralController {
         mainPane.add(l_assignment, 0,rowInx);
         List<String> c_assignment = client.sendToServer("getAllAssignmentsPolicies|"+loggedUser);
         ChoiceBox<String> cb_assignment  = new ChoiceBox<>(FXCollections.observableArrayList(c_assignment));
+        cb_assignment.setId("cb_assignment");
         mainPane.add(cb_assignment, 1,rowInx);
         rowInx++;
         Label l_score = new Label("Game Score Policy:");
         mainPane.add(l_score, 0,rowInx);
         List<String> c_score = client.sendToServer("getAllScorePolicies|"+loggedUser);
         ChoiceBox<String> cb_score = new ChoiceBox<>(FXCollections.observableArrayList(c_score));
+        cb_score.setId("cb_score");
         mainPane.add(cb_score, 1,rowInx);
         rowInx++;
         //add registration fee
         Label l_fee = new Label("Registration fee:");
         mainPane.add(l_fee, 0,rowInx);
         TextField tf_fee = new TextField();
+        tf_fee.setId("tf_fee");
         mainPane.add(tf_fee, 1,rowInx);
         rowInx++;
         Button configureBtn = new Button("Configure");
+        configureBtn.setId("configureBtn");
         configureBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -282,7 +294,7 @@ public class UnionController extends GeneralController {
                             teamId = record.getId();
                     }
                     String leagueId = getIdFromName(league, leagueInSeasons);
-                    List<String> receive = client.sendToServer("addTeamToLeague|"+loggedUser+"|"+teamId+"|"+leagueId);
+                    List<String> receive = client.sendToServer("addTeamToLeague|"+loggedUser+"|"+leagueId+"|"+teamId);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else
@@ -368,7 +380,7 @@ public class UnionController extends GeneralController {
         cb_policies = new ChoiceBox<>(policies);
         pane.add(cb_policies, 1, 2);
     }
-    private void addChangeButton(GridPane pane) {
+    private void addChangeButton(String request, GridPane pane) {
         Button changeBtn = new Button("Change");
         changeBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -378,7 +390,7 @@ public class UnionController extends GeneralController {
                     return;
                 }
                 String leagueId = getIdFromName(cb_leagueInSeasons.getValue(), leagueInSeasons);
-                List<String> receive = client.sendToServer("changeScorePolicy|"+loggedUser+"|"+leagueId+"|"+cb_policies.getValue());
+                List<String> receive = client.sendToServer(request+"|"+loggedUser+"|"+leagueId+"|"+cb_policies.getValue());
                 if(receive.get(0).contains("Succeed")){
                     showAlert("Policy has changed to"+cb_policies.getValue(), Alert.AlertType.INFORMATION);
                 }
@@ -396,14 +408,16 @@ public class UnionController extends GeneralController {
         switch (type){
             case "score":{
                 addPolicyToPane("getAllScorePolicies", pane, "Please select league and score policy", "Score Policy:");
+                addChangeButton("changeScorePolicy", pane);
                 break;
             }
             case "assignment":{
                 addPolicyToPane("getAllAssignmentsPolicies", pane, "Please select league and assignment policy", "Assignment Policy:");
+                addChangeButton("changeAssignmentPolicy", pane);
                 break;
             }
         }
-        addChangeButton(pane);
+
 
         mainView1.getChildren().add(pane);
     }
