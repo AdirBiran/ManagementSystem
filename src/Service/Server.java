@@ -2334,7 +2334,8 @@ public class Server {
 
                 if (userNotifications != null)
                     for (String not : userNotifications)
-                        sendNotification(loggedUserId, not);
+                        if (!(not.trim().equals("")))
+                            sendNotification(loggedUserId, not);
 
             }
         }catch (Exception e){
