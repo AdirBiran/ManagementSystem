@@ -13,7 +13,7 @@ public class GameRecord implements Record {
     private String team2Name;
 
     public GameRecord(String toString) {
-        //G406,T30:team0 VS T58:team1,Thu Jul 23 00:00:00 IDT 2020
+        //G1593,T1025:team0 VS T1067:team1,Sun May 31 01:00:00 IDT 2020
         String[] split = toString.split(",");
         this.id = split[0];
         this.team1Id = split[1].substring(0,split[1].indexOf(":"));
@@ -62,6 +62,6 @@ public class GameRecord implements Record {
 
     @Override
     public String getName() {
-        return name + " " + date;
+        return name + ", " + date;
     }
 }

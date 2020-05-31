@@ -48,7 +48,7 @@ public class RefereeController extends GeneralController{
             row++;
             String[] split = gameRecord.getName().split("VS");
             cb_players = new ChoiceBox<>(FXCollections.observableArrayList());
-            ChoiceBox<String> cb_teams = new ChoiceBox<>(FXCollections.observableArrayList(split[0],split[1]));
+            ChoiceBox<String> cb_teams = new ChoiceBox<>(FXCollections.observableArrayList(split[0],split[1].substring(0, split[1].indexOf(","))));
             cb_teams.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {

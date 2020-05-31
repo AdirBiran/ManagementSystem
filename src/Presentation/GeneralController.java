@@ -192,6 +192,12 @@ public abstract class GeneralController {
         alert.show();
     }
 
+    public void closeSockets(Client client){
+        if(client!=null){
+            client.closeSockets();
+        }
+    }
+
     public void buildViewInfoScene(GridPane l_viewPane, HBox mainView, Client client) {
         Label label = new Label("Please select subject:");
         label.setAlignment(Pos.CENTER_LEFT);
