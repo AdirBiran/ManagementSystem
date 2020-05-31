@@ -36,8 +36,10 @@ import static org.junit.Assert.*;
         game= Database.getGame(league.getGamesId().get(0));
         Guest guest = new Guest();
 
-        //user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        user = guest.login("fan@gmail.com", "Aa1234");
+        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        if(user==null) {
+            user = guest.login("fan@gmail.com", "Aa1234");
+        }
 
     }
 
@@ -61,7 +63,7 @@ import static org.junit.Assert.*;
 
     @Test
     public void getDate() {
-        Date date =Database.getDate(2021, 11, 21, 20, 0);
+        Date date =Database.getDate(2021, 11, 21, 20, 0);//enter every time the correct date
         assertEquals(game.getDate().toString(),date.toString());
     }
 
