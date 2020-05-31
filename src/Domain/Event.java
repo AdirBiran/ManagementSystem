@@ -24,12 +24,11 @@ public class Event {
     private String description;
 
 
-    public Event(EventType type,Game game, String description) {
+    public Event(EventType type,Date date, double minuteInGame, String description) {
         this.id = "E"+IdGenerator.getNewId();
         this.type = type;
-        this.date = Database.getCurrentDate();
-        long diffInMillies = Math.abs(date.getTime() - game.getDate().getTime());
-        this.minuteInGame = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        this.date = date;
+        this.minuteInGame = minuteInGame;
         this.description = description;
     }
 
@@ -45,7 +44,8 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "type=" + type +
+                ", id=" + id +
+                ", type=" + type +
                 ", date=" + date +
                 ", minuteInGame=" + minuteInGame +
                 ", description='" + description + '\'' +
