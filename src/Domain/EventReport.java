@@ -22,19 +22,11 @@ public class EventReport {
     }
 
     public boolean addEvent(Event event){
-        if(!checkIfExists(event)) {
+        if(!events.contains(event)) {
             events.add(event);
             Database.addEvent(event);
             Database.updateObject(this);
             return true;
-        }
-        return false;
-    }
-
-    private boolean checkIfExists(Event event) {
-        for (Event e : events){
-            if(e.getId().equals(event.getId()) || (e.getType().equals(event.getType()) && e.getDescription().equals(event.getDescription())))
-                return true;
         }
         return false;
     }

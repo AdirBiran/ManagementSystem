@@ -86,6 +86,14 @@ public class Fan extends Role implements Observer {
                 ", address=" + address;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Fan fan = (Fan)obj;
+        if(fan!=null)
+            return fan.getID().equals(this.getID());
+        return false;
+    }
+
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     public List<String> getFollowedPages(){

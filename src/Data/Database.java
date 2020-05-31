@@ -114,7 +114,7 @@ public class Database //maybe generalize with interface? //for now red layer
             return ans1 && ans2 && ans3 && ans4 && ans5;
         }
         else if(object instanceof Complaint){
-            boolean ans1=true,ans2=true,ans3=true,ans4=true;
+            boolean ans1=true,ans2=true,ans3=true,ans4=true,ans5=true;
             /**
              * [ComplaintDate] [date] NOT NULL,
              * 	[isActive] [bit] NOT NULL,
@@ -126,8 +126,9 @@ public class Database //maybe generalize with interface? //for now red layer
             ans2 = dataAccess.updateCellValue("Complaints" ,"isActive" ,((Complaint) object).getId() ,""+((Complaint) object).getIsActive());
             ans3 = dataAccess.updateCellValue("Complaints" ,"Description" ,((Complaint) object).getId() ,((Complaint) object).getDescription() );
             ans4 = dataAccess.updateCellValue("Complaints" ,"ComplainedFanID" ,((Complaint) object).getId() ,((Complaint) object).getFanComplained().getID() );
+            ans5 = dataAccess.updateCellValue("Complaints" ,"Response" ,((Complaint) object).getId() ,((Complaint) object).getResponse() );
 
-            return ans1 && ans2 && ans3 && ans4 ;
+            return ans1 && ans2 && ans3 && ans4 && ans5;
         }
 
         else if(object instanceof Event){
@@ -866,6 +867,10 @@ public class Database //maybe generalize with interface? //for now red layer
         dataAccess.deleteIdFromAllTables(id);
     }
 
+    public static void removeRowFromTable(String tableName , String id){
+        dataAccess.deleteRow(tableName, id);
+    }
+
     public static void removeField(String assetId) {
         Field field = getField(assetId);
 
@@ -945,7 +950,7 @@ public class Database //maybe generalize with interface? //for now red layer
             case "Complaint":
                 Complaint complaint = new Complaint(object.get(0),
                         stringToDateJAVA(object.get(1)) ,stringToBoolean(object.get(2)),
-                        object.get(3),getFan(object.get(4)));
+                        object.get(3),getFan(object.get(4)), object.get(5));
                 return complaint;
             case "Event":
                 Event event = new Event(object.get(0) ,object.get(1) , stringToDateJAVA(object.get(2)),
@@ -2178,7 +2183,7 @@ public class Database //maybe generalize with interface? //for now red layer
 
         if(!dataAccess.isIDExists("Complaints" , complaint.getId())) {
             dataAccess.addCell("Complaints", complaint.getId(), dateToString(complaint.getDate()),
-                    "" + complaint.getIsActive(), complaint.getDescription(), complaint.getFanComplained().getID());
+                    "" + complaint.getIsActive(), complaint.getDescription(), complaint.getFanComplained().getID(), complaint.getResponse());
             return true;
         }
         return false;

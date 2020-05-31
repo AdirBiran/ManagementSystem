@@ -46,6 +46,7 @@ public class Team extends Observable {
         this.coaches = coaches;
         linkCoaches();
         this.budget = new Budget();
+        this.budget.addIncome(100000);
         this.fields = new LinkedList<>();
         fields.add(field);
         linkField();
@@ -92,7 +93,6 @@ public class Team extends Observable {
         for(Field field :fields){
             field.addTeam(this);
         }
-
     }
 
     private void linkCoaches() {
@@ -135,6 +135,14 @@ public class Team extends Observable {
                 "Players: " + printPlayers() +
                 "Coaches: " +printCoaches() +
                 "Games: " +printGames();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Team team = (Team)obj;
+        if(team!=null)
+            return team.getID().equals(this.id);
+        return false;
     }
 
     private String printGames() {
