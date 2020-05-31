@@ -135,6 +135,7 @@ public class UserController extends GeneralController implements Initializable {
                             admin.closeTeamPermanently();
                         }
                     });
+                    closeTeamPermanently.setDisable(true);
                     adminMenu.getItems().add(closeTeamPermanently);
                     MenuItem addNewPlayer = new MenuItem("Add New Player");
                     addNewPlayer.setOnAction(new EventHandler<ActionEvent>() {
@@ -191,6 +192,7 @@ public class UserController extends GeneralController implements Initializable {
                             admin.removeUser();
                         }
                     });
+                    removeUser.setDisable(true);
                     adminMenu.getItems().add(removeUser);
                     MenuItem viewLog = new MenuItem("View Log");
                     viewLog.setOnAction(new EventHandler<ActionEvent>() {
@@ -207,6 +209,7 @@ public class UserController extends GeneralController implements Initializable {
                             admin.responseToComplaint();
                         }
                     });
+                    responseToComplaint.setDisable(true);
                     adminMenu.getItems().add(responseToComplaint);
                     mb_mainMenu1.getMenus().add(adminMenu);
                     break;
@@ -241,6 +244,7 @@ public class UserController extends GeneralController implements Initializable {
                             ownership.appointTeamManager();
                         }
                     });
+                    appointTeamManager.setDisable(true);
                     ownerMenu.getItems().add(appointTeamManager);
                     MenuItem closeTeam = new MenuItem("Close Team");
                     closeTeam.setId("closeTeam");
@@ -259,6 +263,7 @@ public class UserController extends GeneralController implements Initializable {
                             ownership.reopenTeam();
                         }
                     });
+                    reopenTeam.setDisable(true);
                     ownerMenu.getItems().add(reopenTeam);
                     mb_mainMenu1.getMenus().add(ownerMenu);
                     //manage:
@@ -317,6 +322,7 @@ public class UserController extends GeneralController implements Initializable {
                             union.assignGames();
                         }
                     });
+                    assignGames.setDisable(true);
                     unionMenu.getItems().add(assignGames);
                     MenuItem appointReferee = new MenuItem("Appoint Referee");
                     appointReferee.setId("appointReferee");
@@ -362,6 +368,7 @@ public class UserController extends GeneralController implements Initializable {
                             union.addTUTUPaymentToTeam();
                         }
                     });
+                    addTUTUPaymentToTeam.setDisable(true);
                     unionMenu.getItems().add(addTUTUPaymentToTeam);
                     MenuItem addPaymentsFromTheTUTU = new MenuItem("Add Payments From The TUTU");
                     addPaymentsFromTheTUTU.setId("addPaymentsFromTheTUTU");
@@ -371,6 +378,7 @@ public class UserController extends GeneralController implements Initializable {
                             union.addPaymentsFromTheTUTU();
                         }
                     });
+                    addPaymentsFromTheTUTU.setDisable(true);
                     unionMenu.getItems().add(addPaymentsFromTheTUTU);
                     MenuItem calculateLeagueScore = new MenuItem("Calculate League Score");
                     calculateLeagueScore.setId("calculateLeagueScore");
@@ -380,6 +388,7 @@ public class UserController extends GeneralController implements Initializable {
                             union.calculateLeagueScore();
                         }
                     });
+                    calculateLeagueScore.setDisable(true);
                     unionMenu.getItems().add(calculateLeagueScore);
                     MenuItem calculateGameScore = new MenuItem("Calculate Game Score");
                     calculateGameScore.setId("calculateGameScore");
@@ -389,6 +398,7 @@ public class UserController extends GeneralController implements Initializable {
                             union.calculateGameScore();
                         }
                     });
+                    calculateGameScore.setDisable(true);
                     unionMenu.getItems().add(calculateGameScore);
                     MenuItem changeRegistrationFee = new MenuItem("Change Registration Fee");
                     changeRegistrationFee.setId("changeRegistrationFee");
@@ -398,6 +408,7 @@ public class UserController extends GeneralController implements Initializable {
                             union.changeRegistrationFee();
                         }
                     });
+                    changeRegistrationFee.setDisable(true);
                     unionMenu.getItems().add(changeRegistrationFee);
                     mb_mainMenu1.getMenus().add(unionMenu);
                     break;
@@ -453,6 +464,7 @@ public class UserController extends GeneralController implements Initializable {
                             page.viewPage();
                         }
                     });
+                    viewPage.setDisable(true);
                     pageMenu.getItems().add(viewPage);
                     MenuItem uploadToPage = new MenuItem("Upload To Page");
                     uploadToPage.setOnAction(new EventHandler<ActionEvent>() {
@@ -461,6 +473,7 @@ public class UserController extends GeneralController implements Initializable {
                             page.uploadToPage();
                         }
                     });
+                    uploadToPage.setDisable(true);
                     pageMenu.getItems().add(uploadToPage);
                     mb_mainMenu1.getMenus().add(pageMenu);
                     break;
@@ -482,6 +495,7 @@ public class UserController extends GeneralController implements Initializable {
                 management.addPlayerToTeam();
             }
         });
+        addPlayerToTeam.setDisable(true);
         manageMenu.getItems().add(addPlayerToTeam);
         MenuItem addCoachToTeam = new MenuItem("Add Coach To Team");
         addCoachToTeam.setId("addCoachToTeam");
@@ -491,6 +505,7 @@ public class UserController extends GeneralController implements Initializable {
                 management.addCoachToTeam();
             }
         });
+        addCoachToTeam.setDisable(true);
         manageMenu.getItems().add(addCoachToTeam);
         MenuItem addFieldToTeam = new MenuItem("Add Field To Team");
         addFieldToTeam.setId("addFieldToTeam");
@@ -500,6 +515,7 @@ public class UserController extends GeneralController implements Initializable {
                 management.addFieldToTeam();
             }
         });
+        addFieldToTeam.setDisable(true);
         manageMenu.getItems().add(addFieldToTeam);
         MenuItem updateAsset = new MenuItem("Update Asset");
         updateAsset.setId("updateAsset");
@@ -509,6 +525,7 @@ public class UserController extends GeneralController implements Initializable {
                 management.updateAsset();
             }
         });
+        updateAsset.setDisable(true);
         manageMenu.getItems().add(updateAsset);
         MenuItem reportIncome = new MenuItem("Report Income");
         reportIncome.setId("reportIncome");
