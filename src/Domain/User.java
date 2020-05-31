@@ -124,6 +124,14 @@ public class User extends Guest {
         return userToString+"}";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        User user = (User)obj;
+        if(user!=null)
+            return user.getID().equals(this.getID());
+        return false;
+    }
+
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
     public String getName() {
         return firstName+" "+lastName;

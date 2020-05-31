@@ -29,7 +29,14 @@ public class PersonalPage {
     @Override
     public String toString() {
         return  id +","+user.getName()+","+data;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        PersonalPage personalPage = (PersonalPage)obj;
+        if(personalPage!=null)
+            return personalPage.getId().equals(this.id);
+        return false;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++

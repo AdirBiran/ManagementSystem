@@ -9,28 +9,36 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TeamOwnerTest {
-    TeamOwner teamOwner;
     FootballManagementSystem system;
+    LeagueInSeason league;
+    TeamOwner teamOwner;
+    TeamManager teamManager;
     Admin admin;
     Team team;
-    User userTeamOwner;
     User user;
+
 
     @Before
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(true);
         String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
+        admin = system.getAdmin();
         team = league.getTeams().get(0);
-        admin = (Admin) system.getAdmin();
-        userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
-        teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
+        teamOwner = system.getDatabase().getAllTeamOwners().get(0);
+
+
         user=admin.addNewTeamManager("team", "management", "manage@gmail.com", 1200, false, false);
+        //String userId = system.getDatabase().getAllTeamManagers().get(0).getID();
+        //user = system.getDatabase().getUser(userId);
     }
 
     @Test
     public void getAppointedTeamOwners() {
+
         assertNotNull(teamOwner.getAppointedTeamOwners());
     }
 
@@ -41,15 +49,21 @@ public class TeamOwnerTest {
 
     @Test
     public void addTeam() {
-        assertEquals(teamOwner.getTeamsToManage().size(),0);
+        int listSize = teamOwner.getTeamsToManage().size();
         teamOwner.addTeam(team);
-        assertEquals(teamOwner.getTeamsToManage().size(),1);
+        assertEquals(teamOwner.getTeamsToManage().size(),listSize+1);
         teamOwner.addTeam(team);
-        assertEquals(teamOwner.getTeamsToManage().size(),1);
+        assertEquals(teamOwner.getTeamsToManage().size(),listSize+1);
+
+        teamOwner.removeTeam(team);
     }
 
     @Test
     public void addTeamPersonalPage() {
+        assertFalse(teamOwner.addTeamPersonalPage(team));
+        Team team1 = teamOwner.getTeamsToManage().get(0);
+        assertTrue(teamOwner.addTeamPersonalPage(team1));
+
     }
 
     @Test
@@ -67,10 +81,11 @@ public class TeamOwnerTest {
 
     @Test
     public void removeTeam() {
+        int listSize = teamOwner.getTeamsToManage().size();
         teamOwner.addTeam(team);
-        assertEquals(teamOwner.getTeamsToManage().size(),1);
+        assertEquals(teamOwner.getTeamsToManage().size(),listSize+1);
         teamOwner.removeTeam(team);
-        assertEquals(teamOwner.getTeamsToManage().size(),0);
+        assertEquals(teamOwner.getTeamsToManage().size(),listSize);
     }
 
     @Test
@@ -78,7 +93,8 @@ public class TeamOwnerTest {
         assertFalse(teamOwner.appointTeamOwner(user,team.getID()));
         teamOwner.addTeam(team);
         assertTrue(teamOwner.appointTeamOwner(user,team.getID()));
-
+        teamOwner.removeAppointTeamOwner(user,team.getID());
+        system.getDatabase().removeFromTables(user.getID());
     }
 
     @Test
@@ -90,6 +106,10 @@ public class TeamOwnerTest {
 
     @Test
     public void removeAppointTeamOwner() {
+        String to = system.getDatabase().getAllTeamOwners().get(1).getID();
+        User userTeamOwner = system.getDatabase().getUser(to);
+
+
         team.addTeamOwner(userTeamOwner,true);
         User user1 = admin.addNewCoach("new", "user", "coach@gamil.com", Coach.TrainingCoach.UEFA_B, Coach.RoleCoach.main, 1100);
         teamOwner.appointTeamOwner(user1,team.getID());
@@ -102,7 +122,12 @@ public class TeamOwnerTest {
 
     @Test
     public void removeAppointTeamManager() {
+        String to = system.getDatabase().getAllTeamOwners().get(1).getID();
+        User userTeamOwner = system.getDatabase().getUser(to);
+
+
         assertFalse(teamOwner.removeAppointTeamManager(user,team.getID()));
+
         team.addTeamOwner(userTeamOwner,true);
         teamOwner.appointTeamManager(user,team.getID(),30,false,false);
         assertTrue(teamOwner.removeAppointTeamManager(user,team.getID()));

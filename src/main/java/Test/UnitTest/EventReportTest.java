@@ -28,7 +28,7 @@ public class EventReportTest {
         unionRole.assignGames(league.getId());
         game= Database.getGame(league.getGamesId().get(0));
         eventReport = game.getEventReport();
-        event = new Event(Event.EventType.RedCard, game, "add event");
+//        event = new Event(Event.EventType.RedCard, game, "add event");
 
     }
 

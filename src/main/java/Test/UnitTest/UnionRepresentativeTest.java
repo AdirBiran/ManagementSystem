@@ -1,35 +1,42 @@
 package UnitTest;
 
-import Domain.Admin;
-import Domain.Guest;
-import Domain.LeagueInSeason;
-import Domain.User;
+import Data.Database;
+import Domain.*;
 import Service.FootballManagementSystem;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
 public class UnionRepresentativeTest {
     FootballManagementSystem system;
-    User user;
+    UnionRepresentative unionRepresentative;
 
+    @Before
     public void init() {
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        Guest guest = new Guest();
-        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        system.systemInit(false);
+        unionRepresentative = system.getDatabase().getAllUnions().get(0);
     }
 
     @Test
     public void configureNewLeague() {
+
     }
 
     @Test
     public void configureNewSeason() {
+        //assertNull(unionRepresentative.configureNewSeason(2021, new Date()));
+        //assertNotNull(unionRepresentative.configureNewSeason(2022, new Date()));
+        assertNotNull(unionRepresentative.configureNewSeason(2023, new Date()));
     }
 
     @Test
     public void configureLeagueInSeason() {
+        assertNull(unionRepresentative.configureLeagueInSeason(system.getDatabase().getLeagues().get(0).getId(),system.getDatabase().getSeasons().get(0).getId(),"PlayOnceWithEachTeamPolicy", "StandardScorePolicy", 200));
+        assertNotNull(unionRepresentative.configureLeagueInSeason(system.getDatabase().getLeagues().get(0).getId(),system.getDatabase().getSeasons().get(0).getId(),"PlayOnceWithEachTeamPolicy", "StandardScorePolicy", 200));
     }
 
     @Test
@@ -62,6 +69,7 @@ public class UnionRepresentativeTest {
 
     @Test
     public void allLeaguesInSeasons() {
+        assertNotNull(unionRepresentative.allLeaguesInSeasons());
     }
 
     @Test

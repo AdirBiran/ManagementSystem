@@ -38,24 +38,24 @@
                   <PasswordField fx:id="tf_password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-          <Button mnemonicParsing="false" onAction="#loginButtonPushed" text="Login">
+          <Button fx:id="login" mnemonicParsing="false" onAction="#loginButtonPushed" text="Login">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </Button>
             <VBox fx:id="vb_buttonBox" alignment="CENTER" focusTraversable="true" prefHeight="210.0" prefWidth="201.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#buildRegistrationForm" text="Register">
+                  <Button fx:id="register" mnemonicParsing="false" onAction="#buildRegistrationForm" text="Register">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button disable="true" mnemonicParsing="false" onAction="#searchButtonPushed" text="Search" textAlignment="CENTER">
+                  <Button fx:id="search" disable="true" mnemonicParsing="false" onAction="#searchButtonPushed" text="Search" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#viewInfoButtonPushed" text="View Info" textAlignment="CENTER">
+                  <Button fx:id="viewInformation" mnemonicParsing="false" onAction="#viewInfoButtonPushed" text="View Info" textAlignment="CENTER">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -77,17 +77,17 @@
             <Label fx:id="l_systemName" text="System Name" />
             <MenuBar fx:id="mb_mainMenu" prefHeight="25.0" prefWidth="689.0">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu fx:id="file" mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                    <MenuItem fx:id="close" mnemonicParsing="false" text="Close" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu fx:id="help" mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" text="Help" />
                   </items>
                 </Menu>
-                  <Menu mnemonicParsing="false" text="About">
+                  <Menu fx:id="about" mnemonicParsing="false" text="About">
                     <items>
                       <MenuItem mnemonicParsing="false" text="about" />
                     </items>
