@@ -177,9 +177,12 @@ public class TeamOwner extends Manager implements Observer {
                 if (team.getTeamManagers().contains(user)) {
                     team.removeTeamManager(user);
                     this.appointedTeamManagers.remove(user);
-                    if (teamManagerRole.getTeamsToManage().size() == 0)
+                    if (teamManagerRole.getTeamsToManage().size() == 0) {
                         user.getRoles().remove(teamManagerRole);
+                        Database.removeRowFromTable("TeamManagers",user.getID());
+                    }
                     Database.updateObject(this);
+                    Database.updateObject(user);
                     return true;
                 }
             }
