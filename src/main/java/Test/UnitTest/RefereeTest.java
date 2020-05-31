@@ -24,24 +24,13 @@ public class RefereeTest {
     public void init() {
         system = new FootballManagementSystem();
         system.systemInit(false);
-        //String  leagueId = system.dataReboot();
-        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-
         league =system.getDatabase().getAllLeaguesInSeasons().get(2);
-
-        Admin admin = (Admin) system.getAdmin();
         Guest guest = new Guest();
         //user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         user = guest.login("fan@gmail.com", "Aa1234");
-//        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
-//        Role pageRole = mesi.checkUserRole("HasPage");
-//        mesiPage = ((HasPage) pageRole).getPage();
-//        fan = (Fan) user.checkUserRole("Fan");
-//        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
-//        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-//        unionRole.assignGames(league.getId());
         game= Database.getGame(league.getGamesId().get(1));
         referee=game.getMainReferee();
+        system.getDatabase().getAllUnions().get(0).changeGameDate(game.getId(), new Date());
     }
 
     @Test
@@ -53,7 +42,6 @@ public class RefereeTest {
     public void setTraining() {
         referee.setTraining(Referee.TrainingReferee.linesman);
         assertEquals(referee.getTraining(),"linesman");
-
     }
 
     @Test
@@ -95,6 +83,8 @@ public class RefereeTest {
         String gameString = referee.getAllOccurringGame();
         assertNotNull(gameString);
         System.out.println(gameString);
+        System.out.println(game.getSideReferees().get(0).getAllOccurringGame());
+
     }
 
     @Test
