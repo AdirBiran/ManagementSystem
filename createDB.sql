@@ -149,7 +149,8 @@ CREATE TABLE [Complaints](
 	[isActive] [bit] NOT NULL,
 	[Description] [varchar] (1000)NOT NULL ,
 	[ComplainedFanID] [char](50) NOT NULL,
-);
+	[Response] [varchar] (1000)NOT NULL
+	);
 
 CREATE TABLE [Games](
 	[ID] [char](30)  Primary key,
@@ -181,7 +182,7 @@ CREATE TABLE [OfflineUsersNotifications](
 CREATE TABLE [Events](
 	[ID] [char](30)  Primary key,
 	[EventType] [char](50) NOT NULL,
-	[EventDate] [date] NOT NULL,
+	[EventDate] [datetime] NOT NULL,
 	[MinutesInGame] [real] NOT NULL,
 	[Description] [varchar](max) NOT NULL,
 );
