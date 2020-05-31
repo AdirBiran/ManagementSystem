@@ -27,7 +27,7 @@ public class RefereeTest {
         //String  leagueId = system.dataReboot();
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
 
-        league =system.getDatabase().getAllLeaguesInSeasons().get(1);
+        league =system.getDatabase().getAllLeaguesInSeasons().get(2);
 
         Admin admin = (Admin) system.getAdmin();
         Guest guest = new Guest();
@@ -93,5 +93,12 @@ public class RefereeTest {
         game.setDate(new Date());
         system.getDatabase().updateObject(game);
         assertNotNull(referee.getAllOccurringGame());
+    }
+
+    @Test
+    public void getGameReport(){
+        referee.addEventToGame(game.getId(),Event.EventType.RedCard,game.getHostTeam().getPlayers().get(0).getID(), game.getHostTeam().getID());
+        System.out.println(referee.getGameReport(game.getId()));
+
     }
 }

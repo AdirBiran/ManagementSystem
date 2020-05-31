@@ -85,6 +85,14 @@ public class Referee extends Role implements Observer {
             Database.getUser(userId).addMessage((String)arg);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Referee refObj = (Referee)obj;
+        if(refObj!=null)
+            return refObj.getID().equals(this.getID());
+        return false;
+    }
+
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     /*to edit get event report and edit it only Main referee can*/
