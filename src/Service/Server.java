@@ -102,7 +102,7 @@ public class Server {
         }
 
         IdGenerator.setNextId(getLastID());
-
+        proxyAccountingSystem.connect();
         if (isFirstInit(lines))
         {
             String mail;

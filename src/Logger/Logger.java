@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Logger {
 
-    private static boolean useLogs = false;
+    private static boolean useLogs = true;
 
     public static void logEvent(String userid, String s)
     {
