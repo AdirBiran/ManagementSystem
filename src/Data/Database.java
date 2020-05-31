@@ -1693,7 +1693,7 @@ public class Database //maybe generalize with interface? //for now red layer
             dataAccess.updateCellValue("OfflineUsersNotifications" ,"Notifications" ,
                     userId ,oldMessages +"," +message);
         }else{
-            dataAccess.updateCellValue("OfflineUsersNotifications" ,"Notifications" ,
+            dataAccess.addCell("OfflineUsersNotifications" ,
                     userId , message);
         }
 

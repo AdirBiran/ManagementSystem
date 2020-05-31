@@ -20,10 +20,10 @@ public class UserTest {
         system = new FootballManagementSystem();
         system.systemInit(false);
         admin = system.getAdmin();
-        mesi = admin.addNewPlayer("mesi", "mesi", "mesi1@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
+        mesi = admin.addNewPlayer("mesi", "mesi", "mesi2@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Guest guest = new Guest();
-        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        //user = guest.login("fan@gmail.com", "Aa1234");
+       // user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        user = guest.login("fan@gmail.com", "Aa1234");
     }
     @Test
     public void checkUserRole() {
