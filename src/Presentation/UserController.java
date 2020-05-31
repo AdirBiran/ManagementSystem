@@ -104,7 +104,7 @@ public class UserController extends GeneralController implements Initializable {
                 case("Fan"):{
                     fan = new FanController(mainView1, loggedUser, m_client, mainPane1);
                     Menu fanMenu = new Menu("Fan Actions");
-
+                    fanMenu.setId("fanMenu");
                     MenuItem followGames = new MenuItem("Follow Games");
                     followGames.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -114,6 +114,7 @@ public class UserController extends GeneralController implements Initializable {
                     });
                     fanMenu.getItems().add(followGames);
                     MenuItem submitComplaint = new MenuItem("Submit Complaint");
+                    submitComplaint.setId("submitComplaint");
                     submitComplaint.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
@@ -213,6 +214,7 @@ public class UserController extends GeneralController implements Initializable {
                 case("TeamOwner"):{
                     ownership = new OwnershipController(mainView1, loggedUser, m_client, mainPane1);
                     Menu ownerMenu = new Menu("Ownership Actions");
+                    ownerMenu.setId("ownerMenu");
                     MenuItem addTeam = new MenuItem("Open New Team");
                     addTeam.setId("openNewTeam");
                     addTeam.setOnAction(new EventHandler<ActionEvent>() {
@@ -270,6 +272,7 @@ public class UserController extends GeneralController implements Initializable {
                 case("UnionRepresentative"):{
                     union = new UnionController(mainView1, loggedUser, m_client, mainPane1);
                     Menu unionMenu = new Menu("Union Actions");
+                    unionMenu.setId("unionMenu");
                     MenuItem configureNewLeague = new MenuItem("Configure New League");
                     configureNewLeague.setId("configureNewLeague");
                     configureNewLeague.setOnAction(new EventHandler<ActionEvent>() {
@@ -470,6 +473,7 @@ public class UserController extends GeneralController implements Initializable {
     private void addManagement() {
         management = new ManagementController(mainView1, loggedUser, m_client, mainPane1);
         Menu manageMenu = new Menu("Management Actions");
+        manageMenu.setId("manageMenu");
         MenuItem addPlayerToTeam = new MenuItem("Add Player To Team");
         addPlayerToTeam.setId("addPlayerToTeam");
         addPlayerToTeam.setOnAction(new EventHandler<ActionEvent>() {
