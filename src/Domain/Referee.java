@@ -66,7 +66,8 @@ public class Referee extends Role implements Observer {
         Game game= Database.getGame(gameID);
         Event event=game.getEventReport().gerEventById(eventID);
         if (event!=null && this.equals(game.getMainReferee())) {
-            if(calculateMinutes(game.getDate(), new Date())<=420) {
+            double minute = calculateMinutes(game.getDate(), new Date());
+            if(minute>120 && minute<=420) {
                 for (Event event1 : game.getEventReport().getEvents()) {
                     if (event1.getId().equals(event.getId())) {
                         event1.setDescription(change);
@@ -102,14 +103,6 @@ public class Referee extends Role implements Observer {
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
-    /*to edit get event report and edit it only Main referee can*/
-    public EventReport getEventReport(Game game){
-        if(this.equals(game.getMainReferee())){
-            return game.getEventReport();
-        }
-        return null;
-    }
-
     public boolean setScoreInGame(String gameID,int hostScore, int guestScore)
     {
         Game game= Database.getGame(gameID);
@@ -127,7 +120,7 @@ public class Referee extends Role implements Observer {
     public List<String> getGameReport(String gameID) {
         List<String> gameReport = new LinkedList<>();
         Game game= Database.getGame(gameID);
-        if(game.getMainReferee().equals(this)) {
+        if(game.getMainReferee().equals(this) && calculateMinutes(game.getDate(), new Date())>120) {
             gameReport.addAll(game.getEventReportString());
         }
         return gameReport;
