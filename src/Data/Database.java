@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 
 public class Database //maybe generalize with interface? //for now red layer
@@ -389,7 +388,7 @@ public class Database //maybe generalize with interface? //for now red layer
             ans9 = dataAccess.updateCellValue("Teams","Coaches",((Team) object).getID() , getUserId(((Team) object).getCoaches()));
             ans10 = dataAccess.updateCellValue("Teams","Budget" , ((Team) object).getID(),
                     ""+((Team) object).getBudget().getIncome()+","+((Team) object).getBudget().getExpanses());
-            ans11 = dataAccess.updateCellValue("Teams","GamesIDs" , ((Team) object).getID(), getGamesId(((Team) object).getGames()));
+            ans11 = dataAccess.updateCellValue("Teams","GamesIDs" , ((Team) object).getID(), listToString(((Team) object).getGamesId()));
             ans12 = dataAccess.updateCellValue("Teams","Fields" , ((Team) object).getID(), getFieldsIds(((Team) object).getFields()) );
             ans13 = dataAccess.updateCellValue("Teams","LeaguesInSeasons" , ((Team) object).getID(), listToString(((Team) object).getLeaguesInSeason()));
             ans14 = dataAccess.updateCellValue("Teams","isActive" ,((Team) object).getID() , ""+((Team) object).isActive());
@@ -1001,7 +1000,7 @@ public class Database //maybe generalize with interface? //for now red layer
                         Integer.parseInt(object.get(4)),getPersonalPage(object.get(5)),
                         listOfUsers(object.get(6)) ,listOfUsers(object.get(7)),
                         listOfUsers(object.get(8)),listOfUsers(object.get(9)),budget,
-                        listOfGames(object.get(11)),listOfFields(object.get(12)),
+                        split(object.get(11)),listOfFields(object.get(12)),
                         split(object.get(13)),stringToBoolean(object.get(14)),
                         stringToBoolean(object.get(15)));
                 return team;
@@ -2155,7 +2154,7 @@ public class Database //maybe generalize with interface? //for now red layer
                     getUserId(team.getPlayers()),
                     getUserId(team.getCoaches()),
                     "" + team.getBudget().getIncome()+","+team.getBudget().getExpanses()
-                    , getGamesId(team.getGames())
+                    , listToString(team.getGamesId())
                     , getFieldsIds(team.getFields())
                     , listToString(team.getLeaguesInSeason())
                     , "" + team.isActive(),

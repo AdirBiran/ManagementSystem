@@ -84,6 +84,14 @@ public abstract class GameAssignmentPolicy {
               side.addGame(game.getId());
               Database.updateObject(side);
           }
+          team1.addGame(game);
+          team1.addLeague(league);
+          Database.updateObject(team1);
+          team2.addGame(game);
+          team2.addLeague(league);
+          Database.updateObject(team2);
+          league.addGame(game);
+          Database.updateObject(league);
           return game;
      }
      protected List<Date> getDates(int seasonYear, int listSize)

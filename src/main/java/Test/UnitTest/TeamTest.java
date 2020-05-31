@@ -6,7 +6,6 @@ import Service.FootballManagementSystem;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -184,7 +183,7 @@ public class TeamTest {
 
     @Test
     public void getGames() {
-        assertEquals(team.getGames().size(), 0);
+        assertEquals(team.getGamesId().size(), 0);
     }
 
     @Test
