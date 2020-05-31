@@ -18,7 +18,7 @@ public class AdminTest {
     public void init(){
         system = new FootballManagementSystem();
         system.systemInit(false);
-        String  leagueId = system.dataReboot();
+        //String  leagueId = system.dataReboot();
         LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
 
         team = league.getTeams().get(0);
