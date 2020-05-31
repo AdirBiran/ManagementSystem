@@ -144,6 +144,8 @@ import static org.junit.Assert.*;
 
     @Test
     public void setNewsFromReferee() {
+
+        assertTrue(game.setNewsFromReferee("test news"));
     }
 
     @Test

@@ -209,12 +209,13 @@ public class Game extends Observable {
         setNews("Location of the game between the teams: " +this.name+ " change to "+this.field.getName()); // referees and fans
     }
 
-    public void setNewsFromReferee(String news){
+    public boolean setNewsFromReferee(String news){
         setChanged();
         news = "New Alert for game "+this.name+":\n" + news;
         for (Fan fan : fansForAlerts.keySet())
             fan.update(this, news);
         sendMailToFan(news);
+        return true;
     }
 
     public LeagueInSeason getLeague() {

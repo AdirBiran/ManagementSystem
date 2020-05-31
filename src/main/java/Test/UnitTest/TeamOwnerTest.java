@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 public class TeamOwnerTest {
     TeamOwner teamOwner;
     FootballManagementSystem system;
+    LeagueInSeason league;
     Admin admin;
     Team team;
     User userTeamOwner;
@@ -19,9 +20,12 @@ public class TeamOwnerTest {
     @Before
     public void init(){
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        String  leagueId = system.dataReboot();
-        LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        system.systemInit(false);
+        //String  leagueId = system.dataReboot();
+        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+
+        league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
         team = league.getTeams().get(0);
         admin = (Admin) system.getAdmin();
         userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
