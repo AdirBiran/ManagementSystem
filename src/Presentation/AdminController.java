@@ -83,11 +83,23 @@ public class AdminController extends GeneralController{
     public void viewLog(){
         clearMainView(mainView1);
         clearMainView(mainPain);
-        List<String> log = client.sendToServer("viewLog|"+loggedUser);
-        ListView<String> lv_logs = new ListView<>(FXCollections.observableArrayList(log));
-        Label label = new Label("Log:");
-        mainPain.add(label, 0,0);
-        mainPain.add(lv_logs, 0,1);
+        Label label = new Label("Please select which log to view");
+        ChoiceBox<String> cb_logTypes = new ChoiceBox<>(FXCollections.observableArrayList("Events", "Errors","Server"));
+        cb_logTypes.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String type = cb_logTypes.getValue();
+                if(Checker.isValid(type)){
+                    List<String> log = client.sendToServer("viewLog|"+loggedUser+"|"+type);
+                    ListView<String> lv_logs = new ListView<>(FXCollections.observableArrayList(log));
+                    Label l_log = new Label("Log:");
+                    mainPain.add(l_log, 0,2);
+                    mainPain.add(lv_logs, 0,3);
+                }
+            }
+        });
+        mainPain.add(label, 0, 0);
+        mainPain.add(cb_logTypes, 0, 1);
         mainView1.getChildren().add(mainPain);
     }
     public void responseToComplaint(){
