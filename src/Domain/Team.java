@@ -46,7 +46,7 @@ public class Team extends Observable {
         this.coaches = coaches;
         linkCoaches();
         this.budget = new Budget();
-        this.budget.addIncome(100000);
+        this.budget.addIncome(1000000000);
         this.fields = new LinkedList<>();
         fields.add(field);
         linkField();
