@@ -88,6 +88,6 @@ public class UnionRepresentativeTest {
         LeagueInSeason leagueInSeason = new LeagueInSeason(new PlayOnceWithEachTeamPolicy(),new CupScorePolicy(),
                 league.getLeague(),league.getSeason(),100);
 
-        unionRepresentative.addTeamToLeague(leagueInSeason.getId(),team0.getID(),proxyAccountingSystem);
+        //unionRepresentative.addTeamToLeague(leagueInSeason.getId(),team0.getID(),proxyAccountingSystem);
     }
 }
