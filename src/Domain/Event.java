@@ -76,6 +76,7 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
+        Database.updateObject(this);
     }
 
     public String getId() {

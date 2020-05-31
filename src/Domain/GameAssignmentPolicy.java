@@ -77,7 +77,14 @@ public abstract class GameAssignmentPolicy {
           List<Referee> sideRefs;
           Referee mainRef = getMainReferee(referees);
           sideRefs = getSideReferees(referees,mainRef);
-          return new Game(getDateFromList(dates), team1.getField(), mainRef,sideRefs, team1,team2, league);
+          Game game = new Game(getDateFromList(dates), team1.getField(), mainRef,sideRefs, team1,team2, league);
+          mainRef.addGame(game.getId());
+          Database.updateObject(mainRef);
+          for (Referee side: sideRefs){
+              side.addGame(game.getId());
+              Database.updateObject(side);
+          }
+          return game;
      }
      protected List<Date> getDates(int seasonYear, int listSize)
      {

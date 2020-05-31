@@ -644,14 +644,14 @@ public class Database //maybe generalize with interface? //for now red layer
         return listOfId;
     }
 
-    private static String getGamesId(HashSet<Game> games){
+    private static String getGamesId(HashSet<String> games){
         String listOfId = "";
-        for (Game game: games) {
+        for (String gameId: games) {
             if(listOfId.equals("")){
-                listOfId = listOfId+game.getId();
+                listOfId = listOfId+gameId;
             }
             else {
-                listOfId = listOfId + ","+game.getId();
+                listOfId = listOfId + ","+gameId;
             }
         }
         return listOfId;
@@ -1215,17 +1215,15 @@ public class Database //maybe generalize with interface? //for now red layer
         return allGames;
     }
 
-    private static HashSet<Game> hashSetOfGames(String games){
+    private static HashSet<String> hashSetOfGames(String games){
         List<String> listOfGames = split(games);
-        HashSet<Game> allGames = new HashSet<>();
+        HashSet<String> allGames = new HashSet<>();
 
         for (String gameId : listOfGames){
-            Game game = getGame(gameId);
-            if(game != null) {
-                allGames.add(game);
+            if(gameId != null) {
+                allGames.add(gameId);
             }
         }
-
         return allGames;
     }
 

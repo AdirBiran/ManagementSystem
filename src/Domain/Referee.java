@@ -2,7 +2,6 @@ package Domain;
 
 import Data.Database;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Referee extends Role implements Observer {
 
@@ -13,28 +12,32 @@ public class Referee extends Role implements Observer {
     }
 
     private TrainingReferee training;
-    private HashSet<Game> games;
+    private HashSet<String> gamesId;
 
     public Referee(String userId, TrainingReferee training) {
         this.userId = userId;
         this.training = training;
-        games = new HashSet<>();
+        gamesId = new HashSet<>();
         this.myRole = "Referee";
     }
 
-    public Referee(String userId, String training, HashSet<Game> games)
+    public Referee(String userId, String training, HashSet<String> gamesId)
     {
         this.userId = userId;
         this.training = TrainingReferee.valueOf(training);
-        this.games = games;
+        this.gamesId = gamesId;
         this.myRole = "Referee";
     }
 
-    public void addGame(Game game) {
-        this.games.add(game);
+    public boolean addGame(String game) {
+        if(!gamesId.contains(game)) {
+            this.gamesId.add(game);
+            return true;
+        }
+        return false;
     }
 
-    public HashSet<Game> viewGames(){return games;}
+    public HashSet<String> viewGames(){return gamesId;}
 
 
     public Boolean addEventToGame(String gameID, Event.EventType type, String playerId, String teamId)
@@ -71,6 +74,7 @@ public class Referee extends Role implements Observer {
                 for (Event event1 : game.getEventReport().getEvents()) {
                     if (event1.getId().equals(event.getId())) {
                         event1.setDescription(change);
+                        Database.updateObject(game.getEventReport());
                         Database.updateObject(game);
                         return true;
                     }
@@ -130,15 +134,15 @@ public class Referee extends Role implements Observer {
         String gameString = Database.getAllOccurringGame();
         if(gameString!=null){
             Game game = Database.getGame(gameString.split(",")[0]);
-            if(this.equals(game.getMainReferee())){
-                double minute = calculateMinutes(game.getDate(), new Date());
-                if(minute>0 && minute<=420) {
+            double minute = calculateMinutes(game.getDate(), new Date());
+            if(this.equals(game.getMainReferee())) {
+                if (minute > 0 && minute <= 420) {
                     return gameString;
                 }
-                else {
-                    if(minute>0 && minute<=120){
-                        return gameString;
-                    }
+            }
+            else {
+                if(minute>0 && minute<=120){
+                    return gameString;
                 }
             }
         }
