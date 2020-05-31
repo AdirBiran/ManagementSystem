@@ -282,7 +282,7 @@ public class UnionController extends GeneralController {
                             teamId = record.getId();
                     }
                     String leagueId = getIdFromName(league, leagueInSeasons);
-                    List<String> receive = client.sendToServer("addTeamToLeague|"+loggedUser+"|"+teamId+"|"+leagueId);
+                    List<String> receive = client.sendToServer("addTeamToLeague|"+loggedUser+"|"+leagueId+"|"+teamId);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else
