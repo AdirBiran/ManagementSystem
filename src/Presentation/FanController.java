@@ -94,8 +94,10 @@ public class FanController extends GeneralController{
         Label label = new Label("Submit A Complaint");
         mainPane.add(label, 0, 0);
         TextArea ta_complaint = new TextArea("type your complaint here...");
+        ta_complaint.setId("ta_complaint");
         mainPane.add(ta_complaint, 0, 1);
         Button submitBtn = new Button("Submit");
+        submitBtn.setId("submitBtn");
         submitBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

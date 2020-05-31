@@ -42,6 +42,7 @@ public class OwnershipController extends GeneralController{
         rowCount++;
         Label teamName = new Label("Team Name: ");
         TextField tf_teamName = new TextField();
+        tf_teamName.setId("tf_teamName");
         mainPane.add(teamName,0,rowCount);
         mainPane.add(tf_teamName,1,rowCount);
         rowCount++;

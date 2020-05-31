@@ -10,12 +10,14 @@ import org.testfx.api.FxAssert;
 import org.testfx.assertions.api.Assertions;
 import org.testfx.framework.junit.ApplicationTest;
 
+import java.security.Key;
+
 import static junit.framework.TestCase.assertNotNull;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class GuiTestClass extends UITests.InitiationClass {
 
-    private final String testMail = "mailmailmail@gggg.com";
+    private final String testMail = "autoTest@mail.com";
     private final String testPass = "Aa123456";
 
 
@@ -27,10 +29,10 @@ public class GuiTestClass extends UITests.InitiationClass {
         clickOn("#mail").write(testMail);
         clickOn("#pass").write(testPass);
         clickOn("#passVerify").write(testPass);
-        clickOn("#firstName").write("Test First Name");
-        clickOn("#lastName").write("Test Last Name");
-        clickOn("#phone").write("1123456789");
-        clickOn("#address").write("Beer Sheba Sadly street 100");
+        clickOn("#firstName").write("First Name");
+        clickOn("#lastName").write("Last Name");
+        clickOn("#phone").write("0577777777");
+        clickOn("#address").write("Beer Sheba Sadly street");
         sleep(1000);
         clickOn("#registerButton");
         sleep(2000);
@@ -112,26 +114,18 @@ public class GuiTestClass extends UITests.InitiationClass {
     }
 
     @Test
-    public void D_loginReferee()
+    public void D_loginFan()
     {
-        clickOn("#tf_email").write("to0@gmail.com");
-        clickOn("#tf_password").write("spK4zv");
+        clickOn("#tf_email").write(testMail);
+        clickOn("#tf_password").write(testPass);
 
         clickOn("#login");
         sleep(2000);
-        press(KeyCode.ENTER);
 
         Scene currScene = stage.getScene();
         Node logout = currScene.lookup("#logout");
         assertNotNull(logout);
     }
-
-    @Test
-    public void E_()
-    {
-
-    }
-
 
 
 }
