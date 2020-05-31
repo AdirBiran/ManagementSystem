@@ -108,10 +108,12 @@ public class LeagueInSeason {
 
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LeagueInSeason)) return false;
         LeagueInSeason leagueInSeason = (LeagueInSeason) o;
-        if(leagueInSeason!=null)
-            return this.getId().equals(leagueInSeason.id);
-        return false;
+        return Objects.equals(this.league.getName(), leagueInSeason.league.getName()) &&
+                Objects.equals(this.league.getLevel(), leagueInSeason.league.getLevel()) &&
+                Objects.equals(this.season.getYear(), leagueInSeason.season.getYear());
     }
 
     @Override
