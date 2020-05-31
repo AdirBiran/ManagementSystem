@@ -40,7 +40,7 @@ public class RefereeTest {
 //        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
 //        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
 //        unionRole.assignGames(league.getId());
-        game= Database.getGame(league.getGamesId().get(0));
+        game= Database.getGame(league.getGamesId().get(1));
         referee=game.getMainReferee();
     }
 
@@ -97,6 +97,7 @@ public class RefereeTest {
 
     @Test
     public void getGameReport(){
+        //system.getDatabase().getAllUnions().get(0).changeGameDate(game.getId(), new Date());
         referee.addEventToGame(game.getId(),Event.EventType.RedCard,game.getHostTeam().getPlayers().get(0).getID(), game.getHostTeam().getID());
         System.out.println(referee.getGameReport(game.getId()));
 

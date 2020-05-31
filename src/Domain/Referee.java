@@ -45,13 +45,13 @@ public class Referee extends Role implements Observer {
         if(game!=null && team!=null && player!=null) {
             String description = Database.getUser(userId).getName() + " from team "+ team.getName();
             Event event = new Event(type, game, description);
-            game.getEventReport().addEvent(event);
-            game.setNewsFromReferee(event.createMessage());
-            Database.updateObject(game);
-            return true;
+            if(game.getEventReport().addEvent(event)) {
+                game.setNewsFromReferee(event.createMessage());
+                Database.updateObject(game);
+                return true;
+            }
         }
-        else
-            return false;
+        return false;
     }
 
     public boolean changeEvent(String gameID, String eventID, String change){
