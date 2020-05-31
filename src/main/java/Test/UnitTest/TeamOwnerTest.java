@@ -23,7 +23,7 @@ public class TeamOwnerTest {
         system = new FootballManagementSystem();
         system.systemInit(false);
         //String  leagueId = system.dataReboot();
-        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        //league = Database.getLeagueInSeason(leagueId);
 
         league =system.getDatabase().getAllLeaguesInSeasons().get(0);
 
@@ -32,8 +32,6 @@ public class TeamOwnerTest {
         teamOwner = system.getDatabase().getAllTeamOwners().get(0);
 
 
-        //User userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
-        //teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
         //user=admin.addNewTeamManager("team", "management", "manage@gmail.com", 1200, false, false);
         String userId = system.getDatabase().getAllTeamManagers().get(0).getID();
         user = system.getDatabase().getUser(userId);
