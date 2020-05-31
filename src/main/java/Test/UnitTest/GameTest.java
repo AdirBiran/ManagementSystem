@@ -8,44 +8,46 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class GameTest {
-    Game game;
-    FootballManagementSystem system;
-    User user;
-    Fan fan;
-    Team team0;
-    Team team1;
+    public class GameTest {
+        Game game;
+        FootballManagementSystem system;
+        User user;
+        Admin admin;
+        LeagueInSeason league;
+
 
     @Before
-public void init(){
-    system = new FootballManagementSystem();
-    system.systemInit(true);
-    String  leagueId = system.dataReboot();
-    LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-    Admin admin = (Admin) system.getAdmin();
-    team0=league.getTeams().get(0);
-    team1=league.getTeams().get(1);;
-    User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
-    UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-    unionRole.assignGames(league.getId());
+    public void init(){
+
+        system = new FootballManagementSystem();
+        system.systemInit(false);
+        //String  leagueId = system.dataReboot();
+        league =system.getDatabase().getAllLeaguesInSeasons().get(0);
+
+        admin = system.getAdmin();
+
+        //User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
+        //UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
+        //unionRole.assignGames(league.getId());
         game= Database.getGame(league.getGamesId().get(0));
-    Guest guest = new Guest();
-    user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-    fan = (Fan) user.checkUserRole("Fan");
+        Guest guest = new Guest();
+
+        //user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        user = guest.login("fan@gmail.com", "Aa1234");
+
     }
 
     @Test
     public void addFanForNotifications() {
+        Fan fan = (Fan) user.checkUserRole("Fan");
         assertTrue(game.addFanForNotifications(fan,true));
+        system.getDatabase().removeFromTables(fan.getID());
+
     }
 
     @Test
     public void getEventReportString() {
         assertNotNull(game.getEventReportString());
-    }
-
-    @Test
-    public void setNews() {
     }
 
     @Test
@@ -85,8 +87,8 @@ public void init(){
 
     @Test
     public void getField() {
-        assertEquals(game.getField().getName(),"Teddy");
-    }
+            assertEquals(game.getField().getName(),"Teddy");
+        }
 
     @Test
     public void getMainReferee() {
@@ -100,11 +102,13 @@ public void init(){
 
     @Test
     public void getHostTeam() {
+        Team team0 = league.getTeams().get(0);
         assertEquals(game.getHostTeam().getName(),team0.getName());
     }
 
     @Test
     public void getGuestTeam() {
+        Team team1=league.getTeams().get(1);
         assertEquals(game.getGuestTeam().getName(),team1.getName());
 
     }
@@ -139,11 +143,13 @@ public void init(){
 
     @Test
     public void getLeague() {
+        assertNotNull(game.getLeague());
 
     }
 
     @Test
     public void getFansForAlerts() {
+        assertNotNull(game.getFansForAlerts());
 
     }
 }
