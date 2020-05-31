@@ -23,6 +23,14 @@ public abstract class Role{
         return myRole;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Role roleObj = (Role)obj;
+        if(roleObj!=null)
+            return roleObj.getID().equals(this.getID());
+        return false;
+    }
+
     public String teamsString(HashSet<Team> teams){
         String teamsName="";
         for (Team team : teams){

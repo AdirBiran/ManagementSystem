@@ -28,10 +28,10 @@ public class FanTest {
         system.systemInit(false);
         //String  leagueId = system.dataReboot();
         //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(2);
+        LeagueInSeason league =system.getDatabase().getAllLeaguesInSeasons().get(0);
         admin = system.getAdmin();
         Guest guest = new Guest();
-        //user = guest.register("fantest@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        user = guest.register("fantest@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
         user = guest.login("fantest@gmail.com", "Aa1234");
        /* mesi = admin.addNewPlayer("mesi", "mesi", "mesitest1@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Role pageRole = mesi.checkUserRole("HasPage");
