@@ -73,9 +73,9 @@ public class FanController extends GeneralController{
                 if(selected.size()>0){
                     String cb_email;
                     if(email.isSelected())
-                        cb_email = "1";
+                        cb_email = "true";
                     else
-                        cb_email= "0";
+                        cb_email= "false";
                     String strGames = client.ListToString(getStringsIds(lv_selectedGames.getItems(), gamesMap));
                     List<String> receive = client.sendToServer("followGames|"+loggedUser+"|"+strGames+"|"+cb_email);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);

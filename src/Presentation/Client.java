@@ -52,6 +52,16 @@ public class Client  {
 
     }
 
+    public void closeSockets(){
+        try {
+            socket.close();
+            notificactionsSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void startNotifications(String uid)
     {
 
@@ -150,7 +160,6 @@ public class Client  {
                 if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
                     stringToSend = stringToSend + "\n";
 
-                System.out.println(stringToSend);
                 outputStream.writeBytes(stringToSend);
                 outputStream.flush();
 

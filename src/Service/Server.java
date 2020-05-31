@@ -30,6 +30,9 @@ public class Server {
 
     private static HashMap<String, Socket> loggedUsers = new HashMap<>();
     private static HashMap<String, Socket> loggedUsersNotifications = new HashMap<>();
+    private final Object loggedUsersMutex = new Object();
+    private final Object ioMutex = new Object();
+
 
     private static int nextID;
 
@@ -232,11 +235,15 @@ public class Server {
 
             String server_IP = InetAddress.getLocalHost().getHostAddress();
 
-            System.out.println("Server created at port " + port + ", Maximum users: " + maxUsers);
-            System.out.println("Server IP address : " + server_IP);
+            System.out.println("Server is Up!");
+            System.out.println("IP Address: " + server_IP);
+            System.out.println("Ports: " + port + "," + (port+1));
+            System.out.println("Max Users: " + maxUsers);
 
-            Logger.logServer("Server created at port " + port + ", Maximum users: " + maxUsers);
-            Logger.logServer("Server IP address : " + server_IP);
+            Logger.logServer("Server is Up!");
+            Logger.logServer("IP Address: " + server_IP);
+            Logger.logServer("Ports: " + port + "," + (port+1));
+            Logger.logServer("Max Users: " + maxUsers);
 
             welcomeSocket = new ServerSocket(port);
             notSocket = new ServerSocket(port + 1);
@@ -372,7 +379,11 @@ public class Server {
             BufferedReader rd = new BufferedReader(new InputStreamReader(stream));
             String lineReceived = rd.readLine();
 
-            loggedUsersNotifications.put(lineReceived.replace("\n", ""), clientNotSocket);
+            synchronized (loggedUsersMutex)
+            {
+                loggedUsersNotifications.put(lineReceived.replace("\n", ""), clientNotSocket);
+
+            }
 
         }
 
@@ -402,10 +413,6 @@ public class Server {
 
 
                 switch (operation) {
-
-                    case "checkNotifications":
-                        handle_checkNotifications(splitLine, clientSocket);
-                        break;
 
                     // ------------------- GUEST -------------------
                     case "logIn": // Done
@@ -770,7 +777,7 @@ public class Server {
                         handle_appointReferee(splitLine, clientSocket);
                         break;
 
-                    case "assignRefToLeague": // Done
+                    case "addRefereeToLeague": // Done
                         handle_assignRefToLeague(splitLine, clientSocket);
                         break;
 
@@ -849,7 +856,7 @@ public class Server {
                         handle_getAllDetailsAboutOpenTeams_Union(splitLine, clientSocket);
                         break;
 
-                    case "getAllOpenTeams":
+                    case "getAllOpenTeams_Union":
                         handle_getAllOpenTeams_Union(splitLine, clientSocket);
                         break;
 
@@ -879,7 +886,8 @@ public class Server {
 
             catch (SocketException se)
             {
-                Logger.logEvent("Guest", "Terminated Program");
+                Logger.logServer(clientSocket.getInetAddress().toString() + " Disconnected");
+                removeSocket(clientSocket);
                 break;
             }
             catch (Exception e) {
@@ -888,6 +896,27 @@ public class Server {
             }
 
         }
+
+        removeSocket(clientSocket);
+
+    }
+
+    private void removeSocket(Socket clientSocket)
+    {
+
+        synchronized (loggedUsersMutex)
+        {
+            if (loggedUsers.containsValue(clientSocket))
+            {
+                for (String key : loggedUsers.keySet())
+                    if (loggedUsers.get(key) == clientSocket)
+                    {
+                        loggedUsers.remove(key);
+                        loggedUsersNotifications.remove(key);
+                    }
+            }
+        }
+
     }
 
     private void handle_getAllAssignmentsPolicies(String[] splitLine, Socket clientSocket) {
@@ -985,7 +1014,7 @@ public class Server {
         if (results != null)
             sendLineToClient(results, clientSocket);
         else
-            sendLineToClient("Failed getting all occurring games", clientSocket);
+            sendLineToClient("", clientSocket);
     }
 
     private void handle_getAllPastGames_R(String[] splitLine, Socket clientSocket)
@@ -1047,24 +1076,6 @@ public class Server {
         else
             sendLineToClient(res, clientSocket);
 
-    }
-
-    private void handle_checkNotifications(String[] splitLine, Socket clientSocket)
-    {
-        /*
-        String userID = splitLine[1];
-
-        if (loggedUsers.containsKey(userID))
-            if (loggedUsersNotifications.get(userID).equals(""))
-            {
-                sendLineToClient("No notifications", clientSocket);
-            }
-            else
-            {
-                sendLineToClient(loggedUsersNotifications.get(userID), clientSocket);
-                loggedUsersNotifications.put(userID, "");
-            }
-*/
     }
 
     private void handle_addPaymentsFromTheTUTU(String[] splitLine, Socket clientSocket)
@@ -1816,6 +1827,7 @@ public class Server {
 
     private void handle_Register(String[] splitLine, Socket clientSocket) {
         String userId = guestSystem.register(splitLine[1], splitLine[2], splitLine[3], splitLine[4], splitLine[5], splitLine[6]);
+
         if (userId == null)
         {
             sendLineToClient("Registration Failed!", clientSocket);
@@ -1824,9 +1836,9 @@ public class Server {
 
         List<String> roles = userSystem.getUserRoles(userId); /**/
 
-        if (!loggedUsers.containsKey(userId))
-        {
-            loggedUsers.put(userId, clientSocket);
+        synchronized (loggedUsersMutex) {
+            if (!loggedUsers.containsKey(userId))
+                loggedUsers.put(userId, clientSocket);
         }
 
         String sendToClient = userId + "|";
@@ -1835,17 +1847,22 @@ public class Server {
             sendToClient = sendToClient + r + "|";
 
         sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
+
+        userSystem.logIn(splitLine[1], splitLine[2]);
+
     }
 
     private void handle_Logout(String[] splitLine, Socket clientSocket) {
         userSystem.logOut();
 
-        if (loggedUsers.containsKey(splitLine[1]))
-        {
-            loggedUsers.remove(splitLine[1]);
-            loggedUsersNotifications.remove(splitLine[1]);
-        }
+        synchronized (loggedUsersMutex) {
 
+            if (loggedUsers.containsKey(splitLine[1])) {
+                loggedUsers.remove(splitLine[1]);
+                loggedUsersNotifications.remove(splitLine[1]);
+            }
+
+        }
         sendLineToClient("Logout Successful", clientSocket);
 
     }
@@ -1857,9 +1874,9 @@ public class Server {
         } else {
             List<String> roles = userSystem.getUserRoles(loggedUserId); /**/
 
-            if (!loggedUsers.containsKey(loggedUserId))
-            {
-                loggedUsers.put(loggedUserId, clientSocket);
+            synchronized (loggedUsersMutex) {
+                if (!loggedUsers.containsKey(loggedUserId))
+                    loggedUsers.put(loggedUserId, clientSocket);
             }
 
             String sendToClient = loggedUserId + "|";
@@ -1869,19 +1886,22 @@ public class Server {
 
             sendLineToClient(sendToClient.substring(0, sendToClient.length() - 1), clientSocket);
 
-            try {
-                Thread.sleep(2000);
+            try
+            {
+                Thread.sleep(1000);
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
 
-            sendNotification(loggedUserId, "Notification test");
+            List<String> userNotifications = NotificationSystem.getAllNotification(loggedUserId);
+
+            if (userNotifications != null)
+                for (String not : userNotifications)
+                    sendNotification(loggedUserId, not);
 
         }
-
-
     }
 
     private void handle_viewInformationAboutReferees(Socket clientSocket) {
@@ -1916,7 +1936,6 @@ public class Server {
     }
 
     private void handle_viewInformationAboutTeams(Socket clientSocket) {
-        System.out.println("Server handling teams request");
         List<String> res = guestSystem.viewInformationAboutTeams();
         String result = ListToString(res);
         sendLineToClient(result, clientSocket);
