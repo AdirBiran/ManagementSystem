@@ -3,6 +3,7 @@ package Presentation;
 
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.DialogPane;
 import org.controlsfx.control.Notifications;
 
 import javax.xml.crypto.Data;
@@ -131,6 +132,9 @@ public class Client  {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setHeaderText("Notification");
             alert.setContentText(lineReceived);
+            DialogPane dialogPane = alert.getDialogPane();
+            dialogPane.getStylesheets().add(
+                    getClass().getResource("AppStyle.css").toExternalForm());
             alert.show();
         });
     }
@@ -160,7 +164,6 @@ public class Client  {
                 if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
                     stringToSend = stringToSend + "\n";
 
-                System.out.println(stringToSend);
                 outputStream.writeBytes(stringToSend);
                 outputStream.flush();
 

@@ -159,10 +159,32 @@ public abstract class GeneralController {
                 //implement (the results of search)
                 break;
             }
-            //case ("Game Report"):{
-            //
-            //    break;
-            //}
+            case ("Game Report"):{
+                tableLabel.setText("Game Events");
+                ArrayList<EventRecord> events = new ArrayList<>();
+                for(String event : list){
+                    if(event.contains("Event"))
+                        events.add(new EventRecord(event));
+                    else{
+                        Label gameName = new Label(event);
+                        gridPane.add(gameName, 0, startIndex);
+                        startIndex++;
+                    }
+                }
+                data.addAll(events);
+                TableColumn eventType = new TableColumn("Event Type");
+                eventType.setCellValueFactory(new PropertyValueFactory("type"));
+
+                TableColumn time = new TableColumn("Time");
+                time.setCellValueFactory(new PropertyValueFactory("time"));
+
+                TableColumn minuteInGame = new TableColumn("Minute In Game");
+                minuteInGame.setCellValueFactory(new PropertyValueFactory("minuteInGame"));
+
+                tableView.getColumns().addAll(getNameColumn(),eventType, time,minuteInGame);
+                tableView.getSortOrder().add(minuteInGame);
+                break;
+            }
             default:{
                 Label head = new Label(type);
                 gridPane.add(head, 0, startIndex);

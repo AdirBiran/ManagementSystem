@@ -391,15 +391,15 @@ public class UserController extends GeneralController implements Initializable {
                         }
                     });
                     refMenu.getItems().add(addEventToGame);
-                    MenuItem setScoreInGame = new MenuItem("Set Score In Game");
-                    setScoreInGame.setOnAction(new EventHandler<ActionEvent>() {
-                        @Override
-                        public void handle(ActionEvent event) {
-                            referee.setScoreInGame();
-                        }
-                    });
-                    refMenu.getItems().add(setScoreInGame);
-                    MenuItem getEventReport = new MenuItem("View Game Report");
+                    //MenuItem setScoreInGame = new MenuItem("Set Score In Game");
+                    //setScoreInGame.setOnAction(new EventHandler<ActionEvent>() {
+                    //    @Override
+                    //    public void handle(ActionEvent event) {
+                    //        referee.setScoreInGame();
+                    //    }
+                    //});
+                    //refMenu.getItems().add(setScoreInGame);
+                    MenuItem getEventReport = new MenuItem("Create Game Report");
                     getEventReport.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
