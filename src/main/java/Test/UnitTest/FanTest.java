@@ -32,7 +32,9 @@ public class FanTest {
         admin = system.getAdmin();
         Guest guest = new Guest();
         user = guest.register("fantest@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-        user = guest.login("fantest@gmail.com", "Aa1234");
+        if(user == null){
+            user = guest.login("fantest@gmail.com", "Aa1234");
+        }
        /* mesi = admin.addNewPlayer("mesi", "mesi", "mesitest1@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Role pageRole = mesi.checkUserRole("HasPage");
         mesiPage = ((HasPage) pageRole).getPage();*/
