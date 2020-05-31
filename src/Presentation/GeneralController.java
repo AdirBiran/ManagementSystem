@@ -182,6 +182,7 @@ public abstract class GeneralController {
                 minuteInGame.setCellValueFactory(new PropertyValueFactory("minuteInGame"));
 
                 tableView.getColumns().addAll(getNameColumn(),eventType, time,minuteInGame);
+                tableView.setItems(data);
                 tableView.getSortOrder().add(minuteInGame);
                 break;
             }

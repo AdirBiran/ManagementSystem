@@ -167,6 +167,7 @@ public class RefereeController extends GeneralController{
     }
 
     //main referee only
+    private ChoiceBox<String> events;
     public void  changeEvent(){
         clearMainView(mainView1);
         clearMainView(mainPane);
@@ -177,7 +178,7 @@ public class RefereeController extends GeneralController{
             mainPane.add(label, 0,0);
             Label lb_events = new Label("Events:");
             mainPane.add(lb_events, 0,1);
-            ChoiceBox<String> events = new ChoiceBox<>();
+            events = new ChoiceBox<>();
 
             ObservableList<String> listEvents = FXCollections.observableArrayList();
             HashMap<String, EventRecord> eventsMap = new HashMap<>();
@@ -202,8 +203,10 @@ public class RefereeController extends GeneralController{
                 @Override
                 public void handle(ActionEvent event) {
                     clearMainView(mainPane);
-                    changeEvent();
-                    showEventDetails(mainPane,eventsMap.get(events.getValue()),gameRecord.getId(),2);
+                    String value = events.getValue();
+                    EventRecord eventRecord = eventsMap.get(value);
+                    //changeEvent();
+                    showEventDetails(mainPane,eventRecord,gameRecord.getId(),2);
                 }
             });
         }
@@ -211,8 +214,8 @@ public class RefereeController extends GeneralController{
 
     private void showEventDetails(GridPane pane, EventRecord eventString ,String game, int startRow) {
         //open event form?
-        Label event = new Label(eventString.getType() + " " + eventString.getName());
-        pane.add(event,0,startRow);
+        Label l_events = new Label(eventString.getType() + " " + eventString.getName());
+        pane.add(l_events, 0, startRow);
         Label description = new Label("Description:");
         TextField tf_description = new TextField();
         pane.add(description,0,startRow+1);
