@@ -288,6 +288,7 @@ public class UserController extends GeneralController implements Initializable {
                             union.configureLeagueInSeason();
                         }
                     });
+                    unionMenu.getItems().add(configureLeagueInSeason);
                     MenuItem addTeamToLeague = new MenuItem("Add Team To League");
                     addTeamToLeague.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -296,7 +297,6 @@ public class UserController extends GeneralController implements Initializable {
                         }
                     });
                     unionMenu.getItems().add(addTeamToLeague);
-                    unionMenu.getItems().add(configureLeagueInSeason);
                     MenuItem assignGames = new MenuItem("Assign Games");
                     assignGames.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -520,6 +520,7 @@ public class UserController extends GeneralController implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.isPresent() && result.get().equals(ButtonType.OK)){
                     logoutButtonPushed(null);
+                    //closeSockets(m_client);
                 } else {
                     event.consume();
                 }

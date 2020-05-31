@@ -208,12 +208,14 @@ public class UnionController extends GeneralController {
             public void handle(ActionEvent event) {
                 String ref = cb_referees.getValue(), league = cb_leagueInSeasons.getValue(), refId="";
                 if(Checker.isValid(ref)&&Checker.isValid(league)){
+
                     for(RefereeRecord record : refRecords){
                         if(record.getName().equals(ref)) {
                             refId = record.getId();
                         }
                     }
-                    List<String> receive = client.sendToServer("addRefereeToLeague|"+loggedUser+"|"+refId+"|"+league);
+                    String leagueId = getIdFromName(league, leagueInSeasons);
+                    List<String> receive = client.sendToServer("addRefereeToLeague|"+loggedUser+"|"+refId+"|"+leagueId);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else
@@ -279,7 +281,8 @@ public class UnionController extends GeneralController {
                         if(record.getName().equals(team))
                             teamId = record.getId();
                     }
-                    List<String> receive = client.sendToServer("addTeamToLeague|"+loggedUser+"|"+teamId+"|"+league);
+                    String leagueId = getIdFromName(league, leagueInSeasons);
+                    List<String> receive = client.sendToServer("addTeamToLeague|"+loggedUser+"|"+teamId+"|"+leagueId);
                     showAlert(receive.get(0), Alert.AlertType.INFORMATION);
                 }
                 else

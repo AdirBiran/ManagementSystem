@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="800.0" prefWidth="850.0" stylesheets="@AppStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.UserController">
+<BorderPane prefHeight="800.0" prefWidth="850.0" stylesheets="@AppStyle.css" xmlns="http://javafx.com/javafx/8.0.192" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Presentation.UserController">
     <left>
         <VBox alignment="TOP_CENTER" prefHeight="373.0" prefWidth="178.0" BorderPane.alignment="CENTER">
             <children>
