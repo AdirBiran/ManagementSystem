@@ -24,11 +24,11 @@ public class Event {
     private String description;
 
 
-    public Event(EventType type,Game game, String description) {
+    public Event(EventType type,Date date, double minuteInGame, String description) {
         this.id = "E"+IdGenerator.getNewId();
         this.type = type;
-        this.date = new Date();
-        this.minuteInGame = calculateMinutes(game.getDate(), date);
+        this.date = date;
+        this.minuteInGame = minuteInGame;
         this.description = description;
     }
 
@@ -54,14 +54,6 @@ public class Event {
 
     public String createMessage(){
         return date + ": " + minuteInGame + ", " + type + "- " + description;
-    }
-
-
-    private double calculateMinutes(Date gameDate, Date nowDate) {
-        long now = (nowDate.getTime()/1000)/60;
-        long gameTime = (gameDate.getTime()/1000)/60;
-        long minutes = now-gameTime;
-        return minutes;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
