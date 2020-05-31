@@ -24,7 +24,7 @@ public class Complaint extends Observable {
         this.response = "";
     }
 
-    public Complaint(String id, Date date, boolean isActive, String description, Fan fanComplained)
+    public Complaint(String id, Date date, boolean isActive, String description, Fan fanComplained, String response)
     {
         this.id = id;
         this.date = date;
@@ -32,7 +32,7 @@ public class Complaint extends Observable {
         this.fanComplained = fanComplained;
         this.addObserver(fanComplained);
         this.isActive = isActive;
-        this.response = "";
+        this.response = response;
     }
 
     public void deactivate(){
@@ -65,5 +65,9 @@ public class Complaint extends Observable {
 
     public String getId() {
         return id;
+    }
+
+    public String getResponse() {
+        return response;
     }
 }

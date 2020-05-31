@@ -52,6 +52,14 @@ public class Event {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Event event = (Event)obj;
+        if(event!=null)
+            return this.getId().equals(event.getId()) || (this.getType().equals(event.getType()) && this.getDescription().equals(event.getDescription()));
+        return false;
+    }
+
     public String createMessage(){
         return date + ": " + minuteInGame + ", " + type + "- " + description;
     }
@@ -76,6 +84,7 @@ public class Event {
 
     public void setDescription(String description) {
         this.description = description;
+        Database.updateObject(this);
     }
 
     public String getId() {

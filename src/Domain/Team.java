@@ -19,7 +19,7 @@ public class Team extends Observable {
     private List<User> players; // at least 11
     private List<User> coaches; // at least one
     private Budget budget;
-    private List<Game> games;
+    private List<String> gamesId;
     private List<Field> fields;
     private List<String> leaguesId;
     private boolean active;
@@ -46,6 +46,7 @@ public class Team extends Observable {
         this.coaches = coaches;
         linkCoaches();
         this.budget = new Budget();
+        this.budget.addIncome(1000000000);
         this.fields = new LinkedList<>();
         fields.add(field);
         linkField();
@@ -53,13 +54,13 @@ public class Team extends Observable {
         this.losses=0;
         this.draws=0;
         this.teamManagers=new LinkedList<>();
-        this.games = new LinkedList<>();
+        this.gamesId = new LinkedList<>();
         this.active = true;
         this.permanentlyClosed = false;
         this.leaguesId = new LinkedList<>();
     }
 
-    public Team(String id, String name, int wins, int losses, int draws, PersonalPage page, List<User> teamOwners, List<User> teamManagers, List<User> players, List<User> coaches, Budget budget, List<Game> games, List<Field> fields, List<String> lis, boolean isActive, boolean isPermanentlyClosed)
+    public Team(String id, String name, int wins, int losses, int draws, PersonalPage page, List<User> teamOwners, List<User> teamManagers, List<User> players, List<User> coaches, Budget budget, List<String> gamesId, List<Field> fields, List<String> lis, boolean isActive, boolean isPermanentlyClosed)
     {
         this.id = id;
         this.name = name;
@@ -72,7 +73,7 @@ public class Team extends Observable {
         this.players = players;
         this.coaches = coaches;
         this.budget = budget;
-        this.games = games;
+        this.gamesId = gamesId;
         this.fields = fields;
         this.leaguesId = lis;
         this.active = isActive;
@@ -92,7 +93,6 @@ public class Team extends Observable {
         for(Field field :fields){
             field.addTeam(this);
         }
-
     }
 
     private void linkCoaches() {
@@ -137,10 +137,18 @@ public class Team extends Observable {
                 "Games: " +printGames();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Team team = (Team)obj;
+        if(team!=null)
+            return team.getID().equals(this.id);
+        return false;
+    }
+
     private String printGames() {
         String printNames = "";
-        for(Game game : games)
-            printNames= printNames + game.getName() +",";
+        for(String gameId : gamesId)
+            printNames= printNames + Database.getGame(gameId).getName() +",";
         return printNames;
     }
 
@@ -287,8 +295,8 @@ public class Team extends Observable {
     }
 
     public boolean addGame(Game game) {
-        if(!games.contains(game)){
-            this.games.add(game);
+        if(!gamesId.contains(game.getId())){
+            this.gamesId.add(game.getId());
             return true;
         }
         return false;
@@ -429,8 +437,8 @@ public class Team extends Observable {
     }
 
 
-    public List<Game> getGames() {
-        return games;
+    public List<String> getGamesId() {
+        return gamesId;
     }
 
     public List<Field> getFields() {
@@ -465,7 +473,7 @@ public class Team extends Observable {
     }
 
     public double getPrice() {
-        return 0;
+        return 1000000000;
     }
 
     public List<String> getLeaguesInSeason() {

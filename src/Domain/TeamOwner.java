@@ -106,13 +106,14 @@ public class TeamOwner extends Manager implements Observer {
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             Role teamOwnerRole = user.checkUserRole("TeamOwner");
-            if (checkIfExists(team)) {
-                if (!checkIfContainsUser("TeamOwner",team,user)) {
+            if (teamsToManage.contains(team)) {
+                if (!team.getTeamOwners().contains(user)) {
                     if (teamOwnerRole == null) {
-                        TeamOwner teamOwner = new TeamOwner(userId);
+                        TeamOwner teamOwner = new TeamOwner(user.getID());
                         user.addRole(teamOwner);
                         teamOwnerRole = user.checkUserRole("TeamOwner");
-                        Database.updateObject(teamOwner);
+                        Database.addTeamOwner((TeamOwner) teamOwnerRole);
+                        Database.updateObject(user);
                     }
                     ((TeamOwner) teamOwnerRole).addTeam(team);
                     team.addTeamOwner(user,true);
@@ -130,10 +131,10 @@ public class TeamOwner extends Manager implements Observer {
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             Role teamManagerRole = user.checkUserRole("TeamManager");
-            if (checkIfExists(team)) {
-                if (!checkIfContainsUser("TeamManager",team,user) && !checkIfContainsUser("TeamOwner",team,user)) {
+            if (teamsToManage.contains(team)) {
+                if (!team.getTeamManagers().contains(user) && !team.getTeamOwners().contains(user)) {
                     if (teamManagerRole == null) {
-                        TeamManager teamManager = new TeamManager(userId, price, manageAssets, finance);
+                        TeamManager teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
                         user.addRole(teamManager);
                         Database.updateObject(teamManager);
                     }
@@ -151,14 +152,17 @@ public class TeamOwner extends Manager implements Observer {
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             TeamOwner teamOwnerRole = (TeamOwner) user.checkUserRole("TeamOwner");
-            if (checkIfExists(team) && checkAppointedTeamOwners(user)) {
-                if (checkIfContainsUser("TeamOwner",team,user)) {
+            if (teamsToManage.contains(team) && appointedTeamOwners.containsKey(user)) {
+                if (team.getTeamOwners().contains(user)) {
                     this.appointedTeamOwners.remove(user);
                     removeAllAppoint(user, team.getID());
                     team.removeTeamOwner(user);
-                    if (teamOwnerRole.getTeamsToManage().size() == 0)
+                    if (teamOwnerRole.getTeamsToManage().size() == 0){
                         user.getRoles().remove(teamOwnerRole);
+                        //Database.removeRowFromTable("TeamOwner", user.getID());
+                    }
                     Database.updateObject(this);
+                    Database.updateObject(user);
                     return true;
                 }
             }
@@ -251,42 +255,6 @@ public class TeamOwner extends Manager implements Observer {
 
     public HashMap<User, Team> getAppointedTeamManagers() {
         return appointedTeamManagers;
-    }
-
-    private boolean checkIfExists(Team team) {
-        for(Team t : teamsToManage) {
-            if (t.getID().equals(team.getID()))
-                return true;
-        }
-        return false;
-    }
-
-    private boolean checkAppointedTeamOwners(User user) {
-        for(User u : appointedTeamOwners.keySet()) {
-            if (u.getID().equals(user.getID()))
-                return true;
-        }
-        return false;
-    }
-
-
-    private boolean checkIfContainsUser(String type ,Team team,User user) {
-        if(type.equals("TeamOwner")) {
-            for (User u : team.getTeamOwners()) {
-                if (u.getID().equals(user.getID()))
-                    return true;
-            }
-            return false;
-
-        }else if(type.equals("TeamManager")){
-            for (User u : team.getTeamManagers()) {
-                if (u.getID().equals(user.getID()))
-                    return true;
-            }
-            return false;
-        }
-
-        return false;
     }
 
 }

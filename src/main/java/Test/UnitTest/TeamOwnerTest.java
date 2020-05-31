@@ -21,9 +21,8 @@ public class TeamOwnerTest {
     @Before
     public void init(){
         system = new FootballManagementSystem();
-        system.systemInit(false);
-        //String  leagueId = system.dataReboot();
-        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
+        system.systemInit(true);
+        String  leagueId = system.dataReboot();
 
         league =system.getDatabase().getAllLeaguesInSeasons().get(0);
 
@@ -32,11 +31,9 @@ public class TeamOwnerTest {
         teamOwner = system.getDatabase().getAllTeamOwners().get(0);
 
 
-        //User userTeamOwner= admin.addNewTeamOwner("team", "owner", "teamOwner@gmail.com");
-        //teamOwner = (TeamOwner) userTeamOwner.checkUserRole("TeamOwner");
-        //user=admin.addNewTeamManager("team", "management", "manage@gmail.com", 1200, false, false);
-        String userId = system.getDatabase().getAllTeamManagers().get(0).getID();
-        user = system.getDatabase().getUser(userId);
+        user=admin.addNewTeamManager("team", "management", "manage@gmail.com", 1200, false, false);
+        //String userId = system.getDatabase().getAllTeamManagers().get(0).getID();
+        //user = system.getDatabase().getUser(userId);
     }
 
     @Test
@@ -93,19 +90,15 @@ public class TeamOwnerTest {
 
     @Test
     public void appointTeamOwner() {
-
         assertFalse(teamOwner.appointTeamOwner(user,team.getID()));
         teamOwner.addTeam(team);
         assertTrue(teamOwner.appointTeamOwner(user,team.getID()));
-
         teamOwner.removeAppointTeamOwner(user,team.getID());
-
-
+        system.getDatabase().removeFromTables(user.getID());
     }
 
     @Test
     public void appointTeamManager() {
-
         assertFalse(teamOwner.appointTeamManager(user,team.getID(),30,false,false));
         teamOwner.addTeam(team);
         assertTrue(teamOwner.appointTeamManager(user,team.getID(),30,false,false));
@@ -113,7 +106,6 @@ public class TeamOwnerTest {
 
     @Test
     public void removeAppointTeamOwner() {
-
         String to = system.getDatabase().getAllTeamOwners().get(1).getID();
         User userTeamOwner = system.getDatabase().getUser(to);
 

@@ -51,6 +51,14 @@ public class Field implements PartOfATeam {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        Field field = (Field)obj;
+        if(field!=null)
+            return field.getName().equals(this.name) && field.getID().equals(this.getID());
+        return false;
+    }
+
+    @Override
     public void deactivate() {
         isActive = false;
     }
