@@ -2,7 +2,6 @@ package Domain;
 
 import Data.Database;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class Referee extends Role implements Observer {
 
@@ -13,28 +12,32 @@ public class Referee extends Role implements Observer {
     }
 
     private TrainingReferee training;
-    private HashSet<Game> games;
+    private HashSet<String> gamesId;
 
     public Referee(String userId, TrainingReferee training) {
         this.userId = userId;
         this.training = training;
-        games = new HashSet<>();
+        gamesId = new HashSet<>();
         this.myRole = "Referee";
     }
 
-    public Referee(String userId, String training, HashSet<Game> games)
+    public Referee(String userId, String training, HashSet<String> gamesId)
     {
         this.userId = userId;
         this.training = TrainingReferee.valueOf(training);
-        this.games = games;
+        this.gamesId = gamesId;
         this.myRole = "Referee";
     }
 
-    public void addGame(Game game) {
-        this.games.add(game);
+    public boolean addGame(String game) {
+        if(!gamesId.contains(game)) {
+            this.gamesId.add(game);
+            return true;
+        }
+        return false;
     }
 
-    public HashSet<Game> viewGames(){return games;}
+    public HashSet<String> viewGames(){return gamesId;}
 
 
     public Boolean addEventToGame(String gameID, Event.EventType type, String playerId, String teamId)
@@ -43,26 +46,35 @@ public class Referee extends Role implements Observer {
         Team team = Database.getTeam(teamId);
         Player player = Database.getPlayer(playerId);
         if(game!=null && team!=null && player!=null) {
-            String description = Database.getUser(userId).getName() + " from team "+ team.getName();
-            Event event = new Event(type, game, description);
-            game.getEventReport().addEvent(event);
-            game.setNewsFromReferee(event.createMessage());
-            Database.updateObject(game);
-            return true;
+            String description = Database.getUser(playerId).getName() + " from team "+ team.getName();
+            Date date = new Date();
+            Event event = new Event(type,date, calculateMinutes(game.getDate(), date), description);
+            if(game.getEventReport().addEvent(event)) {
+                game.setNewsFromReferee(event.createMessage());
+                Database.updateObject(game);
+                return true;
+            }
         }
-        else
-            return false;
+        return false;
+    }
+
+    private double calculateMinutes(Date gameDate, Date nowDate) {
+        long now = (nowDate.getTime()/1000)/60 + (nowDate.getTime()/1000)%60;
+        long gameTime = (gameDate.getTime()/1000)/60 + (gameDate.getTime()/1000)%60;
+        long minutes = now-gameTime;
+        return minutes;
     }
 
     public boolean changeEvent(String gameID, String eventID, String change){
         Game game= Database.getGame(gameID);
         Event event=game.getEventReport().gerEventById(eventID);
         if (event!=null && this.equals(game.getMainReferee())) {
-            long time = Database.getCurrentDate().getTime();
-            if(TimeUnit.DAYS.convert(Math.abs(time - game.getDate().getTime()), TimeUnit.MILLISECONDS)<=420) {
+            double minute = calculateMinutes(game.getDate(), new Date());
+            if(minute>120 && minute<=420) {
                 for (Event event1 : game.getEventReport().getEvents()) {
                     if (event1.getId().equals(event.getId())) {
                         event1.setDescription(change);
+                        Database.updateObject(game.getEventReport());
                         Database.updateObject(game);
                         return true;
                     }
@@ -85,15 +97,15 @@ public class Referee extends Role implements Observer {
             Database.getUser(userId).addMessage((String)arg);
     }
 
-    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
-
-    /*to edit get event report and edit it only Main referee can*/
-    public EventReport getEventReport(Game game){
-        if(this.equals(game.getMainReferee())){
-            return game.getEventReport();
-        }
-        return null;
+    @Override
+    public boolean equals(Object obj) {
+        Referee refObj = (Referee)obj;
+        if(refObj!=null)
+            return refObj.getID().equals(this.getID());
+        return false;
     }
+
+    // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++
 
     public boolean setScoreInGame(String gameID,int hostScore, int guestScore)
     {
@@ -112,20 +124,30 @@ public class Referee extends Role implements Observer {
     public List<String> getGameReport(String gameID) {
         List<String> gameReport = new LinkedList<>();
         Game game= Database.getGame(gameID);
-        if(game.getMainReferee().equals(this)) {
+        if(game.getMainReferee().equals(this) && calculateMinutes(game.getDate(), new Date())>120) {
             gameReport.addAll(game.getEventReportString());
         }
         return gameReport;
     }
 
     public String getAllOccurringGame() {
-        long time = Database.getCurrentDate().getTime();
-        for(Game game : Database.getAllGames()){
-            if(TimeUnit.DAYS.convert(Math.abs(time - game.getDate().getTime()), TimeUnit.MILLISECONDS)<=120)
-                return game.toString();
+        String gameString = Database.getAllOccurringGame();
+        if(gameString!=null){
+            Game game = Database.getGame(gameString.split(",")[0]);
+            double minute = calculateMinutes(game.getDate(), new Date());
+            if(this.equals(game.getMainReferee())) {
+                if (minute > 0 && minute <= 420) {
+                    return gameString;
+                }
+            }
+            else {
+                if(minute>0 && minute<=120){
+                    return gameString;
+                }
+            }
         }
         return null;
-    }
+        }
 
     public String getTraining() {
         return training.toString();

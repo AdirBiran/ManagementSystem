@@ -62,7 +62,14 @@ public class Game extends Observable {
     @Override
     public String toString() {
         return id +","+name +","+date;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        Game game = (Game)obj;
+        if(game!=null)
+            return game.getId().equals(this.getId());
+        return false;
     }
 
     private void addRefereeToObservers(Referee mainReferee, List<Referee> sideReferees) {
@@ -76,7 +83,7 @@ public class Game extends Observable {
      * @return true- if the fan is added to list to receive game alerts
      */
     public boolean addFanForNotifications(Fan fan, boolean toMail) {
-        if(fansForAlerts.get(fan)==null) {
+        if(!fansForAlerts.containsKey(fan)) {
             fansForAlerts.put(fan, toMail);
             this.addObserver(fan);
             Database.updateObject(this);
@@ -201,12 +208,13 @@ public class Game extends Observable {
         setNews("Location of the game between the teams: " +this.name+ " change to "+this.field.getName()); // referees and fans
     }
 
-    public void setNewsFromReferee(String news){
+    public boolean setNewsFromReferee(String news){
         setChanged();
         news = "New Alert for game "+this.name+":\n" + news;
         for (Fan fan : fansForAlerts.keySet())
             fan.update(this, news);
         sendMailToFan(news);
+        return true;
     }
 
     public LeagueInSeason getLeague() {

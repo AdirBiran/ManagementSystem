@@ -12,10 +12,6 @@ import static org.junit.Assert.*;
 
 public class RefereeTest {
     FootballManagementSystem system;
-    User user;
-    User mesi;
-    PersonalPage mesiPage;
-    Fan fan;
     Game game;
     Referee referee;
     LeagueInSeason league;
@@ -25,65 +21,61 @@ public class RefereeTest {
         system = new FootballManagementSystem();
         system.systemInit(false);
         //String  leagueId = system.dataReboot();
-        //LeagueInSeason league = Database.getLeagueInSeason(leagueId);
-
         league =system.getDatabase().getAllLeaguesInSeasons().get(0);
-
-        Admin admin = (Admin) system.getAdmin();
-        Guest guest = new Guest();
-        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
-//        user = guest.login("fan@gmail.com", "Aa1234");
-//        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
-//        Role pageRole = mesi.checkUserRole("HasPage");
-//        mesiPage = ((HasPage) pageRole).getPage();
-//        fan = (Fan) user.checkUserRole("Fan");
-//        User union = admin.addNewUnionRepresentative("Union", "Rep", "unionRep@gmail.com");
-//        UnionRepresentative unionRole = ((UnionRepresentative)union.checkUserRole("UnionRepresentative"));
-//        unionRole.assignGames(league.getId());
-        game= Database.getGame(league.getGamesId().get(0));
+        game= Database.getGame(league.getGamesId().get(1));
         referee=game.getMainReferee();
+        system.getDatabase().getAllUnions().get(0).changeGameDate(game.getId(), new Date());
     }
 
     @Test
     public void getTraining() {
-        assertEquals(referee.getTraining(),"referees");
+        assertEquals(game.getSideReferees().get(0).getTraining(),"referees");
     }
 
     @Test
     public void setTraining() {
-        referee.setTraining(Referee.TrainingReferee.linesman);
-        assertEquals(referee.getTraining(),"linesman");
-
+        referee.setTraining(Referee.TrainingReferee.var);
+        assertEquals(referee.getTraining(),"var");
     }
 
     @Test
     public void addGame() {
-        referee.addGame(game);
-        assertEquals(referee.viewGames().size(),1);
+        assertFalse(referee.addGame(game.getId()));
+        assertNotNull(referee.viewGames().size());
     }
 
     @Test
     public void viewGames() {
-        assertEquals(referee.viewGames().size(),0);
+        assertNotNull(referee.viewGames().size());
 
     }
 
     @Test
     public void addEventToGame() {
-        game.getDate().setHours((new Date()).getHours());
-        referee.addEventToGame(game.getId(),Event.EventType.RedCard,game.getHostTeam().getPlayers().get(0).getID(), game.getHostTeam().getID());
-        assertEquals(1,Database.getGame(game.getId()).getEventReport().getEvents().size());
+        assertTrue(referee.addEventToGame(game.getId(),Event.EventType.RedCard,game.getHostTeam().getPlayers().get(0).getID(), game.getHostTeam().getID()));
     }
 
     @Test
     public void changeEvent() {
-        referee.addEventToGame(game.getId(),Event.EventType.RedCard,game.getHostTeam().getPlayers().get(0).getID(), game.getHostTeam().getID());
-       assertTrue( referee.changeEvent(game.getId(),game.getEventReport().getEvents().get(0).getId(),"yes"));
-       assertEquals(game.getEventReport().getEvents().get(0).getDescription(),"yes");
+       assertTrue( referee.changeEvent(game.getId(),game.getEventReport().getEvents().get(0).getId(),"Disqualified"));
+       assertEquals(game.getEventReport().getEvents().get(0).getDescription(),"Disqualified");
     }
 
     @Test
     public void setScoreInGame() {
         assertTrue(referee.setScoreInGame(game.getId(),3,2));
+    }
+
+
+    @Test
+    public void getAllOccurringGame(){
+        assertNotNull(game.getSideReferees().get(0).getAllOccurringGame());
+
+    }
+
+    @Test
+    public void getGameReport(){
+        assertNotNull(referee.getGameReport(game.getId()));
+
     }
 }

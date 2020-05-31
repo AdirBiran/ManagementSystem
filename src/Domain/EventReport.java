@@ -21,12 +21,14 @@ public class EventReport {
         this.events = events;
     }
 
-    public void addEvent(Event event){
+    public boolean addEvent(Event event){
         if(!events.contains(event)) {
             events.add(event);
             Database.addEvent(event);
             Database.updateObject(this);
+            return true;
         }
+        return false;
     }
 
     // ++++++++++++++++++++++++++++ getter ++++++++++++++++++++++++++++

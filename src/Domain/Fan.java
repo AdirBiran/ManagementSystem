@@ -66,11 +66,6 @@ public class Fan extends Role implements Observer {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj instanceof Fan;
-    }
-
-    @Override
     public void update(Observable o, Object arg) {
         String news = (String)arg;
         Database.getUser(userId).addMessage(news);
@@ -89,6 +84,14 @@ public class Fan extends Role implements Observer {
                 ", lastName=" + Database.getUser(userId).getLastName() +
                 ", phone=" + phone +
                 ", address=" + address;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Fan fan = (Fan)obj;
+        if(fan!=null)
+            return fan.getID().equals(this.getID());
+        return false;
     }
 
     // ++++++++++++++++++++++++++++ getter&setter ++++++++++++++++++++++++++++

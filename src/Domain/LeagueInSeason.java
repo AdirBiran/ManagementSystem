@@ -102,7 +102,6 @@ public class LeagueInSeason {
             if(game != null) {
                 gamesId.add(game.getId());
                 Database.updateObject(this);
-//            Database.updateObject(game);
             }
         }
     }

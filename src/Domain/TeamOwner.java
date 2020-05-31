@@ -51,8 +51,15 @@ public class TeamOwner extends Manager implements Observer {
         }
     }
 
-    public void addTeamPersonalPage(Team team , PersonalPage personalPage){
-        personalPages.put(team , personalPage);
+    public boolean addTeamPersonalPage(Team team){
+        if(teamsToManage.contains(team)) {
+            if (!personalPages.containsKey(team)) {
+                personalPages.put(team, team.getPage());
+                Database.updateObject(this);
+                return true;
+            }
+        }
+        return false;
     }
 
     public Team getTeamById(String id){
@@ -102,14 +109,17 @@ public class TeamOwner extends Manager implements Observer {
             if (teamsToManage.contains(team)) {
                 if (!team.getTeamOwners().contains(user)) {
                     if (teamOwnerRole == null) {
-                        TeamOwner teamOwner = new TeamOwner(userId);
+                        TeamOwner teamOwner = new TeamOwner(user.getID());
                         user.addRole(teamOwner);
                         teamOwnerRole = user.checkUserRole("TeamOwner");
+                        Database.addTeamOwner((TeamOwner) teamOwnerRole);
+                        Database.updateObject(user);
                     }
                     ((TeamOwner) teamOwnerRole).addTeam(team);
                     team.addTeamOwner(user,true);
                     appointedTeamOwners.put(user, team);
                     Database.updateObject(this);
+                    Database.updateObject(team);
                     return true;
                 }
             }
@@ -124,12 +134,14 @@ public class TeamOwner extends Manager implements Observer {
             if (teamsToManage.contains(team)) {
                 if (!team.getTeamManagers().contains(user) && !team.getTeamOwners().contains(user)) {
                     if (teamManagerRole == null) {
-                        TeamManager teamManager = new TeamManager(userId, price, manageAssets, finance);
+                        TeamManager teamManager = new TeamManager(user.getID(), price, manageAssets, finance);
                         user.addRole(teamManager);
+                        Database.updateObject(teamManager);
                     }
                     team.addTeamManager(user, price, manageAssets, finance);
                     appointedTeamManagers.put(user, team);
                     Database.updateObject(this);
+                    Database.updateObject(team);
                     return true;
                 }
             }
@@ -140,14 +152,17 @@ public class TeamOwner extends Manager implements Observer {
         Team team = Database.getTeam(teamId);
         if(team!=null) {
             TeamOwner teamOwnerRole = (TeamOwner) user.checkUserRole("TeamOwner");
-            if (this.teamsToManage.contains(team) && this.appointedTeamOwners.containsKey(user)) {
+            if (teamsToManage.contains(team) && appointedTeamOwners.containsKey(user)) {
                 if (team.getTeamOwners().contains(user)) {
                     this.appointedTeamOwners.remove(user);
                     removeAllAppoint(user, team.getID());
                     team.removeTeamOwner(user);
-                    if (teamOwnerRole.getTeamsToManage().size() == 0)
+                    if (teamOwnerRole.getTeamsToManage().size() == 0){
                         user.getRoles().remove(teamOwnerRole);
+                        //Database.removeRowFromTable("TeamOwner", user.getID());
+                    }
                     Database.updateObject(this);
+                    Database.updateObject(user);
                     return true;
                 }
             }
@@ -241,4 +256,5 @@ public class TeamOwner extends Manager implements Observer {
     public HashMap<User, Team> getAppointedTeamManagers() {
         return appointedTeamManagers;
     }
+
 }

@@ -42,13 +42,15 @@ public class UnionRepresentative extends Role implements Observer {
             GameAssignmentPolicy gameAssignmentPolicy = GameAssignmentPolicy.checkPolicy(assignmentPolicy);
             ScorePolicy gameScorePolicy = ScorePolicy.checkPolicy(scorePolicy);
             if (gameAssignmentPolicy != null && gameScorePolicy != null) {
-                LeagueInSeason leagueInSeason = new LeagueInSeason(gameAssignmentPolicy, gameScorePolicy, league, season, registrationFee);
-                league.addLeagueInSeason(leagueInSeason);
-                Database.updateObject(league);
-                season.addLeagueInSeason(leagueInSeason);
-                Database.updateObject(season);
-                Database.addLeagueInSeason(leagueInSeason);
-                return leagueInSeason;
+                if(Database.getLeagueInSeason(league.getId()+season.getId())==null) {
+                    LeagueInSeason leagueInSeason = new LeagueInSeason(gameAssignmentPolicy, gameScorePolicy, league, season, registrationFee);
+                    league.addLeagueInSeason(leagueInSeason);
+                    Database.updateObject(league);
+                    season.addLeagueInSeason(leagueInSeason);
+                    Database.updateObject(season);
+                    Database.addLeagueInSeason(leagueInSeason);
+                    return leagueInSeason;
+                }
             }
         }
         return null;
@@ -185,11 +187,6 @@ public class UnionRepresentative extends Role implements Observer {
     public boolean addFieldToSystem(String location,String fieldName, int capacity, double price){
         Field field = new Field(location, fieldName, capacity, price);
         return Database.addAsset(field);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return obj instanceof UnionRepresentative;
     }
 
     @Override
