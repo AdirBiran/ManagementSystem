@@ -2150,13 +2150,13 @@ public class Database //maybe generalize with interface? //for now red layer
             dataAccess.addCell("Teams",team.getID(), team.getName(),
                     "" + team.getWins(), "" + team.getLosses(),
                     "" + team.getDraws(), team.getPage().getId(),
-                    listToString(team.getTeamOwners()),
-                    listToString(team.getTeamManagers()),
-                    listToString(team.getPlayers()),
-                    listToString(team.getCoaches()),
+                    getUserId(team.getTeamOwners()),
+                    getUserId(team.getTeamManagers()),
+                    getUserId(team.getPlayers()),
+                    getUserId(team.getCoaches()),
                     "" + team.getBudget().getIncome()+","+team.getBudget().getExpanses()
                     , getGamesId(team.getGames())
-                    , listToString(team.getFields())
+                    , getFieldsIds(team.getFields())
                     , listToString(team.getLeaguesInSeason())
                     , "" + team.isActive(),
                     "" + team.isPermanentlyClosed());

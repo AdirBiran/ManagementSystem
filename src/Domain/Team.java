@@ -473,7 +473,7 @@ public class Team extends Observable {
     }
 
     public double getPrice() {
-        return 0;
+        return 1000000000;
     }
 
     public List<String> getLeaguesInSeason() {
