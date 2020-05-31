@@ -356,6 +356,7 @@ public class DataAccess {
         return true;
     }
 
+
     private List<String> getTableColumnNames(String tableName)
     {
         List<String> res = new LinkedList<>();
@@ -384,6 +385,7 @@ public class DataAccess {
 
         return res;
     }
+
 
     public boolean isIDExists(String tableName, String id)
     {
