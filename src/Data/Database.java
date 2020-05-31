@@ -786,16 +786,13 @@ public class Database //maybe generalize with interface? //for now red layer
 
     public static User getUserByMail(String mail , String password){
         try {
-            List<User> users = getAllActiveUsers();
+            List<String> users = dataAccess.getUserByMail(mail);
+            User user = getUser(users.get(0));
             String userPassword = "";
-            for (User user : users) {
-                if (user.isActive()) {
-                    if (user.getMail().equals(mail)) {
-                        userPassword = dataAccess.getCellValue("Passwords", "Password", user.getID());
-                        if (userPassword.equals(sha1(password))) {
-                            return user;
-                        }
-                    }
+            if(user!=null && user.isActive()){
+                userPassword = dataAccess.getCellValue("Passwords", "Password", user.getID());
+                if (userPassword.equals(sha1(password))) {
+                    return user;
                 }
             }
         }

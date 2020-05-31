@@ -214,6 +214,43 @@ public class DataAccess {
 
     }
 
+
+    public List<String> getUserByMail(String mail)
+    {
+        List<String> res = new LinkedList<>();
+
+        PreparedStatement ps = null;
+        String val = "";
+
+        String statement = "SELECT * FROM Users WHERE Mail = ?";
+
+        try
+        {
+            ps = con.prepareStatement(statement);
+            ps.setString(1, mail);
+
+            ResultSet rs = ps.executeQuery();
+            int columns = rs.getMetaData().getColumnCount();
+
+            while (rs.next())
+            {
+                for (int i = 1; i < columns + 1; i++)
+                    res.add(rs.getString(i).trim());
+            }
+
+            closePS(ps);
+
+        }
+        catch (Exception e)
+        {
+            closePS(ps);
+            e.printStackTrace();
+        }
+
+        return res;
+
+    }
+
     public String getCellValue(String TableName, String ColumnName, String ID)
     {
         PreparedStatement ps = null;
@@ -243,6 +280,10 @@ public class DataAccess {
         return val.trim();
 
     }
+
+
+
+
 
     public List<String> getAllFieldValues(String tableName, String fieldName)
     {
