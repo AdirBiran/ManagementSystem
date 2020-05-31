@@ -13,15 +13,17 @@ public class UserTest {
     FootballManagementSystem system;
     User mesi;
     User user;
+    Admin admin;
 
     @Before
     public void init() {
         system = new FootballManagementSystem();
-        system.systemInit(true);
-        Admin admin = (Admin) system.getAdmin();
-        mesi = admin.addNewPlayer("mesi", "mesi", "mesi@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
+        system.systemInit(false);
+        admin = system.getAdmin();
+        mesi = admin.addNewPlayer("mesi", "mesi", "mesi2@mail.com", new Date(30 / 5 / 93), Player.RolePlayer.goalkeeper, 200000);
         Guest guest = new Guest();
-        user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+       // user = guest.register("fan@gmail.com", "Aa1234", "fan", "fan", "0500001234", "yosef23");
+        user = guest.login("fan@gmail.com", "Aa1234");
     }
     @Test
     public void checkUserRole() {
@@ -83,7 +85,10 @@ public class UserTest {
     @Test
     public void addMessage() {
         mesi.addMessage("shalom");
-        assertEquals(mesi.getMessageBox().size(),1);
+        //assertEquals(mesi.getMessageBox().size(),1);
+        mesi.addMessage("shalom");
+        assertEquals(mesi.getMessageBox().size(),2);
+
     }
 
     @Test
