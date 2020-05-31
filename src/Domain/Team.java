@@ -81,7 +81,7 @@ public class Team extends Observable {
     }
 
     public boolean addLeague(LeagueInSeason league) {
-        if(!leaguesId.contains(league)){
+        if(!leaguesId.contains(league.getId())){
             this.leaguesId.add(league.getId());
             league.addATeam(this);
             return true;
