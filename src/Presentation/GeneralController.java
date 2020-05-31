@@ -579,6 +579,10 @@ public abstract class GeneralController {
 
         register = m_client.sendToServer(request);
         String[]split = register.get(0).split("\\|");
+        if(split[0].contains("Failed")){
+            showAlert(split[0], Alert.AlertType.ERROR);
+            return;
+        }
         if(split[0].contains("Succeed") || type.equals("fan")){
             clearMainView(view);
             if(type.equals("player")||type.equals("coach"))
