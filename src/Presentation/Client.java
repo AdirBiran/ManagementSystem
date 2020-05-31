@@ -160,7 +160,6 @@ public class Client  {
                 if (stringToSend.length() == 0 || stringToSend.charAt(stringToSend.length()-1) != '\n')
                     stringToSend = stringToSend + "\n";
 
-                System.out.println(stringToSend);
                 outputStream.writeBytes(stringToSend);
                 outputStream.flush();
 
