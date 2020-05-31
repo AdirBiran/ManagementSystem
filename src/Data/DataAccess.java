@@ -45,6 +45,8 @@ public class DataAccess {
 
         // Update cell to new value
         //dao.updateCellValue("Complaints", "Description", "12345", "new Value");
+
+
     }
 
     public DataAccess()
@@ -90,6 +92,7 @@ public class DataAccess {
 
     public boolean deleteIdFromAllTables(String id)
     {
+
         PreparedStatement ps = null;
         String[] tablesNames = {"Admins", "Passwords", "Users", "Referees", "UnionRepresentatives", "Coaches", "Fans", "Fields", "Players", "TeamManagers", "TeamOwners", "PersonalPages", "Teams", "Leagues", "Seasons", "LeaguesInSeasons", "Complaints", "Games", "EventReports", "OfflineUsersNotifications", "Events"};
         String statement;
@@ -107,6 +110,35 @@ public class DataAccess {
             }
             catch (Exception e)
             {
+                e.printStackTrace();
+            }
+
+            List<String> fieldNames = getTableColumnNames(tableName);
+            fieldNames.remove("ID");
+
+            for (String fieldName : fieldNames)
+            {
+                String secStatement = "(SELECT ID , " + fieldName + " FROM " + tableName + " WHERE (" + fieldName + " NOT LIKE '%,%' AND " + fieldName + " LIKE '%" + id + "') OR (" + fieldName + " LIKE '%," + id + "%' OR " + fieldName + " LIKE '%" + id + ",%' OR " + fieldName + " LIKE '%," + id + ",%'))";
+
+                try
+                {
+                    ps = con.prepareStatement(secStatement);
+                    ResultSet rs = ps.executeQuery();
+
+                    while (rs.next())
+                    {
+                        String tmpID = rs.getString(1);
+                        String value = rs.getString(2);
+
+                        value = removeSubString(value, id);
+                        updateCellValue(tableName, fieldName, tmpID, value);
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
 
         }
@@ -122,6 +154,28 @@ public class DataAccess {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private String removeSubString(String original, String removeSt)
+    {
+
+        if (!original.contains(","))
+            original = original.replace(removeSt, "");
+
+        else
+        {
+            String[] opts = {","+removeSt+"," , removeSt+"," , ","+removeSt};
+
+            for (String opt : opts)
+                if (original.contains(opt))
+                {
+                    original = original.replace(opt, "");
+                    break;
+                }
+        }
+
+        return original;
+
     }
 
     public List<String> getAllCellValues(String TableName, String ID)
@@ -300,6 +354,35 @@ public class DataAccess {
         }
 
         return true;
+    }
+
+    private List<String> getTableColumnNames(String tableName)
+    {
+        List<String> res = new LinkedList<>();
+
+        PreparedStatement ps = null;
+
+        String statement = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + tableName +"'";
+
+        try
+        {
+            ps = con.prepareStatement(statement);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next())
+                res.add(rs.getString(1));
+
+            closePS(ps);
+
+        }
+        catch (Exception e)
+        {
+            closePS(ps);
+            e.printStackTrace();
+        }
+
+        return res;
     }
 
     public boolean isIDExists(String tableName, String id)
@@ -484,6 +567,36 @@ public class DataAccess {
         }
     }
 
+    public boolean isStringExistsInField(String tableName, String fieldName, String stringToCheck)
+    {
+
+        PreparedStatement ps = null;
+        int res = 0;
+
+        String statement = "(SELECT COUNT(ID) FROM " + tableName + " WHERE (" + fieldName + " NOT LIKE '%,%' AND " + fieldName + " LIKE '%" + stringToCheck + "') OR (" + fieldName + " LIKE '%," + stringToCheck + "%' OR " + fieldName + " LIKE '%" + stringToCheck + ",%' OR " + fieldName + " LIKE '%," + stringToCheck + ",%'))";
+
+        try
+        {
+            ps = con.prepareStatement(statement);
+            ResultSet rs = ps.executeQuery();
+
+
+            rs.next();
+            res = rs.getInt(1);
+            closePS(ps);
+
+        }
+        catch (Exception e)
+        {
+            closePS(ps);
+            e.printStackTrace();
+        }
+
+        return res > 0;
+
+
+    }
+
     public boolean isBoolean(String s)
     {
         return (s.toLowerCase().equals("true") || s.toLowerCase().equals("false"));
@@ -497,7 +610,25 @@ public class DataAccess {
         try
         {
             ps = con.prepareStatement("UPDATE " + TableName + " SET " + ColumnName + " = ? WHERE ID = ?");
-            ps.setString(1, valueToSet);
+
+            if (isBoolean(valueToSet))
+                ps.setBoolean(1,  Boolean.parseBoolean(valueToSet));
+
+            else if (isDateTime(valueToSet))
+                ps.setTimestamp(1, stringToDateTimeSQL(valueToSet));
+
+            else if (isDate(valueToSet))
+                ps.setDate(1, stringToDateSQL(valueToSet));
+
+            else if (isDouble(valueToSet))
+                ps.setDouble(1, Double.parseDouble(valueToSet));
+
+            else if (isInt(valueToSet))
+                ps.setInt(1, Integer.parseInt(valueToSet));
+
+            else
+                ps.setString(1, valueToSet);
+
             ps.setString(2, ID);
             ps.executeUpdate();
             closePS(ps);
@@ -506,6 +637,8 @@ public class DataAccess {
         }
         catch (Exception e)
         {
+            if (isDateTime(valueToSet))
+                System.out.println("true");
             closePS(ps);
             e.printStackTrace();
             return false;
