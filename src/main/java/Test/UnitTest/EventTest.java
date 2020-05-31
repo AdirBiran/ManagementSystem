@@ -30,8 +30,7 @@ public class EventTest {
         unionRole.assignGames(league.getId());
         game= Database.getGame(league.getGamesId().get(0));
         eventReport = game.getEventReport();
-        event = new Event(Event.EventType.Foul, game,"data");
-
+//        event = new Event(Event.EventType.Foul, game,"data");
     }
     @Test
     public void getType() {

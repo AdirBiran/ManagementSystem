@@ -90,9 +90,11 @@ public class RefereeTest {
 
     @Test
     public void getAllOccurringGame(){
-        game.setDate(new Date());
+        game.getDate().setHours(7);
         system.getDatabase().updateObject(game);
-        assertNotNull(referee.getAllOccurringGame());
+        String gameString = referee.getAllOccurringGame();
+        assertNotNull(gameString);
+        System.out.println(gameString);
     }
 
     @Test

@@ -77,7 +77,7 @@ public class RefereeSystem {
     public String getAllOccurringGame(String userID){
         User user= UserFactory.getUser(userID);
         Role role = user.checkUserRole("Referee");
-        if(role instanceof  Referee ) {
+        if(role instanceof  Referee) {
             Logger.logEvent(userID, "Got All Occurring Games");
             return ((Referee)role).getAllOccurringGame();
         }

@@ -1914,13 +1914,15 @@ public class Database //maybe generalize with interface? //for now red layer
     }
 
     public static String getAllOccurringGame() {
-        long time = Database.getCurrentDate().getTime();
-
         List<String> games = dataAccess.getAllFieldValues("Games", "ID");
 
         for(String gameString : games){
             List<String> game = dataAccess.getAllCellValues("Games", gameString);
-            if(TimeUnit.DAYS.convert(Math.abs(time - stringToDateJAVA(game.get(2)).getTime()), TimeUnit.MILLISECONDS)<=120){
+            String currentDate = dateToString(new Date());
+            currentDate = currentDate.substring(0, currentDate.indexOf(" "));
+            String gameDate = dateToString(stringToDateJAVA(game.get(2)));
+            gameDate = gameDate.substring(0, gameDate.indexOf(" "));
+            if(currentDate.equals(gameDate)){
                    return game.get(0)+","+game.get(1)+","+game.get(2).substring(0, game.get(2).indexOf("."));
             }
         }

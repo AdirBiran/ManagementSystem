@@ -190,11 +190,6 @@ public class UnionRepresentative extends Role implements Observer {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return obj instanceof UnionRepresentative;
-    }
-
-    @Override
     public String toString() {
         return "UnionRepresentative" +
                 ", id=" + userId +
